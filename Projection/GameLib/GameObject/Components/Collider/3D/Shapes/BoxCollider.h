@@ -1,0 +1,121 @@
+//====================================================//
+// ファイル名   : BoxCollider.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/03/18
+//
+// 概要 : ボックスのコライダー
+//
+// 更新履歴 :
+// 2026/03/18 新規作成
+// 2026/04/03 設計を変更
+//====================================================//
+
+#pragma once
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "../Collider.h"
+
+//====================================================//
+// 前方宣言
+//====================================================//
+
+
+//====================================================//
+// クラス宣言
+//====================================================//
+class BoxCollider : public Collider<BoxCollider, ComponentID::BoxCollider>
+{
+private:
+
+    //-----------------------------------------------------
+    // メンバ変数
+    //-----------------------------------------------------
+
+    // ボックスのローカルでのサイズ
+    DirectX::SimpleMath::Vector3 m_localSize;
+
+    // 計算済みワールド情報
+    struct WorldCache {
+        DirectX::SimpleMath::Vector3 xAxis;
+        DirectX::SimpleMath::Vector3 yAxis;
+        DirectX::SimpleMath::Vector3 zAxis;
+
+        DirectX::SimpleMath::Vector3 scale;
+
+        DirectX::SimpleMath::Matrix localMatrix;
+        DirectX::SimpleMath::Matrix localMatrixInverse;
+    };
+
+    mutable WorldCache m_cache;
+
+public:
+
+    //-----------------------------------------------------
+    // 生成 / 破棄
+    //-----------------------------------------------------
+    BoxCollider(IComponentOwner* own)
+        : Collider(own, ColliderType::Box) 
+        , m_localSize{ 1, 1, 1 }
+        , m_cache{}
+    {
+    };
+    ~BoxCollider() = default;
+
+    void UpdateCache() const override;
+
+    //-----------------------------------------------------
+    // ゲッター
+    //-----------------------------------------------------
+
+    // 各軸ベクトルを取得する関数
+    DirectX::SimpleMath::Vector3 GetXAxis() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.xAxis;
+    }
+    DirectX::SimpleMath::Vector3 GetYAxis() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.yAxis;
+    }
+    DirectX::SimpleMath::Vector3 GetZAxis() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.zAxis;
+    }
+    DirectX::SimpleMath::Vector3 GetSize() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.scale;
+    }
+    DirectX::SimpleMath::Vector3 GetHalfSize() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.scale * 0.5f;
+    }
+    DirectX::SimpleMath::Matrix GetLocalMatrix() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.localMatrix;
+    }
+    DirectX::SimpleMath::Matrix GetLocalMatrixInverse() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.localMatrixInverse;
+    }
+
+    //-----------------------------------------------------
+    // セッター
+    //-----------------------------------------------------
+
+    void SetLocalSize(DirectX::SimpleMath::Vector3 scale)
+    {
+        m_localSize = scale;
+        SetDirty();
+    }
+
+    // 描画関数
+    void DebugDraw(Renderer& renderer, int color) const override;
+};

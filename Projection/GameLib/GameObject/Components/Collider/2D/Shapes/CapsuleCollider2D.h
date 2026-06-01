@@ -1,0 +1,134 @@
+//====================================================//
+// ファイル名   : CapsuleCollider2D.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/03/18
+//
+// 概要 : カプセルのコライダー
+//
+// 更新履歴 :
+// 2026/03/18 新規作成
+//====================================================//
+
+#pragma once
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "../Collider2D.h"
+
+//====================================================//
+// 前方宣言
+//====================================================//
+
+
+//====================================================//
+// クラス宣言
+//====================================================//
+enum class AxisType2D
+{
+    Horizonatl,
+    Vertical
+};
+
+class CapsuleCollider2D : public Collider2D<CapsuleCollider2D, ComponentID::CapsuleCollider2D>
+{
+private:
+
+    //-----------------------------------------------------
+    // メンバ変数
+    //-----------------------------------------------------
+
+    // 使用する軸
+    AxisType2D m_lineDir; // 正規化して使用
+
+    // ラインの長さ
+    float m_capsuleHeight;
+
+    // 半径
+    float m_radius;
+
+    // 計算済みワールド情報
+    struct WorldCache {
+        float radius;
+        float height;
+        float lineLength;
+        DirectX::SimpleMath::Vector2 dir;
+        std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points;
+    };
+
+    mutable WorldCache m_cache;
+
+public:
+
+    //-----------------------------------------------------
+    // 生成 / 破棄
+    //-----------------------------------------------------
+    CapsuleCollider2D(IComponentOwner* own)
+        : Collider2D(own, ColliderType2D::Capsule)
+        , m_lineDir{ AxisType2D::Vertical }
+        , m_capsuleHeight{ 1.0f }
+        , m_radius{ 0.5f }
+        , m_cache{}
+    {
+    };
+    ~CapsuleCollider2D() = default;
+
+    void UpdateCache() const override;
+
+    //-----------------------------------------------------
+    // ゲッター
+    //-----------------------------------------------------
+
+    // ラインの方向ベクトルを返す関数
+    DirectX::SimpleMath::Vector2 GetLineDir() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.dir;
+    }
+
+    // 半径を返す関数
+    float GetRadius() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.radius;
+    }
+
+    // カプセルの高さを返す関数
+    float GetHeight() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.height;
+    }
+
+    // 線の長さを返す関数
+    float GetLineLength() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.lineLength;
+    }
+    
+    // Lineを構成する2点を返す関数
+    std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> GetPoints() const
+    {
+        if (IsDirty()) UpdateCache();
+        return m_cache.points;
+    }
+
+    //-----------------------------------------------------
+    // セッター
+    //-----------------------------------------------------
+    void SetHeight(float height) 
+    {
+        m_capsuleHeight = height;
+        SetDirty();
+    }
+
+    void SetRadius(float radius) 
+    {
+        m_radius = radius;
+        SetDirty();
+    }
+
+    // 描画関数
+    void DebugDraw(Renderer& renderer, int color) const override;
+};

@@ -1,0 +1,596 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>566eac11-563e-49f9-98b7-e3fd79482449</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>70dad81f-e9d4-4303-a956-17522f9a309f</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{8c78c0e2-dcbe-479d-897b-8a8a6e7c905f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib">
+      <UniqueIdentifier>{68fdc38b-92f4-4865-b39f-9caf87b85494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject">
+      <UniqueIdentifier>{bc2c77b9-aff7-4e75-a27e-8b531f89cde5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components">
+      <UniqueIdentifier>{e5749836-c52d-448f-95cf-e8e098454a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Collider">
+      <UniqueIdentifier>{f4a2566c-62c3-4bc5-b5e1-4d4aacb3866a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Collider\2D">
+      <UniqueIdentifier>{7bfa8275-4b3a-4c1e-a567-ff33d48e0704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Collider\3D">
+      <UniqueIdentifier>{b9221ab1-2975-40c9-a82f-84165583ec10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Collider\2D\Shapes">
+      <UniqueIdentifier>{bf6a46f8-8868-4a70-9dd2-e80811b0adea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Renderer">
+      <UniqueIdentifier>{acbe305a-7e90-491c-91a2-2d95f0da8680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Common">
+      <UniqueIdentifier>{021e2707-c123-46e0-9c56-9a1b92f58c63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Common\State">
+      <UniqueIdentifier>{c89d2267-0c3c-410c-9423-16eefe9bc21b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\UIObject">
+      <UniqueIdentifier>{12df5d5b-93ed-4a9c-9ce6-d7e20ea56c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\UIObject\Components">
+      <UniqueIdentifier>{21d331c0-be83-4e9a-832c-5dd813b1729f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Scene">
+      <UniqueIdentifier>{32c36724-5255-4553-ad51-8274cf644036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Scene\Transition">
+      <UniqueIdentifier>{daf533bc-adb1-4bf7-bc03-0a35a7587ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Collider\3D\Shapes">
+      <UniqueIdentifier>{4cc69bae-6e61-4853-b2e9-e54f670bc6b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\TemplateObject">
+      <UniqueIdentifier>{752df8ad-f03e-40a9-8026-1bd5c18eafbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Managers">
+      <UniqueIdentifier>{98ce2f0c-bb00-4d6e-af21-685af634e816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Managers\2D">
+      <UniqueIdentifier>{c40e2ce7-a62a-45b8-bb2c-2bbef77526f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Managers\2D\Collider">
+      <UniqueIdentifier>{dc236fea-0ae9-427e-ae00-40b88e20d894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Managers\3D">
+      <UniqueIdentifier>{0acd2241-d5ab-4ffd-8066-1d3ec72abe06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Managers\3D\Collider">
+      <UniqueIdentifier>{98202120-62d8-4ed3-88eb-4ea2df7fb67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Managers\System">
+      <UniqueIdentifier>{aebc7a3f-981d-43dd-bc6c-6393dd48eaf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene">
+      <UniqueIdentifier>{ac6a4e08-73d9-4811-807c-e6a7db136ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\UI">
+      <UniqueIdentifier>{6ec8512c-1cca-4a9a-b6ae-43cf88f4d5b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Stage">
+      <UniqueIdentifier>{9a38bc0d-24a4-4a18-820e-d2cf342149e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\RigidBody">
+      <UniqueIdentifier>{59f519cc-f71e-4d56-83e1-640a6d9ae66b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Input">
+      <UniqueIdentifier>{06a6314f-6b0a-4690-aece-baedd81ef3e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TitleScene">
+      <UniqueIdentifier>{7aa0ffe8-73e1-49fb-ad1d-9c149b6571da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Component">
+      <UniqueIdentifier>{a87e56f8-695b-4713-96ce-bf0d3525c601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameMath">
+      <UniqueIdentifier>{7d8f7007-91b1-49cb-a95a-9bda6eae3b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Common\Renderer">
+      <UniqueIdentifier>{79eccc5f-7984-4a10-92a1-68e2222f9689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Common\Renderer\Type">
+      <UniqueIdentifier>{197ac68d-7d8f-4eeb-b072-fad7932638d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\RigidBody\3D">
+      <UniqueIdentifier>{b2ba6102-f46d-42fe-903a-bf0382b75522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\RigidBody\2D">
+      <UniqueIdentifier>{13f758fd-c8cc-426e-b145-c01237828240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Common\Thread">
+      <UniqueIdentifier>{a0941a5d-4433-4362-876b-ce8a70a9030c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameObject\Components\Camera">
+      <UniqueIdentifier>{350e8c70-bde1-4e3b-a10a-079df6b27a1d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Screen.h" />
+    <ClInclude Include="GameLib\Resources\ResourceManager.h" />
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\2DColliders.h">
+      <Filter>GameLib\GameObject\Components\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\3D\BaseCollider.h">
+      <Filter>GameLib\GameObject\Components\Collider\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\BaseCollider2D.h">
+      <Filter>GameLib\GameObject\Components\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\BaseComponent.h">
+      <Filter>GameLib\GameObject\Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Renderer\BaseRenderer.h">
+      <Filter>GameLib\GameObject\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\State\BaseState.h">
+      <Filter>GameLib\Common\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\UIComponents\BaseUIComponent.h">
+      <Filter>GameLib\UIObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\Transition\BlocksTransition.h">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\3D\Shapes\BoxCollider.h">
+      <Filter>GameLib\GameObject\Components\Collider\3D\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\BoxCollider2D.h">
+      <Filter>GameLib\GameObject\Components\Collider\2D\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\Button.h">
+      <Filter>GameLib\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Camera\BaseCamera.h">
+      <Filter>GameLib\GameObject\Components\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\CameraManager.h">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\3D\Shapes\CapsuleCollider.h">
+      <Filter>GameLib\GameObject\Components\Collider\3D\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\CapsuleCollider2D.h">
+      <Filter>GameLib\GameObject\Components\Collider\2D\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\SpaceDivision\Cell2D.h">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\SpaceDivision\Cell.h">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\CheckHit\CheckHit.h">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\CheckHit\CheckHit2D.h">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\CheckHit\CheckHitAuxiliary.h">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\CircleCollider2D.h">
+      <Filter>GameLib\GameObject\Components\Collider\2D\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\System\CollideEventSystem.h">
+      <Filter>GameLib\GameObject\Managers\System</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\CollideManager.h">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\CollideManager2D.h">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\3D\Collider.h">
+      <Filter>GameLib\GameObject\Components\Collider\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Collider2D.h">
+      <Filter>GameLib\GameObject\Components\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\3D\Shapes\Colliders.h">
+      <Filter>GameLib\GameObject\Components\Collider\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\Color\ColorLib.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Component.h">
+      <Filter>GameLib\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\ComponentID.h">
+      <Filter>GameLib\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Components.h">
+      <Filter>GameLib\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\ContainerExtensions.h">
+      <Filter>GameLib</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\Easing.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\Transition\FadeTransition.h">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\GameMath.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\GameObject.h">
+      <Filter>GameLib\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\GamePlayScene.h">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\HitContact.h">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\HitInfomation\HitInfomation.h">
+      <Filter>GameLib\GameObject\Managers\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\HitInfomation\HitInfomation2D.h">
+      <Filter>GameLib\GameObject\Managers\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\ICollider.h">
+      <Filter>GameLib\GameObject\Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\EachRenderer\IRenderer.h">
+      <Filter>GameLib\GameObject\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\RigidBody\IRigidBody.h">
+      <Filter>GameLib\GameObject\Components\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Input\KeyInput.h">
+      <Filter>GameLib\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Input\MouseInput.h">
+      <Filter>GameLib\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Renderer\Model\ModelComponent.h">
+      <Filter>GameLib\GameObject\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\EachRenderer\Model\ModelRenderer.h">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\SpaceDivision\ObjectForTree.h">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\SpaceDivision\ObjectForTree2D.h">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\ObjectManager.h">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\PhysicsManager.h">
+      <Filter>GameLib\GameObject\Managers\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\PhysicsManager2D.h">
+      <Filter>GameLib\GameObject\Managers\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\PhysicsMaterial.h">
+      <Filter>GameLib\GameObject\Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\EachRenderer\Primitive\PrimitiveRenderer.h">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Random.h">
+      <Filter>GameLib</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\Range.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\UIComponents\RectTransform\RectTransform.h">
+      <Filter>GameLib\UIObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\Renderer.h">
+      <Filter>GameLib\Common\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Renderer\RendererComponent.h">
+      <Filter>GameLib\GameObject\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\Renderer\RendererManager.h">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\Proxy\RenderProxy.h">
+      <Filter>GameLib\Common\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\RigidBody\3D\RigidBody.h">
+      <Filter>GameLib\GameObject\Components\RigidBody\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\RigidBody\2D\RigidBody2D.h">
+      <Filter>GameLib\GameObject\Components\RigidBody\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\Scene.h">
+      <Filter>GameLib\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\Transition\SceneTransition.h">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\SceneManager.h">
+      <Filter>GameLib\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\Scenes.h">
+      <Filter>GameLib\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Settings\Settings.h">
+      <Filter>GameLib\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\RenderStateCache.h">
+      <Filter>GameLib\Common\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Collider\3D\Shapes\SphereCollider.h">
+      <Filter>GameLib\GameObject\Components\Collider\3D\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\EachRenderer\Sprite\SpriteRenderer.h">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\State\StateMachine.h">
+      <Filter>GameLib\Common\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\EachRenderer\Text\TextRenderer.h">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\ThreadPool.h">
+      <Filter>GameLib\Common\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Transform\Transform.h">
+      <Filter>GameLib\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\State\TransitionRule.h">
+      <Filter>GameLib\Common\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\SpaceDivision\TreeManager.h">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.h">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Scene\Transition\Transitions.h">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\UIComponents\UIComponent.h">
+      <Filter>GameLib\UIObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\UIComponents\UIComponentID.h">
+      <Filter>GameLib\UIObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\UIComponents\UIComponents.h">
+      <Filter>GameLib\UIObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UIObject\UIObject.h">
+      <Filter>GameLib\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Common\Renderer\EachRenderer\UI\UIRenderer.h">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Camera\Camera.h">
+      <Filter>GameLib\GameObject\Components\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Components\Camera\Derived\StandardCamera.h" />
+    <ClInclude Include="GameLib\GameObject\Components\Camera\Derived\TargetCamera.h" />
+    <ClInclude Include="GameLib\UIObject\UIComponents\Graphics\Image\ImageUI.h" />
+    <ClInclude Include="GameLib\UIObject\UIComponents\Graphics\BaseGraphic.h" />
+    <ClInclude Include="GameLib\UIObject\UIComponents\Graphics\UIGraphic.h" />
+    <ClInclude Include="GameLib\UIObject\Canvas\Canvas.h" />
+    <ClInclude Include="GameLib\UIObject\Manager\UIManager.h" />
+    <ClInclude Include="GameLib\Common\Renderer\Proxy\SpriteProxy.h" />
+    <ClInclude Include="GameLib\Common\Renderer\Proxy\TextProxy.h" />
+    <ClInclude Include="GameLib\UIObject\UIComponents\Graphics\Text\TextUI.h" />
+    <ClInclude Include="GameLib\UIObject\UIComponents\Behaviour\Button\ButtonUI.h" />
+    <ClInclude Include="GameLib\GameObject\Interface\IComponentOwner.h" />
+    <ClInclude Include="GameLib\GameObject\Interface\IColliderReceiver.h" />
+    <ClInclude Include="GameLib\GameObject\ComponentContainer.h" />
+    <ClInclude Include="Game\GamePlayScene\Player\Player.h" />
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Ray\Ray.h" />
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Ray\RaycastHit.h" />
+    <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Ray\CheckHitWithRay.h" />
+    <ClInclude Include="GameLib\GameObject\Settings\PhysicsSettings.h" />
+    <ClInclude Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.h" />
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="DeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Resources\ResourceManager.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Collider\3D\BaseCollider.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\BaseCollider2D.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\BaseComponent.cpp">
+      <Filter>GameLib\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Renderer\BaseRenderer.cpp">
+      <Filter>GameLib\GameObject\Components\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UIObject\UIComponents\BaseUIComponent.cpp">
+      <Filter>GameLib\UIObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Scene\Transition\BlocksTransition.cpp">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\3D\Shapes\BoxCollider.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\3D\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\BoxCollider2D.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\2D\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UIObject\Button.cpp">
+      <Filter>GameLib\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\CameraManager.cpp">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\3D\Shapes\CapsuleCollider.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\3D\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\CapsuleCollider2D.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\2D\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\3DManagers\Collider\CheckHit\CheckHit.cpp">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\2DManagers\Collider\CheckHit\CheckHit2D.cpp">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\CircleCollider2D.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\2D\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\System\CollideEventSystem.cpp">
+      <Filter>GameLib\GameObject\Managers\System</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\3DManagers\Collider\CollideManager.cpp">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\2DManagers\Collider\CollideManager2D.cpp">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Scene\Transition\FadeTransition.cpp">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\GameObject.cpp">
+      <Filter>GameLib\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\GamePlayScene.cpp">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\ICollider.cpp">
+      <Filter>GameLib\GameObject\Components\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Input\KeyInput.cpp">
+      <Filter>GameLib\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Input\MouseInput.cpp">
+      <Filter>GameLib\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\Renderer\EachRenderer\Model\ModelRenderer.cpp">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\3DManagers\Collider\SpaceDivision\ObjectForTree.cpp">
+      <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\2DManagers\Collider\SpaceDivision\ObjectForTree2D.cpp">
+      <Filter>GameLib\GameObject\Managers\2D\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\ObjectManager.cpp">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\3DManagers\PhysicsManager.cpp">
+      <Filter>GameLib\GameObject\Managers\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\2DManagers\PhysicsManager2D.cpp">
+      <Filter>GameLib\GameObject\Managers\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\Renderer\EachRenderer\Primitive\PrimitiveRenderer.cpp">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Random.cpp">
+      <Filter>GameLib</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\Renderer\Renderer.cpp">
+      <Filter>GameLib\Common\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Managers\Renderer\RendererManager.cpp">
+      <Filter>GameLib\GameObject\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\RigidBody\3D\RigidBody.cpp">
+      <Filter>GameLib\GameObject\Components\RigidBody\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\RigidBody\2D\RigidBody2D.cpp">
+      <Filter>GameLib\GameObject\Components\RigidBody\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Scene\Scene.cpp">
+      <Filter>GameLib\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Scene\SceneManager.cpp">
+      <Filter>GameLib\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Scene\Transition\SceneTransition.cpp">
+      <Filter>GameLib\Scene\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\3D\Shapes\SphereCollider.cpp">
+      <Filter>GameLib\GameObject\Components\Collider\3D\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\Renderer\EachRenderer\Sprite\SpriteRenderer.cpp">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\Renderer\EachRenderer\Text\TextRenderer.cpp">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\ThreadPool.cpp">
+      <Filter>GameLib\Common\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Transform\Transform.cpp">
+      <Filter>GameLib\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UIObject\UIObject.cpp">
+      <Filter>GameLib\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Common\Renderer\EachRenderer\UI\UIRenderer.cpp">
+      <Filter>GameLib\Common\Renderer\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UIObject\UIComponents\RectTransform\RectTransform.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Camera\Derived\StandardCamera.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Camera\Derived\TargetCamera.cpp" />
+    <ClCompile Include="GameLib\UIObject\UIComponents\Graphics\Image\ImageUI.cpp" />
+    <ClCompile Include="GameLib\UIObject\Canvas\Canvas.cpp" />
+    <ClCompile Include="GameLib\UIObject\Manager\UIManager.cpp" />
+    <ClCompile Include="GameLib\UIObject\UIComponents\Graphics\BaseGraphic.cpp" />
+    <ClCompile Include="GameLib\UIObject\UIComponents\Graphics\Text\TextUI.cpp" />
+    <ClCompile Include="GameLib\UIObject\UIComponents\Behaviour\Button\ButtonUI.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Renderer\Model\ModelComponent.cpp" />
+    <ClCompile Include="GameLib\GameObject\ComponentContainer.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Player\Player.cpp" />
+    <ClCompile Include="GameLib\GameObject\Managers\3DManagers\Ray\CheckHitWithRay.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Camera\BaseCamera.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

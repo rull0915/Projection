@@ -1,0 +1,234 @@
+//====================================================//
+// ファイル名  : PhysicsManager.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/04/08
+//
+// 概要        :  物理挙動管理クラスです
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "PhysicsManager.h"
+
+#include "GameLib/GameMath/GameMath.h"
+
+#include "GameLib/GameObject/Settings/PhysicsSettings.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+PhysicsManager::PhysicsManager()
+	: m_reserves{}
+	, m_removeReserves{}
+	, m_rigidBodies{}
+	, m_collideManager{}
+	, m_contacts{}
+	, m_contactMap{}
+{
+}
+
+PhysicsManager::~PhysicsManager()
+{
+}
+
+void PhysicsManager::Update(float elapsedTime)
+{
+	// 予約されているRigidBodyの追加
+	AddReserved();
+
+	// 全RigidBodyの更新
+	
+	// 外力の適用
+	for (auto* body : m_rigidBodies) 
+	{
+		// アクティブチェック
+		if (!body->IsActive()) continue;
+
+		if (body->IsStatic() || !body->IsUseGravity()) continue;
+
+		if (!body->IsSleep()) body->AddForce(PhysicsSettings::Instance().GetGravityDirection() * PhysicsSettings::Instance().GetGravityScale(), ForceMode::Acceleration, false);
+	}
+
+	// 位置の更新
+	for (auto* body : m_rigidBodies) 
+	{
+		// アクティブチェック
+		if (!body->IsActive()) continue;
+
+		if (body->IsStatic()) continue;
+
+		body->Integrate(elapsedTime);
+	}
+
+	// --- 衝突判定 --- //
+
+	// 空間分割の更新
+	m_collideManager.MoveAllColliderOnTree();
+
+	// 判定
+	m_collideManager.CheckHitAll(m_contacts);
+
+	// 位置補正
+	HittedCorrection();
+}
+
+// 衝突後の補正を行う関数
+void PhysicsManager::HittedCorrection()
+{
+	// ペアリストの初期化
+	m_contactMap.clear();
+
+	for (auto& contact : m_contacts)
+	{
+		// レイヤー管理
+
+		// リストに追加
+		ObjectPair pair = ObjectPair(contact.ownCol, contact.otherCol);
+		m_contactMap.insert(std::make_pair(pair, contact));
+
+		// トリガーチェック
+		if (contact.isTrigger) continue;
+
+		// どちらも起こす
+		if (!contact.otherIsStatic && (contact.ownRigid && contact.ownRigid->IsSleep())) contact.ownRigid->WakeUp();
+		if (!contact.ownIsStatic && (contact.otherRigid && contact.otherRigid->IsSleep())) contact.otherRigid->WakeUp();
+
+		// 位置補正
+		PositionCorrection(contact);
+
+		// 速度補正
+		VelocityCorrection(contact);
+	}
+}
+
+void PhysicsManager::PositionCorrection(HitContact& contact)
+{
+	auto aRigid = contact.ownRigid, bRigid = contact.otherRigid;
+
+	// 動く割合の算出
+	float ratioA = 0, ratioB = 0;
+	{
+		// どちらかがStaticな場合
+		if (contact.ownIsStatic) {
+			ratioA = 0;   // Aは動かない
+			ratioB = 1;   // Bが100%押し戻される
+		}
+		else if (contact.otherIsStatic) {
+			ratioA = -1;  // Aが100%押し戻される
+			ratioB = 0;   // Bは動かない
+		}
+		// どちらも移動する場合
+		else
+		{
+			// 双方の質量を取得
+			float massA = aRigid->GetMass(), massB = bRigid->GetMass();
+
+			// 質量の比率で移動量を決定
+			ratioA = -massB / (massA + massB);
+			ratioB = massA / (massA + massB);
+		}
+	}
+
+	// ----- 位置の補正 ----- //
+	{
+		DirectX::SimpleMath::Vector3 corrVecA = ratioA * contact.normal * contact.penetration;
+		DirectX::SimpleMath::Vector3 corrVecB = ratioB * contact.normal * contact.penetration;
+
+		contact.own->GetComponent<Transform>()->AddCache(corrVecA * 0.99f);
+		contact.other->GetComponent<Transform>()->AddCache(corrVecB * 0.99f);
+	}
+}
+
+void PhysicsManager::VelocityCorrection(HitContact& contact)
+{
+	// ----- 速度の補正 ----- //
+	auto aRigid = contact.ownRigid, bRigid = contact.otherRigid;
+
+	// --- 衝突法線方向 --- // 
+
+	// 双方の速度を取得
+	DirectX::SimpleMath::Vector3 aVel = (aRigid ? aRigid->GetVelocity() : DirectX::SimpleMath::Vector3::Zero);
+	DirectX::SimpleMath::Vector3 bVel = (bRigid ? bRigid->GetVelocity() : DirectX::SimpleMath::Vector3::Zero);
+
+	// 相対速度の計算
+	DirectX::SimpleMath::Vector3 relativeVel = bVel - aVel;
+
+	// 投影して衝突法線方向の速度成分を計算
+	float hitDirVel = relativeVel.Dot(contact.normal);
+
+	// ぶつかっていれば
+	if (hitDirVel < 0)
+	{
+		// 双方の物理マテリアルを取得
+		PhysicsMaterial aMat = contact.ownCol->GetPhysicsMaterial(), bMat = contact.otherCol->GetPhysicsMaterial();
+
+		// 反発係数を適用
+		float aBounce = aMat.GetBounciness(), bBounce = bMat.GetBounciness();
+		float e = Physics::GetValue(aBounce, bBounce, aMat.GetBounceCombine(), bMat.GetBounceCombine());
+
+		// インパルスの算出
+
+		// それぞれの質量の逆数を取得
+		float aInvMass = !contact.ownIsStatic ? aRigid->GetInvMass() : 0, bInvMass = !contact.otherIsStatic ? bRigid->GetInvMass() : 0;
+		float jToZero = -(hitDirVel / (aInvMass + bInvMass));
+		float j = jToZero - (e * hitDirVel) / (aInvMass + bInvMass);	// 打ち消しと反発を同時に行うために-(1 + e)
+
+		// 法線方向のインパルス
+		DirectX::SimpleMath::Vector3 normalImpulse = j * contact.normal;
+
+		// --- 接線方向の処理 --- //
+
+		// 摩擦係数を取得
+		float s_aFric = aMat.GetStaticFriction(), s_bFric = bMat.GetStaticFriction();
+		float d_aFric = aMat.GetDynamicFriction(), d_bFric = bMat.GetDynamicFriction();
+
+		float s_mu = Physics::GetValue(s_aFric, s_bFric, aMat.GetFrictionCombine(), bMat.GetFrictionCombine());
+		float d_mu = Physics::GetValue(d_aFric, d_bFric, aMat.GetFrictionCombine(), bMat.GetFrictionCombine());
+
+		// 接線ベクトルの作成
+		// 相対速度から法線方向の成分を抜き出す
+		DirectX::SimpleMath::Vector3 normalVel = hitDirVel * contact.normal;
+
+		// 全体の相対速度から法線成分を引くことで接線方向の成分にする
+		DirectX::SimpleMath::Vector3 tangentVel = relativeVel - normalVel;
+
+		// 正規化して接線とする
+		float tangentSpeed = tangentVel.Length();
+		DirectX::SimpleMath::Vector3 tangential = DirectX::SimpleMath::Vector3::Zero;
+
+		if (tangentSpeed > 0.0001f) {
+			tangential = tangentVel / tangentSpeed;
+		}
+
+		// 接線方向の速度をゼロにするインパルスを計算
+		float j_tangent = -(relativeVel.Dot(tangential)) / (aInvMass + bInvMass);
+
+		// 静止摩擦力の限界値を計算
+		float maxStaticFriction = s_mu * abs(j);
+
+		float actualFrictionImpulse;
+
+		if (abs(j_tangent) < maxStaticFriction)
+		{
+			// 静止摩擦
+			actualFrictionImpulse = j_tangent;
+		}
+		else
+		{
+			// 動摩擦
+			float maxDynamicFriction = d_mu * abs(jToZero);
+			actualFrictionImpulse = MyMath::Clamp(j_tangent, -maxDynamicFriction, maxDynamicFriction);
+		}
+
+		// 接線方向のインパルス
+		DirectX::SimpleMath::Vector3 tangentImpulse = actualFrictionImpulse * tangential;
+
+
+		// 双方の速度を変更
+		if (aRigid && !contact.ownIsStatic) aRigid->AddForce(-(tangentImpulse + normalImpulse), ForceMode::Impulse, false);
+		if (bRigid && !contact.otherIsStatic) bRigid->AddForce(tangentImpulse + normalImpulse, ForceMode::Impulse, false);
+	}
+}

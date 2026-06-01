@@ -1,0 +1,119 @@
+//====================================================//
+// ファイル名   : ICollider.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/04/22
+//
+// 概要 : コライダーインターフェース
+//
+// 更新履歴 :
+// 2026/04/22 新規作成
+//====================================================//
+
+#pragma once
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "../BaseComponent.h"
+#include "../Transform/Transform.h"
+#include "PhysicsMaterial.h"
+
+#include "../../Interface/IColliderReceiver.h"
+
+//====================================================//
+// 前方宣言
+//====================================================//
+class Renderer;
+
+//====================================================//
+// クラス宣言
+//====================================================//
+class ICollider : public BaseComponent
+{
+private:
+
+    //-----------------------------------------------------
+    // 定数
+    //-----------------------------------------------------
+
+
+    //-----------------------------------------------------
+    // メンバ変数
+    //-----------------------------------------------------
+
+    // 自身のレイヤー
+    int m_layerNum;
+
+    // 親のトランスフォーム
+    Transform* m_pTransform;
+
+    // トリガーフラグ
+    bool m_isTrigger;
+
+    // 衝突情報を必要とするかのフラグ(トリガーの時)
+    bool m_needInfo;
+
+    // 変更済みフラグ
+    mutable bool m_isChanged;
+
+    // 値が変更されているかのフラグ
+    mutable bool m_isDirty;
+
+    // 最新のバージョン
+    mutable uint32_t m_latestVersion;
+
+    // 物理マテリアル
+    PhysicsMaterial* m_physicsMaterial;
+
+    // 応答仲介インターフェース
+    IColliderReceiver* m_colliderReceiver;
+
+public:
+
+    //-----------------------------------------------------
+    // コンストラクタ / デストラクタ
+    //-----------------------------------------------------
+    ICollider(IComponentOwner* own, ComponentID id, bool isMain);
+    virtual ~ICollider() = default;
+
+    //-----------------------------------------------------
+    // 公開関数
+    //-----------------------------------------------------
+    virtual void DebugDraw(Renderer& renderer, int color) const = 0;
+    virtual void DebugDrawAABB(Renderer& renderer, int color) const = 0;
+
+    //-----------------------------------------------------
+    // ゲッター
+    //-----------------------------------------------------
+    inline int GetLayer() const { return m_layerNum; }
+
+    inline bool IsTrigger() const { return m_isTrigger; }
+    inline bool IsNeedInfo() const { return m_needInfo; }
+    inline bool IsChanged() const { return m_isChanged; }
+    inline bool IsDirty() const { return m_isDirty || m_pTransform->GetVersion() != m_latestVersion; }
+
+    inline Transform* GetTransform() const { return m_pTransform; }
+    inline const PhysicsMaterial& GetPhysicsMaterial() const 
+    {
+        return (m_physicsMaterial ? *m_physicsMaterial : Physics::DEFAULT_MATERIAL); 
+    }
+
+    inline IColliderReceiver* GetReceiver() const { return m_colliderReceiver; }
+
+    //-----------------------------------------------------
+    // セッター
+    //-----------------------------------------------------
+
+    void SetLayer(int num) { m_layerNum = std::min(num, 99); }
+    void SetDirty() { m_isDirty = true; };
+    void SetTrigger(bool flag) { m_isTrigger = flag; }
+    void SetNeedInfo(bool flag) { m_needInfo = flag; }
+    void ResetChangeFrag() { m_isChanged = false; }
+    void SetPhysicsMaterial(PhysicsMaterial* mat) { m_physicsMaterial = mat; }
+
+protected:
+
+    inline void ResetDirty() const { m_isDirty = false; }
+    inline void SetChanged(bool flag) const { m_isChanged = flag; }
+    inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
+};
