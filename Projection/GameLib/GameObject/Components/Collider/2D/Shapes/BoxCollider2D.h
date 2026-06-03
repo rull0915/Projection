@@ -37,12 +37,8 @@ private:
 
     // 計算済みワールド情報
     struct WorldCache {
-        float angle;
-
         DirectX::SimpleMath::Vector2 xAxis;
         DirectX::SimpleMath::Vector2 yAxis;
-
-        DirectX::SimpleMath::Vector2 scale;
     };
 
     mutable WorldCache m_cache;
@@ -70,8 +66,7 @@ public:
     // 各軸ベクトルを取得する関数
     float GetAngle() const
     {
-        if (IsDirty()) UpdateCache();
-        return m_cache.angle;
+        return GetRotation();
     }
     DirectX::SimpleMath::Vector2 GetXAxis() const
     {
@@ -85,13 +80,11 @@ public:
     }
     DirectX::SimpleMath::Vector2 GetSize() const
     {
-        if (IsDirty()) UpdateCache();
-        return m_cache.scale;
+        return m_localSize;
     }
     DirectX::SimpleMath::Vector2 GetHalfSize() const
     {
-        if (IsDirty()) UpdateCache();
-        return m_cache.scale * 0.5f;
+        return m_localSize * 0.5f;
     }
 
     //-----------------------------------------------------

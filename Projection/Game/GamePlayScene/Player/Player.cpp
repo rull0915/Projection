@@ -35,7 +35,7 @@ Player::~Player()
 void Player::Start()
 {
 	// コライダーを取得しマテリアルを設定
-	BaseCollider* collider = GetComponent<BaseCollider>();
+	if(BaseCollider* collider = GetComponent<BaseCollider>())
 	collider->SetPhysicsMaterial(&m_material);
 
 //	GetComponent<RigidBody>()->SetLinearDamping(3);

@@ -14,6 +14,8 @@
 
 #include "GameLib/Common/Renderer/Renderer.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -22,23 +24,17 @@ void CircleCollider2D::UpdateCache() const
 {
 	Transform* pT = GetTransform();
 
-	// ワールドの拡大率を取得
-	DirectX::SimpleMath::Vector3 worldScale = pT->GetWorldScale();
-
 	// ----- 中心座標の更新 ----- //
 	DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
 	DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
+	
+    auto& world2D = WorldSetting2D::Instance();
 
-	DirectX::SimpleMath::Vector2 center = { center3D.x, center3D.y };
-	SetWorldPosition(center);
-
-	// ----- 半径の更新 ----- //
-	float max = std::max(worldScale.x, worldScale.y);
-
-	m_worldRadius = max * m_radius;
+    DirectX::SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
+    SetWorldPosition(center);
 
 	// ----- AABBの更新 ----- //
-	DirectX::SimpleMath::Vector3 size = { m_worldRadius, m_worldRadius, m_worldRadius };
+	DirectX::SimpleMath::Vector3 size = { m_radius, m_radius, m_radius };
 	SetBoundingBox(AABB2D(center - size, center + size));
 
 	// フラグのリセット
@@ -53,6 +49,8 @@ void CircleCollider2D::DebugDraw(Renderer& renderer, int color) const
 	// ワールド行列の算出(Rot,Pos)
 	DirectX::SimpleMath::Vector2 pos = GetWorldCenterPos();
 
+	auto& world2D = WorldSetting2D::Instance();
+
 	float rad = GetRadius();
-	renderer.Draw().Circle({ pos.x, pos.y, 0 }, { 0, 0, 1 }, rad, 16, color, false);
+	renderer.Draw().Circle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
 }

@@ -14,6 +14,8 @@
 
 #include "GameLib/Common/Renderer/Renderer.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 //====================================================//
 // ä÷êîÇÃé¿ëÃêÈåæ
 //====================================================//
@@ -22,6 +24,7 @@ BaseCollider2D::BaseCollider2D(IComponentOwner* own, ColliderType2D type, Compon
 	: ICollider(own, ID, isMain)
 	, m_type{ type }
 	, m_localCenterPos{ 0, 0 }
+	, m_rotation{ 0.0f }
 	, m_boundingBox{}
 	, m_worldCenterPos{}
 {
@@ -29,8 +32,16 @@ BaseCollider2D::BaseCollider2D(IComponentOwner* own, ColliderType2D type, Compon
 
 void AABB2D::DebugDraw(Renderer& renderer, int color) const
 {
-	renderer.Draw().Line({ min.x, min.y, 0 }, { max.x, min.y, 0 }, color);
-	renderer.Draw().Line({ min.x, max.y, 0 }, { max.x, max.y, 0 }, color);
-	renderer.Draw().Line({ min.x, min.y, 0 }, { min.x, max.y, 0 }, color);
-	renderer.Draw().Line({ max.x, min.y, 0 }, { max.x, max.y, 0 }, color);
+	DirectX::SimpleMath::Vector3 points[4] =
+	{
+		WorldSetting2D::Instance().Local2DToWorld3D({ min.x, min.y }),
+		WorldSetting2D::Instance().Local2DToWorld3D({ min.x, max.y }),
+		WorldSetting2D::Instance().Local2DToWorld3D({ max.x, max.y }),
+		WorldSetting2D::Instance().Local2DToWorld3D({ max.x, min.y })
+	};
+
+	for (size_t i = 0; i < 4; ++i)
+	{
+		renderer.Draw().Line(points[i], points[(i + 1) % 4], color);
+	}
 }

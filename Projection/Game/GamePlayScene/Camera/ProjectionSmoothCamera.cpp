@@ -46,19 +46,13 @@ void ProjectionSmoothCamera::Update(float elapsedTime)
 		SetNeedUpdateProj(true);
 
 		// 1を超えたら
-		if (m_nowTime >= 1)
+		if (m_nowTime >= m_changeTime)
 		{
-			m_nowTime == 1;
+			m_nowTime = m_changeTime;
 
 			// 変化を終了
 			m_isChanging = false;
 		}
-	}
-
-	// テスト
-	if (KeyInput::GetKeyDown(KeyCode::Q))
-	{
-		ChangeProjectionMode();
 	}
 }
 
@@ -140,28 +134,27 @@ void ProjectionSmoothCamera::UpdateProj()
 	}
 	else
 	{
-		
-	// ターゲットとなる行列を作成する
-	switch (m_type)
-	{
-	case ProjectionType::Perspective:
+		// ターゲットとなる行列を作成する
+		switch (m_type)
+		{
+		case ProjectionType::Perspective:
 
-		// Perspectiveから作成
-		SetProj(DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
-			m_fov, m_aspect, m_nearZ, m_farZ
-		));
+			// Perspectiveから作成
+			SetProj(DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
+				m_fov, m_aspect, m_nearZ, m_farZ
+			));
 
-		break;
-	case ProjectionType::Orthographic:
+			break;
+		case ProjectionType::Orthographic:
 
-		// Orthographicから作成
-		SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(
-			m_size * m_aspect, m_size, m_nearZ, m_farZ
-		));
+			// Orthographicから作成
+			SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(
+				m_size * m_aspect, m_size, m_nearZ, m_farZ
+			));
 
-		break;
-	default:
-		break;
-	}
+			break;
+		default:
+			break;
+		}
 	}
 }

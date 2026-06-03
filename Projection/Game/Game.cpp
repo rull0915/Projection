@@ -185,7 +185,6 @@ void Game::Clear()
     auto depthStencil = m_deviceResources->GetDepthStencilView();
 
     DirectX::XMVECTORF32 color = { 0.8f, 0.8f, 0.8f, 1.0f };
-//    DirectX::XMVECTORF32 color = { 0.0f, 0.0f, 0.0f, 1.0f };
     context->ClearRenderTargetView(renderTarget, color);
     context->ClearDepthStencilView(depthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     context->OMSetRenderTargets(1, &renderTarget, depthStencil);

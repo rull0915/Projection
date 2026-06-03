@@ -12,6 +12,8 @@
 #include "pch.h"
 #include "RigidBody2D.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 using namespace DirectX;
 
 //====================================================//
@@ -62,7 +64,13 @@ void RigidBody2D::Integrate(float elapsedTime)
     m_velocity *= 1.0f / (1.0f + GetLinearDamping() * elapsedTime);
 
     // 座標に反映
-    GetTransform()->AddWorldPosition(DirectX::SimpleMath::Vector3{ m_velocity.x, m_velocity.y, 0 } * elapsedTime);
+    auto& world2D = WorldSetting2D::Instance();
+
+    auto velocity3D =
+        m_velocity.x * world2D.GetXAxis()
+        + m_velocity.y * world2D.GetYAxis();
+
+    GetTransform()->AddWorldPosition(velocity3D * elapsedTime);
 
     // 貯まった力をリセット
     m_force = SimpleMath::Vector2::Zero;

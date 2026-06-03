@@ -15,6 +15,8 @@
 
 #include "GameLib/GameMath/GameMath.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 //====================================================//
 // ŠÖ”‚ÌŽÀ‘ÌéŒ¾
 //====================================================//
@@ -138,8 +140,11 @@ void PhysicsManager2D::PositionCorrection(HitContact2D& contact)
 		DirectX::SimpleMath::Vector2 corrVecA = ratioA * contact.normal * contact.penetration;
 		DirectX::SimpleMath::Vector2 corrVecB = ratioB * contact.normal * contact.penetration;
 
-		contact.own->GetComponent<Transform>()->AddCache({ corrVecA.x, corrVecA.y, 0 });
-		contact.other->GetComponent<Transform>()->AddCache({ corrVecB.x, corrVecB.y, 0 });
+		DirectX::SimpleMath::Vector3 right	= WorldSetting2D::Instance().GetXAxis();
+		DirectX::SimpleMath::Vector3 up		= WorldSetting2D::Instance().GetYAxis();
+
+		contact.own->GetComponent<Transform>()->AddCache(corrVecA.x * right + corrVecA.y * up);
+		contact.other->GetComponent<Transform>()->AddCache( corrVecB.x * right + corrVecB.y * up );
 	}
 }
 

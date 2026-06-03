@@ -26,7 +26,7 @@
 //====================================================//
 enum class AxisType2D
 {
-    Horizonatl,
+    Horizontal,
     Vertical
 };
 
@@ -49,8 +49,6 @@ private:
 
     // 計算済みワールド情報
     struct WorldCache {
-        float radius;
-        float height;
         float lineLength;
         DirectX::SimpleMath::Vector2 dir;
         std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points;
@@ -89,15 +87,13 @@ public:
     // 半径を返す関数
     float GetRadius() const
     {
-        if (IsDirty()) UpdateCache();
-        return m_cache.radius;
+        return m_radius;
     }
 
     // カプセルの高さを返す関数
     float GetHeight() const
     {
-        if (IsDirty()) UpdateCache();
-        return m_cache.height;
+        return m_capsuleHeight;
     }
 
     // 線の長さを返す関数
@@ -128,6 +124,12 @@ public:
         m_radius = radius;
         SetDirty();
     }
+
+	void SetLineDir(AxisType2D type)
+	{
+		m_lineDir = type;
+		SetDirty();
+	}
 
     // 描画関数
     void DebugDraw(Renderer& renderer, int color) const override;

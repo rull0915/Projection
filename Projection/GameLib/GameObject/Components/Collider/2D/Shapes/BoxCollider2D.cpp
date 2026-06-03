@@ -14,6 +14,8 @@
 
 #include "GameLib/Common/Renderer/Renderer.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 #include <array>
 
 using namespace DirectX;
@@ -33,21 +35,19 @@ void BoxCollider2D::UpdateCache() const
     DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
     DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
 
-    DirectX::SimpleMath::Vector2 center = { center3D.x, center3D.y };
+    auto& world2D = WorldSetting2D::Instance();
+
+    DirectX::SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
     SetWorldPosition(center);
 
 
     // ----- 各軸の更新 ----- //
-    float zAngle = pT->GetWorldEulerAngle().z;
-    m_cache.angle = zAngle;
+    float zAngle = GetRotation();
     m_cache.xAxis = { cosf(zAngle), sinf(zAngle) };
     m_cache.yAxis = { -sinf(zAngle), cosf(zAngle) };
 
-    // ----- スケールの更新 ----- //
-    m_cache.scale = { m_localSize.x * worldScale.x, m_localSize.y * worldScale.y };
-
     // ----- AABBの更新 ----- //
-    SimpleMath::Vector2 h = m_cache.scale * 0.5f;
+    SimpleMath::Vector2 h = m_localSize * 0.5f;
 
     float ex = abs(m_cache.xAxis.x * h.x) + abs(m_cache.yAxis.x * h.y);
     float ey = abs(m_cache.xAxis.y * h.x) + abs(m_cache.yAxis.y * h.y);
@@ -82,11 +82,23 @@ void BoxCollider2D::DebugDraw(Renderer& renderer, int color) const
         pos + (-halfSize.x * xA + halfSize.y * yA),
     };
 
+    auto& world2D = WorldSetting2D::Instance();
+
+    DirectX::SimpleMath::Vector3 right = world2D.GetXAxis(), up = world2D.GetYAxis();
+
+    std::array<SimpleMath::Vector3, 4> worldPoints =
+    {
+        right * points[0].x + up * points[0].y,
+        right * points[1].x + up * points[1].y,
+        right * points[2].x + up * points[2].y,
+        right * points[3].x + up * points[3].y
+    };
+
     for (int i = 0; i < 4; i++)
     {
         renderer.Draw().Line(
-            DirectX::SimpleMath::Vector3{ points[i].x, points[i].y, 0.0f }, 
-            DirectX::SimpleMath::Vector3{ points[(i + 1) % 4].x, points[(i + 1) % 4].y, 0.0f }, 
+            DirectX::SimpleMath::Vector3{ worldPoints[i] },
+            DirectX::SimpleMath::Vector3{ worldPoints[(i + 1) % 4] }, 
             color);
     }
 }

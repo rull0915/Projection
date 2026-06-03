@@ -216,6 +216,14 @@ private:
     {
         return m_components.Get(id, isMain);
     }
+	void GetComponentsRaw(
+		ComponentID id,
+		bool isMain,
+		std::vector<BaseComponent*>& out) override
+	{
+		m_components.Gets(id, isMain, out);
+	}
+
     bool HasComponentRaw(
         ComponentID id,
         bool isMain) override

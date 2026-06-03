@@ -37,9 +37,10 @@ enum class ComponentID
 
 	// 2Dコライダー
 	Collider2D	= 0x0300,
-		BoxCollider2D		= 0x0301,
-		CircleCollider2D	= 0x0302,
-		CapsuleCollider2D	= 0x0303,
+		BoxCollider2D			= 0x0301,
+		CircleCollider2D		= 0x0302,
+		CapsuleCollider2D		= 0x0303,
+		ConvexPolygonCollider2D	= 0x0304,
 
 	// 3D物理挙動
 	RigidBody	= 0x0400,
@@ -60,6 +61,8 @@ enum class ComponentID
 	//========== カスタムID =========//
 	// プロジェクト独自のコンポーネントここから下に書くようにして下さい。
 
+	// コライダーの切り替えを行うコンポーネント
+	ChangeColliderComponent = 0x1000,
 };
 
 // MAIN_IDのみを切り取る関数

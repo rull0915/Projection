@@ -411,7 +411,9 @@
     <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Ray\CheckHitWithRay.h" />
     <ClInclude Include="GameLib\GameObject\Settings\PhysicsSettings.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.h" />
-    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider.h" />
+    <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider2D.h" />
+    <ClInclude Include="GameLib\GameObject\Settings\WorldSetting2D.h" />
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -576,6 +578,8 @@
     <ClCompile Include="GameLib\GameObject\Managers\3DManagers\Ray\CheckHitWithRay.cpp" />
     <ClCompile Include="GameLib\GameObject\Components\Camera\BaseCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.cpp" />
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

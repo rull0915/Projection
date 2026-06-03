@@ -15,6 +15,8 @@
 #include "GameLib/GameObject/GameObject.h"
 #include "GameLib/GameMath/GameMath.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 using namespace DirectX;
 
 //====================================================//
@@ -155,6 +157,21 @@ void CollideManager2D::CheckHitAll(std::vector<HitContact2D>& contacts)
 
 	// 衝突リストの初期化
 	contacts.clear();
+
+// 世界の設定が変わっていれば全てのコライダーをDirtyにを更新
+
+	if (WorldSetting2D::Instance().IsDirty())
+	{
+		// 全てのコライダー
+		for (auto& collide : m_colliders)
+		{
+			// Dirthフラグが立っていればキャッシュを更新
+			collide->SetDirty();
+		}
+
+		WorldSetting2D::Instance().ResetDirty();
+	}
+
 
 	// 衝突判定
 	m_tree.CheckAllCollisionList(condition, action);

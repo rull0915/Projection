@@ -18,3 +18,4 @@
 #include "BoxCollider2D.h"
 #include "CircleCollider2D.h"
 #include "CapsuleCollider2D.h"
+#include "ConvexPolygonCollider2D.h"

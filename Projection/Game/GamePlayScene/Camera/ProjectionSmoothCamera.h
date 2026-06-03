@@ -79,16 +79,15 @@ public:
     //-----------------------------------------------------
 
     void Update(float elapsedTime) override;
-//    void LateUpdate(float elapsedTime) override;
-
-    //-----------------------------------------------------
-    // ゲッター
-    //-----------------------------------------------------
 
     void ChangeProjectionMode(float changeTime = 1.0f);
 
+	ProjectionType GetProjectionType() const { return m_type; }
+
     void UpdateView() override;
     void UpdateProj() override;
+
+	bool IsChanging() const { return m_isChanging; }
 
     //-----------------------------------------------------
     // セッター

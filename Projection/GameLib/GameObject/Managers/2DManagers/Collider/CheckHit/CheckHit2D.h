@@ -11,8 +11,6 @@
 
 #pragma once
 
-using Simplex = std::vector<DirectX::SimpleMath::Vector2>;
-
 //====================================================//
 // インクルードファイル
 //====================================================//
@@ -33,17 +31,17 @@ using Simplex = std::vector<DirectX::SimpleMath::Vector2>;
 bool CheckHit2D(BaseCollider2D* colA, BaseCollider2D* colB, HitInfomation2D* info = nullptr);
 
 /// <summary>
-/// 球同士の衝突判定
+/// 円同士の衝突判定
 /// </summary>
 bool CheckHit2D(CircleCollider2D* colA, CircleCollider2D* colB, HitInfomation2D* info);
 
 /// <summary>
-/// 球とカプセル
+/// 円とカプセル
 /// </summary>
 bool CheckHit2D(CircleCollider2D* colA, CapsuleCollider2D* colB, HitInfomation2D* info);
 
 /// <summary>
-/// 球とボックス
+/// 円とボックス
 /// </summary>
 bool CheckHit2D(CircleCollider2D* colA, BoxCollider2D* colB, HitInfomation2D* info);
 
@@ -62,3 +60,17 @@ bool CheckHit2D(CapsuleCollider2D* colA, BoxCollider2D* colB, HitInfomation2D* i
 /// </summary>
 bool CheckHit2D(BoxCollider2D* colA, BoxCollider2D* colB, HitInfomation2D* info);
 
+/// <summary>
+/// 凸多角形同士
+/// </summary>
+bool CheckHit2D(ConvexPolygonCollider2D* colA, ConvexPolygonCollider2D* colB, HitInfomation2D* info);
+
+/// <summary>
+/// 円と凸多角形
+/// </summary>
+bool CheckHit2D(CircleCollider2D* colA, ConvexPolygonCollider2D* colB, HitInfomation2D* info);
+
+/// <summary>
+/// カプセルと凸多角形
+/// </summary>
+bool CheckHit2D(CapsuleCollider2D* colA, ConvexPolygonCollider2D* colB, HitInfomation2D* info);

@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "../Components/ComponentID.h"
-#include <type_traits>
+#include <vector>
 
 //====================================================//
 // 前方宣言
@@ -50,6 +50,30 @@ public:
                 T::IS_MAIN));
     }
 
+	// 複数取得
+	template<typename T, typename = std::enable_if_t<std::is_base_of<BaseComponent, T>::value>>
+    void GetComponents(std::vector<T*>& out)
+    {
+		std::vector<BaseComponent*> components;
+		GetComponentsRaw(
+			T::TYPE_ID, T::IS_MAIN, components);
+
+        out.clear();
+		for (auto& component : components)
+		{
+			out.push_back(static_cast<T*>(component));
+		}
+    }
+    
+    // ------ Has ------ //
+	template<typename T>
+	bool HasComponent() const
+	{
+		return HasComponentRaw(
+			T::TYPE_ID,
+			T::IS_MAIN);
+	}
+
     // ------ Add ------ //
     template<typename T>
     T* AddComponent()
@@ -62,15 +86,13 @@ private:
     virtual BaseComponent* GetComponentRaw(
         ComponentID id,
         bool isMain) = 0;
-    //virtual BaseComponent* AddComponentRaw(
-    //    ComponentID id,
-    //    bool isMain) = 0;
     virtual bool HasComponentRaw(
         ComponentID id,
         bool isMain) = 0;
-    //virtual void RemoveComponentRaw(
-    //    ComponentID id,
-    //    bool isMain) = 0;
+	virtual void GetComponentsRaw(
+		ComponentID id,
+		bool isMain,
+		std::vector<BaseComponent*>& out) = 0;
 
     // 削除
     virtual void Destroy() = 0;

@@ -14,6 +14,8 @@
 
 #include "GameLib/Common/Renderer/Renderer.h"
 
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -22,24 +24,23 @@ void CapsuleCollider2D::UpdateCache() const
 {
     Transform* pT = GetTransform();
 
-    // ワールドの拡大率を取得
-    DirectX::SimpleMath::Vector3 worldScale = pT->GetWorldScale();
-
     // ----- 中心座標の更新 ----- //
     DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
     DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
 
-    DirectX::SimpleMath::Vector2 center = { center3D.x, center3D.y };
+    auto& world2D = WorldSetting2D::Instance();
+
+    DirectX::SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
     SetWorldPosition(center);
 
     // ----- ラインのベクトルの更新 ----- //
     {
         DirectX::SimpleMath::Vector2 dir;
-        float zAngle = pT->GetWorldEulerAngle().z;
+        float zAngle = GetRotation();
 
         switch (m_lineDir)
         {
-        case AxisType2D::Horizonatl:
+        case AxisType2D::Horizontal:
             dir = { cosf(zAngle), sinf(zAngle) };
             break;
         case AxisType2D::Vertical:
@@ -51,43 +52,9 @@ void CapsuleCollider2D::UpdateCache() const
         m_cache.dir = dir;
     }
 
-    // ----- 半径の更新 ----- //
-    {
-        float ratio = 1;
-
-        switch (m_lineDir)
-        {
-        case AxisType2D::Horizonatl:
-            ratio = worldScale.y; break;
-        case AxisType2D::Vertical:
-            ratio = worldScale.x; break;
-        }
-
-        m_cache.radius = ratio * m_radius;
-    }
-
-    // ----- カプセルの高さの更新 ----- //
-    {
-        float height = 0;
-
-        switch (m_lineDir)
-        {
-        case AxisType2D::Horizonatl:
-            height = worldScale.x * m_capsuleHeight;
-            break;
-        case AxisType2D::Vertical:
-            height = worldScale.y * m_capsuleHeight;
-            break;
-        default:
-            break;
-        }
-
-        m_cache.height = height;
-    }
-
     // ----- 線の長さの更新 ----- //
     {
-        float result = m_cache.height - m_cache.radius * 2;
+        float result = m_capsuleHeight - m_radius * 2;
         m_cache.lineLength = (result > 0 ? result : 0);
     }
 
@@ -104,13 +71,12 @@ void CapsuleCollider2D::UpdateCache() const
     // ----- AABBの更新 ----- //
     {
         std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points = m_cache.points;
-        float r = m_cache.radius;
 
         DirectX::SimpleMath::Vector2 minP = DirectX::SimpleMath::Vector2::Min(points.first, points.second);
         DirectX::SimpleMath::Vector2 maxP = DirectX::SimpleMath::Vector2::Max(points.first, points.second);
 
-        minP -= { r, r };
-        maxP += { r, r };
+        minP -= { m_radius, m_radius };
+        maxP += { m_radius, m_radius };
 
         SetBoundingBox(AABB2D(minP, maxP));
     }
@@ -126,35 +92,37 @@ void CapsuleCollider2D::DebugDraw(Renderer& renderer, int color) const
 {
     float rad = GetRadius();
 
-    DirectX::SimpleMath::Vector3 p1, p2, v;
+    DirectX::SimpleMath::Vector2 p1, p2, v;
 
     DirectX::SimpleMath::Vector2 p1_2 = GetPoints().first, p2_2 = GetPoints().second;
-    p1 = { p1_2.x, p1_2.y, 0 }, p2 = { p2_2.x, p2_2.y, 0 };
+    p1 = { p1_2.x, p1_2.y }, p2 = { p2_2.x, p2_2.y };
     v = p2 - p1;
     v.Normalize();
 
     // 中心線分の垂直ベクトルを作成
-    DirectX::SimpleMath::Vector3 nV = { -v.y, v.x, 0 };
+    DirectX::SimpleMath::Vector2 nV = { -v.y, v.x };
     nV.Normalize();
+
+	auto& world2D = WorldSetting2D::Instance();
 
     if (nV.LengthSquared() < 0.001f)
     {
-        renderer.Draw().Circle({ p1.x, p1.y, 0 }, { 0, 0, 1 }, rad, 16, color, false);
+        renderer.Draw().Circle(world2D.Local2DToWorld3D({ p1.x, p1.y }), world2D.GetNormal(), rad, 16, color, false);
     }
     else
     {
         // 4点を算出
-        DirectX::SimpleMath::Vector3 p3, p4, p5, p6;
+        DirectX::SimpleMath::Vector2 p3, p4, p5, p6;
 
         p3 = { p1 + nV * rad };
         p4 = { p1 - nV * rad - v * 0.01f };
         p5 = { p2 + nV * rad };
         p6 = { p2 - nV * rad + v * 0.01f };
 
-        renderer.Draw().Arc({ p1 }, { p3 - p1 }, { p4 - p1 }, 16, rad, color, false);
-        renderer.Draw().Arc({ p2 }, { p5 - p2 }, { p6 - p2 }, 16, rad, color, false);
+        renderer.Draw().Arc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, color, false);
+        renderer.Draw().Arc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, color, false);
 
-        renderer.Draw().Line({ p3 }, { p5 }, color);
-        renderer.Draw().Line({ p4 }, { p6 }, color);
+        renderer.Draw().Line(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), color);
+        renderer.Draw().Line(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
     }
 }

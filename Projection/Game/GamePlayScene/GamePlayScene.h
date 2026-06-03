@@ -41,9 +41,12 @@ private:
     Game* m_pGame;
 
     GameObject* m_camera;
+    GameObject* m_testConvex;
 
 	Canvas* m_pTestCanvas;
 	UIObject* m_pTestUI;
+
+    std::vector<GameObject*> m_stages;
 
 public:
 

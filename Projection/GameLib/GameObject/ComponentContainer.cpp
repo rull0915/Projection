@@ -65,4 +65,6 @@ void ComponentContainer::RemoveRegistered()
             m_pComponents.erase(it);
         }
     }
+
+    m_pDestroyReserves.clear();
 }

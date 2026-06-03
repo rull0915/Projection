@@ -44,7 +44,8 @@ void GameObject::BaseLateUpdate(float elapsedTime)
 void GameObject::BaseRender(Renderer& renderer)
 {
     // F3キーでコライダーのデバッグ描画
-    if(KeyInput::GetKey(DirectX::Keyboard::Keys::F3)) CollidersDebugDraw(renderer, 0x00FF00, false);
+//    if(KeyInput::GetKey(DirectX::Keyboard::Keys::F3)) 
+        CollidersDebugDraw(renderer, 0x00FFFF, true);
 }
 
 void GameObject::BaseFinalize()
@@ -68,6 +69,8 @@ void GameObject::CollidersDebugDraw(Renderer& renderer, int color, bool drawBoun
 
     for (auto& col : colliders)
     {
+        if (!col->IsActive()) continue;
+
         col->DebugDraw(renderer, color);
 
         if (drawBoundingBox) col->DebugDrawAABB(renderer, color);
@@ -75,6 +78,8 @@ void GameObject::CollidersDebugDraw(Renderer& renderer, int color, bool drawBoun
 
     for (auto& col : colliders2D)
     {
+        if (!col->IsActive()) continue;
+
         col->DebugDraw(renderer, color);
 
         if (drawBoundingBox) col->DebugDrawAABB(renderer, color);

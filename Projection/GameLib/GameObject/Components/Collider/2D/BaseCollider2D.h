@@ -32,6 +32,7 @@ enum class ColliderType2D
     Circle,
     Box,
     Capsule,
+	ConvexPolygon,
 };
 
 //====================================================//
@@ -85,6 +86,9 @@ private:
     // ローカル中心座標
     DirectX::SimpleMath::Vector2 m_localCenterPos;
 
+    // 回転量
+	float m_rotation;
+
     // 自身を覆うAABB2D
     mutable AABB2D m_boundingBox;
 
@@ -116,6 +120,8 @@ public:
     // ローカル座標系
     DirectX::SimpleMath::Vector2 GetLocalCenterPos() const { return m_localCenterPos; }
 
+	float GetRotation() const { return m_rotation; }
+
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
@@ -124,6 +130,11 @@ public:
         m_localCenterPos = pos;
         SetDirty();
     }
+	void SetRotation(float rot)
+	{
+		m_rotation = rot;
+		SetDirty();
+	}
 
     //-----------------------------------------------------
     // その他関数

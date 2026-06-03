@@ -34,9 +34,6 @@ private:
 
     // ”¼Œa
     float m_radius;
-
-    mutable float m_worldRadius;
-
 public:
 
     //-----------------------------------------------------
@@ -45,7 +42,6 @@ public:
     CircleCollider2D(IComponentOwner* own)
         : Collider2D(own, ColliderType2D::Circle)
         , m_radius{ 0.5f }
-        , m_worldRadius{ 1 }
     {
     };
     ~CircleCollider2D() = default;
@@ -55,8 +51,7 @@ public:
     //-----------------------------------------------------
     float GetRadius() const
     {
-        if (IsDirty()) UpdateCache();
-        return m_worldRadius;
+        return m_radius;
     }
 
     //-----------------------------------------------------

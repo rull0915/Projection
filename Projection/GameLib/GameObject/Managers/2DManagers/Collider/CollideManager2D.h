@@ -70,7 +70,7 @@ public:
         , m_treeObjects{}
         , m_collideList{}
         , m_layer{}
-        , m_tree{ { 128, 64 }, 1, {0, 0} }
+        , m_tree{ { 256, 256 }, 5, {0, 0} }
         , m_colCount{ 0 }
     {
         m_layer.resize(100);
