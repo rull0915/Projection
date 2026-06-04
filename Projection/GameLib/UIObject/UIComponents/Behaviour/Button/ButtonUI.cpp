@@ -42,10 +42,10 @@ ButtonUI::~ButtonUI()
 /// <summary>
 /// 更新処理
 /// </summary>
-void ButtonUI::Update(float elapsedTime)
+void ButtonUI::Update(const GameTimer& gameTimer)
 {
 	// マウスの状態を調べる
-	elapsedTime;
+	gameTimer;
 
 	// 押されたとき
 	if (MouseInput::GetMouseDown(MOUSE_LEFT))

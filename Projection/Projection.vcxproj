@@ -185,6 +185,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DebugManager.h" />
     <ClInclude Include="GameLib\Common\Renderer\EachRenderer\IRenderer.h">
       <SubType>
       </SubType>
@@ -343,7 +344,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameLib\GameObject\Settings\Settings.h">
+    <ClInclude Include="GameLib\GameObject\Settings\TimeSettings.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -413,7 +414,11 @@
     <ClInclude Include="Game\GamePlayScene\Player\Player.h" />
     <ClInclude Include="Game\Screen.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="Timer\GameTimer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Timer\StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLib\Common\Renderer\EachRenderer\Model\ModelRenderer.cpp">
@@ -448,6 +453,10 @@
     <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\CapsuleCollider2D.cpp" />
     <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\CircleCollider2D.cpp" />
     <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider2D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\DebugManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -512,6 +521,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Timer\GameTimer.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

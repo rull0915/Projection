@@ -5,7 +5,8 @@
 #pragma once
 
 #include "DeviceResources.h"
-#include "StepTimer.h"
+#include "Timer/StepTimer.h"
+#include "Timer/GameTimer.h"
 
 #include <memory>
 
@@ -83,6 +84,9 @@ private:
 
     // コモンステート
     std::unique_ptr<DirectX::CommonStates> m_states;
+
+    // ゲームタイマー
+    GameTimer m_gameTimer;
 
     int m_stageCount;
 

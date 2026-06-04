@@ -61,7 +61,7 @@ public:
     //-----------------------------------------------------
 
     void Initialize() override;
-    void Update(float elapsedTime) override;
+    void Update(const GameTimer& gameTimer) override;
     void Render(Renderer& renderer) override;
     void Finalize() override;
 
@@ -88,7 +88,7 @@ private:
 
     void InitializeUITest();
 
-    void GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 });
+    void GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 });
 };
 
 // à⁄ìÆÉeÉXÉgä÷êî

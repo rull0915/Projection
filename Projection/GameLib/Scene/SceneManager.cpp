@@ -45,16 +45,16 @@ void SceneManager::RegisterScene(const std::string& sceneName, std::unique_ptr<S
 }
 
 // 更新処理
-void SceneManager::Update(float elapsedTime)
+void SceneManager::Update(const GameTimer& gameTimer)
 {
 	// シーンの更新
-	if (m_pCurrentScene) m_pCurrentScene->BaseUpdate(elapsedTime);
+	if (m_pCurrentScene) m_pCurrentScene->BaseUpdate(gameTimer);
 
 	switch (m_condition)
 	{
 	case TransCondition::In:
 
-		if (m_inTrans->Update(elapsedTime))
+		if (m_inTrans->Update(gameTimer.GetUnScaledElapsedTime()))
 		{
 			// シーンの変更
 			if (m_pRequestedScene) ChangeScene();
@@ -67,7 +67,7 @@ void SceneManager::Update(float elapsedTime)
 		break;
 	case TransCondition::Out:
 
-		if (m_outTrans->Update(elapsedTime))
+		if (m_outTrans->Update(gameTimer.GetUnScaledElapsedTime()))
 		{
 			m_condition = TransCondition::None;
 			m_inTrans = nullptr;

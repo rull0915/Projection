@@ -43,34 +43,42 @@ void Scene::BaseInitialize()
 	Initialize();
 }
 
-void Scene::BaseUpdate(float elapsedTime)
+void Scene::BaseUpdate(const GameTimer& gameTimer)
 {
 	// 派生クラスの更新
-	Update(elapsedTime);
+	Update(gameTimer);
 
 	// 各オブジェクトの更新
-	m_objectManager.Update(elapsedTime);
+	m_objectManager.Update(gameTimer);
 
 	// リジッドボディの更新
-	m_physicsManager.Update(elapsedTime);
+	m_physicsManager.Update(gameTimer.GetElapsedTime());
 
 	// 2Dリジッドボディの更新
-	m_physicsManager2D.Update(elapsedTime);
+	m_physicsManager2D.Update(gameTimer.GetElapsedTime());
 
 	// 衝突判定後の値の更新
 	m_objectManager.AllReflectCache();
 
+	// 衝突後関数の呼び出し
+	m_colEvent.CallCollideFunctions(m_physicsManager.GetHitList());
+	m_colEvent.CallCollideFunctions2D(m_physicsManager2D.GetHitList());
+
 	// カメラの更新
 	m_cameraManager.Update();
 
-	// 衝突後関数の呼び出し
-	m_colEvent.CallCollideFunctions(m_physicsManager.GetHitList());
+	// 各オブジェクトの遅延更新
+	m_objectManager.LateUpdate(gameTimer);
+
+	// 削除予約を消す
+	m_objectManager.RemoveDeadComponent();
+	m_objectManager.RemoveDeadObject();
 
 	// 描画管理クラスの更新
 	m_rendererManager.Update();
 
 	// UIの更新
-	m_uiManager.Update(elapsedTime);
+	m_uiManager.Update(gameTimer);
 }
 
 /// <summary>

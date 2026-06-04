@@ -76,7 +76,7 @@ public:
     //-----------------------------------------------------
 
     // 全コンポーネントを更新する関数
-    void UpdateComponets(float elapsedTime)
+    void UpdateComponets(const GameTimer& gameTimer)
     {
         for (auto& component : m_pComponents)
         {
@@ -91,18 +91,17 @@ public:
             }
 
             // 更新処理
-            component->Update(elapsedTime);
+            component->Update(gameTimer);
         }
     }
-    void LateUpdateComponents(float elapsedTime)
+    void LateUpdateComponents(const GameTimer& gameTimer)
     {
         for (auto& component : m_pComponents)
         {
             if (!component->IsActive()) continue;
 
-            elapsedTime;
             // 遅延更新処理
-            component->LateUpdate(elapsedTime);
+            component->LateUpdate(gameTimer);
         }
     }
 

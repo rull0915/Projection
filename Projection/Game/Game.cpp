@@ -10,7 +10,7 @@
 #include "GameLib/Input/KeyInput.h"
 #include "GameLib/Input/MouseInput.h"
 
-#include "Game/Screen.h"
+#include "DebugManager.h"
 
 extern void ExitGame() noexcept;
 
@@ -26,6 +26,7 @@ Game::Game() noexcept(false)
     , m_timeAccumulator{}
     , m_frameCount{}
     , m_renderer{}
+    , m_gameTimer{}
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -115,25 +116,21 @@ void Game::Update(DX::StepTimer const& timer)
     KeyInput::KeyUpdate();
     MouseInput::MouseUpdate();
 
-    // デバッグ用の一時停止処理
-    static bool stop = false;
-    if (KeyInput::GetKeyDown(DirectX::Keyboard::Keys::F1)) stop = !stop;
+    // デバッグマネージャーの更新
+    DebugManager::Instance().Update(elapsedTime);
 
-    if (stop)
-    {
-        if (KeyInput::GetKeyDown(DirectX::Keyboard::Keys::F2))
-        {
-            // 各シーンの更新
-            m_sceneManager.Update(elapsedTime);
-        }
-        return;
-    }
+    // タイマーの更新
+    m_gameTimer.Update(elapsedTime);
 
-    // 終了
+    // 終了チェック
     if (KeyInput::GetKeyDown(DirectX::Keyboard::Escape)) RequestExit();
 
     // 各シーンの更新
-    m_sceneManager.Update(elapsedTime);
+    if (
+        !DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
+         DebugManager::Instance().IsStepUpdate()      // ステップ実行フレーム
+        ) 
+        m_sceneManager.Update(m_gameTimer);
 }
 #pragma endregion
 

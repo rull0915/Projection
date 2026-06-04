@@ -67,7 +67,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
     }
 
     // AABB‚ÌXV
-    if (int count = m_worldVertices.size(); count > 0)
+    if (size_t count = m_worldVertices.size(); count > 0)
     {
         SimpleMath::Vector2 min = m_worldVertices[0], max = m_worldVertices[0];
 

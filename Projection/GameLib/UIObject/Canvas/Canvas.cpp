@@ -15,7 +15,7 @@
 #include "../UIComponents/Graphics/UIGraphic.h"
 #include "../Manager/UIManager.h"
 
-#include "GameLib/Input/KeyInput.h"
+#include "DebugManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -36,7 +36,7 @@ Canvas::Canvas(UIManager* uiManager)
 	rectTransform->SetPivot({ 0.5f, 0.5f });
 }
 
-void Canvas::Update(float elapsedTime)
+void Canvas::Update(const GameTimer& gameTimer)
 {
 	// 生成予約されたオブジェクトを登録
 	RegisterReservations();
@@ -48,7 +48,7 @@ void Canvas::Update(float elapsedTime)
 	for (auto& child : children)
 	{
 		// 子を更新
-		UpdateChild(child, elapsedTime);
+		UpdateChild(child, gameTimer);
 	}
 }
 
@@ -125,8 +125,8 @@ void Canvas::DrawChild(RectTransform* child, Renderer& renderer)
 		if (graphic->IsActive()) graphic->Draw(renderer);
 	}
 
-	// F4キーでRectTransformのデバッグ描画
-	if(KeyInput::GetKey(KeyCode::F4)) childObj->GetComponent<RectTransform>()->DebugRender(renderer);
+	// RectTransformのデバッグ描画
+	if(DebugManager::Instance().IsDrawRectTransform()) childObj->GetComponent<RectTransform>()->DebugRender(renderer);
 
 	// 再帰的に描画
 	for (auto grandChild : child->GetChildren())

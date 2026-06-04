@@ -94,6 +94,7 @@ namespace DX
 #include <string>
 
 #include "Game/Screen.h"
+#include "Timer/GameTimer.h"
 
 // Ã“I•Ï”‚Ì’è‹`
 constexpr auto PI_F = 3.14159265f;

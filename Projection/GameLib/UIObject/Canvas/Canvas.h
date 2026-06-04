@@ -63,7 +63,7 @@ public:
     // 公開関数
     //-----------------------------------------------------
 
-    void Update(float elapsedTime);
+    void Update(const GameTimer& gameTimer);
 
     void Draw(Renderer& renderer);
 
@@ -94,7 +94,7 @@ private:
     //-----------------------------------------------------
     // 内部実装
     //-----------------------------------------------------
-    void UpdateChild(RectTransform* child, float elapsedTime)
+    void UpdateChild(RectTransform* child, const GameTimer& gameTimer)
     {
         if (!child || !child->GetOwn()) return;
 
@@ -108,12 +108,12 @@ private:
         childObj->RegisterComponents();
 
         // コンポーネントを更新
-        childObj->ComponentsUpdate(elapsedTime);
+        childObj->ComponentsUpdate(gameTimer);
 
         // 再帰的に更新
         for (auto grandChild : child->GetChildren())
         {
-            UpdateChild(grandChild, elapsedTime);
+            UpdateChild(grandChild, gameTimer);
         }
 
         // コンポーネントを削除

@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "GameObject.h"
 
-#include "GameLib/Input/KeyInput.h"
+#include "DebugManager.h"
 
 struct HitContact;
 
@@ -31,21 +31,21 @@ GameObject::GameObject()
 {
 }
 
-void GameObject::BaseUpdate(float elapsedTime)
+void GameObject::BaseUpdate(const GameTimer& gameTimer)
 {
-    m_components.UpdateComponets(elapsedTime);
+    m_components.UpdateComponets(gameTimer);
 }
 
-void GameObject::BaseLateUpdate(float elapsedTime)
+void GameObject::BaseLateUpdate(const GameTimer& gameTimer)
 {
-    m_components.LateUpdateComponents(elapsedTime);
+    m_components.LateUpdateComponents(gameTimer);
 }
 
 void GameObject::BaseRender(Renderer& renderer)
 {
     // F3キーでコライダーのデバッグ描画
-//    if(KeyInput::GetKey(DirectX::Keyboard::Keys::F3)) 
-        CollidersDebugDraw(renderer, 0x00FFFF, true);
+    if (DebugManager::Instance().IsDrawColliderDebug())
+        CollidersDebugDraw(renderer, 0x00FFFF, DebugManager::Instance().IsDrawColliderDebugAABB());
 }
 
 void GameObject::BaseFinalize()

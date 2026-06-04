@@ -87,8 +87,8 @@ public:
     virtual void Awake() {}    // 作成直後
     virtual void Start() {}    // 初回更新の直前
 
-    virtual void Update([[maybe_unused]] float elapsedTime) {}  // 更新関数
-    virtual void LateUpdate([[maybe_unused]] float elapsedTime) {}  // 遅延更新関数
+    virtual void Update([[maybe_unused]] const GameTimer& gameTimer) {}  // 更新関数
+    virtual void LateUpdate([[maybe_unused]] const GameTimer& gameTimer) {}  // 遅延更新関数
 
     virtual void OnDestroy() {} // 削除時
 

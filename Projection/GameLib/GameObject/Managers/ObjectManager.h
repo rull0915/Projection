@@ -59,7 +59,10 @@ public:
     //-----------------------------------------------------
     
     // XVŠÖ”
-    void Update(float elapsedTime);
+    void Update(const GameTimer& gameTimer);
+    void LateUpdate(const GameTimer& gameTimer);
+
+    void RemoveDeadComponent();
 
     // •`‰æŠÖ”
     void Render(Renderer& renderer);

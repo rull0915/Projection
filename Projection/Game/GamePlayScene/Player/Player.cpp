@@ -41,9 +41,11 @@ void Player::Start()
 //	GetComponent<RigidBody>()->SetLinearDamping(3);
 }
 
-void Player::Update(float elapsedTime)
+void Player::Update(const GameTimer& gameTimer)
 {
 	DirectX::SimpleMath::Vector3 direction;
+
+	float elapsedTime = gameTimer.GetElapsedTime();
 
 	// ˆÚ“®
 	if (KeyInput::GetKey(KeyCode::A))
@@ -101,4 +103,10 @@ void Player::Update(float elapsedTime)
 
 		GetComponent<Transform>()->AddLocalEulerAngle({ targetX - rotX, 0, 0 });	
 	}
+}
+
+void Player::OnCollisionEnter2D(HitContact2D& contact)
+{
+	contact;
+	int a = 1 - 1;
 }

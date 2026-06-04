@@ -63,9 +63,9 @@ public:
     //-----------------------------------------------------
     GameObject();
 
-    void BaseUpdate(float elapsedTime);
+    void BaseUpdate(const GameTimer& gameTimer);
 
-    void BaseLateUpdate(float elapsedTime);
+    void BaseLateUpdate(const GameTimer& gameTimer);
 
     void BaseRender(Renderer& renderer);
 

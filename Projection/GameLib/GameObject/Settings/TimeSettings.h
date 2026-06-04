@@ -1,12 +1,12 @@
 //====================================================//
-// ファイル名   : Player.h
+// ファイル名   : TimeSettings.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/29
+// 作成日       : 2026/05/03
 //
-// 概要 : プレイヤークラス
+// 概要 : 時間関連の設定をまとめたクラスです。
 //
 // 更新履歴 :
-// 2026/05/29 新規作成
+// 2026/05/03 新規作成
 //====================================================//
 
 #pragma once
@@ -14,10 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
-#include "GameLib/GameObject/Components/Transform/Transform.h"
-
-#include "GameLib/GameObject/Components/Collider/PhysicsMaterial.h"
+#include <vector>
 
 //====================================================//
 // 前方宣言
@@ -27,53 +24,45 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class Player : public Component<Player, ComponentID::Player>
+class TimeSettings
 {
 private:
-
-    //-----------------------------------------------------
-    // 定数
-    //-----------------------------------------------------
-    static constexpr float MOVE_SPEED = 5.0f;
-
     //-----------------------------------------------------
     // メンバ変数
     //-----------------------------------------------------
-    Transform* m_pTransform;
 
-    PhysicsMaterial m_material;
+    // 時間のスケール
+    float m_timeScale;
 
-public:
+private:
 
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
+    TimeSettings()
+        : m_timeScale{ 1.0f }
+    {};
+    ~TimeSettings() = default;
 
-    Player(IComponentOwner* owner);
-    ~Player();
-
+public:
     //-----------------------------------------------------
     // 公開関数
     //-----------------------------------------------------
 
-    void Start() override;
-    void Update(const GameTimer& gameTimer) override;
-
-    void OnCollisionEnter2D(HitContact2D& contact) override;
+    // シングルトン化
+    static TimeSettings& Instance()
+    {
+        static TimeSettings instance;
+        return instance;
+    }
 
     //-----------------------------------------------------
     // ゲッター
     //-----------------------------------------------------
-
+    float GetTimeScale() const { return m_timeScale; }
 
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
-
-private:
-
-    //-----------------------------------------------------
-    // 内部実装
-    //-----------------------------------------------------
-
+    void SetTimeScale(float scale) { m_timeScale = scale; }
 };

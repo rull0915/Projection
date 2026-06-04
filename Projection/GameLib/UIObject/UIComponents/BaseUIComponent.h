@@ -63,7 +63,7 @@ public:
     virtual void Awake() {}
     virtual void Start() {}
 
-    virtual void Update([[maybe_unused]] float elapsedTime) {}
+    virtual void Update([[maybe_unused]] const GameTimer& gameTimer) {}
 
     virtual void OnDestroy() {}
 

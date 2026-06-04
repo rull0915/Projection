@@ -37,12 +37,15 @@ private:
     // メンバ変数
     //-----------------------------------------------------
     std::unordered_map<ObjectPair, HitContact, ObjectPairHash> m_prevMap;
+    std::unordered_map<ObjectPair2D, HitContact2D, ObjectPairHash2D> m_prevMap2D;
 
 public:
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
-    CollideEventSystem() : m_prevMap{} 
+    CollideEventSystem()
+        : m_prevMap{} 
+        , m_prevMap2D{}
     {};
     ~CollideEventSystem() {};
 
@@ -56,10 +59,15 @@ public:
         m_prevMap.clear();
     }
 
+    // コライダーを削除する関数
+    void RemoveCollider(BaseCollider* collider);
+    void RemoveCollider2D(BaseCollider2D* collider);
+
     //-----------------------------------------------------
     // ゲッター
     //-----------------------------------------------------
     void CallCollideFunctions(std::unordered_map<ObjectPair, HitContact, ObjectPairHash>& nowMap);
+    void CallCollideFunctions2D(std::unordered_map<ObjectPair2D, HitContact2D, ObjectPairHash2D>& nowMap);
 
     //-----------------------------------------------------
     // セッター
@@ -73,4 +81,8 @@ private:
     void OnEnter(HitContact& contact);
     void OnStay(HitContact& contact);
     void OnExit(HitContact& contact);
+
+    void OnEnter2D(HitContact2D& contact);
+    void OnStay2D(HitContact2D& contact);
+    void OnExit2D(HitContact2D& contact);
 };

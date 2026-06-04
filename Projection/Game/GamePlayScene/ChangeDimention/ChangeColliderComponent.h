@@ -43,7 +43,9 @@ public:
     //-----------------------------------------------------
     ChangeColliderComponent(IComponentOwner* owner)
         : Component(owner)
+        , m_3dColliders( 0 )
     {
+        m_3dColliders.clear();
     }
     ~ChangeColliderComponent() {};
 
@@ -56,6 +58,14 @@ public:
 
 	// 2次元から3次元へ切り替える関数
 	void Change2DTo3D();
+
+    // 2次元コライダーを更新する関数
+    void Update2DCollider(BaseCamera* pCamera)
+    {
+        // 再構築
+        Change2DTo3D();
+        Change3DTo2D(pCamera);
+    }
 
 private:
 

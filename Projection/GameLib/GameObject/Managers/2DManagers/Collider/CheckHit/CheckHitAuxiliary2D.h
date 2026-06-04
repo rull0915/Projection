@@ -169,7 +169,7 @@ float GetOverlap(const Projection& p1, const Projection& p2)
 // 点のリストの中で指定した点に最も近い点を取得する関数
 size_t GetNearestPoint(const std::vector<SimpleMath::Vector2>& points, const SimpleMath::Vector2& target)
 {
-    if (points.size() <= 0) return -1;
+    if (points.size() <= 0) return 0;
 
     // 近い点番号
     size_t index = 0;

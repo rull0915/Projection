@@ -3,7 +3,7 @@
 // 作成者      : Hoshino Ryunosuke
 // 作成日       : 2026/06/02
 //
-// 概要       : 
+// 概要       : コライダーの切り替えを行うコンポーネント
 //====================================================//
 
 //====================================================//
@@ -32,6 +32,15 @@ void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
 		// 2Dコライダーを生成
 		Create2DColliderFrom3D(pCamera, collider);
 	}
+
+	// 3D物理挙動を無効化
+	if (RigidBody* rid = GetOwn()->GetComponent<RigidBody>())
+	{
+		rid->SetActive(false);
+		rid->SetVelocity(DirectX::SimpleMath::Vector3::Zero);
+
+		static_cast<GameObject*>(GetOwn())->AddComponent<RigidBody2D>();
+	}
 }
 
 void ChangeColliderComponent::Change2DTo3D()
@@ -46,6 +55,14 @@ void ChangeColliderComponent::Change2DTo3D()
 	{
 		collider->SetActive(true);
 	}
+
+	// 2D物理挙動を削除する
+	if (RigidBody* rid = GetOwn()->GetComponent<RigidBody>())
+	{
+		rid->SetActive(true);
+
+		static_cast<GameObject*>(GetOwn())->RemoveComponents<RigidBody2D>();
+	}	
 }
 
 BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCamera, BaseCollider* p3DCol)
@@ -144,8 +161,8 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 		{
 			// 1週する順番になるように2,3を入れ替える
 			size_t bit = i;
-			if (i % 4 == 0) bit++;
-			if (i % 4 == 1) bit--;
+			if (i % 4 == 2) bit++;
+			if (i % 4 == 3) bit--;
 
 			// 3bitを各軸が+かどうかとして扱う
 			bool xPositive = bit & 0b100;
@@ -162,14 +179,12 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 
 			// 2Dに投影
 			points[i] = world3DToLocal2D(point3D);
-
-			//
 			points[i].y *= -1;
 		}
 
 		// 最も中心に近い点とその反対側にある点を含めないようにする
 
-		int index = -1;
+		size_t index = 0;
 		float min = FLT_MAX;
 
 		// 0~3まで回せばZ座標が同じ4点を調べられる

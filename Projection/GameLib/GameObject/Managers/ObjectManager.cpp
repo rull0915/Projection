@@ -47,8 +47,7 @@ ObjectManager::~ObjectManager()
 /// <summary>
 /// 更新関数
 /// </summary>
-/// <param name="elapsedTime">1fの経過時間</param>
-void ObjectManager::Update(float elapsedTime)
+void ObjectManager::Update(const GameTimer& gameTimer)
 {
 	// 予約されているオブジェクトを追加
 	AddReservedObject();
@@ -70,9 +69,28 @@ void ObjectManager::Update(float elapsedTime)
 		if (!object->IsActive()) continue;
 
 		// 更新処理
-		object->BaseUpdate(elapsedTime);
+		object->BaseUpdate(gameTimer);
 	}
+}
 
+/// <summary>
+/// 遅延更新関数
+/// </summary>
+void ObjectManager::LateUpdate(const GameTimer& gameTimer)
+{
+	// 全オブジェクトの遅延更新を呼び出す
+	for (auto& object : m_objects)
+	{
+		// アクティブチェック
+		if (!object->IsActive()) continue;
+
+		// 予約されたコンポーネントを追加
+		object->BaseLateUpdate(gameTimer);
+	}
+}
+
+void ObjectManager::RemoveDeadComponent()
+{
 	// 全オブジェクトの予約済みコンポーネントを削除
 	for (auto& object : m_objects)
 	{
@@ -82,9 +100,6 @@ void ObjectManager::Update(float elapsedTime)
 		// 予約されたコンポーネントを追加
 		object->GetComponentContainer().RemoveRegistered();
 	}
-
-	// 死亡オブジェクトの削除
-	RemoveDeadObject();
 }
 
 /// <summary>

@@ -76,7 +76,7 @@ public:
     // ------------ コンポーネント操作 ----------------- //
 
     // 全コンポーネントの更新関数
-    void ComponentsUpdate(float elapsedTime) 
+    void ComponentsUpdate(const GameTimer& gameTimer) 
     {
         for (auto& component : m_pComponents)
         {
@@ -91,7 +91,7 @@ public:
             }
 
             // 更新処理
-            component->Update(elapsedTime);
+            component->Update(gameTimer);
         }
     }
     // コンポーネントを追加する関数

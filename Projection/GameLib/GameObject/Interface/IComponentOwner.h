@@ -74,13 +74,6 @@ public:
 			T::IS_MAIN);
 	}
 
-    // ------ Add ------ //
-    template<typename T>
-    T* AddComponent()
-    {
-
-    }
-
     // --------- “à•”ŽÀ‘• ---------- //
 private:
     virtual BaseComponent* GetComponentRaw(

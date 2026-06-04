@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StepTimer.h">
+    <ClInclude Include="Timer\StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="DeviceResources.h">
@@ -337,7 +337,7 @@
     <ClInclude Include="GameLib\Scene\Scenes.h">
       <Filter>GameLib\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\GameObject\Settings\Settings.h">
+    <ClInclude Include="GameLib\GameObject\Settings\TimeSettings.h">
       <Filter>GameLib\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\Common\Renderer\RenderStateCache.h">
@@ -414,6 +414,8 @@
     <ClInclude Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider2D.h" />
     <ClInclude Include="GameLib\GameObject\Settings\WorldSetting2D.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
+    <ClInclude Include="DebugManager.h" />
+    <ClInclude Include="Timer\GameTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -580,6 +582,8 @@
     <ClCompile Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
     <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider2D.cpp" />
+    <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\DebugManager.cpp" />
+    <ClCompile Include="Timer\GameTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

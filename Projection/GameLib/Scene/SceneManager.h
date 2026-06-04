@@ -64,7 +64,7 @@ public:
 	void RegisterScene(const std::string& sceneName, std::unique_ptr<Scene> scene);
 
 	// XVˆ—
-	void Update(float elapsedTime);
+	void Update(const GameTimer& gameTimer);
 
 	// •`‰æˆ—
 	void Render(Renderer& renderer);

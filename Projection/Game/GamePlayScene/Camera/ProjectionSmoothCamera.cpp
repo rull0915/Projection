@@ -16,7 +16,7 @@
 #include "GameLib/GameMath/Easing.h"
 #include "GameLib/GameObject/Components/Transform/Transform.h"
 
-#include "GameLib/Input/KeyInput.h"
+#include "GameLib/GameObject/Settings/TimeSettings.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -35,13 +35,13 @@ ProjectionSmoothCamera::ProjectionSmoothCamera(IComponentOwner* owner)
 {
 }
 
-void ProjectionSmoothCamera::Update(float elapsedTime)
+void ProjectionSmoothCamera::Update(const GameTimer& gameTimer)
 {
 	// 変化中なら
 	if (m_isChanging)
 	{
 		// 加算する
-		m_nowTime += elapsedTime;
+		m_nowTime += gameTimer.GetUnScaledElapsedTime();
 
 		SetNeedUpdateProj(true);
 
@@ -52,6 +52,9 @@ void ProjectionSmoothCamera::Update(float elapsedTime)
 
 			// 変化を終了
 			m_isChanging = false;
+
+			// タイムスケールをもどす
+			TimeSettings::Instance().SetTimeScale(1.0f);
 		}
 	}
 }
@@ -95,6 +98,9 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 
 	m_changeTime = changeTime;
 	m_nowTime = 0.0f;
+
+	// タイムスケールを0にする
+	TimeSettings::Instance().SetTimeScale(0.0f);
 }
 
 void ProjectionSmoothCamera::UpdateView()

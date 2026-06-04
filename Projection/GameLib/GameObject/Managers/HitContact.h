@@ -164,4 +164,29 @@ struct HitContact2D
 
     // è’ìÀì_(ñ¢égóp)
     DirectX::SimpleMath::Vector2 point = DirectX::SimpleMath::Vector2::Zero;
+
+    HitContact2D Inverse() const
+    {
+        HitContact2D hit;
+
+        hit.own = other;
+        hit.other = own;
+
+        hit.ownRigid = otherRigid;
+        hit.otherRigid = ownRigid;
+
+        hit.ownCol = otherCol;
+        hit.otherCol = ownCol;
+
+        hit.isTrigger = isTrigger;
+
+        hit.ownIsStatic = otherIsStatic;
+        hit.otherIsStatic = ownIsStatic;
+
+        hit.normal = -normal;
+        hit.penetration = penetration;
+        hit.point = point;
+
+        return hit;
+    }
 };

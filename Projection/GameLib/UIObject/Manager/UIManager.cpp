@@ -28,7 +28,7 @@ UIManager::~UIManager()
 /// <summary>
 /// XVŠÖ”
 /// </summary>
-void UIManager::Update(float elapsedTime)
+void UIManager::Update(const GameTimer& gameTimer)
 {
 	// —\–ñÏ‚İ‚ğ“o˜^
 	RegisterReserveCanvases();
@@ -41,7 +41,7 @@ void UIManager::Update(float elapsedTime)
 	{
 		if (canvas->IsActive())
 		{
-			canvas->Update(elapsedTime);
+			canvas->Update(gameTimer);
 		}
 	}
 

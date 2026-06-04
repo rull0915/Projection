@@ -78,7 +78,7 @@ public:
     // ŒöŠJŠÖ”
     //-----------------------------------------------------
 
-    void Update(float elapsedTime) override;
+    void Update(const GameTimer& gameTimer) override;
 
     void ChangeProjectionMode(float changeTime = 1.0f);
 

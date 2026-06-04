@@ -63,6 +63,8 @@ enum class ComponentID
 
 	// コライダーの切り替えを行うコンポーネント
 	ChangeColliderComponent = 0x1000,
+	// プレイヤーに着けるコンポーネント
+	Player					= 0x1100,
 };
 
 // MAIN_IDのみを切り取る関数

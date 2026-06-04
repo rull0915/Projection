@@ -42,20 +42,12 @@ void GamePlayScene::Initialize()
 	// オブジェクトを生成
 	auto player = Generate();
 	player->AddComponent<Player>();
-//	auto box = player->AddComponent<BoxCollider>();
-//	box->SetLocalSize({ 2, 2, 2 });
-//	box->SetLayer(1);
-//	player->AddComponent<BoxCollider2D>()->SetLocalSize({ 2, 2 });
-	player->AddComponent<CapsuleCollider2D>()->SetHeight(5.0f);
-	//player->AddComponent<ConvexPolygonCollider2D>()->SetVertices({
-	//	{ -1, -1 },
-	//	{ -1, 1 },
-	//	{ 1, 1 },
-	//	{ 1, -1 },
-	//	});
+	player->AddComponent<SphereCollider>();// ->SetLocalSize({ 2, 2, 2 });
+	player->AddComponent<ModelComponent>()->SetModel("Template_Cube");
 
-//	player->AddComponent<RigidBody>()->SetUseGravity(false);
-	player->AddComponent<RigidBody2D>()->SetUseGravity(false);
+	player->AddComponent<RigidBody>()->SetUseGravity(true);
+	player->AddComponent<ChangeColliderComponent>();
+	m_stages.push_back(player);
 
 	// カメラをプレイヤーの子に
 	m_camera->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
@@ -63,27 +55,17 @@ void GamePlayScene::Initialize()
 
 	for (int i = 0; i < 10; i++) 
 		GenerateCube(
-			{ Random::GetFloat(-50, 50), Random::GetFloat(-50, 50), Random::GetFloat(-50, 50) },
+			{ Random::GetFloat(-30, 30), Random::GetFloat(-10, 10), Random::GetFloat(-30, 30) },
 			{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
 		);
 
-	// ConvexPolygonCollider2Dのテスト
-	{
-		m_testConvex = Generate();
-		m_testConvex->GetComponent<Transform>()->SetLocalPosition({ 0, -5, 0 });
-		auto convexCollider = m_testConvex->AddComponent<ConvexPolygonCollider2D>();
-		convexCollider->SetVertices({ {-1, -1}, { 1, -1.2f }, { 2, 0 }, {1, 1}, {0, 1} });
-	}
+	GenerateCube({ 0, -3, 0 }, { 10, 1, 10 });
 }
 
 // 更新関数 
-void GamePlayScene::Update(float elapsedTime)
+void GamePlayScene::Update(const GameTimer& gameTimer)
 {
 	RaycastHit hit;
-
-	// 回転させてみる
-	auto* convex = m_testConvex->GetComponent<ConvexPolygonCollider2D>();
-	//convex->SetRotation(convex->GetRotation() + elapsedTime);
 
 	if (KeyInput::GetKeyDown(KeyCode::Q))
 	{
@@ -175,13 +157,13 @@ void GamePlayScene::InitializeUITest()
 	}
 }
 
-void GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale)
+void GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rot)
 {
 	auto cube = Generate();
 	cube->AddComponent<ModelComponent>()->SetModel("Template_Cube");
 	cube->GetComponent<Transform>()->SetLocalPosition(position);
 	cube->GetComponent<Transform>()->SetLocalScale(scale);
-	cube->GetComponent<Transform>()->SetLocalEulerAngle({ scale });
+	cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
 	//cube->AddComponent<CapsuleCollider>()->SetHeight(3.0f);
 	cube->AddComponent<BoxCollider>();
 	//	->SetHeight(2.0f);

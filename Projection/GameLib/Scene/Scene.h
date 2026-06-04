@@ -69,8 +69,8 @@ public:
 	virtual void Initialize() = 0;
 
 	// XVˆ—
-	void BaseUpdate(float elapsedTime);
-	virtual void Update(float elapsedTime) = 0;
+	void BaseUpdate(const GameTimer& gameTimer);
+	virtual void Update(const GameTimer& gameTimer) = 0;
 
 	// •`‰æˆ—
 	void BaseRender(Renderer& renderer);
@@ -174,9 +174,11 @@ inline void Scene::UnRegsisterComponent(BaseComponent* component)
 		break;
 	case ComponentID::Collider:
 		m_physicsManager.GetCollideManager().RemoveCollide(static_cast<BaseCollider*>(component));
+		m_colEvent.RemoveCollider(static_cast<BaseCollider*>(component));
 		break;
 	case ComponentID::Collider2D:
 		m_physicsManager2D.GetCollideManager().RemoveCollide(static_cast<BaseCollider2D*>(component));
+		m_colEvent.RemoveCollider2D(static_cast<BaseCollider2D*>(component));
 		break;
 	case ComponentID::Renderer:
 		m_rendererManager.RemoveRenderer(static_cast<BaseRenderer*>(component));

@@ -56,7 +56,7 @@ public:
     // ŒöŠJŠÖ”
     //-----------------------------------------------------
 
-    void Update(float elapsedTime);
+    void Update(const GameTimer& gameTimer);
 
     void Draw(Renderer& renderer);
 

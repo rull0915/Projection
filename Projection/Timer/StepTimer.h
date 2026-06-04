@@ -26,44 +26,47 @@ namespace DX
             m_isFixedTimeStep(false),
             m_targetElapsedTicks(TicksPerSecond / 60)
         {
+            // 高精度カウンタをサポ�?トして�?���?��イスかを調べ�?
             if (!QueryPerformanceFrequency(&m_qpcFrequency))
             {
                 throw std::exception();
             }
 
+            // 高精度カウンタを取得できるか調べ�?
             if (!QueryPerformanceCounter(&m_qpcLastTime))
             {
                 throw std::exception();
             }
 
-            // Initialize max delta to 1/10 of a second.
+            // �?��タタイムの最大値�?1 / 10s に設定す�?
             m_qpcMaxDelta = static_cast<uint64_t>(m_qpcFrequency.QuadPart / 10);
         }
 
-        // Get elapsed time since the previous Update call.
+        // 前回のUpdate呼び出しから�?経過時間を取得す�?
         uint64_t GetElapsedTicks() const noexcept { return m_elapsedTicks; }
         double GetElapsedSeconds() const noexcept { return TicksToSeconds(m_elapsedTicks); }
 
-        // Get total time since the start of the program.
+        // プログラムが開始してからの合計時間を取得す�?
         uint64_t GetTotalTicks() const noexcept { return m_totalTicks; }
         double GetTotalSeconds() const noexcept { return TicksToSeconds(m_totalTicks); }
 
-        // Get total number of updates since start of the program.
+        // プログラムが開始されてからUpdateが呼ばれた回数を取得す�?
         uint32_t GetFrameCount() const noexcept { return m_frameCount; }
 
-        // Get the current framerate.
+        // 現在のFPSを取得す�?
         uint32_t GetFramesPerSecond() const noexcept { return m_framesPerSecond; }
 
-        // Set whether to use fixed or variable timestep mode.
+        // 固定か可変�?どちら�?タイムス�?��プを使�?��設定す�?
         void SetFixedTimeStep(bool isFixedTimestep) noexcept { m_isFixedTimeStep = isFixedTimestep; }
 
-        // Set how often to call Update when in fixed timestep mode.
+        // 固定タイムス�?��プ�?際、Updateが呼ばれる間隔を指定す�?
         void SetTargetElapsedTicks(uint64_t targetElapsed) noexcept { m_targetElapsedTicks = targetElapsed; }
         void SetTargetElapsedSeconds(double targetElapsed) noexcept { m_targetElapsedTicks = SecondsToTicks(targetElapsed); }
 
-        // Integer format represents time using 10,000,000 ticks per second.
+        // 整数形式では�?秒間に10,000,000�?���?��を使用して時間を表します�?
         static constexpr uint64_t TicksPerSecond = 10000000;
 
+        // �?���?��とタイムの変相互換
         static constexpr double TicksToSeconds(uint64_t ticks) noexcept { return static_cast<double>(ticks) / TicksPerSecond; }
         static constexpr uint64_t SecondsToTicks(double seconds) noexcept { return static_cast<uint64_t>(seconds * TicksPerSecond); }
 
@@ -91,17 +94,20 @@ namespace DX
             // Query the current time.
             LARGE_INTEGER currentTime;
 
+            // 高精度タイムを取�?
             if (!QueryPerformanceCounter(&currentTime))
             {
+                // 出来なかったら例外�?�?
                 throw std::exception();
             }
 
+            // 前�?フレームとの差�?��取る
             uint64_t timeDelta = static_cast<uint64_t>(currentTime.QuadPart - m_qpcLastTime.QuadPart);
 
             m_qpcLastTime = currentTime;
             m_qpcSecondCounter += timeDelta;
 
-            // Clamp excessively large time deltas (e.g. after paused in the debugger).
+            // 設定した最大値でクランプす�?
             if (timeDelta > m_qpcMaxDelta)
             {
                 timeDelta = m_qpcMaxDelta;
@@ -113,6 +119,7 @@ namespace DX
 
             const uint32_t lastFrameCount = m_frameCount;
 
+            // 固定モード�?場�?
             if (m_isFixedTimeStep)
             {
                 // Fixed timestep update logic
@@ -124,13 +131,16 @@ namespace DX
                 // accumulate enough tiny errors that it would drop a frame. It is better to just round
                 // small deviations down to zero to leave things running smoothly.
 
+                // 現在の経過時間が目標から誤差1/4ms以�?���?
                 if (static_cast<uint64_t>(std::abs(static_cast<int64_t>(timeDelta - m_targetElapsedTicks))) < TicksPerSecond / 4000)
                 {
+                    // 丸�?
                     timeDelta = m_targetElapsedTicks;
                 }
 
                 m_leftOverTicks += timeDelta;
 
+                // 前�?実行から�?み出した�?��けupdateを実�?
                 while (m_leftOverTicks >= m_targetElapsedTicks)
                 {
                     m_elapsedTicks = m_targetElapsedTicks;
@@ -141,14 +151,16 @@ namespace DX
                     update();
                 }
             }
+            // 可変モード�?場�?
             else
             {
-                // Variable timestep update logic.
+                // 時間を更新
                 m_elapsedTicks = timeDelta;
                 m_totalTicks += timeDelta;
                 m_leftOverTicks = 0;
                 m_frameCount++;
 
+                // 更新処�?��び出�?
                 update();
             }
 
