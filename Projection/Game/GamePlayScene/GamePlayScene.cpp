@@ -42,10 +42,10 @@ void GamePlayScene::Initialize()
 	// オブジェクトを生成
 	auto player = Generate();
 	player->AddComponent<Player>();
-	player->AddComponent<SphereCollider>();// ->SetLocalSize({ 2, 2, 2 });
+	player->AddComponent<BoxCollider>();// ->SetLocalSize({ 2, 2, 2 });
 	player->AddComponent<ModelComponent>()->SetModel("Template_Cube");
 
-	player->AddComponent<RigidBody>()->SetUseGravity(true);
+	player->AddComponent<RigidBody>()->SetUseGravity(false);
 	player->AddComponent<ChangeColliderComponent>();
 	m_stages.push_back(player);
 
@@ -53,16 +53,14 @@ void GamePlayScene::Initialize()
 	m_camera->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
 	m_camera->GetComponent<Transform>()->SetLocalPosition({ 0, 0, 10 });
 
-	for (int i = 0; i < 10; i++) 
+	for (int i = 0; i < 20; i++) 
 		GenerateCube(
 			{ Random::GetFloat(-30, 30), Random::GetFloat(-10, 10), Random::GetFloat(-30, 30) },
 			{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
 		);
-
-	GenerateCube({ 0, -3, 0 }, { 10, 1, 10 });
 }
 
-// 更新関数 
+// 更新関数
 void GamePlayScene::Update(const GameTimer& gameTimer)
 {
 	RaycastHit hit;
@@ -78,7 +76,7 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 		// 2次元フラグ
 		bool is3D = camera->GetProjectionType() == ProjectionType::Perspective;
 
-		camera->ChangeProjectionMode();
+		camera->ChangeProjectionMode(0.1f);
 
 		// 2次元世界の軸を変更
 		if (is3D)

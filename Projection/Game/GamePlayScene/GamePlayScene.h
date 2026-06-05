@@ -41,7 +41,6 @@ private:
     Game* m_pGame;
 
     GameObject* m_camera;
-    GameObject* m_testConvex;
 
 	Canvas* m_pTestCanvas;
 	UIObject* m_pTestUI;
@@ -90,19 +89,3 @@ private:
 
     void GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 });
 };
-
-// ˆÚ“®ƒeƒXƒgŠÖ”
-static DirectX::SimpleMath::Vector3 MoveMotion(float ratio)
-{
-	//// ”¼Œa		
- //   float radius = 10.0f;
-
- //   // 0~1‚Åˆêü
-	//float angle = PI_F * 2 * ratio;
-	//return DirectX::SimpleMath::Vector3(radius * std::cos(angle), radius * std::sin(angle), 1);
-
-    DirectX::SimpleMath::Vector3 start = { 0, 0, 0 }, end = { 50, 0, 0 };
-
-    float newRatio = Easing::EaseInOutQuad(ratio);
-    return DirectX::SimpleMath::Vector3::Lerp(start, end, newRatio);
-}

@@ -96,9 +96,11 @@ public:
 
 	// コンポーネントを登録する関数
 	void RegisterComponent(BaseComponent* component);
+	virtual void RegisterComponentOnDerived([[maybe_unused]] BaseComponent* component) {};
 
 	// コンポーネントの登録を解除する関数
 	void UnRegsisterComponent(BaseComponent* component);
+	virtual void UnRegisterComponentOnDerived([[maybe_unused]] BaseComponent* component) {};
 
 protected:
 
@@ -155,6 +157,8 @@ inline void Scene::RegisterComponent(BaseComponent* component)
 	default:
 		break;
 	}
+
+	RegisterComponentOnDerived(component);
 }
 
 inline void Scene::UnRegsisterComponent(BaseComponent* component)
@@ -186,4 +190,6 @@ inline void Scene::UnRegsisterComponent(BaseComponent* component)
 	default:
 		break;
 	}
+	
+	UnRegisterComponentOnDerived(component);
 }

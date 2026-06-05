@@ -78,6 +78,9 @@ public:
     // 頂点を追加する関数
     void AddVertex(const DirectX::SimpleMath::Vector2& vertex)
     {
+        // 既にその点が存在していれば追加しない
+        if (IsContain(vertex)) return;
+
         m_localVertices.push_back(vertex);
 
         // もし追加されることで凸でなくなる場合削除する
@@ -116,6 +119,10 @@ public:
     void UpdateCache() const override;
     void DebugDraw(Renderer& renderer, int color) const override;
 
+private: 
     // 凸法であるか調べる関数
 	bool IsConvex() const;
+
+    // 既に同じ点が含まれているか調べる関数
+    bool IsContain(const DirectX::SimpleMath::Vector2& point);
 };

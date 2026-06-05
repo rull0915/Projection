@@ -85,6 +85,12 @@ void ConvexPolygonCollider2D::UpdateCache() const
 
         SetBoundingBox(boundingBox);
     }
+
+    // フラグのリセット
+    ResetDirty();
+    SetChanged(true);
+
+    ApplyVersion();
 }
 
 void ConvexPolygonCollider2D::DebugDraw(Renderer & renderer, int color) const
@@ -146,4 +152,14 @@ bool ConvexPolygonCollider2D::IsConvex() const
     }
 
     return true;
+}
+
+bool ConvexPolygonCollider2D::IsContain(const DirectX::SimpleMath::Vector2& point)
+{
+    for (auto& vertex : m_localVertices)
+    {
+        if ((vertex - point).LengthSquared() < FLT_EPSILON) return true;
+    }
+
+    return false;
 }

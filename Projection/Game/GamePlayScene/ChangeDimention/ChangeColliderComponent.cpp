@@ -39,7 +39,7 @@ void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
 		rid->SetActive(false);
 		rid->SetVelocity(DirectX::SimpleMath::Vector3::Zero);
 
-		static_cast<GameObject*>(GetOwn())->AddComponent<RigidBody2D>();
+		static_cast<GameObject*>(GetOwn())->AddComponent<RigidBody2D>()->SetUseGravity(false);
 	}
 }
 

@@ -236,23 +236,27 @@ public:
     //-----------------------------------------------------
     void AddLocalPosition(const DirectX::SimpleMath::Vector3& value)
     {
+        if (value.LengthSquared() < FLT_EPSILON) return;
         m_localPosition += value;
         SetDirty();
     }
     void AddLocalEulerAngle(const DirectX::SimpleMath::Vector3& rot)
     {
+        if (rot.LengthSquared() < FLT_EPSILON) return;
         DirectX::SimpleMath::Vector3 euler = GetLocalEulerAngle();
         m_localRotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler + rot);
         SetDirty();
     }
     void AddWorldPosition(const DirectX::SimpleMath::Vector3 value)
     {
+        if (value.LengthSquared() < FLT_EPSILON) return;
         SetWorldPosition(GetWorldPosition() + value);
         SetDirty();
     }
     // キャッシュの値を増やす関数
     inline void AddCache(const DirectX::SimpleMath::Vector3& value)
     {    
+        if (value.LengthSquared() < FLT_EPSILON) return;
         m_addCache += value; 
         m_changeCache = true;
     };
