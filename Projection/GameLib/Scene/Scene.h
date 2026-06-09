@@ -81,18 +81,16 @@ public:
 	virtual void Finalize() = 0;
 
 public:
-	// 各マネージャーのゲッター
+	// ----- 各マネージャーのゲッター ----- //
 	PhysicsManager& GetPhysics() { return m_physicsManager; }
 	PhysicsManager2D& GetPhysics2D() { return m_physicsManager2D; }
-
 	CameraManager& GetCamera() { return m_cameraManager; }
 	RendererManager& GetRenderer() { return m_rendererManager; }
 	ObjectManager& GetObject(){ return m_objectManager; }
-
 	UIManager& GetUI() { return m_uiManager; }
 
 	// オブジェクトを生成する関数
-	GameObject* Generate();
+	GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
 	// コンポーネントを登録する関数
 	void RegisterComponent(BaseComponent* component);
@@ -108,7 +106,7 @@ protected:
 	void ChangeScene(const std::string& nextSceneName, std::unique_ptr<SceneTransition> inTrans, std::unique_ptr<SceneTransition> outTrans);
 };
 
-inline GameObject* Scene::Generate()
+inline GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)
 {
 	// GameObject派生クラスであれば
 
@@ -120,6 +118,9 @@ inline GameObject* Scene::Generate()
 
 	// オブジェクト管理クラスに追加
 	m_objectManager.AddObject(pObj);
+
+	// 位置を設定
+	pObj->GetComponent<Transform>()->SetLocalPosition(position);
 
 	// 作成したポインタを返す
 	return pObj;

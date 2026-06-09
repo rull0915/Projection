@@ -13,6 +13,7 @@
 #include "GameObject.h"
 
 #include "DebugManager.h"
+#include "GameLib/Scene/Scene.h"
 
 struct HitContact;
 
@@ -54,6 +55,11 @@ void GameObject::BaseFinalize()
     RemoveComponents();
 
     GetComponentContainer().RemoveRegistered();
+}
+
+GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
+{
+    return m_pScene->Generate(position);
 }
 
 /// <summary>

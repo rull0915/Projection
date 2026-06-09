@@ -10,7 +10,6 @@
 #include "ChangeDimention/ChangeColliderComponent.h"
 
 #include "GameLib/Input/KeyInput.h"
-#include "GameLib/Random.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -38,7 +37,7 @@ void GamePlayScene::Initialize()
 	auto cameraComponent = m_camera->AddComponent<ProjectionSmoothCamera>();
 	GetCamera().SetMainCamera(cameraComponent);
 
-	// オブジェクトを生成
+	// プレイヤーを生成
 	{
 		m_player = Generate();
 		m_player->AddComponent<Player>();
@@ -55,14 +54,10 @@ void GamePlayScene::Initialize()
 	}
 
 	GenerateCube({ 0, -3, 0 }, { 3, 1, 3 });
+	GenerateCube({ 0, -3, -10 }, { 3, 1, 3 });
 
-	// 
-	for (int i = 0; i < 20; i++) 
-		GenerateCube(
-			{ Random::GetFloat(-30, 30), Random::GetFloat(-10, 10), Random::GetFloat(-30, 30) }
-			,{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
-			,{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
-		);
+
+	for (int i = 0; i < 1000; i++) GenerateCube({ i + 0.0f, 0, 0 }, { 1.0f, 1.0f, 1.0f });
 
 	// 
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
@@ -75,22 +70,7 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 
 	if (KeyInput::GetKeyDown(KeyCode::Q))
 	{
-		if (m_dimentionManager.GetIs2D())
-		{
-			m_camera->GetComponent<TPSCamera>()->SetActive(true);
-
-			m_camera->GetComponent<Transform>()->SetParent(nullptr);
-		}
-		else
-		{
-			m_camera->GetComponent<TPSCamera>()->SetActive(false);
-
-			m_camera->GetComponent<Transform>()->SetParent(m_player->GetComponent<Transform>());
-		}
-
-		m_dimentionManager.ChangeDimention();
-
-		m_player->GetComponent<Player>()->ChangeDimention();
+		TryChangeDimention();
 	}
 }
 
@@ -122,6 +102,14 @@ void GamePlayScene::Render(Renderer& renderer)
 	}
 
 	renderer;
+
+	//renderer.Draw().Sprite()
+	//	//.Rotate(PI_F / 2)
+	//	.Origin(Origin::Type::Center)
+	//	.Extend({ 1.0f, 2.0f })
+	//	.Execute(
+	//	ResourceManager::Instance().GetTexture("TemplateImage"), { 100, 100 }, 0xFFFFFF
+	//);
 }
 
 // 終了関数
@@ -188,13 +176,42 @@ void GamePlayScene::InitializeUITest()
 
 void GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rot)
 {
-	auto cube = Generate();
+	auto cube = Generate(position);
 	cube->AddComponent<ModelComponent>()->SetModel("Template_Cube");
-	cube->GetComponent<Transform>()->SetLocalPosition(position);
 	cube->GetComponent<Transform>()->SetLocalScale(scale);
 	cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
 	cube->AddComponent<BoxCollider>();
 	cube->AddComponent<ChangeColliderComponent>();
 
 	cube->SetTag(L"Floor");
+}
+
+void GamePlayScene::TryChangeDimention()
+{
+	// 切り替え中なら何もしない
+	if (m_dimentionManager.IsChanging()) return;
+
+	// 2D->3D
+	if (m_dimentionManager.GetIs2D())
+	{
+		// TPSをアクティブ化
+		m_camera->GetComponent<TPSCamera>()->SetActive(true);
+
+		// カメラの親子関係を解除
+		m_camera->GetComponent<Transform>()->SetParent(nullptr);
+	}
+	else
+	{
+		// TPSカメラを非アクティブ化
+		m_camera->GetComponent<TPSCamera>()->SetActive(false);
+
+		// カメラをプレイヤーの子に設定
+		m_camera->GetComponent<Transform>()->SetParent(m_player->GetComponent<Transform>());
+	}
+
+	// 次元の切り替え
+	m_dimentionManager.ChangeDimention();
+
+	// プレイヤーの切り替え
+	m_player->GetComponent<Player>()->ChangeDimention();
 }

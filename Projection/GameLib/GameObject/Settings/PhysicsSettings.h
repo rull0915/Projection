@@ -43,6 +43,7 @@ private:
 
     // 重力の向き
     DirectX::SimpleMath::Vector3 gravityDirection;
+    DirectX::SimpleMath::Vector2 gravityDirection2D;
 
     // 各レイヤーが衝突するか
     std::array<std::array<bool, LAYER_MAX>, LAYER_MAX> hitLayer;
@@ -52,8 +53,9 @@ private:
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
     PhysicsSettings()
-        : gravityScale{ 19.6f }
+        : gravityScale{ 30.0f }
         , gravityDirection{ 0, -1.0f, 0 }
+        , gravityDirection2D{ 0, -1.0f }
         , hitLayer{ true }
     {
     }
@@ -82,6 +84,7 @@ public:
     }
     inline float GetGravityScale() const { return gravityScale; }
     inline const DirectX::SimpleMath::Vector3& GetGravityDirection() const { return gravityDirection; }
+    inline const DirectX::SimpleMath::Vector2& GetGravityDirection2D() const { return gravityDirection2D; }
 
     //-----------------------------------------------------
     // セッター

@@ -99,6 +99,13 @@ public:
         m_pCamera = camera;
     }
 
+    // Ø‚è‘Ö‚¦’†‚©’²‚×‚éŠÖ”
+    bool IsChanging() const
+    {
+        return m_nowState == State::ChangeTo2D || m_nowState == State::ChangeTo3D;
+    }
+
+
 private:
 
     //-----------------------------------------------------

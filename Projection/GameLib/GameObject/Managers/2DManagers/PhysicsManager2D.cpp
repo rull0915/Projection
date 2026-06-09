@@ -16,6 +16,7 @@
 #include "GameLib/GameMath/GameMath.h"
 
 #include "GameLib/GameObject/Settings/WorldSetting2D.h"
+#include "GameLib/GameObject/Settings/PhysicsSettings.h"
 
 //====================================================//
 // ä÷êîÇÃé¿ëÃêÈåæ
@@ -56,7 +57,9 @@ void PhysicsManager2D::Update(float elapsedTime)
 
 		if (body->IsStatic() || !body->IsUseGravity()) continue;
 
-		if(!body->IsSleep()) body->AddForce(m_gravityVec * m_gravityPower, ForceMode::Acceleration, false);
+		if(!body->IsSleep()) body->AddForce(
+			PhysicsSettings::Instance().GetGravityScale() * PhysicsSettings::Instance().GetGravityDirection2D(), 
+			ForceMode::Acceleration, false);
 	}
 
 	// à íuÇÃçXêV

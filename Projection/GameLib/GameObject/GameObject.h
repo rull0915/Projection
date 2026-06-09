@@ -78,6 +78,8 @@ public:
 
     void BaseFinalize();
 
+    GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
+
     //-----------------------------------------------------
     // ÉQÉbÉ^Å[
     //-----------------------------------------------------

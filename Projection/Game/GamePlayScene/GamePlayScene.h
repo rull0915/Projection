@@ -78,7 +78,6 @@ public:
     // ゲッター
     //-----------------------------------------------------
 
-
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
@@ -92,4 +91,7 @@ private:
     void InitializeUITest();
 
     void GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 });
+
+    // 次元変更を行う関数
+    void TryChangeDimention();
 };
