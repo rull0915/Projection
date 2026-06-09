@@ -69,11 +69,12 @@ void BoxCollider2D::DebugDraw(Renderer& renderer, int color) const
     // ワールド行列の算出(Rot,Pos)
     SimpleMath::Vector2 pos = GetWorldCenterPos();
 
+    // 情報を取得
     SimpleMath::Vector2 halfSize = GetHalfSize();
     SimpleMath::Vector2 xA = GetXAxis();
     SimpleMath::Vector2 yA = GetYAxis();
 
-    // PointList
+    // 点を生成
     std::array<SimpleMath::Vector2, 4> points =
     {
         pos + (halfSize.x * xA + halfSize.y * yA),
@@ -82,10 +83,12 @@ void BoxCollider2D::DebugDraw(Renderer& renderer, int color) const
         pos + (-halfSize.x * xA + halfSize.y * yA),
     };
 
+    // 2D世界の情報を取得
     auto& world2D = WorldSetting2D::Instance();
 
     DirectX::SimpleMath::Vector3 right = world2D.GetXAxis(), up = world2D.GetYAxis();
 
+    // ワールド座標系での情報に変換
     std::array<SimpleMath::Vector3, 4> worldPoints =
     {
         right * points[0].x + up * points[0].y,
@@ -94,6 +97,7 @@ void BoxCollider2D::DebugDraw(Renderer& renderer, int color) const
         right * points[3].x + up * points[3].y
     };
 
+    // 描画
     for (int i = 0; i < 4; i++)
     {
         renderer.Draw().Line(

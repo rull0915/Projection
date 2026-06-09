@@ -19,7 +19,6 @@
 #include <unordered_set>
 
 // 衝突判定
-#include "CheckHit/CheckHit.h"
 #include "SpaceDivision/TreeManager.h"
 #include "../../HitContact.h"
 
@@ -51,9 +50,6 @@ private:
     std::vector<BaseCollider*> m_colliders;
     std::vector<ObjectForTree*> m_treeObjects;
 
-    // レイヤー管理
-    std::vector<std::vector<bool>> m_layer;
-
     // 木構造
     TreeManager m_tree;
 
@@ -67,11 +63,8 @@ public:
         , m_removeReserves{}
         , m_colliders{}
         , m_treeObjects{}
-        , m_layer{}
         , m_tree{ { 256, 256, 256 }, 5, {0, 0, 0} }
     {
-        m_layer.resize(100);
-        for (auto& col : m_layer) col.resize(100);
     };
 
     ~CollideManager() = default;
@@ -88,16 +81,6 @@ public:
         // 削除予約リストに追加
         m_removeReserves.insert(collide);
     }
-
-    /// <summary>
-    /// レイヤー同士の衝突の有無を管理する関数
-    /// </summary>
-    void SetCollideActive(int layerA, int layerB, bool isActive)
-    {
-        // 双方の条件を変更
-        m_layer[layerA][layerB] = isActive;
-        m_layer[layerB][layerA] = isActive;
-    };
 
     // 登録予約済みのコライダーを追加する関数
     void AddReserved();

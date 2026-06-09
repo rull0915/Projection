@@ -113,7 +113,7 @@ DirectX::SimpleMath::Vector2 MouseInput::GetMouseMoveValue()
 {
 	if (m_nowMouseState.positionMode == DirectX::Mouse::Mode::MODE_ABSOLUTE) 
 	{
-		GetMousePoint() - GetOldMousePoint();
+		return GetMousePoint() - GetOldMousePoint();
 	}
 	if (m_nowMouseState.positionMode == DirectX::Mouse::Mode::MODE_RELATIVE) 
 	{

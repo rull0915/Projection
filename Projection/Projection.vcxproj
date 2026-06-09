@@ -409,7 +409,9 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
     <ClInclude Include="Game\GamePlayScene\GamePlayScene.h" />
     <ClInclude Include="Game\GamePlayScene\Player\Player.h" />
     <ClInclude Include="Game\Screen.h" />
@@ -512,7 +514,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\GamePlayScene.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\Player.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -537,6 +541,7 @@
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

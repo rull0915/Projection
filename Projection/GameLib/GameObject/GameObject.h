@@ -8,6 +8,7 @@
 // 更新履歴 :
 // 2026/03/19 新規作成
 // 2026/05/28 final指定に変更し、コンポーネントを保持するだけの器という設計に変更
+// 2026/06/02 必要なインターフェースを継承する設計に変更
 //====================================================//
 
 #pragma once
@@ -33,7 +34,9 @@ class Renderer;
 //====================================================//
 // クラス宣言
 //====================================================//
-class GameObject final : public IComponentOwner, public IColliderReceiver
+class GameObject final 
+    : public IComponentOwner        // コンポーネントに公開するインターフェース
+    , public IColliderReceiver      // コライダーの衝突応答を受け取るインターフェース
 {
     //-----------------------------------------------------
     // メンバ変数
@@ -54,7 +57,7 @@ private:
 
 public:
     // タグ
-    std::string m_tag;
+    std::wstring m_tag;
 
 public:
 
@@ -62,6 +65,10 @@ public:
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
     GameObject();
+
+    //-----------------------------------------------------
+    // 公開関数
+    //-----------------------------------------------------
 
     void BaseUpdate(const GameTimer& gameTimer);
 
@@ -78,6 +85,8 @@ public:
     
     bool IsDead() const { return m_isDead; }
 
+    const std::wstring& GetTag() const override { return m_tag; }
+
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
@@ -88,6 +97,8 @@ public:
         m_pScene = scene; 
         m_components.SetScene(scene);
     }
+
+    void SetTag(const std::wstring& tag) override { m_tag = tag; }
 
     void Destroy() override { m_isDead = true; }
 
@@ -210,12 +221,16 @@ public:
 
     // ----- 内部実装 ------- //
 private:
+
+    // コンポーネントを取得するラップ関数
     BaseComponent* GetComponentRaw(
         ComponentID id,
         bool isMain) override
     {
         return m_components.Get(id, isMain);
     }
+
+    // 全てのコンポーネントを取得するラップ関数
 	void GetComponentsRaw(
 		ComponentID id,
 		bool isMain,
@@ -224,6 +239,7 @@ private:
 		m_components.Gets(id, isMain, out);
 	}
 
+    // コンポーネントがあるかを調べるラップ関数
     bool HasComponentRaw(
         ComponentID id,
         bool isMain) override

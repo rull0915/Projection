@@ -71,12 +71,3 @@ inline bool CheckAABB(const AABB& aabb1, const AABB& aabb2)
 
 	return true;
 }
-
-//// 線と球
-//bool CheckHit(LineCollider* col1, SphereCollider* col2);
-//
-//// 線とカプセル
-//bool CheckHit(LineCollider* col1, CapsuleCollider* col2);
-//
-//// 線とボックス
-//bool CheckHit(LineCollider* col1, BoxCollider* col2);

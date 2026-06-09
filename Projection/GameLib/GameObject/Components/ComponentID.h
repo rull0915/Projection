@@ -65,6 +65,8 @@ enum class ComponentID
 	ChangeColliderComponent = 0x1000,
 	// プレイヤーに着けるコンポーネント
 	Player					= 0x1100,
+	// カメラをTPS用に動かすコンポーネント
+	TPSCamera				= 0x1200,
 };
 
 // MAIN_IDのみを切り取る関数

@@ -15,7 +15,6 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <map>
 #include <string>
 #include <functional>
 
@@ -50,7 +49,7 @@ private:
     BaseState<Parent>* m_nowState;
 
     // ステート一覧
-    std::map<std::string, BaseState<Parent>*> m_states;
+    std::unordered_map<std::string, BaseState<Parent>*> m_states;
 
     // 変更先のステート名
     std::string m_changeStateName;

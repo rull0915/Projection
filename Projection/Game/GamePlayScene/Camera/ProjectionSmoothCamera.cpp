@@ -155,7 +155,7 @@ void ProjectionSmoothCamera::UpdateProj()
 
 			// OrthographicÇ©ÇÁçÏê¨
 			SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(
-				m_size * m_aspect, m_size, m_nearZ, m_farZ
+				m_size * m_aspect, m_size, -1000.0f, m_farZ
 			));
 
 			break;

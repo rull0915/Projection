@@ -12,20 +12,6 @@
 #include "pch.h"
 #include "ObjectManager.h"
 
-// 2Dマネージャー
-#include "2DManagers/Collider/CollideManager2D.h"
-#include "2DManagers/PhysicsManager2D.h"
-
-// 3Dマネージャー
-#include "3DManagers/Collider/CollideManager.h"
-#include "3DManagers/PhysicsManager.h"
-#include "System/CollideEventSystem.h"
-
-// その他マネージャー
-#include "CameraManager.h"
-
-#include "GameLib/Resources/ResourceManager.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//

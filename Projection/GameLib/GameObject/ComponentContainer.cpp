@@ -54,12 +54,14 @@ void ComponentContainer::RemoveRegistered()
         // コンポーネントをマネージャーから削除
         if (m_pScene) UnRegisterComponentToScene(component);
 
-        // 配列から削除
-        auto it = std::find_if(m_pComponents.begin(), m_pComponents.end(),
+        // 探索
+        auto it = std::find_if(
+            m_pComponents.begin(), m_pComponents.end(),
             [&component](const std::unique_ptr<BaseComponent>& ptr) {
                 return ptr.get() == component;
             });
 
+        // 見つかれば削除
         if (it != m_pComponents.end())
         {
             m_pComponents.erase(it);

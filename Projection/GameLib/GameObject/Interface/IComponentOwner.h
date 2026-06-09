@@ -27,10 +27,15 @@ class BaseComponent;
 //====================================================//
 class IComponentOwner
 {
-    // --------- ŒöŠJŠÖ” ---------- //
+    // ============ ŒöŠJŠÖ” ============ //
 public:
 
     virtual ~IComponentOwner() = default;
+
+    virtual const std::wstring& GetTag() const = 0;
+    virtual void SetTag(const std::wstring& tag) = 0;
+
+    // -------- ComponentŠÖ˜A -------- //
 
     // ------ Get ------ //
 	template<typename T>

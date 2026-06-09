@@ -3,16 +3,14 @@
 #include "GamePlayScene.h"
 #include "../Game.h"
 
-#include "GameLib/GameObject/Components/Camera/Derived/StandardCamera.h"
 #include "Camera/ProjectionSmoothCamera.h"
+#include "Camera/TPSCamera.h"
 #include "Player/Player.h"
 
 #include "ChangeDimention/ChangeColliderComponent.h"
 
 #include "GameLib/Input/KeyInput.h"
 #include "GameLib/Random.h"
-
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -21,6 +19,7 @@ GamePlayScene::GamePlayScene(Game* pGame)
 	, m_camera{ nullptr }
 	, m_pTestCanvas{ nullptr }
 	, m_pTestUI{ nullptr }
+	, m_player{ nullptr }
 {
 }
 
@@ -35,85 +34,117 @@ void GamePlayScene::Initialize()
 	// カメラ
 	m_camera = Generate();
 
-	auto cameraComponent = m_camera->AddComponent<ProjectionSmoothCamera>();
 	// メインカメラに設定
+	auto cameraComponent = m_camera->AddComponent<ProjectionSmoothCamera>();
 	GetCamera().SetMainCamera(cameraComponent);
 
 	// オブジェクトを生成
-	auto player = Generate();
-	player->AddComponent<Player>();
-	player->AddComponent<BoxCollider>();// ->SetLocalSize({ 2, 2, 2 });
-	player->AddComponent<ModelComponent>()->SetModel("Template_Cube");
+	{
+		m_player = Generate();
+		m_player->AddComponent<Player>();
+		m_player->AddComponent<BoxCollider>();
+		auto rand = m_player->AddComponent<BoxCollider>();// 着地判定用のコライダーを生成
+		rand->SetTrigger(true);
+		rand->SetLocalPos({ 0, -0.55f, 0 });
+		rand->SetLocalSize({ 1, 0.1f, 1 });
+		m_player->AddComponent<ModelComponent>()->SetModel("Template_Cube");
+		m_player->AddComponent<RigidBody>();
+		m_player->AddComponent<ChangeColliderComponent>();
 
-	player->AddComponent<RigidBody>()->SetUseGravity(false);
-	player->AddComponent<ChangeColliderComponent>();
-	m_stages.push_back(player);
+		m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
+	}
 
-	// カメラをプレイヤーの子に
-	m_camera->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
-	m_camera->GetComponent<Transform>()->SetLocalPosition({ 0, 0, 10 });
+	GenerateCube({ 0, -3, 0 }, { 3, 1, 3 });
 
+	// 
 	for (int i = 0; i < 20; i++) 
 		GenerateCube(
-			{ Random::GetFloat(-30, 30), Random::GetFloat(-10, 10), Random::GetFloat(-30, 30) },
-			{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
+			{ Random::GetFloat(-30, 30), Random::GetFloat(-10, 10), Random::GetFloat(-30, 30) }
+			,{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
+			,{ Random::GetFloat(1, 10), Random::GetFloat(1, 5), Random::GetFloat(1, 10) }
 		);
+
+	// 
+	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
 }
 
 // 更新関数
 void GamePlayScene::Update(const GameTimer& gameTimer)
 {
-	RaycastHit hit;
+	m_dimentionManager.Update();
 
 	if (KeyInput::GetKeyDown(KeyCode::Q))
 	{
-		ProjectionSmoothCamera* camera = GetCamera().GetMainCamera()->GetComponent<ProjectionSmoothCamera>();
-
-		// カメラがなければ何もしない
-		if (!camera) return;
-		if (camera->IsChanging()) return;
-
-		// 2次元フラグ
-		bool is3D = camera->GetProjectionType() == ProjectionType::Perspective;
-
-		camera->ChangeProjectionMode(0.1f);
-
-		// 2次元世界の軸を変更
-		if (is3D)
+		if (m_dimentionManager.GetIs2D())
 		{
-			BaseCamera* mainCamera = GetCamera().GetMainCamera();
+			m_camera->GetComponent<TPSCamera>()->SetActive(true);
 
-			auto& world2D = WorldSetting2D::Instance();
-			DirectX::SimpleMath::Vector3 camRight = mainCamera->GetInverseView().Right();
-			DirectX::SimpleMath::Vector3 camUp = mainCamera->GetInverseView().Up();
-			world2D.SetAxis(camRight, camUp);
-
-			// コライダーを変更
-			for (auto& object : m_stages)
-			{
-				object->GetComponent<ChangeColliderComponent>()->Change3DTo2D(mainCamera);
-			}
+			m_camera->GetComponent<Transform>()->SetParent(nullptr);
 		}
 		else
 		{
-			// コライダーを変更
-			for (auto& object : m_stages)
-			{
-				object->GetComponent<ChangeColliderComponent>()->Change2DTo3D();
-			}
+			m_camera->GetComponent<TPSCamera>()->SetActive(false);
+
+			m_camera->GetComponent<Transform>()->SetParent(m_player->GetComponent<Transform>());
 		}
+
+		m_dimentionManager.ChangeDimention();
+
+		m_player->GetComponent<Player>()->ChangeDimention();
 	}
 }
 
 // 描画関数
 void GamePlayScene::Render(Renderer& renderer)
 {
+	Transform* player = m_player->GetComponent<Transform>();
+
+	// プレイヤーの前方向をテスト描画する
+	DirectX::SimpleMath::Vector3 playerPos = player->GetWorldPosition();
+	DirectX::SimpleMath::Vector3 playerForward = playerPos + player->GetForward() * 2.0f;
+
+	static const float angle = PI_F / 6;
+	static const DirectX::SimpleMath::Quaternion left = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle({ 0, 1, 0 }, angle);
+	static const DirectX::SimpleMath::Quaternion right = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle({ 0, 1, 0 }, -angle);
+
+	DirectX::SimpleMath::Vector3 playerLeftArrow = DirectX::SimpleMath::Vector3::Transform(-player->GetForward(), left);
+	DirectX::SimpleMath::Vector3 playerRightArrow = DirectX::SimpleMath::Vector3::Transform(-player->GetForward(), right);
+
+	renderer.Draw().Line( playerPos, playerForward, 0x00FFFF );
+	renderer.Draw().Line( playerForward + playerLeftArrow * 0.5f, playerForward, 0x00FFFF );
+	renderer.Draw().Line( playerForward + playerRightArrow * 0.5f, playerForward, 0x00FFFF );
+
+	if (m_player->GetComponent<Player>()->CanJump())
+	{
+		renderer.Draw().Text()
+			.Rect({ 0, 0 }, { 150, 40 })
+			.Execute(ResourceManager::Instance().GetSpriteFont("Default"), L"CanJump", 0xFFFFFF);
+	}
+
 	renderer;
 }
 
 // 終了関数
 void GamePlayScene::Finalize()
 {
+}
+
+void GamePlayScene::RegisterComponentOnDerived(BaseComponent* component)
+{
+	// 次元変更マネージャーに追加
+	if (component->GetID() == ComponentID::ChangeColliderComponent)
+	{
+		m_dimentionManager.AddChangeComponent(static_cast<ChangeColliderComponent*>(component));
+	}
+}
+
+void GamePlayScene::UnRegisterComponentOnDerived(BaseComponent* component)
+{
+	// 次元変更マネージャーから削除
+	if (component->GetID() == ComponentID::ChangeColliderComponent)
+	{
+		m_dimentionManager.RemoveChangeComponent(static_cast<ChangeColliderComponent*>(component));
+	}
 }
 
 void GamePlayScene::InitializeUITest()
@@ -162,11 +193,8 @@ void GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX:
 	cube->GetComponent<Transform>()->SetLocalPosition(position);
 	cube->GetComponent<Transform>()->SetLocalScale(scale);
 	cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
-	//cube->AddComponent<CapsuleCollider>()->SetHeight(3.0f);
 	cube->AddComponent<BoxCollider>();
-	//	->SetHeight(2.0f);
 	cube->AddComponent<ChangeColliderComponent>();
-//	auto collider = cube->AddComponent<CapsuleCollider2D>();
 
-	m_stages.push_back(cube);
+	cube->SetTag(L"Floor");
 }

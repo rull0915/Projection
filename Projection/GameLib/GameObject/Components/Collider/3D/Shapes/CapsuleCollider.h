@@ -65,7 +65,7 @@ public:
     CapsuleCollider(IComponentOwner* own)
         : Collider(own, ColliderType::Capsule)
         , m_lineDir{ AxisType::Y }
-        , m_capsuleHeight{ 1.0f }
+        , m_capsuleHeight{ 2.0f }
         , m_radius{ 0.5f }
         , m_cache{}
     {

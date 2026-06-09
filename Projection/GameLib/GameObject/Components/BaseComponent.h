@@ -117,4 +117,7 @@ public:
     // ----- ƒ‰ƒbƒvŠÖ” ----- //
     template<typename T>
     T* GetComponent() { return m_own->GetComponent<T>(); }
+
+    template<typename T>
+    void GetComponents(std::vector<T*>& vec) { m_own->GetComponents<T>(vec); }
 };

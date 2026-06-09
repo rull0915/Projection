@@ -73,7 +73,10 @@ public:
 
     // “o˜^—\–ñ
     void AddRigidBody(RigidBody2D* r) { m_reserves.push_back(r); }
-    void RemoveRigidBody(RigidBody2D* r) { m_removeReserves.insert(r); }
+    void RemoveRigidBody(RigidBody2D* r)
+    {
+        m_removeReserves.insert(r); 
+    }
 
     // —\–ñÏ‚İƒ|ƒCƒ“ƒ^‚Ì’Ç‰Á
     void AddReserved()

@@ -15,10 +15,7 @@
 // インクルードファイル
 //====================================================//
 
-#include <map>
-
 #include "GameLib/GameObject/Components/Collider/2D/BaseCollider2D.h"
-#include "CheckHit/CheckHit2D.h"
 
 #include "SpaceDivision/TreeManager2D.h"
 
@@ -52,9 +49,6 @@ private:
     unsigned int m_colCount;
     std::vector<BaseCollider2D*> m_collideList;
 
-    // レイヤー管理
-    std::vector<std::vector<bool>> m_layer;
-
     // 木構造
     TreeManager2D m_tree;
 
@@ -69,12 +63,9 @@ public:
         , m_colliders{}
         , m_treeObjects{}
         , m_collideList{}
-        , m_layer{}
         , m_tree{ { 256, 256 }, 5, {0, 0} }
         , m_colCount{ 0 }
     {
-        m_layer.resize(100);
-        for (auto& col : m_layer) col.resize(100);
     };
     ~CollideManager2D() = default;
 
@@ -89,16 +80,6 @@ public:
     {
         m_removeReserves.insert(collide);
     }
-
-    /// <summary>
-    /// レイヤー同士の衝突の有無を管理する関数
-    /// </summary>
-    void SetCollideActive(int layerA, int layerB, bool isActive)
-    {
-        // 双方の条件を変更
-        m_layer[layerA][layerB] = isActive;
-        m_layer[layerB][layerA] = isActive;
-    };
 
     // 登録予約済みのコライダーを追加する関数
     void AddReserved();

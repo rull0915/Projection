@@ -32,6 +32,7 @@ BaseCollider2D::BaseCollider2D(IComponentOwner* own, ColliderType2D type, Compon
 
 void AABB2D::DebugDraw(Renderer& renderer, int color) const
 {
+	// ì_ÇçÏê¨
 	DirectX::SimpleMath::Vector3 points[4] =
 	{
 		WorldSetting2D::Instance().Local2DToWorld3D({ min.x, min.y }),
@@ -40,6 +41,7 @@ void AABB2D::DebugDraw(Renderer& renderer, int color) const
 		WorldSetting2D::Instance().Local2DToWorld3D({ max.x, min.y })
 	};
 
+	// ï`âÊ
 	for (size_t i = 0; i < 4; ++i)
 	{
 		renderer.Draw().Line(points[i], points[(i + 1) % 4], color);

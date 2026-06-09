@@ -13,7 +13,7 @@
 #include "CollideManager2D.h"
 
 #include "GameLib/GameObject/GameObject.h"
-#include "GameLib/GameMath/GameMath.h"
+#include "CheckHit/CheckHit2D.h"
 
 #include "GameLib/GameObject/Settings/WorldSetting2D.h"
 

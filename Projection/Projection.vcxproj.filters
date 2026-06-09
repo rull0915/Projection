@@ -416,6 +416,8 @@
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="Timer\GameTimer.h" />
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
+    <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -584,6 +586,8 @@
     <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\ConvexPolygonCollider2D.cpp" />
     <ClCompile Include="GameLib\GameObject\Components\Collider\2D\Shapes\DebugManager.cpp" />
     <ClCompile Include="Timer\GameTimer.cpp" />
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -600,5 +604,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

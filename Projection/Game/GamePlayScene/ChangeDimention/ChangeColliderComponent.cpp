@@ -29,6 +29,9 @@ void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
 		// 無効化
 		collider->SetActive(false);
 
+		// トリガーであれば生成しない
+		if (collider->IsTrigger()) continue;
+
 		// 2Dコライダーを生成
 		Create2DColliderFrom3D(pCamera, collider);
 	}
@@ -39,7 +42,7 @@ void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
 		rid->SetActive(false);
 		rid->SetVelocity(DirectX::SimpleMath::Vector3::Zero);
 
-		static_cast<GameObject*>(GetOwn())->AddComponent<RigidBody2D>()->SetUseGravity(false);
+		static_cast<GameObject*>(GetOwn())->AddComponent<RigidBody2D>();// ->SetUseGravity(false);
 	}
 }
 

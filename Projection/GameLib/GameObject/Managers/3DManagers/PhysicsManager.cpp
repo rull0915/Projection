@@ -39,6 +39,9 @@ void PhysicsManager::Update(float elapsedTime)
 	// 予約されているRigidBodyの追加
 	AddReserved();
 
+	// 予約されているRigidBodyの削除
+	RemoveReserved();
+
 	// 全RigidBodyの更新
 	
 	// 外力の適用

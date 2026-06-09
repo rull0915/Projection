@@ -64,12 +64,11 @@ void Scene::BaseUpdate(const GameTimer& gameTimer)
 	m_colEvent.CallCollideFunctions(m_physicsManager.GetHitList());
 	m_colEvent.CallCollideFunctions2D(m_physicsManager2D.GetHitList());
 
-	// カメラの更新
-	m_cameraManager.Update();
-
 	// 各オブジェクトの遅延更新
 	m_objectManager.LateUpdate(gameTimer);
 
+	// カメラの更新
+	m_cameraManager.Update();
 	// 削除予約を消す
 	m_objectManager.RemoveDeadComponent();
 	m_objectManager.RemoveDeadObject();
@@ -98,10 +97,11 @@ void Scene::BaseRender(Renderer& renderer)
 	m_objectManager.Render(renderer);
 
 	// 派生クラスの描画処理
+	Render(renderer);
+
 	renderer.SetView(DirectX::SimpleMath::Matrix::Identity);
 	renderer.SetProjection(DirectX::SimpleMath::Matrix::Identity);
 
-	Render(renderer);
 
 	// UIの描画
 	m_uiManager.Draw(renderer);

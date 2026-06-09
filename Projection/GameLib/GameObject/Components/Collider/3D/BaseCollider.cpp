@@ -42,6 +42,7 @@ void AABB::DebugDraw(Renderer& renderer, int color) const
 
 	DirectX::SimpleMath::Vector4 col(r, g, b, 1.0f);
 
+	// 頂点の作成
 	DirectX::VertexPositionColor vertexes[8]
 	{
 		{ {min.x, min.y, min.z}, col},
@@ -54,10 +55,12 @@ void AABB::DebugDraw(Renderer& renderer, int color) const
 		{ {max.x, max.y, min.z}, col},
 	};
 
+	// 頂点のインデックス配列の作成
 	static uint16_t indexes[]
 	{
 		0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7
 	};
 
+	// 描画
 	renderer.Draw().PrimitiveIndex(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 24, vertexes, 8);
 }

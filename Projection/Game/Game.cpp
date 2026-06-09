@@ -77,6 +77,9 @@ void Game::Initialize(HWND window, int width, int height)
     ResourceManager::Instance().AddModel("Template_Sphere", L"Resources/Template/Template_Sphere.cmo");
     ResourceManager::Instance().AddModel("Template_Capsule", L"Resources/Template/Template_Capsule.cmo");
 
+    // “ü—Í‚Ì‰Šú‰»
+    KeyInput::Initialize();
+
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*

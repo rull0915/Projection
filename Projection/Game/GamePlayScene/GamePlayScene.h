@@ -16,7 +16,7 @@
 //====================================================//
 #include "GameLib/Scene/Scene.h"
 
-#include "GameLib/GameMath/Easing.h"
+#include "ChangeDimention/DimentionManager.h"
 
 //====================================================//
 // 前方宣言
@@ -41,11 +41,12 @@ private:
     Game* m_pGame;
 
     GameObject* m_camera;
+    GameObject* m_player;
+
+    DimentionManager m_dimentionManager;
 
 	Canvas* m_pTestCanvas;
 	UIObject* m_pTestUI;
-
-    std::vector<GameObject*> m_stages;
 
 public:
 
@@ -69,6 +70,9 @@ public:
         BaseFinalize();
         BaseInitialize();
     }
+
+    void RegisterComponentOnDerived(BaseComponent* component) override;
+    void UnRegisterComponentOnDerived(BaseComponent* component) override;
 
     //-----------------------------------------------------
     // ゲッター

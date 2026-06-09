@@ -71,6 +71,8 @@ void GameObject::CollidersDebugDraw(Renderer& renderer, int color, bool drawBoun
     {
         if (!col->IsActive()) continue;
 
+        if (col->IsTrigger()) color = 0x88FFFF;
+
         col->DebugDraw(renderer, color);
 
         if (drawBoundingBox) col->DebugDrawAABB(renderer, color);
@@ -79,6 +81,8 @@ void GameObject::CollidersDebugDraw(Renderer& renderer, int color, bool drawBoun
     for (auto& col : colliders2D)
     {
         if (!col->IsActive()) continue;
+
+        if (col->IsTrigger()) color = 0x88FFFF;
 
         col->DebugDraw(renderer, color);
 

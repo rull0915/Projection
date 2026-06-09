@@ -3,7 +3,7 @@
 // 作成者      : Hoshino Ryunosuke
 // 作成日       : 2026/05/29
 //
-// 概要       : 
+// 概要       : プレイヤークラス
 //====================================================//
 
 //====================================================//
@@ -12,9 +12,16 @@
 #include "pch.h"
 #include "Player.h"
 
-#include "GameLib/Input/KeyInput.h"
+#include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
+#include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
 
 #include "GameLib/GameObject/Components/Collider/3D/BaseCollider.h"
+
+#include "GameLib/Input/KeyInput.h"
+
+#include "GameLib/GameObject/Managers/HitContact.h"
+
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -24,7 +31,9 @@
 Player::Player(IComponentOwner* owner)
 	: Component(owner)
 	, m_pTransform{ GetComponent<Transform>() }
-	, m_material{ 0.2f, 0.1f, 1.0f, CombineMode::Minimum, CombineMode::Minimum }
+	, m_material{ 0.2f, 0.1f, 0.1f, CombineMode::Minimum, CombineMode::Minimum }
+	, m_is2D{ false }
+	, m_canJump{ false }
 {
 }
 
@@ -34,79 +43,147 @@ Player::~Player()
 
 void Player::Start()
 {
-	// コライダーを取得しマテリアルを設定
-	if(BaseCollider* collider = GetComponent<BaseCollider>())
-	collider->SetPhysicsMaterial(&m_material);
+	// 物理マテリアルを設定
+	std::vector<BaseCollider*> colliders;
+	GetComponents<BaseCollider>(colliders);
 
-//	GetComponent<RigidBody>()->SetLinearDamping(3);
+	// 全てのコライダー
+	if (colliders.size() > 0)
+	{
+		for (auto collider : colliders)
+		{
+			collider->SetPhysicsMaterial(&m_material);
+		}
+	}
 }
 
 void Player::Update(const GameTimer& gameTimer)
 {
-	DirectX::SimpleMath::Vector3 direction;
+	if (m_is2D) Update2D(gameTimer);
 
-	float elapsedTime = gameTimer.GetElapsedTime();
+	else Update3D(gameTimer);
+}
 
-	// 移動
-	if (KeyInput::GetKey(KeyCode::A))
+// 2Dコライダーに当たった時
+void Player::OnCollisionEnter2D(HitContact2D& contact)
+{
+	// 床にぶつかっていた場合
+	if (contact.other->GetTag() == L"Floor")
 	{
-		direction += -m_pTransform->GetRight();
-	}
-	if (KeyInput::GetKey(KeyCode::D))
-	{
-		direction += m_pTransform->GetRight();
-	}
-	if (KeyInput::GetKey(KeyCode::W))
-	{
-		direction += m_pTransform->GetForward();
-	}
-	if (KeyInput::GetKey(KeyCode::S))
-	{
-		direction += -m_pTransform->GetForward();
-	}
-	// y方向を消す
-	direction.y = 0;
-	direction.Normalize();
+		// 衝突したオブジェクトに近づくように補正する
 
-	if (KeyInput::GetKey(KeyCode::LeftShift))
-	{
-		m_pTransform->AddLocalPosition({ 0, -MOVE_SPEED * elapsedTime, 0 });
-	}
-	if (KeyInput::GetKey(KeyCode::Space))
-	{
-		m_pTransform->AddLocalPosition({ 0, MOVE_SPEED * elapsedTime, 0 });
-	}
+		// カメラ基準のZ座標を求める
+		auto& world2D = WorldSetting2D::Instance();
 
-	m_pTransform->AddLocalPosition(direction * elapsedTime * MOVE_SPEED);
+		// 軸を取得する
+		DirectX::SimpleMath::Vector3 xAxis = world2D.GetXAxis(), yAxis = world2D.GetYAxis();
 
-	if (KeyInput::GetKey(KeyCode::Left))
-	{
-		GetComponent<Transform>()->AddLocalEulerAngle({ 0, elapsedTime, 0 });
-	}
-	if (KeyInput::GetKey(KeyCode::Right))
-	{
-		GetComponent<Transform>()->AddLocalEulerAngle({ 0, -elapsedTime, 0 });
-	}
-	if (KeyInput::GetKey(KeyCode::Down))
-	{
-		float rotX = GetComponent<Transform>()->GetLocalEulerAngle().x;
-		float targetX = rotX - elapsedTime;
-		targetX = MyMath::Clamp(targetX, -PI_F * (7.0f / 15), PI_F * (7.0f / 15));
+		// 外積を使ってZ軸を算出
+		DirectX::SimpleMath::Vector3 zAxis = xAxis.Cross(yAxis);
+		zAxis.Normalize();
 
-		GetComponent<Transform>()->AddLocalEulerAngle({ targetX - rotX, 0, 0 });
-	}
-	if (KeyInput::GetKey(KeyCode::Up))
-	{
-		float rotX = GetComponent<Transform>()->GetLocalEulerAngle().x;
-		float targetX = rotX + elapsedTime;
-		targetX = MyMath::Clamp(targetX, -PI_F * (9.0f / 15), PI_F * (4.0f / 15));
+		// トランスフォームを取得
+		Transform* targetTransform = contact.other->GetComponent<Transform>();
+		Transform* ownTransform = GetComponent<Transform>();
 
-		GetComponent<Transform>()->AddLocalEulerAngle({ targetX - rotX, 0, 0 });	
+		// 投影して座標を求める
+		float targetZ = zAxis.Dot(targetTransform->GetWorldPosition());
+		float ownZ = zAxis.Dot(ownTransform->GetWorldPosition());
+
+		// 差分のみ座標を変化させる
+		ownTransform->AddLocalPosition(zAxis * (targetZ - ownZ));
 	}
 }
 
-void Player::OnCollisionEnter2D(HitContact2D& contact)
+void Player::OnTriggerStay(HitContact& contact)
 {
-	contact;
-	int a = 1 - 1;
+	// 床にぶつかっていた場合
+	if (contact.other->GetTag() == L"Floor")
+	{
+		// 衝突した法線が上方向に近いかどうかを判定
+		float val = DirectX::SimpleMath::Vector3::Up.Dot(-contact.normal);
+		if (val >= CAN_JUMP_BORDER)
+		{
+			m_canJump = true;
+		}
+	}
+}
+
+void Player::OnTriggerExit(HitContact & contact)
+{
+	// 床にぶつかっていた場合
+	if (contact.other->GetTag() == L"Floor")
+	{
+		m_canJump = false;
+	}
+}
+
+void Player::Update2D(const GameTimer& timer)
+{
+	// 軸の向きを取得
+	DirectX::SimpleMath::Vector3 xAxis = WorldSetting2D::Instance().GetXAxis();
+	DirectX::SimpleMath::Vector3 yAxis = WorldSetting2D::Instance().GetYAxis();
+
+	// ----- 移動 ----- //
+
+	// 移動方向の入力を取得
+	float x = KeyInput::GetCustomInput(CustomType::Horizontal);
+
+	if (auto* rb = GetComponent<RigidBody2D>())
+	{
+		rb->SetVelocity({ x * MOVE_SPEED, rb->GetVelocity().y });
+	}
+
+	// ジャンプ入力を取得
+	float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
+
+	// 入力があれば
+	if (jumpInput != 0.0f)
+	{
+		// 力を加える
+		if (auto* rb = GetComponent<RigidBody2D>())
+		{
+			rb->AddForce(DirectX::SimpleMath::Vector2::UnitY * JUMP_POWER, ForceMode::Impulse);
+		}
+	}
+}
+
+void Player::Update3D(const GameTimer& timer)
+{
+	// ----- 移動 ----- //
+
+	// 移動方向の入力を取得
+	float x = KeyInput::GetCustomInput(CustomType::Horizontal);
+	float z = KeyInput::GetCustomInput(CustomType::Vertical);
+
+	// 移動方向を作成
+	DirectX::SimpleMath::Vector3 movingDirecion{ x * m_pTransform->GetRight() + z * m_pTransform->GetForward() };
+	movingDirecion.y = 0;
+
+	// 移動量を一定にするために正規化
+	movingDirecion.Normalize();
+
+	// 速度を算出
+	DirectX::SimpleMath::Vector3 movingVelocity = movingDirecion * MOVE_SPEED;// *timer.GetElapsedTime();
+
+	// 速度を変更
+	if (auto* rb = GetComponent<RigidBody>())
+	{
+		rb->SetVelocity({ movingVelocity.x, rb->GetVelocity().y, movingVelocity.z });
+	}
+
+	// ----- ジャンプ ----- //
+
+	// ジャンプ入力を取得
+	float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
+
+	// 入力があれば
+	if (m_canJump && jumpInput != 0.0f)
+	{
+		// 力を加える
+		if (auto* rb = GetComponent<RigidBody>())
+		{
+			rb->AddForce(DirectX::SimpleMath::Vector3::Up * JUMP_POWER, ForceMode::Impulse);
+		}
+	}
 }

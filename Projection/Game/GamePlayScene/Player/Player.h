@@ -34,7 +34,9 @@ private:
     //-----------------------------------------------------
     // 定数
     //-----------------------------------------------------
-    static constexpr float MOVE_SPEED = 5.0f;
+    static constexpr float MOVE_SPEED = 5.0f;   // 移動の速度
+    static constexpr float JUMP_POWER = 15.0f;  // ジャンプの力
+    static constexpr float CAN_JUMP_BORDER = 1.0f / 1.414f; // ジャンプ可能な地面の傾きのボーダー(cos45°の近似値をボーダーに)
 
     //-----------------------------------------------------
     // メンバ変数
@@ -42,6 +44,12 @@ private:
     Transform* m_pTransform;
 
     PhysicsMaterial m_material;
+
+    // 現在の次元が2次元かどうか
+    bool m_is2D;
+
+    // ジャンプ可能フラグ
+    bool m_canJump;
 
 public:
 
@@ -61,14 +69,12 @@ public:
 
     void OnCollisionEnter2D(HitContact2D& contact) override;
 
-    //-----------------------------------------------------
-    // ゲッター
-    //-----------------------------------------------------
+    void OnTriggerStay(HitContact& contact) override;
+    void OnTriggerExit(HitContact& contact) override;
 
+    bool CanJump() const { return m_canJump; }
 
-    //-----------------------------------------------------
-    // セッター
-    //-----------------------------------------------------
+    void ChangeDimention() { m_is2D = !m_is2D; }
 
 private:
 
@@ -76,4 +82,9 @@ private:
     // 内部実装
     //-----------------------------------------------------
 
+    // 2D時の更新関数
+    void Update2D(const GameTimer& timer);
+
+    // 3D時の更新関数
+    void Update3D(const GameTimer& timer);
 };

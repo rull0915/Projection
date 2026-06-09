@@ -12,6 +12,8 @@
 #include "pch.h"
 #include "CollideManager.h"
 
+#include "CheckHit/CheckHit.h"
+
 #include "GameLib/GameObject/GameObject.h"
 
 #include "GameLib/GameObject/Settings/PhysicsSettings.h"
