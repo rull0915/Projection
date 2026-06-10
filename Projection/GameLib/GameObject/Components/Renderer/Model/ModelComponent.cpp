@@ -24,9 +24,15 @@ void ModelComponent::Draw(Renderer& renderer)
     // モデルがnullなら描画しない
     if (!m_model) return;
 
+    // 透明度を設定する
+    renderer.SetAlpha(GetAlpha());
+
     // トランスフォームからworld行列を取得
     const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
     // 行列を使用しモデルを描画
     renderer.Draw().Model(m_model, world);
+
+    // 透明度をリセット
+    renderer.SetAlpha(1.0f);
 }

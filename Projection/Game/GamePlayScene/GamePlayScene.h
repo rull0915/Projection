@@ -90,7 +90,7 @@ private:
 
     void InitializeUITest();
 
-    void GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 });
+    GameObject* GenerateCube(DirectX::SimpleMath::Vector3 position, int type, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 });
 
     // ŸŒ³•ÏX‚ğs‚¤ŠÖ”
     void TryChangeDimention();

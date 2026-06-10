@@ -12,6 +12,8 @@
 #include "WindowManager.h"
 #include "GameLib/Input/KeyInput.h"
 
+#include <GameLib/Random.h>
+
 #include <string>
 #include <format>
 
@@ -57,14 +59,23 @@ void GamePlayScene::Initialize()
 		m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 	}
 
-	GenerateCube({ 0, -3, 0 }, { 3, 1, 3 });
-	GenerateCube({ 0, -3, -10 }, { 3, 1, 3 });
+	GenerateCube({ 0, -3, 0 }, 0, { 3, 1, 3 });
+	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
 
 
-	for (int i = 0; i < 10; i++) GenerateCube({ i * 3 + 0.0f, 0, 0 }, { 1.0f, 1.0f, 1.0f });
+	for (int i = 0; i < 0; i++)
+	{
+		auto cube = GenerateCube({ Random::GetFloat(-10, 10), Random::GetFloat(0, 5), Random::GetFloat(-10, 10) }, Random::Get(0, 2), { 1.0f, 1.0f, 1.0f }, { Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F) });
+		cube->AddComponent<RigidBody>();
+	}
 
-	// 
+	// 次元管理クラスにカメラを渡す
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
+
+	auto goal = Generate({ 10, 5, 1 });
+	goal->AddComponent<CapsuleCollider>()->SetTrigger(true);
+
+	GenerateCube({ 0, -10, 0 }, 0, { 20, 1, 20 });
 
 //	InitializeUITest();
 }
@@ -79,13 +90,17 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 		TryChangeDimention();
 	}
 
+	// マウス左クリック時
 	if (MouseInput::GetMouseDown(MOUSE_LEFT))
 	{
+		// マウスの位置へrayを飛ばす
 		Ray ray = GetCamera().GetMainCamera()->GetRayToScreenPoint(MouseInput::GetScaledMousePoint());
 		RaycastHit hit;
 
+		// 何かに衝突していれば
 		if (GetPhysics().RayCast(ray, 100.0f, hit))
 		{
+			// 衝突点にオブジェクトを作る
 			auto obj = Generate(hit.point);
 
 			obj->AddComponent<ModelComponent>()->SetModel("Template_Sphere");
@@ -191,7 +206,7 @@ void GamePlayScene::InitializeUITest()
 				);
 			}
 		);
-		imageUI->SetTexture(ResourceManager::Instance().GetTexture("TemplateImage"));
+		imageUI->SetTexture(ResourceManager::Instance().GetTexture("QR"));
 		//imageUI->SetAlpha(0.5f);
 		imageUI->SetColor(0x00FF00);
 
@@ -212,16 +227,37 @@ void GamePlayScene::InitializeUITest()
 	}
 }
 
-void GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rot)
+GameObject* GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, int type, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rot)
 {
 	auto cube = Generate(position);
-	cube->AddComponent<ModelComponent>()->SetModel("Template_Cube");
+
+	switch (type)
+	{
+	case 0:
+		cube->AddComponent<BoxCollider>();
+		cube->AddComponent<ModelComponent>()->SetModel("Template_Cube");
+		break;
+	case 1:
+		cube->AddComponent<SphereCollider>();
+		cube->AddComponent<ModelComponent>()->SetModel("Template_Sphere");
+		break;
+	case 2:
+		cube->AddComponent<CapsuleCollider>();
+		cube->AddComponent<ModelComponent>()->SetModel("Template_Capsule");
+		break;
+	default:
+		break;
+	}
+
+	cube->GetComponent<ModelComponent>()->SetAlpha(0.5f);
+
 	cube->GetComponent<Transform>()->SetLocalScale(scale);
 	cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
-	cube->AddComponent<BoxCollider>();
 	cube->AddComponent<ChangeColliderComponent>();
 
 	cube->SetTag(L"Floor");
+
+	return cube;
 }
 
 void GamePlayScene::TryChangeDimention()

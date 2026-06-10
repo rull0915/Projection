@@ -41,6 +41,8 @@ public:
     // トランスフォームポインタ
     Transform* m_pTransform;
 
+    // 透明度
+    float m_alpha;
 
 public:
 
@@ -57,9 +59,17 @@ public:
     // 描画関数
     virtual void Draw(Renderer& renderer) = 0;
 
+    // セッター
+    void SetAlpha(float alpha)
+    {
+        m_alpha = std::clamp(alpha, 0.0f, 1.0f); 
+    }
+
     //-----------------------------------------------------
     // ゲッター
     //-----------------------------------------------------
 protected:
     Transform* GetTransform() const { return m_pTransform; }
+
+    float GetAlpha() const { return m_alpha; }
 };

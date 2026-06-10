@@ -65,6 +65,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     // テクスチャの追加
     ResourceManager::Instance().AddTexture("TemplateImage", L"Resources/Template/TemplateImage.png");
+    ResourceManager::Instance().AddTexture("QR", L"Resources/Template/画像1.png");
 
     // フォントの追加
     ResourceManager::Instance().AddFont("Default", L"Resources/Fonts/JapaneseTest1.spritefont");
