@@ -109,6 +109,25 @@ DirectX::SimpleMath::Vector2 MouseInput::GetOldMousePoint()
 	return { static_cast<float>(x), static_cast<float>(y) };
 }
 
+DirectX::SimpleMath::Vector2 MouseInput::GetScaledMousePoint()
+{
+	// ウィンドウハンドルを取得
+	HWND hwnd = ResourceManager::Instance().GetResources()->GetWindow();
+
+	// 今の画面サイズを取得
+	RECT rc;
+	GetClientRect(ResourceManager::Instance().GetResources()->GetWindow(), &rc);
+	
+	int width  = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+
+	// 割合を取得
+	float ratioX = (float)Screen::WIDTH / width;
+	float ratioY = (float)Screen::HEIGHT / height;
+
+	return GetMousePoint() * DirectX::SimpleMath::Vector2{ ratioX, ratioY };
+}
+
 DirectX::SimpleMath::Vector2 MouseInput::GetMouseMoveValue()
 {
 	if (m_nowMouseState.positionMode == DirectX::Mouse::Mode::MODE_ABSOLUTE) 

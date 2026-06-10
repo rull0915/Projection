@@ -5,9 +5,9 @@
 #include "pch.h"
 #include "Game/Game.h"
 
-#include "GameLib/GameObject/Managers/ObjectManager.h"
 #include "GameLib/Random.h"
 #include "Game/Screen.h"
+#include "WindowManager.h"
 
 using namespace DirectX;
 
@@ -22,12 +22,6 @@ namespace
 {
     std::unique_ptr<Game> g_game;
 }
-
-// ウインドウスタイル
-#define WS_MYSTYLE ( WS_OVERLAPPED     | \
-                     WS_CAPTION        | \
-                     WS_SYSMENU        | \
-                     WS_MINIMIZEBOX )
 
 LPCWSTR g_szAppName = L"Test";
 
@@ -274,43 +268,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_SYSKEYDOWN:
         if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
         {
-            // Implements the classic ALT+ENTER fullscreen toggle
-            if (s_fullscreen)
-            {
-                SetWindowLongPtr(hWnd, GWL_STYLE, WS_MYSTYLE);
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
-
-                int width = Screen::WIDTH;
-                int height = Screen::HEIGHT;
-                if (game)
-                    game->GetDefaultSize(width, height);
-
-                ShowWindow(hWnd, SW_SHOWNORMAL);
-
-                RECT rc = { 0, 0, width, height };
-                AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
-
-                SetWindowPos(
-                    hWnd,
-                    HWND_TOP,
-                    0, 0,
-                    rc.right - rc.left,
-                    rc.bottom - rc.top,
-                    SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED
-                );
-
-            }
-            else
-            {
-                SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP);
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
-
-                SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-
-                ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-            }
-
-            s_fullscreen = !s_fullscreen;
+            WindowManager::Instance().SwitchScreenMode(hWnd, game);
         }
 
         Keyboard::ProcessMessage(message, wParam, lParam);

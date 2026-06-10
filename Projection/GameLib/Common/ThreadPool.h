@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 #include <future>
+#include <type_traits>
 #include <memory>
 
 const unsigned int THREAD_NUM = std::thread::hardware_concurrency();
@@ -54,14 +55,14 @@ public:
 	template<class F, class... Args>
 	auto AddTask(F&& task, Args&&... args)
 		// 可読性向上のために戻り値を後置
-		-> std::future<typename std::result_of<F(Args...)>::type>;
+		-> std::future<typename std::invoke_result<F(Args...)>::type>;
 };
 
 template<class F, class ...Args>
-inline auto ThreadPool::AddTask(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args ...)>::type>
+inline auto ThreadPool::AddTask(F&& f, Args&&... args) -> std::future<typename std::invoke_result<F(Args ...)>::type>
 {
 	// 戻り値の型を丸める
-	using return_type = typename std::result_of<F(Args ...)>::type;
+	using return_type = typename std::invoke_result<F(Args ...)>::type;
 
 	// ----- タスクの作成 ----- //
 	auto task =

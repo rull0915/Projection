@@ -102,7 +102,7 @@ public:
         m_removeReserves.clear();
     }
 
-    bool RayCast(Ray& ray, float max, RaycastHit& hit, uint64_t layerMask)
+    bool RayCast(Ray& ray, float max, RaycastHit& hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF)
     {
         return m_collideManager.RayCast(ray, max, hit, layerMask);
     }

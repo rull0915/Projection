@@ -418,6 +418,7 @@
     <ClInclude Include="Timer\GameTimer.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
+    <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -588,6 +589,7 @@
     <ClCompile Include="Timer\GameTimer.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -51,7 +51,7 @@ void UIManager::Update(const GameTimer& gameTimer)
 
 void UIManager::CheckHitRay()
 {
-	DirectX::SimpleMath::Vector2 mousePos = MouseInput::GetMousePoint();
+	DirectX::SimpleMath::Vector2 mousePos = MouseInput::GetScaledMousePoint();
 
 	RectTransform* hitRect = nullptr;
 

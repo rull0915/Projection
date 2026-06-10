@@ -9,7 +9,11 @@
 
 #include "ChangeDimention/ChangeColliderComponent.h"
 
+#include "WindowManager.h"
 #include "GameLib/Input/KeyInput.h"
+
+#include <string>
+#include <format>
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -57,10 +61,12 @@ void GamePlayScene::Initialize()
 	GenerateCube({ 0, -3, -10 }, { 3, 1, 3 });
 
 
-	for (int i = 0; i < 1000; i++) GenerateCube({ i + 0.0f, 0, 0 }, { 1.0f, 1.0f, 1.0f });
+	for (int i = 0; i < 10; i++) GenerateCube({ i * 3 + 0.0f, 0, 0 }, { 1.0f, 1.0f, 1.0f });
 
 	// 
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
+
+	InitializeUITest();
 }
 
 // 更新関数
@@ -71,6 +77,20 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 	if (KeyInput::GetKeyDown(KeyCode::Q))
 	{
 		TryChangeDimention();
+	}
+
+	if (MouseInput::GetMouseDown(MOUSE_LEFT))
+	{
+		Ray ray = GetCamera().GetMainCamera()->GetRayToScreenPoint(MouseInput::GetScaledMousePoint());
+		RaycastHit hit;
+
+		if (GetPhysics().RayCast(ray, 100.0f, hit))
+		{
+			auto obj = Generate(hit.point);
+
+			obj->AddComponent<ModelComponent>()->SetModel("Template_Sphere");
+			obj->GetComponent<Transform>()->SetLocalScale({ 0.2f, 0.2f, 0.2f });
+		}
 	}
 }
 
@@ -94,22 +114,32 @@ void GamePlayScene::Render(Renderer& renderer)
 	renderer.Draw().Line( playerForward + playerLeftArrow * 0.5f, playerForward, 0x00FFFF );
 	renderer.Draw().Line( playerForward + playerRightArrow * 0.5f, playerForward, 0x00FFFF );
 
-	if (m_player->GetComponent<Player>()->CanJump())
-	{
-		renderer.Draw().Text()
-			.Rect({ 0, 0 }, { 150, 40 })
-			.Execute(ResourceManager::Instance().GetSpriteFont("Default"), L"CanJump", 0xFFFFFF);
-	}
-
 	renderer;
 
-	//renderer.Draw().Sprite()
-	//	//.Rotate(PI_F / 2)
-	//	.Origin(Origin::Type::Center)
-	//	.Extend({ 1.0f, 2.0f })
-	//	.Execute(
-	//	ResourceManager::Instance().GetTexture("TemplateImage"), { 100, 100 }, 0xFFFFFF
-	//);
+	auto tex = ResourceManager::Instance().GetTexture("TemplateImage");
+
+	renderer.SetAlpha(1.0f);
+
+	DirectX::SimpleMath::Vector2 mouse = MouseInput::GetScaledMousePoint();
+
+	std::wstring message = std::format(L"Mouse X: {} Y: {}", (int)mouse.x, (int)mouse.y);
+
+
+	renderer.Draw().Text()
+		.Extend({ 0.3f, 0.3f })
+		.Execute(ResourceManager::Instance().GetSpriteFont("Default"), message.c_str(), {0, 0}, 0xFFFFFF);
+
+	RECT rc;
+	GetClientRect(ResourceManager::Instance().GetResources()->GetWindow(), &rc);
+	
+	int width  = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+
+	message = std::format(L"Window W: {} H: {}", width, height);
+
+	renderer.Draw().Text()
+		.Extend(0.2f)
+		.Execute(ResourceManager::Instance().GetSpriteFont("Default"), message.c_str(), { Screen::CENTER_X, 0 });
 }
 
 // 終了関数
@@ -152,7 +182,15 @@ void GamePlayScene::InitializeUITest()
 		rect->SetSize({ 360, 360 });
 
 		auto* imageUI = testUI->AddComponent<ImageUI>();
-		testUI->AddComponent<ButtonUI>();
+		testUI->AddComponent<ButtonUI>()->SetOnClick(
+			[this]
+			{
+				WindowManager::Instance().SwitchScreenMode(
+					ResourceManager::Instance().GetResources()->GetWindow(),
+					m_pGame
+				);
+			}
+		);
 		imageUI->SetTexture(ResourceManager::Instance().GetTexture("TemplateImage"));
 	//	imageUI->SetAlpha(0.5f);
 		imageUI->SetColor(0x00FF00);

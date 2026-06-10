@@ -25,7 +25,7 @@ void TPSCamera::Awake()
 	m_pOwnTransform = GetComponent<Transform>();
 
 	// マウスを相対モードに
-	MouseInput::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+//	MouseInput::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::Start()

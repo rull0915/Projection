@@ -104,6 +104,8 @@ public:
         m_exitTrans = std::make_unique<FadeTransition>(0.5f, Transition::Mode::In, 0x000000);
     };
 
+    HWND GetWindow() const { return m_deviceResources->GetWindow(); }
+
 private:
     void TitleNameUpdate(float elapsedTime);
 };

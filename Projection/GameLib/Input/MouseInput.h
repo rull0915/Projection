@@ -55,6 +55,9 @@ public:
 	static DirectX::SimpleMath::Vector2 GetMousePoint();
 	static DirectX::SimpleMath::Vector2 GetOldMousePoint();
 
+	// スケーリングされた位置
+	static DirectX::SimpleMath::Vector2 GetScaledMousePoint();
+
 	// 移動量
 	static DirectX::SimpleMath::Vector2 GetMouseMoveValue();
 	static int GetWheelMoveValue();
