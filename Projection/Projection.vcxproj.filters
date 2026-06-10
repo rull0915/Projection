@@ -419,6 +419,7 @@
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
     <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="Game\GamePlayScene\Stage\BlockGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

@@ -45,12 +45,12 @@ void GamePlayScene::Initialize()
 	{
 		m_player = Generate();
 		m_player->AddComponent<Player>();
-		m_player->AddComponent<BoxCollider>();
+		m_player->AddComponent<CapsuleCollider>();
 		auto rand = m_player->AddComponent<BoxCollider>();// 着地判定用のコライダーを生成
 		rand->SetTrigger(true);
-		rand->SetLocalPos({ 0, -0.55f, 0 });
+		rand->SetLocalPos({ 0, -1.05f, 0 });
 		rand->SetLocalSize({ 1, 0.1f, 1 });
-		m_player->AddComponent<ModelComponent>()->SetModel("Template_Cube");
+		m_player->AddComponent<ModelComponent>()->SetModel("Template_Capsule");
 		m_player->AddComponent<RigidBody>();
 		m_player->AddComponent<ChangeColliderComponent>();
 
@@ -66,7 +66,7 @@ void GamePlayScene::Initialize()
 	// 
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
 
-	InitializeUITest();
+//	InitializeUITest();
 }
 
 // 更新関数
@@ -192,7 +192,7 @@ void GamePlayScene::InitializeUITest()
 			}
 		);
 		imageUI->SetTexture(ResourceManager::Instance().GetTexture("TemplateImage"));
-	//	imageUI->SetAlpha(0.5f);
+		//imageUI->SetAlpha(0.5f);
 		imageUI->SetColor(0x00FF00);
 
 		auto* child = m_pTestCanvas->Generate<UIObject>();
