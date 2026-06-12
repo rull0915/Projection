@@ -33,7 +33,6 @@ enum class ComponentID
 		BoxCollider		= 0x0201,
 		SphereCollider	= 0x0202,
 		CapsuleCollider	= 0x0203,
-		LineCollider	= 0x0204,
 
 	// 2Dコライダー
 	Collider2D	= 0x0300,
@@ -67,6 +66,8 @@ enum class ComponentID
 	Player					= 0x1100,
 	// カメラをTPS用に動かすコンポーネント
 	TPSCamera				= 0x1200,
+	// プロジェクション行列をスムーズに切り替えるカメラ
+	ProjectionSmoothCamera	= 0x0703,
 };
 
 // MAIN_IDのみを切り取る関数

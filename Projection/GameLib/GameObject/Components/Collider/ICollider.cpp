@@ -27,3 +27,17 @@ ICollider::ICollider(IComponentOwner* own, ComponentID id, bool isMain)
 	, m_colliderReceiver{ dynamic_cast<IColliderReceiver*>(own) }
 {
 }
+
+void ICollider::SaveIPart(json& js)
+{
+	js["Layer"] = m_layerNum;
+	js["Trigger"] = m_isTrigger;
+	js["NeedInfo"] = m_needInfo;
+}
+
+void ICollider::LoadIPart(json& js)
+{
+	m_layerNum = js["Layer"];
+	m_isTrigger = js["Trigger"];
+	m_needInfo = js["NeedInfo"];
+}

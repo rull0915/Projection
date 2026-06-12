@@ -33,8 +33,7 @@ class ModelComponent : public RendererComponent<ModelComponent, ComponentID::Mod
     //-----------------------------------------------------
     DirectX::Model* m_model;
 
-    bool m_useColor;
-    int m_color;
+    std::string m_modelName;
 
 public:
 
@@ -44,8 +43,6 @@ public:
     ModelComponent(IComponentOwner* own)
         : RendererComponent(own)
         , m_model{ nullptr }
-        , m_color{ 0xFFFFFF }
-        , m_useColor{ false }
     {
     };
     ~ModelComponent() = default;
@@ -60,8 +57,10 @@ public:
     // モデルをセットする関数
     void SetModel(const std::string& keyName)
     {
+        m_modelName = keyName;
         m_model = ResourceManager::Instance().GetModel(keyName);
     }
-    void SetColor(int color) { m_color = color; }
-    void SetUseColor(bool flag) { m_useColor = flag; }
+
+    void Save(json& js) override;
+    void Load(json& js) override;
 };

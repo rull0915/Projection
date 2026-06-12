@@ -108,7 +108,9 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);
+$(ProjectDir)ThirdParty;
+%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -340,6 +342,11 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Others\ComponentFactory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameObject\Others\GameObjectSaver.h" />
     <ClInclude Include="GameLib\GameObject\Settings\PhysicsSettings.h">
       <SubType>
       </SubType>
@@ -498,6 +505,8 @@
     <ClCompile Include="GameLib\GameObject\Managers\ObjectManager.cpp" />
     <ClCompile Include="GameLib\GameObject\Managers\Renderer\RendererManager.cpp" />
     <ClCompile Include="GameLib\GameObject\Managers\System\CollideEventSystem.cpp" />
+    <ClCompile Include="GameLib\GameObject\Others\ComponentFactory.cpp" />
+    <ClCompile Include="GameLib\GameObject\Others\GameObjectSaver.cpp" />
     <ClCompile Include="GameLib\Input\KeyInput.cpp" />
     <ClCompile Include="GameLib\Input\MouseInput.cpp" />
     <ClCompile Include="GameLib\Random.cpp" />

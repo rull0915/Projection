@@ -36,3 +36,16 @@ void ModelComponent::Draw(Renderer& renderer)
     // 透明度をリセット
     renderer.SetAlpha(1.0f);
 }
+
+void ModelComponent::Save(json& js)
+{
+    js =
+    {
+        { "ModelName", m_modelName },
+    };
+}
+
+void ModelComponent::Load(json & js)
+{
+    SetModel(js["ModelName"]);
+}

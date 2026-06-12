@@ -72,7 +72,7 @@ private:
     //-----------------------------------------------------
     
     // コライダーのタイプ
-    ColliderType m_type;
+    const ColliderType m_type;
 
     // ローカル中心座標
     DirectX::SimpleMath::Vector3 m_localCenterPos;
@@ -132,4 +132,7 @@ protected:
 
     inline void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos) const { m_worldCenterPos = pos; }
     inline void SetBoundingBox(const AABB& box) const { m_boundingBox = box; }
+
+    void SaveBasePart(json& js);
+    void LoadBasePart(json& js);
 };

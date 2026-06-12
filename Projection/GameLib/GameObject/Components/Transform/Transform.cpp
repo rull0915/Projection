@@ -85,6 +85,39 @@ void Transform::SetParent(Transform* parent)
     SetDirty();
 }
 
+void Transform::Save(json& js)
+{
+    int a = 0;
+
+    // 情報を追加
+    js = {
+
+        // 位置
+        { "Position", { m_localPosition.x, m_localPosition.y, m_localPosition.z } },
+
+        // 回転(クォータニオン)
+        { "Rotation", { m_localRotation.x, m_localRotation.y, m_localRotation.z, m_localRotation.w } },
+
+        // スケール
+        { "Scale", { m_localScale.x, m_localScale.y, m_localScale.z } }
+    };
+}
+
+void Transform::Load(json& js)
+{
+    // 位置
+    auto& pos = js["Position"];
+    m_localPosition = { pos[0], pos[1], pos[2] };
+
+    // 回転
+    auto& rot = js["Rotation"];
+    m_localRotation = { rot[0], rot[1], rot[2], rot[3] };
+
+    // スケール
+    auto& sc = js["Scale"];
+    m_localScale = { sc[0], sc[1], sc[2] };
+}
+
 /// <summary>
 /// 全ての子供を解放する関数
 /// </summary>

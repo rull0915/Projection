@@ -116,4 +116,7 @@ protected:
     inline void ResetDirty() const { m_isDirty = false; }
     inline void SetChanged(bool flag) const { m_isChanged = flag; }
     inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
+
+    void SaveIPart(json& js);
+    void LoadIPart(json& js);
 };

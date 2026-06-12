@@ -24,7 +24,7 @@
 //====================================================//
 // ƒNƒ‰ƒXéŒ¾
 //====================================================//
-class ProjectionSmoothCamera : public Camera<ProjectionSmoothCamera, static_cast<ComponentID>(0x0704)>
+class ProjectionSmoothCamera : public Camera<ProjectionSmoothCamera, ComponentID::ProjectionSmoothCamera>
 {
 private:
 

@@ -120,4 +120,9 @@ public:
 
     template<typename T>
     void GetComponents(std::vector<T*>& vec) { m_own->GetComponents<T>(vec); }
+
+    // ------ •Û‘¶ ------ //
+    virtual void Save([[maybe_unused]] json& js) {};
+
+    virtual void Load([[maybe_unused]] json& js) {};
 };

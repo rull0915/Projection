@@ -32,8 +32,8 @@ public:
 
     virtual ~IComponentOwner() = default;
 
-    virtual const std::wstring& GetTag() const = 0;
-    virtual void SetTag(const std::wstring& tag) = 0;
+    virtual const std::string& GetTag() const = 0;
+    virtual void SetTag(const std::string& tag) = 0;
 
     // -------- ComponentŠÖ˜A -------- //
 

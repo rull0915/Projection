@@ -193,3 +193,19 @@ void CapsuleCollider::DebugDraw(Renderer& renderer, int color) const
 
     renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 }
+
+void CapsuleCollider::Save(json& js)
+{
+    SaveBasePart(js);
+
+    js["LineDir"] = static_cast<int>(m_lineDir);
+    js["Height"] = m_capsuleHeight;
+    js["Radius"] = m_radius;
+}
+
+void CapsuleCollider::Load(json & js)
+{
+    m_lineDir = static_cast<AxisType>(js["LineDir"]);
+    m_capsuleHeight = js["Height"];
+    m_radius = js["Radius"];
+}

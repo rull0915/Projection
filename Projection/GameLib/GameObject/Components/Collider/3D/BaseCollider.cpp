@@ -33,6 +33,20 @@ BaseCollider::~BaseCollider()
 {
 }
 
+void BaseCollider::SaveBasePart(json& js)
+{
+	SaveIPart(js);
+	js["LocalPosition"] = { m_localCenterPos.x, m_localCenterPos.y, m_localCenterPos.z };
+}
+
+void BaseCollider::LoadBasePart(json& js)
+{
+	LoadIPart(js);
+
+	auto& pos = js["LocalPosition"];
+	m_localCenterPos = { pos[0], pos[1], pos[2] };
+}
+
 void AABB::DebugDraw(Renderer& renderer, int color) const
 {
 	// --- êFÇÃìWäJ ---

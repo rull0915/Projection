@@ -271,6 +271,10 @@ public:
         m_changeCache = false;
     }
 
+    // ------ •Û‘¶ ------ //
+    void Save(json& js) override;
+    void Load(json& js) override;
+
 private:
 
     //-----------------------------------------------------

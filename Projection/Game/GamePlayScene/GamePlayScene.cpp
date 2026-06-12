@@ -17,6 +17,8 @@
 #include <string>
 #include <format>
 
+#include "GameLib/GameObject/Others/GameObjectSaver.h"
+
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
 	: Scene(pGame->GetSceneManager())
@@ -59,8 +61,11 @@ void GamePlayScene::Initialize()
 		m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 	}
 
-	GenerateCube({ 0, -3, 0 }, 0, { 3, 1, 3 });
-	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
+	auto* cube = Generate();
+	GameObjectSaver::LoadObject(cube, "Test.json");
+
+//	GenerateCube({ 0, -3, 0 }, 0, { 3, 1, 3 });
+//	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
 
 
 	for (int i = 0; i < 0; i++)
@@ -100,11 +105,14 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 		// 何かに衝突していれば
 		if (GetPhysics().RayCast(ray, 100.0f, hit))
 		{
-			// 衝突点にオブジェクトを作る
-			auto obj = Generate(hit.point);
+			//// 衝突点にオブジェクトを作る
+			//auto obj = Generate(hit.point);
 
-			obj->AddComponent<ModelComponent>()->SetModel("Template_Sphere");
-			obj->GetComponent<Transform>()->SetLocalScale({ 0.2f, 0.2f, 0.2f });
+			//obj->AddComponent<ModelComponent>()->SetModel("Template_Sphere");
+			//obj->GetComponent<Transform>()->SetLocalScale({ 0.2f, 0.2f, 0.2f });
+
+			// テスト保存
+			GameObjectSaver::SaveObject(static_cast<GameObject*>(hit.collider->GetOwn()), "Test.json");
 		}
 	}
 }
@@ -255,7 +263,7 @@ GameObject* GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, i
 	cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
 	cube->AddComponent<ChangeColliderComponent>();
 
-	cube->SetTag(L"Floor");
+	cube->SetTag("Floor");
 
 	return cube;
 }

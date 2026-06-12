@@ -130,4 +130,7 @@ public:
 
     // •`‰æŠÖ”
     void DebugDraw(Renderer& renderer, int color) const override;
+
+    void Save(json& js) override;
+    void Load(json& js) override;
 };

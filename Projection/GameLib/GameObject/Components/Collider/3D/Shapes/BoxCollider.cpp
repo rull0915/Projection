@@ -98,3 +98,17 @@ void BoxCollider::DebugDraw(Renderer& renderer, int color) const
         renderer.Draw().Line(points[edges[i * 2]], points[edges[i * 2 + 1]], color);
     }
 }
+
+void BoxCollider::Save(json& js)
+{
+    SaveBasePart(js);
+    js["LocalSize"] = { m_localSize.x, m_localSize.y, m_localSize.z };
+}
+
+void BoxCollider::Load(json & js)
+{
+    LoadBasePart(js);
+
+    auto& scale = js["LocalSize"];
+    m_localSize = { scale[0], scale[1], scale[2] };
+}

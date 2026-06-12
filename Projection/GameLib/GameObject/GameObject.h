@@ -57,7 +57,7 @@ private:
 
 public:
     // タグ
-    std::wstring m_tag;
+    std::string m_tag;
 
 public:
 
@@ -87,7 +87,7 @@ public:
     
     bool IsDead() const { return m_isDead; }
 
-    const std::wstring& GetTag() const override { return m_tag; }
+    const std::string& GetTag() const override { return m_tag; }
 
     //-----------------------------------------------------
     // セッター
@@ -100,7 +100,7 @@ public:
         m_components.SetScene(scene);
     }
 
-    void SetTag(const std::wstring& tag) override { m_tag = tag; }
+    void SetTag(const std::string& tag) override { m_tag = tag; }
 
     void Destroy() override { m_isDead = true; }
 

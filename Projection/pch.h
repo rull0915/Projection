@@ -98,3 +98,9 @@ namespace DX
 
 // 静的変数の定義
 constexpr auto PI_F = 3.14159265f;
+
+// ======= 外部ライブラリ ======= //
+
+// json関連
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;

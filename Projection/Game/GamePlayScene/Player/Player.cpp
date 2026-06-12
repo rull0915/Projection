@@ -68,7 +68,7 @@ void Player::Update(const GameTimer& gameTimer)
 void Player::OnCollisionEnter2D(HitContact2D& contact)
 {
 	// 床にぶつかっていた場合
-	if (contact.other->GetTag() == L"Floor")
+	if (contact.other->GetTag() == "Floor")
 	{
 		// 衝突したオブジェクトに近づくように補正する
 
@@ -98,7 +98,7 @@ void Player::OnCollisionEnter2D(HitContact2D& contact)
 void Player::OnTriggerStay(HitContact& contact)
 {
 	// 床にぶつかっていた場合
-	if (contact.other->GetTag() == L"Floor")
+	if (contact.other->GetTag() == "Floor")
 	{
 		// 衝突した法線が上方向に近いかどうかを判定
 		float val = DirectX::SimpleMath::Vector3::Up.Dot(-contact.normal);
@@ -112,7 +112,7 @@ void Player::OnTriggerStay(HitContact& contact)
 void Player::OnTriggerExit(HitContact & contact)
 {
 	// 床にぶつかっていた場合
-	if (contact.other->GetTag() == L"Floor")
+	if (contact.other->GetTag() == "Floor")
 	{
 		m_canJump = false;
 	}

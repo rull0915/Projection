@@ -1,0 +1,54 @@
+{
+    "Components": [
+        {
+            "ComponentID": 256,
+            "Data": {
+                "Position": [
+                    0.0,
+                    -3.0,
+                    0.0
+                ],
+                "Rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "Scale": [
+                    3.0,
+                    1.0,
+                    3.0
+                ]
+            }
+        },
+        {
+            "ComponentID": 513,
+            "Data": {
+                "Layer": 0,
+                "LocalPosition": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "LocalSize": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "NeedInfo": true,
+                "Trigger": false
+            }
+        },
+        {
+            "ComponentID": 1537,
+            "Data": {
+                "ModelName": "Template_Cube"
+            }
+        },
+        {
+            "ComponentID": 4096,
+            "Data": null
+        }
+    ],
+    "Tag": "Floor"
+}
