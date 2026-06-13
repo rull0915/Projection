@@ -4,49 +4,39 @@
             "ComponentID": 256,
             "Data": {
                 "Position": [
-                    0.0,
-                    -3.0,
-                    0.0
+                    -8.226816177368164,
+                    -9.000051498413086,
+                    8.127761840820313
                 ],
                 "Rotation": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
+                    0.7219986319541931,
+                    -0.2294296771287918,
+                    0.16575708985328674,
+                    0.6313513517379761
                 ],
                 "Scale": [
-                    3.0,
                     1.0,
-                    3.0
+                    1.0,
+                    1.0
                 ]
             }
         },
         {
-            "ComponentID": 513,
-            "Data": {
-                "Layer": 0,
-                "LocalPosition": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "LocalSize": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "NeedInfo": true,
-                "Trigger": false
-            }
+            "ComponentID": 514,
+            "Data": null
         },
         {
             "ComponentID": 1537,
             "Data": {
-                "ModelName": "Template_Cube"
+                "ModelName": "Template_Sphere"
             }
         },
         {
             "ComponentID": 4096,
+            "Data": null
+        },
+        {
+            "ComponentID": 1024,
             "Data": null
         }
     ],

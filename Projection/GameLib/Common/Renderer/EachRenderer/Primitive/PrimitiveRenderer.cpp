@@ -501,6 +501,8 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 /// <param name="vertexCount">’¸“_‚Ì”</param>
 void PrimitiveRenderer::DrawIndex(D3D11_PRIMITIVE_TOPOLOGY topology, uint16_t* indexes, uint16_t indexCount, DirectX::VertexPositionColor* vertexes, uint16_t vertexCount)
 {
+	CheckChangeState();
+
 	m_primitiveBatch->DrawIndexed(topology, indexes, indexCount, vertexes, vertexCount);
 }
 

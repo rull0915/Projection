@@ -118,9 +118,9 @@ public:
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
-    void SetWorld(DirectX::SimpleMath::Matrix world) { m_drawState.SetWorld(world); }
-    void SetView(DirectX::SimpleMath::Matrix view) { m_drawState.SetView(view); }
-    void SetProjection(DirectX::SimpleMath::Matrix proj) { m_drawState.SetProjection(proj); }
+    void SetWorld(const DirectX::SimpleMath::Matrix& world) { m_drawState.SetWorld(world); }
+    void SetView(const DirectX::SimpleMath::Matrix& view) { m_drawState.SetView(view); }
+    void SetProjection(const DirectX::SimpleMath::Matrix& proj) { m_drawState.SetProjection(proj); }
     void SetAlpha(float alpha) { m_drawState.SetAlpha(alpha); }
 
 private:

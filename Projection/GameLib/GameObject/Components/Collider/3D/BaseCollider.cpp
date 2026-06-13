@@ -49,6 +49,8 @@ void BaseCollider::LoadBasePart(json& js)
 
 void AABB::DebugDraw(Renderer& renderer, int color) const
 {
+	renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
+
 	// --- F‚Ì“WŠJ ---
 	float r = static_cast<float>((color >> 16) & 0xFF) / 255.0f;
 	float g = static_cast<float>((color >> 8) & 0xFF) / 255.0f;

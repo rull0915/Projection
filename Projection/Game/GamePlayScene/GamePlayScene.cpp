@@ -62,10 +62,10 @@ void GamePlayScene::Initialize()
 	}
 
 	auto* cube = Generate();
-	GameObjectSaver::LoadObject(cube, "Test.json");
+//	GameObjectSaver::LoadObject(cube, "Test.json");
 
-//	GenerateCube({ 0, -3, 0 }, 0, { 3, 1, 3 });
-//	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
+	GenerateCube({ 0, -3, 0 }, 0, { 3, 1, 3 });
+	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
 
 
 	for (int i = 0; i < 0; i++)
@@ -80,7 +80,7 @@ void GamePlayScene::Initialize()
 	auto goal = Generate({ 10, 5, 1 });
 	goal->AddComponent<CapsuleCollider>()->SetTrigger(true);
 
-	GenerateCube({ 0, -10, 0 }, 0, { 20, 1, 20 });
+//	GenerateCube({ 0, -10, 0 }, 0, { 20, 1, 20 });
 
 //	InitializeUITest();
 }
