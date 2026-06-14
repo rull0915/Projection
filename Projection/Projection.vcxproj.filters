@@ -422,6 +422,8 @@
     <ClInclude Include="Game\GamePlayScene\Stage\BlockGenerator.h" />
     <ClInclude Include="GameLib\GameObject\Others\GameObjectSaver.h" />
     <ClInclude Include="GameLib\GameObject\Others\ComponentFactory.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -595,6 +597,8 @@
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="GameLib\GameObject\Others\GameObjectSaver.cpp" />
     <ClCompile Include="GameLib\GameObject\Others\ComponentFactory.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -99,6 +99,7 @@ public:
     }
 
     inline IColliderReceiver* GetReceiver() const { return m_colliderReceiver; }
+    uint32_t GetVersion() const { return m_latestVersion; }
 
     //-----------------------------------------------------
     // セッター
