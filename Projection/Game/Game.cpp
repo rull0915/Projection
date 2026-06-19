@@ -6,6 +6,7 @@
 #include "Game.h"
 
 #include "GameLib/Resources/ResourceManager.h"
+#include "Game/AStarTestScene/AStarTestScene.h"
 
 #include "GameLib/Input/KeyInput.h"
 #include "GameLib/Input/MouseInput.h"
@@ -57,6 +58,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     // ====== シーンの登録 ====== //
     m_sceneManager.RegisterScene("GamePlay", std::make_unique<GamePlayScene>(this));
+    m_sceneManager.RegisterScene("AStar", std::make_unique<AStarTestScene>(this));
 
     // 開始時のシーンを設定
     m_sceneManager.SetStartScene("GamePlay");

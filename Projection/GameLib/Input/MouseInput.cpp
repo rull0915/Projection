@@ -111,9 +111,6 @@ DirectX::SimpleMath::Vector2 MouseInput::GetOldMousePoint()
 
 DirectX::SimpleMath::Vector2 MouseInput::GetScaledMousePoint()
 {
-	// ウィンドウハンドルを取得
-	HWND hwnd = ResourceManager::Instance().GetResources()->GetWindow();
-
 	// 今の画面サイズを取得
 	RECT rc;
 	GetClientRect(ResourceManager::Instance().GetResources()->GetWindow(), &rc);

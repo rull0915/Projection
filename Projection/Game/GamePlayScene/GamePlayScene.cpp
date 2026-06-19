@@ -3,21 +3,22 @@
 #include "GamePlayScene.h"
 #include "../Game.h"
 
+// コンポーネント
 #include "Camera/ProjectionSmoothCamera.h"
 #include "Camera/TPSCamera.h"
 #include "Player/Player.h"
+#include "Stage/Components/MoveComponent.h"
 
+// 管理クラス
 #include "ChangeDimention/ChangeColliderComponent.h"
+#include "Enemy/AI/AStarPathFinder.h"
 
-#include "WindowManager.h"
+// 入力
 #include "GameLib/Input/KeyInput.h"
 
+// その他
+#include "WindowManager.h"
 #include <GameLib/Random.h>
-
-#include <string>
-#include <format>
-
-#include "GameLib/GameObject/Others/GameObjectSaver.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -27,6 +28,7 @@ GamePlayScene::GamePlayScene(Game* pGame)
 	, m_pTestCanvas{ nullptr }
 	, m_pTestUI{ nullptr }
 	, m_player{ nullptr }
+	, m_testNav{ 15.0f, 1.0f, 5.0f }
 {
 }
 
@@ -61,17 +63,22 @@ void GamePlayScene::Initialize()
 		m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 	}
 
-	auto* cube = Generate();
+//	auto* cube = Generate();
 //	GameObjectSaver::LoadObject(cube, "Test.json");
 
 	GenerateCube({ 0, -3, 0 }, 0, { 3, 1, 3 });
 	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
 
 
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 200; i++)
 	{
-		auto cube = GenerateCube({ Random::GetFloat(-10, 10), Random::GetFloat(0, 5), Random::GetFloat(-10, 10) }, Random::Get(0, 2), { 1.0f, 1.0f, 1.0f }, { Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F) });
-		cube->AddComponent<RigidBody>();
+		auto cube = GenerateCube(
+			{ Random::GetFloat(-20, 20), Random::GetFloat(-3, 5), Random::GetFloat(-20, 20) }
+			,0
+			,{ 1.0f, 1.0f, 1.0f } 
+			//,{ Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F) }
+		);
+		if (i < 10) cube->AddComponent<MoveComponent>()->SetFunc(TestMove);
 	}
 
 	// 次元管理クラスにカメラを渡す
@@ -82,12 +89,14 @@ void GamePlayScene::Initialize()
 
 //	GenerateCube({ 0, -10, 0 }, 0, { 20, 1, 20 });
 
-//	InitializeUITest();
+	m_testNav.Initialize();
 }
 
 // 更新関数
 void GamePlayScene::Update(const GameTimer& gameTimer)
 {
+	gameTimer;
+
 	m_dimentionManager.Update();
 
 	if (KeyInput::GetKeyDown(KeyCode::Q))
@@ -95,26 +104,17 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 		TryChangeDimention();
 	}
 
-	// マウス左クリック時
-	if (MouseInput::GetMouseDown(MOUSE_LEFT))
+	if (KeyInput::GetKeyDown(KeyCode::R))
 	{
-		// マウスの位置へrayを飛ばす
-		Ray ray = GetCamera().GetMainCamera()->GetRayToScreenPoint(MouseInput::GetScaledMousePoint());
-		RaycastHit hit;
-
-		// 何かに衝突していれば
-		if (GetPhysics().RayCast(ray, 100.0f, hit))
-		{
-			//// 衝突点にオブジェクトを作る
-			//auto obj = Generate(hit.point);
-
-			//obj->AddComponent<ModelComponent>()->SetModel("Template_Sphere");
-			//obj->GetComponent<Transform>()->SetLocalScale({ 0.2f, 0.2f, 0.2f });
-
-			// テスト保存
-			GameObjectSaver::SaveObject(static_cast<GameObject*>(hit.collider->GetOwn()), "Test.json");
-		}
+		ChangeScene(
+			"GamePlay",
+			std::make_unique<FadeTransition>(0.5f, Transition::Mode::In),
+			std::make_unique<FadeTransition>(0.5f, Transition::Mode::Out)
+		);
 	}
+
+
+	m_testNav.Update();
 }
 
 // 描画関数
@@ -133,41 +133,20 @@ void GamePlayScene::Render(Renderer& renderer)
 	DirectX::SimpleMath::Vector3 playerLeftArrow = DirectX::SimpleMath::Vector3::Transform(-player->GetForward(), left);
 	DirectX::SimpleMath::Vector3 playerRightArrow = DirectX::SimpleMath::Vector3::Transform(-player->GetForward(), right);
 
-	renderer.Draw().Line( playerPos, playerForward, 0x00FFFF );
-	renderer.Draw().Line( playerForward + playerLeftArrow * 0.5f, playerForward, 0x00FFFF );
-	renderer.Draw().Line( playerForward + playerRightArrow * 0.5f, playerForward, 0x00FFFF );
+	renderer.Draw().Line(playerPos, playerForward, 0x00FFFF);
+	renderer.Draw().Line(playerForward + playerLeftArrow * 0.5f, playerForward, 0x00FFFF);
+	renderer.Draw().Line(playerForward + playerRightArrow * 0.5f, playerForward, 0x00FFFF);
 
-	renderer;
+	static std::vector<NavigationGraph::Edge> edges;
+	edges = AStarPathFinder::MakePath(m_testNav, 0, 10);
 
-	auto tex = ResourceManager::Instance().GetTexture("TemplateImage");
-
-	renderer.SetAlpha(1.0f);
-
-	DirectX::SimpleMath::Vector2 mouse = MouseInput::GetScaledMousePoint();
-
-	std::wstring message = std::format(L"Mouse X: {} Y: {}", (int)mouse.x, (int)mouse.y);
-
-
-	renderer.Draw().Text()
-		.Extend({ 0.3f, 0.3f })
-		.Execute(ResourceManager::Instance().GetSpriteFont("Default"), message.c_str(), {0, 0}, 0xFFFFFF);
-
-	RECT rc;
-	GetClientRect(ResourceManager::Instance().GetResources()->GetWindow(), &rc);
-	
-	int width  = rc.right - rc.left;
-	int height = rc.bottom - rc.top;
-
-	message = std::format(L"Window W: {} H: {}", width, height);
-
-	renderer.Draw().Text()
-		.Extend(0.2f)
-		.Execute(ResourceManager::Instance().GetSpriteFont("Default"), message.c_str(), { Screen::CENTER_X, 0 });
+	m_testNav.DebugDraw(edges, renderer);
 }
 
 // 終了関数
 void GamePlayScene::Finalize()
 {
+	m_testNav.ResetGraph();
 }
 
 void GamePlayScene::RegisterComponentOnDerived(BaseComponent* component)
@@ -177,6 +156,11 @@ void GamePlayScene::RegisterComponentOnDerived(BaseComponent* component)
 	{
 		m_dimentionManager.AddChangeComponent(static_cast<ChangeColliderComponent*>(component));
 	}
+	// 
+	if (component->GetID() == ComponentID::LandingCandidatePoints)
+	{
+		m_testNav.AddNode(static_cast<LandingCandidatePoints*>(component));
+	}
 }
 
 void GamePlayScene::UnRegisterComponentOnDerived(BaseComponent* component)
@@ -185,6 +169,10 @@ void GamePlayScene::UnRegisterComponentOnDerived(BaseComponent* component)
 	if (component->GetID() == ComponentID::ChangeColliderComponent)
 	{
 		m_dimentionManager.RemoveChangeComponent(static_cast<ChangeColliderComponent*>(component));
+	}
+	if (component->GetID() == ComponentID::LandingCandidatePoints)
+	{
+		m_testNav.RemoveNode(static_cast<LandingCandidatePoints*>(component));
 	}
 }
 
@@ -262,6 +250,9 @@ GameObject* GamePlayScene::GenerateCube(DirectX::SimpleMath::Vector3 position, i
 	cube->GetComponent<Transform>()->SetLocalScale(scale);
 	cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
 	cube->AddComponent<ChangeColliderComponent>();
+
+	// テスト用
+	cube->AddComponent<LandingCandidatePoints>();
 
 	cube->SetTag("Floor");
 

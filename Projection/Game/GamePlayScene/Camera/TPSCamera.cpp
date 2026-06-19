@@ -25,7 +25,7 @@ void TPSCamera::Awake()
 	m_pOwnTransform = GetComponent<Transform>();
 
 	// マウスを相対モードに
-//	MouseInput::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+	MouseInput::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::Start()
@@ -33,6 +33,8 @@ void TPSCamera::Start()
 
 void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 {
+	gameTimer;
+
 	// ターゲットが設定されていなければスキップ
 	if (!m_pTargetTransform) return;
 
@@ -47,7 +49,7 @@ void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 	m_angle.x = std::clamp(m_angle.x, -PI_F * (15.0f / 32.0f), PI_F * (15.0f / 32.0f));
 
 	// 角度に合うように位置を補正する
-	DirectX::SimpleMath::Vector3 pos = m_pTargetTransform->GetLocalPosition();
+	DirectX::SimpleMath::Vector3 pos = m_pTargetTransform->GetWorldPosition();
 
 	// 位置を算出
 	pos += DirectX::SimpleMath::Vector3{ 

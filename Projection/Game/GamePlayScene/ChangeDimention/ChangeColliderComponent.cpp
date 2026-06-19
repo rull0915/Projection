@@ -203,12 +203,12 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 		}
 
 		// 含めない2点のインデックスを算出
-		int exclude[2] = { index, ((index + 2) % 4) + 4 };
+		size_t exclude[2] = { index, ((index + 2) % 4) + 4 };
 
 		// 2Dの六角形コライダーを生成
 		ConvexPolygonCollider2D* collider = owner->AddComponent<ConvexPolygonCollider2D>();
 
-		int num = exclude[0];
+		size_t num = exclude[0];
 
 		// 最初の3個
 		for (size_t i = 0; i < 3; ++i)

@@ -156,19 +156,19 @@ void PrimitiveRenderer::DrawTriangle(DirectX::VertexPositionColor v1, DirectX::V
 	// ステート変更のチェック
 	CheckChangeState();
 
-	DirectX::VertexPositionColor vertexes[3] = { v1, v2, v3 };
+	DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
 
 	// 描画
 	 
 	// 塗りつぶすなら
 	if (fillFlag)
 	{
-		m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertexes, 3);
+		m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertices, 3);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 6, vertexes, 3);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 6, vertices, 3);
 	}
 }
 
@@ -193,19 +193,19 @@ void PrimitiveRenderer::DrawTriangle(DirectX::SimpleMath::Vector3 p1, DirectX::S
 	DirectX::VertexPositionColor v2(p2, { r, g, b, a });
 	DirectX::VertexPositionColor v3(p3, { r, g, b, a });
 
-	DirectX::VertexPositionColor vertexes[3] = { v1, v2, v3 };
+	DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
 
 	// 描画
 
 	// 塗りつぶすなら
 	if (fillFlag)
 	{
-		m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertexes, 3);
+		m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertices, 3);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 6, vertexes, 3);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 6, vertices, 3);
 	}
 }
 
@@ -220,20 +220,20 @@ void PrimitiveRenderer::DrawRect(DirectX::VertexPositionColor v1, DirectX::Verte
 {
 	CheckChangeState();
 
-	DirectX::VertexPositionColor vertexes[4] = { v1, v2, v3, v4 };
+	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 
 	// 描画
 
 	// 塗りつぶすなら
 	if (fillFlag)
 	{
-		uint16_t indexes[] = { 0, 1, 2, 2, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes, 6, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 2, 2, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices, 6, vertices, 4);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 8, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 8, vertices, 4);
 	}
 }
 
@@ -259,18 +259,18 @@ void PrimitiveRenderer::DrawRect(DirectX::SimpleMath::Vector3 p1, DirectX::Simpl
 	DirectX::VertexPositionColor v3(p3, { r, g, b, a });
 	DirectX::VertexPositionColor v4(p4, { r, g, b, a });
 
-	DirectX::VertexPositionColor vertexes[4] = { v1, v2, v3, v4 };
+	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 
 	// 塗りつぶすなら
 	if (fillFlag)
 	{
-		uint16_t indexes[] = { 0, 1, 2, 2, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes, 6, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 2, 2, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices, 6, vertices, 4);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 8, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 8, vertices, 4);
 	}
 
 }
@@ -342,8 +342,8 @@ void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, Direc
 	float step = 2.0f * PI_F / static_cast<float>(division);
 
 	// 頂点座標を格納する配列を用意
-	std::vector<DirectX::VertexPositionColor> vertexes;
-	vertexes.resize(division + 1);
+	std::vector<DirectX::VertexPositionColor> vertices;
+	vertices.resize(division + 1);
 
 	// 分割数分ループ
 	for (int i = 0; i < division; ++i)
@@ -353,41 +353,41 @@ void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, Direc
 		// 頂点情報を計算
 		DirectX::VertexPositionColor v(centerPos + (vU * cosf(theta) + vV * sinf(theta)) * radius, col);
 
-		vertexes[i] = v;
+		vertices[i] = v;
 	}
 
-	std::vector<uint16_t> indexes;
+	std::vector<uint16_t> indices;
 
 	// 塗りつぶすとき
 	if (fillFlag)
 	{
-		vertexes[division] = DirectX::VertexPositionColor(centerPos, col);
+		vertices[division] = DirectX::VertexPositionColor(centerPos, col);
 
-		indexes.resize(division * 3);
+		indices.resize(division * 3);
 
 		for (uint16_t i = 0; i < division; i++)
 		{
-			indexes[i * 3 + 0] = i;
-			indexes[i * 3 + 1] = (i + 1) % division;
-			indexes[i * 3 + 2] = division;
+			indices[i * 3 + 0] = i;
+			indices[i * 3 + 1] = (i + 1) % division;
+			indices[i * 3 + 2] = division;
 		}
 
 		// 三角形を構築して渡す
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes.data(), division * 3, vertexes.data(), division + 1);
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices.data(), division * 3, vertices.data(), division + 1);
 	}
 	// ワイヤーフレームの時
 	else
 	{
-		indexes.resize(division * 2);
+		indices.resize(division * 2);
 
 		for (uint16_t i = 0; i < division; i++)
 		{
-			indexes[i * 2] = i;
-			indexes[i * 2 + 1] = (i + 1) % division;
+			indices[i * 2] = i;
+			indices[i * 2 + 1] = (i + 1) % division;
 		}
 
 		// 線を構築して渡す
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes.data(), division * 2, vertexes.data(), division);
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices.data(), division * 2, vertices.data(), division);
 	}
 }
 
@@ -441,8 +441,8 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 	float step = endRadian / static_cast<float>(division);
 
 	// 頂点座標を格納する配列を用意
-	std::vector<DirectX::VertexPositionColor> vertexes;
-	vertexes.resize(division + 2);
+	std::vector<DirectX::VertexPositionColor> vertices;
+	vertices.resize(division + 2);
 
 	for (int i = 0; i <= division; ++i)
 	{
@@ -453,41 +453,41 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 
 		DirectX::VertexPositionColor v(currentPoint, col);
 
-		vertexes[i] = v;
+		vertices[i] = v;
 	}
 
-	std::vector<uint16_t> indexes;
+	std::vector<uint16_t> indices;
 
 	// 塗りつぶすとき
 	if (fillFlag)
 	{
-		vertexes[division + 1] = DirectX::VertexPositionColor(center, col);
+		vertices[division + 1] = DirectX::VertexPositionColor(center, col);
 
-		indexes.resize((division + 1) * 3);
+		indices.resize((division + 1) * 3);
 
 		for (uint16_t i = 0; i <= division; i++)
 		{
-			indexes[i * 3 + 0] = i;
-			indexes[i * 3 + 1] = (i + 1);
-			indexes[i * 3 + 2] = division + 1;
+			indices[i * 3 + 0] = i;
+			indices[i * 3 + 1] = (i + 1);
+			indices[i * 3 + 2] = division + 1;
 		}
 
 		// 三角形を構築して渡す
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes.data(), division * 3 + 3, vertexes.data(), division + 2);
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices.data(), division * 3 + 3, vertices.data(), division + 2);
 	}
 	// ワイヤーフレームの時
 	else
 	{
-		indexes.resize((division) * 2);
+		indices.resize((division) * 2);
 
 		for (uint16_t i = 0; i < division; i++)
 		{
-			indexes[i * 2] = i;
-			indexes[i * 2 + 1] = (i + 1);
+			indices[i * 2] = i;
+			indices[i * 2 + 1] = (i + 1);
 		}
 
 		// 線を構築して渡す
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes.data(), division * 2 + 2, vertexes.data(), division + 1);
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices.data(), division * 2 + 2, vertices.data(), division + 1);
 	}
 }
 
@@ -495,15 +495,15 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 /// 頂点情報を渡して描画する関数
 /// </summary>
 /// <param name="topology">トポロジータイプ</param>
-/// <param name="indexes">インデックスの配列</param>
+/// <param name="indices">インデックスの配列</param>
 /// <param name="indexCount">インデックスの数</param>
-/// <param name="vertexes">頂点配列</param>
+/// <param name="vertices">頂点配列</param>
 /// <param name="vertexCount">頂点の数</param>
-void PrimitiveRenderer::DrawIndex(D3D11_PRIMITIVE_TOPOLOGY topology, uint16_t* indexes, uint16_t indexCount, DirectX::VertexPositionColor* vertexes, uint16_t vertexCount)
+void PrimitiveRenderer::DrawIndex(D3D11_PRIMITIVE_TOPOLOGY topology, uint16_t* indices, uint16_t indexCount, DirectX::VertexPositionColor* vertices, uint16_t vertexCount)
 {
 	CheckChangeState();
 
-	m_primitiveBatch->DrawIndexed(topology, indexes, indexCount, vertexes, vertexCount);
+	m_primitiveBatch->DrawIndexed(topology, indices, indexCount, vertices, vertexCount);
 }
 
 #pragma endregion

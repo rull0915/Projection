@@ -87,8 +87,6 @@ void Transform::SetParent(Transform* parent)
 
 void Transform::Save(json& js)
 {
-    int a = 0;
-
     // î•ñ‚ğ’Ç‰Á
     js = {
 

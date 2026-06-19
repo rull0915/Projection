@@ -73,7 +73,11 @@ enum class ComponentID
 	// プロジェクション行列をスムーズに切り替えるカメラ
 	ProjectionSmoothCamera	= 0x0703,
 	// 着地候補点
-	LandingCandidatePoints	= 0x1300
+	LandingCandidatePoints	= 0x1300,
+	// 移動
+	MoveComponent			= 0x1400,
+	// 敵
+	Enemy					= 0x1500,
 };
 
 // MAIN_IDのみを切り取る関数

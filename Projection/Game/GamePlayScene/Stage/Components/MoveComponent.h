@@ -1,13 +1,13 @@
 //====================================================//
-// ファイル名   : LandingCandidatePoints.h
+// ファイル名   : MoveComponent.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/14
+// 作成日       : 2026/06/17
 //
-// 概要 : 着地候補点コンポーネント
-//       敵AIに使用する着地候補点を示すコンポーネントです
+// 概要 : 移動コンポーネント 
+//          注: RigidBodyとの併用は控えるように
 //
 // 更新履歴 :
-// 2026/06/14 新規作成
+// 2026/06/17 新規作成
 //====================================================//
 
 #pragma once
@@ -16,7 +16,7 @@
 // インクルードファイル
 //====================================================//
 #include "GameLib/GameObject/Components/Component.h"
-#include "GameLib/GameObject/Components/Collider/3D/BaseCollider.h"
+#include <functional>
 
 //====================================================//
 // 前方宣言
@@ -26,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class LandingCandidatePoints : public Component<LandingCandidatePoints, ComponentID::LandingCandidatePoints>
+class MoveComponent : public Component<MoveComponent, ComponentID::MoveComponent>
 {
 private:
 
@@ -39,37 +39,31 @@ private:
     // メンバ変数
     //-----------------------------------------------------
 
-    // 着地候補点
-    std::vector<DirectX::SimpleMath::Vector3> m_candidatePoints;
+    // 移動の式
+    // 引数: 時間
+    // 戻り値: 初期位置からの相対座標
+    std::function<DirectX::SimpleMath::Vector3(float)> m_moveFunc;
 
-    // 中心点
-    DirectX::SimpleMath::Vector3 m_centerPoint;
+    // 初期位置
+    DirectX::SimpleMath::Vector3 m_initPoint;
 
-    // 自身と対応するコライダー
-    BaseCollider* m_ownCollider;
-
-    // バージョン
-    uint32_t m_latestVersion;
-
-    // 変更済みフラグ
-    bool m_isChanged;
+    // 時間
+    float m_sumTime;
 
 public:
 
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
-    LandingCandidatePoints(IComponentOwner* owner)
+    MoveComponent(IComponentOwner* owner)
         : Component(owner)
-        , m_candidatePoints(0)
-        , m_centerPoint{}
-        , m_ownCollider{ nullptr }
-        , m_latestVersion{ 0 }
-        , m_isChanged{ true }
+        , m_moveFunc{}
+        , m_initPoint{}
+        , m_sumTime{ 0 }
     {
     }
 
-    ~LandingCandidatePoints() = default;
+    ~MoveComponent() = default;
 
     //-----------------------------------------------------
     // 公開関数
@@ -81,30 +75,12 @@ public:
 
     void Update(const GameTimer& gameTimer) override;
 
-    BaseCollider* GetOwnCollider() const { return m_ownCollider; }
-
-    // 候補点をすべて取得する関数
-    const std::vector<DirectX::SimpleMath::Vector3>& GetPoints() const { return m_candidatePoints; }
-
-    // 中心座標を返す関数
-    const DirectX::SimpleMath::Vector3& GetCenterPoint() const { return m_centerPoint; }
-
-    // フラグリセット
-    void ResetChangedFlag() { m_isChanged = false; }
-
-    // フラグを返す
-    bool IsChanged() const { return m_isChanged; }
-
+    void SetFunc(const std::function<DirectX::SimpleMath::Vector3(float)>& func) { m_moveFunc = func; }
 private:
 
     //-----------------------------------------------------
     // 内部実装
     //-----------------------------------------------------
-
-    // 候補点の座標を作成する関数
-    void UpdateCandidatePoints();
-
-    // ボックスコライダーの場合
-    void UpdateCandidatePointsOnBox();
-
+    void OnCollisionEnter(HitContact& contact) override;
+    void OnCollisionExit(HitContact& contact) override;
 };

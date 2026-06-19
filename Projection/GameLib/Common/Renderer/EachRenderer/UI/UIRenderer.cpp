@@ -132,19 +132,19 @@ void UIRenderer::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMa
 	DirectX::VertexPositionColor v2(Screen::GetScreenPos(p2), { r, g, b, a });
 	DirectX::VertexPositionColor v3(Screen::GetScreenPos(p3), { r, g, b, a });
 
-	DirectX::VertexPositionColor vertexes[3] = { v1, v2, v3 };
+	DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
 
 	// •`‰æ
 
 	// “h‚è‚Â‚Ô‚·‚È‚ç
 	if (fillFlag)
 	{
-		m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertexes, 3);
+		m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertices, 3);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 6, vertexes, 3);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 6, vertices, 3);
 	}
 }
 
@@ -160,18 +160,18 @@ void UIRenderer::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::
 	DirectX::VertexPositionColor v3(Screen::GetScreenPos(p3), { r, g, b, a });
 	DirectX::VertexPositionColor v4(Screen::GetScreenPos(p4), { r, g, b, a });
 
-	DirectX::VertexPositionColor vertexes[4] = { v1, v2, v3, v4 };
+	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 
 	// “h‚è‚Â‚Ô‚·‚È‚ç
 	if (fillFlag)
 	{
-		uint16_t indexes[] = { 0, 1, 2, 2, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes, 6, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 2, 2, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices, 6, vertices, 4);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 8, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 8, vertices, 4);
 	}
 }
 
@@ -204,8 +204,8 @@ void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius
 	float step = 2.0f * PI_F / static_cast<float>(division);
 
 	// ’¸“_À•W‚ğŠi”[‚·‚é”z—ñ‚ğ—pˆÓ
-	std::vector<DirectX::VertexPositionColor> vertexes;
-	vertexes.resize(division + 1);
+	std::vector<DirectX::VertexPositionColor> vertices;
+	vertices.resize(division + 1);
 
 	// •ªŠ„”•ªƒ‹[ƒv
 	for (int i = 0; i < division; ++i)
@@ -215,41 +215,41 @@ void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius
 		// ’¸“_î•ñ‚ğŒvZ
 		DirectX::VertexPositionColor v(Screen::GetScreenPos(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), col);
 
-		vertexes[i] = v;
+		vertices[i] = v;
 	}
 
-	std::vector<uint16_t> indexes;
+	std::vector<uint16_t> indices;
 
 	// “h‚è‚Â‚Ô‚·‚Æ‚«
 	if (fillFlag)
 	{
-		vertexes[division] = DirectX::VertexPositionColor(Screen::GetScreenPos(centerPos), col);
+		vertices[division] = DirectX::VertexPositionColor(Screen::GetScreenPos(centerPos), col);
 
-		indexes.resize(division * 3);
+		indices.resize(division * 3);
 
 		for (uint16_t i = 0; i < division; i++)
 		{
-			indexes[i * 3 + 0] = i;
-			indexes[i * 3 + 1] = (i + 1) % division;
-			indexes[i * 3 + 2] = division;
+			indices[i * 3 + 0] = i;
+			indices[i * 3 + 1] = (i + 1) % division;
+			indices[i * 3 + 2] = division;
 		}
 
 		// OŠpŒ`‚ğ\’z‚µ‚Ä“n‚·
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes.data(), division * 3, vertexes.data(), division + 1);
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices.data(), division * 3, vertices.data(), division + 1);
 	}
 	// ƒƒCƒ„[ƒtƒŒ[ƒ€‚Ì
 	else
 	{
-		indexes.resize(division * 2);
+		indices.resize(division * 2);
 
 		for (uint16_t i = 0; i < division; i++)
 		{
-			indexes[i * 2] = i;
-			indexes[i * 2 + 1] = (i + 1) % division;
+			indices[i * 2] = i;
+			indices[i * 2 + 1] = (i + 1) % division;
 		}
 
 		// ü‚ğ\’z‚µ‚Ä“n‚·
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes.data(), division * 2, vertexes.data(), division);
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices.data(), division * 2, vertices.data(), division);
 	}
 }
 
@@ -270,18 +270,18 @@ void UIRenderer::DrawBox(DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::
 	DirectX::VertexPositionColor v3(Screen::GetScreenPos(p3), { r, g, b, a });
 	DirectX::VertexPositionColor v4(Screen::GetScreenPos(p4), { r, g, b, a });
 
-	DirectX::VertexPositionColor vertexes[4] = { v1, v2, v3, v4 };
+	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 
 	// “h‚è‚Â‚Ô‚·‚È‚ç
 	if (fillFlag)
 	{
-		uint16_t indexes[] = { 0, 1, 2, 2, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indexes, 6, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 2, 2, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices, 6, vertices, 4);
 	}
 	else
 	{
-		uint16_t indexes[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
-		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 8, vertexes, 4);
+		uint16_t indices[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
+		m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 8, vertices, 4);
 	}
 }
 

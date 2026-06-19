@@ -162,9 +162,9 @@ public:
 
     void DrawIndex(
         D3D11_PRIMITIVE_TOPOLOGY topology,
-        uint16_t* indexes,
+        uint16_t* indices,
         uint16_t indexCount,
-        DirectX::VertexPositionColor* vertexes,
+        DirectX::VertexPositionColor* vertices,
         uint16_t vertexCount
     );
 };

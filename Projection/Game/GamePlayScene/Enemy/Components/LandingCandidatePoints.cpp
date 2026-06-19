@@ -57,6 +57,9 @@ void LandingCandidatePoints::Update(const GameTimer & gameTimer)
 
 		// 候補点の更新
 		UpdateCandidatePoints();
+
+		// 中心点の更新
+		m_centerPoint = GetComponent<Transform>()->GetWorldPosition();
 	}
 }
 
@@ -78,6 +81,8 @@ void LandingCandidatePoints::UpdateCandidatePoints()
 	default:
 		break;
 	}
+
+	m_isChanged = true;
 }
 
 void LandingCandidatePoints::UpdateCandidatePointsOnBox()
@@ -110,8 +115,8 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 	int useAxisIndex = -1;
 
 	// 投影後の長さが最大となる軸を調べる
-	float max = std::max(abs(dots[0]), abs(dots[1]), abs(dots[2]));
-	for (size_t i = 0; i < 3; ++i) if (max == abs(dots[i])) useAxisIndex = i;
+	float max = std::max(std::max(abs(dots[0]), abs(dots[1])), abs(dots[2]));
+	for (int i = 0; i < 3; ++i) if (max == abs(dots[i])) useAxisIndex = i;
 
 	if (useAxisIndex == -1) return;
 
@@ -135,7 +140,7 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 	m_candidatePoints.push_back(planeCenter);
 
 	// 角
-	size_t otherAxesIndex[2] { (useAxisIndex + 1) % 3, (useAxisIndex + 2) % 3 };
+	int otherAxesIndex[2] { (useAxisIndex + 1) % 3, (useAxisIndex + 2) % 3 };
 
 	// 1
 	m_candidatePoints.push_back(

@@ -36,10 +36,13 @@ void ComponentContainer::RegisterComponents()
     // その他コンポーネント
     for (auto& component : m_pReservesAdd)
     {
+        // シーンに登録
         m_pScene->RegisterComponent(component.get());
 
+        // Awake呼び出し
         component->Awake();
 
+        // リストに追加
         m_pComponents.push_back(std::move(component));
     }
 

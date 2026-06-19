@@ -16,6 +16,7 @@
 #include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
 
 #include "GameLib/GameObject/Components/Collider/3D/BaseCollider.h"
+#include "GameLib/GameObject/Components/Collider/2D/BaseCollider2D.h"
 
 #include "GameLib/Input/KeyInput.h"
 
@@ -31,7 +32,7 @@
 Player::Player(IComponentOwner* owner)
 	: Component(owner)
 	, m_pTransform{ GetComponent<Transform>() }
-	, m_material{ 0.2f, 0.1f, 0.1f, CombineMode::Minimum, CombineMode::Minimum }
+	, m_material{ 0.2f, 0.1f, 0.0f, CombineMode::Minimum, CombineMode::Minimum }
 	, m_is2D{ false }
 	, m_canJump{ false }
 {
@@ -55,6 +56,9 @@ void Player::Start()
 			collider->SetPhysicsMaterial(&m_material);
 		}
 	}
+
+	// タグを設定
+	GetOwn()->SetTag("Player");
 }
 
 void Player::Update(const GameTimer& gameTimer)
@@ -120,6 +124,8 @@ void Player::OnTriggerExit(HitContact & contact)
 
 void Player::Update2D(const GameTimer& timer)
 {
+	timer;
+
 	// 軸の向きを取得
 	DirectX::SimpleMath::Vector3 xAxis = WorldSetting2D::Instance().GetXAxis();
 	DirectX::SimpleMath::Vector3 yAxis = WorldSetting2D::Instance().GetYAxis();
@@ -134,8 +140,13 @@ void Player::Update2D(const GameTimer& timer)
 		rb->SetVelocity({ x * MOVE_SPEED, rb->GetVelocity().y });
 	}
 
+	if (auto* col = GetComponent<BaseCollider2D>())
+	{
+		col->SetPhysicsMaterial(&m_material);
+	}
+
 	// ジャンプ入力を取得
-	float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
+	//float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
 
 	//// 入力があれば
 	//if (jumpInput != 0.0f)
@@ -150,6 +161,8 @@ void Player::Update2D(const GameTimer& timer)
 
 void Player::Update3D(const GameTimer& timer)
 {
+	timer;
+
 	// ----- 移動 ----- //
 
 	// 移動方向の入力を取得

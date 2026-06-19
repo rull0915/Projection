@@ -10,7 +10,7 @@ BaseComponent* ComponentFactory::CreateComponent(GameObject* owner, ComponentID 
 {
 	switch (id)
 	{
-		// Transformã¯è‡ªå‹•ä½œæˆã•ã‚Œã‚‹ãŸã‚ç‰¹æ®Šå‡¦ç†
+		// Transform‚ÍŽ©“®ì¬‚³‚ê‚é‚½‚ß“ÁŽêˆ—
 	case ComponentID::Transform:
 		return owner->GetComponent<Transform>();
 	case ComponentID::BoxCollider:
@@ -34,7 +34,7 @@ BaseComponent* ComponentFactory::CreateComponent(GameObject* owner, ComponentID 
 	case ComponentID::ModelRenderer:
 		return owner->AddComponent<ModelComponent>();
 	case ComponentID::SpriteRenderer:
-		return nullptr;	// Todo: æœªå®Ÿè£… å®Ÿè£…ã—ãŸã‚‰è¿½åŠ ã™ã‚‹ã“ã¨
+		return nullptr;	// Todo: –¢ŽÀ‘• ŽÀ‘•‚µ‚½‚ç’Ç‰Á‚·‚é‚±‚Æ
 	case ComponentID::StandardCamera:
 		return owner->AddComponent<StandardCamera>();
 	case ComponentID::TargetCamera:

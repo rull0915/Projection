@@ -154,9 +154,9 @@ public:
         m_primitive->DrawArc(center, vStart, vEnd, division, radius, color, fillFlag);}
 
     // Index
-    void PrimitiveIndex(D3D11_PRIMITIVE_TOPOLOGY topology, uint16_t* indexes, uint16_t indexCount, DirectX::VertexPositionColor* vertexes, uint16_t vertexCount) {
+    void PrimitiveIndex(D3D11_PRIMITIVE_TOPOLOGY topology, uint16_t* indices, uint16_t indexCount, DirectX::VertexPositionColor* vertices, uint16_t vertexCount) {
         m_switchRenderer(m_renderer, RendererType::Primitive);
-        m_primitive->DrawIndex(topology, indexes, indexCount, vertexes, vertexCount);
+        m_primitive->DrawIndex(topology, indices, indexCount, vertices, vertexCount);
     }
 
     // ------------- ModelRenderer --------------- //
