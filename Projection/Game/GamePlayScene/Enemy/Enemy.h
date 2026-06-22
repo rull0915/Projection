@@ -15,6 +15,9 @@
 // インクルードファイル
 //====================================================//
 #include "GameLib/GameObject/Components/Component.h"
+#include "GameLib/GameObject/Components/Transform/Transform.h"
+
+#include "Components/LandingCandidatePoints.h"
 
 //====================================================//
 // 前方宣言
@@ -26,16 +29,50 @@
 //====================================================//
 class Enemy : public Component<Enemy, ComponentID::Enemy>
 {
+public:
+    //-----------------------------------------------------
+    // constexpr宣言
+    //-----------------------------------------------------
+    static constexpr float VELOCITY = 5.0f;
+    static constexpr float JUMP_IMPLUSE = 15.0f;
+
+public:
+    //-----------------------------------------------------
+    // 構造体
+    //-----------------------------------------------------
+    struct Path
+    {
+        DirectX::SimpleMath::Vector3 start;     // 始点
+        DirectX::SimpleMath::Vector3 goal;      // 終点
+
+        float time; // 移動にかかる時間
+    };
+
 private:
-
-    //-----------------------------------------------------
-    // 定数
-    //-----------------------------------------------------
-
 
     //-----------------------------------------------------
     // メンバ変数
     //-----------------------------------------------------
+
+    // トランスフォームのポインタ
+    Transform* m_pTransform;   
+    
+    // 経路
+    std::vector<Path> m_way;
+
+    // 辿っている道のインデックス
+    size_t m_nowIndex;
+
+    // 辿っている道
+    Path m_nowPath;
+
+    // 最後に着地したポイント
+    LandingCandidatePoints* m_lastPoints;
+
+    // インターバル中かどうか
+    bool m_isInterval;
+
+    // 速度
 
 public:
 
@@ -44,6 +81,10 @@ public:
     //-----------------------------------------------------
     Enemy(IComponentOwner* owner)
         : Component(owner)
+        , m_pTransform{ nullptr }
+        , m_way{}
+        , m_nowIndex{ 0 }
+        , m_lastPoints{ nullptr }
     {
     }
 
@@ -58,6 +99,25 @@ public:
     void Start() override;
 
     void Update(const GameTimer& gameTimer) override;
+
+    void OnCollisionEnter(HitContact& hit) override;
+
+    //-----------------------------------------------------
+    // ゲッター
+    //-----------------------------------------------------
+
+    LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
+
+    //-----------------------------------------------------
+    // セッター
+    //-----------------------------------------------------
+
+    void SetWay(const std::vector<Path>& way) 
+    {
+        m_way = way; 
+
+        m_nowIndex = 0;
+    }
 
 private:
 

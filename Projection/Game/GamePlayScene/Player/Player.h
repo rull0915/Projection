@@ -18,6 +18,7 @@
 #include "GameLib/GameObject/Components/Transform/Transform.h"
 
 #include "GameLib/GameObject/Components/Collider/PhysicsMaterial.h"
+#include "../Enemy/Components/LandingCandidatePoints.h"
 
 //====================================================//
 // 前方宣言
@@ -51,6 +52,9 @@ private:
     // ジャンプ可能フラグ
     bool m_canJump;
 
+    // 最後に触れた候補点
+    LandingCandidatePoints* m_lastPoints;
+
 public:
 
     //-----------------------------------------------------
@@ -67,14 +71,20 @@ public:
     void Start() override;
     void Update(const GameTimer& gameTimer) override;
 
+    void OnCollisionEnter(HitContact& contact) override;
     void OnCollisionEnter2D(HitContact2D& contact) override;
 
     void OnTriggerStay(HitContact& contact) override;
     void OnTriggerExit(HitContact& contact) override;
 
+    // ジャンプ可能かどうか
     bool CanJump() const { return m_canJump; }
 
+    // 次元フラグを変更する関数
     void ChangeDimention() { m_is2D = !m_is2D; }
+
+    // 最後に触れた候補点を取得する関数
+    LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
 
 private:
 

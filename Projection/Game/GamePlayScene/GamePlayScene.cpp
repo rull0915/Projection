@@ -12,6 +12,7 @@
 // 管理クラス
 #include "ChangeDimention/ChangeColliderComponent.h"
 #include "Enemy/AI/AStarPathFinder.h"
+#include "GameLib/GameObject/Settings/TimeSettings.h"
 
 // 入力
 #include "GameLib/Input/KeyInput.h"
@@ -29,6 +30,8 @@ GamePlayScene::GamePlayScene(Game* pGame)
 	, m_pTestUI{ nullptr }
 	, m_player{ nullptr }
 	, m_testNav{ 15.0f, 1.0f, 5.0f }
+	, m_startIndex{ 0 }
+	, m_goalIndex{ 0 }
 {
 }
 
@@ -39,6 +42,8 @@ GamePlayScene::~GamePlayScene()
 // 初期化関数
 void GamePlayScene::Initialize()
 {
+	m_dimentionManager.Initialize();
+
 	// オブジェクトの追加
 	// カメラ
 	m_camera = Generate();
@@ -51,7 +56,7 @@ void GamePlayScene::Initialize()
 	{
 		m_player = Generate();
 		m_player->AddComponent<Player>();
-		m_player->AddComponent<CapsuleCollider>();
+		m_player->AddComponent<CapsuleCollider>()->SetLayer(10);
 		auto rand = m_player->AddComponent<BoxCollider>();// 着地判定用のコライダーを生成
 		rand->SetTrigger(true);
 		rand->SetLocalPos({ 0, -1.05f, 0 });
@@ -70,15 +75,15 @@ void GamePlayScene::Initialize()
 	GenerateCube({ 0, -3, -10 }, 0, { 3, 1, 3 });
 
 
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		auto cube = GenerateCube(
-			{ Random::GetFloat(-20, 20), Random::GetFloat(-3, 5), Random::GetFloat(-20, 20) }
+			{ Random::GetFloat(-10, 10), Random::GetFloat(-3, 5), Random::GetFloat(-10, 10) }
 			,0
-			,{ 1.0f, 1.0f, 1.0f } 
-			//,{ Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F), Random::GetFloat(0.0f, PI_F) }
+			,{ 3.0f, 1.0f, 3.0f } 
+			,{ 0, Random::GetFloat(0.0f, PI_F / 8), 0/*Random::GetFloat(0.0f, PI_F / 8)*/}
 		);
-		if (i < 10) cube->AddComponent<MoveComponent>()->SetFunc(TestMove);
+		if (i == 0) cube->AddComponent<MoveComponent>()->SetFunc(TestMove);
 	}
 
 	// 次元管理クラスにカメラを渡す
@@ -113,6 +118,39 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 		);
 	}
 
+	if (MouseInput::GetMouseDown(MOUSE_LEFT) || MouseInput::GetMouseDown(MOUSE_RIGHT))
+	{
+		// クリックしたオブジェクトを取得
+		Ray ray = GetCamera().GetMainCamera()->GetRayToScreenPoint(MouseInput::GetScaledMousePoint());
+
+		RaycastHit hit;
+
+		uint64_t layerMask = ~((0xFFFFFFFFFFFFFFFF) & (1 << 10));
+
+		if (!GetPhysics().RayCast(ray, 100.0f, hit, layerMask)) return;
+
+		// クリックしたオブジェクトが着地候補オブジェクトなら
+		if (auto comp = hit.collider->GetOwn()->GetComponent<LandingCandidatePoints>())
+		{
+			// インデックスを取得
+			int i = m_testNav.GetIndex(comp);
+
+			// 存在すれば
+			if (i != -1)
+			{
+				if (MouseInput::GetMouseDown(MOUSE_LEFT))
+				{
+					// スタートを変更
+					m_startIndex = i;
+				}
+				else
+				{
+					// g
+					m_goalIndex = i;
+				}
+			 }
+		}
+	}
 
 	m_testNav.Update();
 }
@@ -120,6 +158,8 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 // 描画関数
 void GamePlayScene::Render(Renderer& renderer)
 {
+//	renderer.Draw().Line({ 0, 0, 0 }, { 100, 100, 100 }, 0xFFFFFF);
+
 	Transform* player = m_player->GetComponent<Transform>();
 
 	// プレイヤーの前方向をテスト描画する
@@ -137,10 +177,13 @@ void GamePlayScene::Render(Renderer& renderer)
 	renderer.Draw().Line(playerForward + playerLeftArrow * 0.5f, playerForward, 0x00FFFF);
 	renderer.Draw().Line(playerForward + playerRightArrow * 0.5f, playerForward, 0x00FFFF);
 
-	static std::vector<NavigationGraph::Edge> edges;
-	edges = AStarPathFinder::MakePath(m_testNav, 0, 10);
+	m_startIndex = m_testNav.GetIndex(m_player->GetComponent<Player>()->GetLandingPoints());
 
-	m_testNav.DebugDraw(edges, renderer);
+	static std::vector<NavigationGraph::Edge> edges;
+	edges = AStarPathFinder::MakePath(m_testNav, m_startIndex, m_goalIndex);
+
+//	if (m_startIndex >= 0 && m_startIndex < m_testNav.GetGraph().size()) m_testNav.DebugDraw(m_testNav.GetGraph()[m_startIndex], renderer);
+	m_testNav.DebugDraw(edges, renderer, 0xAA00AA);
 }
 
 // 終了関数

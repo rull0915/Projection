@@ -59,6 +59,9 @@ public:
     // タグ
     std::string m_tag;
 
+    // 名前
+    std::string m_name;
+
 public:
 
     //-----------------------------------------------------
@@ -89,6 +92,8 @@ public:
 
     const std::string& GetTag() const override { return m_tag; }
 
+    const std::string& GetName() const override { return m_name; }
+
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
@@ -101,6 +106,8 @@ public:
     }
 
     void SetTag(const std::string& tag) override { m_tag = tag; }
+
+    void SetName(const std::string& name) override { m_name = name; }
 
     void Destroy() override { m_isDead = true; }
 

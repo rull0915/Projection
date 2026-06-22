@@ -22,6 +22,15 @@
 
 void NavigationGraph::Initialize()
 {
+    // 初速度
+    float initV = m_jumpImpulse / m_enemyMass;
+
+    // 重力加速度を取得
+    m_gravity = PhysicsSettings::Instance().GetGravityScale();
+
+    // 届く高さの最大値を求める
+    m_maxHeight = (initV * initV) / 2 * m_gravity;
+
     // 初期状態でグラフを生成する
     InitializeGraph();
 }
@@ -47,7 +56,7 @@ void NavigationGraph::DebugDraw(Renderer& renderer)
     }
 }
 
-void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer)
+void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color)
 {
     for (auto& edge : edges)
     {
@@ -58,14 +67,11 @@ void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& render
         };
 
         // 繋ぐ線を描画
-        renderer.Draw().Line(points[0], points[1], 0xFF00FF);
+        renderer.Draw().Line(points[0], points[1], color);
 
         DirectX::SimpleMath::Vector3 dir = points[1] - points[0];
         float len = dir.Length();
         dir.Normalize();
-
-        // 始点を描画
-        renderer.Draw().Circle(points[0], dir, len * 0.1f, 16, 0xAA00AA, false);
     }
 }
 
@@ -74,22 +80,22 @@ bool NavigationGraph::CanJump(DirectX::SimpleMath::Vector3 start, DirectX::Simpl
     // Y方向の距離の差を求める
     float yDistance = target.y - start.y;
 
+    // 最大より大きければfalse
+    if (yDistance > m_maxHeight) return false;
+
     // 初速を求める
     float initV = m_jumpImpulse / m_enemyMass;
-
-    // 重力加速度を取得
-    float g = PhysicsSettings::Instance().GetGravityScale();
 
     // 到達できる時間tを求める
 
     // 判別式Dの作成
-    float D = initV * initV - 2 * g * yDistance;
+    float D = initV * initV - 2 * m_gravity * yDistance;
 
     // 解となるtがなければfalse
     if (D < 0) return false;
 
     // 値が大きい方の解をtとする
-    float t = (initV + std::sqrtf(D)) / g;
+    float t = (initV + std::sqrtf(D)) / m_gravity;
 
     // 求めたtまでに水平方向を移動しきれるかを調べる
     DirectX::SimpleMath::Vector3 horizontalVec = { target - start };

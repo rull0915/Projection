@@ -58,6 +58,13 @@ private:
         , gravityDirection2D{ 0, -1.0f }
         , hitLayer{ true }
     {
+        for (auto& line : hitLayer)
+        {
+            for (auto& cell : line)
+            {
+                cell = true;
+            }
+        }
     }
     ~PhysicsSettings() = default;
 

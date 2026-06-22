@@ -51,6 +51,8 @@ private:
 	Canvas* m_pTestCanvas;
 	UIObject* m_pTestUI;
 
+    size_t m_startIndex, m_goalIndex;
+
 public:
 
     //-----------------------------------------------------
@@ -96,5 +98,5 @@ private:
 
 static DirectX::SimpleMath::Vector3 TestMove(float time)
 {
-    return { sinf(time) * 10, cosf(time) * 10, 0};
+    return { sinf(time) * 10, 0, 0};
 }

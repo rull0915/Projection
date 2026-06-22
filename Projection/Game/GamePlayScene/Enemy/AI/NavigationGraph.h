@@ -61,6 +61,10 @@ private:
     float m_enemyMass;  // 扱う質量
     float m_horizontalVelocity; // 扱う水平方向速度
 
+    float m_maxHeight;  // 届く最大値
+
+    float m_gravity;    // 重力
+
     // 扱うノードの配列
     std::vector<LandingCandidatePoints*> m_nodes;
 
@@ -83,6 +87,8 @@ public:
         , m_horizontalVelocity{ horizontalVelocity }
         , m_nodes{}
         , m_graph{}
+        , m_maxHeight{ 0.0f }
+        , m_gravity{ 0.0f }
     {
     }
 
@@ -101,7 +107,7 @@ public:
     // デバッグ描画
     void DebugDraw(Renderer& renderer);
 
-    void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer);
+    void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00);
 
     //-----------------------------------------------------
     // ゲッター
@@ -117,6 +123,17 @@ public:
     void RemoveNode(LandingCandidatePoints* node)
     {
         m_removeReserves.push_back(node);
+    }
+
+    // インデックスを取得する関数
+    int GetIndex(LandingCandidatePoints* point)
+    {
+        for (int i = 0; i < m_nodes.size(); ++i)
+        {
+            if (m_nodes[i] == point) return i;
+        }
+
+        return -1;
     }
 
     // グラフを取得する関数

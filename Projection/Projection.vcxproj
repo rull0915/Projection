@@ -421,7 +421,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.h" />
-    <ClInclude Include="Game\GamePlayScene\Enemy\AI\Enemy.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\Enemy.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\EnemyManager.h" />
@@ -543,7 +543,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\AI\Enemy.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\EnemyManager.cpp" />

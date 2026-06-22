@@ -14,7 +14,10 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include "AI/NavigationGraph.h"
 
+#include "Enemy.h"
+#include "GameLib/GameObject/Components/Transform/Transform.h"
 
 //====================================================//
 // 前方宣言
@@ -26,6 +29,12 @@
 //====================================================//
 class EnemyManager
 {
+    // グラフを更新する感覚
+    static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
+
+    // 道を再計算するボーダー(距離の2乗)
+    static constexpr float WAY_UPDATE_BORDER = 4.0f;
+    
 private:
 
     //-----------------------------------------------------
@@ -37,17 +46,39 @@ private:
     // メンバ変数
     //-----------------------------------------------------
 
+    // 通常の敵が使用するグラフ
+    NavigationGraph m_normalNavigation;
+
+    // 管理している敵リスト
+    std::vector<Enemy*> m_enemies;
+
+    // 時間管理
+    float m_nowTime;
+
+    // プレイヤーのトランスフォーム
+    Transform* m_playerTransform;
+
+    // プレイヤーがいた位置
+    DirectX::SimpleMath::Vector3 m_oldPlayerPosition;
+
 public:
 
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
-    EnemyManager();
-    ~EnemyManager();
+    EnemyManager()
+        : m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
+        , m_enemies{}
+        , m_nowTime{ 0 }
+        , m_playerTransform{ nullptr }
+    {
+    }
+    ~EnemyManager() = default;
 
     //-----------------------------------------------------
     // 公開関数
     //-----------------------------------------------------
+    void Update(const GameTimer& timer);
 
     //-----------------------------------------------------
     // ゲッター
@@ -57,6 +88,7 @@ public:
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
+    void SetPlayer(Transform* player) { m_playerTransform = player; }
 
 private:
 

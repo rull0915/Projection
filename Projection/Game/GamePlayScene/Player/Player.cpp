@@ -68,6 +68,14 @@ void Player::Update(const GameTimer& gameTimer)
 	else Update3D(gameTimer);
 }
 
+void Player::OnCollisionEnter(HitContact& contact)
+{
+	if (auto comp = contact.other->GetComponent<LandingCandidatePoints>())
+	{
+		m_lastPoints = comp;
+	}
+}
+
 // 2Dコライダーに当たった時
 void Player::OnCollisionEnter2D(HitContact2D& contact)
 {

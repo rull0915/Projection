@@ -27,6 +27,16 @@ DimentionManager::DimentionManager()
 {
 }
 
+void DimentionManager::Initialize()
+{
+	m_nowState = State::World3D;
+
+	m_components.clear();
+
+	m_addReserves.clear();
+	m_removeReserves.clear();
+}
+
 void DimentionManager::Update()
 {
 	// ¡‚Ìó‘Ô‚É‚æ‚Á‚Ä•ªŠò

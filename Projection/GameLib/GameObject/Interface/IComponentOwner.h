@@ -32,8 +32,16 @@ public:
 
     virtual ~IComponentOwner() = default;
 
+    // タグ
     virtual const std::string& GetTag() const = 0;
     virtual void SetTag(const std::string& tag) = 0;
+
+    // オブジェクト名
+    virtual const std::string& GetName() const = 0;
+    virtual void SetName(const std::string& name) = 0;
+
+    // 自身の削除
+    virtual void Destroy() = 0;
 
     // -------- Component関連 -------- //
 
@@ -81,17 +89,23 @@ public:
 
     // --------- 内部実装 ---------- //
 private:
+
+    // 派生クラスで実装させる用の関数
+    
+    // 取得
     virtual BaseComponent* GetComponentRaw(
         ComponentID id,
         bool isMain) = 0;
+
+    // 所持チェック
     virtual bool HasComponentRaw(
         ComponentID id,
         bool isMain) = 0;
+
+    // 複数取得
 	virtual void GetComponentsRaw(
 		ComponentID id,
 		bool isMain,
 		std::vector<BaseComponent*>& out) = 0;
 
-    // 削除
-    virtual void Destroy() = 0;
 };
