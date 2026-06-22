@@ -33,8 +33,8 @@ public:
     //-----------------------------------------------------
     // constexpr宣言
     //-----------------------------------------------------
-    static constexpr float VELOCITY = 5.0f;
-    static constexpr float JUMP_IMPLUSE = 15.0f;
+    static constexpr float VELOCITY = 4.0f;
+    static constexpr float JUMP_IMPLUSE = 12.0f;
 
 public:
     //-----------------------------------------------------
@@ -59,9 +59,10 @@ private:
     
     // 経路
     std::vector<Path> m_way;
+    std::vector<Path> m_nextWay;    // 変更予定の経路
 
     // 辿っている道のインデックス
-    size_t m_nowIndex;
+    int m_nowIndex;
 
     // 辿っている道
     Path m_nowPath;
@@ -72,23 +73,31 @@ private:
     // インターバル中かどうか
     bool m_isInterval;
 
-    // 速度
+    // 水平方向の速度
+    DirectX::SimpleMath::Vector3 m_velocity;
+
+    // 目標地点
+    DirectX::SimpleMath::Vector3 m_target;
 
 public:
 
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
+
     Enemy(IComponentOwner* owner)
         : Component(owner)
         , m_pTransform{ nullptr }
         , m_way{}
         , m_nowIndex{ 0 }
         , m_lastPoints{ nullptr }
+        , m_isInterval{ false }
+        , m_velocity{ 1.0f, 0, 0 }
+        , m_target{ 0.0f, 0.0f, 0.0f }
     {
     }
 
-    ~Enemy();
+    ~Enemy() = default;
 
     //-----------------------------------------------------
     // 公開関数
@@ -114,9 +123,12 @@ public:
 
     void SetWay(const std::vector<Path>& way) 
     {
-        m_way = way; 
+        m_nextWay = way; 
 
-        m_nowIndex = 0;
+        if (m_way.size() == 0)
+        {
+            ToNextMove();
+        }
     }
 
 private:
@@ -125,4 +137,19 @@ private:
     // 内部実装
     //-----------------------------------------------------
 
+    void Update3D();
+    void Update2D();
+
+    void ChangeWay()
+    {
+        m_way = m_nextWay;
+
+        m_nowIndex = -1;
+
+        m_nextWay.clear();
+
+        ToNextMove();
+    }
+
+    void ToNextMove();
 };

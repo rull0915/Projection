@@ -51,6 +51,8 @@ private:
 
     // ŠÇ—‚µ‚Ä‚¢‚é“GƒŠƒXƒg
     std::vector<Enemy*> m_enemies;
+    std::vector<Enemy*> m_addReserves;
+    std::vector<Enemy*> m_removeReserves;
 
     // ŠÔŠÇ—
     float m_nowTime;
@@ -78,7 +80,31 @@ public:
     //-----------------------------------------------------
     // ŒöŠJŠÖ”
     //-----------------------------------------------------
+    void Initialize();
+
     void Update(const GameTimer& timer);
+
+    // “G‚ğ’Ç‰Á‚·‚éŠÖ”
+    void AddEnemy(Enemy* component)
+    {
+        m_addReserves.push_back(component);
+    }
+    // “G‚ğíœ‚·‚éŠÖ”
+    void RemoveEnemy(Enemy* component)
+    {
+        m_removeReserves.push_back(component);
+    }
+
+    // —\–ñŒó•â“_‚ğ’Ç‰Á‚·‚éŠÖ”
+    void AddPoints(LandingCandidatePoints* component)
+    {
+        m_normalNavigation.AddNode(component);
+    }
+    // —\–ñŒó•â“_‚ğíœ‚·‚éŠÖ”
+    void RemovePoints(LandingCandidatePoints* component)
+    {
+        m_normalNavigation.RemoveNode(component);
+    }
 
     //-----------------------------------------------------
     // ƒQƒbƒ^[
@@ -96,4 +122,31 @@ private:
     // “à•”À‘•
     //-----------------------------------------------------
 
+    // ’Ç‰Á—\–ñÏ‚İ‚Ì“G‚ğ’Ç‰Á‚·‚é
+    void AddReserved()
+    {
+        for (auto& component : m_addReserves)
+        {
+            m_enemies.push_back(component);
+        }
+
+        // ƒŠƒZƒbƒg
+        m_addReserves.clear();
+    }
+
+    // íœ—\–ñÏ‚İ‚Ì“G‚ğíœ‚·‚é
+    void RemoveReserved()
+    {
+        for (auto& component : m_removeReserves)
+        {
+            // ”z—ñ‚É‚ ‚ê‚Îíœ‚·‚é
+            m_enemies.erase(
+                std::remove(m_enemies.begin(), m_enemies.end(), component),
+                m_enemies.end()
+            );
+        }
+
+        // ƒŠƒZƒbƒg
+        m_removeReserves.clear();
+    }
 };

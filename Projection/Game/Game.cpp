@@ -159,7 +159,6 @@ void Game::Render()
     context;
 
     // •`‰æ‚ÌŠJn ----------------------------------------
-//    //MyRenderer::StartDraw(context);
     m_renderer.Start(context);
 
     // Œ»İ‚ÌƒV[ƒ“‚Ì•`‰æ
@@ -169,7 +168,6 @@ void Game::Render()
     m_sceneManager.TransitionRender(m_renderer);
     if (m_exitTrans) m_exitTrans->Render(m_renderer);
     m_deviceResources->PIXEndEvent();
-//    //MyRenderer::EndDraw();
 
     m_renderer.End();
 

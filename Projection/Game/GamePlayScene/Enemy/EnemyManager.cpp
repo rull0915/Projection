@@ -13,15 +13,28 @@
 #include "EnemyManager.h"
 
 #include "AI/AStarPathFinder.h"
+#include "../Player/Player.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
+void EnemyManager::Initialize()
+{
+	// グラフの初期化
+	m_normalNavigation.ResetGraph();
+
+	m_normalNavigation.Initialize();
+}
+
 void EnemyManager::Update(const GameTimer& timer)
 {
 	// 時間を加算
 	m_nowTime += timer.GetElapsedTime();
+
+	// 予約の反映
+	AddReserved();
+	RemoveReserved();
 
 	// 更新間隔を超えたら
 	if (m_nowTime >= GRAPH_UPDATE_DISTANCE)
@@ -40,7 +53,16 @@ void EnemyManager::Update(const GameTimer& timer)
 	if ((playerPos - m_oldPlayerPosition).LengthSquared() >= WAY_UPDATE_BORDER)
 	{
 		// プレイヤーの候補点
-		LandingCandidatePoints* playerPoints;
+		LandingCandidatePoints* playerPoints = nullptr;
+
+		// プレイヤーコンポーネントがあれば
+		if (auto pl = m_playerTransform->GetOwn()->GetComponent<Player>())
+		{
+			playerPoints = pl->GetLandingPoints();
+		}
+
+		// プレイヤーがない or まだ未着地ならスキップ
+		if (!playerPoints) return;
 
 		// プレイヤーのインデックスを取得
 		size_t playerIndex = m_normalNavigation.GetIndex(playerPoints);

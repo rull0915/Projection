@@ -17,7 +17,7 @@
 #include "GameLib/Scene/Scene.h"
 
 #include "ChangeDimention/DimentionManager.h"
-#include "Enemy/AI/NavigationGraph.h"
+#include "Enemy/EnemyManager.h"
 
 //====================================================//
 // 前方宣言
@@ -41,17 +41,17 @@ private:
     //-----------------------------------------------------
     Game* m_pGame;
 
+    // カメラ
     GameObject* m_camera;
+
+    // プレイヤー
     GameObject* m_player;
 
+    // 次元管理クラス
     DimentionManager m_dimentionManager;
 
-    NavigationGraph m_testNav;
-
-	Canvas* m_pTestCanvas;
-	UIObject* m_pTestUI;
-
-    size_t m_startIndex, m_goalIndex;
+    // 敵管理クラス
+    EnemyManager m_enemyManager;
 
 public:
 
@@ -86,10 +86,6 @@ private:
     //-----------------------------------------------------
     // 内部実装
     //-----------------------------------------------------
-
-    void InitializeUITest();
-
-    GameObject* GenerateCube(DirectX::SimpleMath::Vector3 position, int type, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 });
 
     // 次元変更を行う関数
     void TryChangeDimention();

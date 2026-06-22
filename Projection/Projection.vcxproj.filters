@@ -429,6 +429,7 @@
     <ClInclude Include="Game\GamePlayScene\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.h" />
     <ClInclude Include="Game\AStarTestScene\AStarTestScene.h" />
+    <ClInclude Include="Game\GamePlayScene\ObjectFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
