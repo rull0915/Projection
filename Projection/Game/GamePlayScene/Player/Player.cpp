@@ -70,8 +70,10 @@ void Player::Update(const GameTimer& gameTimer)
 
 void Player::OnCollisionEnter(HitContact& contact)
 {
+	// 候補点を持つオブジェクトなら
 	if (auto comp = contact.other->GetComponent<LandingCandidatePoints>())
 	{
+		// 最新を更新
 		m_lastPoints = comp;
 	}
 }
@@ -79,31 +81,11 @@ void Player::OnCollisionEnter(HitContact& contact)
 // 2Dコライダーに当たった時
 void Player::OnCollisionEnter2D(HitContact2D& contact)
 {
-	// 床にぶつかっていた場合
-	if (contact.other->GetTag() == "Floor")
+	// 候補点を持つオブジェクトなら
+	if (auto comp = contact.other->GetComponent<LandingCandidatePoints2D>())
 	{
-		// 衝突したオブジェクトに近づくように補正する
-
-		// カメラ基準のZ座標を求める
-		auto& world2D = WorldSetting2D::Instance();
-
-		// 軸を取得する
-		DirectX::SimpleMath::Vector3 xAxis = world2D.GetXAxis(), yAxis = world2D.GetYAxis();
-
-		// 外積を使ってZ軸を算出
-		DirectX::SimpleMath::Vector3 zAxis = xAxis.Cross(yAxis);
-		zAxis.Normalize();
-
-		// トランスフォームを取得
-		Transform* targetTransform = contact.other->GetComponent<Transform>();
-		Transform* ownTransform = GetComponent<Transform>();
-
-		// 投影して座標を求める
-		float targetZ = zAxis.Dot(targetTransform->GetWorldPosition());
-		float ownZ = zAxis.Dot(ownTransform->GetWorldPosition());
-
-		// 差分のみ座標を変化させる
-		ownTransform->AddLocalPosition(zAxis * (targetZ - ownZ));
+		// 最新を更新
+		m_lastPoints2d = comp;
 	}
 }
 
@@ -151,6 +133,19 @@ void Player::Update2D(const GameTimer& timer)
 	if (auto* col = GetComponent<BaseCollider2D>())
 	{
 		col->SetPhysicsMaterial(&m_material);
+	}
+
+	// ジャンプ入力を取得
+	float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
+
+	// 入力があれば
+	if (m_canJump && jumpInput != 0.0f)
+	{
+		// 力を加える
+		if (auto* rb = GetComponent<RigidBody2D>())
+		{
+			rb->AddForce(DirectX::SimpleMath::Vector2::UnitY * JUMP_POWER, ForceMode::Impulse);
+		}
 	}
 }
 

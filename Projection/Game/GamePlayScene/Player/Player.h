@@ -18,7 +18,9 @@
 #include "GameLib/GameObject/Components/Transform/Transform.h"
 
 #include "GameLib/GameObject/Components/Collider/PhysicsMaterial.h"
+
 #include "../Enemy/Components/LandingCandidatePoints.h"
+#include "../Enemy/Components/LandingCandidatePoints2D.h"
 
 //====================================================//
 // ‘O•ûéŒ¾
@@ -54,6 +56,7 @@ private:
 
     // ÅŒã‚ÉG‚ê‚½Œó•â“_
     LandingCandidatePoints* m_lastPoints;
+    LandingCandidatePoints2D* m_lastPoints2d;
 
 public:
 
@@ -85,6 +88,7 @@ public:
 
     // ÅŒã‚ÉG‚ê‚½Œó•â“_‚ğæ“¾‚·‚éŠÖ”
     LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
+    LandingCandidatePoints2D* GetLandingPoints2D() const { return m_lastPoints2d; }
 
 private:
 

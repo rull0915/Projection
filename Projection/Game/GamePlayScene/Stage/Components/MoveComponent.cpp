@@ -46,7 +46,13 @@ void MoveComponent::OnCollisionEnter(HitContact& contact)
 {
   	if (contact.other->GetTag() == "Player")
 	{
-		contact.other->GetComponent<Transform>()->SetParent(this->GetComponent<Transform>());
+		// ã•ûŒü‚Ì–Ê‚É“–‚½‚Á‚Ä‚¢‚ê‚Î
+		float up = DirectX::SimpleMath::Vector3::UnitY.Dot(contact.normal);
+
+		if (up > BORDER)
+		{
+			contact.other->GetComponent<Transform>()->SetParent(this->GetComponent<Transform>());
+		}
 	}
 }
 
