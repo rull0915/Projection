@@ -14,7 +14,6 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "GameLib/GameMath/GameMath.h"
 
 //====================================================//
 // 前方宣言
@@ -45,7 +44,7 @@ static DirectX::SimpleMath::Vector3 ClosestPointOnSegment(const DirectX::SimpleM
     float t = w.Dot(v) / l;
 
     // 線分の範囲内にクランプ
-    t = MyMath::Clamp(t, 0.0f, 1.0f);
+    t = std::clamp(t, 0.0f, 1.0f);
 
     // 線分上の最近接点
     return p1 + v * t;
@@ -93,7 +92,7 @@ static float ClosedSegmentToSegment(const DirectX::SimpleMath::Vector3& p1, cons
             return (outP - outQ).LengthSquared();
         }
         // さらに線分外なら
-        tQ = MyMath::Clamp(tQ, 0, 1);   // Qを0 ~ 1にクランプ
+        tQ = std::clamp(tQ, 0.0f, 1.0f);   // Qを0 ~ 1にクランプ
 
 		DirectX::SimpleMath::Vector3 pQ = q1 + tQ * vQ;
 
@@ -107,7 +106,7 @@ static float ClosedSegmentToSegment(const DirectX::SimpleMath::Vector3& p1, cons
             return (outP - outQ).LengthSquared();
         }
 
-        tP = MyMath::Clamp(tP, 0, 1);   // Pを0 ~ 1にクランプ
+        tP = std::clamp(tP, 0.0f, 1.0f);   // Pを0 ~ 1にクランプ
         outP = p1 + tP * vP; outQ = q1 + tQ * vQ;
         return (outP - outQ).LengthSquared();
     }
@@ -126,7 +125,7 @@ static float ClosedSegmentToSegment(const DirectX::SimpleMath::Vector3& p1, cons
             return (outP - outQ).LengthSquared();
         }
         // どちらかが線分外なら
-        tP = MyMath::Clamp(tP, 0, 1);   // Pを0 ~ 1にクランプ
+        tP = std::clamp(tP, 0.0f, 1.0f);   // Pを0 ~ 1にクランプ
 
         // クランプ後の点から最近点を求める
         DirectX::SimpleMath::Vector3 pP = p1 + tP * vP;
@@ -142,7 +141,7 @@ static float ClosedSegmentToSegment(const DirectX::SimpleMath::Vector3& p1, cons
             return (outP - outQ).LengthSquared();
         }
         // さらに線分外なら
-        tQ = MyMath::Clamp(tQ, 0, 1);   // Qを0 ~ 1にクランプ
+        tQ = std::clamp(tQ, 0.0f, 1.0f);   // Qを0 ~ 1にクランプ
 
         outP = p1 + tP * vP; outQ = q1 + tQ * vQ;
         return (outP - outQ).LengthSquared();
@@ -152,9 +151,9 @@ static float ClosedSegmentToSegment(const DirectX::SimpleMath::Vector3& p1, cons
 static DirectX::SimpleMath::Vector3 ClosedPointOnAABB(const DirectX::SimpleMath::Vector3& halfSize, const DirectX::SimpleMath::Vector3 point)
 {
     DirectX::SimpleMath::Vector3 nearPoint = {
-    MyMath::Clamp(point.x, -halfSize.x, halfSize.x),
-    MyMath::Clamp(point.y, -halfSize.y, halfSize.y),
-    MyMath::Clamp(point.z, -halfSize.z, halfSize.z)
+    std::clamp(point.x, -halfSize.x, halfSize.x),
+    std::clamp(point.y, -halfSize.y, halfSize.y),
+    std::clamp(point.z, -halfSize.z, halfSize.z)
     };
 
     return nearPoint;

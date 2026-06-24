@@ -11,7 +11,6 @@
 //====================================================//
 #include "pch.h"
 #include "CheckHit2D.h"
-#include "GameLib/GameMath/GameMath.h"
 #include "CheckHitAuxiliary2D.h"
 
 using namespace DirectX;
@@ -204,8 +203,8 @@ bool CheckHit2D(CircleCollider2D* colA, BoxCollider2D* colB, HitInfomation2D* in
 	// ローカル座標系での最近点を求める
 	SimpleMath::Vector2 localNear =
 	{
-		MyMath::Clamp(localCenter.x, -halfSize.x, halfSize.x),
-		MyMath::Clamp(localCenter.y, -halfSize.y, halfSize.y),
+		std::clamp(localCenter.x, -halfSize.x, halfSize.x),
+		std::clamp(localCenter.y, -halfSize.y, halfSize.y),
 	};
 
 	// 半径と比較
@@ -337,8 +336,8 @@ bool CheckHit2D(CapsuleCollider2D* colA, BoxCollider2D* colB, HitInfomation2D* i
 	SimpleMath::Vector2 localCenterGoal =  { diffGoal.Dot(naX), diffGoal.Dot(naY) };
 
 	// ローカル座標系での最近点を求める
-	SimpleMath::Vector2 localNearStart = { MyMath::Clamp(localCenterStart.x, -size.x, size.x),MyMath::Clamp(localCenterStart.y, -size.y, size.y), };
-	SimpleMath::Vector2 localNearGoal  = { MyMath::Clamp(localCenterGoal.x, -size.x, size.x),MyMath::Clamp(localCenterGoal.y, -size.y, size.y), };
+	SimpleMath::Vector2 localNearStart = { std::clamp(localCenterStart.x, -size.x, size.x),std::clamp(localCenterStart.y, -size.y, size.y), };
+	SimpleMath::Vector2 localNearGoal  = { std::clamp(localCenterGoal.x, -size.x, size.x),std::clamp(localCenterGoal.y, -size.y, size.y), };
 
 	// ワールド座標系へ戻す
 	SimpleMath::Vector2 wStart = centerB + (naX * localNearStart.x) + (naY * localNearStart.y);

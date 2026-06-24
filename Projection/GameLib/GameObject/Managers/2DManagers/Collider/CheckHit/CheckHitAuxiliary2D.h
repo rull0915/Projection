@@ -14,7 +14,6 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "GameLib/GameMath/GameMath.h"
 using namespace DirectX;
 
 #define EPSILON 0.0001f
@@ -48,7 +47,7 @@ static SimpleMath::Vector2 ClosestPointOnSegment(const SimpleMath::Vector2& p1, 
     float t = w.Dot(v) / l;
 
     // 線分の範囲内にクランプ
-    t = MyMath::Clamp(t, 0.0f, 1.0f);
+    t = std::clamp(t, 0.0f, 1.0f);
 
     // 線分上の最近接点
     return p1 + v * t;
@@ -75,14 +74,14 @@ static float ClosedSegmentToSegment(const SimpleMath::Vector2& p1, const SimpleM
     if (a <= EPSILON) {
         // 線分1が点の場合
         s = 0.0f;
-        t = MyMath::Clamp(f / e, 0.0f, 1.0f);
+        t = std::clamp(f / e, 0.0f, 1.0f);
     }
     else {
         float c = d1.Dot(r);
         if (e <= EPSILON) {
             // 線分2が点の場合
             t = 0.0f;
-            s = MyMath::Clamp(-c / a, 0.0f, 1.0f);
+            s = std::clamp(-c / a, 0.0f, 1.0f);
         }
         else {
             // 一般的なケース
@@ -91,7 +90,7 @@ static float ClosedSegmentToSegment(const SimpleMath::Vector2& p1, const SimpleM
 
             // 平行でない場合
             if (den != 0.0f) {
-                s = MyMath::Clamp((b * f - c * e) / den, 0.0f, 1.0f);
+                s = std::clamp((b * f - c * e) / den, 0.0f, 1.0f);
             }
             else {
                 // 平行な場合は任意のs（ここでは0）から始める
@@ -103,11 +102,11 @@ static float ClosedSegmentToSegment(const SimpleMath::Vector2& p1, const SimpleM
 
             if (t < 0.0f) {
                 t = 0.0f;
-                s = MyMath::Clamp(-c / a, 0.0f, 1.0f);
+                s = std::clamp(-c / a, 0.0f, 1.0f);
             }
             else if (t > 1.0f) {
                 t = 1.0f;
-                s = MyMath::Clamp((b - c) / a, 0.0f, 1.0f);
+                s = std::clamp((b - c) / a, 0.0f, 1.0f);
             }
         }
     }
@@ -120,8 +119,8 @@ static float ClosedSegmentToSegment(const SimpleMath::Vector2& p1, const SimpleM
 static SimpleMath::Vector2 ClosedPointOnAABB(const SimpleMath::Vector2& halfSize, const SimpleMath::Vector2 point)
 {
     SimpleMath::Vector2 nearPoint = {
-    MyMath::Clamp(point.x, -halfSize.x, halfSize.x),
-    MyMath::Clamp(point.y, -halfSize.y, halfSize.y)
+    std::clamp(point.x, -halfSize.x, halfSize.x),
+    std::clamp(point.y, -halfSize.y, halfSize.y)
     };
 
     return nearPoint;

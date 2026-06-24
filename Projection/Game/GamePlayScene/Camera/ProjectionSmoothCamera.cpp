@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "ProjectionSmoothCamera.h"
 
-#include "GameLib/GameMath/GameMath.h"
 #include "GameLib/GameMath/Easing.h"
 #include "GameLib/GameObject/Components/Transform/Transform.h"
 
@@ -116,7 +115,7 @@ void ProjectionSmoothCamera::UpdateProj()
 	if (m_isChanging)
 	{
 		float r = m_nowTime / m_changeTime;
-		r = MyMath::Clamp(r, 0, 1);
+		r = std::clamp(r, 0.0f, 1.0f);
 
 		DirectX::SimpleMath::Matrix nowProjection;
 

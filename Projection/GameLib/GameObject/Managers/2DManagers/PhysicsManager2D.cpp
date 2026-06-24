@@ -13,8 +13,6 @@
 #include "PhysicsManager2D.h"
 #include "Collider/CollideManager2D.h"
 
-#include "GameLib/GameMath/GameMath.h"
-
 #include "GameLib/GameObject/Settings/WorldSetting2D.h"
 #include "GameLib/GameObject/Settings/PhysicsSettings.h"
 
@@ -231,7 +229,7 @@ void PhysicsManager2D::VelocityCorrection(HitContact2D& contact)
 		{
 			// “®–€C
 			float maxDynamicFriction = d_mu * abs(j);
-			actualFrictionImpulse = MyMath::Clamp(j_tangent, -maxDynamicFriction, maxDynamicFriction);
+			actualFrictionImpulse = std::clamp(j_tangent, -maxDynamicFriction, maxDynamicFriction);
 		}
 
 		// Úü•ûŒü‚ÌƒCƒ“ƒpƒ‹ƒX

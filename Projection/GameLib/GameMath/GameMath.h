@@ -22,20 +22,12 @@
 //====================================================//
 namespace MyMath
 {
-	// クランプ関数
-	static float Clamp(float target, float min, float max)
+	// 符号取得関数
+	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+	static int Sign(T value)
 	{
-		if (target <= min) return min;
-		if (target >= max) return max;
-		return target;
-	}
-
-	// ラープ関数
-	template<typename T>
-	static T Lerp(T start, T goal, float ratio)
-	{
-		T dir = goal - start;
-
-		return start + dir * ratio;
+		if (value > 0) return 1;
+		if (value < 0) return -1;
+		return 0;
 	}
 }

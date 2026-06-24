@@ -223,7 +223,7 @@ void PhysicsManager::VelocityCorrection(HitContact& contact)
 		{
 			// “®–€C
 			float maxDynamicFriction = d_mu * abs(jToZero);
-			actualFrictionImpulse = MyMath::Clamp(j_tangent, -maxDynamicFriction, maxDynamicFriction);
+			actualFrictionImpulse = std::clamp(j_tangent, -maxDynamicFriction, maxDynamicFriction);
 		}
 
 		// Úü•ûŒü‚ÌƒCƒ“ƒpƒ‹ƒX

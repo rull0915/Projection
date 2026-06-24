@@ -10,7 +10,6 @@
 //====================================================//
 
 #pragma once
-#include "GameLib/GameMath/GameMath.h"
 
 //====================================================//
 // óÒãìå^êÈåæ
@@ -139,5 +138,5 @@ public:
             m_projection = projection;
         }
     }
-    void SetAlpha(float alpha) { m_alphaValue = MyMath::Clamp(alpha, 0.0f, 1.0f); }
+    void SetAlpha(float alpha) { m_alphaValue = std::clamp(alpha, 0.0f, 1.0f); }
 };
