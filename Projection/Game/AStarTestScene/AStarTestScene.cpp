@@ -8,7 +8,7 @@
 // 入力
 #include "GameLib/Input/KeyInput.h"
 
-#include "GameLib/Random.h"
+#include "GameLib/Common/Random.h"
 
 // コンストラクタ
 AStarTestScene::AStarTestScene(Game* pGame)
@@ -222,7 +222,7 @@ void AStarTestScene::MakeMaze()
 		if (!neighbors.empty())
 		{
 			// 次に掘る位置をランダムに決める
-			APos next = neighbors[Random::Get(0, neighbors.size() - 1)];
+			APos next = neighbors[Random::Get(0, (int)neighbors.size() - 1)];
 
 			// 次の位置を道にする
 			m_mazeStage[next.y][next.x] = 0;

@@ -33,7 +33,10 @@ void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
 		if (collider->IsTrigger()) continue;
 
 		// 2Dコライダーを生成
-		Create2DColliderFrom3D(pCamera, collider);
+		auto cl2D = Create2DColliderFrom3D(pCamera, collider);
+
+		// 物理マテリアルを共有
+		cl2D->SetPhysicsMaterial(collider->GetMutablePhysicsMaterial());
 	}
 
 	// 3D物理挙動を無効化

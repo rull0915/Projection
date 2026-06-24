@@ -13,11 +13,13 @@
 #include "ChangeDimention/ChangeColliderComponent.h"
 #include "ObjectFactory.h"
 
+#include "GameLib/GameObject/Settings/TimeSettings.h"
+
 // 入力
 #include "GameLib/Input/KeyInput.h"
 
 // その他
-#include <GameLib/Random.h>
+#include "GameLib/Common/Random.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -47,7 +49,16 @@ void GamePlayScene::Initialize()
 	GetCamera().SetMainCamera(cameraComponent);
 
 	// プレイヤーを生成
-	m_player = ObjectFactory::CreatePlayer(this);
+	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
+
+	// 敵を生成
+	ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
+	ObjectFactory::CreateEnemy(this, { 0, 5, 5 });
+	ObjectFactory::CreateEnemy(this, { 0, 8, 3 });
+
+	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
+
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
@@ -58,7 +69,7 @@ void GamePlayScene::Initialize()
 	for (int i = 0; i < 10; i++)
 	{
 		auto cube = ObjectFactory::CreateCube(this, 
-			{ Random::GetFloat(-10, 10), Random::GetFloat(-3, 5), Random::GetFloat(-10, 10) }
+			{ Random::Get(-10.0f, 10.0f), Random::Get(-3.0f, 5.0f), Random::Get(-10.0f, 10.0f) }
 			, { 0, 0, 0 }
 			,{ 3.0f, 1.0f, 3.0f } 
 		);
@@ -70,10 +81,6 @@ void GamePlayScene::Initialize()
 
 	// 敵管理クラスにプレイヤーを渡す
 	m_enemyManager.SetPlayer(m_player->GetComponent<Transform>());
-
-	// 敵のテスト
-	auto enemy = ObjectFactory::CreateEnemy(this, { 1, 0, 0 });
-
 }
 
 // 更新関数
@@ -103,6 +110,7 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 // 描画関数
 void GamePlayScene::Render(Renderer& renderer)
 {
+	m_enemyManager.DebugRenderer(renderer);
 }
 
 // 終了関数
@@ -123,6 +131,10 @@ void GamePlayScene::RegisterComponentOnDerived(BaseComponent* component)
 	{
 		m_enemyManager.AddPoints(static_cast<LandingCandidatePoints*>(component));
 	}
+	if (component->GetID() == ComponentID::LandingCandidatePoints2D)
+	{
+		m_enemyManager.AddPoints(static_cast<LandingCandidatePoints2D*>(component));
+	}
 	// 敵管理クラスに通知
 	if (component->GetID() == ComponentID::Enemy)
 	{
@@ -142,6 +154,10 @@ void GamePlayScene::UnRegisterComponentOnDerived(BaseComponent* component)
 	if (component->GetID() == ComponentID::LandingCandidatePoints)
 	{
 		m_enemyManager.RemovePoints(static_cast<LandingCandidatePoints*>(component));
+	}
+	if (component->GetID() == ComponentID::LandingCandidatePoints2D)
+	{
+		m_enemyManager.RemovePoints(static_cast<LandingCandidatePoints2D*>(component));
 	}
 	// 敵管理クラスに通知
 	if (component->GetID() == ComponentID::Enemy)
@@ -179,4 +195,7 @@ void GamePlayScene::TryChangeDimention()
 
 	// プレイヤーの切り替え
 	m_player->GetComponent<Player>()->ChangeDimention();
+
+	// 敵の切り替え
+	m_enemyManager.ChangeDimantion();
 }

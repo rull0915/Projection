@@ -226,7 +226,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="GameLib\Common\ThreadPool.h" />
     <ClInclude Include="GameLib\GameMath\Color\ColorLib.h" />
     <ClInclude Include="DeviceResources.h" />
-    <ClInclude Include="GameLib\ContainerExtensions.h" />
+    <ClInclude Include="GameLib\Common\ContainerExtensions.h" />
     <ClInclude Include="GameLib\GameMath\Easing.h" />
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
     <ClInclude Include="GameLib\GameMath\Range.h" />
@@ -361,7 +361,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="GameLib\Input\KeyInput.h" />
     <ClInclude Include="GameLib\Input\MouseInput.h" />
-    <ClInclude Include="GameLib\Random.h" />
+    <ClInclude Include="GameLib\Common\Random.h" />
     <ClInclude Include="GameLib\Resources\ResourceManager.h" />
     <ClInclude Include="GameLib\Scene\Scene.h" />
     <ClInclude Include="GameLib\Scene\SceneManager.h" />
@@ -418,13 +418,22 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph2D.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraphBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints2D.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\Enemy.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\PathFollower.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DJumpState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DMoveState.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.h" />
@@ -527,7 +536,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="GameLib\GameObject\Others\GameObjectSaver.cpp" />
     <ClCompile Include="GameLib\Input\KeyInput.cpp" />
     <ClCompile Include="GameLib\Input\MouseInput.cpp" />
-    <ClCompile Include="GameLib\Random.cpp" />
     <ClCompile Include="GameLib\Resources\ResourceManager.cpp" />
     <ClCompile Include="GameLib\Scene\Scene.cpp" />
     <ClCompile Include="GameLib\Scene\SceneManager.cpp" />
@@ -552,13 +560,21 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
     <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph2D.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraphBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints2D.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\PathFollower.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DJumpState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DMoveState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.cpp" />

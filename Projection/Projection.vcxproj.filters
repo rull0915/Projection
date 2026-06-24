@@ -226,7 +226,7 @@
     <ClInclude Include="GameLib\GameObject\Components\Components.h">
       <Filter>GameLib\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\ContainerExtensions.h">
+    <ClInclude Include="GameLib\Common\ContainerExtensions.h">
       <Filter>GameLib</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\GameMath\Easing.h">
@@ -298,7 +298,7 @@
     <ClInclude Include="GameLib\Common\Renderer\EachRenderer\Primitive\PrimitiveRenderer.h">
       <Filter>GameLib\Common\Renderer\Type</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\Random.h">
+    <ClInclude Include="GameLib\Common\Random.h">
       <Filter>GameLib</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\GameMath\Range.h">
@@ -432,6 +432,12 @@
     <ClInclude Include="Game\GamePlayScene\Enemy\PathFollower.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints2D.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraphBase.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph2D.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DJumpState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DMoveState.h" />
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -536,9 +542,6 @@
     <ClCompile Include="GameLib\Common\Renderer\EachRenderer\Primitive\PrimitiveRenderer.cpp">
       <Filter>GameLib\Common\Renderer\Type</Filter>
     </ClCompile>
-    <ClCompile Include="GameLib\Random.cpp">
-      <Filter>GameLib</Filter>
-    </ClCompile>
     <ClCompile Include="GameLib\Common\Renderer\Renderer.cpp">
       <Filter>GameLib\Common\Renderer</Filter>
     </ClCompile>
@@ -610,12 +613,17 @@
     <ClCompile Include="Game\GamePlayScene\Stage\Components\MoveComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.cpp" />
     <ClCompile Include="Game\AStarTestScene\AStarTestScene.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\PathFollower.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints2D.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraphBase.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph2D.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DJumpState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\2D\Enemy2DMoveState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

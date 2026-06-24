@@ -32,9 +32,15 @@ void DepthCorrection::Update(const GameTimer & gameTimer)
 
 void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
 {
-		// 床にぶつかっていた場合
+	// 床にぶつかっていた場合
 	if (contact.other->GetTag() == "Floor")
 	{
+		// 衝突法線がどれだけ上向きかを調べる
+		float upVolume = DirectX::SimpleMath::Vector2::UnitY.Dot(contact.normal);
+
+		// 衝突法線が上方向とみなせなければ何もしない
+		if (upVolume > CORRECTION_BORDER) return;
+
 		// 衝突したオブジェクトに近づくように補正する
 
 		// カメラ基準のZ座標を求める

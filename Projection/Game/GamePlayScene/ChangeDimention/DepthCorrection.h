@@ -26,6 +26,9 @@
 //====================================================//
 class DepthCorrection : public Component<DepthCorrection, ComponentID::DepthCorrection>
 {
+private:
+    static constexpr float CORRECTION_BORDER = 1.0f / 1.1415926535f;
+
 public:
 
     //-----------------------------------------------------
@@ -36,7 +39,7 @@ public:
     {
     }
 
-    ~DepthCorrection();
+    ~DepthCorrection() = default;
 
     //-----------------------------------------------------
     // åˆäJä÷êî

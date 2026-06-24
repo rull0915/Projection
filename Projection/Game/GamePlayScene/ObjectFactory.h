@@ -21,8 +21,10 @@
 #include "GameLib/GameObject/Components/Components.h"
 #include "Player/Player.h"
 #include "ChangeDimention/ChangeColliderComponent.h"
+#include "ChangeDimention/DepthCorrection.h"
 #include "Enemy/Enemy.h"
 #include "Enemy/Components/LandingCandidatePoints.h"
+#include "Enemy/Components/LandingCandidatePoints2D.h"
 
 //====================================================//
 // 前方宣言
@@ -63,6 +65,9 @@ namespace ObjectFactory
 		// 次元変化
 		obj->AddComponent<ChangeColliderComponent>();
 
+		// 2D補正
+		obj->AddComponent<DepthCorrection>();
+
 		// 生成したオブジェクトを返す
 		return obj;
 	}
@@ -88,6 +93,7 @@ namespace ObjectFactory
 
 		// 着地候補として設定
 		cube->AddComponent<LandingCandidatePoints>();
+		cube->AddComponent<LandingCandidatePoints2D>();
 
 		// タグの設定
 		cube->SetTag("Floor");
@@ -112,6 +118,10 @@ namespace ObjectFactory
 		enemy->AddComponent<CapsuleCollider>();
 
 		// 次元変化
+		enemy->AddComponent<ChangeColliderComponent>();
+
+		// 2D補正
+		enemy->AddComponent<DepthCorrection>();
 
 		// 敵
 		enemy->AddComponent<Enemy>();

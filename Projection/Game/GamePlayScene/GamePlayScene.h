@@ -94,5 +94,5 @@ private:
 
 static DirectX::SimpleMath::Vector3 TestMove(float time)
 {
-    return { sinf(time) * 10, 0, 0};
+    return { sinf(time) * 10, 0, 0 };
 }
