@@ -74,10 +74,13 @@ enum class ComponentID
 	ProjectionSmoothCamera	= 0x0703,
 	// ’…’nŒó•â“_
 	LandingCandidatePoints	= 0x1300,
+	LandingCandidatePoints2D= 0x1400,
 	// ˆÚ“®
-	MoveComponent			= 0x1400,
+	MoveComponent			= 0x1500,
 	// “G
-	Enemy					= 0x1500,
+	Enemy					= 0x1600,
+	// 2D‚Ì‰œs•â³
+	DepthCorrection			= 0x1700,
 };
 
 // MAIN_ID‚Ì‚İ‚ğØ‚èæ‚éŠÖ”
