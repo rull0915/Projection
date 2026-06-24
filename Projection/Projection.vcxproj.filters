@@ -145,7 +145,7 @@
     <ClInclude Include="GameLib\GameObject\Components\Renderer\BaseRenderer.h">
       <Filter>GameLib\GameObject\Components\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\Common\State\BaseState.h">
+    <ClInclude Include="GameLib\Common\State\StateBase.h">
       <Filter>GameLib\Common\State</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\UIObject\UIComponents\BaseUIComponent.h">
@@ -361,9 +361,6 @@
     <ClInclude Include="GameLib\GameObject\Components\Transform\Transform.h">
       <Filter>GameLib\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\Common\State\TransitionRule.h">
-      <Filter>GameLib\Common\State</Filter>
-    </ClInclude>
     <ClInclude Include="GameLib\GameObject\Managers\3DManagers\Collider\SpaceDivision\TreeManager.h">
       <Filter>GameLib\GameObject\Managers\3D\Collider</Filter>
     </ClInclude>
@@ -430,6 +427,11 @@
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.h" />
     <ClInclude Include="Game\AStarTestScene\AStarTestScene.h" />
     <ClInclude Include="Game\GamePlayScene\ObjectFactory.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyStateBase.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\PathFollower.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyJumpState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyMoveState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -610,6 +612,10 @@
     <ClCompile Include="Game\GamePlayScene\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.cpp" />
     <ClCompile Include="Game\AStarTestScene\AStarTestScene.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\PathFollower.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyJumpState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyMoveState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

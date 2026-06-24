@@ -72,7 +72,7 @@ void GamePlayScene::Initialize()
 	m_enemyManager.SetPlayer(m_player->GetComponent<Transform>());
 
 	// “G‚ÌƒeƒXƒg
-	auto enemy = ObjectFactory::CreateEnemy(this);
+	auto enemy = ObjectFactory::CreateEnemy(this, { 1, 0, 0 });
 
 }
 

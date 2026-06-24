@@ -152,19 +152,6 @@ void Player::Update2D(const GameTimer& timer)
 	{
 		col->SetPhysicsMaterial(&m_material);
 	}
-
-	// ƒWƒƒƒ“ƒv“ü—Í‚ðŽæ“¾
-	//float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
-
-	//// “ü—Í‚ª‚ ‚ê‚Î
-	//if (jumpInput != 0.0f)
-	//{
-	//	// —Í‚ð‰Á‚¦‚é
-	//	if (auto* rb = GetComponent<RigidBody2D>())
-	//	{
-	//		rb->AddForce(DirectX::SimpleMath::Vector2::UnitY * JUMP_POWER, ForceMode::Impulse);
-	//	}
-	//}
 }
 
 void Player::Update3D(const GameTimer& timer)
