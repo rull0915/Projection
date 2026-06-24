@@ -27,7 +27,7 @@ ProjectionSmoothCamera::ProjectionSmoothCamera(IComponentOwner* owner)
 	, m_farZ{ 1000.0f }, m_nearZ{ 0.1f }
 	, m_aspect{ static_cast<float>(Screen::WIDTH) / Screen::HEIGHT }
 	, m_fov{ PI_F / 4 }
-	, m_size{ 20.0f }
+	, m_size{ 15.0f }
 	, m_changeTime{ 1.0f }
 	, m_nowTime{ 0.0f }
 	, m_isChanging{ false }
