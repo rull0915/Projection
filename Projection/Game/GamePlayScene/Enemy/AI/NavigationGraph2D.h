@@ -1,12 +1,12 @@
 //====================================================//
-// ファイル名   : NavigationGraph.h
+// ファイル名   : NavigationGraph2D.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/14
+// 作成日       : 2026/06/24
 //
 // 概要 : 敵が移動できる有向グラフを作成するクラス
 //
 // 更新履歴 :
-// 2026/06/14 新規作成
+// 2026/06/24 新規作成
 //====================================================//
 
 #pragma once
@@ -14,7 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "../Components/LandingCandidatePoints.h"
+#include "../Components/LandingCandidatePoints2D.h"
 #include "NavigationGraphBase.h"
 
 //====================================================//
@@ -25,7 +25,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class NavigationGraph : public NavigationGraphBase
+class NavigationGraph2D : public NavigationGraphBase
 {
 public:
 
@@ -36,26 +36,26 @@ private:
     //-----------------------------------------------------
 
     // 扱うノードの配列
-    std::vector<LandingCandidatePoints*> m_nodes;
+    std::vector<LandingCandidatePoints2D*> m_nodes;
 
     // 追加予約中のノード
-    std::vector<LandingCandidatePoints*> m_addReserves;
+    std::vector<LandingCandidatePoints2D*> m_addReserves;
     // 削除予約中のノード
-    std::vector<LandingCandidatePoints*> m_removeReserves;
+    std::vector<LandingCandidatePoints2D*> m_removeReserves;
 
 public:
 
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
-    NavigationGraph(float jumpImpulse, float mass, float horizontalVelocity)
+    NavigationGraph2D(float jumpImpulse, float mass, float horizontalVelocity)
         : NavigationGraphBase(jumpImpulse, mass, horizontalVelocity)
         , m_nodes{}
         , m_addReserves{}
         , m_removeReserves{}
     {}
 
-    ~NavigationGraph() = default;
+    ~NavigationGraph2D() = default;
 
     //-----------------------------------------------------
     // 公開関数
@@ -77,19 +77,19 @@ public:
     //-----------------------------------------------------
 
     // ノードを追加する関数
-    void AddNode(LandingCandidatePoints* node)
+    void AddNode(LandingCandidatePoints2D* node)
     {
         m_addReserves.push_back(node);
     }
 
     // ノードを削除する関数
-    void RemoveNode(LandingCandidatePoints* node)
+    void RemoveNode(LandingCandidatePoints2D* node)
     {
         m_removeReserves.push_back(node);
     }
 
     // インデックスを取得する関数
-    int GetIndex(LandingCandidatePoints* point)
+    int GetIndex(LandingCandidatePoints2D* point)
     {
         for (int i = 0; i < m_nodes.size(); ++i)
         {
@@ -100,7 +100,7 @@ public:
     }
 
     // 管理しているコンポーネントを取得する関数
-    const std::vector<LandingCandidatePoints*> GetNodes() const { return m_nodes; }
+    const std::vector<LandingCandidatePoints2D*> GetNodes() const { return m_nodes; }
 
     void ResetGraph()
     {
@@ -121,7 +121,7 @@ private:
     //-----------------------------------------------------
 
     // ジャンプで到達できるか調べる関数
-    bool CanJump(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 target, float& time);
+    bool CanJump(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 target, float& time);
 
     // グラフを再構築する関数
     void InitializeGraph() override;
@@ -161,7 +161,7 @@ private:
         for (auto& node : m_removeReserves)
         {
             // 条件を満たすノードを削除
-            std::erase_if(m_nodes, [&](const LandingCandidatePoints* n) -> bool { return n == node; });
+            std::erase_if(m_nodes, [&](const LandingCandidatePoints2D* n) -> bool { return n == node; });
         }
 
         // リストを初期化

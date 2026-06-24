@@ -1,9 +1,9 @@
 //====================================================//
-// ファイル名   : EnemyMoveState.h
+// ファイル名   : Enemy2DMoveState.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/06/23
 //
-// 概要 : 敵の移動ステート
+// 概要 : 敵の2D移動ステート
 //
 // 更新履歴 :
 // 2026/06/23 新規作成
@@ -24,7 +24,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EnemyMoveState : public EnemyStateBase
+class Enemy2DMoveState : public EnemyStateBase
 {
     //-----------------------------------------------------
     // メンバ変数宣言
@@ -32,10 +32,10 @@ class EnemyMoveState : public EnemyStateBase
 private:
 
     // 目標地点
-    DirectX::SimpleMath::Vector3 m_targetPosition;
+    DirectX::SimpleMath::Vector2 m_targetPosition;
 
     // 移動するベクトル
-    DirectX::SimpleMath::Vector3 m_moveVec;
+    DirectX::SimpleMath::Vector2 m_moveVec;
 
     //-----------------------------------------------------
     // 関数宣言
@@ -43,10 +43,10 @@ private:
 
     // コンストラクタ
 public:
-    EnemyMoveState(Enemy* owner)
+    Enemy2DMoveState(Enemy* owner)
         : EnemyStateBase(owner)
-        , m_targetPosition{ 0, 0, 0 }
-        , m_moveVec{ 0, 0, 0 }
+        , m_targetPosition{ 0, 0 }
+        , m_moveVec{ 0, 0 }
     {}
 
     // Stateの純粋仮想関数の実装

@@ -14,11 +14,14 @@
 
 #include "GameLib/GameObject/Managers/HitContact.h"
 #include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
+#include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
 
 // ステート
 #include "State/EnemyIdleState.h"
 #include "State/3D/EnemyJumpState.h"
 #include "State/3D/EnemyMoveState.h"
+#include "State/2D/Enemy2DMoveState.h"
+#include "State/2D/Enemy2DJumpState.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -33,9 +36,11 @@ void Enemy::Awake()
 
 	// ジャンプ
 	m_stateMachine.RegisterState(EnemyStateID::Jump, std::make_unique<EnemyJumpState>(this));
+	m_stateMachine.RegisterState(EnemyStateID::Jump2D, std::make_unique<Enemy2DJumpState>(this));
 
 	// 移動
 	m_stateMachine.RegisterState(EnemyStateID::Move, std::make_unique<EnemyMoveState>(this));
+	m_stateMachine.RegisterState(EnemyStateID::Move2D, std::make_unique<Enemy2DMoveState>(this));
 
 	// 初期状態をアイドルに設定
 	m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
@@ -64,14 +69,30 @@ void Enemy::Update(const GameTimer& gameTimer)
 	// もしIdle状態ではない場合
 	if (m_stateMachine.GetCurrentStateType() != EnemyStateID::Idle)
 	{
-		// RigidBodyを取得
-		if (auto rb = GetComponent<RigidBody>())
+		if (m_is2D)
 		{
-			// 動いていなければ
-			if (rb->GetVelocity().LengthSquared() <= FLT_EPSILON)
+			// RigidBody2Dを取得
+			if (auto rb = GetComponent<RigidBody2D>())
 			{
-				// Idleへ戻す
-				m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
+				// 動いていなければ
+				if (rb->GetVelocity().LengthSquared() <= FLT_EPSILON)
+				{
+					// Idleへ戻す
+					m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
+				}
+			}
+		}
+		else
+		{
+			// RigidBodyを取得
+			if (auto rb = GetComponent<RigidBody>())
+			{
+				// 動いていなければ
+				if (rb->GetVelocity().LengthSquared() <= FLT_EPSILON)
+				{
+					// Idleへ戻す
+					m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
+				}
 			}
 		}
 	}
@@ -110,6 +131,45 @@ void Enemy::OnCollisionExit(HitContact & hit)
 		{
 			// リセット
 			m_lastPoints = nullptr;
+
+			m_isGround = false;
+		}
+	}
+}
+
+void Enemy::OnCollisionEnter2D(HitContact2D& hit)
+{
+	// 衝突したオブジェクトが候補点を持っていたら
+	if (auto comp = hit.other->GetComponent<LandingCandidatePoints2D>())
+	{
+		// 衝突法線が上向きなら
+		if (hit.normal.y < 0)
+		{
+			// 更新
+			m_lastPoints2D = comp;
+
+			m_isGround = true;
+		}
+	}
+
+	// 持っていなければ
+	else
+	{
+		// Idleへ
+		m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
+	}
+}
+
+void Enemy::OnCollisionExit2D(HitContact2D & hit)
+{
+	// 衝突したオブジェクトが候補点を持っていたら
+	if (auto comp = hit.other->GetComponent<LandingCandidatePoints2D>())
+	{
+		// 最新と一致していたら
+		if (comp == m_lastPoints2D)
+		{
+			// リセット
+			m_lastPoints2D = nullptr;
 
 			m_isGround = false;
 		}

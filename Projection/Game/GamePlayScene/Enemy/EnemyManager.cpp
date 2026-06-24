@@ -25,6 +25,14 @@ void EnemyManager::Initialize()
 	m_normalNavigation.ResetGraph();
 
 	m_normalNavigation.Initialize();
+
+	// 2Dグラフの初期化
+	m_normalNavigation2D.ResetGraph();
+
+	m_normalNavigation2D.Initialize();
+
+	// フラグのリセット
+	m_is2D = false;
 }
 
 void EnemyManager::Update(const GameTimer& timer)
@@ -40,7 +48,15 @@ void EnemyManager::Update(const GameTimer& timer)
 	if (m_nowTime >= GRAPH_UPDATE_DISTANCE)
 	{
 		// グラフを更新
-		m_normalNavigation.Update();
+		if (m_is2D)
+		{
+			m_normalNavigation2D.Update();
+		}
+
+		else
+		{
+			m_normalNavigation.Update();
+		}
 
 		// タイマーをリセット
 		m_nowTime = 0;
@@ -52,60 +68,157 @@ void EnemyManager::Update(const GameTimer& timer)
 	// プレイヤーが一定以上動いたら敵の道を再計算する
 	if ((playerPos - m_oldPlayerPosition).LengthSquared() >= WAY_UPDATE_BORDER)
 	{
-		// プレイヤーの候補点
-		LandingCandidatePoints* playerPoints = nullptr;
-
-		// プレイヤーコンポーネントがあれば
-		if (auto pl = m_playerTransform->GetOwn()->GetComponent<Player>())
+		// 2次元の時
+		if (m_is2D)
 		{
-			playerPoints = pl->GetLandingPoints();
-		}
+			// プレイヤーの候補点
+			LandingCandidatePoints2D* playerPoints = nullptr;
 
-		// プレイヤーがない or まだ未着地ならスキップ
-		if (!playerPoints) return;
-
-		// プレイヤーのインデックスを取得
-		size_t playerIndex = m_normalNavigation.GetIndex(playerPoints);
-		
-		// 登録されていなければスキップ
-		if (playerIndex == -1) return;
-
-		// ノードを取得
-		auto& nodes = m_normalNavigation.GetNodes();
-
-		// 全ての敵をチェック
-		for (auto& enemy : m_enemies)
-		{
-			// アイドル状態でなければ何もしない
-			// if (enemy->GetNowState() != EnemyStateID::Idle) continue;
-
-			// 敵の候補点のインデックスを取得
-			size_t enemyIndex = m_normalNavigation.GetIndex(enemy->GetLandingPoints());
-		
-			// 登録されていなければスキップ
-			if (enemyIndex == -1) continue;
-
-			// 道を再計算
-			auto edges = AStarPathFinder::MakePath(m_normalNavigation, enemyIndex, playerIndex);
-
-			// 座標に変換
-			std::vector<PathFollower::Path> way(edges.size());
-
-			// 全辺をループ
-			for (size_t i = 0; i < edges.size(); ++i)
+			// プレイヤーコンポーネントがあれば
+			if (auto pl = m_playerTransform->GetOwn()->GetComponent<Player>())
 			{
-				// ゴールの座表
-				DirectX::SimpleMath::Vector3 goal = nodes[edges[i].goalIndex]->GetPoints()[edges[i].goalPoint];
-
-				// スタートの座標
-				DirectX::SimpleMath::Vector3 start = nodes[edges[i].ownIndex]->GetPoints()[edges[i].startPoint];
-
-				// パスに追加
-				way[i] = { start, goal, edges[i].cost };
+				playerPoints = pl->GetLandingPoints2D();
 			}
 
-			// 敵に通知
-			enemy->SetWay(way);
+			// プレイヤーがない or まだ未着地ならスキップ
+			if (!playerPoints) return;
+
+			// プレイヤーのインデックスを取得
+			size_t playerIndex = m_normalNavigation2D.GetIndex(playerPoints);
+
+			// 登録されていなければスキップ
+			if (playerIndex == -1) return;
+
+			// ノードを取得
+			auto& nodes = m_normalNavigation2D.GetNodes();
+
+			// 全ての敵をチェック
+			for (auto& enemy : m_enemies)
+			{
+				// 敵の候補点のインデックスを取得
+				size_t enemyIndex = m_normalNavigation2D.GetIndex(enemy->GetLandingPoints2D());
+
+				// 登録されていなければスキップ
+				if (enemyIndex == -1) continue;
+
+				// 道を再計算
+				auto edges = AStarPathFinder::MakePath(m_normalNavigation2D, enemyIndex, playerIndex);
+				m_debugPath = edges;
+
+				// 座標に変換
+				std::vector<PathFollower::Path2D> way(edges.size());
+
+				// 全辺をループ
+				for (size_t i = 0; i < edges.size(); ++i)
+				{
+					// 候補点を取得
+					auto goalPoints = nodes[edges[i].goalIndex]->GetPoints();
+					auto startPoints = nodes[edges[i].ownIndex]->GetPoints();
+
+					// 範囲外チェック
+					if (edges[i].goalPoint >= goalPoints.size() || edges[i].startPoint >= startPoints.size()) continue;
+
+					// ゴールの座表
+					DirectX::SimpleMath::Vector2 goal = goalPoints[edges[i].goalPoint];
+
+					// スタートの座標
+					DirectX::SimpleMath::Vector2 start = startPoints[edges[i].startPoint];
+
+					// パスに追加
+					way[i] = { start, goal, edges[i].cost };
+				}
+
+				// 敵に通知
+				enemy->SetWay(way);
+			}
 		}
+		else
+		{
+			// プレイヤーの候補点
+			LandingCandidatePoints* playerPoints = nullptr;
+
+			// プレイヤーコンポーネントがあれば
+			if (auto pl = m_playerTransform->GetOwn()->GetComponent<Player>())
+			{
+				playerPoints = pl->GetLandingPoints();
+			}
+
+			// プレイヤーがない or まだ未着地ならスキップ
+			if (!playerPoints) return;
+
+			// プレイヤーのインデックスを取得
+			size_t playerIndex = m_normalNavigation.GetIndex(playerPoints);
+
+			// 登録されていなければスキップ
+			if (playerIndex == -1) return;
+
+			// ノードを取得
+			auto& nodes = m_normalNavigation.GetNodes();
+
+			// 全ての敵をチェック
+			for (auto& enemy : m_enemies)
+			{
+				// 敵の候補点のインデックスを取得
+				size_t enemyIndex = m_normalNavigation.GetIndex(enemy->GetLandingPoints());
+
+				// 登録されていなければスキップ
+				if (enemyIndex == -1) continue;
+
+				// 道を再計算
+				auto edges = AStarPathFinder::MakePath(m_normalNavigation, enemyIndex, playerIndex);
+				m_debugPath = edges;
+
+				// 座標に変換
+				std::vector<PathFollower::Path> way(edges.size());
+
+				// 全辺をループ
+				for (size_t i = 0; i < edges.size(); ++i)
+				{
+					// 候補点を取得
+					auto goalPoints = nodes[edges[i].goalIndex]->GetPoints();
+					auto startPoints = nodes[edges[i].ownIndex]->GetPoints();
+
+					// 範囲外チェック
+					if (edges[i].goalPoint >= goalPoints.size() || edges[i].startPoint >= startPoints.size()) continue;
+
+					// ゴールの座表
+					DirectX::SimpleMath::Vector3 goal = goalPoints[edges[i].goalPoint];
+
+					// スタートの座標
+					DirectX::SimpleMath::Vector3 start = startPoints[edges[i].startPoint];
+
+					// パスに追加
+					way[i] = { start, goal, edges[i].cost };
+				}
+
+				// 敵に通知
+				enemy->SetWay(way);
+			}
+		}
+	}
+}
+
+void EnemyManager::DebugRenderer(Renderer& renderer)
+{
+	if (m_is2D) m_normalNavigation2D.DebugDraw(m_debugPath, renderer);
+	else m_normalNavigation.DebugDraw(m_debugPath, renderer);
+}
+
+void EnemyManager::ChangeDimantion()
+{
+	// 自身のフラグを変更
+	m_is2D = !m_is2D;
+
+	// 管理している全ての敵を変更
+	for (auto& enemy : m_enemies)
+	{
+		// 次元を変更
+		enemy->SetIs2D(m_is2D);
+	}
+
+	if (m_is2D)
+	{
+		// 2Dグラフの初期化
+		m_normalNavigation2D.Initialize();
 	}
 }

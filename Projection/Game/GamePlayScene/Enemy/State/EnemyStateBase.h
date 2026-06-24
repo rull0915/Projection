@@ -28,7 +28,9 @@ enum class EnemyStateID
 {
     Idle,
     Move,
+    Move2D,
     Jump,
+    Jump2D,
 };
 
 //====================================================//

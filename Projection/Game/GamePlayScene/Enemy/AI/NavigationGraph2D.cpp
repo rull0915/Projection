@@ -1,7 +1,7 @@
 //====================================================//
-// ファイル名  : NavigationGraph.cpp
+// ファイル名  : NavigationGraph2D.cpp
 // 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/14
+// 作成日       : 2026/06/24
 //
 // 概要       : 
 //====================================================//
@@ -10,21 +10,22 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "NavigationGraph.h"
+#include "NavigationGraph2D.h"
 
 #include "GameLib/Common/Renderer/Renderer.h"
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-void NavigationGraph::Initialize()
+void NavigationGraph2D::Initialize()
 {
     // 初期状態でグラフを生成する
     InitializeGraph();
 }
 
-void NavigationGraph::Update()
+void NavigationGraph2D::Update()
 {
     // 予約済みの追加
     AddReserved();
@@ -36,7 +37,7 @@ void NavigationGraph::Update()
     UpdateGraph();
 }
 
-void NavigationGraph::DebugDraw(Renderer& renderer)
+void NavigationGraph2D::DebugDraw(Renderer& renderer)
 {
     // 繋がっているコライダー同士を結ぶ線を描く
     for (auto& edges : GetGraph())
@@ -45,7 +46,7 @@ void NavigationGraph::DebugDraw(Renderer& renderer)
     }
 }
 
-void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color)
+void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color)
 {
     for (auto& edge : edges)
     {
@@ -54,18 +55,19 @@ void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& render
 
         if (edge.startPoint >= m_nodes[edge.ownIndex]->GetPoints().size() || edge.goalPoint >= m_nodes[edge.goalIndex]->GetPoints().size()) continue;
 
-        DirectX::SimpleMath::Vector3 points[2] =
+        DirectX::SimpleMath::Vector2 points[2] =
         {
             m_nodes[edge.ownIndex]->GetPoints()[edge.startPoint],
             m_nodes[edge.goalIndex]->GetPoints()[edge.goalPoint]
         };
 
         // 繋ぐ線を描画
-        renderer.Draw().Line(points[0], points[1], color);
+        auto& w = WorldSetting2D::Instance();
+        renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
     }
 }
 
-bool NavigationGraph::CanJump(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 target, float& time)
+bool NavigationGraph2D::CanJump(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 target, float& time)
 {
     // Y方向の距離の差を求める
     float yDistance = target.y - start.y;
@@ -88,7 +90,7 @@ bool NavigationGraph::CanJump(DirectX::SimpleMath::Vector3 start, DirectX::Simpl
     float t = (initV + std::sqrtf(D)) / GetGravity();
 
     // 求めたtまでに水平方向を移動しきれるかを調べる
-    DirectX::SimpleMath::Vector3 horizontalVec = { target - start };
+    DirectX::SimpleMath::Vector2 horizontalVec = { target - start };
     horizontalVec.y = 0;
 
     // 水平方向の距離
@@ -105,7 +107,7 @@ bool NavigationGraph::CanJump(DirectX::SimpleMath::Vector3 start, DirectX::Simpl
     return true;
 }
 
-void NavigationGraph::InitializeGraph()
+void NavigationGraph2D::InitializeGraph()
 {
     // グラフのリセット
     GetGraph().clear();
@@ -126,7 +128,7 @@ void NavigationGraph::InitializeGraph()
     }
 }
 
-void NavigationGraph::UpdateGraph()
+void NavigationGraph2D::UpdateGraph()
 {
     // removeで使用するラムダ式
     auto lambda = [&](const Edge& edge) -> bool 
@@ -161,13 +163,13 @@ void NavigationGraph::UpdateGraph()
     }
 }
 
-void NavigationGraph::BuildConnection(size_t first, size_t second)
+void NavigationGraph2D::BuildConnection(size_t first, size_t second)
 {
-    const std::vector<DirectX::SimpleMath::Vector3>& firstPoints = m_nodes[first]->GetPoints();
-    const std::vector<DirectX::SimpleMath::Vector3>& secondPoints =m_nodes[second]->GetPoints();
+    const std::vector<DirectX::SimpleMath::Vector2>& firstPoints = m_nodes[first]->GetPoints();
+    const std::vector<DirectX::SimpleMath::Vector2>& secondPoints =m_nodes[second]->GetPoints();
         
     // 届くかつ最も距離の近い候補点のペアを調べる
-    float min = FLT_MAX, minT = 0;
+    float minT = FLT_MAX;
     std::pair<size_t, size_t> pair = { 0, 0 };
 
     for (size_t i = 0; i < firstPoints.size(); ++i)
@@ -179,14 +181,9 @@ void NavigationGraph::BuildConnection(size_t first, size_t second)
             // ジャンプで届くなら
             if (CanJump(firstPoints[i], secondPoints[j], t))
             {
-                // 長さを調べる
-                float lenSq = (secondPoints[j] - firstPoints[i]).LengthSquared();
-
                 // 最小値が更新されたら
-                if (lenSq < min)
+                if (t < minT)
                 {
-                    min = lenSq;
-
                     pair = { i, j };
 
                     minT = t;
@@ -196,7 +193,7 @@ void NavigationGraph::BuildConnection(size_t first, size_t second)
     }
 
     // 1つでも存在していれば
-    if (min != FLT_MAX)
+    if (minT != FLT_MAX)
     {
         // 辺を追加
         GetGraph()[first].push_back

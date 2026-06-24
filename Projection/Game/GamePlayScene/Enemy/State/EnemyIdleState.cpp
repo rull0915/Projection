@@ -3,7 +3,7 @@
 // 作成者      : Hoshino Ryunosuke
 // 作成日       : 2026/06/23
 //
-// 概要       : 
+// 概要       : 敵のアイドル状態
 //====================================================//
 
 //====================================================//
@@ -29,8 +29,17 @@ void EnemyIdleState::Update(const GameTimer& timer)
 		// パスを更新
 		GetOwner()->ToNextPath();
 
-		// ジャンプへ
-		RequestChangeState(EnemyStateID::Move);
+		// 次元を調べる
+		if (GetOwner()->Is2D())
+		{
+			// 2d移動へ
+			RequestChangeState(EnemyStateID::Move2D);
+		}
+		else
+		{
+			// 3d移動へ
+			RequestChangeState(EnemyStateID::Move);
+		}
 	}
 }
 

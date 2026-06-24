@@ -1,28 +1,31 @@
 //====================================================//
-// ファイル名  : EnemyMoveState.cpp
+// ファイル名  : Enemy2DMoveState.cpp
 // 作成者      : Hoshino Ryunosuke
 // 作成日       : 2026/06/23
 //
-// 概要       : 敵の移動ステート
+// 概要       : 敵の2D移動ステート
 //====================================================//
 
 //====================================================//
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "EnemyMoveState.h"
+#include "Enemy2DMoveState.h"
 
 #include "../../Enemy.h"
-#include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
+#include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
+#include "GameLib/GameObject/Components/Collider/2D/BaseCollider2D.h"
+
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-void EnemyMoveState::Enter()
+void Enemy2DMoveState::Enter()
 {
 	// パスを取得
-	const PathFollower::Path* path = GetOwner()->GetNowPath();
+	const PathFollower::Path2D* path = GetOwner()->GetNowPath2D();
 
 	// パスがなければIdleに戻す
 	if (!path)
@@ -31,9 +34,12 @@ void EnemyMoveState::Enter()
 
 		return;
 	}
+	
+	// 2次元世界の設定を取得
+	auto& world2D = WorldSetting2D::Instance();
 
 	// 最初の位置を取得
-	DirectX::SimpleMath::Vector3 initPosition = GetOwner()->GetComponent<Transform>()->GetWorldPosition();
+	DirectX::SimpleMath::Vector2 initPosition = world2D.World3DToLocal2D(GetOwner()->GetComponent<Transform>()->GetWorldPosition());
 
 	// 目標地点を取得
 	m_targetPosition = path->start;
@@ -50,18 +56,19 @@ void EnemyMoveState::Enter()
 	m_moveVec /= len;
 
 	// RigidBodyを取得
-	if (auto rb = GetOwner()->GetComponent<RigidBody>())
+	if (auto rb = GetOwner()->GetComponent<RigidBody2D>())
 	{
 		// 速度を変更
 		rb->SetVelocity(m_moveVec * Enemy::VELOCITY);
 	}
 
 	// Colliderを取得
-	if (auto col = GetOwner()->GetComponent<BaseCollider>())
+	if (auto col = GetOwner()->GetComponent<BaseCollider2D>())
 	{
 		// 摩擦をなくす
 		auto* mt = col->GetMutablePhysicsMaterial();
 
+		// なければ設定
 		if (mt)
 		{
 			mt->SetFrictionCombine(CombineMode::Minimum);
@@ -71,16 +78,19 @@ void EnemyMoveState::Enter()
 	}
 }
 
-void EnemyMoveState::Update(const GameTimer& timer)
+void Enemy2DMoveState::Update(const GameTimer& timer)
 {
 	// トランスフォームを取得
 	Transform* pTransform = GetOwner()->GetComponent<Transform>();
+		
+	// 2次元世界の設定を取得
+	auto& world2D = WorldSetting2D::Instance();
 
 	// 今の位置を取得
-	DirectX::SimpleMath::Vector3 nowPosition = pTransform->GetWorldPosition();
+	DirectX::SimpleMath::Vector2 nowPosition = world2D.World3DToLocal2D(pTransform->GetWorldPosition());
 
 	// 次の座標から目標値へのベクトル
-	DirectX::SimpleMath::Vector3 toTarget = m_targetPosition - nowPosition;
+	DirectX::SimpleMath::Vector2 toTarget = m_targetPosition - nowPosition;
 
 	// 水平方向が目標地点にたどり着いていたら
 	if (m_moveVec.Dot(toTarget) < 0)
@@ -88,19 +98,18 @@ void EnemyMoveState::Update(const GameTimer& timer)
 		// 地面にいれば
 		if (GetOwner()->IsGround())
 		{
-			// ジャンプステートへの移行を要請
-			RequestChangeState(EnemyStateID::Jump);
+			// 2次元ジャンプステートへの移行を要請
+			RequestChangeState(EnemyStateID::Jump2D);
 		}
 	}
-	
+
 	// RigidBodyを取得
-	if (auto rb = GetOwner()->GetComponent<RigidBody>())
+	if (auto rb = GetOwner()->GetComponent<RigidBody2D>())
 	{
-		DirectX::SimpleMath::Vector3 vel =
+		DirectX::SimpleMath::Vector2 vel =
 		{
 			m_moveVec.x * Enemy::VELOCITY,
 			rb->GetVelocity().y,
-			m_moveVec.z * Enemy::VELOCITY,
 		};
 
 		// 速度を変更
@@ -108,23 +117,26 @@ void EnemyMoveState::Update(const GameTimer& timer)
 	}
 }
 
-void EnemyMoveState::Exit()
+void Enemy2DMoveState::Exit()
 {
 	// Colliderを取得
-	if (auto col = GetOwner()->GetComponent<BaseCollider>())
+	if (auto col = GetOwner()->GetComponent<BaseCollider2D>())
 	{
 		// 摩擦を戻す
 		auto* mt = col->GetMutablePhysicsMaterial();
 
-		mt->SetFrictionCombine(CombineMode::Average);
-		mt->SetDynamicFriction(0.6f);
-		mt->SetStaticFriction(0.6f);
+		if (mt)
+		{
+			mt->SetFrictionCombine(CombineMode::Average);
+			mt->SetDynamicFriction(0.6f);
+			mt->SetStaticFriction(0.6f);
+		}
 	}
 
 	// 速度をリセット
-	if (auto rb = GetOwner()->GetComponent<RigidBody>())
+	if (auto rb = GetOwner()->GetComponent<RigidBody2D>())
 	{
 		// Y方向のみそのまま
-		rb->SetVelocity({ 0, rb->GetVelocity().y, 0 });
+		rb->SetVelocity({ 0, rb->GetVelocity().y });
 	}
 }

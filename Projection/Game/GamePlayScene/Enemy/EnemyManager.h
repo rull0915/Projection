@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "AI/NavigationGraph.h"
+#include "AI/NavigationGraph2D.h"
 
 #include "Enemy.h"
 #include "GameLib/GameObject/Components/Transform/Transform.h"
@@ -33,7 +34,7 @@ class EnemyManager
     static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
 
     // 道を再計算するボーダー(距離の2乗)
-    static constexpr float WAY_UPDATE_BORDER = 4.0f;
+    static constexpr float WAY_UPDATE_BORDER = 0.0f;
     
 private:
 
@@ -48,6 +49,7 @@ private:
 
     // 通常の敵が使用するグラフ
     NavigationGraph m_normalNavigation;
+    NavigationGraph2D m_normalNavigation2D;
 
     // 管理している敵リスト
     std::vector<Enemy*> m_enemies;
@@ -63,6 +65,12 @@ private:
     // プレイヤーがいた位置
     DirectX::SimpleMath::Vector3 m_oldPlayerPosition;
 
+    // 2Dフラグ
+    bool m_is2D;
+
+    // テスト用
+    std::vector<NavigationGraphBase::Edge> m_debugPath;
+
 public:
 
     //-----------------------------------------------------
@@ -70,9 +78,11 @@ public:
     //-----------------------------------------------------
     EnemyManager()
         : m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
+        , m_normalNavigation2D{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
         , m_enemies{}
         , m_nowTime{ 0 }
         , m_playerTransform{ nullptr }
+        , m_is2D{ false }
     {
     }
     ~EnemyManager() = default;
@@ -83,6 +93,8 @@ public:
     void Initialize();
 
     void Update(const GameTimer& timer);
+
+    void DebugRenderer(Renderer& renderer);
 
     // 敵を追加する関数
     void AddEnemy(Enemy* component)
@@ -106,6 +118,20 @@ public:
         m_normalNavigation.RemoveNode(component);
     }
 
+    // 2D予約候補点を追加する関数
+    void AddPoints(LandingCandidatePoints2D* component)
+    {
+        m_normalNavigation2D.AddNode(component);
+    }
+    // 2D予約候補点を削除する関数
+    void RemovePoints(LandingCandidatePoints2D* component)
+    {
+        m_normalNavigation2D.RemoveNode(component);
+    }
+
+    // 敵の次元変更を行う関数
+    void ChangeDimantion();
+
     //-----------------------------------------------------
     // ゲッター
     //-----------------------------------------------------
@@ -128,6 +154,9 @@ private:
         for (auto& component : m_addReserves)
         {
             m_enemies.push_back(component);
+
+            // フラグを自分と合わせる
+            component->SetIs2D(m_is2D);
         }
 
         // リセット
