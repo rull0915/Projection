@@ -19,6 +19,12 @@
 
 #include "Components/LandingCandidatePoints.h"
 
+#include "PathFollower.h"
+
+#include "GameLib/Common/State/StateMachine.h"
+#include "State/EnemyStateBase.h"
+#include "GameLib/GameObject/Components/Collider/PhysicsMaterial.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
@@ -33,20 +39,8 @@ public:
     //-----------------------------------------------------
     // constexpr宣言
     //-----------------------------------------------------
-    static constexpr float VELOCITY = 4.0f;
-    static constexpr float JUMP_IMPLUSE = 12.0f;
-
-public:
-    //-----------------------------------------------------
-    // 構造体
-    //-----------------------------------------------------
-    struct Path
-    {
-        DirectX::SimpleMath::Vector3 start;     // 始点
-        DirectX::SimpleMath::Vector3 goal;      // 終点
-
-        float time; // 移動にかかる時間
-    };
+    static constexpr float VELOCITY = 5.0f;
+    static constexpr float JUMP_IMPLUSE = 15.0f;
 
 private:
 
@@ -56,28 +50,21 @@ private:
 
     // トランスフォームのポインタ
     Transform* m_pTransform;   
+
+    // ステートマシン本体
+    StateMachine<EnemyStateID> m_stateMachine;
     
-    // 経路
-    std::vector<Path> m_way;
-    std::vector<Path> m_nextWay;    // 変更予定の経路
-
-    // 辿っている道のインデックス
-    int m_nowIndex;
-
-    // 辿っている道
-    Path m_nowPath;
-
     // 最後に着地したポイント
     LandingCandidatePoints* m_lastPoints;
 
-    // インターバル中かどうか
-    bool m_isInterval;
+    // パスを管理するオブジェクト
+    PathFollower m_pathFollower;
 
-    // 水平方向の速度
-    DirectX::SimpleMath::Vector3 m_velocity;
+    // 物理マテリアル
+    PhysicsMaterial m_physicsMaterial;
 
-    // 目標地点
-    DirectX::SimpleMath::Vector3 m_target;
+    // 着地フラグ
+    bool m_isGround;
 
 public:
 
@@ -88,12 +75,9 @@ public:
     Enemy(IComponentOwner* owner)
         : Component(owner)
         , m_pTransform{ nullptr }
-        , m_way{}
-        , m_nowIndex{ 0 }
+        , m_stateMachine{}
         , m_lastPoints{ nullptr }
-        , m_isInterval{ false }
-        , m_velocity{ 1.0f, 0, 0 }
-        , m_target{ 0.0f, 0.0f, 0.0f }
+        , m_isGround{ false }
     {
     }
 
@@ -110,26 +94,41 @@ public:
     void Update(const GameTimer& gameTimer) override;
 
     void OnCollisionEnter(HitContact& hit) override;
+    void OnCollisionExit(HitContact& hit) override;
 
     //-----------------------------------------------------
     // ゲッター
     //-----------------------------------------------------
 
+    // 最後に触れた候補点
     LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
+
+    // 現在のパス
+    const PathFollower::Path* GetNowPath() const { return m_pathFollower.GetNowPath(); }
+
+    // 道の更新が必要かどうか
+    bool NeedUpdateWay() const { return m_pathFollower.NeedUpdateWay(); }
+
+    // 現在のステート
+    EnemyStateID GetNowState() const { return m_stateMachine.GetCurrentStateType(); }
 
     //-----------------------------------------------------
     // セッター
     //-----------------------------------------------------
 
-    void SetWay(const std::vector<Path>& way) 
-    {
-        m_nextWay = way; 
+    // 経路
+    void SetWay(const std::vector<PathFollower::Path>& way) { m_pathFollower.SetWay(way); }
 
-        if (m_way.size() == 0)
-        {
-            ToNextMove();
-        }
-    }
+    // 次の道へ移行する関数
+    void ToNextPath() { m_pathFollower.ToNextPath(); }
+
+    // 着地しているか
+    bool IsGround() const { return m_isGround; }
+
+    //-----------------------------------------------------
+    // セッター
+    //-----------------------------------------------------
+
 
 private:
 
@@ -137,19 +136,4 @@ private:
     // 内部実装
     //-----------------------------------------------------
 
-    void Update3D();
-    void Update2D();
-
-    void ChangeWay()
-    {
-        m_way = m_nextWay;
-
-        m_nowIndex = -1;
-
-        m_nextWay.clear();
-
-        ToNextMove();
-    }
-
-    void ToNextMove();
 };

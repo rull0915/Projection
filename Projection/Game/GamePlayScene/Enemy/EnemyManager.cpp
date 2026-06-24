@@ -76,17 +76,20 @@ void EnemyManager::Update(const GameTimer& timer)
 		// 全ての敵をチェック
 		for (auto& enemy : m_enemies)
 		{
+			// アイドル状態でなければ何もしない
+			// if (enemy->GetNowState() != EnemyStateID::Idle) continue;
+
 			// 敵の候補点のインデックスを取得
 			size_t enemyIndex = m_normalNavigation.GetIndex(enemy->GetLandingPoints());
 		
 			// 登録されていなければスキップ
-			if (enemyIndex == -1) return;
+			if (enemyIndex == -1) continue;
 
 			// 道を再計算
 			auto edges = AStarPathFinder::MakePath(m_normalNavigation, enemyIndex, playerIndex);
 
 			// 座標に変換
-			std::vector<Enemy::Path> way(edges.size());
+			std::vector<PathFollower::Path> way(edges.size());
 
 			// 全辺をループ
 			for (size_t i = 0; i < edges.size(); ++i)

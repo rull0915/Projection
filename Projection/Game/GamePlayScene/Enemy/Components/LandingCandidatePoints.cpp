@@ -142,28 +142,30 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 	// Šp
 	int otherAxesIndex[2] { (useAxisIndex + 1) % 3, (useAxisIndex + 2) % 3 };
 
+	float offset = 0.8f;
+
 	// 1
 	m_candidatePoints.push_back(
 		planeCenter +
-		axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] +
-		axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]]
+		axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] * offset +
+		axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]] * offset
 	);
 	// 2
 	m_candidatePoints.push_back(
 		planeCenter +
-		-axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] +
-		axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]]
+		-axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] * offset +
+		axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]] * offset
 	);
 	// 3
 	m_candidatePoints.push_back(
 		planeCenter +
-		-axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] +
-		-axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]]
+		-axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] * offset +
+		-axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]] * offset
 	);
 	// 4
 	m_candidatePoints.push_back(
 		planeCenter +
-		axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] +
-		-axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]]
+		axes[otherAxesIndex[0]] * sizes[otherAxesIndex[0]] * offset +
+		-axes[otherAxesIndex[1]] * sizes[otherAxesIndex[1]] * offset
 	);
 }
