@@ -1,0 +1,61 @@
+//====================================================//
+// ファイル名  : DepthCorrection.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/06/24
+//
+// 概要       : 2Dの際にZ軸の補正を行うコンポーネント
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "DepthCorrection.h"
+
+#include "GameLib/GameObject/Components/Transform/Transform.h"
+#include "GameLib/GameObject/Managers/HitContact.h"
+
+#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+void DepthCorrection::Awake()
+{}
+
+void DepthCorrection::Start()
+{}
+
+void DepthCorrection::Update(const GameTimer & gameTimer)
+{}
+
+void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
+{
+		// 床にぶつかっていた場合
+	if (contact.other->GetTag() == "Floor")
+	{
+		// 衝突したオブジェクトに近づくように補正する
+
+		// カメラ基準のZ座標を求める
+		auto& world2D = WorldSetting2D::Instance();
+
+		// 軸を取得する
+		DirectX::SimpleMath::Vector3 xAxis = world2D.GetXAxis(), yAxis = world2D.GetYAxis();
+
+		// 外積を使ってZ軸を算出
+		DirectX::SimpleMath::Vector3 zAxis = xAxis.Cross(yAxis);
+		zAxis.Normalize();
+
+		// トランスフォームを取得
+		Transform* targetTransform = contact.other->GetComponent<Transform>();
+		Transform* ownTransform = GetComponent<Transform>();
+
+		// 投影して座標を求める
+		float targetZ = zAxis.Dot(targetTransform->GetWorldPosition());
+		float ownZ = zAxis.Dot(ownTransform->GetWorldPosition());
+
+		// 差分のみ座標を変化させる
+		ownTransform->AddLocalPosition(zAxis * (targetZ - ownZ));
+	}
+}
