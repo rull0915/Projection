@@ -10,7 +10,6 @@
 //====================================================//
 
 #pragma once
-#include "GameLib/GameMath/GameMath.h"
 
 //====================================================//
 // ç\ë¢ëÃêÈåæ
@@ -67,7 +66,7 @@ public:
     //--------------------------------------------
     inline void SetStaticFriction(float value) { m_staticFriction = std::max(value, 0.0f); }
     inline void SetDynamicFriction(float value) { m_dynamicFriction = std::max(value, 0.0f); }
-    inline void SetBounciness(float value) { m_bounciness = MyMath::Clamp(value, 0.0f, 1.0f); }
+    inline void SetBounciness(float value) { m_bounciness = std::clamp(value, 0.0f, 1.0f); }
 
     inline void SetFrictionCombine(CombineMode mode) { m_frictionCombine = mode; }
     inline void SetBounceCombine(CombineMode mode) { m_bounceCombine = mode; }

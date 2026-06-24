@@ -93,9 +93,14 @@ public:
     inline bool IsDirty() const { return m_isDirty || m_pTransform->GetVersion() != m_latestVersion; }
 
     inline Transform* GetTransform() const { return m_pTransform; }
-    inline const PhysicsMaterial& GetPhysicsMaterial() const 
+
+    inline const PhysicsMaterial& GetPhysicsMaterial() const    // æ“¾—p
     {
         return (m_physicsMaterial ? *m_physicsMaterial : Physics::DEFAULT_MATERIAL); 
+    }
+    inline PhysicsMaterial* GetMutablePhysicsMaterial()        // •ÏX—p
+    {
+        return m_physicsMaterial; 
     }
 
     inline IColliderReceiver* GetReceiver() const { return m_colliderReceiver; }
