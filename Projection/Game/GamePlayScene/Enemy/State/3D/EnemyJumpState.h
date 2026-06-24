@@ -1,5 +1,5 @@
 //====================================================//
-// ファイル名   : EnemyMoveState.h
+// ファイル名   : EnemyJumpState.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/06/23
 //
@@ -14,7 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "EnemyStateBase.h"
+#include "../EnemyStateBase.h"
 
 //====================================================//
 // 前方宣言
@@ -24,7 +24,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EnemyMoveState : public EnemyStateBase
+class EnemyJumpState : public EnemyStateBase
 {
     //-----------------------------------------------------
     // メンバ変数宣言
@@ -36,6 +36,13 @@ private:
 
     // 移動するベクトル
     DirectX::SimpleMath::Vector3 m_moveVec;
+    
+    // 移動量
+    float m_moveSpeed;
+
+    // 到着フラグ
+    bool m_arrivedXZ;
+    bool m_arrivedY;
 
     //-----------------------------------------------------
     // 関数宣言
@@ -43,10 +50,11 @@ private:
 
     // コンストラクタ
 public:
-    EnemyMoveState(Enemy* owner)
+    EnemyJumpState(Enemy* owner)
         : EnemyStateBase(owner)
         , m_targetPosition{ 0, 0, 0 }
         , m_moveVec{ 0, 0, 0 }
+        , m_moveSpeed{ 0 }
     {}
 
     // Stateの純粋仮想関数の実装

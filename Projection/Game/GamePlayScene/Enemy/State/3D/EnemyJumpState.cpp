@@ -13,7 +13,7 @@
 #include "EnemyJumpState.h"
 
 #include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
-#include "../Enemy.h"
+#include "../../Enemy.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -96,7 +96,7 @@ void EnemyJumpState::Update(const GameTimer& timer)
 	if (m_arrivedXZ && m_arrivedY)
 	{
 		// 移動ステートへの移行を要請
-		RequestChangeState(EnemyStateID::Move);
+		RequestChangeState(EnemyStateID::Idle);
 	}
 }
 

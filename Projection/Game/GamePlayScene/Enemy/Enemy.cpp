@@ -17,8 +17,8 @@
 
 // ステート
 #include "State/EnemyIdleState.h"
-#include "State/EnemyJumpState.h"
-#include "State/EnemyMoveState.h"
+#include "State/3D/EnemyJumpState.h"
+#include "State/3D/EnemyMoveState.h"
 
 //====================================================//
 // 関数の実体宣言

@@ -430,8 +430,8 @@
     <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyStateBase.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\PathFollower.h" />
-    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyJumpState.h" />
-    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyMoveState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -614,8 +614,8 @@
     <ClCompile Include="Game\AStarTestScene\AStarTestScene.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\PathFollower.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyJumpState.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyMoveState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

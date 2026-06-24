@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "EnemyMoveState.h"
 
-#include "../Enemy.h"
+#include "../../Enemy.h"
 #include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
 
 //====================================================//

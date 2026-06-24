@@ -426,8 +426,8 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="Game\GamePlayScene\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\PathFollower.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.h" />
-    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyJumpState.h" />
-    <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyMoveState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.h" />
+    <ClInclude Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\State\EnemyStateBase.h">
       <SubType>
       </SubType>
@@ -560,8 +560,8 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="Game\GamePlayScene\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\PathFollower.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyJumpState.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyMoveState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.cpp" />
     <ClCompile Include="Game\GamePlayScene\GamePlayScene.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\Player.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\MoveComponent.cpp" />
