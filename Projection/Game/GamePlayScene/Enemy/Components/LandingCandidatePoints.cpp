@@ -1,21 +1,21 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : LandingCandidatePoints.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/14
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : LandingCandidatePoints.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/14
 //
-// ŠT—v       : ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "LandingCandidatePoints.h"
 
-#include "GameLib/GameObject/Components/Collider/3D/Shapes/Colliders.h"
+#include "Components/World/Collider/3D/Shapes/Colliders.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void LandingCandidatePoints::Awake()
@@ -23,52 +23,48 @@ void LandingCandidatePoints::Awake()
 
 void LandingCandidatePoints::Start()
 {
-	// ƒRƒ‰ƒCƒ_[‚ğæ“¾
-	// 1‚Â–Ú‚Ì‚İ‚É‘Î‰
-	m_ownCollider = GetComponent<BaseCollider>();
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å–å¾—
+	// 1ã¤ç›®ã®ã¿ã«å¯¾å¿œ
+	m_ownCollider = static_cast<ColliderBase*>(GetOwn()->GetComponentWithCategory(ComponentCategory::Collider));
 
-	// æ“¾‚Å‚«‚È‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
+	// å–å¾—ã§ããªã‹ã£ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if (!m_ownCollider) return;
 
-	// Œó•â“_‚ÌXV
+	// å€™è£œç‚¹ã®æ›´æ–°
 	UpdateCandidatePoints();
 
-	// ‰Šúó‘Ô‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾
+	// åˆæœŸçŠ¶æ…‹ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—
 	m_latestVersion = m_ownCollider->GetVersion();
 }
 
-void LandingCandidatePoints::Update(const GameTimer & gameTimer)
+void LandingCandidatePoints::Update(const GameTimer& gameTimer)
 {
-	// æ“¾‚Å‚«‚Ä‚¢‚È‚©‚Á‚½‚ç
-	if (!m_ownCollider)
-	{
-		// Äæ“¾
-		m_ownCollider = GetComponent<BaseCollider>();
+	// å†å–å¾—
+	m_ownCollider = static_cast<ColliderBase*>(GetOwn()->GetComponentWithCategory(ComponentCategory::Collider));
 
-		// Äæ“¾‚à¸”s‚µ‚½‚ç‰½‚à‚µ‚È‚¢
-		if (!m_ownCollider) return;
-	}
+	// å†å–å¾—ã‚‚å¤±æ•—ã—ãŸã‚‰ä½•ã‚‚ã—ãªã„
+	if (!m_ownCollider) return;
 
-	// ƒRƒ‰ƒCƒ_[‚ª•ÏX‚³‚ê‚Ä‚¢‚½‚ç
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãŒå¤‰æ›´ã•ã‚Œã¦ã„ãŸã‚‰
 	if (m_ownCollider->GetVersion() != m_latestVersion)
 	{
-		// ÅVƒo[ƒWƒ‡ƒ“‚ğXV
+		// æœ€æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’æ›´æ–°
 		m_latestVersion = m_ownCollider->GetVersion();
 
-		// Œó•â“_‚ÌXV
+		// å€™è£œç‚¹ã®æ›´æ–°
 		UpdateCandidatePoints();
 
-		// ’†S“_‚ÌXV
+		// ä¸­å¿ƒç‚¹ã®æ›´æ–°
 		m_centerPoint = GetComponent<Transform>()->GetWorldPosition();
 	}
 }
 
 void LandingCandidatePoints::UpdateCandidatePoints()
 {
-	// ƒRƒ‰ƒCƒ_[‚ª–¢İ’è‚È‚ç‰½‚à‚µ‚È‚¢
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãŒæœªè¨­å®šãªã‚‰ä½•ã‚‚ã—ãªã„
 	if (!m_ownCollider) return;
 
-	// ƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv‚²‚Æ‚Éˆ—‚ğ•ª‚¯‚é
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—ã”ã¨ã«å‡¦ç†ã‚’åˆ†ã‘ã‚‹
 	switch (m_ownCollider->GetType())
 	{
 	case ColliderType::Box:
@@ -89,13 +85,13 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 {
 	using namespace DirectX;
 
-	// ƒ{ƒbƒNƒXƒRƒ‰ƒCƒ_[‚É•ÏŠ·
+	// ãƒœãƒƒã‚¯ã‚¹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«å¤‰æ›
 	BoxCollider* collider = static_cast<BoxCollider*>(m_ownCollider);
 
-	// •ÏŠ·‚É¸”s‚µ‚½‚ç‰½‚à‚µ‚È‚¢
+	// å¤‰æ›ã«å¤±æ•—ã—ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if (!collider) return;
 
-	// Å‚àã•ûŒü‚É‹ß‚¢²‚ğæ“¾‚·‚é
+	// æœ€ã‚‚ä¸Šæ–¹å‘ã«è¿‘ã„è»¸ã‚’å–å¾—ã™ã‚‹
 	SimpleMath::Vector3 axes[3] =
 	{
 		collider->GetXAxis(),
@@ -103,7 +99,7 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 		collider->GetZAxis()
 	};
 
-	// ²‚Í³‹K‰»Ï‚İ‚Ì‚½‚ß‚»‚Ì‚Ü‚Üg—p
+	// è»¸ã¯æ­£è¦åŒ–æ¸ˆã¿ã®ãŸã‚ãã®ã¾ã¾ä½¿ç”¨
 	float dots[3] =
 	{
 		SimpleMath::Vector3::UnitY.Dot(axes[0]),
@@ -111,35 +107,35 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 		SimpleMath::Vector3::UnitY.Dot(axes[2])
 	};
 
-	// g‚¤²”Ô† (0:x 1:y 2:z)
+	// ä½¿ã†è»¸ç•ªå· (0:x 1:y 2:z)
 	int useAxisIndex = -1;
 
-	// “Š‰eŒã‚Ì’·‚³‚ªÅ‘å‚Æ‚È‚é²‚ğ’²‚×‚é
+	// æŠ•å½±å¾Œã®é•·ã•ãŒæœ€å¤§ã¨ãªã‚‹è»¸ã‚’èª¿ã¹ã‚‹
 	float max = std::max(std::max(abs(dots[0]), abs(dots[1])), abs(dots[2]));
 	for (int i = 0; i < 3; ++i) if (max == abs(dots[i])) useAxisIndex = i;
 
 	if (useAxisIndex == -1) return;
 
-	// Å‘å‚Ì²‚ª•‰‚¾‚Á‚½ê‡‚Í‹tƒxƒNƒgƒ‹‚ğg—p
+	// æœ€å¤§ã®è»¸ãŒè² ã ã£ãŸå ´åˆã¯é€†ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä½¿ç”¨
 	SimpleMath::Vector3 useAxis = axes[useAxisIndex];
 	if (dots[useAxisIndex] < 0) useAxis *= -1;
 
-	// ƒ{ƒbƒNƒX‚ÌƒTƒCƒY‚ğæ“¾
+	// ãƒœãƒƒã‚¯ã‚¹ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
 	DirectX::SimpleMath::Vector3 size = collider->GetHalfSize();
 
 	float sizes[3] = { size.x, size.y, size.z };
 
-	// Œˆ‚Ü‚Á‚½–Ê‚Ì’†S“_‚ÆŠp‚Ì“_‚Ì5“_‚ğŒó•â‚Æ‚·‚é
+	// æ±ºã¾ã£ãŸé¢ã®ä¸­å¿ƒç‚¹ã¨è§’ã®ç‚¹ã®5ç‚¹ã‚’å€™è£œã¨ã™ã‚‹
 	m_candidatePoints.clear();
 
 	SimpleMath::Vector3 center = collider->GetWorldCenterPos();
 
-	// –Ê’†S
+	// é¢ä¸­å¿ƒ
 	SimpleMath::Vector3 planeCenter = center + useAxis * sizes[useAxisIndex];
 
 	m_candidatePoints.push_back(planeCenter);
 
-	// Šp
+	// è§’
 	int otherAxesIndex[2] { (useAxisIndex + 1) % 3, (useAxisIndex + 2) % 3 };
 
 	float offset = 0.8f;

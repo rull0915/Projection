@@ -1,167 +1,173 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : Enemy.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : Enemy.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v : “GƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦ : æ•µã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //
-// XV—š—ğ :
-// 2026/06/17 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/17 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
-#include "GameLib/GameObject/Components/Transform/Transform.h"
+#include "Components/World/WorldComponentBase.h"
+#include "Components/World/Transform/Transform.h"
 
 #include "Components/LandingCandidatePoints.h"
 #include "Components/LandingCandidatePoints2D.h"
 
 #include "PathFollower.h"
 
-#include "GameLib/Common/State/StateMachine.h"
+#include "Common/State/StateMachine.h"
 #include "State/EnemyStateBase.h"
-#include "GameLib/GameObject/Components/Collider/PhysicsMaterial.h"
+#include "Components/World/Collider/PhysicsMaterial.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class Enemy : public Component<Enemy, ComponentID::Enemy>
+class Enemy : public WorldComponentBase
 {
 public:
-    //-----------------------------------------------------
-    // constexpréŒ¾
-    //-----------------------------------------------------
-    static constexpr float VELOCITY = 5.0f;
-    static constexpr float JUMP_IMPLUSE = 15.0f;
+	//-----------------------------------------------------
+	// constexprå®£è¨€
+	//-----------------------------------------------------
+	static constexpr float VELOCITY = 5.0f;
+	static constexpr float JUMP_IMPLUSE = 15.0f;
 
 private:
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒ|ƒCƒ“ƒ^
-    Transform* m_pTransform;   
+	// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒã‚¤ãƒ³ã‚¿
+	Transform* m_pTransform;   
 
-    // ƒXƒe[ƒgƒ}ƒVƒ“–{‘Ì
-    StateMachine<EnemyStateID> m_stateMachine;
-    
-    // ÅŒã‚É’…’n‚µ‚½ƒ|ƒCƒ“ƒg
-    LandingCandidatePoints* m_lastPoints;
-    LandingCandidatePoints2D* m_lastPoints2D;
+	// ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³æœ¬ä½“
+	StateMachine<EnemyStateID> m_stateMachine;
+	
+	// æœ€å¾Œã«ç€åœ°ã—ãŸãƒã‚¤ãƒ³ãƒˆ
+	LandingCandidatePoints* m_lastPoints;
+	LandingCandidatePoints2D* m_lastPoints2D;
 
-    // ƒpƒX‚ğŠÇ—‚·‚éƒIƒuƒWƒFƒNƒg
-    PathFollower m_pathFollower;
+	// ãƒ‘ã‚¹ã‚’ç®¡ç†ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	PathFollower m_pathFollower;
 
-    // •¨—ƒ}ƒeƒŠƒAƒ‹
-    PhysicsMaterial m_physicsMaterial;
+	// ç‰©ç†ãƒãƒ†ãƒªã‚¢ãƒ«
+	PhysicsMaterial m_physicsMaterial;
 
-    // ’…’nƒtƒ‰ƒO
-    bool m_isGround;
+	// ç€åœ°ãƒ•ãƒ©ã‚°
+	bool m_isGround;
 
-    // 2D‚©‚Ç‚¤‚©
-    bool m_is2D;
+	// 2Dã‹ã©ã†ã‹
+	bool m_is2D;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
 
-    Enemy(IComponentOwner* owner)
-        : Component(owner)
-        , m_pTransform{ nullptr }
-        , m_stateMachine{}
-        , m_lastPoints{ nullptr }
-        , m_isGround{ false }
-        , m_is2D{ false }
-    {
-    }
+	Enemy(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+		, m_pTransform{ nullptr }
+		, m_stateMachine{}
+		, m_lastPoints{ nullptr }
+		, m_isGround{ false }
+		, m_is2D{ false }
+	{
+	}
 
-    ~Enemy() = default;
+	~Enemy() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Awake() override;
+	void Awake() override;
 
-    void Start() override;
+	void Start() override;
 
-    void Update(const GameTimer& gameTimer) override;
+	void Update(const GameTimer& gameTimer) override;
 
-    void OnCollisionEnter(HitContact& hit) override;
-    void OnCollisionExit(HitContact& hit) override;
+	void OnCollisionEnter(HitContact& hit) override;
+	void OnCollisionExit(HitContact& hit) override;
 
-    void OnCollisionEnter2D(HitContact2D& hit) override;
-    void OnCollisionExit2D(HitContact2D& hit) override;
+	void OnCollisionEnter2D(HitContact2D& hit) override;
+	void OnCollisionExit2D(HitContact2D& hit) override;
 
-    //-----------------------------------------------------
-    // ƒQƒbƒ^[
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚²ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
-    // ÅŒã‚ÉG‚ê‚½Œó•â“_
-    LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
-    LandingCandidatePoints2D* GetLandingPoints2D() const { return m_lastPoints2D; }
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<Enemy>();
+	}
 
-    // Œ»İ‚ÌƒpƒX
-    const PathFollower::Path* GetNowPath() const { return m_pathFollower.GetNowPath(); }
-    const PathFollower::Path2D* GetNowPath2D() const { return m_pathFollower.GetNowPath2D(); }
+	// æœ€å¾Œã«è§¦ã‚ŒãŸå€™è£œç‚¹
+	LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
+	LandingCandidatePoints2D* GetLandingPoints2D() const { return m_lastPoints2D; }
 
-    // “¹‚ÌXV‚ª•K—v‚©‚Ç‚¤‚©
-    bool NeedUpdateWay() const { return m_pathFollower.NeedUpdateWay(); }
+	// ç¾åœ¨ã®ãƒ‘ã‚¹
+	const PathFollower::Path* GetNowPath() const { return m_pathFollower.GetNowPath(); }
+	const PathFollower::Path2D* GetNowPath2D() const { return m_pathFollower.GetNowPath2D(); }
 
-    // Œ»İ‚ÌƒXƒe[ƒg
-    EnemyStateID GetNowState() const { return m_stateMachine.GetCurrentStateType(); }
+	// é“ã®æ›´æ–°ãŒå¿…è¦ã‹ã©ã†ã‹
+	bool NeedUpdateWay() const { return m_pathFollower.NeedUpdateWay(); }
 
-    // ’…’n‚µ‚Ä‚¢‚é‚©
-    bool IsGround() const { return m_isGround; }
+	// ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆ
+	EnemyStateID GetNowState() const { return m_stateMachine.GetCurrentStateType(); }
 
-    // ŸŒ³
-    bool Is2D() const { return m_is2D; }
+	// ç€åœ°ã—ã¦ã„ã‚‹ã‹
+	bool IsGround() const { return m_isGround; }
 
-    // •¨—ƒ}ƒeƒŠƒAƒ‹
-    PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial;
+	// æ¬¡å…ƒ
+	bool Is2D() const { return m_is2D; }
+
+	// ç‰©ç†ãƒãƒ†ãƒªã‚¢ãƒ«
+	PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial;
 }
 
-    //-----------------------------------------------------
-    // ƒZƒbƒ^[
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚»ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
-    // Œo˜H
-    void SetWay(const std::vector<PathFollower::Path>& way) { m_pathFollower.SetWay(way); }
-    void SetWay(const std::vector<PathFollower::Path2D>& way) { m_pathFollower.SetWay(way); }
+	// çµŒè·¯
+	void SetWay(const std::vector<PathFollower::Path>& way) { m_pathFollower.SetWay(way); }
+	void SetWay(const std::vector<PathFollower::Path2D>& way) { m_pathFollower.SetWay(way); }
 
-    // Ÿ‚Ì“¹‚ÖˆÚs‚·‚éŠÖ”
-    void ToNextPath() { m_pathFollower.ToNextPath(); }
+	// æ¬¡ã®é“ã¸ç§»è¡Œã™ã‚‹é–¢æ•°
+	void ToNextPath() { m_pathFollower.ToNextPath(); }
 
-    // 2D‚©‚Ç‚¤‚©
-    void SetIs2D(bool is2D) 
-    {
-        m_is2D = is2D; 
+	// 2Dã‹ã©ã†ã‹
+	void SetIs2D(bool is2D) 
+	{
+		m_is2D = is2D; 
 
-        // Idleó‘Ô‚Ö
-        m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
-    }
+		// IdleçŠ¶æ…‹ã¸
+		m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
+	}
 
-    //-----------------------------------------------------
-    // ƒZƒbƒ^[
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚»ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
 };

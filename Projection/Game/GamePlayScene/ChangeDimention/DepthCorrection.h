@@ -1,55 +1,61 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : DepthCorrection.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/24
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : DepthCorrection.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/24
 //
-// ŠT—v : 2D‚ÌÛ‚ÉZ²‚Ì•â³‚ğs‚¤ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦ : 2Dã®éš›ã«Zè»¸ã®è£œæ­£ã‚’è¡Œã†ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //
-// XV—š—ğ :
-// 2026/06/24 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/24 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
+#include "Components/World/WorldComponentBase.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class DepthCorrection : public Component<DepthCorrection, ComponentID::DepthCorrection>
+class DepthCorrection : public WorldComponentBase
 {
 private:
-    static constexpr float CORRECTION_BORDER = 1.0f / 1.1415926535f;
+	static constexpr float CORRECTION_BORDER = 1.0f / 1.1415926535f;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    DepthCorrection(IComponentOwner* owner)
-        : Component(owner)
-    {
-    }
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	DepthCorrection(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+	{
+	}
 
-    ~DepthCorrection() = default;
+	~DepthCorrection() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Awake() override;
+	void Awake() override;
 
-    void Start() override;
+	void Start() override;
 
-    void Update(const GameTimer& gameTimer) override;
+	void Update(const GameTimer& gameTimer) override;
 
-    void OnCollisionEnter2D(HitContact2D& contact) override;
+	void OnCollisionEnter2D(HitContact2D& contact) override;
+
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<DepthCorrection>();
+	}
 };

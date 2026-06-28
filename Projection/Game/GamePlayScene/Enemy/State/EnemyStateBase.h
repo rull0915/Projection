@@ -1,60 +1,60 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : EnemyStateBase.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/16
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : EnemyStateBase.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/16
 //
-// ŠT—v : “GƒXƒe[ƒg‚ÌŠî’êƒNƒ‰ƒX
+// æ¦‚è¦ : æ•µã‚¹ãƒ†ãƒ¼ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/06/16 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/16 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/Common/State/StateBase.h"
+#include "Common/State/StateBase.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 class Enemy;
 
 //====================================================//
-// —ñ‹“Œ^éŒ¾
+// åˆ—æŒ™å‹å®£è¨€
 //====================================================//
 enum class EnemyStateID
 {
-    Idle,
-    Move,
-    Move2D,
-    Jump,
-    Jump2D,
+	Idle,
+	Move,
+	Move2D,
+	Jump,
+	Jump2D,
 };
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 class EnemyStateBase : public StateBase<EnemyStateID>
 {
 private:
-    Enemy* m_owner = nullptr;
+	Enemy* m_owner = nullptr;
 
 public:
-    EnemyStateBase(Enemy* owner)
-        : m_owner{ owner }
-    {
-    }
+	EnemyStateBase(Enemy* owner)
+		: m_owner{ owner }
+	{
+	}
 
-    virtual void Enter() override = 0;
+	virtual void Enter() override = 0;
 
-    virtual void Update(const GameTimer& timer) override = 0;
+	virtual void Update(const GameTimer& timer) override = 0;
 
-    virtual void Exit() override = 0;
+	virtual void Exit() override = 0;
 
-    Enemy* GetOwner() const
-    {
-        return m_owner;
-    }
+	Enemy* GetOwner() const
+	{
+		return m_owner;
+	}
 };

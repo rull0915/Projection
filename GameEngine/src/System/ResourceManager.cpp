@@ -1,0 +1,138 @@
+﻿//====================================================//
+// ファイル名  : ResourceManager.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/03/31
+//
+// 概要        :  リソース管理クラス
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "System/ResourceManager.h"
+
+#include <WICTextureLoader.h>
+
+using namespace DirectX;
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+ResourceManager::ResourceManager()
+	: m_device{ nullptr }
+	, m_effect{}
+	, m_textures{}
+	, m_deviceResources{ nullptr }
+{
+}
+
+ResourceManager::~ResourceManager()
+{
+}
+
+void ResourceManager::Initialize(DX::DeviceResources* deviceResource)
+{
+	m_deviceResources = deviceResource;
+
+	m_device = deviceResource->GetD3DDevice();
+
+	m_effect = std::make_unique<EffectFactory>(m_device);
+	m_effect->SetDirectory(L"Resources/Models");
+}
+
+void ResourceManager::AddTexture(const std::string& keyName, const std::wstring& filePass)
+{
+	// キーの重複チェック
+	if (m_textures.find(keyName) != m_textures.end()) return;
+
+	// テクスチャを用意
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture;
+
+	HRESULT hr = CreateWICTextureFromFile(
+		m_device,                 // ID3D11Device*
+		filePass.data(),          // ファイルパス
+		nullptr,
+		texture.GetAddressOf()
+	);
+
+	if (FAILED(hr))
+	{
+	}
+
+	m_textures.insert(std::make_pair(keyName, texture));
+}
+
+void ResourceManager::AddFont(const std::string& key, const std::wstring& filePath)
+{
+	// 既に同じキーが存在する場合はスキップ
+	if (m_spriteFonts.find(key) != m_spriteFonts.end()) return;
+
+	// 読み込み
+	m_spriteFonts.insert(std::make_pair(key, std::make_unique<SpriteFont>(m_device, filePath.c_str())));
+
+	// Aの文字を描画した時の高さをフォントサイズとする
+	SpriteFont* font = m_spriteFonts[key].get();
+
+	float height;
+
+	RECT result = font->MeasureDrawBounds( L"A", XMFLOAT2(0.f, 0.f) );
+	height = std::fabsf(static_cast<float>(result.bottom - result.top));
+
+	m_spriteSize.insert(std::make_pair(font, height));
+}
+
+void ResourceManager::AddModel(const std::string& key, const std::wstring& filePath)
+{
+	// 既に同じキーが存在する場合はスキップ
+	if (m_models.find(key) != m_models.end()) return;
+
+	auto playerModel = Model::CreateFromCMO(m_device, filePath.c_str(), *m_effect);
+
+	m_models.insert(std::make_pair(key, std::move(playerModel)));
+}
+
+void ResourceManager::RemoveModel(const std::string& key)
+{
+	// 指定したキーのイテレータを取得
+	auto it = m_models.find(key);
+
+	// 存在するキーなら
+	if (it != m_models.end())
+	{
+		// 配列から削除
+		m_models.erase(it);
+	}
+}
+
+ID3D11ShaderResourceView* ResourceManager::GetTexture(const std::string& key) const
+{
+	auto it = m_textures.find(key);
+	if (it == m_textures.end()) return nullptr;
+	return it->second.Get();
+}
+
+SpriteFont* ResourceManager::GetSpriteFont(const std::string& key) const
+{
+	// 存在しないキーなら
+	auto it = m_spriteFonts.find(key);
+	if (it == m_spriteFonts.end()) return nullptr;
+	return it->second.get();
+}
+
+float ResourceManager::GetFontSize(DirectX::SpriteFont* key) const
+{
+	// 存在しないキーなら
+	auto it = m_spriteSize.find(key);
+	if (it == m_spriteSize.end()) return -1;
+	return it->second;
+}
+
+DirectX::Model* ResourceManager::GetModel(const std::string& key) const
+{
+	// 存在しないキーなら
+	auto it = m_models.find(key);
+	if (it == m_models.end()) return nullptr;
+	return it->second.get();
+}

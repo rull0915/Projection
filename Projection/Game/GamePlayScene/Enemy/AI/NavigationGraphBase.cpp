@@ -1,37 +1,37 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : NavigationGraphBase.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/24
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : NavigationGraphBase.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/24
 //
-// ŠT—v       :  “G‚ªˆÚ“®‚Å‚«‚é—LŒüƒOƒ‰ƒt‚ğì¬‚·‚éŠî’êƒNƒ‰ƒX
+// æ¦‚è¦       :  æ•µãŒç§»å‹•ã§ãã‚‹æœ‰å‘ã‚°ãƒ©ãƒ•ã‚’ä½œæˆã™ã‚‹åŸºåº•ã‚¯ãƒ©ã‚¹
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "NavigationGraphBase.h"
 
-#include "GameLib/GameObject/Settings/PhysicsSettings.h"
+#include "Settings/PhysicsSettings.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 NavigationGraphBase::NavigationGraphBase(float jumpImpulse, float mass, float horizontalVelocity)
-    : m_jumpImpulse{ jumpImpulse }
-    , m_enemyMass{ mass }
-    , m_horizontalVelocity{ horizontalVelocity }
-    , m_maxHeight{ 0.0f }
-    , m_gravity{ 0.0f }
-    , m_graph{}
+	: m_jumpImpulse{ jumpImpulse }
+	, m_enemyMass{ mass }
+	, m_horizontalVelocity{ horizontalVelocity }
+	, m_maxHeight{ 0.0f }
+	, m_gravity{ 0.0f }
+	, m_graph{}
 {
-    // ‰‘¬“x
-    float initV = m_jumpImpulse / m_enemyMass;
+	// åˆé€Ÿåº¦
+	float initV = m_jumpImpulse / m_enemyMass;
 
-    // d—Í‰Á‘¬“x‚ğæ“¾
-    m_gravity = PhysicsSettings::Instance().GetGravityScale();
+	// é‡åŠ›åŠ é€Ÿåº¦ã‚’å–å¾—
+	m_gravity = PhysicsSettings::Instance().GetGravityScale();
 
-    // “Í‚­‚‚³‚ÌÅ‘å’l‚ğ‹‚ß‚é
-    m_maxHeight = (initV * initV) / 2 * m_gravity;
+	// å±Šãé«˜ã•ã®æœ€å¤§å€¤ã‚’æ±‚ã‚ã‚‹
+	m_maxHeight = (initV * initV) / (2 * m_gravity);
 }

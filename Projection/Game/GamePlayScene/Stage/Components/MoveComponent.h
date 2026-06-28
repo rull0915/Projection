@@ -1,86 +1,93 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : MoveComponent.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : MoveComponent.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v : ˆÚ“®ƒRƒ“ƒ|[ƒlƒ“ƒg 
-//          ’: RigidBody‚Æ‚Ì•¹—p‚ÍT‚¦‚é‚æ‚¤‚É
+// æ¦‚è¦ : ç§»å‹•ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ 
+//          æ³¨: RigidBodyã¨ã®ä½µç”¨ã¯æ§ãˆã‚‹ã‚ˆã†ã«
 //
-// XV—š—ğ :
-// 2026/06/17 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/17 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
+#include "Components/World/WorldComponentBase.h"
 #include <functional>
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class MoveComponent : public Component<MoveComponent, ComponentID::MoveComponent>
+class MoveComponent : public WorldComponentBase
 {
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
-    static constexpr float BORDER = 1.0f / 1.14159265f;
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
+	static constexpr float BORDER = 1.0f / 1.14159265f;
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ˆÚ“®‚Ì®
-    // ˆø”: ŠÔ
-    // –ß‚è’l: ‰ŠúˆÊ’u‚©‚ç‚Ì‘Š‘ÎÀ•W
-    std::function<DirectX::SimpleMath::Vector3(float)> m_moveFunc;
+	// ç§»å‹•ã®å¼
+	// å¼•æ•°: æ™‚é–“
+	// æˆ»ã‚Šå€¤: åˆæœŸä½ç½®ã‹ã‚‰ã®ç›¸å¯¾åº§æ¨™
+	std::function<DirectX::SimpleMath::Vector3(float)> m_moveFunc;
 
-    // ‰ŠúˆÊ’u
-    DirectX::SimpleMath::Vector3 m_initPoint;
+	// åˆæœŸä½ç½®
+	DirectX::SimpleMath::Vector3 m_initPoint;
 
-    // ŠÔ
-    float m_sumTime;
+	// æ™‚é–“
+	float m_sumTime;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    MoveComponent(IComponentOwner* owner)
-        : Component(owner)
-        , m_moveFunc{}
-        , m_initPoint{}
-        , m_sumTime{ 0 }
-    {
-    }
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	MoveComponent(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+		, m_moveFunc{}
+		, m_initPoint{}
+		, m_sumTime{ 0 }
+	{
+	}
 
-    ~MoveComponent() = default;
+	~MoveComponent() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Awake() override;
+	void Awake() override;
 
-    void Start() override;
+	void Start() override;
 
-    void Update(const GameTimer& gameTimer) override;
+	void Update(const GameTimer& gameTimer) override;
 
-    void SetFunc(const std::function<DirectX::SimpleMath::Vector3(float)>& func) { m_moveFunc = func; }
+	void SetFunc(const std::function<DirectX::SimpleMath::Vector3(float)>& func) { m_moveFunc = func; }
+
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<MoveComponent>();
+	}
+
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
-    void OnCollisionEnter(HitContact& contact) override;
-    void OnCollisionExit(HitContact& contact) override;
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
+	void OnCollisionEnter(HitContact& contact) override;
+	void OnCollisionExit(HitContact& contact) override;
 };

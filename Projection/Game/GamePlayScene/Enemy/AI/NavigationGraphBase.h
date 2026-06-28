@@ -1,139 +1,139 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : NavigationGraphBase.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/24
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : NavigationGraphBase.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/24
 //
-// ŠT—v : “G‚ªˆÚ“®‚Å‚«‚é—LŒüƒOƒ‰ƒt‚ğì¬‚·‚éŠî’êƒNƒ‰ƒX
+// æ¦‚è¦ : æ•µãŒç§»å‹•ã§ãã‚‹æœ‰å‘ã‚°ãƒ©ãƒ•ã‚’ä½œæˆã™ã‚‹åŸºåº•ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/06/24 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/24 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 class Renderer;
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 class NavigationGraphBase
 {
 public:
-    // ƒOƒ‰ƒt‚Ì•Ó
-    struct Edge
-    {
-        // ŠJnƒm[ƒh‚ÌƒCƒ“ƒfƒbƒNƒX
-        size_t ownIndex;
-        // ƒS[ƒ‹ƒm[ƒh‚ÌƒCƒ“ƒfƒbƒNƒX
-        size_t goalIndex;
+	// ã‚°ãƒ©ãƒ•ã®è¾º
+	struct Edge
+	{
+		// é–‹å§‹ãƒãƒ¼ãƒ‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		size_t ownIndex;
+		// ã‚´ãƒ¼ãƒ«ãƒãƒ¼ãƒ‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		size_t goalIndex;
 
-        // ƒXƒ^[ƒg‚Ì‘«ê‚Ì“_ƒCƒ“ƒfƒbƒNƒX
-        size_t startPoint;
-        // ƒS[ƒ‹‚Ì‘«ê‚Ì“_ƒCƒ“ƒfƒbƒNƒX
-        size_t goalPoint;
+		// ã‚¹ã‚¿ãƒ¼ãƒˆã®è¶³å ´ã®ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		size_t startPoint;
+		// ã‚´ãƒ¼ãƒ«ã®è¶³å ´ã®ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		size_t goalPoint;
 
-        // ƒRƒXƒg(ˆÚ“®ŠÔ)
-        float cost;
+		// ã‚³ã‚¹ãƒˆ(ç§»å‹•æ™‚é–“)
+		float cost;
 
-        // ==‰‰ZqƒI[ƒo[ƒ[ƒh
-        bool operator==(const Edge& o)
-        {   
-            return (ownIndex == o.ownIndex && goalIndex == o.goalIndex);
-        }
-    };
-
-private:
-
-
-    // “G‚Ìƒpƒ‰ƒ[ƒ^
-    float m_jumpImpulse;  // ˆµ‚¤ƒWƒƒƒ“ƒv—Í  
-    float m_enemyMass;  // ˆµ‚¤¿—Ê
-    float m_horizontalVelocity; // ˆµ‚¤…•½•ûŒü‘¬“x
-
-    // ŒvZÏ‚İ‚Ì’l‚ğƒLƒƒƒbƒVƒ…‚·‚é•Ï”
-    float m_maxHeight;  // “Í‚­Å‘å’l
-
-    float m_gravity;    // d—Í
-
-    // ƒOƒ‰ƒt–{‘Ì
-    std::vector<std::vector<Edge>> m_graph;
-
-public:
-
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    NavigationGraphBase(float jumpImpulse, float mass, float horizontalVelocity);
-
-    virtual ~NavigationGraphBase() = default;
-
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
-    
-    // ‰Šú‰»
-    virtual void Initialize() = 0;
-
-    // XV
-    virtual void Update() = 0;
-
-    // ƒfƒoƒbƒO•`‰æ
-    virtual void DebugDraw(Renderer& renderer) = 0;
-
-    virtual void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00) = 0;
-
-    //-----------------------------------------------------
-    // ƒQƒbƒ^[
-    //-----------------------------------------------------
-
-    // ”h¶ƒNƒ‰ƒX‚Ì‚İ‚ª“Ç‚İæ‚è‰Â”\‚È•Ï”
-protected:
-
-    float GetJumpImpluse() const { return m_jumpImpulse; } 
-    float GetEnemyMass() const { return m_enemyMass; }
-    float GetHorizontalVelocity() const { return m_horizontalVelocity; }
-
-    float GetMaxHeight() const { return m_maxHeight; }
-    float GetGravity() const { return m_gravity; }
-
-    std::vector<std::vector<Edge>>& GetGraph() { return m_graph; }
-
-
-    // ŠO•”‚©‚ç‚à“Ç‚İæ‚è‰Â”\‚È•Ï”
-public:
-    // ƒOƒ‰ƒt‚ğæ“¾‚·‚éŠÖ”
-    const std::vector<std::vector<Edge>>& GetGraph() const { return m_graph; }
-
-    //-----------------------------------------------------
-    // ƒZƒbƒ^[
-    //-----------------------------------------------------
-
-protected:
-    void ResetGraph()
-    {
-        m_graph.clear();
-    }
+		// ==æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
+		bool operator==(const Edge& o)
+		{   
+			return (ownIndex == o.ownIndex && goalIndex == o.goalIndex);
+		}
+	};
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
 
-    // ƒOƒ‰ƒt‚ğÄ\’z‚·‚éŠÖ”
-    virtual void InitializeGraph() = 0;
+	// æ•µã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	float m_jumpImpulse;  // æ‰±ã†ã‚¸ãƒ£ãƒ³ãƒ—åŠ›  
+	float m_enemyMass;  // æ‰±ã†è³ªé‡
+	float m_horizontalVelocity; // æ‰±ã†æ°´å¹³æ–¹å‘é€Ÿåº¦
 
-    // ƒOƒ‰ƒt‚ğXV‚·‚éŠÖ”
-    virtual void UpdateGraph() = 0;
+	// è¨ˆç®—æ¸ˆã¿ã®å€¤ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹å¤‰æ•°
+	float m_maxHeight;  // å±Šãæœ€å¤§å€¤
 
-    // Œó•â“_“¯m
-    virtual void BuildConnection(size_t first, size_t second) = 0;
+	float m_gravity;    // é‡åŠ›
+
+	// ã‚°ãƒ©ãƒ•æœ¬ä½“
+	std::vector<std::vector<Edge>> m_graph;
+
+public:
+
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	NavigationGraphBase(float jumpImpulse, float mass, float horizontalVelocity);
+
+	virtual ~NavigationGraphBase() = default;
+
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
+	
+	// åˆæœŸåŒ–
+	virtual void Initialize() = 0;
+
+	// æ›´æ–°
+	virtual void Update() = 0;
+
+	// ãƒ‡ãƒãƒƒã‚°æç”»
+	virtual void DebugDraw(Renderer& renderer) = 0;
+
+	virtual void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00) = 0;
+
+	//-----------------------------------------------------
+	// ã‚²ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
+
+	// æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã®ã¿ãŒèª­ã¿å–ã‚Šå¯èƒ½ãªå¤‰æ•°
+protected:
+
+	float GetJumpImpluse() const { return m_jumpImpulse; } 
+	float GetEnemyMass() const { return m_enemyMass; }
+	float GetHorizontalVelocity() const { return m_horizontalVelocity; }
+
+	float GetMaxHeight() const { return m_maxHeight; }
+	float GetGravity() const { return m_gravity; }
+
+	std::vector<std::vector<Edge>>& GetGraph() { return m_graph; }
+
+
+	// å¤–éƒ¨ã‹ã‚‰ã‚‚èª­ã¿å–ã‚Šå¯èƒ½ãªå¤‰æ•°
+public:
+	// ã‚°ãƒ©ãƒ•ã‚’å–å¾—ã™ã‚‹é–¢æ•°
+	const std::vector<std::vector<Edge>>& GetGraph() const { return m_graph; }
+
+	//-----------------------------------------------------
+	// ã‚»ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
+
+protected:
+	void ResetGraph()
+	{
+		m_graph.clear();
+	}
+
+private:
+
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
+
+	// ã‚°ãƒ©ãƒ•ã‚’å†æ§‹ç¯‰ã™ã‚‹é–¢æ•°
+	virtual void InitializeGraph() = 0;
+
+	// ã‚°ãƒ©ãƒ•ã‚’æ›´æ–°ã™ã‚‹é–¢æ•°
+	virtual void UpdateGraph() = 0;
+
+	// å€™è£œç‚¹åŒå£«
+	virtual void BuildConnection(size_t first, size_t second) = 0;
 };

@@ -1,78 +1,84 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : ChangeColliderComponent.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/02
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : ChangeColliderComponent.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/02
 //
-// ŠT—v : ƒRƒ‰ƒCƒ_[‚ÌØ‚è‘Ö‚¦‚ğs‚¤ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦ : ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œã†ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //
-// XV—š—ğ :
-// 2026/06/02 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/02 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
+#include "Components/World/WorldComponentBase.h"
 
-#include "GameLib/GameObject/Components/Collider/2D/Shapes/2DColliders.h"
-#include "GameLib/GameObject/Components/Collider/3D/Shapes/Colliders.h"
+#include "Components/World/Collider/2D/Shapes/2DColliders.h"
+#include "Components/World/Collider/3D/Shapes/Colliders.h"
 
-#include "GameLib/GameObject/Components/Camera/BaseCamera.h"
-
-//====================================================//
-// ‘O•ûéŒ¾
-//====================================================//
-
+#include "Components/World/Camera/CameraBase.h"
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
-class ChangeColliderComponent : public Component<ChangeColliderComponent, ComponentID::ChangeColliderComponent>
+
+
+//====================================================//
+// ã‚¯ãƒ©ã‚¹å®£è¨€
+//====================================================//
+class ChangeColliderComponent : public WorldComponentBase
 {
 private:
 
-    // 3DƒRƒ‰ƒCƒ_[‚ğó‚¯æ‚é”z—ñ
-    std::vector<BaseCollider*> m_3dColliders;
+	// 3Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å—ã‘å–ã‚‹é…åˆ—
+	std::vector<ColliderBase*> m_3dColliders;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    ChangeColliderComponent(IComponentOwner* owner)
-        : Component(owner)
-        , m_3dColliders( 0 )
-    {
-        m_3dColliders.clear();
-    }
-    ~ChangeColliderComponent() {};
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	ChangeColliderComponent(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+		, m_3dColliders( 0 )
+	{
+		m_3dColliders.clear();
+	}
+	~ChangeColliderComponent() {};
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-	// 3ŸŒ³‚©‚ç2ŸŒ³‚ÖØ‚è‘Ö‚¦‚éŠÖ”
-	void Change3DTo2D(BaseCamera* pCamera);
+	// 3æ¬¡å…ƒã‹ã‚‰2æ¬¡å…ƒã¸åˆ‡ã‚Šæ›¿ãˆã‚‹é–¢æ•°
+	void Change3DTo2D(CameraBase* pCamera);
 
-	// 2ŸŒ³‚©‚ç3ŸŒ³‚ÖØ‚è‘Ö‚¦‚éŠÖ”
+	// 2æ¬¡å…ƒã‹ã‚‰3æ¬¡å…ƒã¸åˆ‡ã‚Šæ›¿ãˆã‚‹é–¢æ•°
 	void Change2DTo3D();
 
-    // 2ŸŒ³ƒRƒ‰ƒCƒ_[‚ğXV‚·‚éŠÖ”
-    void Update2DCollider(BaseCamera* pCamera)
-    {
-        // Ä\’z
-        Change2DTo3D();
-        Change3DTo2D(pCamera);
-    }
+	// 2æ¬¡å…ƒã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’æ›´æ–°ã™ã‚‹é–¢æ•°
+	void Update2DCollider(CameraBase* pCamera)
+	{
+		// å†æ§‹ç¯‰
+		Change2DTo3D();
+		Change3DTo2D(pCamera);
+	}
+
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<ChangeColliderComponent>();
+	}
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // 3ŸŒ³ƒRƒ‰ƒCƒ_[‚©‚ç2ŸŒ³ƒRƒ‰ƒCƒ_[‚ğ¶¬‚·‚éŠÖ”
-	BaseCollider2D* Create2DColliderFrom3D(BaseCamera* pCamera, BaseCollider* p3DCol);
+	// 3æ¬¡å…ƒã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‹ã‚‰2æ¬¡å…ƒã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
+	ColliderBase2D* Create2DColliderFrom3D(CameraBase* pCamera, ColliderBase* p3DCol);
 };

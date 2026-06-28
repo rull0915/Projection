@@ -1,40 +1,43 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : Player.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/05/29
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : Player.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/05/29
 //
-// ŠT—v       : ƒvƒŒƒCƒ„[ƒNƒ‰ƒX
+// æ¦‚è¦       : ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "Player.h"
 
-#include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
-#include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
+#include "Components/World/RigidBody/RigidBody.h"
+#include "Components/World/RigidBody/RigidBody2D.h"
 
-#include "GameLib/GameObject/Components/Collider/3D/BaseCollider.h"
-#include "GameLib/GameObject/Components/Collider/2D/BaseCollider2D.h"
+#include "Components/World/Collider/3D/ColliderBase.h"
+#include "Components/World/Collider/2D/ColliderBase2D.h"
 
-#include "GameLib/Input/KeyInput.h"
+#include "Input/KeyInput.h"
+#include "Input/InputSystem.h"
 
-#include "GameLib/GameObject/Managers/HitContact.h"
+#include "Physics/HitContact.h"
 
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+#include "Settings/WorldSetting2D.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Player::Player(IComponentOwner* owner)
-	: Component(owner)
+	: WorldComponentBase(owner)
 	, m_pTransform{ GetComponent<Transform>() }
 	, m_material{ 0.2f, 0.1f, 0.0f, CombineMode::Minimum, CombineMode::Minimum }
 	, m_is2D{ false }
 	, m_canJump{ false }
+	, m_lastPoints{ nullptr }
+	, m_lastPoints2d{ nullptr }
 {
 }
 
@@ -44,20 +47,20 @@ Player::~Player()
 
 void Player::Start()
 {
-	// •¨—ƒ}ƒeƒŠƒAƒ‹‚ğİ’è
-	std::vector<BaseCollider*> colliders;
-	GetComponents<BaseCollider>(colliders);
+	// ç‰©ç†ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’è¨­å®š
+	std::vector<ComponentBase*> colliders;
+	GetOwn()->GetComponentsWithCategory(ComponentCategory::Collider, colliders);
 
-	// ‘S‚Ä‚ÌƒRƒ‰ƒCƒ_[
+	// å…¨ã¦ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	if (colliders.size() > 0)
 	{
 		for (auto collider : colliders)
 		{
-			collider->SetPhysicsMaterial(&m_material);
+			static_cast<ColliderBase*>(collider)->SetPhysicsMaterial(&m_material);
 		}
 	}
 
-	// ƒ^ƒO‚ğİ’è
+	// ã‚¿ã‚°ã‚’è¨­å®š
 	GetOwn()->SetTag("Player");
 }
 
@@ -70,31 +73,31 @@ void Player::Update(const GameTimer& gameTimer)
 
 void Player::OnCollisionEnter(HitContact& contact)
 {
-	// Œó•â“_‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚È‚ç
+	// å€™è£œç‚¹ã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰
 	if (auto comp = contact.other->GetComponent<LandingCandidatePoints>())
 	{
-		// ÅV‚ğXV
+		// æœ€æ–°ã‚’æ›´æ–°
 		m_lastPoints = comp;
 	}
 }
 
-// 2DƒRƒ‰ƒCƒ_[‚É“–‚½‚Á‚½
+// 2Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«å½“ãŸã£ãŸæ™‚
 void Player::OnCollisionEnter2D(HitContact2D& contact)
 {
-	// Œó•â“_‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚È‚ç
+	// å€™è£œç‚¹ã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰
 	if (auto comp = contact.other->GetComponent<LandingCandidatePoints2D>())
 	{
-		// ÅV‚ğXV
+		// æœ€æ–°ã‚’æ›´æ–°
 		m_lastPoints2d = comp;
 	}
 }
 
 void Player::OnTriggerStay(HitContact& contact)
 {
-	// °‚É‚Ô‚Â‚©‚Á‚Ä‚¢‚½ê‡
+	// åºŠã«ã¶ã¤ã‹ã£ã¦ã„ãŸå ´åˆ
 	if (contact.other->GetTag() == "Floor")
 	{
-		// Õ“Ë‚µ‚½–@ü‚ªã•ûŒü‚É‹ß‚¢‚©‚Ç‚¤‚©‚ğ”»’è
+		// è¡çªã—ãŸæ³•ç·šãŒä¸Šæ–¹å‘ã«è¿‘ã„ã‹ã©ã†ã‹ã‚’åˆ¤å®š
 		float val = DirectX::SimpleMath::Vector3::Up.Dot(-contact.normal);
 		if (val >= CAN_JUMP_BORDER)
 		{
@@ -105,7 +108,7 @@ void Player::OnTriggerStay(HitContact& contact)
 
 void Player::OnTriggerExit(HitContact & contact)
 {
-	// °‚É‚Ô‚Â‚©‚Á‚Ä‚¢‚½ê‡
+	// åºŠã«ã¶ã¤ã‹ã£ã¦ã„ãŸå ´åˆ
 	if (contact.other->GetTag() == "Floor")
 	{
 		m_canJump = false;
@@ -116,32 +119,29 @@ void Player::Update2D(const GameTimer& timer)
 {
 	timer;
 
-	// ²‚ÌŒü‚«‚ğæ“¾
+	// è»¸ã®å‘ãã‚’å–å¾—
 	DirectX::SimpleMath::Vector3 xAxis = WorldSetting2D::Instance().GetXAxis();
 	DirectX::SimpleMath::Vector3 yAxis = WorldSetting2D::Instance().GetYAxis();
 
-	// ----- ˆÚ“® ----- //
+	// ----- ç§»å‹• ----- //
 
-	// ˆÚ“®•ûŒü‚Ì“ü—Í‚ğæ“¾
-	float x = KeyInput::GetCustomInput(CustomType::Horizontal);
+	// ç§»å‹•æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
+	float x = Input::Custom::GetAxis("Horizontal");
 
 	if (auto* rb = GetComponent<RigidBody2D>())
 	{
 		rb->SetVelocity({ x * MOVE_SPEED, rb->GetVelocity().y });
 	}
 
-	if (auto* col = GetComponent<BaseCollider2D>())
+	if (auto* col = GetComponent<ColliderBase2D>())
 	{
 		col->SetPhysicsMaterial(&m_material);
 	}
 
-	// ƒWƒƒƒ“ƒv“ü—Í‚ğæ“¾
-	float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
-
-	// “ü—Í‚ª‚ ‚ê‚Î
-	if (m_canJump && jumpInput != 0.0f)
+	// å…¥åŠ›ãŒã‚ã‚Œã°
+	if (m_canJump && Input::Custom::GetButton("Jump"))
 	{
-		// —Í‚ğ‰Á‚¦‚é
+		// åŠ›ã‚’åŠ ãˆã‚‹
 		if (auto* rb = GetComponent<RigidBody2D>())
 		{
 			rb->AddForce(DirectX::SimpleMath::Vector2::UnitY * JUMP_POWER, ForceMode::Impulse);
@@ -153,37 +153,34 @@ void Player::Update3D(const GameTimer& timer)
 {
 	timer;
 
-	// ----- ˆÚ“® ----- //
+	// ----- ç§»å‹• ----- //
 
-	// ˆÚ“®•ûŒü‚Ì“ü—Í‚ğæ“¾
-	float x = KeyInput::GetCustomInput(CustomType::Horizontal);
-	float z = KeyInput::GetCustomInput(CustomType::Vertical);
+	// ç§»å‹•æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
+	float x = Input::Custom::GetAxis("Horizontal");
+	float z = Input::Custom::GetAxis("Vertical");
 
-	// ˆÚ“®•ûŒü‚ğì¬
+	// ç§»å‹•æ–¹å‘ã‚’ä½œæˆ
 	DirectX::SimpleMath::Vector3 movingDirecion{ x * m_pTransform->GetRight() + z * m_pTransform->GetForward() };
 	movingDirecion.y = 0;
 
-	// ˆÚ“®—Ê‚ğˆê’è‚É‚·‚é‚½‚ß‚É³‹K‰»
+	// ç§»å‹•é‡ã‚’ä¸€å®šã«ã™ã‚‹ãŸã‚ã«æ­£è¦åŒ–
 	movingDirecion.Normalize();
 
-	// ‘¬“x‚ğZo
+	// é€Ÿåº¦ã‚’ç®—å‡º
 	DirectX::SimpleMath::Vector3 movingVelocity = movingDirecion * MOVE_SPEED;// *timer.GetElapsedTime();
 
-	// ‘¬“x‚ğ•ÏX
+	// é€Ÿåº¦ã‚’å¤‰æ›´
 	if (auto* rb = GetComponent<RigidBody>())
 	{
 		rb->SetVelocity({ movingVelocity.x, rb->GetVelocity().y, movingVelocity.z });
 	}
 
-	// ----- ƒWƒƒƒ“ƒv ----- //
+	// ----- ã‚¸ãƒ£ãƒ³ãƒ— ----- //
 
-	// ƒWƒƒƒ“ƒv“ü—Í‚ğæ“¾
-	float jumpInput = KeyInput::GetCustomInputDown(CustomType::Jump);
-
-	// “ü—Í‚ª‚ ‚ê‚Î
-	if (m_canJump && jumpInput != 0.0f)
+	// å…¥åŠ›ãŒã‚ã‚Œã°
+	if (m_canJump && Input::Custom::GetButton("Jump"))
 	{
-		// —Í‚ğ‰Á‚¦‚é
+		// åŠ›ã‚’åŠ ãˆã‚‹
 		if (auto* rb = GetComponent<RigidBody>())
 		{
 			rb->AddForce(DirectX::SimpleMath::Vector3::Up * JUMP_POWER, ForceMode::Impulse);

@@ -1,31 +1,31 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : EnemyJumpState.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/23
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : EnemyJumpState.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/23
 //
-// ŠT—v       : “G‚ÌƒWƒƒƒ“ƒvƒXƒe[ƒg
+// æ¦‚è¦       : æ•µã®ã‚¸ãƒ£ãƒ³ãƒ—ã‚¹ãƒ†ãƒ¼ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "EnemyJumpState.h"
 
-#include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
+#include "Components/World/RigidBody/RigidBody.h"
 #include "../../Enemy.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void EnemyJumpState::Enter()
 {
-	// ƒWƒƒƒ“ƒvˆ—
-	// ƒpƒX‚ğæ“¾
+	// ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
+	// ãƒ‘ã‚¹ã‚’å–å¾—
 	const PathFollower::Path* path = GetOwner()->GetNowPath();
 
-	// ƒpƒX‚ª‚È‚¯‚ê‚ÎIdle‚É–ß‚·
+	// ãƒ‘ã‚¹ãŒãªã‘ã‚Œã°Idleã«æˆ»ã™
 	if (!path)
 	{
 		RequestChangeState(EnemyStateID::Idle);
@@ -33,82 +33,95 @@ void EnemyJumpState::Enter()
 		return;
 	}
 
-	// Å‰‚ÌˆÊ’u‚ğæ“¾
+	// æœ€åˆã®ä½ç½®ã‚’å–å¾—
 	DirectX::SimpleMath::Vector3 initPosition = GetOwner()->GetComponent<Transform>()->GetWorldPosition();
 
-	// –Ú•W’n“_‚ğæ“¾
+	// ç›®æ¨™åœ°ç‚¹ã‚’å–å¾—
 	m_targetPosition = path->goal;
 
-	// ˆÚ“®ƒxƒNƒgƒ‹‚ğZo
+	// ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç®—å‡º
 	m_moveVec = m_targetPosition - initPosition;
 
 	m_moveVec.y = 0;
 
-	// ˆÚ“®‚·‚é‹——£‚ğZo
+	// ç§»å‹•ã™ã‚‹è·é›¢ã‚’ç®—å‡º
 	float len = m_moveVec.Length();
 
-	// ³‹K‰»
+	// æ­£è¦åŒ–
 	m_moveVec /= len;
 
-	// ƒXƒs[ƒh‚ğZo
+	// ã‚¹ãƒ”ãƒ¼ãƒ‰ã‚’ç®—å‡º
 	m_moveSpeed = len / path->time;
 
-	// Rigidbody‚ğæ“¾
+	// Rigidbodyã‚’å–å¾—
 	if (auto rb = GetOwner()->GetComponent<RigidBody>())
 	{
-		// ‘¬“x‚ğ•ÏX
+		// é€Ÿåº¦ã‚’å¤‰æ›´
 		rb->SetVelocity(m_moveVec * m_moveSpeed);
 
-		// ƒWƒƒƒ“ƒv—p‚Ì—Í‚ğ‰Á‚¦‚é
+		// ã‚¸ãƒ£ãƒ³ãƒ—ç”¨ã®åŠ›ã‚’åŠ ãˆã‚‹
 		rb->AddForce(DirectX::SimpleMath::Vector3::UnitY * Enemy::JUMP_IMPLUSE, ForceMode::Impulse);
 	}
 
 	m_arrivedXZ = false;
 	m_arrivedY = false;
+
+	// å‰æ–¹å‘ã¨ä¸Šã‹ã‚‰å³æ–¹å‘ã‚’è¨ˆç®—
+	DirectX::SimpleMath::Vector3 xAxis = DirectX::SimpleMath::Vector3::Up.Cross(m_moveVec);
+	xAxis.Normalize();
+
+	// å³æ–¹å‘ã¨å‰æ–¹å‘ã‹ã‚‰ä¸Šæ–¹å‘ã‚’è¨ˆç®—
+	DirectX::SimpleMath::Vector3 yAxis = m_moveVec.Cross(xAxis);
+
+	// å›è»¢è¡Œåˆ—ã‚’æ§‹ç¯‰
+	auto mt = DirectX::SimpleMath::Matrix(xAxis, yAxis, m_moveVec);
+
+	// å‘ãã‚’ç§»å‹•æ–¹å‘ã«è¨­å®š
+	GetOwner()->GetComponent<Transform>()->SetLocalRotation(DirectX::SimpleMath::Quaternion::CreateFromRotationMatrix(mt));
 }
 
 void EnemyJumpState::Update(const GameTimer& timer)
 {
-	// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾
+	// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 	Transform* pTransform = GetOwner()->GetComponent<Transform>();
 
-	// ¡‚ÌˆÊ’u‚ğæ“¾
+	// ä»Šã®ä½ç½®ã‚’å–å¾—
 	DirectX::SimpleMath::Vector3 nowPosition = pTransform->GetWorldPosition();
 
-	// ¡‚ÌÀ•W‚©‚ç–Ú•W’l‚Ö‚ÌƒxƒNƒgƒ‹
+	// ä»Šã®åº§æ¨™ã‹ã‚‰ç›®æ¨™å€¤ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 	DirectX::SimpleMath::Vector3 toTarget = m_targetPosition - nowPosition;
 
-	// …•½•ûŒü‚ª–Ú•W’n“_‚É‚½‚Ç‚è’…‚¢‚Ä‚¢‚½‚ç
+	// æ°´å¹³æ–¹å‘ãŒç›®æ¨™åœ°ç‚¹ã«ãŸã©ã‚Šç€ã„ã¦ã„ãŸã‚‰
 	if (!m_arrivedXZ && m_moveVec.Dot(toTarget) < 0)
 	{
-		// …•½•ûŒü‚Ì“’…ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		// æ°´å¹³æ–¹å‘ã®åˆ°ç€ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 		m_arrivedXZ = true;
 	}
 	
-	// ’…’n‚µ‚Ä‚¢‚ê‚Î
+	// ç€åœ°ã—ã¦ã„ã‚Œã°
 	if (!m_arrivedY && GetOwner()->IsGround())
 	{
-		// ‚’¼•ûŒü‚Ìƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		// å‚ç›´æ–¹å‘ã®ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 		m_arrivedY = true;
 	}
 
-	// ‚’¼A…•½‚Ç‚¿‚ç‚àˆÚ“®‚ªI—¹‚µ‚Ä‚¢‚ê‚Î
+	// å‚ç›´ã€æ°´å¹³ã©ã¡ã‚‰ã‚‚ç§»å‹•ãŒçµ‚äº†ã—ã¦ã„ã‚Œã°
 	if (m_arrivedXZ && m_arrivedY)
 	{
-		// ˆÚ“®ƒXƒe[ƒg‚Ö‚ÌˆÚs‚ğ—v¿
+		// ç§»å‹•ã‚¹ãƒ†ãƒ¼ãƒˆã¸ã®ç§»è¡Œã‚’è¦è«‹
 		RequestChangeState(EnemyStateID::Idle);
 	}
 }
 
 void EnemyJumpState::Exit()
 {
-	// Ÿ‚ÌƒpƒX‚Ö
+	// æ¬¡ã®ãƒ‘ã‚¹ã¸
 	GetOwner()->ToNextPath();
 
-	// ‘¬“x‚ğƒŠƒZƒbƒg
+	// é€Ÿåº¦ã‚’ãƒªã‚»ãƒƒãƒˆ
 	if (auto rb = GetOwner()->GetComponent<RigidBody>())
 	{
-		// Y•ûŒü‚Ì‚İ‚»‚Ì‚Ü‚Ü
+		// Yæ–¹å‘ã®ã¿ãã®ã¾ã¾
 		rb->SetVelocity({ 0, rb->GetVelocity().y, 0 });
 	}
 }

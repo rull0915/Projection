@@ -1,18 +1,18 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : AStarPathFinder.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : AStarPathFinder.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v : “G‚ÌŒo˜H‚ğNavigationGraph‚ÆA*ƒAƒ‹ƒSƒŠƒYƒ€‚ğg‚Á‚Äì¬‚·‚éƒNƒ‰ƒX
+// æ¦‚è¦ : æ•µã®çµŒè·¯ã‚’NavigationGraphã¨A*ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã‚’ä½¿ã£ã¦ä½œæˆã™ã‚‹ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/06/17 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/17 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include <queue>
 #include <algorithm>
@@ -20,178 +20,178 @@
 #include "NavigationGraphBase.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 class AStarPathFinder
 {
-    // ’²‚×‚éƒm[ƒh
-    struct SearchNode
-    {
-        // ŠeƒRƒXƒg’l
-        float g = FLT_MAX;
-        float h = 0;
+	// èª¿ã¹ã‚‹ãƒãƒ¼ãƒ‰
+	struct SearchNode
+	{
+		// å„ã‚³ã‚¹ãƒˆå€¤
+		float g = FLT_MAX;
+		float h = 0;
 
-        // e‚ÌƒCƒ“ƒfƒbƒNƒX
-        size_t parent = 0;
-        size_t parentEdge = 0;
+		// è¦ªã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		size_t parent = 0;
+		size_t parentEdge = 0;
 
-        // ƒŠƒXƒg‚É‚¢‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
-        bool isOpen = false;
-        bool isClose = false;
-    };
+		// ãƒªã‚¹ãƒˆã«ã„ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
+		bool isOpen = false;
+		bool isClose = false;
+	};
 
-    // ƒI[ƒvƒ“ƒŠƒXƒg‚ÉŠi”[‚·‚é—p‚Ì\‘¢‘Ì
-    struct OpenItem
-    {
-        size_t nodeIndex;
-        float f;
+	// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆã«æ ¼ç´ã™ã‚‹ç”¨ã®æ§‹é€ ä½“
+	struct OpenItem
+	{
+		size_t nodeIndex;
+		float f;
 
-        bool operator<(const OpenItem& other) const
-        {
-            // priority_queue‚Í‘å‚«‚¢‚à‚Ì‚ªæ“ª‚É‚È‚é‚Ì‚Å‹t‚É‚·‚é
-            return f > other.f;
-        }
-    };
+		bool operator<(const OpenItem& other) const
+		{
+			// priority_queueã¯å¤§ãã„ã‚‚ã®ãŒå…ˆé ­ã«ãªã‚‹ã®ã§é€†ã«ã™ã‚‹
+			return f > other.f;
+		}
+	};
 
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
 
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ƒI[ƒvƒ“ƒŠƒXƒg
-    static std::priority_queue<OpenItem> m_openNodes;
+	// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆ
+	static std::priority_queue<OpenItem> m_openNodes;
 
-    // ƒm[ƒhƒŠƒXƒg
-    static std::vector<SearchNode> m_nodes;
+	// ãƒãƒ¼ãƒ‰ãƒªã‚¹ãƒˆ
+	static std::vector<SearchNode> m_nodes;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    AStarPathFinder() = default;
-    ~AStarPathFinder() = default;
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	AStarPathFinder() = default;
+	~AStarPathFinder() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    template<typename Navigation>
-    static std::vector<NavigationGraphBase::Edge> MakePath(const Navigation& nav, size_t start, size_t goal);
+	template<typename Navigation>
+	static std::vector<NavigationGraphBase::Edge> MakePath(const Navigation& nav, size_t start, size_t goal);
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // 
+	// 
 };
 
-//static•Ï”‚ÌÀ‘ÌéŒ¾
+//staticå¤‰æ•°ã®å®Ÿä½“å®£è¨€
 std::priority_queue<AStarPathFinder::OpenItem> AStarPathFinder::m_openNodes;
 std::vector<AStarPathFinder::SearchNode> AStarPathFinder::m_nodes;
 
-// ŠÖ”éŒ¾
+// é–¢æ•°å®£è¨€
 template<typename Navigation>
 inline std::vector<NavigationGraphBase::Edge> AStarPathFinder::MakePath(const Navigation& nav, size_t start, size_t goal)
 {
-	// ƒGƒbƒW‚ÌƒŠƒXƒg‚ğæ“¾
+	// ã‚¨ãƒƒã‚¸ã®ãƒªã‚¹ãƒˆã‚’å–å¾—
 	const std::vector<std::vector<NavigationGraphBase::Edge>>& edges = nav.GetGraph();
 
-	// ƒRƒ“ƒ|[ƒlƒ“ƒgƒŠƒXƒg‚ğæ“¾
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒªã‚¹ãƒˆã‚’å–å¾—
 	auto& compList = nav.GetNodes();
 
-	// ƒXƒ^[ƒg‚©ƒS[ƒ‹‚ª‘¶İ‚µ‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+	// ã‚¹ã‚¿ãƒ¼ãƒˆã‹ã‚´ãƒ¼ãƒ«ãŒå­˜åœ¨ã—ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 	if (start >= compList.size() || goal >= compList.size()) return std::vector<NavigationGraphBase::Edge>();
 
-	// ƒm[ƒhƒŠƒXƒg‚ÌƒŠƒZƒbƒg
+	// ãƒãƒ¼ãƒ‰ãƒªã‚¹ãƒˆã®ãƒªã‚»ãƒƒãƒˆ
 	m_nodes.assign(compList.size(), SearchNode{});
 
-	// ƒS[ƒ‹‚Æ‚È‚éƒRƒ‰ƒCƒ_[‚Ì’†SÀ•W‚ğæ“¾
+	// ã‚´ãƒ¼ãƒ«ã¨ãªã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ä¸­å¿ƒåº§æ¨™ã‚’å–å¾—
 	auto goalPos = compList[goal]->GetCenterPoint();
 
-	// H‚Ì’l‚ğæ“¾‚·‚éƒ‰ƒ€ƒ_®
+	// Hã®å€¤ã‚’å–å¾—ã™ã‚‹ãƒ©ãƒ ãƒ€å¼
 	auto GetHCost = [&](size_t index)->float
 		{
-			// w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌÀ•W
+			// æŒ‡å®šã—ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®åº§æ¨™
 			auto pos = compList[index]->GetCenterPoint();
 
-			// ƒS[ƒ‹‚Æ‚Ì’·‚³‚Ì“ñæ‚ğ•Ô‚·
+			// ã‚´ãƒ¼ãƒ«ã¨ã®é•·ã•ã®äºŒä¹—ã‚’è¿”ã™
 			return (goalPos - pos).LengthSquared();
 		};
 
-	// ƒXƒ^[ƒgƒm[ƒh‚Ì‰Šú‰»
+	// ã‚¹ã‚¿ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®åˆæœŸåŒ–
 	m_nodes[start].g = 0;
 	m_nodes[start].h = GetHCost(start);
 
-	// ƒI[ƒvƒ“ƒŠƒXƒg‚Ì‰Šú‰»
+	// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆã®åˆæœŸåŒ–
 	m_openNodes = std::priority_queue<OpenItem>();
 
-	// ƒXƒ^[ƒgƒm[ƒh‚ğƒI[ƒvƒ“ƒŠƒXƒg‚É’Ç‰Á
+	// ã‚¹ã‚¿ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆã«è¿½åŠ 
 	m_openNodes.push({ start, m_nodes[start].h });
 
 	m_nodes[start].isOpen = true;
 
 	while (true)
 	{
-		// ƒI[ƒvƒ“ƒŠƒXƒg‚ª‹ó‚É‚È‚Á‚½‚çƒS[ƒ‹•s‰Â
+		// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆãŒç©ºã«ãªã£ãŸã‚‰ã‚´ãƒ¼ãƒ«ä¸å¯
 		if (m_openNodes.size() == 0) return std::vector<NavigationGraphBase::Edge>();
 
-		// ƒI[ƒvƒ“ƒŠƒXƒg‚©‚çÅ‚àf’l‚Ì’á‚¢ƒm[ƒh‚ğæ“¾
+		// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆã‹ã‚‰æœ€ã‚‚få€¤ã®ä½ã„ãƒãƒ¼ãƒ‰ã‚’å–å¾—
 		OpenItem current = m_openNodes.top();
 
-		// ƒI[ƒvƒ“ƒŠƒXƒg‚©‚çíœ
+		// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
 		m_openNodes.pop();
 		m_nodes[current.nodeIndex].isOpen = false;
 
-		// ƒNƒ[ƒY‚É‚·‚é
+		// ã‚¯ãƒ­ãƒ¼ã‚ºã«ã™ã‚‹
 		if (m_nodes[current.nodeIndex].isClose) continue;
 		m_nodes[current.nodeIndex].isClose = true;
 
-		// ƒS[ƒ‹‚Å‚ ‚ê‚Îƒ‹[ƒvI—¹
+		// ã‚´ãƒ¼ãƒ«ã§ã‚ã‚Œã°ãƒ«ãƒ¼ãƒ—çµ‚äº†
 		if (current.nodeIndex == goal) break;
 
-		// —×Úƒm[ƒh‚ğ’²‚×‚é
+		// éš£æ¥ãƒãƒ¼ãƒ‰ã‚’èª¿ã¹ã‚‹
 		for (size_t i = 0; i < edges[current.nodeIndex].size(); ++i)
 		{
-			// ’²‚×‚éƒGƒbƒW‚ğæ“¾
+			// èª¿ã¹ã‚‹ã‚¨ãƒƒã‚¸ã‚’å–å¾—
 			NavigationGraphBase::Edge edge = edges[current.nodeIndex][i];
 		
 			size_t targetIndex = edge.goalIndex;
 
-			// ƒNƒ[ƒY‚È‚çƒXƒLƒbƒv
+			// ã‚¯ãƒ­ãƒ¼ã‚ºãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 			if (m_nodes[targetIndex].isClose) continue;
 
 			float ng = m_nodes[current.nodeIndex].g + (edge.cost);
 
-			// Å¬’l‚ğXV‚µ‚½‚ç
+			// æœ€å°å€¤ã‚’æ›´æ–°ã—ãŸã‚‰
 			if (!m_nodes[targetIndex].isOpen || ng < m_nodes[targetIndex].g) {
 
-				// g‚ğXV
+				// gã‚’æ›´æ–°
 				m_nodes[targetIndex].g = ng;
 
 				float nh = GetHCost(targetIndex);
 
-				// h‚ğXV
+				// hã‚’æ›´æ–°
 				m_nodes[targetIndex].h = nh;
 
-				// e‚ğ©g‚Éİ’è
+				// è¦ªã‚’è‡ªèº«ã«è¨­å®š
 				m_nodes[targetIndex].parent = { current.nodeIndex };
 				m_nodes[targetIndex].parentEdge = i;
 
-				// ƒI[ƒvƒ“ƒŠƒXƒg‚É’Ç‰Á
+				// ã‚ªãƒ¼ãƒ—ãƒ³ãƒªã‚¹ãƒˆã«è¿½åŠ 
 				m_nodes[targetIndex].isOpen = true;
 
 				m_openNodes.push({ targetIndex, ng + nh });
@@ -199,25 +199,25 @@ inline std::vector<NavigationGraphBase::Edge> AStarPathFinder::MakePath(const Na
 		}
 	}
 
-	// ƒS[ƒ‹‚©‚ç‹t‚É’H‚é
+	// ã‚´ãƒ¼ãƒ«ã‹ã‚‰é€†ã«è¾¿ã‚‹
 	size_t current = goal;
 
 	std::vector<NavigationGraphBase::Edge> way;
 
-	// e‚ª‚¢‚È‚­‚È‚é‚Ü‚Åƒ‹[ƒv
+	// è¦ªãŒã„ãªããªã‚‹ã¾ã§ãƒ«ãƒ¼ãƒ—
 	while (current != start)
 	{
-		// e‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+		// è¦ªã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 		size_t parent = m_nodes[current].parent;
 
-		// “¹‚É’Ç‰Á
+		// é“ã«è¿½åŠ 
 		way.push_back(edges[parent][m_nodes[current].parentEdge]);
 
-		// ¡‚ÌˆÊ’u‚ğXV
+		// ä»Šã®ä½ç½®ã‚’æ›´æ–°
 		current = m_nodes[current].parent;
 	}
 
-	// ‹t‡‚É“ü‚ê‘Ö‚¦
+	// é€†é †ã«å…¥ã‚Œæ›¿ãˆ
 	std::reverse(way.begin(), way.end());
 
 	return way;

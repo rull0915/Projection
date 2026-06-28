@@ -1,102 +1,108 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : ProjectionSmoothCamera.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/05/29
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : ProjectionSmoothCamera.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/05/29
 //
-// ŠT—v : ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğŠŠ‚ç‚©‚ÉØ‚è‘Ö‚¦‚éƒJƒƒ‰
+// æ¦‚è¦ : ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’æ»‘ã‚‰ã‹ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ã‚«ãƒ¡ãƒ©
 //
-// XV—š—ğ :
-// 2026/05/29 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/05/29 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Camera/Camera.h"
+#include "Components/World/Camera/CameraBase.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class ProjectionSmoothCamera : public Camera<ProjectionSmoothCamera, ComponentID::ProjectionSmoothCamera>
+class ProjectionSmoothCamera : public CameraBase
 {
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
 
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // projections—ñ‚Ìƒpƒ‰ƒ[ƒ^
-    ProjectionType m_type;
+	// projectionè¡Œåˆ—ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	ProjectionType m_type;
 
-    // ‹¤’Ê
-    float m_nearZ;  // ƒjƒAƒNƒŠƒbƒv
-    float m_farZ;   // ƒtƒ@[ƒNƒŠƒbƒv
-    float m_aspect; // ƒAƒXƒyƒNƒg”ä
+	// å…±é€š
+	float m_nearZ;  // ãƒ‹ã‚¢ã‚¯ãƒªãƒƒãƒ—
+	float m_farZ;   // ãƒ•ã‚¡ãƒ¼ã‚¯ãƒªãƒƒãƒ—
+	float m_aspect; // ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
 
-    // Perspective
-    float m_fov;    // ‰æŠp
+	// Perspective
+	float m_fov;    // ç”»è§’
 
-    // Orthographic
-    float m_size;
+	// Orthographic
+	float m_size;
 
-    // •Ï‰»‘O‚ÌProjection
-    DirectX::SimpleMath::Matrix m_oldProjecition;
+	// å¤‰åŒ–å‰ã®Projection
+	DirectX::SimpleMath::Matrix m_oldProjecition;
 
-    // •Ï‰»æ‚ÌProjection
-    DirectX::SimpleMath::Matrix m_targetProjection;
+	// å¤‰åŒ–å…ˆã®Projection
+	DirectX::SimpleMath::Matrix m_targetProjection;
 
-    // •Ï‰»’†ƒtƒ‰ƒO
-    bool m_isChanging;
+	// å¤‰åŒ–ä¸­ãƒ•ãƒ©ã‚°
+	bool m_isChanging;
 
-    // ‰½•b‚Å•Ï‰»‚µI‚í‚é‚©
-    float m_changeTime;
+	// ä½•ç§’ã§å¤‰åŒ–ã—çµ‚ã‚ã‚‹ã‹
+	float m_changeTime;
 
-    // •Ï‰»‚µn‚ß‚Ä‰½•b‚©
-    float m_nowTime;
+	// å¤‰åŒ–ã—å§‹ã‚ã¦ä½•ç§’ã‹
+	float m_nowTime;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    ProjectionSmoothCamera(IComponentOwner* owner);
-    ~ProjectionSmoothCamera() = default;
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	ProjectionSmoothCamera(IComponentOwner* owner);
+	~ProjectionSmoothCamera() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Update(const GameTimer& gameTimer) override;
+	void Update(const GameTimer& gameTimer) override;
 
-    void ChangeProjectionMode(float changeTime = 1.0f);
+	void ChangeProjectionMode(float changeTime = 1.0f);
 
 	ProjectionType GetProjectionType() const { return m_type; }
 
-    void UpdateView() override;
-    void UpdateProj() override;
+	void UpdateView() override;
+	void UpdateProj() override;
 
 	bool IsChanging() const { return m_isChanging; }
 
-    //-----------------------------------------------------
-    // ƒZƒbƒ^[
-    //-----------------------------------------------------
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<ProjectionSmoothCamera>();
+	}
+
+	//-----------------------------------------------------
+	// ã‚»ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
 };

@@ -1,111 +1,104 @@
-//
+ï»¿//
 // Game.h
 //
 
 #pragma once
 
-#include "DeviceResources.h"
+#include "System/DeviceResources.h"
 #include "Timer/StepTimer.h"
 #include "Timer/GameTimer.h"
 
 #include <memory>
 
-#include "GameLib/Scene/SceneManager.h"
-#include "GameLib/Scene/Scenes.h"
+#include "Scene/SceneManager.h"
+#include "Renderer/Renderer.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
 class Game final : public DX::IDeviceNotify
 {
-    // ========= ƒeƒ“ƒvƒŒ[ƒg‚Ìˆ— ========= //
+	// ========= ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®å‡¦ç† ========= //
 public:
 
-    Game() noexcept(false);
-    ~Game();
+	Game() noexcept(false);
+	~Game();
 
-    Game(Game&&) = default;
-    Game& operator= (Game&&) = default;
+	Game(Game&&) = default;
+	Game& operator= (Game&&) = default;
 
-    Game(Game const&) = delete;
-    Game& operator= (Game const&) = delete;
+	Game(Game const&) = delete;
+	Game& operator= (Game const&) = delete;
 
-    // Initialization and management
-    void Initialize(HWND window, int width, int height);
+	// Initialization and management
+	void Initialize(HWND window, int width, int height);
 
-    // Basic game loop
-    void Tick();
+	// Basic game loop
+	void Tick();
 
-    // IDeviceNotify
-    void OnDeviceLost() override;
-    void OnDeviceRestored() override;
+	// IDeviceNotify
+	void OnDeviceLost() override;
+	void OnDeviceRestored() override;
 
-    // Messages
-    void OnActivated();
-    void OnDeactivated();
-    void OnSuspending();
-    void OnResuming();
-    void OnWindowMoved();
-    void OnDisplayChange();
-    void OnWindowSizeChanged(int width, int height);
+	// Messages
+	void OnActivated();
+	void OnDeactivated();
+	void OnSuspending();
+	void OnResuming();
+	void OnWindowMoved();
+	void OnDisplayChange();
+	void OnWindowSizeChanged(int width, int height);
 
-    // Properties
-    void GetDefaultSize(int& width, int& height) const noexcept;
+	// Properties
+	void GetDefaultSize(int& width, int& height) const noexcept;
 
 private:
 
-    void Update(DX::StepTimer const& timer);
-    void Render();
+	void Update(DX::StepTimer const& timer);
+	void Render();
 
-    void Clear();
+	void Clear();
 
-    void CreateDeviceDependentResources();
-    void CreateWindowSizeDependentResources();
+	void CreateDeviceDependentResources();
+	void CreateWindowSizeDependentResources();
 
-    // Device resources.
-    std::unique_ptr<DX::DeviceResources>    m_deviceResources;
+	// Device resources.
+	std::unique_ptr<DX::DeviceResources>    m_deviceResources;
 
-    // Rendering loop timer.
-    DX::StepTimer                           m_timer;
+	// Rendering loop timer.
+	DX::StepTimer                           m_timer;
 
-    // FPSƒJƒEƒ“ƒ^
-    uint32_t m_frameCount;
-    float m_timeAccumulator;
-    float m_fps;
+	// FPSã‚«ã‚¦ãƒ³ã‚¿
+	uint32_t m_frameCount;
+	float m_timeAccumulator;
+	float m_fps;
 
-    // ================ ©•ª‚Ìˆ— ================== //
-    
-    // ƒ^ƒCƒgƒ‹‚Ì•¶š—ñ
+	// ================ è‡ªåˆ†ã®å‡¦ç† ================== //
+	
+	// ã‚¿ã‚¤ãƒˆãƒ«ã®æ–‡å­—åˆ—
 public:
-    static constexpr const wchar_t TITLE_STRING[]{ L"Template" };
+	static constexpr const wchar_t TITLE_STRING[]{ L"Template" };
 
 private:
-    // ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[
-    SceneManager m_sceneManager;
+	// ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
+	SceneManager m_sceneManager;
 
-    // ƒRƒ‚ƒ“ƒXƒe[ƒg
-    std::unique_ptr<DirectX::CommonStates> m_states;
+	// ã‚³ãƒ¢ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆ
+	std::unique_ptr<DirectX::CommonStates> m_states;
 
-    // ƒQ[ƒ€ƒ^ƒCƒ}[
-    GameTimer m_gameTimer;
+	// ã‚²ãƒ¼ãƒ ã‚¿ã‚¤ãƒãƒ¼
+	GameTimer m_gameTimer;
 
-    int m_stageCount;
-
-    std::unique_ptr<SceneTransition> m_exitTrans;
+	int m_stageCount;
 
 public:
-    // ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚ğ•Ô‚·ŠÖ”
-    SceneManager* GetSceneManager() { return &m_sceneManager; }
+	// ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’è¿”ã™é–¢æ•°
+	SceneManager* GetSceneManager() { return &m_sceneManager; }
 
-    // •`‰æ’S“–
-    Renderer m_renderer;
+	// æç”»æ‹…å½“
+	Renderer m_renderer;
 
-    void RequestExit()
-    {
-        m_exitTrans = std::make_unique<FadeTransition>(0.5f, Transition::Mode::In, 0x000000);
-    };
-
-    HWND GetWindow() const { return m_deviceResources->GetWindow(); }
+	HWND GetWindow() const { return m_deviceResources->GetWindow(); }
 
 private:
-    void TitleNameUpdate(float elapsedTime);
+	void TitleNameUpdate(float elapsedTime);
 };

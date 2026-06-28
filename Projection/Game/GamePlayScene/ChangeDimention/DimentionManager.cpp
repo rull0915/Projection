@@ -1,23 +1,23 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : DimentionManager.cpp
-// ì¬ŽÒ      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/06
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : DimentionManager.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/06
 //
-// ŠT—v       : ŽŸŒ³•ÏXŠÇ—ƒNƒ‰ƒX
+// æ¦‚è¦       : æ¬¡å…ƒå¤‰æ›´ç®¡ç†ã‚¯ãƒ©ã‚¹
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "DimentionManager.h"
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+#include "Settings/WorldSetting2D.h"
 
 //====================================================//
-// ŠÖ”‚ÌŽÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 DimentionManager::DimentionManager()
 	: m_pCamera{ nullptr }
 	, m_components{}
@@ -39,16 +39,16 @@ void DimentionManager::Initialize()
 
 void DimentionManager::Update()
 {
-	// ¡‚Ìó‘Ô‚É‚æ‚Á‚Ä•ªŠò
+	// ä»Šã®çŠ¶æ…‹ã«ã‚ˆã£ã¦åˆ†å²
 	switch (m_nowState)
 	{
-		// 2D‚Ö•ÏX’†‚ÌŽž
+		// 2Dã¸å¤‰æ›´ä¸­ã®æ™‚
 	case DimentionManager::ChangeTo2D:
 
-		// ƒJƒƒ‰‚Ì•ÏX‚ªI‚í‚Á‚½‚ç
+		// ã‚«ãƒ¡ãƒ©ã®å¤‰æ›´ãŒçµ‚ã‚ã£ãŸã‚‰
 		if (m_pCamera && !m_pCamera->IsChanging())
 		{
-			// ¢ŠE‚ð•ÏX
+			// ä¸–ç•Œã‚’å¤‰æ›´
 			WorldTo2D();
 
 			m_nowState = State::World2D;
@@ -57,7 +57,7 @@ void DimentionManager::Update()
 		break;
 	case DimentionManager::ChangeTo3D:
 
-		// ƒJƒƒ‰‚Ì•ÏX‚ªI‚í‚Á‚½‚ç
+		// ã‚«ãƒ¡ãƒ©ã®å¤‰æ›´ãŒçµ‚ã‚ã£ãŸã‚‰
 		if (m_pCamera && !m_pCamera->IsChanging())
 		{
 			m_nowState = State::World3D;
@@ -71,22 +71,22 @@ void DimentionManager::Update()
 
 void DimentionManager::ChangeDimention(float changeTime)
 {
-	// ƒJƒƒ‰‚ªÝ’è‚³‚ê‚Ä‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+	// ã‚«ãƒ¡ãƒ©ãŒè¨­å®šã•ã‚Œã¦ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 	if (!m_pCamera) return;
 
-	// Ø‚è‘Ö‚¦’†‚È‚ç‰½‚à‚µ‚È‚¢
+	// åˆ‡ã‚Šæ›¿ãˆä¸­ãªã‚‰ä½•ã‚‚ã—ãªã„
 	if (m_pCamera->IsChanging()) return;
 
-	// ’Ç‰Á—\–ñÏ‚Ý‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ð’Ç‰Á‚·‚é
+	// è¿½åŠ äºˆç´„æ¸ˆã¿ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹
 	AddReserved();
 
-	// íœ—\–ñÏ‚Ý‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ðíœ‚·‚é
+	// å‰Šé™¤äºˆç´„æ¸ˆã¿ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 	RemoveReserved();
 
-	// ƒJƒƒ‰‚Ì“Š‰eƒ‚[ƒh‚ð•ÏX
+	// ã‚«ãƒ¡ãƒ©ã®æŠ•å½±ãƒ¢ãƒ¼ãƒ‰ã‚’å¤‰æ›´
 	m_pCamera->ChangeProjectionMode(changeTime);
 
-	// ó‘Ô‚Ì•ÏX
+	// çŠ¶æ…‹ã®å¤‰æ›´
 	switch (m_nowState)
 	{
 	case State::World2D:
@@ -103,10 +103,10 @@ void DimentionManager::ChangeDimention(float changeTime)
 
 void DimentionManager::WorldTo2D()
 {
-	// 2ŽŸŒ³¢ŠE‚ÌŽ²•ûŒü‚ðƒJƒƒ‰Šî€‚É•ÏX
+	// 2æ¬¡å…ƒä¸–ç•Œã®è»¸æ–¹å‘ã‚’ã‚«ãƒ¡ãƒ©åŸºæº–ã«å¤‰æ›´
 	WorldSetting2D::Instance().SetAxis(m_pCamera->GetInverseView().Right(), m_pCamera->GetInverseView().Up());
 
-	// ŠÇ—‚µ‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌØ‚è‘Ö‚¦ŠÖ”‚ðŒÄ‚Ño‚·
+	// ç®¡ç†ã—ã¦ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åˆ‡ã‚Šæ›¿ãˆé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 	for (auto& component : m_components)
 	{
 		component->Change3DTo2D(m_pCamera);
@@ -115,7 +115,7 @@ void DimentionManager::WorldTo2D()
 
 void DimentionManager::WorldTo3D()
 {
-	// ŠÇ—‚µ‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌØ‚è‘Ö‚¦ŠÖ”‚ðŒÄ‚Ño‚·
+	// ç®¡ç†ã—ã¦ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åˆ‡ã‚Šæ›¿ãˆé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 	for (auto& component : m_components)
 	{
 		component->Change2DTo3D();

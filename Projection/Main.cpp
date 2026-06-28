@@ -1,13 +1,11 @@
-//
+Ôªø//
 // Main.cpp
 //
 
 #include "pch.h"
 #include "Game/Game.h"
 
-#include "GameLib/Common/Random.h"
-#include "Game/Screen.h"
-#include "WindowManager.h"
+#include "System/WindowManager.h"
 
 using namespace DirectX;
 
@@ -20,7 +18,7 @@ using namespace DirectX;
 
 namespace
 {
-    std::unique_ptr<Game> g_game;
+	std::unique_ptr<Game> g_game;
 }
 
 LPCWSTR g_szAppName = L"Test";
@@ -31,290 +29,287 @@ void ExitGame() noexcept;
 // Indicates to hybrid graphics systems to prefer the discrete part by default
 extern "C"
 {
-    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 
 // Entry point
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
 
-    if (!XMVerifyCPUSupport())
-        return 1;
+	if (!XMVerifyCPUSupport())
+		return 1;
 
-    HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
-    if (FAILED(hr))
-        return 1;
+	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	if (FAILED(hr))
+		return 1;
 
-    // ÉLÅ[É{Å[ÉhÇÃçÏê¨
-    std::unique_ptr<Keyboard> keyboard = std::make_unique<Keyboard>();
+	// „Ç≠„Éº„Éú„Éº„Éâ„ÅÆ‰ΩúÊàê
+	std::unique_ptr<Keyboard> keyboard = std::make_unique<Keyboard>();
 
-    // É}ÉEÉXÇÃçÏê¨
-    std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>();
+	// „Éû„Ç¶„Çπ„ÅÆ‰ΩúÊàê
+	std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>();
 
-    // óêêîÇÃéÌÇçÏê¨
-    Random::Init();
+	g_game = std::make_unique<Game>();
 
-    g_game = std::make_unique<Game>();
+	// Register class and create window
+	{
+		// Register class
+		WNDCLASSEXW wcex = {};
+		wcex.cbSize = sizeof(WNDCLASSEXW);
+		wcex.style = CS_HREDRAW | CS_VREDRAW;
+		wcex.lpfnWndProc = WndProc;
+		wcex.hInstance = hInstance;
+		wcex.hIcon = LoadIconW(hInstance, L"IDI_ICON");
+		wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+		wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+		wcex.lpszClassName = L"_3DPrograming_GF_2025WindowClass";
+		wcex.hIconSm = LoadIconW(wcex.hInstance, L"IDI_ICON");
+		if (!RegisterClassExW(&wcex))
+			return 1;
 
-    // Register class and create window
-    {
-        // Register class
-        WNDCLASSEXW wcex = {};
-        wcex.cbSize = sizeof(WNDCLASSEXW);
-        wcex.style = CS_HREDRAW | CS_VREDRAW;
-        wcex.lpfnWndProc = WndProc;
-        wcex.hInstance = hInstance;
-        wcex.hIcon = LoadIconW(hInstance, L"IDI_ICON");
-        wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-        wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
-        wcex.lpszClassName = L"_3DPrograming_GF_2025WindowClass";
-        wcex.hIconSm = LoadIconW(wcex.hInstance, L"IDI_ICON");
-        if (!RegisterClassExW(&wcex))
-            return 1;
+		// Create window
+		int w, h;
+		g_game->GetDefaultSize(w, h);
 
-        // Create window
-        int w, h;
-        g_game->GetDefaultSize(w, h);
+		RECT rc = { 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
 
-        RECT rc = { 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
+		AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
 
-        AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
+		HWND hwnd = CreateWindowExW(0, L"_3DPrograming_GF_2025WindowClass", g_szAppName, WS_MYSTYLE,
+			CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
+			nullptr, nullptr, hInstance,
+			g_game.get());
+		// TODO: Change to CreateWindowExW(WS_EX_TOPMOST, L"_3DPrograming_GF_2025WindowClass", g_szAppName, WS_POPUP,
+		// to default to fullscreen.
 
-        HWND hwnd = CreateWindowExW(0, L"_3DPrograming_GF_2025WindowClass", g_szAppName, WS_MYSTYLE,
-            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
-            nullptr, nullptr, hInstance,
-            g_game.get());
-        // TODO: Change to CreateWindowExW(WS_EX_TOPMOST, L"_3DPrograming_GF_2025WindowClass", g_szAppName, WS_POPUP,
-        // to default to fullscreen.
+		if (!hwnd)
+			return 1;
 
-        if (!hwnd)
-            return 1;
+		ShowWindow(hwnd, nCmdShow);
+		// TODO: Change nCmdShow to SW_SHOWMAXIMIZED to default to fullscreen.
 
-        ShowWindow(hwnd, nCmdShow);
-        // TODO: Change nCmdShow to SW_SHOWMAXIMIZED to default to fullscreen.
+		GetClientRect(hwnd, &rc);
 
-        GetClientRect(hwnd, &rc);
+		// „Éû„Ç¶„Çπ„Å´„Ç¶„Ç§„É≥„Éâ„Ç¶„Éè„É≥„Éâ„É´„ÇíË®≠ÂÆö„Åô„Çã
+		mouse->SetWindow(hwnd);
 
-        // É}ÉEÉXÇ…ÉEÉCÉìÉhÉEÉnÉìÉhÉãÇê›íËÇ∑ÇÈ
-        mouse->SetWindow(hwnd);
+		g_game->Initialize(hwnd, rc.right - rc.left, rc.bottom - rc.top);
+	}
 
-        g_game->Initialize(hwnd, rc.right - rc.left, rc.bottom - rc.top);
-    }
+	// Main message loop
+	MSG msg = {};
+	while (WM_QUIT != msg.message)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			g_game->Tick();
+		}
+	}
 
-    // Main message loop
-    MSG msg = {};
-    while (WM_QUIT != msg.message)
-    {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        else
-        {
-            g_game->Tick();
-        }
-    }
+	g_game.reset();
 
-    g_game.reset();
-
-    return static_cast<int>(msg.wParam);
+	return static_cast<int>(msg.wParam);
 }
 
 // Windows procedure
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static bool s_in_sizemove = false;
-    static bool s_in_suspend = false;
-    static bool s_minimized = false;
-    static bool s_fullscreen = false;
-    // TODO: Set s_fullscreen to true if defaulting to fullscreen.
+	static bool s_in_sizemove = false;
+	static bool s_in_suspend = false;
+	static bool s_minimized = false;
+	static bool s_fullscreen = false;
+	// TODO: Set s_fullscreen to true if defaulting to fullscreen.
 
-    auto game = reinterpret_cast<Game*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+	auto game = reinterpret_cast<Game*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
-    switch (message)
-    {
-    case WM_CREATE:
-        if (lParam)
-        {
-            auto params = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-            SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(params->lpCreateParams));
-        }
-        break;
+	switch (message)
+	{
+	case WM_CREATE:
+		if (lParam)
+		{
+			auto params = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+			SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(params->lpCreateParams));
+		}
+		break;
 
-    case WM_PAINT:
-        if (s_in_sizemove && game)
-        {
-            game->Tick();
-        }
-        else
-        {
-            PAINTSTRUCT ps;
-            std::ignore = BeginPaint(hWnd, &ps);
-            EndPaint(hWnd, &ps);
-        }
-        break;
+	case WM_PAINT:
+		if (s_in_sizemove && game)
+		{
+			game->Tick();
+		}
+		else
+		{
+			PAINTSTRUCT ps;
+			std::ignore = BeginPaint(hWnd, &ps);
+			EndPaint(hWnd, &ps);
+		}
+		break;
 
-    case WM_DISPLAYCHANGE:
-        if (game)
-        {
-            game->OnDisplayChange();
-        }
-        break;
+	case WM_DISPLAYCHANGE:
+		if (game)
+		{
+			game->OnDisplayChange();
+		}
+		break;
 
-    case WM_MOVE:
-        if (game)
-        {
-            game->OnWindowMoved();
-        }
-        break;
+	case WM_MOVE:
+		if (game)
+		{
+			game->OnWindowMoved();
+		}
+		break;
 
-        //case WM_SIZE:
-        //    if (wParam == SIZE_MINIMIZED)
-        //    {
-        //        if (!s_minimized)
-        //        {
-        //            s_minimized = true;
-        //            if (!s_in_suspend && game)
-        //                game->OnSuspending();
-        //            s_in_suspend = true;
-        //        }
-        //    }
-        //    else if (s_minimized)
-        //    {
-        //        s_minimized = false;
-        //        if (s_in_suspend && game)
-        //            game->OnResuming();
-        //        s_in_suspend = false;
-        //    }
-        //    else if (!s_in_sizemove && game)
-        //    {
-        //        game->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
-        //    }
-        //    break;
+		//case WM_SIZE:
+		//    if (wParam == SIZE_MINIMIZED)
+		//    {
+		//        if (!s_minimized)
+		//        {
+		//            s_minimized = true;
+		//            if (!s_in_suspend && game)
+		//                game->OnSuspending();
+		//            s_in_suspend = true;
+		//        }
+		//    }
+		//    else if (s_minimized)
+		//    {
+		//        s_minimized = false;
+		//        if (s_in_suspend && game)
+		//            game->OnResuming();
+		//        s_in_suspend = false;
+		//    }
+		//    else if (!s_in_sizemove && game)
+		//    {
+		//        game->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+		//    }
+		//    break;
 
-    case WM_ENTERSIZEMOVE:
-        s_in_sizemove = true;
-        break;
+	case WM_ENTERSIZEMOVE:
+		s_in_sizemove = true;
+		break;
 
-    case WM_EXITSIZEMOVE:
-        s_in_sizemove = false;
-        if (game)
-        {
-            RECT rc;
-            GetClientRect(hWnd, &rc);
+	case WM_EXITSIZEMOVE:
+		s_in_sizemove = false;
+		if (game)
+		{
+			RECT rc;
+			GetClientRect(hWnd, &rc);
 
-            game->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
-        }
-        break;
+			game->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+		}
+		break;
 
-    case WM_GETMINMAXINFO:
-        if (lParam)
-        {
-            auto info = reinterpret_cast<MINMAXINFO*>(lParam);
-            info->ptMinTrackSize.x = 320;
-            info->ptMinTrackSize.y = 200;
-        }
-        break;
+	case WM_GETMINMAXINFO:
+		if (lParam)
+		{
+			auto info = reinterpret_cast<MINMAXINFO*>(lParam);
+			info->ptMinTrackSize.x = 320;
+			info->ptMinTrackSize.y = 200;
+		}
+		break;
 
-    case WM_ACTIVATEAPP:
+	case WM_ACTIVATEAPP:
 
-        Keyboard::ProcessMessage(message, wParam, lParam);
-        Mouse::ProcessMessage(message, wParam, lParam);
+		Keyboard::ProcessMessage(message, wParam, lParam);
+		Mouse::ProcessMessage(message, wParam, lParam);
 
-        if (game)
-        {
-            if (wParam)
-            {
-                game->OnActivated();
-            }
-            else
-            {
-                game->OnDeactivated();
-            }
-        }
-        break;
+		if (game)
+		{
+			if (wParam)
+			{
+				game->OnActivated();
+			}
+			else
+			{
+				game->OnDeactivated();
+			}
+		}
+		break;
 
-    case WM_POWERBROADCAST:
-        switch (wParam)
-        {
-        case PBT_APMQUERYSUSPEND:
-            if (!s_in_suspend && game)
-                game->OnSuspending();
-            s_in_suspend = true;
-            return TRUE;
+	case WM_POWERBROADCAST:
+		switch (wParam)
+		{
+		case PBT_APMQUERYSUSPEND:
+			if (!s_in_suspend && game)
+				game->OnSuspending();
+			s_in_suspend = true;
+			return TRUE;
 
-        case PBT_APMRESUMESUSPEND:
-            if (!s_minimized)
-            {
-                if (s_in_suspend && game)
-                    game->OnResuming();
-                s_in_suspend = false;
-            }
-            return TRUE;
+		case PBT_APMRESUMESUSPEND:
+			if (!s_minimized)
+			{
+				if (s_in_suspend && game)
+					game->OnResuming();
+				s_in_suspend = false;
+			}
+			return TRUE;
 
-        default:
-            break;
-        }
-        break;
+		default:
+			break;
+		}
+		break;
 
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
 
-    case WM_SYSKEYDOWN:
-        if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
-        {
-            WindowManager::Instance().SwitchScreenMode(hWnd, game);
-        }
+	case WM_SYSKEYDOWN:
+		if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
+		{
+			WindowManager::Instance().SwitchScreenMode(hWnd, game);
+		}
 
-        Keyboard::ProcessMessage(message, wParam, lParam);
+		Keyboard::ProcessMessage(message, wParam, lParam);
 
-        break;
+		break;
 
-    case WM_MENUCHAR:
-        // A menu is active and the user presses a key that does not correspond
-        // to any mnemonic or accelerator key. Ignore so we don't produce an error beep.
-        return MAKELRESULT(0, MNC_CLOSE);
+	case WM_MENUCHAR:
+		// A menu is active and the user presses a key that does not correspond
+		// to any mnemonic or accelerator key. Ignore so we don't produce an error beep.
+		return MAKELRESULT(0, MNC_CLOSE);
 
-    case WM_ACTIVATE:
-        Keyboard::ProcessMessage(message, wParam, lParam);
-        Mouse::ProcessMessage(message, wParam, lParam);
-        break;
+	case WM_ACTIVATE:
+		Keyboard::ProcessMessage(message, wParam, lParam);
+		Mouse::ProcessMessage(message, wParam, lParam);
+		break;
 
-    case WM_KEYDOWN:
-    case WM_KEYUP:
-    case WM_SYSKEYUP:
-        Keyboard::ProcessMessage(message, wParam, lParam);
-        break;
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		Keyboard::ProcessMessage(message, wParam, lParam);
+		break;
 
-    case WM_INPUT:
-    case WM_MOUSEMOVE:
-    case WM_LBUTTONDOWN:
-    case WM_LBUTTONUP:
-    case WM_RBUTTONDOWN:
-    case WM_RBUTTONUP:
-    case WM_MBUTTONDOWN:
-    case WM_MBUTTONUP:
-    case WM_MOUSEWHEEL:
-    case WM_XBUTTONDOWN:
-    case WM_XBUTTONUP:
-    case WM_MOUSEHOVER:
-        Mouse::ProcessMessage(message, wParam, lParam);
-        break;
+	case WM_INPUT:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_MOUSEWHEEL:
+	case WM_XBUTTONDOWN:
+	case WM_XBUTTONUP:
+	case WM_MOUSEHOVER:
+		Mouse::ProcessMessage(message, wParam, lParam);
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 
-    return DefWindowProc(hWnd, message, wParam, lParam);
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 // Exit helper
 void ExitGame() noexcept
 {
-    PostQuitMessage(0);
+	PostQuitMessage(0);
 }

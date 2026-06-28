@@ -1,13 +1,13 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : EnemyManager.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : EnemyManager.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v       : “GŠÇ—ƒNƒ‰ƒX
+// æ¦‚è¦       : æ•µç®¡ç†ã‚¯ãƒ©ã‚¹
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "EnemyManager.h"
@@ -16,38 +16,38 @@
 #include "../Player/Player.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void EnemyManager::Initialize()
 {
-	// ƒOƒ‰ƒt‚Ì‰Šú‰»
+	// ã‚°ãƒ©ãƒ•ã®åˆæœŸåŒ–
 	m_normalNavigation.ResetGraph();
 
 	m_normalNavigation.Initialize();
 
-	// 2DƒOƒ‰ƒt‚Ì‰Šú‰»
+	// 2Dã‚°ãƒ©ãƒ•ã®åˆæœŸåŒ–
 	m_normalNavigation2D.ResetGraph();
 
 	m_normalNavigation2D.Initialize();
 
-	// ƒtƒ‰ƒO‚ÌƒŠƒZƒbƒg
+	// ãƒ•ãƒ©ã‚°ã®ãƒªã‚»ãƒƒãƒˆ
 	m_is2D = false;
 }
 
 void EnemyManager::Update(const GameTimer& timer)
 {
-	// ŠÔ‚ğ‰ÁZ
+	// æ™‚é–“ã‚’åŠ ç®—
 	m_nowTime += timer.GetElapsedTime();
 
-	// —\–ñ‚Ì”½‰f
+	// äºˆç´„ã®åæ˜ 
 	AddReserved();
 	RemoveReserved();
 
-	// XVŠÔŠu‚ğ’´‚¦‚½‚ç
+	// æ›´æ–°é–“éš”ã‚’è¶…ãˆãŸã‚‰
 	if (m_nowTime >= GRAPH_UPDATE_DISTANCE)
 	{
-		// ƒOƒ‰ƒt‚ğXV
+		// ã‚°ãƒ©ãƒ•ã‚’æ›´æ–°
 		if (m_is2D)
 		{
 			m_normalNavigation2D.Update();
@@ -58,140 +58,140 @@ void EnemyManager::Update(const GameTimer& timer)
 			m_normalNavigation.Update();
 		}
 
-		// ƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg
+		// ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
 		m_nowTime = 0;
 	}
 
-	// ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ğæ“¾
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã‚’å–å¾—
 	DirectX::SimpleMath::Vector3 playerPos = m_playerTransform->GetWorldPosition();
 
-	// ƒvƒŒƒCƒ„[‚ªˆê’èˆÈã“®‚¢‚½‚ç“G‚Ì“¹‚ğÄŒvZ‚·‚é
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä¸€å®šä»¥ä¸Šå‹•ã„ãŸã‚‰æ•µã®é“ã‚’å†è¨ˆç®—ã™ã‚‹
 	if ((playerPos - m_oldPlayerPosition).LengthSquared() >= WAY_UPDATE_BORDER)
 	{
-		// 2ŸŒ³‚Ì
+		// 2æ¬¡å…ƒã®æ™‚
 		if (m_is2D)
 		{
-			// ƒvƒŒƒCƒ„[‚ÌŒó•â“_
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å€™è£œç‚¹
 			LandingCandidatePoints2D* playerPoints = nullptr;
 
-			// ƒvƒŒƒCƒ„[ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‚ ‚ê‚Î
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒã‚ã‚Œã°
 			if (auto pl = m_playerTransform->GetOwn()->GetComponent<Player>())
 			{
 				playerPoints = pl->GetLandingPoints2D();
 			}
 
-			// ƒvƒŒƒCƒ„[‚ª‚È‚¢ or ‚Ü‚¾–¢’…’n‚È‚çƒXƒLƒbƒv
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãªã„ or ã¾ã æœªç€åœ°ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 			if (!playerPoints) return;
 
-			// ƒvƒŒƒCƒ„[‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 			size_t playerIndex = m_normalNavigation2D.GetIndex(playerPoints);
 
-			// “o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+			// ç™»éŒ²ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 			if (playerIndex == -1) return;
 
-			// ƒm[ƒh‚ğæ“¾
+			// ãƒãƒ¼ãƒ‰ã‚’å–å¾—
 			auto& nodes = m_normalNavigation2D.GetNodes();
 
-			// ‘S‚Ä‚Ì“G‚ğƒ`ƒFƒbƒN
+			// å…¨ã¦ã®æ•µã‚’ãƒã‚§ãƒƒã‚¯
 			for (auto& enemy : m_enemies)
 			{
-				// “G‚ÌŒó•â“_‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+				// æ•µã®å€™è£œç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 				size_t enemyIndex = m_normalNavigation2D.GetIndex(enemy->GetLandingPoints2D());
 
-				// “o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+				// ç™»éŒ²ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 				if (enemyIndex == -1) continue;
 
-				// “¹‚ğÄŒvZ
+				// é“ã‚’å†è¨ˆç®—
 				auto edges = AStarPathFinder::MakePath(m_normalNavigation2D, enemyIndex, playerIndex);
 				m_debugPath = edges;
 
-				// À•W‚É•ÏŠ·
+				// åº§æ¨™ã«å¤‰æ›
 				std::vector<PathFollower::Path2D> way(edges.size());
 
-				// ‘S•Ó‚ğƒ‹[ƒv
+				// å…¨è¾ºã‚’ãƒ«ãƒ¼ãƒ—
 				for (size_t i = 0; i < edges.size(); ++i)
 				{
-					// Œó•â“_‚ğæ“¾
+					// å€™è£œç‚¹ã‚’å–å¾—
 					auto goalPoints = nodes[edges[i].goalIndex]->GetPoints();
 					auto startPoints = nodes[edges[i].ownIndex]->GetPoints();
 
-					// ”ÍˆÍŠOƒ`ƒFƒbƒN
+					// ç¯„å›²å¤–ãƒã‚§ãƒƒã‚¯
 					if (edges[i].goalPoint >= goalPoints.size() || edges[i].startPoint >= startPoints.size()) continue;
 
-					// ƒS[ƒ‹‚ÌÀ•\
+					// ã‚´ãƒ¼ãƒ«ã®åº§è¡¨
 					DirectX::SimpleMath::Vector2 goal = goalPoints[edges[i].goalPoint];
 
-					// ƒXƒ^[ƒg‚ÌÀ•W
+					// ã‚¹ã‚¿ãƒ¼ãƒˆã®åº§æ¨™
 					DirectX::SimpleMath::Vector2 start = startPoints[edges[i].startPoint];
 
-					// ƒpƒX‚É’Ç‰Á
+					// ãƒ‘ã‚¹ã«è¿½åŠ 
 					way[i] = { start, goal, edges[i].cost };
 				}
 
-				// “G‚É’Ê’m
+				// æ•µã«é€šçŸ¥
 				enemy->SetWay(way);
 			}
 		}
 		else
 		{
-			// ƒvƒŒƒCƒ„[‚ÌŒó•â“_
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å€™è£œç‚¹
 			LandingCandidatePoints* playerPoints = nullptr;
 
-			// ƒvƒŒƒCƒ„[ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‚ ‚ê‚Î
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒã‚ã‚Œã°
 			if (auto pl = m_playerTransform->GetOwn()->GetComponent<Player>())
 			{
 				playerPoints = pl->GetLandingPoints();
 			}
 
-			// ƒvƒŒƒCƒ„[‚ª‚È‚¢ or ‚Ü‚¾–¢’…’n‚È‚çƒXƒLƒbƒv
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãªã„ or ã¾ã æœªç€åœ°ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 			if (!playerPoints) return;
 
-			// ƒvƒŒƒCƒ„[‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 			size_t playerIndex = m_normalNavigation.GetIndex(playerPoints);
 
-			// “o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+			// ç™»éŒ²ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 			if (playerIndex == -1) return;
 
-			// ƒm[ƒh‚ğæ“¾
+			// ãƒãƒ¼ãƒ‰ã‚’å–å¾—
 			auto& nodes = m_normalNavigation.GetNodes();
 
-			// ‘S‚Ä‚Ì“G‚ğƒ`ƒFƒbƒN
+			// å…¨ã¦ã®æ•µã‚’ãƒã‚§ãƒƒã‚¯
 			for (auto& enemy : m_enemies)
 			{
-				// “G‚ÌŒó•â“_‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+				// æ•µã®å€™è£œç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
 				size_t enemyIndex = m_normalNavigation.GetIndex(enemy->GetLandingPoints());
 
-				// “o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+				// ç™»éŒ²ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 				if (enemyIndex == -1) continue;
 
-				// “¹‚ğÄŒvZ
+				// é“ã‚’å†è¨ˆç®—
 				auto edges = AStarPathFinder::MakePath(m_normalNavigation, enemyIndex, playerIndex);
 				m_debugPath = edges;
 
-				// À•W‚É•ÏŠ·
+				// åº§æ¨™ã«å¤‰æ›
 				std::vector<PathFollower::Path> way(edges.size());
 
-				// ‘S•Ó‚ğƒ‹[ƒv
+				// å…¨è¾ºã‚’ãƒ«ãƒ¼ãƒ—
 				for (size_t i = 0; i < edges.size(); ++i)
 				{
-					// Œó•â“_‚ğæ“¾
+					// å€™è£œç‚¹ã‚’å–å¾—
 					auto goalPoints = nodes[edges[i].goalIndex]->GetPoints();
 					auto startPoints = nodes[edges[i].ownIndex]->GetPoints();
 
-					// ”ÍˆÍŠOƒ`ƒFƒbƒN
+					// ç¯„å›²å¤–ãƒã‚§ãƒƒã‚¯
 					if (edges[i].goalPoint >= goalPoints.size() || edges[i].startPoint >= startPoints.size()) continue;
 
-					// ƒS[ƒ‹‚ÌÀ•\
+					// ã‚´ãƒ¼ãƒ«ã®åº§è¡¨
 					DirectX::SimpleMath::Vector3 goal = goalPoints[edges[i].goalPoint];
 
-					// ƒXƒ^[ƒg‚ÌÀ•W
+					// ã‚¹ã‚¿ãƒ¼ãƒˆã®åº§æ¨™
 					DirectX::SimpleMath::Vector3 start = startPoints[edges[i].startPoint];
 
-					// ƒpƒX‚É’Ç‰Á
+					// ãƒ‘ã‚¹ã«è¿½åŠ 
 					way[i] = { start, goal, edges[i].cost };
 				}
 
-				// “G‚É’Ê’m
+				// æ•µã«é€šçŸ¥
 				enemy->SetWay(way);
 			}
 		}
@@ -206,19 +206,19 @@ void EnemyManager::DebugRenderer(Renderer& renderer)
 
 void EnemyManager::ChangeDimantion()
 {
-	// ©g‚Ìƒtƒ‰ƒO‚ğ•ÏX
+	// è‡ªèº«ã®ãƒ•ãƒ©ã‚°ã‚’å¤‰æ›´
 	m_is2D = !m_is2D;
 
-	// ŠÇ—‚µ‚Ä‚¢‚é‘S‚Ä‚Ì“G‚ğ•ÏX
+	// ç®¡ç†ã—ã¦ã„ã‚‹å…¨ã¦ã®æ•µã‚’å¤‰æ›´
 	for (auto& enemy : m_enemies)
 	{
-		// ŸŒ³‚ğ•ÏX
+		// æ¬¡å…ƒã‚’å¤‰æ›´
 		enemy->SetIs2D(m_is2D);
 	}
 
 	if (m_is2D)
 	{
-		// 2DƒOƒ‰ƒt‚Ì‰Šú‰»
+		// 2Dã‚°ãƒ©ãƒ•ã®åˆæœŸåŒ–
 		m_normalNavigation2D.Initialize();
 	}
 }

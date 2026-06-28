@@ -1,112 +1,118 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : LandingCandidatePoints2D.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/14
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : LandingCandidatePoints2D.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/14
 //
-// ŠT—v : 2D‚Ì’…’nŒó•â“_ƒRƒ“ƒ|[ƒlƒ“ƒg
-//       “GAI‚Ég—p‚·‚é’…’nŒó•â“_‚ğ¦‚·ƒRƒ“ƒ|[ƒlƒ“ƒg‚Å‚·
+// æ¦‚è¦ : 2Dã®ç€åœ°å€™è£œç‚¹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+//       æ•µAIã«ä½¿ç”¨ã™ã‚‹ç€åœ°å€™è£œç‚¹ã‚’ç¤ºã™ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã§ã™
 //
-// XV—š—ğ :
-// 2026/06/14 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/14 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
-#include "GameLib/GameObject/Components/Collider/2D/BaseCollider2D.h"
+#include "Components/World/WorldComponentBase.h"
+#include "Components/World/Collider/2D/ColliderBase2D.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class LandingCandidatePoints2D : public Component<LandingCandidatePoints2D, ComponentID::LandingCandidatePoints2D>
+class LandingCandidatePoints2D : public WorldComponentBase
 {
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
-    static constexpr float CONVEX_UP_BORDER = 1.0f / 1.41421356;
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
+	static constexpr float CONVEX_UP_BORDER = 1.0f / 1.41421356;
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ’…’nŒó•â“_
-    std::vector<DirectX::SimpleMath::Vector2> m_candidatePoints;
+	// ç€åœ°å€™è£œç‚¹
+	std::vector<DirectX::SimpleMath::Vector2> m_candidatePoints;
 
-    // ’†S“_
-    DirectX::SimpleMath::Vector2 m_centerPoint;
+	// ä¸­å¿ƒç‚¹
+	DirectX::SimpleMath::Vector2 m_centerPoint;
 
-    // ©g‚Æ‘Î‰‚·‚éƒRƒ‰ƒCƒ_[
-    BaseCollider2D* m_ownCollider;
+	// è‡ªèº«ã¨å¯¾å¿œã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	ColliderBase2D* m_ownCollider;
 
-    // ƒo[ƒWƒ‡ƒ“
-    uint32_t m_latestVersion;
+	// ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+	uint32_t m_latestVersion;
 
-    // •ÏXÏ‚İƒtƒ‰ƒO
-    bool m_isChanged;
+	// å¤‰æ›´æ¸ˆã¿ãƒ•ãƒ©ã‚°
+	bool m_isChanged;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    LandingCandidatePoints2D(IComponentOwner* owner)
-        : Component(owner)
-        , m_candidatePoints(0)
-        , m_centerPoint{}
-        , m_ownCollider{ nullptr }
-        , m_latestVersion{ 0 }
-        , m_isChanged{ true }
-    {
-    }
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	LandingCandidatePoints2D(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+		, m_candidatePoints(0)
+		, m_centerPoint{}
+		, m_ownCollider{ nullptr }
+		, m_latestVersion{ 0 }
+		, m_isChanged{ true }
+	{
+	}
 
-    ~LandingCandidatePoints2D() = default;
+	~LandingCandidatePoints2D() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Awake() override;
+	void Awake() override;
 
-    void Start() override;
+	void Start() override;
 
-    void Update(const GameTimer& gameTimer) override;
+	void Update(const GameTimer& gameTimer) override;
 
-    BaseCollider2D* GetOwnCollider() const { return m_ownCollider; }
+	ColliderBase2D* GetOwnCollider() const { return m_ownCollider; }
 
-    // Œó•â“_‚ğ‚·‚×‚Äæ“¾‚·‚éŠÖ”
-    const std::vector<DirectX::SimpleMath::Vector2>& GetPoints() const { return m_candidatePoints; }
+	// å€™è£œç‚¹ã‚’ã™ã¹ã¦å–å¾—ã™ã‚‹é–¢æ•°
+	const std::vector<DirectX::SimpleMath::Vector2>& GetPoints() const { return m_candidatePoints; }
 
-    // ’†SÀ•W‚ğ•Ô‚·ŠÖ”
-    const DirectX::SimpleMath::Vector2& GetCenterPoint() const { return m_centerPoint; }
+	// ä¸­å¿ƒåº§æ¨™ã‚’è¿”ã™é–¢æ•°
+	const DirectX::SimpleMath::Vector2& GetCenterPoint() const { return m_centerPoint; }
 
-    // ƒtƒ‰ƒOƒŠƒZƒbƒg
-    void ResetChangedFlag() { m_isChanged = false; }
+	// ãƒ•ãƒ©ã‚°ãƒªã‚»ãƒƒãƒˆ
+	void ResetChangedFlag() { m_isChanged = false; }
 
-    // ƒtƒ‰ƒO‚ğ•Ô‚·
-    bool IsChanged() const { return m_isChanged; }
+	// ãƒ•ãƒ©ã‚°ã‚’è¿”ã™
+	bool IsChanged() const { return m_isChanged; }
+
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<LandingCandidatePoints2D>();
+	}
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // Œó•â“_‚ÌÀ•W‚ğì¬‚·‚éŠÖ”
-    void UpdateCandidatePoints();
+	// å€™è£œç‚¹ã®åº§æ¨™ã‚’ä½œæˆã™ã‚‹é–¢æ•°
+	void UpdateCandidatePoints();
 
-    // ƒ{ƒbƒNƒXƒRƒ‰ƒCƒ_[‚Ìê‡
-    void UpdateCandidatePointsOnBox();
+	// ãƒœãƒƒã‚¯ã‚¹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å ´åˆ
+	void UpdateCandidatePointsOnBox();
 
-    // “Êƒ|ƒŠƒSƒ“‚Ìê‡
-    void UpdateCandidatePointsOnConvexPolygon();
+	// å‡¸ãƒãƒªã‚´ãƒ³ã®å ´åˆ
+	void UpdateCandidatePointsOnConvexPolygon();
 };

@@ -1,22 +1,22 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : Enemy.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : Enemy.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v       : “GƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : æ•µã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "Enemy.h"
 
-#include "GameLib/GameObject/Managers/HitContact.h"
-#include "GameLib/GameObject/Components/RigidBody/3D/RigidBody.h"
-#include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
+#include "Physics/HitContact.h"
+#include "Components/World/RigidBody/RigidBody.h"
+#include "Components/World/RigidBody/RigidBody2D.h"
 
-// ƒXƒe[ƒg
+// ã‚¹ãƒ†ãƒ¼ãƒˆ
 #include "State/EnemyIdleState.h"
 #include "State/3D/EnemyJumpState.h"
 #include "State/3D/EnemyMoveState.h"
@@ -24,73 +24,73 @@
 #include "State/2D/Enemy2DJumpState.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void Enemy::Awake()
 {
-	// ƒXƒe[ƒg‚Ì’Ç‰Á
+	// ã‚¹ãƒ†ãƒ¼ãƒˆã®è¿½åŠ 
 
-	// ƒAƒCƒhƒ‹
+	// ã‚¢ã‚¤ãƒ‰ãƒ«
 	m_stateMachine.RegisterState(EnemyStateID::Idle, std::make_unique<EnemyIdleState>(this));
 
-	// ƒWƒƒƒ“ƒv
+	// ã‚¸ãƒ£ãƒ³ãƒ—
 	m_stateMachine.RegisterState(EnemyStateID::Jump, std::make_unique<EnemyJumpState>(this));
 	m_stateMachine.RegisterState(EnemyStateID::Jump2D, std::make_unique<Enemy2DJumpState>(this));
 
-	// ˆÚ“®
+	// ç§»å‹•
 	m_stateMachine.RegisterState(EnemyStateID::Move, std::make_unique<EnemyMoveState>(this));
 	m_stateMachine.RegisterState(EnemyStateID::Move2D, std::make_unique<Enemy2DMoveState>(this));
 
-	// ‰Šúó‘Ô‚ğƒAƒCƒhƒ‹‚Éİ’è
+	// åˆæœŸçŠ¶æ…‹ã‚’ã‚¢ã‚¤ãƒ‰ãƒ«ã«è¨­å®š
 	m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
 
-	// •¨—ƒ}ƒeƒŠƒAƒ‹‚Ìİ’è
+	// ç‰©ç†ãƒãƒ†ãƒªã‚¢ãƒ«ã®è¨­å®š
 	m_physicsMaterial.SetBounciness(0.0f);
 	m_physicsMaterial.SetBounceCombine(CombineMode::Minimum);
 
-	if (auto cl = GetComponent<BaseCollider>())
+	if (auto cl = GetOwn()->GetComponentWithCategory(ComponentCategory::Collider))
 	{
-		cl->SetPhysicsMaterial(&m_physicsMaterial);
+		static_cast<ColliderBase*>(cl)->SetPhysicsMaterial(&m_physicsMaterial);
 	}
 }
 
 void Enemy::Start()
 {
-	// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾
+	// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 	m_pTransform = GetComponent<Transform>();
 }
 
 void Enemy::Update(const GameTimer& gameTimer)
 {
-	// ƒXƒe[ƒgƒ}ƒVƒ“‚ÌXV
+	// ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã®æ›´æ–°
 	m_stateMachine.Update(gameTimer);
 
-	// ‚à‚µIdleó‘Ô‚Å‚Í‚È‚¢ê‡
+	// ã‚‚ã—IdleçŠ¶æ…‹ã§ã¯ãªã„å ´åˆ
 	if (m_stateMachine.GetCurrentStateType() != EnemyStateID::Idle)
 	{
 		if (m_is2D)
 		{
-			// RigidBody2D‚ğæ“¾
+			// RigidBody2Dã‚’å–å¾—
 			if (auto rb = GetComponent<RigidBody2D>())
 			{
-				// “®‚¢‚Ä‚¢‚È‚¯‚ê‚Î
+				// å‹•ã„ã¦ã„ãªã‘ã‚Œã°
 				if (rb->GetVelocity().LengthSquared() <= FLT_EPSILON)
 				{
-					// Idle‚Ö–ß‚·
+					// Idleã¸æˆ»ã™
 					m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
 				}
 			}
 		}
 		else
 		{
-			// RigidBody‚ğæ“¾
+			// RigidBodyã‚’å–å¾—
 			if (auto rb = GetComponent<RigidBody>())
 			{
-				// “®‚¢‚Ä‚¢‚È‚¯‚ê‚Î
+				// å‹•ã„ã¦ã„ãªã‘ã‚Œã°
 				if (rb->GetVelocity().LengthSquared() <= FLT_EPSILON)
 				{
-					// Idle‚Ö–ß‚·
+					// Idleã¸æˆ»ã™
 					m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
 				}
 			}
@@ -100,36 +100,36 @@ void Enemy::Update(const GameTimer& gameTimer)
 
 void Enemy::OnCollisionEnter(HitContact & hit)
 {
-	// Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ªŒó•â“_‚ğ‚Á‚Ä‚¢‚½‚ç
+	// è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå€™è£œç‚¹ã‚’æŒã£ã¦ã„ãŸã‚‰
 	if (auto comp = hit.other->GetComponent<LandingCandidatePoints>())
 	{
-		// Õ“Ë–@ü‚ªãŒü‚«‚È‚ç
+		// è¡çªæ³•ç·šãŒä¸Šå‘ããªã‚‰
 		if (hit.normal.y < 0)
 		{
-			// XV
+			// æ›´æ–°
 			m_lastPoints = comp;
 
 			m_isGround = true;
 		}
 	}
 
-	// ‚Á‚Ä‚¢‚È‚¯‚ê‚Î
+	// æŒã£ã¦ã„ãªã‘ã‚Œã°
 	else
 	{
-		// Idle‚Ö
+		// Idleã¸
 		m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
 	}
 }
 
 void Enemy::OnCollisionExit(HitContact & hit)
 {
-	// Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ªŒó•â“_‚ğ‚Á‚Ä‚¢‚½‚ç
+	// è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå€™è£œç‚¹ã‚’æŒã£ã¦ã„ãŸã‚‰
 	if (auto comp = hit.other->GetComponent<LandingCandidatePoints>())
 	{
-		// ÅV‚Æˆê’v‚µ‚Ä‚¢‚½‚ç
+		// æœ€æ–°ã¨ä¸€è‡´ã—ã¦ã„ãŸã‚‰
 		if (comp == m_lastPoints)
 		{
-			// ƒŠƒZƒbƒg
+			// ãƒªã‚»ãƒƒãƒˆ
 			m_lastPoints = nullptr;
 
 			m_isGround = false;
@@ -139,36 +139,36 @@ void Enemy::OnCollisionExit(HitContact & hit)
 
 void Enemy::OnCollisionEnter2D(HitContact2D& hit)
 {
-	// Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ªŒó•â“_‚ğ‚Á‚Ä‚¢‚½‚ç
+	// è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå€™è£œç‚¹ã‚’æŒã£ã¦ã„ãŸã‚‰
 	if (auto comp = hit.other->GetComponent<LandingCandidatePoints2D>())
 	{
-		// Õ“Ë–@ü‚ªãŒü‚«‚È‚ç
+		// è¡çªæ³•ç·šãŒä¸Šå‘ããªã‚‰
 		if (hit.normal.y < 0)
 		{
-			// XV
+			// æ›´æ–°
 			m_lastPoints2D = comp;
 
 			m_isGround = true;
 		}
 	}
 
-	// ‚Á‚Ä‚¢‚È‚¯‚ê‚Î
+	// æŒã£ã¦ã„ãªã‘ã‚Œã°
 	else
 	{
-		// Idle‚Ö
+		// Idleã¸
 		m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
 	}
 }
 
 void Enemy::OnCollisionExit2D(HitContact2D & hit)
 {
-	// Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ªŒó•â“_‚ğ‚Á‚Ä‚¢‚½‚ç
+	// è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå€™è£œç‚¹ã‚’æŒã£ã¦ã„ãŸã‚‰
 	if (auto comp = hit.other->GetComponent<LandingCandidatePoints2D>())
 	{
-		// ÅV‚Æˆê’v‚µ‚Ä‚¢‚½‚ç
+		// æœ€æ–°ã¨ä¸€è‡´ã—ã¦ã„ãŸã‚‰
 		if (comp == m_lastPoints2D)
 		{
-			// ƒŠƒZƒbƒg
+			// ãƒªã‚»ãƒƒãƒˆ
 			m_lastPoints2D = nullptr;
 
 			m_isGround = false;

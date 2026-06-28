@@ -1,45 +1,61 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : ChangeColliderComponent.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/02
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : ChangeColliderComponent.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/02
 //
-// ŠT—v       : ƒRƒ‰ƒCƒ_[‚ÌØ‚è‘Ö‚¦‚ğs‚¤ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œã†ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
+#include <array>
+
 #include "ChangeColliderComponent.h"
 
-#include "GameLib/GameObject/GameObject.h"
+#include "Components/World/RigidBody/RigidBody.h"
+#include "Components/World/RigidBody/RigidBody2D.h"
+#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
+
+#include "GameObject/GameObject.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
-void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
+void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 {
-	// 3DƒRƒ‰ƒCƒ_[‚ğæ“¾
-	GetOwn()->GetComponents<BaseCollider>(m_3dColliders);
+	static std::vector<ComponentBase*> components{};
 
-	// 3DƒRƒ‰ƒCƒ_[‚ğƒ`ƒFƒbƒN
+	// 3Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å–å¾—
+	GetOwn()->GetComponentsWithCategory(ComponentCategory::Collider, components);
+
+	m_3dColliders.clear();
+
+	// å¤‰æ›
+	for (auto& component : components)
+	{
+		m_3dColliders.push_back(static_cast<ColliderBase*>(component));
+	}
+
+	// 3Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒã‚§ãƒƒã‚¯
 	for (auto& collider : m_3dColliders)
 	{
-		// –³Œø‰»
+		// ç„¡åŠ¹åŒ–
 		collider->SetActive(false);
 
-		// ƒgƒŠƒK[‚Å‚ ‚ê‚Î¶¬‚µ‚È‚¢
+		// ãƒˆãƒªã‚¬ãƒ¼ã§ã‚ã‚Œã°ç”Ÿæˆã—ãªã„
 		if (collider->IsTrigger()) continue;
 
-		// 2DƒRƒ‰ƒCƒ_[‚ğ¶¬
+		// 2Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆ
 		auto cl2D = Create2DColliderFrom3D(pCamera, collider);
 
-		// •¨—ƒ}ƒeƒŠƒAƒ‹‚ğ‹¤—L
+		// ç‰©ç†ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å…±æœ‰
 		cl2D->SetPhysicsMaterial(collider->GetMutablePhysicsMaterial());
 	}
 
-	// 3D•¨—‹““®‚ğ–³Œø‰»
+	// 3Dç‰©ç†æŒ™å‹•ã‚’ç„¡åŠ¹åŒ–
 	if (RigidBody* rid = GetOwn()->GetComponent<RigidBody>())
 	{
 		rid->SetActive(false);
@@ -51,18 +67,18 @@ void ChangeColliderComponent::Change3DTo2D(BaseCamera* pCamera)
 
 void ChangeColliderComponent::Change2DTo3D()
 {
-	// 2DƒRƒ‰ƒCƒ_[‚ğíœ‚·‚é
+	// 2Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å‰Šé™¤ã™ã‚‹
 	GameObject* owner = static_cast<GameObject*>(GetOwn());
 
-	owner->RemoveComponents<BaseCollider2D>();
+	owner->RemoveComponentsWithCategory(ComponentCategory::Collider2D);
 
-	// 3DƒRƒ‰ƒCƒ_[‚ğ—LŒø‰»‚·‚é
+	// 3Dã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’æœ‰åŠ¹åŒ–ã™ã‚‹
 	for (auto& collider : m_3dColliders)
 	{
 		collider->SetActive(true);
 	}
 
-	// 2D•¨—‹““®‚ğíœ‚·‚é
+	// 2Dç‰©ç†æŒ™å‹•ã‚’å‰Šé™¤ã™ã‚‹
 	if (RigidBody* rid = GetOwn()->GetComponent<RigidBody>())
 	{
 		rid->SetActive(true);
@@ -71,9 +87,9 @@ void ChangeColliderComponent::Change2DTo3D()
 	}	
 }
 
-BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCamera, BaseCollider* p3DCol)
+ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCamera, ColliderBase* p3DCol)
 {
-	// ƒRƒ‰ƒCƒ_[ƒ^ƒCƒv‚ğæ“¾
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚¿ã‚¤ãƒ—ã‚’å–å¾—
 	ColliderType type3D = p3DCol->GetType();
 
 	GameObject* owner = static_cast<GameObject*>(p3DCol->GetOwn());
@@ -81,7 +97,7 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 	DirectX::SimpleMath::Vector3 xAxis = pCamera->GetInverseView().Right();
 	DirectX::SimpleMath::Vector3 yAxis = pCamera->GetInverseView().Up();
 
-	// 3ŸŒ³‚©‚ç2ŸŒ³‚ÖÀ•W•ÏŠ·‚·‚éƒ‰ƒ€ƒ_®
+	// 3æ¬¡å…ƒã‹ã‚‰2æ¬¡å…ƒã¸åº§æ¨™å¤‰æ›ã™ã‚‹ãƒ©ãƒ ãƒ€å¼
 	auto world3DToLocal2D = [&xAxis, &yAxis](DirectX::SimpleMath::Vector3 point) -> DirectX::SimpleMath::Vector2
 		{
 			return
@@ -94,51 +110,51 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 	switch (type3D)
 	{
 
-		// ‹…‚Ìê‡ ‰~‚ğ¶¬‚·‚é
+		// çƒã®å ´åˆ å††ã‚’ç”Ÿæˆã™ã‚‹
 	case ColliderType::Sphere:
 	{
-		// ‹…‚ÌƒRƒ‰ƒCƒ_[‚ÉƒLƒƒƒXƒg
+		// çƒã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«ã‚­ãƒ£ã‚¹ãƒˆ
 		SphereCollider* sphere3D = static_cast<SphereCollider*>(p3DCol);
 
-		// ‚»‚Ì‚Ü‚Ü‰~‚ğ¶¬‚·‚é
+		// ãã®ã¾ã¾å††ã‚’ç”Ÿæˆã™ã‚‹
 		CircleCollider2D* circle2D = owner->AddComponent<CircleCollider2D>();
 
-		// ”¼Œa‚ğİ’è
+		// åŠå¾„ã‚’è¨­å®š
 		circle2D->SetRadius(sphere3D->GetRadius());
 
-		// ¶¬‚µ‚½ƒRƒ‰ƒCƒ_[‚ğ•Ô‚·
+		// ç”Ÿæˆã—ãŸã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’è¿”ã™
 		return circle2D;
 	}
 
-		// ƒJƒvƒZƒ‹‚Ìê‡ ƒJƒvƒZƒ‹‚ğ¶¬‚·‚é
+		// ã‚«ãƒ—ã‚»ãƒ«ã®å ´åˆ ã‚«ãƒ—ã‚»ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	case ColliderType::Capsule:
 	{
-		// ƒJƒvƒZƒ‹‚ÌƒRƒ‰ƒCƒ_[‚ÉƒLƒƒƒXƒg
+		// ã‚«ãƒ—ã‚»ãƒ«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«ã‚­ãƒ£ã‚¹ãƒˆ
 		CapsuleCollider* capsule3D = static_cast<CapsuleCollider*>(p3DCol);
 
-		// 2“_‚ğ2DÀ•W‚É•ÏŠ·
+		// 2ç‚¹ã‚’2Dåº§æ¨™ã«å¤‰æ›
 		std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> points3D = capsule3D->GetPoints();
 		std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points2D =
 		{
 			world3DToLocal2D(points3D.first), world3DToLocal2D(points3D.second)
 		};
 
-		// 2“_‚©‚ç²ƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+		// 2ç‚¹ã‹ã‚‰è»¸ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 		DirectX::SimpleMath::Vector2 axis2D = points2D.second - points2D.first;
 		axis2D.Normalize();
 
-		// ²ƒxƒNƒgƒ‹‚ªX²‚©‚ç‚Ç‚ê‚­‚ç‚¢‰ñ“]‚µ‚Ä‚¢‚é‚©‚ğ‹‚ß‚é
+		// è»¸ãƒ™ã‚¯ãƒˆãƒ«ãŒXè»¸ã‹ã‚‰ã©ã‚Œãã‚‰ã„å›è»¢ã—ã¦ã„ã‚‹ã‹ã‚’æ±‚ã‚ã‚‹
 		float angle = std::atan2f(axis2D.y, axis2D.x);
 
-		// ”¼Œa‚Í‚»‚Ì‚Ü‚Üg—p‚·‚é
+		// åŠå¾„ã¯ãã®ã¾ã¾ä½¿ç”¨ã™ã‚‹
 		float radius = capsule3D->GetRadius();
 
-		// 2“_‚©‚çƒJƒvƒZƒ‹‚Ì‚‚³‚ğ‹‚ß‚é
+		// 2ç‚¹ã‹ã‚‰ã‚«ãƒ—ã‚»ãƒ«ã®é«˜ã•ã‚’æ±‚ã‚ã‚‹
 		float height = (points2D.second - points2D.first).Length() + radius * 2;
 
 		CapsuleCollider2D* capsule2D = owner->AddComponent<CapsuleCollider2D>();
 
-		// İ’è
+		// è¨­å®š
 		capsule2D->SetRadius(radius);
 		capsule2D->SetHeight(height);
 		capsule2D->SetRotation(angle);
@@ -147,12 +163,12 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 		return capsule2D;
 	}
 
-		// ƒ{ƒbƒNƒX‚Ìê‡ ˜ZŠpŒ`‚ğ¶¬‚·‚é
+		// ãƒœãƒƒã‚¯ã‚¹ã®å ´åˆ å…­è§’å½¢ã‚’ç”Ÿæˆã™ã‚‹
 	case ColliderType::Box:
 	{
 		BoxCollider* box3D = static_cast<BoxCollider*>(p3DCol);
 
-		// ƒ{ƒbƒNƒX‚Ìî•ñ‚ğæ“¾
+		// ãƒœãƒƒã‚¯ã‚¹ã®æƒ…å ±ã‚’å–å¾—
 		DirectX::SimpleMath::Vector3 center3D = box3D->GetWorldCenterPos();
 
 		DirectX::SimpleMath::Vector3
@@ -160,40 +176,40 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 			yLocalAxis = box3D->GetYAxis(),
 			zlocalAxis = box3D->GetZAxis();
 
-		// Šp‚Ì8‚ÂA’†S‚Ì1‚Â‚ğ“Š‰e‚µ‚½9“_‚ğæ“¾
+		// è§’ã®8ã¤ã€ä¸­å¿ƒã®1ã¤ã‚’æŠ•å½±ã—ãŸ9ç‚¹ã‚’å–å¾—
 		std::array<DirectX::SimpleMath::Vector2, 8> points;
 
 		for (size_t i = 0; i < 8; ++i)
 		{
-			// 1T‚·‚é‡”Ô‚É‚È‚é‚æ‚¤‚É2,3‚ğ“ü‚ê‘Ö‚¦‚é
+			// 1é€±ã™ã‚‹é †ç•ªã«ãªã‚‹ã‚ˆã†ã«2,3ã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 			size_t bit = i;
 			if (i % 4 == 2) bit++;
 			if (i % 4 == 3) bit--;
 
-			// 3bit‚ğŠe²‚ª+‚©‚Ç‚¤‚©‚Æ‚µ‚Äˆµ‚¤
+			// 3bitã‚’å„è»¸ãŒ+ã‹ã©ã†ã‹ã¨ã—ã¦æ‰±ã†
 			bool xPositive = bit & 0b100;
 			bool yPositive = bit & 0b010;
 			bool zPositive = bit & 0b001;
 
 			DirectX::SimpleMath::Vector3 halfSize = box3D->GetHalfSize();
 
-			// “_‚ğ¶¬
+			// ç‚¹ã‚’ç”Ÿæˆ
 			DirectX::SimpleMath::Vector3 point3D =
 				(xPositive ? xLocalAxis : -xLocalAxis) * halfSize.x +
 				(yPositive ? yLocalAxis : -yLocalAxis) * halfSize.y +
 				(zPositive ? zlocalAxis : -zlocalAxis) * halfSize.z;
 
-			// 2D‚É“Š‰e
+			// 2Dã«æŠ•å½±
 			points[i] = world3DToLocal2D(point3D);
 			points[i].y *= -1;
 		}
 
-		// Å‚à’†S‚É‹ß‚¢“_‚Æ‚»‚Ì”½‘Î‘¤‚É‚ ‚é“_‚ğŠÜ‚ß‚È‚¢‚æ‚¤‚É‚·‚é
+		// æœ€ã‚‚ä¸­å¿ƒã«è¿‘ã„ç‚¹ã¨ãã®åå¯¾å´ã«ã‚ã‚‹ç‚¹ã‚’å«ã‚ãªã„ã‚ˆã†ã«ã™ã‚‹
 
 		size_t index = 0;
 		float min = FLT_MAX;
 
-		// 0~3‚Ü‚Å‰ñ‚¹‚ÎZÀ•W‚ª“¯‚¶4“_‚ğ’²‚×‚ç‚ê‚é
+		// 0~3ã¾ã§å›ã›ã°Zåº§æ¨™ãŒåŒã˜4ç‚¹ã‚’èª¿ã¹ã‚‰ã‚Œã‚‹
 		for (size_t i = 0; i < 4; ++i)
 		{
 			float lenSq = points[i].LengthSquared();
@@ -205,15 +221,15 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 			}
 		}
 
-		// ŠÜ‚ß‚È‚¢2“_‚ÌƒCƒ“ƒfƒbƒNƒX‚ğZo
+		// å«ã‚ãªã„2ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç®—å‡º
 		size_t exclude[2] = { index, ((index + 2) % 4) + 4 };
 
-		// 2D‚Ì˜ZŠpŒ`ƒRƒ‰ƒCƒ_[‚ğ¶¬
+		// 2Dã®å…­è§’å½¢ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆ
 		ConvexPolygonCollider2D* collider = owner->AddComponent<ConvexPolygonCollider2D>();
 
 		size_t num = exclude[0];
 
-		// Å‰‚Ì3ŒÂ
+		// æœ€åˆã®3å€‹
 		for (size_t i = 0; i < 3; ++i)
 		{
 			num = (num + 1) % 4;
@@ -221,12 +237,15 @@ BaseCollider2D* ChangeColliderComponent::Create2DColliderFrom3D(BaseCamera* pCam
 			collider->AddVertex(points[num]);
 		}
 		
-		// Ÿ‚Ì3ŒÂ
+		// æ¬¡ã®3å€‹
 		for (size_t i = 0; i < 3; ++i)
 		{
 			collider->AddVertex(points[num + 4]);
 			num = (num + 1) % 4;
 		}
+
+		// å¿…ãšæ™‚è¨ˆå›ã‚Šã«ãªã‚‹ã‚ˆã†ã«è£œæ­£
+		collider->CorrectionClockWise();
 
 		return collider;
 	}

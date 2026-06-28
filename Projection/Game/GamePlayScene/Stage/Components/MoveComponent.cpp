@@ -1,22 +1,22 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : MoveComponent.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : MoveComponent.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v       : ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "MoveComponent.h"
 
-#include "GameLib/GameObject/Components/Transform/Transform.h"
-#include "GameLib/GameObject/Managers/HitContact.h"
+#include "Components/World/Transform/Transform.h"
+#include "Physics/HitContact.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void MoveComponent::Awake()
@@ -24,7 +24,7 @@ void MoveComponent::Awake()
 
 void MoveComponent::Start()
 {
-	// Å‰‚ÌÀ•W‚ğæ“¾
+	// æœ€åˆã®åº§æ¨™ã‚’å–å¾—
 	m_initPoint = GetComponent<Transform>()->GetWorldPosition();
 
 	m_sumTime = 0;
@@ -32,21 +32,21 @@ void MoveComponent::Start()
 
 void MoveComponent::Update(const GameTimer & gameTimer)
 {
-	// ŠÔ‚ğ‰ÁZ
+	// æ™‚é–“ã‚’åŠ ç®—
 	m_sumTime += gameTimer.GetElapsedTime();
 
-	// ˆÊ’u‚ğİ’è
+	// ä½ç½®ã‚’è¨­å®š
 	GetComponent<Transform>()->SetWorldPosition(m_initPoint + m_moveFunc(m_sumTime));
 
-	// ƒeƒXƒg
+	// ãƒ†ã‚¹ãƒˆ
 	//GetComponent<Transform>()->AddLocalEulerAngle({ 0, gameTimer.GetElapsedTime(), 0 });
 }
 
 void MoveComponent::OnCollisionEnter(HitContact& contact)
 {
-  	if (contact.other->GetTag() == "Player")
+	if (contact.other->GetTag() == "Player")
 	{
-		// ã•ûŒü‚Ì–Ê‚É“–‚½‚Á‚Ä‚¢‚ê‚Î
+		// ä¸Šæ–¹å‘ã®é¢ã«å½“ãŸã£ã¦ã„ã‚Œã°
 		float up = DirectX::SimpleMath::Vector3::UnitY.Dot(contact.normal);
 
 		if (up > BORDER)

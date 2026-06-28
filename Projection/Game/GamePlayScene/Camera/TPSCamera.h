@@ -1,84 +1,90 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : TPSCamera.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/07
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : TPSCamera.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/07
 //
-// ŠT—v : ƒJƒƒ‰‚ğTPS—p‚É“®‚©‚·ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦ : ã‚«ãƒ¡ãƒ©ã‚’TPSç”¨ã«å‹•ã‹ã™ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //
-// XV—š—ğ :
-// 2026/06/07 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/07 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
-#include "GameLib/GameObject/Components/Transform/Transform.h"
+#include "Components/World/WorldComponentBase.h"
+#include "Components/World/Transform/Transform.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class TPSCamera : public Component<TPSCamera, ComponentID::TPSCamera>
+class TPSCamera : public WorldComponentBase
 {
-    // Š´“x
-    static constexpr float SENSITIVITY = 0.5f;
+	// æ„Ÿåº¦
+	static constexpr float SENSITIVITY = 0.5f;
 
-    static constexpr float DISTANCE = 5.0f;
+	static constexpr float DISTANCE = 5.0f;
 
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
 
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    Transform* m_pOwnTransform;
-    Transform* m_pTargetTransform;
+	Transform* m_pOwnTransform;
+	Transform* m_pTargetTransform;
 
-    DirectX::SimpleMath::Vector2 m_angle;
+	DirectX::SimpleMath::Vector2 m_angle;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    TPSCamera(IComponentOwner* owner)
-        : Component(owner)
-        , m_pOwnTransform{ nullptr }
-        , m_pTargetTransform{ nullptr }
-        , m_angle{ 0.0f, 0.0f }
-    {
-    }
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	TPSCamera(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+		, m_pOwnTransform{ nullptr }
+		, m_pTargetTransform{ nullptr }
+		, m_angle{ 0.0f, 0.0f }
+	{
+	}
 
-    ~TPSCamera() = default;
+	~TPSCamera() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Awake() override;
+	void Awake() override;
 
-    void Start() override;
+	void Start() override;
 
-    void LateUpdate(const GameTimer& gameTimer) override;
+	void LateUpdate(const GameTimer& gameTimer) override;
 
-    void SetTarget(Transform* t) { m_pTargetTransform = t; }
+	void SetTarget(Transform* t) { m_pTargetTransform = t; }
+
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<TPSCamera>();
+	}
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
 };

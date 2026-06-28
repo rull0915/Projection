@@ -1,151 +1,151 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : DimentionManager.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/06
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : DimentionManager.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/06
 //
-// ŠT—v : ŸŒ³•ÏXŠÇ—ƒNƒ‰ƒX
+// æ¦‚è¦ : æ¬¡å…ƒå¤‰æ›´ç®¡ç†ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/06/06 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/06 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "ChangeColliderComponent.h"
 #include "../Camera/ProjectionSmoothCamera.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 class DimentionManager
 {
 private:
-    // ó‘Ô
-    enum State
-    {
-        World2D,
-        World3D,
-        ChangeTo2D,
-        ChangeTo3D,
-    };
+	// çŠ¶æ…‹
+	enum State
+	{
+		World2D,
+		World3D,
+		ChangeTo2D,
+		ChangeTo3D,
+	};
 
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
 
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ƒJƒƒ‰ƒ|ƒCƒ“ƒ^
-    ProjectionSmoothCamera* m_pCamera;
+	// ã‚«ãƒ¡ãƒ©ãƒã‚¤ãƒ³ã‚¿
+	ProjectionSmoothCamera* m_pCamera;
 
-    // ŠÇ—‚µ‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg
-    std::vector<ChangeColliderComponent*> m_components;
+	// ç®¡ç†ã—ã¦ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	std::vector<ChangeColliderComponent*> m_components;
 
-    // ’Ç‰Á—\–ñÏ‚İ‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
-    std::vector<ChangeColliderComponent*> m_addReserves;
-    // íœ—\–ñÏ‚İ‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
-    std::vector<ChangeColliderComponent*> m_removeReserves;
+	// è¿½åŠ äºˆç´„æ¸ˆã¿ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	std::vector<ChangeColliderComponent*> m_addReserves;
+	// å‰Šé™¤äºˆç´„æ¸ˆã¿ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	std::vector<ChangeColliderComponent*> m_removeReserves;
 
-    // Œ»İ‚Ìó‘Ô
-    State m_nowState;
+	// ç¾åœ¨ã®çŠ¶æ…‹
+	State m_nowState;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    DimentionManager();
-    ~DimentionManager() = default;
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	DimentionManager();
+	~DimentionManager() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    // ‰Šú‰»ŠÖ”
-    void Initialize();
+	// åˆæœŸåŒ–é–¢æ•°
+	void Initialize();
 
-    // XVŠÖ”
-    void Update();
+	// æ›´æ–°é–¢æ•°
+	void Update();
 
-    // ŸŒ³‚ğØ‚è‘Ö‚¦‚éŠÖ”
-    void ChangeDimention(float changeTime = 1.0f);
+	// æ¬¡å…ƒã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹é–¢æ•°
+	void ChangeDimention(float changeTime = 1.0f);
 
-    bool GetIs2D() const { return (m_nowState == State::World2D); }
+	bool GetIs2D() const { return (m_nowState == State::World2D); }
 
-    // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’Ç‰Á‚·‚éŠÖ”
-    void AddChangeComponent(ChangeColliderComponent* component)
-    {
-        m_addReserves.push_back(component);
-    }
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹é–¢æ•°
+	void AddChangeComponent(ChangeColliderComponent* component)
+	{
+		m_addReserves.push_back(component);
+	}
 
-    // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğíœ‚·‚éŠÖ”
-    void RemoveChangeComponent(ChangeColliderComponent* component)
-    {
-        m_removeReserves.push_back(component);
-    }
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹é–¢æ•°
+	void RemoveChangeComponent(ChangeColliderComponent* component)
+	{
+		m_removeReserves.push_back(component);
+	}
 
-    // ƒJƒƒ‰‚ğƒZƒbƒg‚·‚éŠÖ”
-    void SetCamera(ProjectionSmoothCamera* camera)
-    {
-        m_pCamera = camera;
-    }
+	// ã‚«ãƒ¡ãƒ©ã‚’ã‚»ãƒƒãƒˆã™ã‚‹é–¢æ•°
+	void SetCamera(ProjectionSmoothCamera* camera)
+	{
+		m_pCamera = camera;
+	}
 
-    // Ø‚è‘Ö‚¦’†‚©’²‚×‚éŠÖ”
-    bool IsChanging() const
-    {
-        return m_nowState == State::ChangeTo2D || m_nowState == State::ChangeTo3D;
-    }
+	// åˆ‡ã‚Šæ›¿ãˆä¸­ã‹èª¿ã¹ã‚‹é–¢æ•°
+	bool IsChanging() const
+	{
+		return m_nowState == State::ChangeTo2D || m_nowState == State::ChangeTo3D;
+	}
 
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // ’Ç‰Á—\–ñÏ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’Ç‰Á‚·‚é
-    void AddReserved()
-    {
-        for (auto& component : m_addReserves)
-        {
-            m_components.push_back(component);
-        }
+	// è¿½åŠ äºˆç´„æ¸ˆã¿ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹
+	void AddReserved()
+	{
+		for (auto& component : m_addReserves)
+		{
+			m_components.push_back(component);
+		}
 
-        // ƒŠƒZƒbƒg
-        m_addReserves.clear();
-    }
+		// ãƒªã‚»ãƒƒãƒˆ
+		m_addReserves.clear();
+	}
 
-    // íœ—\–ñÏ‚İ‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğíœ‚·‚é
-    void RemoveReserved()
-    {
-        for (auto& component : m_removeReserves)
-        {
-            // ”z—ñ‚É‚ ‚ê‚Îíœ‚·‚é
-            m_components.erase(
-                std::remove(m_components.begin(), m_components.end(), component),
-                m_components.end()
-            );
-        }
+	// å‰Šé™¤äºˆç´„æ¸ˆã¿ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
+	void RemoveReserved()
+	{
+		for (auto& component : m_removeReserves)
+		{
+			// é…åˆ—ã«ã‚ã‚Œã°å‰Šé™¤ã™ã‚‹
+			m_components.erase(
+				std::remove(m_components.begin(), m_components.end(), component),
+				m_components.end()
+			);
+		}
 
-        // ƒŠƒZƒbƒg
-        m_removeReserves.clear();
-    }
+		// ãƒªã‚»ãƒƒãƒˆ
+		m_removeReserves.clear();
+	}
 
-    // ¢ŠE‚ğ2ŸŒ³‚Ö•ÏX‚·‚éŠÖ”
-    void WorldTo2D();
+	// ä¸–ç•Œã‚’2æ¬¡å…ƒã¸å¤‰æ›´ã™ã‚‹é–¢æ•°
+	void WorldTo2D();
 
-    // ¢ŠE‚ğ3ŸŒ³‚Ö•ÏX‚·‚éŠÖ”
-    void WorldTo3D();
+	// ä¸–ç•Œã‚’3æ¬¡å…ƒã¸å¤‰æ›´ã™ã‚‹é–¢æ•°
+	void WorldTo3D();
 };

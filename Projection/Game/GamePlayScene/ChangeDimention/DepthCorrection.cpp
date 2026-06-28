@@ -1,24 +1,24 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : DepthCorrection.cpp
-// ì¬ŽÒ      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/24
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : DepthCorrection.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/24
 //
-// ŠT—v       : 2D‚ÌÛ‚ÉZŽ²‚Ì•â³‚ðs‚¤ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : 2Dã®éš›ã«Zè»¸ã®è£œæ­£ã‚’è¡Œã†ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "DepthCorrection.h"
 
-#include "GameLib/GameObject/Components/Transform/Transform.h"
-#include "GameLib/GameObject/Managers/HitContact.h"
+#include "Components/World/Transform/Transform.h"
+#include "Physics/HitContact.h"
 
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+#include "Settings/WorldSetting2D.h"
 
 //====================================================//
-// ŠÖ”‚ÌŽÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void DepthCorrection::Awake()
@@ -32,36 +32,36 @@ void DepthCorrection::Update(const GameTimer & gameTimer)
 
 void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
 {
-	// °‚É‚Ô‚Â‚©‚Á‚Ä‚¢‚½ê‡
+	// åºŠã«ã¶ã¤ã‹ã£ã¦ã„ãŸå ´åˆ
 	if (contact.other->GetTag() == "Floor")
 	{
-		// Õ“Ë–@ü‚ª‚Ç‚ê‚¾‚¯ãŒü‚«‚©‚ð’²‚×‚é
+		// è¡çªæ³•ç·šãŒã©ã‚Œã ã‘ä¸Šå‘ãã‹ã‚’èª¿ã¹ã‚‹
 		float upVolume = DirectX::SimpleMath::Vector2::UnitY.Dot(contact.normal);
 
-		// Õ“Ë–@ü‚ªã•ûŒü‚Æ‚Ý‚È‚¹‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+		// è¡çªæ³•ç·šãŒä¸Šæ–¹å‘ã¨ã¿ãªã›ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 		if (upVolume > CORRECTION_BORDER) return;
 
-		// Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚É‹ß‚Ã‚­‚æ‚¤‚É•â³‚·‚é
+		// è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¿‘ã¥ãã‚ˆã†ã«è£œæ­£ã™ã‚‹
 
-		// ƒJƒƒ‰Šî€‚ÌZÀ•W‚ð‹‚ß‚é
+		// ã‚«ãƒ¡ãƒ©åŸºæº–ã®Zåº§æ¨™ã‚’æ±‚ã‚ã‚‹
 		auto& world2D = WorldSetting2D::Instance();
 
-		// Ž²‚ðŽæ“¾‚·‚é
+		// è»¸ã‚’å–å¾—ã™ã‚‹
 		DirectX::SimpleMath::Vector3 xAxis = world2D.GetXAxis(), yAxis = world2D.GetYAxis();
 
-		// ŠOÏ‚ðŽg‚Á‚ÄZŽ²‚ðŽZo
+		// å¤–ç©ã‚’ä½¿ã£ã¦Zè»¸ã‚’ç®—å‡º
 		DirectX::SimpleMath::Vector3 zAxis = xAxis.Cross(yAxis);
 		zAxis.Normalize();
 
-		// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ðŽæ“¾
+		// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 		Transform* targetTransform = contact.other->GetComponent<Transform>();
 		Transform* ownTransform = GetComponent<Transform>();
 
-		// “Š‰e‚µ‚ÄÀ•W‚ð‹‚ß‚é
+		// æŠ•å½±ã—ã¦åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 		float targetZ = zAxis.Dot(targetTransform->GetWorldPosition());
 		float ownZ = zAxis.Dot(ownTransform->GetWorldPosition());
 
-		// ·•ª‚Ì‚ÝÀ•W‚ð•Ï‰»‚³‚¹‚é
+		// å·®åˆ†ã®ã¿åº§æ¨™ã‚’å¤‰åŒ–ã•ã›ã‚‹
 		ownTransform->AddLocalPosition(zAxis * (targetZ - ownZ));
 	}
 }

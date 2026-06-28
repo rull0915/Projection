@@ -1,204 +1,210 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : NavigationGraph2D.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/24
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : NavigationGraph2D.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/24
 //
-// ŠT—v       : 
+// æ¦‚è¦       : 
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "NavigationGraph2D.h"
 
-#include "GameLib/Common/Renderer/Renderer.h"
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+#include "Renderer/Renderer.h"
+#include "Settings/WorldSetting2D.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void NavigationGraph2D::Initialize()
 {
-    // ‰Šúó‘Ô‚ÅƒOƒ‰ƒt‚ğ¶¬‚·‚é
-    InitializeGraph();
+	// åˆæœŸçŠ¶æ…‹ã§ã‚°ãƒ©ãƒ•ã‚’ç”Ÿæˆã™ã‚‹
+	InitializeGraph();
 }
 
 void NavigationGraph2D::Update()
 {
-    // —\–ñÏ‚İ‚Ì’Ç‰Á
-    AddReserved();
+	// äºˆç´„æ¸ˆã¿ã®è¿½åŠ 
+	AddReserved();
 
-    // —\–ñÏ‚İ‚Ìíœ
-    RemoveReserved();
+	// äºˆç´„æ¸ˆã¿ã®å‰Šé™¤
+	RemoveReserved();
 
-    // ƒOƒ‰ƒt‚ÌXV‚ğ‚·‚é
-    UpdateGraph();
+	// ã‚°ãƒ©ãƒ•ã®æ›´æ–°ã‚’ã™ã‚‹
+	UpdateGraph();
 }
 
 void NavigationGraph2D::DebugDraw(Renderer& renderer)
 {
-    // Œq‚ª‚Á‚Ä‚¢‚éƒRƒ‰ƒCƒ_[“¯m‚ğŒ‹‚Ôü‚ğ•`‚­
-    for (auto& edges : GetGraph())
-    {
-        DebugDraw(edges, renderer);
-    }
+	// ç¹‹ãŒã£ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ã‚’çµã¶ç·šã‚’æã
+	for (auto& edges : GetGraph())
+	{
+		DebugDraw(edges, renderer);
+	}
 }
 
 void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color)
 {
-    for (auto& edge : edges)
-    {
-        // ‘¶İ‚µ‚Ä‚¢‚È‚¢node‚ğw‚µ‚Ä‚¢‚½‚çƒXƒLƒbƒv
-        if (edge.ownIndex >= m_nodes.size() || edge.goalIndex >= m_nodes.size()) continue;
+	for (auto& edge : edges)
+	{
+		// å­˜åœ¨ã—ã¦ã„ãªã„nodeã‚’æŒ‡ã—ã¦ã„ãŸã‚‰ã‚¹ã‚­ãƒƒãƒ—
+		if (edge.ownIndex >= m_nodes.size() || edge.goalIndex >= m_nodes.size()) continue;
 
-        if (edge.startPoint >= m_nodes[edge.ownIndex]->GetPoints().size() || edge.goalPoint >= m_nodes[edge.goalIndex]->GetPoints().size()) continue;
+		if (edge.startPoint >= m_nodes[edge.ownIndex]->GetPoints().size() || edge.goalPoint >= m_nodes[edge.goalIndex]->GetPoints().size()) continue;
 
-        DirectX::SimpleMath::Vector2 points[2] =
-        {
-            m_nodes[edge.ownIndex]->GetPoints()[edge.startPoint],
-            m_nodes[edge.goalIndex]->GetPoints()[edge.goalPoint]
-        };
+		DirectX::SimpleMath::Vector2 points[2] =
+		{
+			m_nodes[edge.ownIndex]->GetPoints()[edge.startPoint],
+			m_nodes[edge.goalIndex]->GetPoints()[edge.goalPoint]
+		};
 
-        // Œq‚®ü‚ğ•`‰æ
-        auto& w = WorldSetting2D::Instance();
-        renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
-    }
+		// ç¹‹ãç·šã‚’æç”»
+		auto& w = WorldSetting2D::Instance();
+		renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
+	}
 }
 
 bool NavigationGraph2D::CanJump(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 target, float& time)
 {
-    // Y•ûŒü‚Ì‹——£‚Ì·‚ğ‹‚ß‚é
-    float yDistance = target.y - start.y;
+	// Yæ–¹å‘ã®è·é›¢ã®å·®ã‚’æ±‚ã‚ã‚‹
+	float yDistance = target.y - start.y;
 
-    // Å‘å‚æ‚è‘å‚«‚¯‚ê‚Îfalse
-    if (yDistance > GetMaxHeight()) return false;
+	// æœ€å¤§ã‚ˆã‚Šå¤§ãã‘ã‚Œã°false
+	if (yDistance > GetMaxHeight()) return false;
 
-    // ‰‘¬‚ğ‹‚ß‚é
-    float initV = GetJumpImpluse() / GetEnemyMass();
+	// åˆé€Ÿã‚’æ±‚ã‚ã‚‹
+	float initV = GetJumpImpluse() / GetEnemyMass();
 
-    // “’B‚Å‚«‚éŠÔt‚ğ‹‚ß‚é
+	// åˆ°é”ã§ãã‚‹æ™‚é–“tã‚’æ±‚ã‚ã‚‹
 
-    // ”»•Ê®D‚Ìì¬
-    float D = initV * initV - 2 * GetGravity() * yDistance;
+	// åˆ¤åˆ¥å¼Dã®ä½œæˆ
+	float D = initV * initV - 2 * GetGravity() * yDistance;
 
-    // ‰ğ‚Æ‚È‚ét‚ª‚È‚¯‚ê‚Îfalse
-    if (D < 0) return false;
+	// è§£ã¨ãªã‚‹tãŒãªã‘ã‚Œã°false
+	if (D < 0) return false;
 
-    // ’l‚ª‘å‚«‚¢•û‚Ì‰ğ‚ğt‚Æ‚·‚é
-    float t = (initV + std::sqrtf(D)) / GetGravity();
+	// å€¤ãŒå¤§ãã„æ–¹ã®è§£ã‚’tã¨ã™ã‚‹
+	float t = (initV + std::sqrtf(D)) / GetGravity();
 
-    // ‹‚ß‚½t‚Ü‚Å‚É…•½•ûŒü‚ğˆÚ“®‚µ‚«‚ê‚é‚©‚ğ’²‚×‚é
-    DirectX::SimpleMath::Vector2 horizontalVec = { target - start };
-    horizontalVec.y = 0;
+	// æ±‚ã‚ãŸtã¾ã§ã«æ°´å¹³æ–¹å‘ã‚’ç§»å‹•ã—ãã‚Œã‚‹ã‹ã‚’èª¿ã¹ã‚‹
+	DirectX::SimpleMath::Vector2 horizontalVec = { target - start };
+	horizontalVec.y = 0;
 
-    // …•½•ûŒü‚Ì‹——£
-    float horizontalDistanceSq = horizontalVec.LengthSquared();
+	// æ°´å¹³æ–¹å‘ã®è·é›¢
+	float horizontalDistanceSq = horizontalVec.LengthSquared();
 
-    float maxDistance = GetHorizontalVelocity() * t;
+	float maxDistance = GetHorizontalVelocity() * t;
 
-    // Å‚‘¬“x‚ÅˆÚ“®‚µ‘±‚¯‚Ä‚à“Í‚©‚È‚¢‚È‚çfalse
-    if (maxDistance * maxDistance < horizontalDistanceSq) return false;
+	// æœ€é«˜é€Ÿåº¦ã§ç§»å‹•ã—ç¶šã‘ã¦ã‚‚å±Šã‹ãªã„ãªã‚‰false
+	if (maxDistance * maxDistance < horizontalDistanceSq) return false;
 
-    time = t;
+	time = t;
 
-    // …•½‚’¼—¼•û–‚½‚¹‚ÎƒWƒƒƒ“ƒv‚Å“Í‚­
-    return true;
+	// æ°´å¹³å‚ç›´ä¸¡æ–¹æº€ãŸã›ã°ã‚¸ãƒ£ãƒ³ãƒ—ã§å±Šã
+	return true;
 }
 
 void NavigationGraph2D::InitializeGraph()
 {
-    // ƒOƒ‰ƒt‚ÌƒŠƒZƒbƒg
-    GetGraph().clear();
+	// ã‚°ãƒ©ãƒ•ã®ãƒªã‚»ãƒƒãƒˆ
+	GetGraph().clear();
 
-    // Ä\’z
-    GetGraph().resize(m_nodes.size());
+	// å†æ§‹ç¯‰
+	GetGraph().resize(m_nodes.size());
 
-    for (size_t i = 0; i < m_nodes.size(); ++i)
-    {
-        for (size_t j = 0; j < m_nodes.size(); ++j)
-        {
-            // “¯‚¶ƒm[ƒh‚È‚çƒXƒLƒbƒv
-            if (i == j) continue;
+	for (size_t i = 0; i < m_nodes.size(); ++i)
+	{
+		for (size_t j = 0; j < m_nodes.size(); ++j)
+		{
+			// åŒã˜ãƒãƒ¼ãƒ‰ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
+			if (i == j) continue;
 
-            // ƒm[ƒh‚ª‚Â‚È‚ª‚é‚©’²‚×‚é
-            BuildConnection(i, j);
-        }
-    }
+			// ãƒãƒ¼ãƒ‰ãŒã¤ãªãŒã‚‹ã‹èª¿ã¹ã‚‹
+			BuildConnection(i, j);
+		}
+	}
 }
 
 void NavigationGraph2D::UpdateGraph()
 {
-    // remove‚Åg—p‚·‚éƒ‰ƒ€ƒ_®
-    auto lambda = [&](const Edge& edge) -> bool 
-        {
-            return m_nodes[edge.ownIndex]->IsChanged() || m_nodes[edge.goalIndex]->IsChanged();
-        };
+	// removeã§ä½¿ç”¨ã™ã‚‹ãƒ©ãƒ ãƒ€å¼
+	auto lambda = [&](const Edge& edge) -> bool 
+		{
+			return m_nodes[edge.ownIndex]->IsChanged() || m_nodes[edge.goalIndex]->IsChanged();
+		};
 
-    // ğŒ‚ğ–‚½‚µ‚½‚·‚×‚Ä‚ÌƒGƒbƒW‚ğíœ‚·‚é
-    for (auto& edges : GetGraph())
-    {
-        std::erase_if(edges, lambda);
-    }
+	// æ¡ä»¶ã‚’æº€ãŸã—ãŸã™ã¹ã¦ã®ã‚¨ãƒƒã‚¸ã‚’å‰Šé™¤ã™ã‚‹
+	for (auto& edges : GetGraph())
+	{
+		std::erase_if(edges, lambda);
+	}
 
-    // •ÏX‚³‚ê‚Ä‚¢‚éƒm[ƒh‚©‚çƒGƒbƒW‚ğÄ\’z‚·‚é
-    for (size_t i = 0; i < m_nodes.size(); ++i)
-    {
-        // •ÏX‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒLƒbƒv
-        if (!m_nodes[i]->IsChanged()) continue;
+	// å¤‰æ›´ã•ã‚Œã¦ã„ã‚‹ãƒãƒ¼ãƒ‰ã‹ã‚‰ã‚¨ãƒƒã‚¸ã‚’å†æ§‹ç¯‰ã™ã‚‹
+	for (size_t i = 0; i < m_nodes.size(); ++i)
+	{
+		// å¤‰æ›´ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
+		if (!m_nodes[i]->IsChanged()) continue;
 
-        // ‘¼‚Ì‘S‚Ä‚Ìƒm[ƒh‚É‘Î‚µ‚ÄŒq‚ª‚è‚ğ’²‚×‚é
-        for (size_t j = 0; j < m_nodes.size(); ++j)
-        {
-            // ©•ª‚Æ“¯‚¶ƒm[ƒh‚ÍƒXƒLƒbƒv
-            if (i == j) continue;
+		// ä»–ã®å…¨ã¦ã®ãƒãƒ¼ãƒ‰ã«å¯¾ã—ã¦ç¹‹ãŒã‚Šã‚’èª¿ã¹ã‚‹
+		for (size_t j = 0; j < m_nodes.size(); ++j)
+		{
+			// è‡ªåˆ†ã¨åŒã˜ãƒãƒ¼ãƒ‰ã¯ã‚¹ã‚­ãƒƒãƒ—
+			if (i == j) continue;
 
-            // ’²‚×‚é
-            BuildConnection(i, j);
-            BuildConnection(j, i);
-        }
-        // ƒtƒ‰ƒO‚ÌƒŠƒZƒbƒg
-        m_nodes[i]->ResetChangedFlag();
-    }
+			// èª¿ã¹ã‚‹
+			BuildConnection(i, j);
+			BuildConnection(j, i);
+		}
+		// ãƒ•ãƒ©ã‚°ã®ãƒªã‚»ãƒƒãƒˆ
+		m_nodes[i]->ResetChangedFlag();
+	}
 }
 
 void NavigationGraph2D::BuildConnection(size_t first, size_t second)
 {
-    const std::vector<DirectX::SimpleMath::Vector2>& firstPoints = m_nodes[first]->GetPoints();
-    const std::vector<DirectX::SimpleMath::Vector2>& secondPoints =m_nodes[second]->GetPoints();
-        
-    // “Í‚­‚©‚ÂÅ‚à‹——£‚Ì‹ß‚¢Œó•â“_‚ÌƒyƒA‚ğ’²‚×‚é
-    float minT = FLT_MAX;
-    std::pair<size_t, size_t> pair = { 0, 0 };
+	const std::vector<DirectX::SimpleMath::Vector2>& firstPoints = m_nodes[first]->GetPoints();
+	const std::vector<DirectX::SimpleMath::Vector2>& secondPoints =m_nodes[second]->GetPoints();
+		
+	// å±Šãã‹ã¤æœ€ã‚‚è·é›¢ã®è¿‘ã„å€™è£œç‚¹ã®ãƒšã‚¢ã‚’èª¿ã¹ã‚‹
+	float minT = FLT_MAX;
+	float minLen = FLT_MAX;
+	std::pair<size_t, size_t> pair = { 0, 0 };
 
-    for (size_t i = 0; i < firstPoints.size(); ++i)
-    {
-        for (size_t j = 0; j < secondPoints.size(); ++j)
-        {
-            float t = 0;
+	for (size_t i = 0; i < firstPoints.size(); ++i)
+	{
+		for (size_t j = 0; j < secondPoints.size(); ++j)
+		{
+			float t = 0;
 
-            // ƒWƒƒƒ“ƒv‚Å“Í‚­‚È‚ç
-            if (CanJump(firstPoints[i], secondPoints[j], t))
-            {
-                // Å¬’l‚ªXV‚³‚ê‚½‚ç
-                if (t < minT)
-                {
-                    pair = { i, j };
+			// ã‚¸ãƒ£ãƒ³ãƒ—ã§å±Šããªã‚‰
+			if (CanJump(firstPoints[i], secondPoints[j], t))
+			{
+				// é•·ã•ã®2ä¹—ã‚’å–å¾—
+				float lenSq = (firstPoints[i] - secondPoints[j]).LengthSquared();
 
-                    minT = t;
-                }
-            }
-        }
-    }
+				// æœ€å°å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã‚‰
+				if (lenSq < minLen)
+				{
+					minLen = lenSq;
 
-    // 1‚Â‚Å‚à‘¶İ‚µ‚Ä‚¢‚ê‚Î
-    if (minT != FLT_MAX)
-    {
-        // •Ó‚ğ’Ç‰Á
-        GetGraph()[first].push_back
-        (
-            { first, second, pair.first, pair.second, minT }
-        );
-    }
+					pair = { i, j };
+
+					minT = t;
+				}
+			}
+		}
+	}
+
+	// 1ã¤ã§ã‚‚å­˜åœ¨ã—ã¦ã„ã‚Œã°
+	if (minT != FLT_MAX)
+	{
+		// è¾ºã‚’è¿½åŠ 
+		GetGraph()[first].push_back
+		(
+			{ first, second, pair.first, pair.second, minT }
+		);
+	}
 }

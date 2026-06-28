@@ -1,31 +1,31 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : TPSCamera.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/07
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : TPSCamera.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/07
 //
-// ŠT—v       : ƒJƒƒ‰‚ğTPS—p‚É“®‚©‚·ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : ã‚«ãƒ¡ãƒ©ã‚’TPSç”¨ã«å‹•ã‹ã™ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "TPSCamera.h"
 
-#include "GameLib/Input/MouseInput.h"
+#include "Input/MouseInput.h"
 #include <algorithm>
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void TPSCamera::Awake()
 {
-	// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾
+	// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 	m_pOwnTransform = GetComponent<Transform>();
 
-	// ƒ}ƒEƒX‚ğ‘Š‘Îƒ‚[ƒh‚É
-	MouseInput::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+	// ãƒã‚¦ã‚¹ã‚’ç›¸å¯¾ãƒ¢ãƒ¼ãƒ‰ã«
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::Start()
@@ -35,35 +35,35 @@ void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 {
 	gameTimer;
 
-	// ƒ^[ƒQƒbƒg‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãŒè¨­å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 	if (!m_pTargetTransform) return;
 
-	// ƒ}ƒEƒX‚ÌˆÚ“®—Ê‚ğæ“¾
-	DirectX::SimpleMath::Vector2 moveVal = MouseInput::GetMouseMoveValue();
+	// ãƒã‚¦ã‚¹ã®ç§»å‹•é‡ã‚’å–å¾—
+	DirectX::SimpleMath::Vector2 moveVal = Input::Mouse::GetMouseMoveValue();
 
-	// Šp“x‚É‰ÁZ‚·‚é
+	// è§’åº¦ã«åŠ ç®—ã™ã‚‹
 	m_angle.x += moveVal.y * SENSITIVITY * 0.01f;
 	m_angle.y -= moveVal.x * SENSITIVITY * 0.01f;
 
-	// ƒNƒ‰ƒ“ƒv‚·‚é
+	// ã‚¯ãƒ©ãƒ³ãƒ—ã™ã‚‹
 	m_angle.x = std::clamp(m_angle.x, -PI_F * (15.0f / 32.0f), PI_F * (15.0f / 32.0f));
 
-	// Šp“x‚É‡‚¤‚æ‚¤‚ÉˆÊ’u‚ğ•â³‚·‚é
+	// è§’åº¦ã«åˆã†ã‚ˆã†ã«ä½ç½®ã‚’è£œæ­£ã™ã‚‹
 	DirectX::SimpleMath::Vector3 pos = m_pTargetTransform->GetWorldPosition();
 
-	// ˆÊ’u‚ğZo
+	// ä½ç½®ã‚’ç®—å‡º
 	pos += DirectX::SimpleMath::Vector3{ 
 		std::cosf(m_angle.x) * std::sinf(m_angle.y), 
 		std::sinf(m_angle.x), 
 		std::cosf(m_angle.x) * std::cosf(m_angle.y) } 
 	* DISTANCE;
 
-	// ˆÊ’u‚ğİ’è
+	// ä½ç½®ã‚’è¨­å®š
 	m_pOwnTransform->SetLocalPosition(pos);
 
-	// Šp“x‚ğİ’è
+	// è§’åº¦ã‚’è¨­å®š
 	m_pOwnTransform->SetLocalEulerAngle({ -m_angle.x, m_angle.y, 0.0f });
 
-	// ƒ^[ƒQƒbƒg‚ÌŠp“x‚ğİ’u
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®è§’åº¦ã‚’è¨­ç½®
 	m_pTargetTransform->SetLocalEulerAngle({ 0, m_angle.y, 0.0f });
 }

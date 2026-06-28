@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>18.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{92af323a-9cde-4d83-ac9a-a51566f408ed}</ProjectGuid>
+    <RootNamespace>GameEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);
+$(ProjectDir)ThirdParty;
+%(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);
+$(ProjectDir)ThirdParty;
+%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Components\World\Camera\CameraBase.cpp" />
+    <ClCompile Include="src\Components\World\Camera\Derived\StandardCamera.cpp" />
+    <ClCompile Include="src\Components\World\Camera\Derived\TargetCamera.cpp" />
+    <ClCompile Include="src\Components\World\Collider\2D\Shapes\BoxCollider2D.cpp" />
+    <ClCompile Include="src\Components\World\Collider\2D\Shapes\CapsuleCollider2D.cpp" />
+    <ClCompile Include="src\Components\World\Collider\2D\Shapes\CircleCollider2D.cpp" />
+    <ClCompile Include="src\Components\World\Collider\3D\Shapes\BoxCollider.cpp" />
+    <ClCompile Include="src\Components\World\Collider\3D\Shapes\CapsuleCollider.cpp" />
+    <ClCompile Include="src\Components\World\Collider\3D\Shapes\SphereCollider.cpp" />
+    <ClCompile Include="src\Components\World\Collider\ColliderCommon.cpp" />
+    <ClCompile Include="src\Components\ComponentBase.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\Model\ModelComponent.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp" />
+    <ClCompile Include="src\Components\World\RigidBody\RigidBody2D.cpp" />
+    <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp" />
+    <ClCompile Include="src\Components\World\Transform\Transform.cpp" />
+    <ClCompile Include="src\Debug\ColliderDebugRenderer.cpp" />
+    <ClCompile Include="src\Debug\EachColliderDebugRenderer.cpp" />
+    <ClCompile Include="src\Debug\RectDebugRenderer.cpp" />
+    <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
+    <ClCompile Include="src\GameObject\GameObject.cpp" />
+    <ClCompile Include="src\Input\InputSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\Input\KeyInput.cpp" />
+    <ClCompile Include="src\Input\MouseInput.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\Collider\CheckHit\StandardCheckHit2D.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\Collider\CollideManager2D.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\ObjectForTree2D.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\PhysicsManager2D.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Collider\CheckHit\StandardCheckHit.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Collider\CollideManager.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\ObjectForTree.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\PhysicsManager.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Ray\CheckHitWithRay.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Ray\RaySystem.cpp" />
+    <ClCompile Include="src\Managers\CameraManager.cpp" />
+    <ClCompile Include="src\Managers\CollisionMap.cpp" />
+    <ClCompile Include="src\Managers\ObjectManager.cpp" />
+    <ClCompile Include="src\Managers\Renderer\RendererManager.cpp" />
+    <ClCompile Include="src\Managers\System\CollideEventSystem.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\EachRenderer\ModelRenderer.cpp" />
+    <ClCompile Include="src\Renderer\EachRenderer\PrimitiveRenderer.cpp" />
+    <ClCompile Include="src\Renderer\EachRenderer\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Renderer\EachRenderer\TextRenderer.cpp" />
+    <ClCompile Include="src\Renderer\EachRenderer\UIRenderer.cpp" />
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Scene\ComponentRegister.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\Scene\Transition\FadeTransition.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Transition\TransitionManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\Debug\DebugManager.cpp" />
+    <ClCompile Include="src\System\DeviceResources.cpp" />
+    <ClCompile Include="src\System\EngineInitializer.cpp" />
+    <ClCompile Include="src\System\ResourceManager.cpp" />
+    <ClCompile Include="src\System\WindowManager.cpp" />
+    <ClCompile Include="src\Timer\GameTimer.cpp" />
+    <ClCompile Include="src\Managers\UI\Canvas.cpp" />
+    <ClCompile Include="src\Managers\UI\UIManager.cpp" />
+    <ClCompile Include="src\Components\UI\Behaviour\ButtonUI.cpp" />
+    <ClCompile Include="src\Components\UI\Graphics\UIGraphicBase.cpp" />
+    <ClCompile Include="src\Components\UI\Graphics\ImageUI.cpp" />
+    <ClCompile Include="src\Components\UI\Graphics\TextUI.cpp" />
+    <ClCompile Include="src\Components\UI\RectTransform\RectTransform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Common\Origin.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Common\Random.h" />
+    <ClInclude Include="include\Common\State\StateBase.h" />
+    <ClInclude Include="include\Common\State\StateMachine.h" />
+    <ClInclude Include="include\Components\World\Camera\CameraBase.h" />
+    <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h" />
+    <ClInclude Include="include\Components\World\Camera\Derived\TargetCamera.h" />
+    <ClInclude Include="include\Components\World\Collider\2D\ColliderBase2D.h" />
+    <ClInclude Include="include\Components\World\Collider\2D\Shapes\2DColliders.h" />
+    <ClInclude Include="include\Components\World\Collider\2D\Shapes\BoxCollider2D.h" />
+    <ClInclude Include="include\Components\World\Collider\2D\Shapes\CapsuleCollider2D.h" />
+    <ClInclude Include="include\Components\World\Collider\2D\Shapes\CircleCollider2D.h" />
+    <ClInclude Include="include\Components\World\Collider\3D\ColliderBase.h" />
+    <ClInclude Include="include\Components\World\Collider\3D\Shapes\BoxCollider.h" />
+    <ClInclude Include="include\Components\World\Collider\3D\Shapes\CapsuleCollider.h" />
+    <ClInclude Include="include\Components\World\Collider\3D\Shapes\Colliders.h" />
+    <ClInclude Include="include\Components\World\Collider\3D\Shapes\SphereCollider.h" />
+    <ClInclude Include="include\Components\World\Collider\ColliderCommon.h" />
+    <ClInclude Include="include\Components\World\Collider\PhysicsMaterial.h" />
+    <ClInclude Include="include\Components\ComponentBase.h" />
+    <ClInclude Include="include\Components\ComponentCategory.h" />
+    <ClInclude Include="include\Components\World\Components.h" />
+    <ClInclude Include="include\Components\World\Renderer\Model\ModelComponent.h" />
+    <ClInclude Include="include\Components\World\Renderer\RendererBase.h" />
+    <ClInclude Include="include\Components\World\RigidBody\RigidBody2D.h" />
+    <ClInclude Include="include\Components\World\RigidBody\RigidBody.h" />
+    <ClInclude Include="include\Components\World\RigidBody\RigidBodyBase.h" />
+    <ClInclude Include="include\Components\World\Transform\Transform.h" />
+    <ClInclude Include="include\Components\World\WorldComponentBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Input\InputInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Input\InputSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Input\KeyInput.h" />
+    <ClInclude Include="include\Input\MouseInput.h" />
+    <ClInclude Include="include\Math\ColorLib.h" />
+    <ClInclude Include="include\Math\Easing.h" />
+    <ClInclude Include="include\Math\GameMath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Transition\FadeTransition.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Transition\TransitionManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Debug\ColliderDebugRenderer.h" />
+    <ClInclude Include="src\Debug\EachColliderDebugRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\GameObject\ComponentContainer.h" />
+    <ClInclude Include="include\GameObject\GameObject.h" />
+    <ClInclude Include="include\GameObject\Interface\IColliderReceiver.h" />
+    <ClInclude Include="include\GameObject\Interface\IComponentOwner.h" />
+    <ClInclude Include="src\Debug\RectDebugRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />
+    <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\StandardCheckHit2D.h" />
+    <ClInclude Include="src\Managers\2DManagers\Collider\CollideManager2D.h" />
+    <ClInclude Include="include\Physics\HitInfomation2D.h" />
+    <ClInclude Include="src\Managers\2DManagers\Collider\SpaceDivision\Cell2D.h" />
+    <ClInclude Include="src\Managers\2DManagers\Collider\SpaceDivision\ObjectForTree2D.h" />
+    <ClInclude Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.h" />
+    <ClInclude Include="src\Managers\2DManagers\PhysicsManager2D.h" />
+    <ClInclude Include="src\Managers\3DManagers\Collider\CheckHit\CheckHitAuxiliary.h" />
+    <ClInclude Include="src\Managers\3DManagers\Collider\CheckHit\StandardCheckHit.h" />
+    <ClInclude Include="src\Managers\3DManagers\Collider\CollideManager.h" />
+    <ClInclude Include="include\Physics\HitInfomation.h" />
+    <ClInclude Include="src\Managers\3DManagers\Collider\SpaceDivision\Cell.h" />
+    <ClInclude Include="src\Managers\3DManagers\Collider\SpaceDivision\ObjectForTree.h" />
+    <ClInclude Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.h" />
+    <ClInclude Include="src\Managers\3DManagers\PhysicsManager.h" />
+    <ClInclude Include="src\Managers\3DManagers\Ray\CheckHitWithRay.h" />
+    <ClInclude Include="include\Physics\Ray.h" />
+    <ClInclude Include="include\Physics\RaycastHit.h" />
+    <ClInclude Include="src\Managers\3DManagers\Ray\RaySystem.h" />
+    <ClInclude Include="src\Managers\CameraManager.h" />
+    <ClInclude Include="include\Managers\CollisionMap.h" />
+    <ClInclude Include="include\Physics\HitContact.h" />
+    <ClInclude Include="src\Managers\ObjectManager.h" />
+    <ClInclude Include="src\Managers\Renderer\RendererManager.h" />
+    <ClInclude Include="src\Managers\System\CollideEventSystem.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="include\Renderer\EachRenderer\IRenderer.h" />
+    <ClInclude Include="include\Renderer\EachRenderer\ModelRenderer.h" />
+    <ClInclude Include="include\Renderer\EachRenderer\PrimitiveRenderer.h" />
+    <ClInclude Include="include\Renderer\EachRenderer\SpriteRenderer.h" />
+    <ClInclude Include="include\Renderer\EachRenderer\TextRenderer.h" />
+    <ClInclude Include="include\Renderer\EachRenderer\UIRenderer.h" />
+    <ClInclude Include="include\Renderer\Proxy\RenderProxy.h" />
+    <ClInclude Include="include\Renderer\Proxy\SpriteProxy.h" />
+    <ClInclude Include="include\Renderer\Proxy\TextProxy.h" />
+    <ClInclude Include="include\Renderer\Renderer.h" />
+    <ClInclude Include="include\Renderer\RendererType.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\RenderStateCache.h" />
+    <ClInclude Include="src\Scene\ComponentRegister.h" />
+    <ClInclude Include="include\Scene\Scene.h" />
+    <ClInclude Include="include\Scene\SceneManager.h" />
+    <ClInclude Include="include\Scene\Transition\TransitionBase.h" />
+    <ClInclude Include="include\Settings\PhysicsSettings.h" />
+    <ClInclude Include="include\Settings\TimeSettings.h" />
+    <ClInclude Include="include\Settings\WorldSetting2D.h" />
+    <ClInclude Include="include\Debug\DebugManager.h" />
+    <ClInclude Include="include\System\DeviceResources.h" />
+    <ClInclude Include="include\System\EngineInitializer.h" />
+    <ClInclude Include="include\System\ResourceManager.h" />
+    <ClInclude Include="include\System\TypeIdGenerator.h" />
+    <ClInclude Include="include\System\WindowManager.h" />
+    <ClInclude Include="include\Timer\GameTimer.h" />
+    <ClInclude Include="include\Timer\StepTimer.h" />
+    <ClInclude Include="include\Managers\UI\Canvas.h" />
+    <ClInclude Include="src\Managers\UI\UIManager.h" />
+    <ClInclude Include="include\Components\UI\UIComponentBase.h" />
+    <ClInclude Include="include\Components\UI\Behaviour\ButtonUI.h" />
+    <ClInclude Include="include\Components\UI\Graphics\UIGraphicBase.h" />
+    <ClInclude Include="include\Components\UI\Graphics\ImageUI.h" />
+    <ClInclude Include="include\Components\UI\Graphics\TextUI.h" />
+    <ClInclude Include="include\Components\UI\RectTransform\RectTransform.h" />
+    <ClInclude Include="include\Components\UI\UIComponents.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets" Condition="Exists('..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets'))" />
+  </Target>
+</Project>

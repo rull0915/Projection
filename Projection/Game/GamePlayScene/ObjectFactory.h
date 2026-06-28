@@ -1,24 +1,24 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : ObjectFactory.h
-// ì¬ŽÒ       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/22
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : ObjectFactory.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/22
 //
-// ŠT—v : “Á’è‚ÌŽí—Þ‚ÌƒIƒuƒWƒFƒNƒg‚Ì¶¬AƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’Ç‰Á‚È‚Ç‚ðŠÇ—‚·‚éƒwƒbƒ_
+// æ¦‚è¦ : ç‰¹å®šã®ç¨®é¡žã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è¿½åŠ ãªã©ã‚’ç®¡ç†ã™ã‚‹ãƒ˜ãƒƒãƒ€
 //
-// XV—š—ð :
-// 2026/06/22 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/22 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/GameObject.h"
+#include "GameObject/GameObject.h"
 
-#include "GameLib/Scene/Scene.h"
+#include "Scene/Scene.h"
 
-#include "GameLib/GameObject/Components/Components.h"
+#include "Components/World/Components.h"
 #include "Player/Player.h"
 #include "ChangeDimention/ChangeColliderComponent.h"
 #include "ChangeDimention/DepthCorrection.h"
@@ -27,103 +27,107 @@
 #include "Enemy/Components/LandingCandidatePoints2D.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 namespace ObjectFactory
 {
-	// ƒvƒŒƒCƒ„[‚Ì¶¬
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç”Ÿæˆ
 	GameObject* CreatePlayer(Scene* scene, DirectX::SimpleMath::Vector3 position = { 0, 0, 0 })
 	{
-		// Œ´Œ^‚ð¶¬
+		// åŽŸåž‹ã‚’ç”Ÿæˆ
 		GameObject* obj = scene->Generate(position);
 
-		// •K{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ð’Ç‰Á
+		// å¿…é ˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ 
 
-		// ƒvƒŒƒCƒ„[
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 		obj->AddComponent<Player>();
 
-		// ƒRƒ‰ƒCƒ_[
+		// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 		obj->AddComponent<CapsuleCollider>()->SetLayer(10);
 
-		// ’…’n”»’è—p‚ÌƒRƒ‰ƒCƒ_[
-		auto land = obj->AddComponent<BoxCollider>();// ’…’n”»’è—p‚ÌƒRƒ‰ƒCƒ_[‚ð¶¬
+		// ç€åœ°åˆ¤å®šç”¨ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+		auto land = obj->AddComponent<BoxCollider>();// ç€åœ°åˆ¤å®šç”¨ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆ
 		land->SetTrigger(true);
+		land->SetNeedInfo(true);
 		land->SetLocalPos({ 0, -1.05f, 0 });
 		land->SetLocalSize({ 1, 0.1f, 1 });
 
-		// ƒ‚ƒfƒ‹•`‰æ
-		obj->AddComponent<ModelComponent>()->SetModel("Template_Capsule");
+		// ãƒ¢ãƒ‡ãƒ«æç”»
+		obj->AddComponent<ModelComponent>()->SetModel("Capsule");
 
-		// •¨—‹““®
+		// ç‰©ç†æŒ™å‹•
 		obj->AddComponent<RigidBody>();
 
-		// ŽŸŒ³•Ï‰»
+		// æ¬¡å…ƒå¤‰åŒ–
 		obj->AddComponent<ChangeColliderComponent>();
 
-		// 2D•â³
+		// 2Dè£œæ­£
 		obj->AddComponent<DepthCorrection>();
 
-		// ¶¬‚µ‚½ƒIƒuƒWƒFƒNƒg‚ð•Ô‚·
+		// ç”Ÿæˆã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™
 		return obj;
 	}
 
-	// ƒuƒƒbƒN‚Ì¶¬
+	// ãƒ–ãƒ­ãƒƒã‚¯ã®ç”Ÿæˆ
 	GameObject* CreateCube(Scene* scene, DirectX::SimpleMath::Vector3 position = { 0, 0, 0 }, DirectX::SimpleMath::Vector3 rot = { 0, 0, 0 }, DirectX::SimpleMath::Vector3 scale = { 1, 1, 1 })
 	{
-		// Œ´Œ^‚ð¶¬
+		// åŽŸåž‹ã‚’ç”Ÿæˆ
 		auto cube = scene->Generate(position);
 
-		// ƒRƒ‰ƒCƒ_[
+		// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 		cube->AddComponent<BoxCollider>();
 
-		// ƒ‚ƒfƒ‹•`‰æ
-		cube->AddComponent<ModelComponent>()->SetModel("Template_Cube");
+		// ãƒ¢ãƒ‡ãƒ«æç”»
+		cube->AddComponent<ModelComponent>()->SetModel("Cube");
 
-		// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ÌÝ’è
+		// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®è¨­å®š
 		cube->GetComponent<Transform>()->SetLocalScale(scale);
 		cube->GetComponent<Transform>()->SetLocalEulerAngle({ rot });
 
-		// ŽŸŒ³•Ï‰»
+		// æ¬¡å…ƒå¤‰åŒ–
 		cube->AddComponent<ChangeColliderComponent>();
 
-		// ’…’nŒó•â‚Æ‚µ‚ÄÝ’è
+		// ç€åœ°å€™è£œã¨ã—ã¦è¨­å®š
 		cube->AddComponent<LandingCandidatePoints>();
 		cube->AddComponent<LandingCandidatePoints2D>();
 
-		// ƒ^ƒO‚ÌÝ’è
+		// ã‚¿ã‚°ã®è¨­å®š
 		cube->SetTag("Floor");
 
 		return cube;
 	}
 
-	// “G‚Ì¶¬
+	// æ•µã®ç”Ÿæˆ
 	GameObject* CreateEnemy(Scene* scene, DirectX::SimpleMath::Vector3 position = { 0, 0, 0 })
 	{
-		// Œ´Œ^‚Ì¶¬
+		// åŽŸåž‹ã®ç”Ÿæˆ
 		GameObject* enemy = scene->Generate(position);
 
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’Ç‰Á
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è¿½åŠ 
 
-		// ƒ‚ƒfƒ‹
+		// ãƒ¢ãƒ‡ãƒ«
+		enemy->AddComponent<ModelComponent>()->SetModel("Enemy");
 
-		// •¨—‹““®
+		// ç‰©ç†æŒ™å‹•
 		enemy->AddComponent<RigidBody>();
 
-		// ƒRƒ‰ƒCƒ_[
-		enemy->AddComponent<CapsuleCollider>();
+		// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+		auto col = enemy->AddComponent<SphereCollider>();
+		//col->SetHeight(1.5f);
+		col->SetLocalPos({ 0, 0.5f, 0 });
 
-		// ŽŸŒ³•Ï‰»
+		// æ¬¡å…ƒå¤‰åŒ–
 		enemy->AddComponent<ChangeColliderComponent>();
 
-		// 2D•â³
+		// 2Dè£œæ­£
 		enemy->AddComponent<DepthCorrection>();
 
-		// “G
+		// æ•µ
 		enemy->AddComponent<Enemy>();
 
 		return enemy;

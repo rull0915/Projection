@@ -1,29 +1,29 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : NavigationGraph2D.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/24
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : NavigationGraph2D.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/24
 //
-// ŠT—v : “G‚ªˆÚ“®‚Å‚«‚é—LŒüƒOƒ‰ƒt‚ğì¬‚·‚éƒNƒ‰ƒX
+// æ¦‚è¦ : æ•µãŒç§»å‹•ã§ãã‚‹æœ‰å‘ã‚°ãƒ©ãƒ•ã‚’ä½œæˆã™ã‚‹ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/06/24 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/24 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "../Components/LandingCandidatePoints2D.h"
 #include "NavigationGraphBase.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 class NavigationGraph2D : public NavigationGraphBase
 {
@@ -31,144 +31,144 @@ public:
 
 private:
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ˆµ‚¤ƒm[ƒh‚Ì”z—ñ
-    std::vector<LandingCandidatePoints2D*> m_nodes;
+	// æ‰±ã†ãƒãƒ¼ãƒ‰ã®é…åˆ—
+	std::vector<LandingCandidatePoints2D*> m_nodes;
 
-    // ’Ç‰Á—\–ñ’†‚Ìƒm[ƒh
-    std::vector<LandingCandidatePoints2D*> m_addReserves;
-    // íœ—\–ñ’†‚Ìƒm[ƒh
-    std::vector<LandingCandidatePoints2D*> m_removeReserves;
+	// è¿½åŠ äºˆç´„ä¸­ã®ãƒãƒ¼ãƒ‰
+	std::vector<LandingCandidatePoints2D*> m_addReserves;
+	// å‰Šé™¤äºˆç´„ä¸­ã®ãƒãƒ¼ãƒ‰
+	std::vector<LandingCandidatePoints2D*> m_removeReserves;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    NavigationGraph2D(float jumpImpulse, float mass, float horizontalVelocity)
-        : NavigationGraphBase(jumpImpulse, mass, horizontalVelocity)
-        , m_nodes{}
-        , m_addReserves{}
-        , m_removeReserves{}
-    {}
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	NavigationGraph2D(float jumpImpulse, float mass, float horizontalVelocity)
+		: NavigationGraphBase(jumpImpulse, mass, horizontalVelocity)
+		, m_nodes{}
+		, m_addReserves{}
+		, m_removeReserves{}
+	{}
 
-    ~NavigationGraph2D() = default;
+	~NavigationGraph2D() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    // ‰Šú‰»
-    void Initialize() override;
+	// åˆæœŸåŒ–
+	void Initialize() override;
 
-    // XV
-    void Update() override;
+	// æ›´æ–°
+	void Update() override;
 
-    // ƒfƒoƒbƒO•`‰æ
-    void DebugDraw(Renderer& renderer) override;
+	// ãƒ‡ãƒãƒƒã‚°æç”»
+	void DebugDraw(Renderer& renderer) override;
 
-    void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00) override;
+	void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00) override;
 
-    //-----------------------------------------------------
-    // ƒQƒbƒ^[
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚²ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
-    // ƒm[ƒh‚ğ’Ç‰Á‚·‚éŠÖ”
-    void AddNode(LandingCandidatePoints2D* node)
-    {
-        m_addReserves.push_back(node);
-    }
+	// ãƒãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹é–¢æ•°
+	void AddNode(LandingCandidatePoints2D* node)
+	{
+		m_addReserves.push_back(node);
+	}
 
-    // ƒm[ƒh‚ğíœ‚·‚éŠÖ”
-    void RemoveNode(LandingCandidatePoints2D* node)
-    {
-        m_removeReserves.push_back(node);
-    }
+	// ãƒãƒ¼ãƒ‰ã‚’å‰Šé™¤ã™ã‚‹é–¢æ•°
+	void RemoveNode(LandingCandidatePoints2D* node)
+	{
+		m_removeReserves.push_back(node);
+	}
 
-    // ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éŠÖ”
-    int GetIndex(LandingCandidatePoints2D* point)
-    {
-        for (int i = 0; i < m_nodes.size(); ++i)
-        {
-            if (m_nodes[i] == point) return i;
-        }
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹é–¢æ•°
+	int GetIndex(LandingCandidatePoints2D* point)
+	{
+		for (int i = 0; i < m_nodes.size(); ++i)
+		{
+			if (m_nodes[i] == point) return i;
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 
-    // ŠÇ—‚µ‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚·‚éŠÖ”
-    const std::vector<LandingCandidatePoints2D*> GetNodes() const { return m_nodes; }
+	// ç®¡ç†ã—ã¦ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹é–¢æ•°
+	const std::vector<LandingCandidatePoints2D*> GetNodes() const { return m_nodes; }
 
-    void ResetGraph()
-    {
-        m_addReserves.clear();
-        m_removeReserves.clear();
-        m_nodes.clear();
+	void ResetGraph()
+	{
+		m_addReserves.clear();
+		m_removeReserves.clear();
+		m_nodes.clear();
 
-        NavigationGraphBase::ResetGraph();
-    }
-    //-----------------------------------------------------
-    // ƒZƒbƒ^[
-    //-----------------------------------------------------
+		NavigationGraphBase::ResetGraph();
+	}
+	//-----------------------------------------------------
+	// ã‚»ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // ƒWƒƒƒ“ƒv‚Å“’B‚Å‚«‚é‚©’²‚×‚éŠÖ”
-    bool CanJump(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 target, float& time);
+	// ã‚¸ãƒ£ãƒ³ãƒ—ã§åˆ°é”ã§ãã‚‹ã‹èª¿ã¹ã‚‹é–¢æ•°
+	bool CanJump(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 target, float& time);
 
-    // ƒOƒ‰ƒt‚ğÄ\’z‚·‚éŠÖ”
-    void InitializeGraph() override;
+	// ã‚°ãƒ©ãƒ•ã‚’å†æ§‹ç¯‰ã™ã‚‹é–¢æ•°
+	void InitializeGraph() override;
 
-    // ƒOƒ‰ƒt‚ğXV‚·‚éŠÖ”
-    void UpdateGraph() override;
+	// ã‚°ãƒ©ãƒ•ã‚’æ›´æ–°ã™ã‚‹é–¢æ•°
+	void UpdateGraph() override;
 
-    // Œó•â“_“¯m
-    void BuildConnection(size_t first, size_t second) override;
+	// å€™è£œç‚¹åŒå£«
+	void BuildConnection(size_t first, size_t second) override;
 
-    // ’Ç‰Á—\–ñÏ‚İƒm[ƒh‚ğ’Ç‰Á‚·‚éŠÖ”
-    void AddReserved()
-    {
-        // —\–ñ‚ª‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
-        if (m_addReserves.size() == 0) return;
+	// è¿½åŠ äºˆç´„æ¸ˆã¿ãƒãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹é–¢æ•°
+	void AddReserved()
+	{
+		// äºˆç´„ãŒãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
+		if (m_addReserves.size() == 0) return;
 
-        // ‘S‚Ä‚Ì’Ç‰Á—\–ñ‚ğ’²‚×‚é
-        for (auto& node : m_addReserves)
-        {
-            // ƒŠƒXƒg‚É’Ç‰Á
-            m_nodes.push_back(node);
-        }
+		// å…¨ã¦ã®è¿½åŠ äºˆç´„ã‚’èª¿ã¹ã‚‹
+		for (auto& node : m_addReserves)
+		{
+			// ãƒªã‚¹ãƒˆã«è¿½åŠ 
+			m_nodes.push_back(node);
+		}
 
-        // ƒŠƒXƒg‚ğ‰Šú‰»
-        m_addReserves.clear();
+		// ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ–
+		m_addReserves.clear();
 
-        // ƒOƒ‰ƒt‚ğÄ\’z
-        InitializeGraph();
-    }
+		// ã‚°ãƒ©ãƒ•ã‚’å†æ§‹ç¯‰
+		InitializeGraph();
+	}
 
-    void RemoveReserved()
-    {
-        // —\–ñ‚ª‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
-        if (m_removeReserves.size() == 0) return;
+	void RemoveReserved()
+	{
+		// äºˆç´„ãŒãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
+		if (m_removeReserves.size() == 0) return;
 
-        // ‘S‚Ä‚Ì’Ç‰Á—\–ñ‚ğ’²‚×‚é
-        for (auto& node : m_removeReserves)
-        {
-            // ğŒ‚ğ–‚½‚·ƒm[ƒh‚ğíœ
-            std::erase_if(m_nodes, [&](const LandingCandidatePoints2D* n) -> bool { return n == node; });
-        }
+		// å…¨ã¦ã®è¿½åŠ äºˆç´„ã‚’èª¿ã¹ã‚‹
+		for (auto& node : m_removeReserves)
+		{
+			// æ¡ä»¶ã‚’æº€ãŸã™ãƒãƒ¼ãƒ‰ã‚’å‰Šé™¤
+			std::erase_if(m_nodes, [&](const LandingCandidatePoints2D* n) -> bool { return n == node; });
+		}
 
-        // ƒŠƒXƒg‚ğ‰Šú‰»
-        m_removeReserves.clear();
+		// ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ–
+		m_removeReserves.clear();
 
-        // ƒOƒ‰ƒt‚ğÄ\’z
-        InitializeGraph();
-    }
+		// ã‚°ãƒ©ãƒ•ã‚’å†æ§‹ç¯‰
+		InitializeGraph();
+	}
 
 };

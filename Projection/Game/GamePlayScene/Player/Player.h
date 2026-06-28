@@ -1,104 +1,110 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : Player.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/05/29
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : Player.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/05/29
 //
-// ŠT—v : ƒvƒŒƒCƒ„[ƒNƒ‰ƒX
+// æ¦‚è¦ : ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/05/29 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/05/29 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
-#include "GameLib/GameObject/Components/Component.h"
-#include "GameLib/GameObject/Components/Transform/Transform.h"
+#include "Components/World/WorldComponentBase.h"
+#include "Components/World/Transform/Transform.h"
 
-#include "GameLib/GameObject/Components/Collider/PhysicsMaterial.h"
+#include "Components/World/Collider/PhysicsMaterial.h"
 
 #include "../Enemy/Components/LandingCandidatePoints.h"
 #include "../Enemy/Components/LandingCandidatePoints2D.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
-class Player : public Component<Player, ComponentID::Player>
+class Player : public WorldComponentBase
 {
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
-    static constexpr float MOVE_SPEED = 5.0f;   // ˆÚ“®‚Ì‘¬“x
-    static constexpr float JUMP_POWER = 15.0f;  // ƒWƒƒƒ“ƒv‚Ì—Í
-    static constexpr float CAN_JUMP_BORDER = 1.0f / 1.414f; // ƒWƒƒƒ“ƒv‰Â”\‚È’n–Ê‚ÌŒX‚«‚Ìƒ{[ƒ_[(cos45‹‚Ì‹ß—’l‚ğƒ{[ƒ_[‚É)
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
+	static constexpr float MOVE_SPEED = 5.0f;   // ç§»å‹•ã®é€Ÿåº¦
+	static constexpr float JUMP_POWER = 15.0f;  // ã‚¸ãƒ£ãƒ³ãƒ—ã®åŠ›
+	static constexpr float CAN_JUMP_BORDER = 1.0f / 1.414f; // ã‚¸ãƒ£ãƒ³ãƒ—å¯èƒ½ãªåœ°é¢ã®å‚¾ãã®ãƒœãƒ¼ãƒ€ãƒ¼(cos45Â°ã®è¿‘ä¼¼å€¤ã‚’ãƒœãƒ¼ãƒ€ãƒ¼ã«)
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
-    Transform* m_pTransform;
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
+	Transform* m_pTransform;
 
-    PhysicsMaterial m_material;
+	PhysicsMaterial m_material;
 
-    // Œ»İ‚ÌŸŒ³‚ª2ŸŒ³‚©‚Ç‚¤‚©
-    bool m_is2D;
+	// ç¾åœ¨ã®æ¬¡å…ƒãŒ2æ¬¡å…ƒã‹ã©ã†ã‹
+	bool m_is2D;
 
-    // ƒWƒƒƒ“ƒv‰Â”\ƒtƒ‰ƒO
-    bool m_canJump;
+	// ã‚¸ãƒ£ãƒ³ãƒ—å¯èƒ½ãƒ•ãƒ©ã‚°
+	bool m_canJump;
 
-    // ÅŒã‚ÉG‚ê‚½Œó•â“_
-    LandingCandidatePoints* m_lastPoints;
-    LandingCandidatePoints2D* m_lastPoints2d;
+	// æœ€å¾Œã«è§¦ã‚ŒãŸå€™è£œç‚¹
+	LandingCandidatePoints* m_lastPoints;
+	LandingCandidatePoints2D* m_lastPoints2d;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
 
-    Player(IComponentOwner* owner);
-    ~Player();
+	Player(IComponentOwner* owner);
+	~Player();
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
 
-    void Start() override;
-    void Update(const GameTimer& gameTimer) override;
+	void Start() override;
+	void Update(const GameTimer& gameTimer) override;
 
-    void OnCollisionEnter(HitContact& contact) override;
-    void OnCollisionEnter2D(HitContact2D& contact) override;
+	void OnCollisionEnter(HitContact& contact) override;
+	void OnCollisionEnter2D(HitContact2D& contact) override;
 
-    void OnTriggerStay(HitContact& contact) override;
-    void OnTriggerExit(HitContact& contact) override;
+	void OnTriggerStay(HitContact& contact) override;
+	void OnTriggerExit(HitContact& contact) override;
 
-    // ƒWƒƒƒ“ƒv‰Â”\‚©‚Ç‚¤‚©
-    bool CanJump() const { return m_canJump; }
+	// ã‚¸ãƒ£ãƒ³ãƒ—å¯èƒ½ã‹ã©ã†ã‹
+	bool CanJump() const { return m_canJump; }
 
-    // ŸŒ³ƒtƒ‰ƒO‚ğ•ÏX‚·‚éŠÖ”
-    void ChangeDimention() { m_is2D = !m_is2D; }
+	// æ¬¡å…ƒãƒ•ãƒ©ã‚°ã‚’å¤‰æ›´ã™ã‚‹é–¢æ•°
+	void ChangeDimention() { m_is2D = !m_is2D; }
 
-    // ÅŒã‚ÉG‚ê‚½Œó•â“_‚ğæ“¾‚·‚éŠÖ”
-    LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
-    LandingCandidatePoints2D* GetLandingPoints2D() const { return m_lastPoints2d; }
+	// æœ€å¾Œã«è§¦ã‚ŒãŸå€™è£œç‚¹ã‚’å–å¾—ã™ã‚‹é–¢æ•°
+	LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
+	LandingCandidatePoints2D* GetLandingPoints2D() const { return m_lastPoints2d; }
+
+	// IDå–å¾—
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<Player>();
+	}
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // 2D‚ÌXVŠÖ”
-    void Update2D(const GameTimer& timer);
+	// 2Dæ™‚ã®æ›´æ–°é–¢æ•°
+	void Update2D(const GameTimer& timer);
 
-    // 3D‚ÌXVŠÖ”
-    void Update3D(const GameTimer& timer);
+	// 3Dæ™‚ã®æ›´æ–°é–¢æ•°
+	void Update3D(const GameTimer& timer);
 };

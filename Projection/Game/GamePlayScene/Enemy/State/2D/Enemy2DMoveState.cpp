@@ -1,33 +1,33 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : Enemy2DMoveState.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/23
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : Enemy2DMoveState.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/23
 //
-// ŠT—v       : “G‚Ì2DˆÚ“®ƒXƒe[ƒg
+// æ¦‚è¦       : æ•µã®2Dç§»å‹•ã‚¹ãƒ†ãƒ¼ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "Enemy2DMoveState.h"
 
 #include "../../Enemy.h"
-#include "GameLib/GameObject/Components/RigidBody/2D/RigidBody2D.h"
-#include "GameLib/GameObject/Components/Collider/2D/BaseCollider2D.h"
+#include "Components/World/RigidBody/RigidBody2D.h"
+#include "Components/World/Collider/2D/ColliderBase2D.h"
 
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
+#include "Settings/WorldSetting2D.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void Enemy2DMoveState::Enter()
 {
-	// ƒpƒX‚ğæ“¾
+	// ãƒ‘ã‚¹ã‚’å–å¾—
 	const PathFollower::Path2D* path = GetOwner()->GetNowPath2D();
 
-	// ƒpƒX‚ª‚È‚¯‚ê‚ÎIdle‚É–ß‚·
+	// ãƒ‘ã‚¹ãŒãªã‘ã‚Œã°Idleã«æˆ»ã™
 	if (!path)
 	{
 		RequestChangeState(EnemyStateID::Idle);
@@ -35,40 +35,40 @@ void Enemy2DMoveState::Enter()
 		return;
 	}
 	
-	// 2ŸŒ³¢ŠE‚Ìİ’è‚ğæ“¾
+	// 2æ¬¡å…ƒä¸–ç•Œã®è¨­å®šã‚’å–å¾—
 	auto& world2D = WorldSetting2D::Instance();
 
-	// Å‰‚ÌˆÊ’u‚ğæ“¾
+	// æœ€åˆã®ä½ç½®ã‚’å–å¾—
 	DirectX::SimpleMath::Vector2 initPosition = world2D.World3DToLocal2D(GetOwner()->GetComponent<Transform>()->GetWorldPosition());
 
-	// –Ú•W’n“_‚ğæ“¾
+	// ç›®æ¨™åœ°ç‚¹ã‚’å–å¾—
 	m_targetPosition = path->start;
 
-	// ˆÚ“®ƒxƒNƒgƒ‹‚ğZo
+	// ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç®—å‡º
 	m_moveVec = m_targetPosition - initPosition;
 
 	m_moveVec.y = 0;
 
-	// ˆÚ“®‚·‚é‹——£‚ğZo
+	// ç§»å‹•ã™ã‚‹è·é›¢ã‚’ç®—å‡º
 	float len = m_moveVec.Length();
 
-	// ³‹K‰»
+	// æ­£è¦åŒ–
 	m_moveVec /= len;
 
-	// RigidBody‚ğæ“¾
+	// RigidBodyã‚’å–å¾—
 	if (auto rb = GetOwner()->GetComponent<RigidBody2D>())
 	{
-		// ‘¬“x‚ğ•ÏX
+		// é€Ÿåº¦ã‚’å¤‰æ›´
 		rb->SetVelocity(m_moveVec * Enemy::VELOCITY);
 	}
 
-	// Collider‚ğæ“¾
-	if (auto col = GetOwner()->GetComponent<BaseCollider2D>())
+	// Colliderã‚’å–å¾—
+	if (auto col = GetOwner()->GetComponent<ColliderBase2D>())
 	{
-		// –€C‚ğ‚È‚­‚·
+		// æ‘©æ“¦ã‚’ãªãã™
 		auto* mt = col->GetMutablePhysicsMaterial();
 
-		// ‚È‚¯‚ê‚Îİ’è
+		// ãªã‘ã‚Œã°è¨­å®š
 		if (mt)
 		{
 			mt->SetFrictionCombine(CombineMode::Minimum);
@@ -80,30 +80,30 @@ void Enemy2DMoveState::Enter()
 
 void Enemy2DMoveState::Update(const GameTimer& timer)
 {
-	// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾
+	// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 	Transform* pTransform = GetOwner()->GetComponent<Transform>();
 		
-	// 2ŸŒ³¢ŠE‚Ìİ’è‚ğæ“¾
+	// 2æ¬¡å…ƒä¸–ç•Œã®è¨­å®šã‚’å–å¾—
 	auto& world2D = WorldSetting2D::Instance();
 
-	// ¡‚ÌˆÊ’u‚ğæ“¾
+	// ä»Šã®ä½ç½®ã‚’å–å¾—
 	DirectX::SimpleMath::Vector2 nowPosition = world2D.World3DToLocal2D(pTransform->GetWorldPosition());
 
-	// Ÿ‚ÌÀ•W‚©‚ç–Ú•W’l‚Ö‚ÌƒxƒNƒgƒ‹
+	// æ¬¡ã®åº§æ¨™ã‹ã‚‰ç›®æ¨™å€¤ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 	DirectX::SimpleMath::Vector2 toTarget = m_targetPosition - nowPosition;
 
-	// …•½•ûŒü‚ª–Ú•W’n“_‚É‚½‚Ç‚è’…‚¢‚Ä‚¢‚½‚ç
+	// æ°´å¹³æ–¹å‘ãŒç›®æ¨™åœ°ç‚¹ã«ãŸã©ã‚Šç€ã„ã¦ã„ãŸã‚‰
 	if (m_moveVec.Dot(toTarget) < 0)
 	{
-		// ’n–Ê‚É‚¢‚ê‚Î
+		// åœ°é¢ã«ã„ã‚Œã°
 		if (GetOwner()->IsGround())
 		{
-			// 2ŸŒ³ƒWƒƒƒ“ƒvƒXƒe[ƒg‚Ö‚ÌˆÚs‚ğ—v¿
+			// 2æ¬¡å…ƒã‚¸ãƒ£ãƒ³ãƒ—ã‚¹ãƒ†ãƒ¼ãƒˆã¸ã®ç§»è¡Œã‚’è¦è«‹
 			RequestChangeState(EnemyStateID::Jump2D);
 		}
 	}
 
-	// RigidBody‚ğæ“¾
+	// RigidBodyã‚’å–å¾—
 	if (auto rb = GetOwner()->GetComponent<RigidBody2D>())
 	{
 		DirectX::SimpleMath::Vector2 vel =
@@ -112,17 +112,17 @@ void Enemy2DMoveState::Update(const GameTimer& timer)
 			rb->GetVelocity().y,
 		};
 
-		// ‘¬“x‚ğ•ÏX
+		// é€Ÿåº¦ã‚’å¤‰æ›´
 		rb->SetVelocity(vel);
 	}
 }
 
 void Enemy2DMoveState::Exit()
 {
-	// Collider‚ğæ“¾
-	if (auto col = GetOwner()->GetComponent<BaseCollider2D>())
+	// Colliderã‚’å–å¾—
+	if (auto col = GetOwner()->GetComponent<ColliderBase2D>())
 	{
-		// –€C‚ğ–ß‚·
+		// æ‘©æ“¦ã‚’æˆ»ã™
 		auto* mt = col->GetMutablePhysicsMaterial();
 
 		if (mt)
@@ -133,10 +133,10 @@ void Enemy2DMoveState::Exit()
 		}
 	}
 
-	// ‘¬“x‚ğƒŠƒZƒbƒg
+	// é€Ÿåº¦ã‚’ãƒªã‚»ãƒƒãƒˆ
 	if (auto rb = GetOwner()->GetComponent<RigidBody2D>())
 	{
-		// Y•ûŒü‚Ì‚İ‚»‚Ì‚Ü‚Ü
+		// Yæ–¹å‘ã®ã¿ãã®ã¾ã¾
 		rb->SetVelocity({ 0, rb->GetVelocity().y });
 	}
 }

@@ -1,25 +1,25 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : LandingCandidatePoints2D.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/14
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : LandingCandidatePoints2D.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/14
 //
-// ŠT—v       : 2D”Å‚Ì’…’nŒó•â“_ƒRƒ“ƒ|[ƒlƒ“ƒg
+// æ¦‚è¦       : 2Dç‰ˆã®ç€åœ°å€™è£œç‚¹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "LandingCandidatePoints2D.h"
 
-#include "GameLib/GameObject/Components/Collider/2D/Shapes/2DColliders.h"
+#include "Components/World/Collider/2D/Shapes/2DColliders.h"
+#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
+#include "System/TypeIdGenerator.h"
 
-#include "GameLib/GameObject/Settings/WorldSetting2D.h"
-
-#include "GameLib/Common/ContainerExtensions.h"
+#include "Settings/WorldSetting2D.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 void LandingCandidatePoints2D::Awake()
@@ -27,69 +27,72 @@ void LandingCandidatePoints2D::Awake()
 
 void LandingCandidatePoints2D::Start()
 {
-	// ƒRƒ‰ƒCƒ_[‚ğæ“¾
-	// 1‚Â–Ú‚Ì‚İ‚É‘Î‰
-	m_ownCollider = GetComponent<BaseCollider2D>();
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å–å¾—
+	// 1ã¤ç›®ã®ã¿ã«å¯¾å¿œ
+	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(ComponentCategory::Collider2D));
 
-	// æ“¾‚Å‚«‚È‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
+	// å–å¾—ã§ããªã‹ã£ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if (!m_ownCollider) return;
 
-	// Œó•â“_‚ÌXV
+	// å€™è£œç‚¹ã®æ›´æ–°
 	UpdateCandidatePoints();
 
-	// ‰Šúó‘Ô‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾
+	// åˆæœŸçŠ¶æ…‹ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—
 	m_latestVersion = m_ownCollider->GetVersion();
 }
 
-void LandingCandidatePoints2D::Update(const GameTimer & gameTimer)
+void LandingCandidatePoints2D::Update(const GameTimer& gameTimer)
 {
-	// æ“¾‚Å‚«‚Ä‚¢‚È‚©‚Á‚½‚ç
-	if (!m_ownCollider)
-	{
-		// Äæ“¾
-		m_ownCollider = GetComponent<BaseCollider2D>();
+	// å†å–å¾—
+	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(ComponentCategory::Collider2D));
 
-		// Äæ“¾‚à¸”s‚µ‚½‚ç‰½‚à‚µ‚È‚¢
-		if (!m_ownCollider) return;
-	}
+	// å†å–å¾—ã‚‚å¤±æ•—ã—ãŸã‚‰ä½•ã‚‚ã—ãªã„
+	if (!m_ownCollider) return;
 
-	// ƒRƒ‰ƒCƒ_[‚ª•ÏX‚³‚ê‚Ä‚¢‚½‚ç
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãŒå¤‰æ›´ã•ã‚Œã¦ã„ãŸã‚‰
 	if (m_ownCollider->GetVersion() != m_latestVersion)
 	{
-		// ÅVƒo[ƒWƒ‡ƒ“‚ğXV
+		// æœ€æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’æ›´æ–°
 		m_latestVersion = m_ownCollider->GetVersion();
 
-		// Œó•â“_‚ÌXV
+		// å€™è£œç‚¹ã®æ›´æ–°
 		UpdateCandidatePoints();
 
-		// 2D¢ŠE‚Ìİ’è‚ğæ“¾
+		// 2Dä¸–ç•Œã®è¨­å®šã‚’å–å¾—
 		auto& world2D = WorldSetting2D::Instance();
 
-		// ’†S“_‚ÌXV(ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ì3DÀ•W‚ğ2DÀ•WŒn‚É•ÏŠ·)
+		// ä¸­å¿ƒç‚¹ã®æ›´æ–°(ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®3Dåº§æ¨™ã‚’2Dåº§æ¨™ç³»ã«å¤‰æ›)
 		m_centerPoint = world2D.World3DToLocal2D(GetComponent<Transform>()->GetWorldPosition());
 	}
 }
 
 void LandingCandidatePoints2D::UpdateCandidatePoints()
 {
-	// ƒRƒ‰ƒCƒ_[‚ª–¢İ’è‚È‚ç‰½‚à‚µ‚È‚¢
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãŒæœªè¨­å®šãªã‚‰ä½•ã‚‚ã—ãªã„
 	if (!m_ownCollider) return;
 
-	// ƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv‚²‚Æ‚Éˆ—‚ğ•ª‚¯‚é
-	switch (m_ownCollider->GetType())
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—ã”ã¨ã«å‡¦ç†ã‚’åˆ†ã‘ã‚‹
+	unsigned int id = m_ownCollider->GetID();
+
+	// ãƒœãƒƒã‚¯ã‚¹ã®å ´åˆ
+	if (id == TypeIDGenerator::GetID<BoxCollider2D>())
 	{
-	case ColliderType2D::Box:
 		UpdateCandidatePointsOnBox();
-		break;
-	case ColliderType2D::Capsule:
-		break;
-	case ColliderType2D::Circle:
-		break;
-	case ColliderType2D::ConvexPolygon:
+	}
+	// ã‚«ãƒ—ã‚»ãƒ«
+	else if (id == TypeIDGenerator::GetID<CapsuleCollider2D>())
+	{
+
+	}
+	// å††
+	else if (id == TypeIDGenerator::GetID<CircleCollider2D>())
+	{
+
+	}
+	// å‡¸ãƒãƒªã‚´ãƒ³
+	else if (id == TypeIDGenerator::GetID<ConvexPolygonCollider2D>())
+	{
 		UpdateCandidatePointsOnConvexPolygon();
-		break;
-	default:
-		break;
 	}
 
 	m_isChanged = true;
@@ -99,55 +102,55 @@ void LandingCandidatePoints2D::UpdateCandidatePointsOnBox()
 {
 	using namespace DirectX;
 
-	// ƒ{ƒbƒNƒXƒRƒ‰ƒCƒ_[‚É•ÏŠ·
+	// ãƒœãƒƒã‚¯ã‚¹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«å¤‰æ›
 	BoxCollider2D* collider = dynamic_cast<BoxCollider2D*>(m_ownCollider);
 
-	// •ÏŠ·‚É¸”s‚µ‚½‚ç‰½‚à‚µ‚È‚¢
+	// å¤‰æ›ã«å¤±æ•—ã—ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if (!collider) return;
 
-	// Å‚àã•ûŒü‚É‹ß‚¢²‚ğæ“¾‚·‚é
+	// æœ€ã‚‚ä¸Šæ–¹å‘ã«è¿‘ã„è»¸ã‚’å–å¾—ã™ã‚‹
 	SimpleMath::Vector2 axes[2] =
 	{
 		collider->GetXAxis(),
 		collider->GetYAxis(),
 	};
 
-	// ²‚Í³‹K‰»Ï‚İ‚Ì‚½‚ß‚»‚Ì‚Ü‚Üg—p
+	// è»¸ã¯æ­£è¦åŒ–æ¸ˆã¿ã®ãŸã‚ãã®ã¾ã¾ä½¿ç”¨
 	float dots[2] =
 	{
 		SimpleMath::Vector2::UnitY.Dot(axes[0]),
 		SimpleMath::Vector2::UnitY.Dot(axes[1]),
 	};
 
-	// g‚¤²”Ô† (0:x 1:y)
+	// ä½¿ã†è»¸ç•ªå· (0:x 1:y)
 	int useAxisIndex = -1;
 
-	// “Š‰eŒã‚Ì’·‚³‚ªÅ‘å‚Æ‚È‚é²‚ğ’²‚×‚é
+	// æŠ•å½±å¾Œã®é•·ã•ãŒæœ€å¤§ã¨ãªã‚‹è»¸ã‚’èª¿ã¹ã‚‹
 	float max = std::max(abs(dots[0]), abs(dots[1]));
 	for (int i = 0; i < 2; ++i) if (max == abs(dots[i])) useAxisIndex = i;
 
 	if (useAxisIndex == -1) return;
 
-	// Å‘å‚Ì²‚ª•‰‚¾‚Á‚½ê‡‚Í‹tƒxƒNƒgƒ‹‚ğg—p
+	// æœ€å¤§ã®è»¸ãŒè² ã ã£ãŸå ´åˆã¯é€†ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä½¿ç”¨
 	SimpleMath::Vector2 useAxis = axes[useAxisIndex];
 	if (dots[useAxisIndex] < 0) useAxis *= -1;
 
-	// ƒ{ƒbƒNƒX‚ÌƒTƒCƒY‚ğæ“¾
+	// ãƒœãƒƒã‚¯ã‚¹ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
 	DirectX::SimpleMath::Vector2 size = collider->GetHalfSize();
 
 	float sizes[2] = { size.x, size.y };
 
-	// Œˆ‚Ü‚Á‚½ü‚Ì’†S“_‚Æ’[‚Ì“_‚Ì3“_‚ğŒó•â‚Æ‚·‚é
+	// æ±ºã¾ã£ãŸç·šã®ä¸­å¿ƒç‚¹ã¨ç«¯ã®ç‚¹ã®3ç‚¹ã‚’å€™è£œã¨ã™ã‚‹
 	m_candidatePoints.clear();
 
 	SimpleMath::Vector2 center = collider->GetWorldCenterPos();
 
-	// ü’†S
+	// ç·šä¸­å¿ƒ
 	SimpleMath::Vector2 planeCenter = center + useAxis * sizes[useAxisIndex];
 
 	m_candidatePoints.push_back(planeCenter);
 
-	// Šp
+	// è§’
 	int otherAxesIndex = { (useAxisIndex + 1) % 2 };
 
 	float offset = 0.8f;
@@ -168,66 +171,66 @@ void LandingCandidatePoints2D::UpdateCandidatePointsOnConvexPolygon()
 {
 	using namespace DirectX;
 
-	// “Êƒ|ƒŠƒSƒ“ƒRƒ‰ƒCƒ_[‚É•ÏŠ·
+	// å‡¸ãƒãƒªã‚´ãƒ³ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«å¤‰æ›
 	ConvexPolygonCollider2D* convex = dynamic_cast<ConvexPolygonCollider2D*>(m_ownCollider);
 
-	// •ÏŠ·‚É¸”s‚µ‚½‚ç‰½‚à‚µ‚È‚¢
+	// å¤‰æ›ã«å¤±æ•—ã—ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if (!convex) return;
 
-	// Œü‚«‚ªã•ûŒü‚É‹ß‚¢ü‚ğ’²‚×‚é
+	// å‘ããŒä¸Šæ–¹å‘ã«è¿‘ã„ç·šã‚’èª¿ã¹ã‚‹
 	std::vector<size_t> nearUpIndices;
 
-	// ƒ|ƒŠƒSƒ“‚Ì“_‚ğæ“¾
+	// ãƒãƒªã‚´ãƒ³ã®ç‚¹ã‚’å–å¾—
 	auto& vertices = convex->GetWorldVertices();
 
-	// ‘S“_‚ğ’²‚×‚é
+	// å…¨ç‚¹ã‚’èª¿ã¹ã‚‹
 	for (size_t i = 0; i < vertices.size(); ++i)
 	{
-		// —×‚Ì“_‚ğŒq‚®ü‚ğŒ`¬
+		// éš£ã®ç‚¹ã‚’ç¹‹ãç·šã‚’å½¢æˆ
 		SimpleMath::Vector2 line =
 			vertices[(i + 1) % vertices.size()] - vertices[i];
 
-		// –@ü‚ğ¶¬
+		// æ³•ç·šã‚’ç”Ÿæˆ
 		SimpleMath::Vector2 normal = { -line.y, line.x };
 
-		// ã•ûŒüƒxƒNƒgƒ‹‚É“Š‰e‚µ‚Ä‹ß‚³‚ğ’²‚×‚é
+		// ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã«æŠ•å½±ã—ã¦è¿‘ã•ã‚’èª¿ã¹ã‚‹
 		normal.Normalize();
 
 		float upValue = SimpleMath::Vector2::UnitY.Dot(normal);
 
-		// cosƒÆ <= 1 / ã2 ‚ğŠî€‚Æ‚·‚é (45‹ˆÈ‰º)
-		if (upValue <= -CONVEX_UP_BORDER)
+		// cosÎ¸ <= 1 / âˆš2 ã‚’åŸºæº–ã¨ã™ã‚‹ (45Â°ä»¥ä¸‹)
+		if (upValue < -CONVEX_UP_BORDER)
 		{
-			// ã•ûŒü‚É‹ß‚¢ü‚Æ‚µ‚Ä’Ç‰Á
+			// ä¸Šæ–¹å‘ã«è¿‘ã„ç·šã¨ã—ã¦è¿½åŠ 
 			nearUpIndices.push_back(i);
 		}
 	}
 
-	// Œˆ‚Ü‚Á‚½ü‚Ì’†S“_‚Æ’[‚Ì“_‚Ì3“_‚ğŒó•â‚Æ‚·‚é
+	// æ±ºã¾ã£ãŸç·šã®ä¸­å¿ƒç‚¹ã¨ç«¯ã®ç‚¹ã®3ç‚¹ã‚’å€™è£œã¨ã™ã‚‹
 	m_candidatePoints.clear();
 
-	// ã•ûŒü‚É‹ß‚¢ü‚Ì’[“_‚Æ’†S“_‚ğŒó•â“_‚Æ‚·‚é
+	// ä¸Šæ–¹å‘ã«è¿‘ã„ç·šã®ç«¯ç‚¹ã¨ä¸­å¿ƒç‚¹ã‚’å€™è£œç‚¹ã¨ã™ã‚‹
 	for (size_t index : nearUpIndices)
 	{
-		// 2“_‚ğZo
+		// 2ç‚¹ã‚’ç®—å‡º
 		SimpleMath::Vector2 start = vertices[index];
 
 		size_t next = (index + 1) % vertices.size();
 		SimpleMath::Vector2 end = vertices[next];
 
-		// ©g‚ğ’Ç‰Á
+		// è‡ªèº«ã‚’è¿½åŠ 
 		m_candidatePoints.push_back(start);
 
-		// ’†S“_‚ğ’Ç‰Á
+		// ä¸­å¿ƒç‚¹ã‚’è¿½åŠ 
 		m_candidatePoints.push_back((end + start) / 2);
 
-		// Ÿ‚Ì“_‚ª‘¼‚Ìã•ûŒü‚É‹ß‚¢ü‚Ìn“_‚Æ‚È‚é‚©‚ğ’²‚×‚é
-		bool contain = ContainerUtils::Contain(nearUpIndices, next);
+		// æ¬¡ã®ç‚¹ãŒä»–ã®ä¸Šæ–¹å‘ã«è¿‘ã„ç·šã®å§‹ç‚¹ã¨ãªã‚‹ã‹ã‚’èª¿ã¹ã‚‹
+		bool contain = std::find(nearUpIndices.begin(), nearUpIndices.end(), next) != nearUpIndices.end();
 
-		// ‚È‚ç‚È‚¯‚ê‚Î
+		// ãªã‚‰ãªã‘ã‚Œã°
 		if (!contain)
 		{
-			// Ÿ‚Ì“_‚ğŒó•â“_‚É’Ç‰Á
+			// æ¬¡ã®ç‚¹ã‚’å€™è£œç‚¹ã«è¿½åŠ 
 			m_candidatePoints.push_back(end);
 		}
 	}

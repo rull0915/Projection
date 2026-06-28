@@ -1,181 +1,181 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼   : EnemyManager.h
-// ì¬Ò       : Hoshino Ryunosuke
-// ì¬“ú       : 2026/06/17
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å   : EnemyManager.h
+// ä½œæˆè€…       : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/06/17
 //
-// ŠT—v : “GŠÇ—ƒNƒ‰ƒX
+// æ¦‚è¦ : æ•µç®¡ç†ã‚¯ãƒ©ã‚¹
 //
-// XV—š—ğ :
-// 2026/06/17 V‹Kì¬
+// æ›´æ–°å±¥æ­´ :
+// 2026/06/17 æ–°è¦ä½œæˆ
 //====================================================//
 
 #pragma once
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "AI/NavigationGraph.h"
 #include "AI/NavigationGraph2D.h"
 
 #include "Enemy.h"
-#include "GameLib/GameObject/Components/Transform/Transform.h"
+#include "Components/World/Transform/Transform.h"
 
 //====================================================//
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 //====================================================//
 
 
 //====================================================//
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //====================================================//
 class EnemyManager
 {
-    // ƒOƒ‰ƒt‚ğXV‚·‚éŠ´Šo
-    static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
+	// ã‚°ãƒ©ãƒ•ã‚’æ›´æ–°ã™ã‚‹æ„Ÿè¦š
+	static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
 
-    // “¹‚ğÄŒvZ‚·‚éƒ{[ƒ_[(‹——£‚Ì2æ)
-    static constexpr float WAY_UPDATE_BORDER = 0.0f;
-    
+	// é“ã‚’å†è¨ˆç®—ã™ã‚‹ãƒœãƒ¼ãƒ€ãƒ¼(è·é›¢ã®2ä¹—)
+	static constexpr float WAY_UPDATE_BORDER = 0.0f;
+	
 private:
 
-    //-----------------------------------------------------
-    // ’è”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å®šæ•°
+	//-----------------------------------------------------
 
 
-    //-----------------------------------------------------
-    // ƒƒ“ƒo•Ï”
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//-----------------------------------------------------
 
-    // ’Êí‚Ì“G‚ªg—p‚·‚éƒOƒ‰ƒt
-    NavigationGraph m_normalNavigation;
-    NavigationGraph2D m_normalNavigation2D;
+	// é€šå¸¸ã®æ•µãŒä½¿ç”¨ã™ã‚‹ã‚°ãƒ©ãƒ•
+	NavigationGraph m_normalNavigation;
+	NavigationGraph2D m_normalNavigation2D;
 
-    // ŠÇ—‚µ‚Ä‚¢‚é“GƒŠƒXƒg
-    std::vector<Enemy*> m_enemies;
-    std::vector<Enemy*> m_addReserves;
-    std::vector<Enemy*> m_removeReserves;
+	// ç®¡ç†ã—ã¦ã„ã‚‹æ•µãƒªã‚¹ãƒˆ
+	std::vector<Enemy*> m_enemies;
+	std::vector<Enemy*> m_addReserves;
+	std::vector<Enemy*> m_removeReserves;
 
-    // ŠÔŠÇ—
-    float m_nowTime;
+	// æ™‚é–“ç®¡ç†
+	float m_nowTime;
 
-    // ƒvƒŒƒCƒ„[‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€
-    Transform* m_playerTransform;
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ 
+	Transform* m_playerTransform;
 
-    // ƒvƒŒƒCƒ„[‚ª‚¢‚½ˆÊ’u
-    DirectX::SimpleMath::Vector3 m_oldPlayerPosition;
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ãŸä½ç½®
+	DirectX::SimpleMath::Vector3 m_oldPlayerPosition;
 
-    // 2Dƒtƒ‰ƒO
-    bool m_is2D;
+	// 2Dãƒ•ãƒ©ã‚°
+	bool m_is2D;
 
-    // ƒeƒXƒg—p
-    std::vector<NavigationGraphBase::Edge> m_debugPath;
+	// ãƒ†ã‚¹ãƒˆç”¨
+	std::vector<NavigationGraphBase::Edge> m_debugPath;
 
 public:
 
-    //-----------------------------------------------------
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
-    //-----------------------------------------------------
-    EnemyManager()
-        : m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
-        , m_normalNavigation2D{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
-        , m_enemies{}
-        , m_nowTime{ 0 }
-        , m_playerTransform{ nullptr }
-        , m_is2D{ false }
-    {
-    }
-    ~EnemyManager() = default;
+	//-----------------------------------------------------
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ / ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	//-----------------------------------------------------
+	EnemyManager()
+		: m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
+		, m_normalNavigation2D{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
+		, m_enemies{}
+		, m_nowTime{ 0 }
+		, m_playerTransform{ nullptr }
+		, m_is2D{ false }
+	{
+	}
+	~EnemyManager() = default;
 
-    //-----------------------------------------------------
-    // ŒöŠJŠÖ”
-    //-----------------------------------------------------
-    void Initialize();
+	//-----------------------------------------------------
+	// å…¬é–‹é–¢æ•°
+	//-----------------------------------------------------
+	void Initialize();
 
-    void Update(const GameTimer& timer);
+	void Update(const GameTimer& timer);
 
-    void DebugRenderer(Renderer& renderer);
+	void DebugRenderer(Renderer& renderer);
 
-    // “G‚ğ’Ç‰Á‚·‚éŠÖ”
-    void AddEnemy(Enemy* component)
-    {
-        m_addReserves.push_back(component);
-    }
-    // “G‚ğíœ‚·‚éŠÖ”
-    void RemoveEnemy(Enemy* component)
-    {
-        m_removeReserves.push_back(component);
-    }
+	// æ•µã‚’è¿½åŠ ã™ã‚‹é–¢æ•°
+	void AddEnemy(Enemy* component)
+	{
+		m_addReserves.push_back(component);
+	}
+	// æ•µã‚’å‰Šé™¤ã™ã‚‹é–¢æ•°
+	void RemoveEnemy(Enemy* component)
+	{
+		m_removeReserves.push_back(component);
+	}
 
-    // —\–ñŒó•â“_‚ğ’Ç‰Á‚·‚éŠÖ”
-    void AddPoints(LandingCandidatePoints* component)
-    {
-        m_normalNavigation.AddNode(component);
-    }
-    // —\–ñŒó•â“_‚ğíœ‚·‚éŠÖ”
-    void RemovePoints(LandingCandidatePoints* component)
-    {
-        m_normalNavigation.RemoveNode(component);
-    }
+	// äºˆç´„å€™è£œç‚¹ã‚’è¿½åŠ ã™ã‚‹é–¢æ•°
+	void AddPoints(LandingCandidatePoints* component)
+	{
+		m_normalNavigation.AddNode(component);
+	}
+	// äºˆç´„å€™è£œç‚¹ã‚’å‰Šé™¤ã™ã‚‹é–¢æ•°
+	void RemovePoints(LandingCandidatePoints* component)
+	{
+		m_normalNavigation.RemoveNode(component);
+	}
 
-    // 2D—\–ñŒó•â“_‚ğ’Ç‰Á‚·‚éŠÖ”
-    void AddPoints(LandingCandidatePoints2D* component)
-    {
-        m_normalNavigation2D.AddNode(component);
-    }
-    // 2D—\–ñŒó•â“_‚ğíœ‚·‚éŠÖ”
-    void RemovePoints(LandingCandidatePoints2D* component)
-    {
-        m_normalNavigation2D.RemoveNode(component);
-    }
+	// 2Däºˆç´„å€™è£œç‚¹ã‚’è¿½åŠ ã™ã‚‹é–¢æ•°
+	void AddPoints(LandingCandidatePoints2D* component)
+	{
+		m_normalNavigation2D.AddNode(component);
+	}
+	// 2Däºˆç´„å€™è£œç‚¹ã‚’å‰Šé™¤ã™ã‚‹é–¢æ•°
+	void RemovePoints(LandingCandidatePoints2D* component)
+	{
+		m_normalNavigation2D.RemoveNode(component);
+	}
 
-    // “G‚ÌŸŒ³•ÏX‚ğs‚¤ŠÖ”
-    void ChangeDimantion();
+	// æ•µã®æ¬¡å…ƒå¤‰æ›´ã‚’è¡Œã†é–¢æ•°
+	void ChangeDimantion();
 
-    //-----------------------------------------------------
-    // ƒQƒbƒ^[
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// ã‚²ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
 
 
-    //-----------------------------------------------------
-    // ƒZƒbƒ^[
-    //-----------------------------------------------------
-    void SetPlayer(Transform* player) { m_playerTransform = player; }
+	//-----------------------------------------------------
+	// ã‚»ãƒƒã‚¿ãƒ¼
+	//-----------------------------------------------------
+	void SetPlayer(Transform* player) { m_playerTransform = player; }
 
 private:
 
-    //-----------------------------------------------------
-    // “à•”À‘•
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// å†…éƒ¨å®Ÿè£…
+	//-----------------------------------------------------
 
-    // ’Ç‰Á—\–ñÏ‚İ‚Ì“G‚ğ’Ç‰Á‚·‚é
-    void AddReserved()
-    {
-        for (auto& component : m_addReserves)
-        {
-            m_enemies.push_back(component);
+	// è¿½åŠ äºˆç´„æ¸ˆã¿ã®æ•µã‚’è¿½åŠ ã™ã‚‹
+	void AddReserved()
+	{
+		for (auto& component : m_addReserves)
+		{
+			m_enemies.push_back(component);
 
-            // ƒtƒ‰ƒO‚ğ©•ª‚Æ‡‚í‚¹‚é
-            component->SetIs2D(m_is2D);
-        }
+			// ãƒ•ãƒ©ã‚°ã‚’è‡ªåˆ†ã¨åˆã‚ã›ã‚‹
+			component->SetIs2D(m_is2D);
+		}
 
-        // ƒŠƒZƒbƒg
-        m_addReserves.clear();
-    }
+		// ãƒªã‚»ãƒƒãƒˆ
+		m_addReserves.clear();
+	}
 
-    // íœ—\–ñÏ‚İ‚Ì“G‚ğíœ‚·‚é
-    void RemoveReserved()
-    {
-        for (auto& component : m_removeReserves)
-        {
-            // ”z—ñ‚É‚ ‚ê‚Îíœ‚·‚é
-            m_enemies.erase(
-                std::remove(m_enemies.begin(), m_enemies.end(), component),
-                m_enemies.end()
-            );
-        }
+	// å‰Šé™¤äºˆç´„æ¸ˆã¿ã®æ•µã‚’å‰Šé™¤ã™ã‚‹
+	void RemoveReserved()
+	{
+		for (auto& component : m_removeReserves)
+		{
+			// é…åˆ—ã«ã‚ã‚Œã°å‰Šé™¤ã™ã‚‹
+			m_enemies.erase(
+				std::remove(m_enemies.begin(), m_enemies.end(), component),
+				m_enemies.end()
+			);
+		}
 
-        // ƒŠƒZƒbƒg
-        m_removeReserves.clear();
-    }
+		// ãƒªã‚»ãƒƒãƒˆ
+		m_removeReserves.clear();
+	}
 };

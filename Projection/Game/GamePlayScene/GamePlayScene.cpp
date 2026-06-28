@@ -1,27 +1,27 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
 #include "GamePlayScene.h"
 #include "../Game.h"
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 #include "Camera/ProjectionSmoothCamera.h"
 #include "Camera/TPSCamera.h"
 #include "Player/Player.h"
 #include "Stage/Components/MoveComponent.h"
 
-// ŠÇ—ƒNƒ‰ƒX
+// ç®¡ç†ã‚¯ãƒ©ã‚¹
 #include "ChangeDimention/ChangeColliderComponent.h"
+#include "System/ResourceManager.h"
 #include "ObjectFactory.h"
 
-#include "GameLib/GameObject/Settings/TimeSettings.h"
+// å…¥åŠ›
+#include "Input/KeyInput.h"
 
-// “ü—Í
-#include "GameLib/Input/KeyInput.h"
+// ãã®ä»–
+#include "Common/Random.h"
+#include "Scene/Transition/FadeTransition.h"
 
-// ‚»‚Ì‘¼
-#include "GameLib/Common/Random.h"
-
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 GamePlayScene::GamePlayScene(Game* pGame)
 	: Scene(pGame->GetSceneManager())
 	, m_pGame{ pGame }
@@ -34,56 +34,59 @@ GamePlayScene::~GamePlayScene()
 {
 }
 
-// ‰Šú‰»ŠÖ”
+// åˆæœŸåŒ–é–¢æ•°
 void GamePlayScene::Initialize()
 {
+	// ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿
+	ResourceManager::Instance().AddModel("Enemy", L"Resources/Models/character-oobi.cmo");
+
 	m_dimentionManager.Initialize();
 
 	m_enemyManager.Initialize();
-	// ƒIƒuƒWƒFƒNƒg‚Ì’Ç‰Á
-	// ƒJƒƒ‰
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¿½åŠ 
+	// ã‚«ãƒ¡ãƒ©
 	m_camera = Generate();
 
-	// ƒƒCƒ“ƒJƒƒ‰‚Éİ’è
+	// ãƒ¡ã‚¤ãƒ³ã‚«ãƒ¡ãƒ©ã«è¨­å®š
 	auto cameraComponent = m_camera->AddComponent<ProjectionSmoothCamera>();
-	GetCamera().SetMainCamera(cameraComponent);
+	SetMainCamera(cameraComponent);
 
-	// ƒvƒŒƒCƒ„[‚ğ¶¬
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆ
 	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
 
-	// “G‚ğ¶¬
+	// æ•µã‚’ç”Ÿæˆ
 	ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
-	ObjectFactory::CreateEnemy(this, { 0, 5, 5 });
-	ObjectFactory::CreateEnemy(this, { 0, 8, 3 });
+	//ObjectFactory::CreateEnemy(this, { 0, 5, 5 });
+	//ObjectFactory::CreateEnemy(this, { 0, 8, 3 });
 
 	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
 
 
-	// ƒJƒƒ‰‚Ìƒ^[ƒQƒbƒg‚Éİ’è
+	// ã‚«ãƒ¡ãƒ©ã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«è¨­å®š
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 
 	ObjectFactory::CreateCube(this, { 0, -3, 0 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 0, -3, -10 }, { 0, 0, 0 }, { 3, 1, 3 });
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		auto cube = ObjectFactory::CreateCube(this, 
 			{ Random::Get(-10.0f, 10.0f), Random::Get(-3.0f, 5.0f), Random::Get(-10.0f, 10.0f) }
 			, { 0, 0, 0 }
 			,{ 3.0f, 1.0f, 3.0f } 
 		);
-		if (i == 0) cube->AddComponent<MoveComponent>()->SetFunc(TestMove);
+		// if (i == 0) cube->AddComponent<MoveComponent>()->SetFunc(TestMove);
 	}
 
-	// ŸŒ³ŠÇ—ƒNƒ‰ƒX‚ÉƒJƒƒ‰‚ğ“n‚·
+	// æ¬¡å…ƒç®¡ç†ã‚¯ãƒ©ã‚¹ã«ã‚«ãƒ¡ãƒ©ã‚’æ¸¡ã™
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
 
-	// “GŠÇ—ƒNƒ‰ƒX‚ÉƒvƒŒƒCƒ„[‚ğ“n‚·
+	// æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æ¸¡ã™
 	m_enemyManager.SetPlayer(m_player->GetComponent<Transform>());
 }
 
-// XVŠÖ”
+// æ›´æ–°é–¢æ•°
 void GamePlayScene::Update(const GameTimer& gameTimer)
 {
 	gameTimer;
@@ -92,110 +95,110 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 
 	m_enemyManager.Update(gameTimer);
 
-	if (KeyInput::GetKeyDown(KeyCode::Q))
+	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Q))
 	{
 		TryChangeDimention();
 	}
 
-	if (KeyInput::GetKeyDown(KeyCode::R))
+	if (Input::Key::Get(Input::State::Down, Input::Key::Code::R))
 	{
 		ChangeScene(
 			"GamePlay",
-			std::make_unique<FadeTransition>(0.5f, Transition::Mode::In),
-			std::make_unique<FadeTransition>(0.5f, Transition::Mode::Out)
+			std::make_unique<Transition::Fade>(0.5f),
+			std::make_unique<Transition::Fade>(0.5f)
 		);
 	}
 }
 
-// •`‰æŠÖ”
+// æç”»é–¢æ•°
 void GamePlayScene::Render(Renderer& renderer)
 {
 	m_enemyManager.DebugRenderer(renderer);
 }
 
-// I—¹ŠÖ”
+// çµ‚äº†é–¢æ•°
 void GamePlayScene::Finalize()
 {
 }
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª’Ç‰Á‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éŠÖ”
-void GamePlayScene::RegisterComponentOnDerived(BaseComponent* component)
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒè¿½åŠ ã•ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹é–¢æ•°
+void GamePlayScene::RegisterComponentOnDerived(ComponentBase* component)
 {
-	// ŸŒ³•ÏXƒ}ƒl[ƒWƒƒ[‚É’Ê’m
-	if (component->GetID() == ComponentID::ChangeColliderComponent)
+	// æ¬¡å…ƒå¤‰æ›´ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«é€šçŸ¥
+	if (component->GetID() == TypeIDGenerator::GetID<ChangeColliderComponent>())
 	{
 		m_dimentionManager.AddChangeComponent(static_cast<ChangeColliderComponent*>(component));
 	}
-	// “GŠÇ—ƒNƒ‰ƒX‚É’Ê’m
-	if (component->GetID() == ComponentID::LandingCandidatePoints)
+	// æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã«é€šçŸ¥
+	if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())
 	{
 		m_enemyManager.AddPoints(static_cast<LandingCandidatePoints*>(component));
 	}
-	if (component->GetID() == ComponentID::LandingCandidatePoints2D)
+	if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints2D>())
 	{
 		m_enemyManager.AddPoints(static_cast<LandingCandidatePoints2D*>(component));
 	}
-	// “GŠÇ—ƒNƒ‰ƒX‚É’Ê’m
-	if (component->GetID() == ComponentID::Enemy)
+	// æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã«é€šçŸ¥
+	if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
 	{
 		m_enemyManager.AddEnemy(static_cast<Enemy*>(component));
 	}
 }
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªíœ‚³‚ê‚é‚Æ‚«‚ÉŒÄ‚Î‚ê‚éŠÖ”
-void GamePlayScene::UnRegisterComponentOnDerived(BaseComponent* component)
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå‰Šé™¤ã•ã‚Œã‚‹ã¨ãã«å‘¼ã°ã‚Œã‚‹é–¢æ•°
+void GamePlayScene::UnRegisterComponentOnDerived(ComponentBase* component)
 {
-	// ŸŒ³•ÏXƒ}ƒl[ƒWƒƒ[‚É’Ê’m
-	if (component->GetID() == ComponentID::ChangeColliderComponent)
+	// æ¬¡å…ƒå¤‰æ›´ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«é€šçŸ¥
+	if (component->GetID() == TypeIDGenerator::GetID<ChangeColliderComponent>())
 	{
 		m_dimentionManager.RemoveChangeComponent(static_cast<ChangeColliderComponent*>(component));
 	}
-	// “GŠÇ—ƒNƒ‰ƒX‚É’Ê’m
-	if (component->GetID() == ComponentID::LandingCandidatePoints)
+	// æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã«é€šçŸ¥
+	if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())
 	{
 		m_enemyManager.RemovePoints(static_cast<LandingCandidatePoints*>(component));
 	}
-	if (component->GetID() == ComponentID::LandingCandidatePoints2D)
+	if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints2D>())
 	{
 		m_enemyManager.RemovePoints(static_cast<LandingCandidatePoints2D*>(component));
 	}
-	// “GŠÇ—ƒNƒ‰ƒX‚É’Ê’m
-	if (component->GetID() == ComponentID::Enemy)
+	// æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã«é€šçŸ¥
+	if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
 	{
 		m_enemyManager.RemoveEnemy(static_cast<Enemy*>(component));
 	}
 }
 
-// ŸŒ³‚ÌØ‚è‘Ö‚¦‚ğs‚¤ŠÖ”
+// æ¬¡å…ƒã®åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œã†é–¢æ•°
 void GamePlayScene::TryChangeDimention()
 {
-	// Ø‚è‘Ö‚¦’†‚È‚ç‰½‚à‚µ‚È‚¢
+	// åˆ‡ã‚Šæ›¿ãˆä¸­ãªã‚‰ä½•ã‚‚ã—ãªã„
 	if (m_dimentionManager.IsChanging()) return;
 
 	// 2D->3D
 	if (m_dimentionManager.GetIs2D())
 	{
-		// TPS‚ğƒAƒNƒeƒBƒu‰»
+		// TPSã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
 		m_camera->GetComponent<TPSCamera>()->SetActive(true);
 
-		// ƒJƒƒ‰‚ÌeqŠÖŒW‚ğ‰ğœ
+		// ã‚«ãƒ¡ãƒ©ã®è¦ªå­é–¢ä¿‚ã‚’è§£é™¤
 		m_camera->GetComponent<Transform>()->SetParent(nullptr);
 	}
 	else
 	{
-		// TPSƒJƒƒ‰‚ğ”ñƒAƒNƒeƒBƒu‰»
+		// TPSã‚«ãƒ¡ãƒ©ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
 		m_camera->GetComponent<TPSCamera>()->SetActive(false);
 
-		// ƒJƒƒ‰‚ğƒvƒŒƒCƒ„[‚Ìq‚Éİ’è
+		// ã‚«ãƒ¡ãƒ©ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å­ã«è¨­å®š
 		m_camera->GetComponent<Transform>()->SetParent(m_player->GetComponent<Transform>());
 	}
 
-	// ŸŒ³‚ÌØ‚è‘Ö‚¦
+	// æ¬¡å…ƒã®åˆ‡ã‚Šæ›¿ãˆ
 	m_dimentionManager.ChangeDimention();
 
-	// ƒvƒŒƒCƒ„[‚ÌØ‚è‘Ö‚¦
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆ‡ã‚Šæ›¿ãˆ
 	m_player->GetComponent<Player>()->ChangeDimention();
 
-	// “G‚ÌØ‚è‘Ö‚¦
+	// æ•µã®åˆ‡ã‚Šæ›¿ãˆ
 	m_enemyManager.ChangeDimantion();
 }

@@ -1,0 +1,94 @@
+﻿//====================================================//
+// ファイル名   : CollisionMap.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/06/26
+//
+// 概要 : 衝突判定のマップをもつクラス
+//
+// 更新履歴 :
+// 2026/06/26 新規作成
+//====================================================//
+
+#pragma once
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include <functional>
+#include <unordered_map>
+#include <cstdint>
+
+#include "Physics/HitInfomation.h"
+#include "Physics/HitInfomation2D.h"
+
+//====================================================//
+// 前方宣言
+//====================================================//
+class ColliderBase;
+class ColliderBase2D;
+
+//====================================================//
+// クラス宣言
+//====================================================//
+
+// 3次元コライダー衝突マップ
+class CollisionMap
+{
+	// マクロ宣言
+	using CollisionFunc = std::function<bool(ColliderBase*, ColliderBase*, HitInfomation*)>;
+
+private:
+
+	//-----------------------------------------------------
+	// メンバ変数
+	//-----------------------------------------------------
+
+	// 型IDをキーとした衝突判定関数の2次元マップ
+	inline static std::unordered_map<uint32_t, CollisionFunc> m_collisionMap;
+
+public:
+
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	CollisionMap() = default;
+	~CollisionMap() = default;
+
+
+	// 関数登録
+	static bool Register(uint16_t id1, uint16_t id2, CollisionFunc func);
+
+	// 関数実行
+	static bool CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info);
+};
+
+// 2次元コライダー衝突マップ
+class CollisionMap2D
+{
+	// マクロ宣言
+	using CollisionFunc = std::function<bool(ColliderBase2D*, ColliderBase2D*, HitInfomation2D*)>;
+
+private:
+
+	//-----------------------------------------------------
+	// メンバ変数
+	//-----------------------------------------------------
+
+	// 型IDをキーとした衝突判定関数の2次元マップ
+	inline static std::unordered_map<uint32_t, CollisionFunc> m_collisionMap;
+
+public:
+
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	CollisionMap2D() = default;
+	~CollisionMap2D() = default;
+
+
+	// 関数登録
+	static bool Register(uint16_t id1, uint16_t id2, CollisionFunc func);
+
+	// 関数実行
+	static bool CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info);
+};

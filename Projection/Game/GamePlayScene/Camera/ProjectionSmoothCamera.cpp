@@ -1,31 +1,32 @@
-//====================================================//
-// ƒtƒ@ƒCƒ‹–¼  : ProjectionSmoothCamera.cpp
-// ì¬Ò      : Hoshino Ryunosuke
-// ì¬“ú       : 2026/05/29
+ï»¿//====================================================//
+// ãƒ•ã‚¡ã‚¤ãƒ«å  : ProjectionSmoothCamera.cpp
+// ä½œæˆè€…      : Hoshino Ryunosuke
+// ä½œæˆæ—¥       : 2026/05/29
 //
-// ŠT—v       : ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğŠŠ‚ç‚©‚ÉØ‚è‘Ö‚¦‚éƒJƒƒ‰
+// æ¦‚è¦       : ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’æ»‘ã‚‰ã‹ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ã‚«ãƒ¡ãƒ©
 //====================================================//
 
 //====================================================//
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //====================================================//
 #include "pch.h"
 #include "ProjectionSmoothCamera.h"
 
-#include "GameLib/GameMath/Easing.h"
-#include "GameLib/GameObject/Components/Transform/Transform.h"
+#include "Math/Easing.h"
+#include "Components/World/Transform/Transform.h"
 
-#include "GameLib/GameObject/Settings/TimeSettings.h"
+#include "Settings/TimeSettings.h"
+#include "System/WindowManager.h"
 
 //====================================================//
-// ŠÖ”‚ÌÀ‘ÌéŒ¾
+// é–¢æ•°ã®å®Ÿä½“å®£è¨€
 //====================================================//
 
 ProjectionSmoothCamera::ProjectionSmoothCamera(IComponentOwner* owner)
-	: Camera(owner)
+	: CameraBase(owner)
 	, m_type{ ProjectionType::Perspective }
 	, m_farZ{ 1000.0f }, m_nearZ{ 0.1f }
-	, m_aspect{ static_cast<float>(Screen::WIDTH) / Screen::HEIGHT }
+	, m_aspect{ WindowManager::Instance().GetAspect() }
 	, m_fov{ PI_F / 4 }
 	, m_size{ 15.0f }
 	, m_changeTime{ 1.0f }
@@ -36,23 +37,23 @@ ProjectionSmoothCamera::ProjectionSmoothCamera(IComponentOwner* owner)
 
 void ProjectionSmoothCamera::Update(const GameTimer& gameTimer)
 {
-	// •Ï‰»’†‚È‚ç
+	// å¤‰åŒ–ä¸­ãªã‚‰
 	if (m_isChanging)
 	{
-		// ‰ÁZ‚·‚é
+		// åŠ ç®—ã™ã‚‹
 		m_nowTime += gameTimer.GetUnScaledElapsedTime();
 
 		SetNeedUpdateProj(true);
 
-		// 1‚ğ’´‚¦‚½‚ç
+		// 1ã‚’è¶…ãˆãŸã‚‰
 		if (m_nowTime >= m_changeTime)
 		{
 			m_nowTime = m_changeTime;
 
-			// •Ï‰»‚ğI—¹
+			// å¤‰åŒ–ã‚’çµ‚äº†
 			m_isChanging = false;
 
-			// ƒ^ƒCƒ€ƒXƒP[ƒ‹‚ğ‚à‚Ç‚·
+			// ã‚¿ã‚¤ãƒ ã‚¹ã‚±ãƒ¼ãƒ«ã‚’ã‚‚ã©ã™
 			TimeSettings::Instance().SetTimeScale(1.0f);
 		}
 	}
@@ -60,21 +61,21 @@ void ProjectionSmoothCamera::Update(const GameTimer& gameTimer)
 
 void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 {
-	// •ÏX’†‚Íó‚¯•t‚¯‚È‚¢
+	// å¤‰æ›´ä¸­ã¯å—ã‘ä»˜ã‘ãªã„
 	if (m_isChanging) return;
 
-	// ¡‚Ìs—ñ‚ğ•Û‘¶
+	// ä»Šã®è¡Œåˆ—ã‚’ä¿å­˜
 	m_oldProjecition = GetProj();
 
-	// ƒ^ƒCƒv‚ğ•Ï‚¦‚é
+	// ã‚¿ã‚¤ãƒ—ã‚’å¤‰ãˆã‚‹
 	m_type = (m_type == ProjectionType::Perspective ? ProjectionType::Orthographic : ProjectionType::Perspective);
 
-	// ƒ^[ƒQƒbƒg‚Æ‚È‚és—ñ‚ğì¬‚·‚é
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¨ãªã‚‹è¡Œåˆ—ã‚’ä½œæˆã™ã‚‹
 	switch (m_type)
 	{
 	case ProjectionType::Perspective:
 
-		// Perspective‚©‚çì¬
+		// Perspectiveã‹ã‚‰ä½œæˆ
 		m_targetProjection = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 			m_fov, m_aspect, m_nearZ, m_farZ
 		);
@@ -82,7 +83,7 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 		break;
 	case ProjectionType::Orthographic:
 
-		// Orthographic‚©‚çì¬
+		// Orthographicã‹ã‚‰ä½œæˆ
 		m_targetProjection = DirectX::SimpleMath::Matrix::CreateOrthographic(
 			m_size * m_aspect, m_size, -1000.0f, m_farZ
 		);
@@ -92,19 +93,19 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 		break;
 	}
 
-	// •Ï‰»ó‘Ô‚Ì‰Šú‰»
+	// å¤‰åŒ–çŠ¶æ…‹ã®åˆæœŸåŒ–
 	m_isChanging = true;
 
 	m_changeTime = changeTime;
 	m_nowTime = 0.0f;
 
-	// ƒ^ƒCƒ€ƒXƒP[ƒ‹‚ğ0‚É‚·‚é
+	// ã‚¿ã‚¤ãƒ ã‚¹ã‚±ãƒ¼ãƒ«ã‚’0ã«ã™ã‚‹
 	TimeSettings::Instance().SetTimeScale(0.0f);
 }
 
 void ProjectionSmoothCamera::UpdateView()
 {
-	// Transform‚ğ‚»‚Ì‚Ü‚ÜView‚É
+	// Transformã‚’ãã®ã¾ã¾Viewã«
 	SetView(
 		GetComponent<Transform>()->GetWorldMatrix().Invert()
 	);
@@ -119,7 +120,7 @@ void ProjectionSmoothCamera::UpdateProj()
 
 		DirectX::SimpleMath::Matrix nowProjection;
 
-		// Œ»İ‚Ìs—ñ‚ğ‹‚ß‚é
+		// ç¾åœ¨ã®è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 		switch (m_type)
 		{
 		case ProjectionType::Perspective:
@@ -134,17 +135,17 @@ void ProjectionSmoothCamera::UpdateProj()
 			break;
 		}
 
-		// İ’è‚·‚é
+		// è¨­å®šã™ã‚‹
 		SetProj(nowProjection);
 	}
 	else
 	{
-		// ƒ^[ƒQƒbƒg‚Æ‚È‚és—ñ‚ğì¬‚·‚é
+		// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¨ãªã‚‹è¡Œåˆ—ã‚’ä½œæˆã™ã‚‹
 		switch (m_type)
 		{
 		case ProjectionType::Perspective:
 
-			// Perspective‚©‚çì¬
+			// Perspectiveã‹ã‚‰ä½œæˆ
 			SetProj(DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 				m_fov, m_aspect, m_nearZ, m_farZ
 			));
@@ -152,7 +153,7 @@ void ProjectionSmoothCamera::UpdateProj()
 			break;
 		case ProjectionType::Orthographic:
 
-			// Orthographic‚©‚çì¬
+			// Orthographicã‹ã‚‰ä½œæˆ
 			SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(
 				m_size * m_aspect, m_size, -1000.0f, m_farZ
 			));
