@@ -48,7 +48,7 @@ namespace ObjectFactory
 		obj->AddComponent<Player>();
 
 		// コライダー
-		obj->AddComponent<CapsuleCollider>()->SetLayer(10);
+		obj->AddComponent<BoxCollider>()->SetLayer(10);
 
 		// 着地判定用のコライダー
 		auto land = obj->AddComponent<BoxCollider>();// 着地判定用のコライダーを生成
@@ -58,7 +58,7 @@ namespace ObjectFactory
 		land->SetLocalSize({ 1, 0.1f, 1 });
 
 		// モデル描画
-		obj->AddComponent<ModelComponent>()->SetModel("Capsule");
+		obj->AddComponent<ModelComponent>()->SetModel("Cube");
 
 		// 物理挙動
 		obj->AddComponent<RigidBody>();

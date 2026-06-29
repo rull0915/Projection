@@ -126,7 +126,7 @@ void Player::Update2D(const GameTimer& timer)
 	// ----- 移動 ----- //
 
 	// 移動方向の入力を取得
-	float x = Input::Custom::GetAxis("Horizontal");
+	float x = static_cast<float>(Input::Custom::GetAxis("Horizontal"));
 
 	if (auto* rb = GetComponent<RigidBody2D>())
 	{
@@ -156,8 +156,8 @@ void Player::Update3D(const GameTimer& timer)
 	// ----- 移動 ----- //
 
 	// 移動方向の入力を取得
-	float x = Input::Custom::GetAxis("Horizontal");
-	float z = Input::Custom::GetAxis("Vertical");
+	float x = static_cast<float>(Input::Custom::GetAxis("Horizontal"));
+	float z = static_cast<float>(Input::Custom::GetAxis("Vertical"));
 
 	// 移動方向を作成
 	DirectX::SimpleMath::Vector3 movingDirecion{ x * m_pTransform->GetRight() + z * m_pTransform->GetForward() };

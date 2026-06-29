@@ -102,6 +102,12 @@ public:
         return m_capsuleHeight;
     }
 
+    // カプセルの軸を返す関数
+    AxisType2D GetAxis() const
+    {
+        return m_lineDir;
+    }
+
     // 線の長さを返す関数
     float GetLineLength() const
     {

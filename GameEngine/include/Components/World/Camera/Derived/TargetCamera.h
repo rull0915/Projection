@@ -75,6 +75,23 @@ public:
         return TypeIDGenerator::GetID<TargetCamera>();
     }
 
+	float GetAspect() const 
+	{
+		return m_aspect;
+	}
+	float GetFov() const
+	{
+		return m_fov;
+	}
+	float GetNearClip() const
+	{
+		return m_nearZ;
+	}
+	float GetFarClip() const
+	{
+		return m_farZ;
+	}
+
 	//-----------------------------------------------------
     // セッター
     //-----------------------------------------------------

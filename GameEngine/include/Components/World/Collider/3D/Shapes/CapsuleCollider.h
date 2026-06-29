@@ -125,6 +125,18 @@ public:
 		return m_cache.points;
 	}
 
+	// ローカルの半径
+	float GetLocalRadius() const
+	{
+		return m_radius;
+	}
+
+	// ローカルの半径
+	float GetLocalHeight() const
+	{
+		return m_capsuleHeight;
+	}
+
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------

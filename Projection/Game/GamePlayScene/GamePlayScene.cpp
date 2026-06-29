@@ -21,6 +21,8 @@
 #include "Common/Random.h"
 #include "Scene/Transition/FadeTransition.h"
 
+#include "Saver/ObjectSaver.h"
+
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
 	: Scene(pGame->GetSceneManager())
@@ -55,23 +57,23 @@ void GamePlayScene::Initialize()
 	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
 
 	// 敵を生成
-	ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
+	//ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
 	//ObjectFactory::CreateEnemy(this, { 0, 5, 5 });
 	//ObjectFactory::CreateEnemy(this, { 0, 8, 3 });
 
 	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
 
-
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 
 	ObjectFactory::CreateCube(this, { 0, -3, 0 }, { 0, 0, 0 }, { 3, 1, 3 });
-	ObjectFactory::CreateCube(this, { 0, -3, -10 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 3, 0, -10 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 1, 3, -10 }, { 0, 0, 0 }, { 1, 6, 3 });
 
 	for (int i = 0; i < 1; i++)
 	{
-		auto cube = ObjectFactory::CreateCube(this, 
+		ObjectFactory::CreateCube(this, 
 			{ Random::Get(-10.0f, 10.0f), Random::Get(-3.0f, 5.0f), Random::Get(-10.0f, 10.0f) }
 			, { 0, 0, 0 }
 			,{ 3.0f, 1.0f, 3.0f } 
@@ -119,6 +121,8 @@ void GamePlayScene::Render(Renderer& renderer)
 // 終了関数
 void GamePlayScene::Finalize()
 {
+	// テスト保存
+	ObjectSaver::SaveToFile(L"Test.json", m_player);
 }
 
 // コンポーネントが追加されたときに呼ばれる関数

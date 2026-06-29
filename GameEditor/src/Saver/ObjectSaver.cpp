@@ -1,0 +1,104 @@
+﻿//====================================================//
+// ファイル名  : ObjectSaver.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/06/29
+//
+// 概要       : 
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "Saver/ObjectSaver.h"
+
+#include "GameObject/GameObject.h"
+#include "Common/ClassNameGetter.h"
+
+#include <fstream>
+#include <filesystem>
+
+#include <nlohmann/json.hpp>
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+void ObjectSaver::Register(unsigned int id, Saver saver)
+{
+	// イテレータを取得
+	auto it = m_funcMap.find(id);
+
+	// 既に存在するキーなら
+	if (it != m_funcMap.end())
+	{
+		// 何もしない
+		return;
+	}
+
+	// 新規のキーなら追加
+	m_funcMap.insert({ id, saver });
+}
+
+nlohmann::json ObjectSaver::Save(ComponentBase* component)
+{
+	unsigned int id = component->GetID();
+
+	// イテレータを取得
+	auto it = m_funcMap.find(id);
+
+	// 存在しないキーなら
+	if (it == m_funcMap.end())
+	{
+		// 何もしない
+		return json{};
+	}
+
+	// 既存のキーなら実行
+	return it->second(component);
+}
+
+nlohmann::json ObjectSaver::SaveObject(GameObject* obj)
+{
+	json j;
+
+	j["Name"] = obj->GetName();
+	j["Tag"] = obj->GetTag();
+
+	// コンポーネントをすべて取得
+	auto& components = obj->GetAllComponents();
+
+	// コンポーネントを全部調べる
+	for (auto& component : components)
+	{
+		// jsonを生成
+		json j = Save(component.get());
+
+		// コンポーネント名を取得
+		std::string componentName = ClassNameGetter::Get(*component.get());
+
+		j["Components"].push_back(
+			{
+				{ "Type", componentName },
+				{ "Data", j },
+			}
+		);
+	}
+
+	return j;
+}
+
+void ObjectSaver::SaveToFile(const std::wstring& filePath, GameObject* obj)
+{
+	std::ofstream ofs(std::filesystem::path(filePath).c_str());
+
+	// 開けていたら
+	if (ofs.is_open())
+	{
+		// パス
+		ofs << SaveObject(obj).dump(4);
+	}
+
+	// 閉じる
+	ofs.close();
+}

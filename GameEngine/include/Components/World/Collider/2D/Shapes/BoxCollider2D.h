@@ -93,6 +93,11 @@ public:
 		return m_localSize * 0.5f;
 	}
 
+	DirectX::SimpleMath::Vector2 GetLocalSize() const
+	{
+		return m_localSize;
+	}
+
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------

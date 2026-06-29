@@ -61,6 +61,8 @@ public:
 		: m_states{}
 		, m_currentState{ nullptr }
 		, m_currentStateType{}
+		, m_nextType{}
+		, m_isRequested{ false }
 	{
 	}
 

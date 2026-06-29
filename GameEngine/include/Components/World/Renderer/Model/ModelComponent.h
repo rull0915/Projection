@@ -66,4 +66,10 @@ public:
 	{
 		return TypeIDGenerator::GetID<ModelComponent>();
 	}
+
+	// モデル名
+	const std::string& GetModelName() const
+	{
+		return m_modelName;
+	}
 };

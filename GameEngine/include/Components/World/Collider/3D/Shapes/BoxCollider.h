@@ -75,6 +75,11 @@ public:
 		return TypeIDGenerator::GetID<BoxCollider>();
 	}
 
+	DirectX::SimpleMath::Vector3 GetLocalSize() const
+	{
+		return m_localSize;
+	}
+
 	// 各軸ベクトルを取得する関数
 	DirectX::SimpleMath::Vector3 GetXAxis() const
 	{
@@ -111,7 +116,7 @@ public:
 		if (IsDirty()) UpdateCache();
 		return m_cache.localMatrixInverse;
 	}
-
+	
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------

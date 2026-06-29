@@ -87,7 +87,7 @@ public:
 
 
 	// 関数登録
-	static bool Register(uint16_t id1, uint16_t id2, CollisionFunc func);
+	static bool Register(unsigned int id1, unsigned int id2, CollisionFunc func);
 
 	// 関数実行
 	static bool CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info);

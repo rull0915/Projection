@@ -1,0 +1,108 @@
+﻿//====================================================//
+// ファイル名  : TitleScene.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/06/29
+//
+// 概要       : Titleシーン
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "TitleScene.h"
+
+#include "Game/Game.h"
+#include "Components/World/Camera/Derived/StandardCamera.h"
+#include "Components/UI/Graphics/TextUI.h"
+#include "Components/UI/Graphics/ImageUI.h"
+#include "Components/UI/Behaviour/ButtonUI.h"
+
+#include "System/ResourceManager.h"
+#include "Managers/UI/Canvas.h"
+
+#include "GameLib/Transition/SlideTransition.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+// コンストラクタ
+TitleScene::TitleScene(Game* pGame)
+	: Scene(pGame->GetSceneManager())
+	, m_pGame{ pGame }
+	, m_camera{ nullptr }
+	, m_canvas{ nullptr }
+{
+}
+
+TitleScene::~TitleScene()
+{
+}
+
+// 初期化関数
+void TitleScene::Initialize()
+{
+	// オブジェクトの追加
+	// カメラ
+	m_camera = Generate({ 0, 10, 0});
+
+	// メインカメラに設定
+	auto cameraComponent = m_camera->AddComponent<StandardCamera>();
+	SetMainCamera(cameraComponent);
+
+	// キャンバスの生成
+	m_canvas = GenerateCanvas();
+
+	// UIの追加
+	{
+		// UIオブジェクトの生成
+		auto ui = m_canvas->Generate();
+
+		// 画像コンポーネントの追加
+		auto i = ui->AddComponent<ImageUI>();
+		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
+		i->SetColor(0x444444);												// 色の設定	
+
+		// テキストコンポーネントの追加	
+		auto t = ui->AddComponent<TextUI>();
+		t->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));	// 使うフォントの設定	
+		t->SetFontSize(32);													// フォントサイズの設定	
+		t->SetText(L"ToPlayScene");											// 文字列の設定	
+		t->SetOrigin(Origin::Type::Center);									// 原点を設定
+
+		// Rectの設定変更	
+		auto r = ui->GetComponent<RectTransform>();
+		r->SetAnchor({ 0.5f, 0.4f });		// 基準の位置を設定	
+		r->SetPivot({ 0.5f, 0.5f });		// 基準点に置かれるポイントを設定
+		r->SetSize({ 500, 75 });			// サイズを設定
+
+		// ボタンの追加	
+		auto b = ui->AddComponent<ButtonUI>();
+		b->SetOnClick(		// クリック時の処理を設定
+			[this]()
+			{
+				ChangeScene("Title",
+					std::make_unique<Transition::Slide>(0.3f, 0, DirectX::XMConvertToRadians(30)),
+					std::make_unique<Transition::Slide>(0.3f, 0, DirectX::XMConvertToRadians(210))
+				);
+			}
+		);
+	}
+}
+
+// 更新関数
+void TitleScene::Update(const GameTimer& gameTimer)
+{
+	gameTimer;
+}
+
+// 描画関数
+void TitleScene::Render(Renderer& renderer)
+{
+}
+
+// 終了関数
+void TitleScene::Finalize()
+{
+}

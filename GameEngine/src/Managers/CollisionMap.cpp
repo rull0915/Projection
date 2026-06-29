@@ -83,10 +83,10 @@ bool CollisionMap::CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomatio
 }
 
 // 衝突関数の登録関数
-bool CollisionMap2D::Register(uint16_t id1, uint16_t id2, CollisionFunc func)
+bool CollisionMap2D::Register(unsigned int id1, unsigned int id2, CollisionFunc func)
 {
 	// 合成IDを生成
-	uint32_t sumID = ((uint32_t)id1 << 16) | id2;
+	uint32_t sumID = ((uint32_t)id1 << 16) | (uint16_t)id2;
 
 	// 既にマップにあるかを調べる
 	auto it = m_collisionMap.find(sumID);

@@ -199,10 +199,14 @@ public:
 	ComponentBase* GetComponentWithCategory(ComponentCategory category)
 	{ return m_components.GetWithCategory(category); }
 
-	// コンポーネントをすべて取得する関数
+	// 指定したコンポーネントをすべて取得する関数
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 	std::vector<T*> GetComponents()
 	{ return m_components.Gets<T>(); }
+
+	// コンポーネントをすべて取得する関数
+	const std::vector<std::unique_ptr<ComponentBase>>& GetAllComponents()
+	{ return m_components.GetAll(); }
 
 	// カテゴリからコンポーネントを1つ取得する関数
 	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category)

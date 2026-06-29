@@ -156,6 +156,9 @@
     <ClInclude Include="GameLib\Colliders\CollisionAuxiliary.h" />
     <ClInclude Include="GameLib\Colliders\DebugRenderer.h" />
     <ClInclude Include="Game\GameInitializer.h" />
+    <ClInclude Include="Game\TitleScene\TitleScene.h" />
+    <ClInclude Include="GameLib\Transition\SlideTransition.h" />
+    <ClInclude Include="GameLib\Math\GameMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -189,6 +192,9 @@
     <ClCompile Include="GameLib\Colliders\CheckHit.cpp" />
     <ClCompile Include="GameLib\Colliders\DebugRenderer.cpp" />
     <ClCompile Include="Game\GameInitializer.cpp" />
+    <ClCompile Include="Game\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="GameLib\Math\GameMath.cpp" />
+    <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

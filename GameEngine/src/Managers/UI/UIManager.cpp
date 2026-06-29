@@ -16,6 +16,8 @@
 #include "Components/UI/RectTransform/RectTransform.h"
 #include "Components/UI/Behaviour/ButtonUI.h"
 
+#include "Input/MouseInput.h"
+
 #include "Debug/RectDebugRenderer.h"
 
 //====================================================//
@@ -51,7 +53,7 @@ void UIManager::Update(const GameTimer& gameTimer)
 	}
 
 	// rayの衝突を調べる
-//	CheckHitRay();
+	CheckHitRay(Input::Mouse::GetScaledMousePoint());
 }
 
 void UIManager::LateUpdate(const GameTimer& gameTimer)

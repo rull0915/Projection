@@ -84,6 +84,7 @@ public:
 		, m_lastPoints{ nullptr }
 		, m_isGround{ false }
 		, m_is2D{ false }
+		, m_lastPoints2D{ nullptr }
 	{
 	}
 

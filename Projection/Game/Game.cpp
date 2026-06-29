@@ -16,6 +16,7 @@
 #include "Input/MouseInput.h"
 
 #include "GamePlayScene/GamePlayScene.h"
+#include "TitleScene/TitleScene.h"
 
 #include "Common/Random.h"
 #include "Math/ColorLib.h"
@@ -74,9 +75,10 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// ====== シーンの登録 ====== //
 	m_sceneManager.RegisterScene("GamePlay", std::make_unique<GamePlayScene>(this));
+	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
 
 	// 開始時のシーンを設定
-	m_sceneManager.SetStartScene("GamePlay");
+	m_sceneManager.SetStartScene("Title");
 
 	// ====== リソースの追加 ====== //
 

@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : RendererBase.h
+// ファイル名   : TitleScene.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/28
+// 作成日       : 2026/06/29
 //
-// 概要 : レンダラーコンポーネントの基底クラスです
+// 概要 : Titleシーン
 //
-// 更新履歴 :
-// 2026/04/28 新規作成
+// 更新履歴 : 
+// 2026/06/29 新規作成
 //====================================================//
 
 #pragma once
@@ -14,60 +14,65 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/WorldComponentBase.h"
-#include "Components/World/Transform/Transform.h"
+#include "Scene/Scene.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-class Renderer;
+class Game;
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class RendererBase : public WorldComponentBase
+class TitleScene : public Scene
 {
+private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
+
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
-	
-	// トランスフォームポインタ
-	Transform* m_pTransform;
+	Game* m_pGame;
 
-	// 透明度
-	float m_alpha;
+	// キャンバス
+	Canvas* m_canvas;
+
+	// カメラ
+	GameObject* m_camera;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	RendererBase(IComponentOwner* own);
-	~RendererBase() = default;
+	TitleScene(Game* pGame);
+	~TitleScene();
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	// 描画関数
-	virtual void Draw(Renderer& renderer) = 0;
-
-	// 透明度
-	float GetAlpha() const { return m_alpha; }
-
-	// セッター
-	void SetAlpha(float alpha)
-	{
-		m_alpha = std::clamp(alpha, 0.0f, 1.0f); 
-	}
-
-	// カテゴリを描画に指定
-	ComponentCategory GetCategory() const override { return ComponentCategory::Renderer; }
+	void Initialize() override;
+	void Update(const GameTimer& gameTimer) override;
+	void Render(Renderer& renderer) override;
+	void Finalize() override;
 
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
-protected:
-	Transform* GetTransform() const { return m_pTransform; }
+
+	//-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
+
+private:
+
+	//-----------------------------------------------------
+	// 内部実装
+	//-----------------------------------------------------
 
 };
