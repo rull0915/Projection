@@ -19,14 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Models\character-oobi.obj" />
-    <MeshContentTask Include="Models\character-oodi.obj" />
-    <MeshContentTask Include="Models\character-ooli.obj" />
-    <MeshContentTask Include="Models\character-oopi.obj" />
-    <MeshContentTask Include="Models\character-oozi.obj" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Models\Textures\colormap.png" />
+    <MeshContentTask Include="Models\Goal.obj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

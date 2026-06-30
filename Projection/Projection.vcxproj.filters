@@ -159,6 +159,9 @@
     <ClInclude Include="Game\TitleScene\TitleScene.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
     <ClInclude Include="GameLib\Math\GameMath.h" />
+    <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
+    <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h" />
+    <ClInclude Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -195,6 +198,8 @@
     <ClCompile Include="Game\TitleScene\TitleScene.cpp" />
     <ClCompile Include="GameLib\Math\GameMath.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
+    <ClCompile Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

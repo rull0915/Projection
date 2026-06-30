@@ -46,7 +46,7 @@ void ComponentRegister::RegisterComponent(ComponentBase* component)
 	switch (component->GetCategory())
 	{
 		// カテゴリに分類されないコンポーネントの場合
-	case ComponentCategory::Original:
+	case Category::Original:
 
 		// IDで識別
 
@@ -65,22 +65,22 @@ void ComponentRegister::RegisterComponent(ComponentBase* component)
 		break;
 
 		// カメラコンポーネントの場合
-	case ComponentCategory::Camera:
+	case Category::Camera:
 		m_pScene->m_cameraManager->SetMainCamera(static_cast<CameraBase*>(component));
 		break;
 
 		// 3Dコライダーの場合
-	case ComponentCategory::Collider:
+	case Category::Collider:
 		m_pScene->m_physicsManager->GetCollideManager()->AddCollide(static_cast<ColliderBase*>(component));
 		break;
 
 		// 2Dコライダーの場合
-	case ComponentCategory::Collider2D:
+	case Category::Collider2D:
 		m_pScene->m_physicsManager2D->GetCollideManager()->AddCollide(static_cast<ColliderBase2D*>(component));
 		break;
 
 		// 描画コンポーネントの場合
-	case ComponentCategory::Renderer:
+	case Category::Renderer:
 		m_pScene->m_rendererManager->AddRenderer(static_cast<RendererBase*>(component));
 		break;
 	}
@@ -92,7 +92,7 @@ void ComponentRegister::UnRegisterComponent(ComponentBase* component)
 	switch (component->GetCategory())
 	{
 		// カテゴリに分類されないコンポーネントの場合
-	case ComponentCategory::Original:
+	case Category::Original:
 
 		// IDで識別
 
@@ -111,25 +111,25 @@ void ComponentRegister::UnRegisterComponent(ComponentBase* component)
 		break;
 
 		// カメラコンポーネントの場合
-	case ComponentCategory::Camera:
+	case Category::Camera:
 		m_pScene->m_cameraManager->UnSetMainCamera(static_cast<CameraBase*>(component));
 		break;
 
 		// 3Dコライダーの場合
-	case ComponentCategory::Collider:
+	case Category::Collider:
 		m_pScene->m_physicsManager->GetCollideManager()->RemoveCollide(static_cast<ColliderBase*>(component));
 		m_pScene->m_colEvent->RemoveCollider(static_cast<ColliderBase*>(component));
 		break;
 
 		// 2Dコライダーの場合
-	case ComponentCategory::Collider2D:
+	case Category::Collider2D:
 		m_pScene->m_physicsManager2D->GetCollideManager()->RemoveCollide(static_cast<ColliderBase2D*>(component));
 		m_pScene->m_colEvent->RemoveCollider2D(static_cast<ColliderBase2D*>(component));
 
 		break;
 
 		// 描画コンポーネントの場合
-	case ComponentCategory::Renderer:
+	case Category::Renderer:
 		m_pScene->m_rendererManager->RemoveRenderer(static_cast<RendererBase*>(component));
 		break;
 	}

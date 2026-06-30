@@ -88,7 +88,7 @@ public:
 	//-----------------------------------------------------
 
 	// カテゴリを3Dコライダーに指定
-	ComponentCategory GetCategory() const override { return ComponentCategory::Collider; }
+	ComponentCategory GetCategory() const override { return Category::Collider; }
 
 	ColliderType GetType() const { return m_type; };
 

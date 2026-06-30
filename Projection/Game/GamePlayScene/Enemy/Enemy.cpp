@@ -49,7 +49,7 @@ void Enemy::Awake()
 	m_physicsMaterial.SetBounciness(0.0f);
 	m_physicsMaterial.SetBounceCombine(CombineMode::Minimum);
 
-	if (auto cl = GetOwn()->GetComponentWithCategory(ComponentCategory::Collider))
+	if (auto cl = GetOwn()->GetComponentWithCategory(Category::Collider))
 	{
 		static_cast<ColliderBase*>(cl)->SetPhysicsMaterial(&m_physicsMaterial);
 	}

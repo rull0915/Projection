@@ -39,7 +39,7 @@ void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
 		float upVolume = DirectX::SimpleMath::Vector2::UnitY.Dot(contact.normal);
 
 		// 衝突法線が上方向とみなせなければ何もしない
-		if (upVolume > CORRECTION_BORDER) return;
+		if (upVolume > -CORRECTION_BORDER) return;
 
 		// 衝突したオブジェクトに近づくように補正する
 

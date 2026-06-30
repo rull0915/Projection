@@ -14,6 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <vector>
 #include "../Components/LandingCandidatePoints2D.h"
 #include "NavigationGraphBase.h"
 

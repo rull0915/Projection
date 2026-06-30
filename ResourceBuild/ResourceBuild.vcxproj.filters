@@ -21,25 +21,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Models\character-oobi.obj">
+    <MeshContentTask Include="Models\Goal.obj">
       <Filter>Models</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Models\character-oodi.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\character-ooli.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\character-oopi.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\character-oozi.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Models\Textures\colormap.png">
-      <Filter>Textures</Filter>
-    </ImageContentTask>
   </ItemGroup>
 </Project>

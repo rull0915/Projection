@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : RendererBase.h
+// ファイル名   : GoalComponent.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/28
+// 作成日       : 2026/05/27
 //
-// 概要 : レンダラーコンポーネントの基底クラスです
+// 概要 : ゴールコンポーネント
 //
 // 更新履歴 :
-// 2026/04/28 新規作成
+// 2026/05/27 新規作成
 //====================================================//
 
 #pragma once
@@ -15,59 +15,67 @@
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
-#include "Components/World/Transform/Transform.h"
+#include "GameObject/Interface/IComponentOwner.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-class Renderer;
+
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class RendererBase : public WorldComponentBase
+class GoalComponent : public WorldComponentBase
 {
+private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
+
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
-	
-	// トランスフォームポインタ
-	Transform* m_pTransform;
-
-	// 透明度
-	float m_alpha;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	RendererBase(IComponentOwner* own);
-	~RendererBase() = default;
+	GoalComponent(IComponentOwner* own);
+	~GoalComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	// 描画関数
-	virtual void Draw(Renderer& renderer) = 0;
+	void Awake() override;
+	void Start() override;
 
-	// 透明度
-	float GetAlpha() const { return m_alpha; }
+	void Update(const GameTimer& gameTimer) override;
+	void LateUpdate(const GameTimer& gameTimer) override;
 
-	// セッター
-	void SetAlpha(float alpha)
-	{
-		m_alpha = std::clamp(alpha, 0.0f, 1.0f); 
-	}
-
-	// カテゴリを描画に指定
-	ComponentCategory GetCategory() const override { return Category::Renderer; }
+	void OnTriggerEnter(HitContact& contact) override;
 
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
-protected:
-	Transform* GetTransform() const { return m_pTransform; }
+
+	// ID取得
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<GoalComponent>();
+	}
+
+	//-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
+
+private:
+
+	//-----------------------------------------------------
+	// 内部実装
+	//-----------------------------------------------------
 
 };

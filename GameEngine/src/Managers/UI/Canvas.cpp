@@ -191,7 +191,7 @@ void Canvas::DrawChild(RectTransform* child, Renderer& renderer)
 
 	// Graphicを継承しているコンポーネントを取得
 	std::vector<ComponentBase*> list;
-	childObj->GetComponentsWithCategory(ComponentCategory::UIGraphic, list);
+	childObj->GetComponentsWithCategory(Category::UIGraphic, list);
 
 	for (auto graphic : list)
 	{

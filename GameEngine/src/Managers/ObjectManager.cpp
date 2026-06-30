@@ -133,20 +133,21 @@ void ObjectManager::AddReservedObject()
 
 void ObjectManager::RemoveDeadObject()
 {
-	// 管理リストを全て調べる
-	for (int i = 0; i < m_objects.size(); i++)
-	{
-		GameObject* obj = m_objects[i].get();
-
-		// オブジェクトの死亡フラグがオンなら
-		if (obj->IsDead())
+	// Deadフラグがオンのオブジェクトを削除
+	std::erase_if(
+		m_objects,
+		[](const std::unique_ptr<GameObject>& object)
 		{
-			obj->BaseFinalize();
+			// フラグがオンなら
+			if (object->IsDead())
+			{
+				// 終了処理
+				object->BaseFinalize();
 
-			// リストから削除
-			m_objects.erase(m_objects.begin() + i);
-
-			i--;
+				// true
+				return true;
+			}
+			return false;
 		}
-	}
+	);
 }

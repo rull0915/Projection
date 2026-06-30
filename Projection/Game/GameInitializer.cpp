@@ -47,4 +47,6 @@ void GameInitializer::Initialize()
 		TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
 		DrawCollider2D::DrawCollider_Convex
 	);
+
+	// 作成関数の追加
 }

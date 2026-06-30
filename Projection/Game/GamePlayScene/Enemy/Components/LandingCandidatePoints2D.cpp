@@ -29,7 +29,7 @@ void LandingCandidatePoints2D::Start()
 {
 	// コライダーを取得
 	// 1つ目のみに対応
-	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(ComponentCategory::Collider2D));
+	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(Category::Collider2D));
 
 	// 取得できなかったら何もしない
 	if (!m_ownCollider) return;
@@ -44,7 +44,7 @@ void LandingCandidatePoints2D::Start()
 void LandingCandidatePoints2D::Update(const GameTimer& gameTimer)
 {
 	// 再取得
-	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(ComponentCategory::Collider2D));
+	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(Category::Collider2D));
 
 	// 再取得も失敗したら何もしない
 	if (!m_ownCollider) return;

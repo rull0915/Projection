@@ -7,7 +7,6 @@
 #include "Camera/ProjectionSmoothCamera.h"
 #include "Camera/TPSCamera.h"
 #include "Player/Player.h"
-#include "Stage/Components/MoveComponent.h"
 
 // 管理クラス
 #include "ChangeDimention/ChangeColliderComponent.h"
@@ -16,6 +15,7 @@
 
 // 入力
 #include "Input/KeyInput.h"
+#include "Input/MouseInput.h"
 
 // その他
 #include "Common/Random.h"
@@ -23,6 +23,9 @@
 
 #include "Saver/ObjectSaver.h"
 #include "Loader/ObjectLoader.h"
+
+#include "Common/EventBus.h"
+#include "GamePlayEvent.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -41,12 +44,19 @@ GamePlayScene::~GamePlayScene()
 void GamePlayScene::Initialize()
 {
 	// モデルの読み込み
-	ResourceManager::Instance().AddModel("Enemy", L"Resources/Models/character-oobi.cmo");
+	ResourceManager::Instance().AddModel("Player", L"Resources/Models/Player.cmo");
+	ResourceManager::Instance().AddModel("Goal", L"Resources/Models/Goal.cmo");
 
+	// マウスを相対モードに
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+
+	// 次元管理クラスの初期化
 	m_dimentionManager.Initialize();
 
+	// 敵管理クラスの初期化
 	m_enemyManager.Initialize();
-	// オブジェクトの追加
+
+	//======== オブジェクトの追加 ========//
 	// カメラ
 	m_camera = Generate();
 
@@ -57,56 +67,61 @@ void GamePlayScene::Initialize()
 	// プレイヤーを生成
 	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
 
-	// 敵を生成
-	//ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
-	//ObjectFactory::CreateEnemy(this, { 0, 5, 5 });
-	//ObjectFactory::CreateEnemy(this, { 0, 8, 3 });
-
-	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
-	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
-
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 
-	// テストロード
-	auto cube = Generate();
-	ObjectLoader::LoadFromFile(L"Test.json", cube);
+	// 敵を生成
+	//ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
 
+	// ゴールの生成
+	ObjectFactory::CreateGoal(this, { 0, 10.0f, 0 });
+
+	// 地面を生成
+	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 0, -3, 0 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 3, 0, -10 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 1, 3, -10 }, { 0, 0, 0 }, { 1, 6, 3 });
 
-	for (int i = 0; i < 1; i++)
-	{
-		ObjectFactory::CreateCube(this, 
-			{ Random::Get(-10.0f, 10.0f), Random::Get(-3.0f, 5.0f), Random::Get(-10.0f, 10.0f) }
-			, { 0, 0, 0 }
-			,{ 3.0f, 1.0f, 3.0f } 
-		);
-		// if (i == 0) cube->AddComponent<MoveComponent>()->SetFunc(TestMove);
-	}
+	// テストロード
+	auto cube = Generate();
+	ObjectLoader::LoadFromFile(L"Test.json", cube);
 
 	// 次元管理クラスにカメラを渡す
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
 
 	// 敵管理クラスにプレイヤーを渡す
 	m_enemyManager.SetPlayer(m_player->GetComponent<Transform>());
+
+	// ゴールイベントの追加
+	EventBus<GamePlayEvent>::Register(
+		GamePlayEvent::Goal,
+		[this]()
+		{
+			ChangeScene("Title");
+		}
+	);
 }
 
 // 更新関数
 void GamePlayScene::Update(const GameTimer& gameTimer)
 {
+	// 警告潰し
 	gameTimer;
 
+	// 次元管理クラスの更新
 	m_dimentionManager.Update();
 
+	// 敵管理クラスの更新
 	m_enemyManager.Update(gameTimer);
 
+	// Qキーで次元の変更
 	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Q))
 	{
 		TryChangeDimention();
 	}
 
+	// Rキーでリトライ
 	if (Input::Key::Get(Input::State::Down, Input::Key::Code::R))
 	{
 		ChangeScene(
@@ -120,7 +135,6 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 // 描画関数
 void GamePlayScene::Render(Renderer& renderer)
 {
-	m_enemyManager.DebugRenderer(renderer);
 }
 
 // 終了関数

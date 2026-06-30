@@ -54,6 +54,9 @@ void ComponentContainer::RemoveRegistered()
 	// その他コンポーネント
 	for (auto& component : m_pDestroyReserves)
 	{
+		// 削除時処理を呼ぶ
+		component->OnDestroy();
+
 		// コンポーネントをマネージャーから削除
 		if (m_pScene) UnRegisterComponentToScene(component);
 

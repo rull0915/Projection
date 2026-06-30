@@ -21,6 +21,8 @@
 #include "System/ResourceManager.h"
 #include "Managers/UI/Canvas.h"
 
+#include "Input/MouseInput.h"
+
 #include "GameLib/Transition/SlideTransition.h"
 
 //====================================================//
@@ -43,6 +45,9 @@ TitleScene::~TitleScene()
 // 初期化関数
 void TitleScene::Initialize()
 {
+	// マウスを絶対モードに
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
+
 	// オブジェクトの追加
 	// カメラ
 	m_camera = Generate({ 0, 10, 0});
@@ -62,20 +67,20 @@ void TitleScene::Initialize()
 		// 画像コンポーネントの追加
 		auto i = ui->AddComponent<ImageUI>();
 		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
-		i->SetColor(0x444444);												// 色の設定	
+		i->SetColor(0x777777);												// 色の設定	
 
 		// テキストコンポーネントの追加	
 		auto t = ui->AddComponent<TextUI>();
 		t->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));	// 使うフォントの設定	
-		t->SetFontSize(32);													// フォントサイズの設定	
+		t->SetFontSize(24);													// フォントサイズの設定	
 		t->SetText(L"ToPlayScene");											// 文字列の設定	
 		t->SetOrigin(Origin::Type::Center);									// 原点を設定
 
 		// Rectの設定変更	
 		auto r = ui->GetComponent<RectTransform>();
-		r->SetAnchor({ 0.5f, 0.4f });		// 基準の位置を設定	
+		r->SetAnchor({ 0.5f, 0.7f });		// 基準の位置を設定	
 		r->SetPivot({ 0.5f, 0.5f });		// 基準点に置かれるポイントを設定
-		r->SetSize({ 500, 75 });			// サイズを設定
+		r->SetSize({ 400, 75 });			// サイズを設定
 
 		// ボタンの追加	
 		auto b = ui->AddComponent<ButtonUI>();
@@ -88,6 +93,23 @@ void TitleScene::Initialize()
 				);
 			}
 		);
+	}
+	{
+		// UIオブジェクトの生成
+		auto ui = m_canvas->Generate();
+
+		// テキストコンポーネントの追加	
+		auto t = ui->AddComponent<TextUI>();
+		t->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));	// 使うフォントの設定	
+		t->SetFontSize(96);													// フォントサイズの設定	
+		t->SetText(L"Projection");											// 文字列の設定	
+		t->SetOrigin(Origin::Type::Center);	
+		
+		// Rectの設定変更	
+		auto r = ui->GetComponent<RectTransform>();
+		r->SetAnchor({ 0.5f, 0.4f });		// 基準の位置を設定	
+		r->SetPivot({ 0.5f, 0.5f });		// 基準点に置かれるポイントを設定
+		r->SetSize({ 500, 75 });			// サイズを設定// 原点を設定
 	}
 }
 

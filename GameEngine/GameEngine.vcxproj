@@ -137,7 +137,7 @@ $(ProjectDir)ThirdParty;
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);
 $(ProjectDir)ThirdParty;
-%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+%(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -228,6 +228,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\UI\RectTransform\RectTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Common\EventBus.h" />
     <ClInclude Include="include\Common\Origin.h">
       <SubType>
       </SubType>

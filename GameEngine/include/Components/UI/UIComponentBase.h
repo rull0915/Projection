@@ -46,6 +46,6 @@ public:
 	// カテゴリをUIに指定
 	ComponentCategory GetCategory() const override
 	{
-		return ComponentCategory::UIOriginal;
+		return Category::UIOriginal;
 	}
 };

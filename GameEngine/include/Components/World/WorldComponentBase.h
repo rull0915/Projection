@@ -50,6 +50,6 @@ public:
 	// カテゴリをOriginalに指定
 	ComponentCategory GetCategory() const override
 	{
-		return ComponentCategory::Original;
+		return Category::Original;
 	}
 };

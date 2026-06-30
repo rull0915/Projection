@@ -68,7 +68,7 @@ public:
     //-----------------------------------------------------
 
     // カテゴリをカメラに指定
-    ComponentCategory GetCategory() const override { return ComponentCategory::Camera; }
+    ComponentCategory GetCategory() const override { return Category::Camera; }
 
     const DirectX::SimpleMath::Matrix& GetView() { return m_view; }
     const DirectX::SimpleMath::Matrix& GetProj() { return m_proj; }

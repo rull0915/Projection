@@ -29,7 +29,7 @@ void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 	static std::vector<ComponentBase*> components{};
 
 	// 3Dコライダーを取得
-	GetOwn()->GetComponentsWithCategory(ComponentCategory::Collider, components);
+	GetOwn()->GetComponentsWithCategory(Category::Collider, components);
 
 	m_3dColliders.clear();
 
@@ -70,7 +70,7 @@ void ChangeColliderComponent::Change2DTo3D()
 	// 2Dコライダーを削除する
 	GameObject* owner = static_cast<GameObject*>(GetOwn());
 
-	owner->RemoveComponentsWithCategory(ComponentCategory::Collider2D);
+	owner->RemoveComponentsWithCategory(Category::Collider2D);
 
 	// 3Dコライダーを有効化する
 	for (auto& collider : m_3dColliders)
@@ -122,6 +122,11 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		// 半径を設定
 		circle2D->SetRadius(sphere3D->GetRadius());
 
+		// offset
+		DirectX::SimpleMath::Vector3 offset = sphere3D->GetLocalCenterPos();
+
+		circle2D->SetLocalPos(world3DToLocal2D(offset));
+
 		// 生成したコライダーを返す
 		return circle2D;
 	}
@@ -160,6 +165,11 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		capsule2D->SetRotation(angle);
 		capsule2D->SetLineDir(AxisType2D::Horizontal);
 
+		// offset
+		DirectX::SimpleMath::Vector3 offset = capsule3D->GetLocalCenterPos();
+
+		capsule2D->SetLocalPos(world3DToLocal2D(offset));
+
 		return capsule2D;
 	}
 
@@ -167,9 +177,6 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 	case ColliderType::Box:
 	{
 		BoxCollider* box3D = static_cast<BoxCollider*>(p3DCol);
-
-		// ボックスの情報を取得
-		DirectX::SimpleMath::Vector3 center3D = box3D->GetWorldCenterPos();
 
 		DirectX::SimpleMath::Vector3
 			xLocalAxis = box3D->GetXAxis(),
@@ -246,6 +253,11 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 
 		// 必ず時計回りになるように補正
 		collider->CorrectionClockWise();
+
+		// offset
+		DirectX::SimpleMath::Vector3 offset = box3D->GetLocalCenterPos();
+
+		collider->SetLocalPos(world3DToLocal2D(offset));
 
 		return collider;
 	}

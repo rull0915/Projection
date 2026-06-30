@@ -63,7 +63,7 @@ public:
 	// カテゴリをUIグラフィックに指定
 	ComponentCategory GetCategory() const override
 	{
-		return ComponentCategory::UIGraphic;
+		return Category::UIGraphic;
 	}
 
 protected:

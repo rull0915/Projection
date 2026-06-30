@@ -79,7 +79,7 @@ public:
 	//-----------------------------------------------------
 
 	// カテゴリを描画に指定
-	ComponentCategory GetCategory() const override { return ComponentCategory::Collider2D; }
+	ComponentCategory GetCategory() const override { return Category::Collider2D; }
 
 	inline AABB2D& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うAABBを取得する関数
 

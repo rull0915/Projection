@@ -23,17 +23,19 @@ enum class ComponentSpace : unsigned char
 	UI,
 };
 
+using ComponentCategory = unsigned char;
+
 // コンポーネントのカテゴリ
-enum class ComponentCategory : unsigned char
+namespace Category
 {
 	// WorldComponent
-	Original,
-	Camera,
-	Collider,
-	Collider2D,
-	Renderer,
+	static constexpr ComponentCategory Original		= 0;
+	static constexpr ComponentCategory Camera		= 1;
+	static constexpr ComponentCategory Collider		= 2;
+	static constexpr ComponentCategory Collider2D	= 3;
+	static constexpr ComponentCategory Renderer		= 4;
 
 	// UIComponent
-	UIOriginal,
-	UIGraphic
+	static constexpr ComponentCategory UIOriginal	= 5;
+	static constexpr ComponentCategory UIGraphic	= 6;
 };

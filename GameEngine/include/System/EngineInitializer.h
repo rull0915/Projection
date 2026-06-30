@@ -47,4 +47,24 @@ public:
 
 	// ゲームエンジン部分全体の初期化
 	static void EngineInitialize();
+
+private:
+	
+	// 3D衝突関数の登録
+	static void Regist3DCollisions();
+
+	// 2D衝突関数の登録
+	static void Regist2DCollisions();
+
+	// Ray衝突関数の登録
+	static void RegistRayCollisions();
+
+	// デバッグ描画関数の登録
+	static void RegistDebugDrawers();
+
+	// デフォルトのカスタムキーの登録
+	static void RegistCustomKeys();
+
+	// デフォルトのリソースの追加
+	static void AddResources();
 };

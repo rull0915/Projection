@@ -55,10 +55,21 @@ void EngineInitializer::EngineInitialize()
 	// フラグをオンに
 	m_isInitialized = true;
 
-	// 標準形状の衝突判定関数を登録する
+	Regist3DCollisions();
 
-	//============== 3Dコライダー =================//
+	Regist2DCollisions();
 
+	RegistRayCollisions();
+
+	RegistDebugDrawers();
+
+	RegistCustomKeys();
+
+	AddResources();
+}
+
+void EngineInitializer::Regist3DCollisions()
+{
 	// 球vs球
 	CollisionMap::Register(
 		TypeIDGenerator::GetID<SphereCollider>(),
@@ -100,9 +111,10 @@ void EngineInitializer::EngineInitialize()
 		TypeIDGenerator::GetID<BoxCollider>(),
 		Collision::CheckHit_Box_Box
 	);
+}
 
-	//============== 2Dコライダー =================//
-
+void EngineInitializer::Regist2DCollisions()
+{
 	// 円vs円
 	CollisionMap2D::Register(
 		TypeIDGenerator::GetID<CircleCollider2D>(),
@@ -144,9 +156,10 @@ void EngineInitializer::EngineInitialize()
 		TypeIDGenerator::GetID<BoxCollider2D>(),
 		Collision2D::CheckHit_Box_Box
 	);
+}
 
-	//============== Ray vs コライダー =================//
-
+void EngineInitializer::RegistRayCollisions()
+{
 	// Ray vs Sphere
 	RaySystem::Register(
 		TypeIDGenerator::GetID<SphereCollider>(),
@@ -164,7 +177,10 @@ void EngineInitializer::EngineInitialize()
 		TypeIDGenerator::GetID<BoxCollider>(),
 		RayCollision::CheckHit_Ray_Box
 	);
+}
 
+void EngineInitializer::RegistDebugDrawers()
+{
 	//============== DebugDraw =================//
 
 	// Sphere
@@ -204,7 +220,10 @@ void EngineInitializer::EngineInitialize()
 		TypeIDGenerator::GetID<BoxCollider2D>(),
 		DrawCollider2D::DrawCollider_Box
 	);
+}
 
+void EngineInitializer::RegistCustomKeys()
+{
 	//============== カスタム入力 ======================//
 
 	Input::Custom::AddAxis(
@@ -236,16 +255,18 @@ void EngineInitializer::EngineInitialize()
 	Input::Custom::AddButton(
 		"Jump", Input::Bind(Input::Type::Key, Input::State::Down, Input::Key::Code::Space)
 	);
+}
 
-
+void EngineInitializer::AddResources()
+{
 	// テンプレートオブジェクト用モデル
-	ResourceManager::Instance().AddModel("Cube", L"../GameEngine/Resources/Models/Cube.cmo");
-	ResourceManager::Instance().AddModel("Sphere", L"../GameEngine/Resources/Models/Sphere.cmo");
-	ResourceManager::Instance().AddModel("Capsule", L"../GameEngine/Resources/Models/Capsule.cmo");
+	ResourceManager::Instance().AddModel("Cube", L"Resources/Models/Cube.cmo");
+	ResourceManager::Instance().AddModel("Sphere", L"Resources/Models/Sphere.cmo");
+	ResourceManager::Instance().AddModel("Capsule", L"Resources/Models/Capsule.cmo");
 
 	// デフォルトフォント
-	ResourceManager::Instance().AddFont("Default", L"../GameEngine/Resources/Fonts/Default.spritefont");
+	ResourceManager::Instance().AddFont("Default", L"Resources/Fonts/Default.spritefont");
 
 	// デフォルトイメージ
-	ResourceManager::Instance().AddTexture("Default", L"../GameEngine/Resources/Textures/Default.png");
+	ResourceManager::Instance().AddTexture("Default", L"Resources/Textures/Default.png");
 }

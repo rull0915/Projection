@@ -25,6 +25,7 @@
 #include "Enemy/Enemy.h"
 #include "Enemy/Components/LandingCandidatePoints.h"
 #include "Enemy/Components/LandingCandidatePoints2D.h"
+#include "Stage/Components/GoalComponent.h"
 
 //====================================================//
 // 前方宣言
@@ -48,17 +49,28 @@ namespace ObjectFactory
 		obj->AddComponent<Player>();
 
 		// コライダー
-		obj->AddComponent<BoxCollider>()->SetLayer(10);
+		auto bottom = obj->AddComponent<BoxCollider>();
+		bottom->SetLayer(10);
+		bottom->SetLocalSize({ 1, 1.6f, 1 });
+
+		// コライダー
+		auto top = obj->AddComponent<BoxCollider>();
+		top->SetLayer(10);
+		top->SetLocalPos({ 0, 1.6f, 0 });
+		top->SetLocalSize({ 1.6f, 1.6f, 1.6f });
 
 		// 着地判定用のコライダー
 		auto land = obj->AddComponent<BoxCollider>();// 着地判定用のコライダーを生成
 		land->SetTrigger(true);
 		land->SetNeedInfo(true);
-		land->SetLocalPos({ 0, -0.55f, 0 });
+		land->SetLocalPos({ 0, -0.85f, 0 });
 		land->SetLocalSize({ 1, 0.1f, 1 });
 
+		auto transform = obj->GetComponent<Transform>();
+		transform->SetLocalScale({ 0.4f, 0.4f, 0.4f });
+
 		// モデル描画
-		obj->AddComponent<ModelComponent>()->SetModel("Cube");
+		obj->AddComponent<ModelComponent>()->SetModel("Player");
 
 		// 物理挙動
 		obj->AddComponent<RigidBody>();
@@ -131,5 +143,32 @@ namespace ObjectFactory
 		enemy->AddComponent<Enemy>();
 
 		return enemy;
+	}
+
+	// ゴールオブジェクトの生成
+	GameObject* CreateGoal(Scene* scene, DirectX::SimpleMath::Vector3 position = { 0, 0, 0 })
+	{
+		// 原型の生成
+		GameObject* goal = scene->Generate(position);
+
+		// コンポーネントの追加
+
+		// 設定
+		auto t = goal->GetComponent<Transform>();
+		t->SetLocalScale({ 0.3f, 0.3f, 0.3f });
+
+		// モデル
+		goal->AddComponent<ModelComponent>()->SetModel("Goal");
+
+		// コライダー
+		auto col = goal->AddComponent<BoxCollider>();
+		col->SetLocalPos({ 0, 0, 0 });
+		col->SetLocalSize({ 3, 3, 3 });
+		col->SetTrigger(true);
+
+		// 敵
+		goal->AddComponent<GoalComponent>();
+
+		return goal;
 	}
 };

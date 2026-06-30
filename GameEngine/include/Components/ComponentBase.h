@@ -65,7 +65,7 @@ public:
 	virtual ComponentSpace GetSpace() const = 0;
 
 	// カテゴリ
-	virtual ComponentCategory GetCategory() const { return ComponentCategory::Original; }
+	virtual ComponentCategory GetCategory() const { return Category::Original; }
 
 	// ID
 	virtual unsigned int GetID() = 0;
