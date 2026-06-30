@@ -166,6 +166,8 @@ void Scene::BaseRender(Renderer& renderer)
 /// </summary>
 void Scene::BaseFinalize()
 {
+	Finalize();
+
 	// オブジェクトのリセット
 	m_objectManager->Finalize();
 	
@@ -181,8 +183,6 @@ void Scene::BaseFinalize()
 
 	m_uiManager->Finalize();
 	m_uiManager->Reset();
-
-	Finalize();
 }
 
 GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)

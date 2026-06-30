@@ -205,7 +205,7 @@ public:
 	{ return m_components.Gets<T>(); }
 
 	// コンポーネントをすべて取得する関数
-	const std::vector<std::unique_ptr<ComponentBase>>& GetAllComponents()
+	const std::vector<ComponentBase*> GetAllComponents()
 	{ return m_components.GetAll(); }
 
 	// カテゴリからコンポーネントを1つ取得する関数

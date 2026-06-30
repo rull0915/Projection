@@ -9,6 +9,7 @@
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
 #include "System/EngineInitializer.h"
+#include "System/EditorInitializer.h"
 
 #include "GameInitializer.h"
 
@@ -63,6 +64,9 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// ゲームエンジンの初期化
 	EngineInitializer::EngineInitialize();
+
+	// ゲームエディタの初期化
+	EditorInitializer::Initialize();
 
 	// ゲームの初期化
 	GameInitializer::Initialize();

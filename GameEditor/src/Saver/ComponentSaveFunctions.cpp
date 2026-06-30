@@ -25,10 +25,9 @@ namespace SaveComponent
 	// 基底
 	json Save_Base(ComponentBase* component)
 	{
-		return
-		{
-			"IsActive", component->IsActive()
-		};
+		json j;
+		j["IsActive"] = component->IsActive();
+		return j;
 	}
 
 	// Transform
@@ -203,7 +202,7 @@ namespace SaveComponent
 		j["Mass"] = collider->GetMass();
 		j["LinearDamping"] = collider->GetLinearDamping();
 
-		return json();
+		return j;
 	}
 
 	// RigidBody
@@ -228,7 +227,7 @@ namespace SaveComponent
 
 		j["Alpha"] = renderer->GetAlpha();
 
-		return json();
+		return j;
 	}
 
 	// ModelRenderer
@@ -241,7 +240,7 @@ namespace SaveComponent
 
 		j["ModelName"] = renderer->GetModelName();
 
-		return json();
+		return j;
 	}
 
 	// CameraBase

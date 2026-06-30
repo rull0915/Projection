@@ -1,0 +1,68 @@
+{
+    "Components": [
+        {
+            "Data": {
+                "IsActive": true,
+                "Position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "Scale": [
+                    5.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "Type": "Transform"
+        },
+        {
+            "Data": {
+                "IsActive": true,
+                "Layer": 0,
+                "LocalPosition": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "LocalSize": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "NeedInfo": false,
+                "Trigger": false
+            },
+            "Type": "BoxCollider"
+        },
+        {
+            "Data": {
+                "Alpha": 1.0,
+                "IsActive": true,
+                "ModelName": "Cube"
+            },
+            "Type": "ModelComponent"
+        },
+        {
+            "Data": null,
+            "Type": "ChangeColliderComponent"
+        },
+        {
+            "Data": null,
+            "Type": "LandingCandidatePoints"
+        },
+        {
+            "Data": null,
+            "Type": "LandingCandidatePoints2D"
+        }
+    ],
+    "IsActive": true,
+    "Name": "",
+    "Tag": "Floor"
+}

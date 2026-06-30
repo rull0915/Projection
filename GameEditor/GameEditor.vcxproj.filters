@@ -24,13 +24,22 @@
     <ClInclude Include="src\Saver\ComponentSaveFunctions.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Saver\ObjectSaver.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Common\ClassNameGetter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\EditorInitializer.h">
+    <ClInclude Include="include\System\EditorInitializer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Saver\ObjectSaver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Loader\ObjectLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Loader\ComponentFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Loader\ComponentLoadFunctions.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,10 +50,19 @@
     <ClCompile Include="src\Saver\ComponentSaveFunctions.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\System\EditorInitializer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="src\Saver\ObjectSaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\EditorInitializer.cpp">
+    <ClCompile Include="src\Loader\ObjectLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loader\ComponentFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loader\ComponentLoadFunctions.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

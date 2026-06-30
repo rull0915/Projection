@@ -22,6 +22,7 @@
 #include "Scene/Transition/FadeTransition.h"
 
 #include "Saver/ObjectSaver.h"
+#include "Loader/ObjectLoader.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)
@@ -66,6 +67,10 @@ void GamePlayScene::Initialize()
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
+
+	// テストロード
+	auto cube = Generate();
+	ObjectLoader::LoadFromFile(L"Test.json", cube);
 
 	ObjectFactory::CreateCube(this, { 0, -3, 0 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 3, 0, -10 }, { 0, 0, 0 }, { 3, 1, 3 });
@@ -121,8 +126,6 @@ void GamePlayScene::Render(Renderer& renderer)
 // 終了関数
 void GamePlayScene::Finalize()
 {
-	// テスト保存
-	ObjectSaver::SaveToFile(L"Test.json", m_player);
 }
 
 // コンポーネントが追加されたときに呼ばれる関数

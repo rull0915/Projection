@@ -23,20 +23,31 @@ class EditorInitializer
 {
 private:
 
-    //-----------------------------------------------------
-    // メンバ変数
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// メンバ変数
+	//-----------------------------------------------------
 
-    static inline bool m_isInitialized;
+	static inline bool m_isInitialized;
 
 public:
 
-    //-----------------------------------------------------
-    // コンストラクタ / デストラクタ
-    //-----------------------------------------------------
-    EditorInitializer() = default;
-    ~EditorInitializer() = default;
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	EditorInitializer() = default;
+	~EditorInitializer() = default;
 
-    // 初期化関数
-    static void Initialize();
+	// 初期化関数
+	static void Initialize();
+
+private:
+
+	// 生成関数を登録する関数
+	static void RegistFactories();
+
+	// セーブ関数を登録する関数
+	static void RegistSavers();
+
+	// ロード関数を登録する関数
+	static void RegistLoaders();
 };

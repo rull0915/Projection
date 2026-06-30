@@ -151,4 +151,10 @@ public:
 		m_radius = radius;
 		SetDirty();
 	}
+
+	void SetLineAxis(AxisType type)
+	{
+		m_lineDir = type;
+		SetDirty();
+	}
 };

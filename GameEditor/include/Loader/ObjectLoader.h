@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : ObjectSaver.h
+// ファイル名   : ObjectLoader.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/06/29
 //
-// 概要 : コンポーネントをjsonファイルに保存するクラス
+// 概要 : コンポーネントをjsonファイルから読みとるクラス
 //
 // 更新履歴 :
 // 2026/06/29 新規作成
@@ -25,10 +25,10 @@ class GameObject;
 //====================================================//
 // クラス宣言
 //====================================================//
-class ObjectSaver
+class ObjectLoader
 {
     // 別名宣言
-    using Saver = std::function<nlohmann::json(ComponentBase* component)>;
+    using Loader = std::function<void(const nlohmann::json&, ComponentBase* component)>;
 
 private:
 
@@ -37,29 +37,29 @@ private:
     //-----------------------------------------------------
 
     // 関数マップ
-    inline static std::unordered_map<unsigned int, Saver> m_funcMap;
+    inline static std::unordered_map<unsigned int, Loader> m_funcMap;
 
 public:
 
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
-    ObjectSaver() = default;
-    ~ObjectSaver() = default;
+    ObjectLoader() = default;
+    ~ObjectLoader() = default;
 
     //-----------------------------------------------------
     // 公開関数
     //-----------------------------------------------------
 
     // 登録関数
-    static void Register(unsigned int id, Saver saver);
+    static void Register(unsigned int id, Loader loader);
 
     // 実行関数
-    static nlohmann::json Save(ComponentBase* component);
+    static void Load(const nlohmann::json& js, ComponentBase* component);
 
     // 保存関数
-    static nlohmann::json SaveObject(GameObject* obj);
+    static void LoadObject(const nlohmann::json& json, GameObject* obj);
 
     // 保存関数
-    static void SaveToFile(const std::wstring& filePath, GameObject* obj);
+    static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
 };

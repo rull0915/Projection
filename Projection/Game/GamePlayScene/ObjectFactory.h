@@ -54,7 +54,7 @@ namespace ObjectFactory
 		auto land = obj->AddComponent<BoxCollider>();// 着地判定用のコライダーを生成
 		land->SetTrigger(true);
 		land->SetNeedInfo(true);
-		land->SetLocalPos({ 0, -1.05f, 0 });
+		land->SetLocalPos({ 0, -0.55f, 0 });
 		land->SetLocalSize({ 1, 0.1f, 1 });
 
 		// モデル描画

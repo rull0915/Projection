@@ -350,9 +350,16 @@ public:
 
 	// ---------- GetAll ---------- //
 
-	std::vector<std::unique_ptr<ComponentBase>>& GetAll()
+	std::vector<ComponentBase*> GetAll()
 	{
-		return m_pComponents;
+		std::vector<ComponentBase*> all;
+
+		if (m_pTransform) all.push_back(m_pTransform.get());
+		if (m_pRectTransform) all.push_back(m_pRectTransform.get());
+		for (auto& comp : m_pComponents) all.push_back(comp.get());
+		for (auto& comp : m_pReservesAdd) all.push_back(comp.get());
+
+		return all;
 	}
 
 	// ----------- Add ----------- //

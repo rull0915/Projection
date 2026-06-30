@@ -15,14 +15,17 @@
 #include "GameObject/GameObject.h"
 #include "Common/ClassNameGetter.h"
 
+#include "Components/World/Transform/Transform.h"
+#include "Components/UI/RectTransform/RectTransform.h"
+
 #include <fstream>
 #include <filesystem>
-
-#include <nlohmann/json.hpp>
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
+
+using namespace nlohmann;
 
 void ObjectSaver::Register(unsigned int id, Saver saver)
 {
@@ -40,7 +43,7 @@ void ObjectSaver::Register(unsigned int id, Saver saver)
 	m_funcMap.insert({ id, saver });
 }
 
-nlohmann::json ObjectSaver::Save(ComponentBase* component)
+json ObjectSaver::Save(ComponentBase* component)
 {
 	unsigned int id = component->GetID();
 
@@ -58,31 +61,38 @@ nlohmann::json ObjectSaver::Save(ComponentBase* component)
 	return it->second(component);
 }
 
-nlohmann::json ObjectSaver::SaveObject(GameObject* obj)
+json ObjectSaver::SaveObject(GameObject* obj)
 {
 	json j;
 
 	j["Name"] = obj->GetName();
 	j["Tag"] = obj->GetTag();
+	j["IsActive"] = obj->IsActive();
 
 	// コンポーネントをすべて取得
 	auto& components = obj->GetAllComponents();
 
+	// 1つのコンポーネントを保存するラムダ式
+	auto saveComponent = [&](ComponentBase* component)
+		{
+			// jsonを生成
+			json compJson = Save(component);
+
+			// コンポーネント名を取得
+			std::string componentName = ClassNameGetter::Get(*component);
+
+			j["Components"].push_back(
+				{
+					{ "Type", componentName},
+					{ "Data", compJson },
+				}
+				);
+		};
+
 	// コンポーネントを全部調べる
 	for (auto& component : components)
 	{
-		// jsonを生成
-		json j = Save(component.get());
-
-		// コンポーネント名を取得
-		std::string componentName = ClassNameGetter::Get(*component.get());
-
-		j["Components"].push_back(
-			{
-				{ "Type", componentName },
-				{ "Data", j },
-			}
-		);
+		saveComponent(component);
 	}
 
 	return j;

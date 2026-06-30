@@ -82,7 +82,7 @@ void TitleScene::Initialize()
 		b->SetOnClick(		// クリック時の処理を設定
 			[this]()
 			{
-				ChangeScene("Title",
+				ChangeScene("GamePlay",
 					std::make_unique<Transition::Slide>(0.3f, 0, DirectX::XMConvertToRadians(30)),
 					std::make_unique<Transition::Slide>(0.3f, 0, DirectX::XMConvertToRadians(210))
 				);

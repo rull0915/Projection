@@ -27,6 +27,8 @@ GameObject::GameObject(CreateToken)
 	, m_isDead{ false }
 	, m_pScene{ nullptr }
 	, m_components{ this }
+	, m_tag{}
+	, m_name{}
 {
 }
 
