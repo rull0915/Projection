@@ -37,6 +37,7 @@ class PhysicsManager2D;
 class RendererManager;
 class UIManager;
 class CollideEventSystem;
+class SoundManager;
 
 class Renderer;
 class CameraBase;
@@ -66,6 +67,7 @@ private:
 
 	std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
 	std::unique_ptr<RendererManager> m_rendererManager;	// 描画
+	std::unique_ptr<SoundManager> m_soundManager;		// 音
 	std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
 
 	std::unique_ptr<UIManager> m_uiManager;				// UI

@@ -121,6 +121,12 @@ namespace Input
 	}
 
 	// マウスのモードを取得
+	DirectX::Mouse::Mode Mouse::GetMode()
+	{
+		return m_nowMouseState.positionMode;
+	}
+
+	// マウスのモードをセット
 	void Mouse::SetMode(DirectX::Mouse::Mode mode)
 	{
 		DirectX::Mouse::Get().SetMode(mode);

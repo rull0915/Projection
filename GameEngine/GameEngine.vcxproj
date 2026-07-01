@@ -166,6 +166,8 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody2D.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp" />
+    <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
+    <ClCompile Include="src\Components\World\Sounds\AudioSource.cpp" />
     <ClCompile Include="src\Components\World\Transform\Transform.cpp" />
     <ClCompile Include="src\Debug\ColliderDebugRenderer.cpp" />
     <ClCompile Include="src\Debug\EachColliderDebugRenderer.cpp" />
@@ -192,6 +194,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Managers\CollisionMap.cpp" />
     <ClCompile Include="src\Managers\ObjectManager.cpp" />
     <ClCompile Include="src\Managers\Renderer\RendererManager.cpp" />
+    <ClCompile Include="src\Managers\Sounds\SoundManager.cpp" />
     <ClCompile Include="src\Managers\System\CollideEventSystem.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -289,6 +292,8 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Debug\ColliderDebugRenderer.h" />
+    <ClInclude Include="include\Components\World\Sounds\AudioListener.h" />
+    <ClInclude Include="include\Components\World\Sounds\AudioSource.h" />
     <ClInclude Include="src\Debug\EachColliderDebugRenderer.h">
       <SubType>
       </SubType>
@@ -326,6 +331,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Physics\HitContact.h" />
     <ClInclude Include="src\Managers\ObjectManager.h" />
     <ClInclude Include="src\Managers\Renderer\RendererManager.h" />
+    <ClInclude Include="src\Managers\Sounds\SoundManager.h" />
     <ClInclude Include="src\Managers\System\CollideEventSystem.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="include\Renderer\EachRenderer\IRenderer.h" />

@@ -25,6 +25,7 @@ ResourceManager::ResourceManager()
 	, m_effect{}
 	, m_textures{}
 	, m_deviceResources{ nullptr }
+	, m_audioEngine{}
 {
 }
 
@@ -40,6 +41,19 @@ void ResourceManager::Initialize(DX::DeviceResources* deviceResource)
 
 	m_effect = std::make_unique<EffectFactory>(m_device);
 	m_effect->SetDirectory(L"Resources/Models");
+
+	m_audioEngine = std::make_unique<DirectX::AudioEngine>();
+}
+
+void ResourceManager::Update()
+{
+	if (!m_audioEngine->Update())
+	{
+		// No audio device is active
+		if (m_audioEngine->IsCriticalError())
+		{
+		}
+	}
 }
 
 void ResourceManager::AddTexture(const std::string& keyName, const std::wstring& filePass)
@@ -93,17 +107,14 @@ void ResourceManager::AddModel(const std::string& key, const std::wstring& fileP
 	m_models.insert(std::make_pair(key, std::move(playerModel)));
 }
 
-void ResourceManager::RemoveModel(const std::string& key)
+void ResourceManager::AddSound(const std::string& key, const std::wstring& filePath)
 {
-	// 指定したキーのイテレータを取得
-	auto it = m_models.find(key);
+	// 既に同じキーが存在する場合はスキップ
+	if (m_models.find(key) != m_models.end()) return;
 
-	// 存在するキーなら
-	if (it != m_models.end())
-	{
-		// 配列から削除
-		m_models.erase(it);
-	}
+	auto sound = std::make_unique<DirectX::SoundEffect>(m_audioEngine.get(), filePath.c_str());
+
+	m_sounds.insert(std::make_pair(key, std::move(sound)));
 }
 
 ID3D11ShaderResourceView* ResourceManager::GetTexture(const std::string& key) const
@@ -134,5 +145,13 @@ DirectX::Model* ResourceManager::GetModel(const std::string& key) const
 	// 存在しないキーなら
 	auto it = m_models.find(key);
 	if (it == m_models.end()) return nullptr;
+	return it->second.get();
+}
+
+DirectX::SoundEffect* ResourceManager::GetSound(const std::string& key) const
+{ 
+	// 存在しないキーなら
+	auto it = m_sounds.find(key);
+	if (it == m_sounds.end()) return nullptr;
 	return it->second.get();
 }

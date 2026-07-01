@@ -90,6 +90,7 @@ namespace DX
 #include <SimpleMath.h>
 #include <Keyboard.h>
 #include <Mouse.h>
+#include <Audio.h>
 
 #include <string>
 

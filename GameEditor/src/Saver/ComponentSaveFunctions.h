@@ -78,4 +78,7 @@ namespace SaveComponent
 
 	// TargetCamere
 	json Save_Target_Camera(ComponentBase* component);
+
+	// AudioSource
+	json Save_AudioSource(ComponentBase* component);
 }

@@ -24,6 +24,7 @@
 #include "Managers/3DManagers/PhysicsManager.h"
 #include "Managers/3DManagers/Collider/CollideManager.h"
 #include "Managers/System/CollideEventSystem.h"
+#include "Managers/Sounds/SoundManager.h"
 
 //====================================================//
 // 前方宣言
@@ -59,6 +60,18 @@ void ComponentRegister::RegisterComponent(ComponentBase* component)
 		// RigidBody2Dの場合
 		if (component->GetID() == TypeIDGenerator::GetID<RigidBody2D>()) {
 			m_pScene->m_physicsManager2D->AddRigidBody(static_cast<RigidBody2D*>(component));
+			break;
+		}
+
+		// AudioSourceの場合
+		if (component->GetID() == TypeIDGenerator::GetID<AudioSource>()) {
+			m_pScene->m_soundManager->AddAudioSource(static_cast<AudioSource*>(component));
+			break;
+		}
+
+		// AudioListenerの場合
+		if (component->GetID() == TypeIDGenerator::GetID<AudioListener>()) {
+			m_pScene->m_soundManager->SetListener(static_cast<AudioListener*>(component));
 			break;
 		}
 
@@ -105,6 +118,18 @@ void ComponentRegister::UnRegisterComponent(ComponentBase* component)
 		// RigidBody2Dの場合
 		if (component->GetID() == TypeIDGenerator::GetID<RigidBody2D>()) {
 			m_pScene->m_physicsManager2D->RemoveRigidBody(static_cast<RigidBody2D*>(component));
+			break;
+		}
+
+		// AudioSourceの場合
+		if (component->GetID() == TypeIDGenerator::GetID<AudioSource>()) {
+			m_pScene->m_soundManager->RemoveAudioSource(static_cast<AudioSource*>(component));
+			break;
+		}
+
+		// AudioListenerの場合
+		if (component->GetID() == TypeIDGenerator::GetID<AudioListener>()) {
+			m_pScene->m_soundManager->RemoveListener(static_cast<AudioListener*>(component));
 			break;
 		}
 

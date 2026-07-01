@@ -166,6 +166,10 @@ namespace ObjectFactory
 		col->SetLocalSize({ 3, 3, 3 });
 		col->SetTrigger(true);
 
+		// トランスフォームの設定
+		auto transform = col->GetComponent<Transform>();
+		transform->SetLocalEulerAngle({});
+
 		// 敵
 		goal->AddComponent<GoalComponent>();
 

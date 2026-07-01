@@ -60,6 +60,9 @@ namespace Input
 		// 移動量
 		static DirectX::SimpleMath::Vector2 GetMouseMoveValue();
 		static int GetWheelMoveValue();
+		
+		// モードの取得
+		static DirectX::Mouse::Mode GetMode();
 
 		// モードの変更
 		static void SetMode(DirectX::Mouse::Mode mode);

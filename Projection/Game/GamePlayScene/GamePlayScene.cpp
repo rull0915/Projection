@@ -7,6 +7,8 @@
 #include "Camera/ProjectionSmoothCamera.h"
 #include "Camera/TPSCamera.h"
 #include "Player/Player.h"
+#include "Components/World/Sounds/AudioListener.h"
+#include "Components/World/Sounds/AudioSource.h"
 
 // 管理クラス
 #include "ChangeDimention/ChangeColliderComponent.h"
@@ -43,9 +45,12 @@ GamePlayScene::~GamePlayScene()
 // 初期化関数
 void GamePlayScene::Initialize()
 {
+	ResourceManager::Instance().AddSound("Jump", L"Resources/Sounds/se_jump_006.wav");
+
 	// モデルの読み込み
 	ResourceManager::Instance().AddModel("Player", L"Resources/Models/Player.cmo");
 	ResourceManager::Instance().AddModel("Goal", L"Resources/Models/Goal.cmo");
+	ResourceManager::Instance().AddModel("Enemy", L"Resources/Models/Enemy.cmo");
 
 	// マウスを相対モードに
 	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
@@ -64,28 +69,39 @@ void GamePlayScene::Initialize()
 	auto cameraComponent = m_camera->AddComponent<ProjectionSmoothCamera>();
 	SetMainCamera(cameraComponent);
 
+	// リスナーに設定
+
 	// プレイヤーを生成
-	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
+	//m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
+	m_player = Generate();
+	m_player->AddComponent<AudioListener>();
+
+	// プレイヤーをテスト保存
+	ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 
 	// 敵を生成
-	//ObjectFactory::CreateEnemy(this, { 0, -2, -10 });
+	m_enemy = Generate();
+	ObjectLoader::LoadFromFile(L"Resources/Objects/Enemy.gameobject", m_enemy);
+
+	auto au = m_enemy->AddComponent<AudioSource>();
+	au->Load("Jump", true);
+	au->SetPan(1.0f);
+	//au->SetLoop(true);
+	au->SetPitch(-1.0f);
 
 	// ゴールの生成
 	ObjectFactory::CreateGoal(this, { 0, 10.0f, 0 });
 
 	// 地面を生成
-	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
-	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 0, -3, 0 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 3, 0, -10 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 2, -1.5, -5 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 0, 4, 5 }, { 0, 0, 0 }, { 3, 1, 3 });
+	ObjectFactory::CreateCube(this, { 0, 7, 3 }, { 0, 0, 0 }, { 3, 1, 3 });
 	ObjectFactory::CreateCube(this, { 1, 3, -10 }, { 0, 0, 0 }, { 1, 6, 3 });
-
-	// テストロード
-	auto cube = Generate();
-	ObjectLoader::LoadFromFile(L"Test.json", cube);
 
 	// 次元管理クラスにカメラを渡す
 	m_dimentionManager.SetCamera(m_camera->GetComponent<ProjectionSmoothCamera>());
@@ -109,6 +125,8 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 	// 警告潰し
 	gameTimer;
 
+	auto camera = m_camera->GetComponent<Transform>();
+
 	// 次元管理クラスの更新
 	m_dimentionManager.Update();
 
@@ -122,7 +140,7 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 	}
 
 	// Rキーでリトライ
-	if (Input::Key::Get(Input::State::Down, Input::Key::Code::R))
+	if (Input::Key::Get(Input::State::Up, Input::Key::Code::R))
 	{
 		ChangeScene(
 			"GamePlay",
@@ -130,11 +148,17 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 			std::make_unique<Transition::Fade>(0.5f)
 		);
 	}
+
+	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Space))
+	{
+		m_enemy->GetComponent<AudioSource>()->Play();
+	}
 }
 
 // 描画関数
 void GamePlayScene::Render(Renderer& renderer)
 {
+	m_enemyManager.DebugRenderer(renderer);
 }
 
 // 終了関数

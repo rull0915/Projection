@@ -82,7 +82,7 @@ void Game::Initialize(HWND window, int width, int height)
 	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
 
 	// 開始時のシーンを設定
-	m_sceneManager.SetStartScene("Title");
+	m_sceneManager.SetStartScene("GamePlay");
 
 	// ====== リソースの追加 ====== //
 
@@ -121,6 +121,9 @@ void Game::Update(DX::StepTimer const& timer)
 
 	// デバッグマネージャーの更新
 	DebugManager::Instance().Update(elapsedTime);
+
+	// リソースマネージャーの更新
+	ResourceManager::Instance().Update();
 
 	// タイマーの更新
 	m_gameTimer.Update(elapsedTime);

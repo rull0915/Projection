@@ -52,6 +52,9 @@ private:
 	// プレイヤー
 	GameObject* m_player;
 
+	// 敵
+	GameObject* m_enemy;
+
 	// 次元管理クラス
 	DimentionManager m_dimentionManager;
 

@@ -230,4 +230,19 @@ namespace SaveComponent
 		camera->SetNearClip(json["Near"]);
 		camera->SetAspect(json["Aspect"]);
 	}
+
+	// AudioSource
+	void Load_AudioSource(const json& js, ComponentBase* component)
+	{
+		// 変換
+		AudioSource* audio = static_cast<AudioSource*>(component);
+
+		// 保存
+		audio->SetVolume(js["Volume"]);
+		audio->SetPan(js["Pan"]);
+		audio->SetPitch(js["Pitch"]);
+		audio->SetLoop(js["Loop"]);
+		audio->SetPlayOnStart(js["PlayOnStart"]);
+		audio->SetUse3D(js["Use3D"]);
+	}
 }

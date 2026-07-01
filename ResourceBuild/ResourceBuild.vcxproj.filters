@@ -21,7 +21,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Models\Goal.obj">
+    <MeshContentTask Include="Models\Enemy.obj">
       <Filter>Models</Filter>
     </MeshContentTask>
   </ItemGroup>

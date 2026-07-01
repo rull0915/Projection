@@ -15,9 +15,6 @@
 #include "GameObject/GameObject.h"
 #include "Common/ClassNameGetter.h"
 
-#include "Components/World/Transform/Transform.h"
-#include "Components/UI/RectTransform/RectTransform.h"
-
 #include <fstream>
 #include <filesystem>
 
@@ -77,6 +74,7 @@ json ObjectSaver::SaveObject(GameObject* obj)
 		{
 			// jsonを生成
 			json compJson = Save(component);
+			if (compJson.is_null()) compJson = {};
 
 			// コンポーネント名を取得
 			std::string componentName = ClassNameGetter::Get(*component);

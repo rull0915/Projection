@@ -1,0 +1,86 @@
+﻿//====================================================//
+// ファイル名  : AudioSource.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/07/01
+//
+// 概要       : オーディオソース
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "Components/World/Sounds/AudioSource.h"
+
+#include "System/ResourceManager.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+// コンストラクタ
+AudioSource::AudioSource(IComponentOwner* own)
+	: WorldComponentBase(own)
+	, m_soundEffect{}
+	, m_soundInstance{ nullptr }
+	, m_volume{ 1.0f }
+	, m_pan{ 0.0f }
+	, m_pitch{ 0.0f }
+	, m_loop{ false }
+	, m_playOnStart{ false }
+	, m_use3DAudio{ false }
+{
+}
+
+void AudioSource::Load(const std::string& key, bool use3D)
+{
+	// 音読み込み
+	m_soundEffect = ResourceManager::Instance().GetSound(key);
+
+	m_use3DAudio = use3D;
+
+	// インスタンス作成
+
+	// 3Dを使用するなら
+	if (use3D)
+	{
+		m_soundInstance = m_soundEffect->CreateInstance(DirectX::SoundEffectInstance_Use3D);
+	}
+	// 使わないなら
+	else
+	{
+		m_soundInstance = m_soundEffect->CreateInstance();
+	}
+}
+
+// 最初のUpdate関数の直線に一度呼ばれます
+void AudioSource::Start()
+{
+	// 開始時に鳴らすフラグがオンなら
+	if (m_playOnStart)
+	{
+		// インスタンスが生成されていたら
+		if (m_soundInstance)
+		{
+			// 再生
+			m_soundInstance->Play(m_loop);
+		}
+	}
+}
+
+void AudioSource::Play() const
+{
+	// 音が設定されていれば
+	if (m_soundInstance)
+	{
+		// 停止
+		m_soundInstance->Stop();
+
+		// 再生
+		m_soundInstance->Play(m_loop);
+	}
+}
+
+void AudioSource::Stop() const
+{
+}

@@ -154,6 +154,12 @@ void EditorInitializer::RegistSavers()
 		TypeIDGenerator::GetID<TargetCamera>(),
 		SaveComponent::Save_Target_Camera
 	);
+
+	// AudioSource
+	ObjectSaver::Register(
+		TypeIDGenerator::GetID<AudioSource>(),
+		SaveComponent::Save_AudioSource
+	);
 }
 
 void EditorInitializer::RegistLoaders()

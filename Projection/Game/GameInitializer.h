@@ -35,4 +35,6 @@ public:
 
 	// 初期化関数
 	static void Initialize();
+
+	static void RegistFactries();
 };

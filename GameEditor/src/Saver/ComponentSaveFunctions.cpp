@@ -287,4 +287,22 @@ namespace SaveComponent
 
 		return j;
 	}
+
+	json Save_AudioSource(ComponentBase* component)
+	{		
+		json j = Save_Base(component);
+
+		// 変換
+		AudioSource* audio = static_cast<AudioSource*>(component);
+
+		// 保存
+		j["Volume"] = audio->GetVolume();
+		j["Pan"] = audio->GetPan();
+		j["Pitch"] = audio->GetPitch();
+		j["Loop"] = audio->GetLoop();
+		j["PlayOnStart"] = audio->GetPlayOnStart();
+		j["Use3D"] = audio->GetUse3D();
+
+		return j;
+	}
 }

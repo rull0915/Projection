@@ -78,4 +78,7 @@ namespace SaveComponent
 
 	// TargetCamere
 	void Load_Target_Camera(const json& js, ComponentBase* component);
+
+	// AudioSource
+	void Load_AudioSource(const json& js, ComponentBase* component);
 }

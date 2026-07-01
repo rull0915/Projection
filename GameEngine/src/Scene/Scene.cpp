@@ -19,6 +19,7 @@
 #include "Managers/2DManagers/PhysicsManager2D.h"
 #include "Managers/2DManagers/Collider/CollideManager2D.h"
 #include "Managers/3DManagers/PhysicsManager.h"
+#include "Managers/Sounds/SoundManager.h"
 #include "Managers/3DManagers/Collider/CollideManager.h"
 #include "Managers/UI/UIManager.h"
 #include "Managers/3DManagers/Ray/RaySystem.h"
@@ -55,6 +56,7 @@ Scene::Scene(SceneManager* pSceneManager)
 	, m_rendererManager		{ std::make_unique<RendererManager>() }
 	, m_objectManager		{ std::make_unique<ObjectManager>() }
 	, m_uiManager			{ std::make_unique<UIManager>(this) }
+	, m_soundManager		{ std::make_unique<SoundManager>() }
 {
 	m_cameraManager->Initialize(this);
 }
@@ -93,6 +95,9 @@ void Scene::BaseUpdate(const GameTimer& gameTimer)
 	// 衝突後関数の呼び出し
 	m_colEvent->CallCollideFunctions(m_physicsManager->GetHitList());
 	m_colEvent->CallCollideFunctions2D(m_physicsManager2D->GetHitList());
+
+	// 音の更新
+	m_soundManager->Update();
 
 	// 各オブジェクトの遅延更新
 	m_objectManager->LateUpdate(gameTimer);

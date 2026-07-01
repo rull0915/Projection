@@ -1,0 +1,78 @@
+{
+    "Components": [
+        {
+            "Data": {
+                "IsActive": true,
+                "Position": [
+                    3.0,
+                    1.0,
+                    -10.0
+                ],
+                "Rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Scale": [
+                    0.5000000059604645,
+                    0.5000000059604645,
+                    0.5000000059604645
+                ]
+            },
+            "Type": "Transform"
+        },
+        {
+            "Data": null,
+            "Type": "Enemy"
+        },
+        {
+            "Data": {
+                "IsActive": true,
+                "Layer": 1,
+                "LocalPosition": [
+                    0.0,
+                    0.2,
+                    0.0
+                ],
+                "LocalSize": [
+                    1.2,
+                    2.200000023841858,
+                    1.2
+                ],
+                "NeedInfo": false,
+                "Trigger": false
+            },
+            "Type": "BoxCollider"
+        },
+        {
+            "Data": {
+                "Alpha": 1.0,
+                "IsActive": true,
+                "ModelName": "Enemy"
+            },
+            "Type": "ModelComponent"
+        },
+        {
+            "Data": {
+                "IsActive": true,
+                "LinearDamping": 0.0,
+                "Mass": 1.0,
+                "Static": false,
+                "UseGravity": true
+            },
+            "Type": "RigidBody"
+        },
+        {
+            "Data": null,
+            "Type": "ChangeColliderComponent"
+        },
+        {
+            "Data": null,
+            "Type": "DepthCorrection"
+        }
+    ],
+    "IsActive": true,
+    "Name": "",
+    "Tag": "Enemy"
+}

@@ -170,7 +170,10 @@ bool ConvexPolygonCollider2D::IsContain(const DirectX::SimpleMath::Vector2& poin
 {
 	for (auto& vertex : m_localVertices)
 	{
-		if ((vertex - point).LengthSquared() < FLT_EPSILON) return true;
+		if ((vertex - point).LengthSquared() < FLT_EPSILON)
+		{
+			return true;
+		}
 	}
 
 	return false;

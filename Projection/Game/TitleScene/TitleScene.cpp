@@ -45,9 +45,6 @@ TitleScene::~TitleScene()
 // 初期化関数
 void TitleScene::Initialize()
 {
-	// マウスを絶対モードに
-	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
-
 	// オブジェクトの追加
 	// カメラ
 	m_camera = Generate({ 0, 10, 0});
@@ -117,6 +114,14 @@ void TitleScene::Initialize()
 void TitleScene::Update(const GameTimer& gameTimer)
 {
 	gameTimer;
+
+	// マウスを絶対モードに
+	if (Input::Mouse::GetMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
+	{
+		Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
+
+	}
+		Input::Mouse::SetMouseVisible(true);
 }
 
 // 描画関数

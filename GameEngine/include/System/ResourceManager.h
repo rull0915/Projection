@@ -20,6 +20,7 @@
 #include <SpriteFont.h>
 #include <Model.h>
 #include <Effects.h>
+#include <Audio.h>
 
 #include "System/DeviceResources.h"
 
@@ -49,6 +50,9 @@ private:
 	// デバイス
 	ID3D11Device1* m_device;
 
+	// 音管理クラス
+	std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
+
 	// エフェクト
 	std::unique_ptr<DirectX::EffectFactory> m_effect;
 
@@ -61,6 +65,9 @@ private:
 
 	// モデル
 	std::unordered_map<std::string, std::unique_ptr<DirectX::Model>> m_models;
+	
+	// 音
+	std::unordered_map<std::string, std::unique_ptr<DirectX::SoundEffect>> m_sounds;
 
 private:
 
@@ -86,6 +93,9 @@ public:
 	// 初期化
 	void Initialize(DX::DeviceResources* deviceResource);
 
+	// 更新
+	void Update();
+
 	// 画像の追加、読み込み
 	void AddTexture(const std::string& kayName, const std::wstring& filePass);
 
@@ -94,7 +104,9 @@ public:
 
 	// モデルの追加、読み込み
 	void AddModel(const std::string& key, const std::wstring& filePath);
-	void RemoveModel(const std::string& key);
+
+	// 音の追加、読み込み
+	void AddSound(const std::string& key, const std::wstring& filePath);
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -108,6 +120,8 @@ public:
 	DirectX::Model* GetModel(const std::string& key) const;
 
 	DX::DeviceResources* GetResources() const { return m_deviceResources; }
+
+	DirectX::SoundEffect* GetSound(const std::string& key) const;
 
 	//-----------------------------------------------------
 	// セッター

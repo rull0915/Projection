@@ -22,6 +22,20 @@
 
 #include "System/TypeIdGenerator.h"
 
+#include "GameObject/GameObject.h"
+#include "Loader/ComponentFactory.h"
+
+// 特有コンポーネント群
+#include "GamePlayScene/Camera/ProjectionSmoothCamera.h"
+#include "GamePlayScene/Camera/TPSCamera.h"
+#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
+#include "GamePlayScene/ChangeDimention/ChangeColliderComponent.h"
+#include "GamePlayScene/ChangeDimention/DepthCorrection.h"
+#include "GamePlayScene/Enemy/Enemy.h"
+#include "GamePlayScene/Player/Player.h"
+#include "GamePlayScene/Stage/Components/GoalComponent.h"
+#include "GamePlayScene/Stage/Components/MoveComponent.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -49,4 +63,44 @@ void GameInitializer::Initialize()
 	);
 
 	// 作成関数の追加
+	RegistFactries();
+}
+
+// 作成関数をエディタに登録する関数
+void GameInitializer::RegistFactries()
+{
+	// Todo: 新規コンポーネントはここに生成関数の登録を追加してください。
+	// 名前とクラス名は一致させてください。
+	// 
+	//	ComponentFactory::Register(
+	//	"XXXComponent", [](GameObject* o) { return o->AddComponent<XXXComponent>(); }
+	//);
+
+	ComponentFactory::Register(
+		"ProjectionSmoothCamera", [](GameObject* o) { return o->AddComponent<ProjectionSmoothCamera>(); }
+	);
+	ComponentFactory::Register(
+		"TPSCamera", [](GameObject* o) { return o->AddComponent<TPSCamera>(); }
+	);
+	ComponentFactory::Register(
+		"ConvexPolygonCollider2D", [](GameObject* o) { return o->AddComponent<ConvexPolygonCollider2D>(); }
+	);
+	ComponentFactory::Register(
+		"ChangeColliderComponent", [](GameObject* o) { return o->AddComponent<ChangeColliderComponent>(); }
+	);
+	ComponentFactory::Register(
+		"DepthCorrection", [](GameObject* o) { return o->AddComponent<DepthCorrection>(); }
+	);
+	ComponentFactory::Register(
+		"Enemy", [](GameObject* o) { return o->AddComponent<Enemy>(); }
+	);
+	ComponentFactory::Register(
+		"Player", [](GameObject* o) { return o->AddComponent<Player>(); }
+	);
+	ComponentFactory::Register(
+		"GoalComponent", [](GameObject* o) { return o->AddComponent<GoalComponent>(); }
+	);
+	ComponentFactory::Register(
+		"MoveComponent", [](GameObject* o) { return o->AddComponent<MoveComponent>(); }
+	);
 }
