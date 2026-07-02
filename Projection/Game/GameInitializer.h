@@ -37,4 +37,7 @@ public:
 	static void Initialize();
 
 	static void RegistFactries();
+
+	// キーの追加
+	static void AddKey();
 };

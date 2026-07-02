@@ -19,6 +19,7 @@
 #include <memory>
 #include <type_traits>
 
+#include "Common/PropatyObject.h"
 #include "Interface/IColliderReceiver.h"
 #include "Interface/IComponentOwner.h"
 
@@ -36,7 +37,8 @@ class Renderer;
 //====================================================//
 
 class GameObject final 
-	: public IComponentOwner        // コンポーネントに公開するインターフェース
+	: public PropatyObject			// プロパティ
+	, public IComponentOwner        // コンポーネントに公開するインターフェース
 	, public IColliderReceiver      // コライダーの衝突応答を受け取るインターフェース
 {
 public:
@@ -192,38 +194,38 @@ public:
 
 	// コンポーネントを1つ取得する関数
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	T* GetComponent()
+	T* GetComponent() const
 	{ return m_components.Get<T>(); }
 
 	// カテゴリからコンポーネントを1つ取得する関数
-	ComponentBase* GetComponentWithCategory(ComponentCategory category)
+	ComponentBase* GetComponentWithCategory(ComponentCategory category) const
 	{ return m_components.GetWithCategory(category); }
 
 	// 指定したコンポーネントをすべて取得する関数
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	std::vector<T*> GetComponents()
+	std::vector<T*> GetComponents() const
 	{ return m_components.Gets<T>(); }
 
-	// コンポーネントをすべて取得する関数
-	const std::vector<ComponentBase*> GetAllComponents()
-	{ return m_components.GetAll(); }
-
 	// カテゴリからコンポーネントを1つ取得する関数
-	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category)
+	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category) const
 	{ return m_components.GetsWithCategory(category); }
 
 	// 参照渡し版
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	void GetComponents(std::vector<T*>& array)
+	void GetComponents(std::vector<T*>& array) const
 	{ m_components.Gets<T>(array); }
 
 	// カテゴリからコンポーネントを1つ取得する関数
-	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array)
+	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array) const
 	{ m_components.GetsWithCategory(category, array); }
+
+	// コンポーネントをすべて取得する関数
+	const std::vector<ComponentBase*> GetAllComponents() const
+	{ return m_components.GetAll(); }
 
 	// コンポーネントがあるか調べる関数
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	bool HasComponent()
+	bool HasComponent() const
 	{ return m_components.Has<T>(); }
 
 	// コンポーネントを削除する関数

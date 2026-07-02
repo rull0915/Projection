@@ -18,23 +18,24 @@
 #include "GameLib/Colliders/CheckHit.h"
 #include "GameLib/Colliders/DebugRenderer.h"
 #include "Components/World/Collider/2D/Shapes/2DColliders.h"
-#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 
 #include "System/TypeIdGenerator.h"
 
 #include "GameObject/GameObject.h"
 #include "Loader/ComponentFactory.h"
 
+#include "Input/InputSystem.h"
+#include "Input/KeyInput.h"
+
 // 特有コンポーネント群
+#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 #include "GamePlayScene/Camera/ProjectionSmoothCamera.h"
 #include "GamePlayScene/Camera/TPSCamera.h"
-#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 #include "GamePlayScene/ChangeDimention/ChangeColliderComponent.h"
 #include "GamePlayScene/ChangeDimention/DepthCorrection.h"
 #include "GamePlayScene/Enemy/Enemy.h"
 #include "GamePlayScene/Player/Player.h"
 #include "GamePlayScene/Stage/Components/GoalComponent.h"
-#include "GamePlayScene/Stage/Components/MoveComponent.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -64,6 +65,9 @@ void GameInitializer::Initialize()
 
 	// 作成関数の追加
 	RegistFactries();
+
+	// キーの追加
+	AddKey();
 }
 
 // 作成関数をエディタに登録する関数
@@ -100,7 +104,12 @@ void GameInitializer::RegistFactries()
 	ComponentFactory::Register(
 		"GoalComponent", [](GameObject* o) { return o->AddComponent<GoalComponent>(); }
 	);
-	ComponentFactory::Register(
-		"MoveComponent", [](GameObject* o) { return o->AddComponent<MoveComponent>(); }
+}
+
+void GameInitializer::AddKey()
+{
+	// Qボタンで次元変更
+	Input::Custom::AddButton(
+		"ChangeDimention", { Input::Type::Key, Input::State::Down, Input::Key::Code::Q }
 	);
 }

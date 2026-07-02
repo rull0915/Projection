@@ -135,7 +135,6 @@
     <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.h" />
-    <ClInclude Include="Game\GamePlayScene\Stage\Components\MoveComponent.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\Enemy.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.h" />
@@ -162,6 +161,7 @@
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
     <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h" />
     <ClInclude Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.h" />
+    <ClInclude Include="Game\GamePlayScene\Player\MoveComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -179,7 +179,6 @@
     <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\Components\LandingCandidatePoints.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Stage\Components\MoveComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
@@ -200,6 +199,7 @@
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Player\MoveComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

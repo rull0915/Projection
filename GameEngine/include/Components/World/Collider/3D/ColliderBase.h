@@ -79,7 +79,9 @@ public:
 		, m_type{ type }
 		, m_boundingBox{ {0, 0, 0}, {0, 0, 0} }
 		, m_localCenterPos{ 0, 0, 0 }
-	{}
+	{
+		ADD_PROPATY(m_localCenterPos);
+	}
 
 	virtual ~ColliderBase() = default;
 

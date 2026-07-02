@@ -70,7 +70,10 @@ public:
 		, m_rotation{ 0.0f }
 		, m_boundingBox{}
 		, m_worldCenterPos{}
-	{}
+	{
+		ADD_PROPATY(m_localCenterPos);
+		ADD_PROPATY(m_rotation);
+	}
 
 	virtual ~ColliderBase2D() = default;
 

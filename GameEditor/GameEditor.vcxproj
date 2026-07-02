@@ -159,29 +159,19 @@
     </ClInclude>
     <ClInclude Include="src\framework.h" />
     <ClInclude Include="include\Loader\ComponentFactory.h" />
-    <ClInclude Include="src\Loader\ComponentLoadFunctions.h" />
     <ClInclude Include="include\Loader\ObjectLoader.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\Saver\ComponentSaveFunctions.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\Saver\ObjectSaver.h" />
     <ClInclude Include="include\System\EditorInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Loader\ComponentFactory.cpp" />
-    <ClCompile Include="src\Loader\ComponentLoadFunctions.cpp" />
     <ClCompile Include="src\Loader\ObjectLoader.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Saver\ComponentSaveFunctions.cpp">
-      <SubType>
-      </SubType>
     </ClCompile>
     <ClCompile Include="src\Saver\ObjectSaver.cpp" />
     <ClCompile Include="src\System\EditorInitializer.cpp" />

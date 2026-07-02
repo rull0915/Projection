@@ -15,76 +15,75 @@
 #include "Loader/ObjectLoader.h"
 #include "Loader/ComponentFactory.h"
 
-#include "Components/World/Transform/Transform.h"
-#include "Components/UI/RectTransform/RectTransform.h"
-
 #include "GameObject/GameObject.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-using namespace nlohmann;
-
-void ObjectLoader::Register(unsigned int id, Loader loader)
+void ObjectLoader::LoadPropaty(const nlohmann::json& json, PropatyObject& obj)
 {
-	// イテレータを取得
-	auto it = m_funcMap.find(id);
-
-	// 既に存在するキーなら
-	if (it != m_funcMap.end())
+	// 登録されているプロパティを全て調べる
+	for (auto& propaty : obj.GetPropaties())
 	{
-		// 何もしない
-		return;
-	}
+		// 型によって分岐
+		switch (propaty.type)
+		{
+			// int
+		case PropatyType::Int:
+			*(static_cast<int*>(propaty.value)) = json[propaty.name];
+			break;
 
-	// 新規のキーなら追加
-	m_funcMap.insert({ id, loader });
+			// float
+		case PropatyType::Float:
+			*(static_cast<float*>(propaty.value)) = json[propaty.name];
+			break;
+
+			// bool
+		case PropatyType::Bool:
+			*(static_cast<bool*>(propaty.value)) = json[propaty.name];
+			break;
+
+			// string
+		case PropatyType::String:
+			*(static_cast<std::string*>(propaty.value)) = json[propaty.name];
+			break;
+
+			// Vector2
+		case PropatyType::Vector2:
+			*(static_cast<DirectX::SimpleMath::Vector2*>(propaty.value)) = { json[propaty.name][0], json[propaty.name][1] };
+			break;
+
+			// Vector3
+		case PropatyType::Vector3:
+			*(static_cast<DirectX::SimpleMath::Vector3*>(propaty.value)) = { json[propaty.name][0], json[propaty.name][1], json[propaty.name][2] };
+			break;
+
+			// Quaternion
+		case PropatyType::Quaternion:
+			*(static_cast<DirectX::SimpleMath::Quaternion*>(propaty.value)) = { json[propaty.name][0], json[propaty.name][1], json[propaty.name][2], json[propaty.name][3] };
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
-void ObjectLoader::Load(const nlohmann::json& json, ComponentBase* component)
+void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj)
 {
-	unsigned int id = component->GetID();
+	// ゲームオブジェクト部分をロード
+	LoadPropaty(json, *obj);
 
-	// イテレータを取得
-	auto it = m_funcMap.find(id);
-
-	// 存在しないキーなら
-	if (it == m_funcMap.end())
+	// コンポーネントをロード
+	for (auto& js : json["Components"])
 	{
-		// 何もしない
-		return;
-	}
-
-	// 既存のキーなら実行
-	return it->second(json, component);
-}
-
-void ObjectLoader::LoadObject(const nlohmann::json & js, GameObject * obj)
-{
-	// GameObjectの設定をロード
-	obj->SetName(js["Name"]);
-	obj->SetTag(js["Tag"]);
-	obj->SetActive(js["IsActive"]);
-
-	// 保存されているコンポーネントをループ
-	for (const auto& component : js["Components"])
-    {
-		// コンポーネント名を取得
-        std::string type = component["Type"];
-
-		// コンポーネントデータを取得
-        const json& data = component["Data"];
-
 		// 生成
-        ComponentBase* comp = ComponentFactory::Create(type, obj);
+		ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
 
-		// 生成したコンポーネントをロード
-        if (comp)
-        {
-            Load(data, comp);
-        }
-    }
+		// ロード
+		LoadPropaty(js["Data"], *component);
+	}
 }
 
 void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)
@@ -94,9 +93,8 @@ void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)
 	// 開けていたら
 	if (ifs.is_open())
 	{
-		json j;
-
-		// パス
+		// jsonから読み取り
+		nlohmann::json j;
 		ifs >> j;
 
 		// ロード

@@ -24,73 +24,89 @@
 
 using namespace nlohmann;
 
-void ObjectSaver::Register(unsigned int id, Saver saver)
+nlohmann::json ObjectSaver::SavePropaty(const PropatyObject& obj)
 {
-	// イテレータを取得
-	auto it = m_funcMap.find(id);
+	json js;
 
-	// 既に存在するキーなら
-	if (it != m_funcMap.end())
+	// 全プロパティを調べる
+	for (auto& propaty : obj.GetPropaties())
 	{
-		// 何もしない
-		return;
+		// 型によって分岐
+		switch (propaty.type)
+		{
+			// 型によって分岐
+			switch (propaty.type)
+			{
+				// int
+			case PropatyType::Int:
+				js[propaty.name] = *(static_cast<int*>(propaty.value));
+				break;
+
+				// float
+			case PropatyType::Float:
+				js[propaty.name] = *(static_cast<float*>(propaty.value));
+				break;
+
+				// bool
+			case PropatyType::Bool:
+				js[propaty.name] = *(static_cast<bool*>(propaty.value));
+				break;
+
+				// string
+			case PropatyType::String:
+				js[propaty.name] = *(static_cast<std::string*>(propaty.value));
+				break;
+
+				// Vector2
+			case PropatyType::Vector2: {
+				auto v = (static_cast<DirectX::SimpleMath::Vector2*>(propaty.value));
+				js[propaty.name] = { v->x, v->y };
+				break;
+			}
+				// Vector3
+			case PropatyType::Vector3: {
+				auto v = (static_cast<DirectX::SimpleMath::Vector3*>(propaty.value));
+				js[propaty.name] = { v->x, v->y, v->z };
+				break;
+			}
+				// Quaternion
+			case PropatyType::Quaternion: {
+				auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(propaty.value));
+				js[propaty.name] = { v->x, v->y, v->z, v->w };
+				break;
+			}
+
+			default:
+				break;
+			}
+		}
 	}
 
-	// 新規のキーなら追加
-	m_funcMap.insert({ id, saver });
+	return js;
 }
 
-json ObjectSaver::Save(ComponentBase* component)
-{
-	unsigned int id = component->GetID();
-
-	// イテレータを取得
-	auto it = m_funcMap.find(id);
-
-	// 存在しないキーなら
-	if (it == m_funcMap.end())
-	{
-		// 何もしない
-		return json{};
-	}
-
-	// 既存のキーなら実行
-	return it->second(component);
-}
-
-json ObjectSaver::SaveObject(GameObject* obj)
+json ObjectSaver::SaveObject(const GameObject* obj)
 {
 	json j;
 
-	j["Name"] = obj->GetName();
-	j["Tag"] = obj->GetTag();
-	j["IsActive"] = obj->IsActive();
+	// GameObject部分を保存
+	SavePropaty(*obj);
 
-	// コンポーネントをすべて取得
-	auto& components = obj->GetAllComponents();
-
-	// 1つのコンポーネントを保存するラムダ式
-	auto saveComponent = [&](ComponentBase* component)
-		{
-			// jsonを生成
-			json compJson = Save(component);
-			if (compJson.is_null()) compJson = {};
-
-			// コンポーネント名を取得
-			std::string componentName = ClassNameGetter::Get(*component);
-
-			j["Components"].push_back(
-				{
-					{ "Type", componentName},
-					{ "Data", compJson },
-				}
-				);
-		};
-
-	// コンポーネントを全部調べる
-	for (auto& component : components)
+	// コンポーネントを全て調べる
+	for (auto& component : obj->GetAllComponents())
 	{
-		saveComponent(component);
+		// jsonを生成
+		json compJson = SavePropaty(*component);
+
+		// コンポーネント名を取得
+		std::string componentName = ClassNameGetter::Get(*component);
+
+		j["Components"].push_back(
+			{
+				{ "Type", componentName},
+				{ "Data", compJson },
+			}
+		);
 	}
 
 	return j;

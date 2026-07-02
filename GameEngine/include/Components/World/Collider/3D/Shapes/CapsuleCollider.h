@@ -24,10 +24,13 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-enum class AxisType
+
+namespace AxisType
 {
-	X, Y, Z,
-};
+	static constexpr size_t X = 0;
+	static constexpr size_t Y = 1;
+	static constexpr size_t Z = 2;
+}
 
 class CapsuleCollider : public ColliderBase
 {
@@ -38,7 +41,9 @@ private:
 	//-----------------------------------------------------
 
 	// 使用する軸
-	AxisType m_lineDir; // 正規化して使用
+
+	// 0: x, 1: y, 2: z
+	size_t m_lineDir;
 
 	// ラインの長さ
 	float m_capsuleHeight;
@@ -64,11 +69,14 @@ public:
 	//-----------------------------------------------------
 	CapsuleCollider(IComponentOwner* own)
 		: ColliderBase(own, ColliderType::Capsule)
-		, m_lineDir{ AxisType::Y }
+		, m_lineDir{ 1 }
 		, m_capsuleHeight{ 2.0f }
 		, m_radius{ 0.5f }
 		, m_cache{}
 	{
+		ADD_PROPATY(m_lineDir);
+		ADD_PROPATY(m_capsuleHeight);
+		ADD_PROPATY(m_radius);
 	};
 	~CapsuleCollider() = default;
 
@@ -92,7 +100,7 @@ public:
 	}
 
 	// ラインの基準軸を返す関数
-	AxisType GetLineAxis() const
+	size_t GetLineAxis() const
 	{
 		return m_lineDir;
 	}
@@ -152,7 +160,7 @@ public:
 		SetDirty();
 	}
 
-	void SetLineAxis(AxisType type)
+	void SetLineAxis(size_t type)
 	{
 		m_lineDir = type;
 		SetDirty();

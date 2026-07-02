@@ -54,6 +54,7 @@ public:
 		, m_localSize{ 1, 1 }
 		, m_cache{}
 	{
+		ADD_PROPATY(m_localSize);
 	};
 	~BoxCollider2D() = default;
 

@@ -24,11 +24,12 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-enum class AxisType2D
+
+namespace AxisType2D
 {
-    Horizontal,
-    Vertical
-};
+	static constexpr size_t Horizontal = 0;
+	static constexpr size_t Vertical = 1;
+}
 
 class CapsuleCollider2D : public ColliderBase2D
 {
@@ -38,8 +39,8 @@ private:
     // メンバ変数
     //-----------------------------------------------------
 
-    // 使用する軸
-    AxisType2D m_lineDir; // 正規化して使用
+    // 使用する軸 0: x, 1: y
+    size_t m_lineDir;
 
     // ラインの長さ
     float m_capsuleHeight;
@@ -63,11 +64,14 @@ public:
     //-----------------------------------------------------
     CapsuleCollider2D(IComponentOwner* own)
         : ColliderBase2D(own)
-        , m_lineDir{ AxisType2D::Vertical }
+        , m_lineDir{ 1 }
         , m_capsuleHeight{ 1.0f }
         , m_radius{ 0.5f }
         , m_cache{}
     {
+		ADD_PROPATY(m_lineDir);
+		ADD_PROPATY(m_capsuleHeight);
+		ADD_PROPATY(m_radius);
     };
     ~CapsuleCollider2D() = default;
 
@@ -103,7 +107,7 @@ public:
     }
 
     // カプセルの軸を返す関数
-    AxisType2D GetAxis() const
+    size_t GetAxis() const
     {
         return m_lineDir;
     }
@@ -137,7 +141,7 @@ public:
         SetDirty();
     }
 
-	void SetLineDir(AxisType2D type)
+	void SetLineDir(size_t type)
 	{
 		m_lineDir = type;
 		SetDirty();

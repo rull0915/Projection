@@ -27,18 +27,6 @@ class GameObject;
 //====================================================//
 class ObjectSaver
 {
-    // 別名宣言
-    using Saver = std::function<nlohmann::json(ComponentBase* component)>;
-
-private:
-
-    //-----------------------------------------------------
-    // メンバ変数
-    //-----------------------------------------------------
-
-    // 関数マップ
-    inline static std::unordered_map<unsigned int, Saver> m_funcMap;
-
 public:
 
     //-----------------------------------------------------
@@ -51,14 +39,11 @@ public:
     // 公開関数
     //-----------------------------------------------------
 
-    // 登録関数
-    static void Register(unsigned int id, Saver saver);
-
-    // 実行関数
-    static nlohmann::json Save(ComponentBase* component);
+	// 保存関数
+    static nlohmann::json SavePropaty(const PropatyObject& obj);
 
     // 保存関数
-    static nlohmann::json SaveObject(GameObject* obj);
+    static nlohmann::json SaveObject(const GameObject* obj);
 
     // 保存関数
     static void SaveToFile(const std::wstring& filePath, GameObject* obj);

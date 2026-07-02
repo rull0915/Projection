@@ -26,6 +26,11 @@ StandardCamera::StandardCamera(IComponentOwner* own)
 	, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 	, m_fov{ PI_F / 4 }
 {
+	ADD_PROPATY(m_nearZ);
+	ADD_PROPATY(m_farZ);
+	ADD_PROPATY(m_aspect);
+	ADD_PROPATY(m_fov);
+
 	UpdateView();
 	UpdateProj();
 }

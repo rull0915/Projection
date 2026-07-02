@@ -43,6 +43,9 @@ private:
 	// インスタンス
 	std::unique_ptr<DirectX::SoundEffectInstance> m_soundInstance;
 
+	// 音声名
+	std::string m_soundName;
+
 	// 音量
 	float m_volume;
 
@@ -97,6 +100,9 @@ public:
 	// インスタンス
 	DirectX::SoundEffectInstance* GetSoundInstance() const { return m_soundInstance.get(); }
 
+	// 音声名
+	const std::string& GetSoundName() const { return m_soundName; }
+
 	// 3Dかどうか
 	bool Is3D() const { return m_use3DAudio; }
 
@@ -150,7 +156,7 @@ public:
 	void SetLoop(bool f) { m_loop = f; }
 
 	// 開始時
-	void SetPlayOnStart(bool f) { m_loop = f; }
+	void SetPlayOnStart(bool f) { m_playOnStart = f; }
 
 	// 3Dオーディオ
 	void SetUse3D(bool f) { m_use3DAudio = f; }

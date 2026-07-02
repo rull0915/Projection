@@ -137,7 +137,7 @@ namespace ObjectFactory
 		enemy->AddComponent<ChangeColliderComponent>();
 
 		// 2D補正
-		enemy->AddComponent<DepthCorrection>();
+	//	enemy->AddComponent<DepthCorrection>();
 
 		// 敵
 		enemy->AddComponent<Enemy>();

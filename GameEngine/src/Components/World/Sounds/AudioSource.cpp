@@ -23,6 +23,7 @@ AudioSource::AudioSource(IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_soundEffect{}
 	, m_soundInstance{ nullptr }
+	, m_soundName{}
 	, m_volume{ 1.0f }
 	, m_pan{ 0.0f }
 	, m_pitch{ 0.0f }
@@ -38,6 +39,9 @@ void AudioSource::Load(const std::string& key, bool use3D)
 	m_soundEffect = ResourceManager::Instance().GetSound(key);
 
 	m_use3DAudio = use3D;
+
+	// キー名保存
+	m_soundName = key;
 
 	// インスタンス作成
 

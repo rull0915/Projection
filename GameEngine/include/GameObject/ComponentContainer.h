@@ -140,7 +140,7 @@ public:
 
 	// ---------- Get ---------- //
 
-	ComponentBase* Get(unsigned int id)
+	ComponentBase* Get(unsigned int id) const
 	{
 		// Transformは専用ポインタから早期リターン
 		if (id == TypeIDGenerator::GetID<Transform>())
@@ -179,21 +179,21 @@ public:
 	}
 
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	T* Get()
+	T* Get() const
 	{
 		return static_cast<T*>(Get(TypeIDGenerator::GetID<T>()));
 	}
 
 	// ---------- Gets ---------- //
 
-	std::vector<ComponentBase*> Gets(unsigned int id) 
+	std::vector<ComponentBase*> Gets(unsigned int id) const
 	{
 		std::vector<ComponentBase*> components;
 		Gets(id, components);
 		return components;
 	}
 
-	void Gets(unsigned int id, std::vector<ComponentBase*>& array)
+	void Gets(unsigned int id, std::vector<ComponentBase*>& array) const
 	{
 		// 配列の初期化
 		array.clear();
@@ -235,7 +235,7 @@ public:
 	}
 
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	std::vector<T*> Gets()
+	std::vector<T*> Gets() const
 	{
 		std::vector<T*> array;
 
@@ -245,7 +245,7 @@ public:
 	}
 
 	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	void Gets(std::vector<T*>& array)
+	void Gets(std::vector<T*>& array) const
 	{
 		// 配列の初期化
 		array.clear();
@@ -288,7 +288,7 @@ public:
 
 	// ---------- GetWithCategory ---------- //
 	
-	ComponentBase* GetWithCategory(ComponentCategory category)
+	ComponentBase* GetWithCategory(ComponentCategory category) const
 	{
 		// それ以外は ID 比較でループ
 		for (auto& comp : m_pComponents)
@@ -314,7 +314,7 @@ public:
 	
 	// ---------- GetsWithCategory ---------- //
 
-	void GetsWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array)
+	void GetsWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array) const
 	{
 		// 配列の初期化
 		array.clear();
@@ -341,7 +341,7 @@ public:
 		return;
 	}
 
-	std::vector<ComponentBase*> GetsWithCategory(ComponentCategory category) 
+	std::vector<ComponentBase*> GetsWithCategory(ComponentCategory category) const
 	{
 		std::vector<ComponentBase*> components;
 		GetsWithCategory(category, components);
@@ -349,8 +349,8 @@ public:
 	}
 
 	// ---------- GetAll ---------- //
-
-	std::vector<ComponentBase*> GetAll()
+	  
+	std::vector<ComponentBase*> GetAll() const
 	{
 		std::vector<ComponentBase*> all;
 
@@ -423,13 +423,13 @@ public:
 
 	// ----------- Has ----------- //
 
-	bool Has(unsigned int id)
+	bool Has(unsigned int id) const
 	{
 		return Get(id) != nullptr;
 	}
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 
-	bool Has()
+	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+	bool Has() const
 	{
 		return Has(TypeIDGenerator::GetID<T>());
 	}

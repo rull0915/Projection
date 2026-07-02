@@ -44,10 +44,4 @@ private:
 
 	// 生成関数を登録する関数
 	static void RegistFactories();
-
-	// セーブ関数を登録する関数
-	static void RegistSavers();
-
-	// ロード関数を登録する関数
-	static void RegistLoaders();
 };

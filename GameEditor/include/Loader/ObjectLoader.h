@@ -14,11 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <unordered_map>
-#include <functional>
-
 #include <nlohmann/json.hpp>
-#include "Components/ComponentBase.h"
+#include "Common/PropatyObject.h"
 
 class GameObject;
 
@@ -27,18 +24,6 @@ class GameObject;
 //====================================================//
 class ObjectLoader
 {
-    // 別名宣言
-    using Loader = std::function<void(const nlohmann::json&, ComponentBase* component)>;
-
-private:
-
-    //-----------------------------------------------------
-    // メンバ変数
-    //-----------------------------------------------------
-
-    // 関数マップ
-    inline static std::unordered_map<unsigned int, Loader> m_funcMap;
-
 public:
 
     //-----------------------------------------------------
@@ -51,13 +36,10 @@ public:
     // 公開関数
     //-----------------------------------------------------
 
-    // 登録関数
-    static void Register(unsigned int id, Loader loader);
-
-    // 実行関数
-    static void Load(const nlohmann::json& js, ComponentBase* component);
-
     // 保存関数
+    static void LoadPropaty(const nlohmann::json& json, PropatyObject& obj);
+
+	// 保存関数
     static void LoadObject(const nlohmann::json& json, GameObject* obj);
 
     // 保存関数

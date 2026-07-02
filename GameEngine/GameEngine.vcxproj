@@ -236,6 +236,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Common\PropatyObject.h" />
     <ClInclude Include="include\Common\Random.h" />
     <ClInclude Include="include\Common\State\StateBase.h" />
     <ClInclude Include="include\Common\State\StateMachine.h" />

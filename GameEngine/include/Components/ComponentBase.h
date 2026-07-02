@@ -19,6 +19,7 @@
 #include "ComponentCategory.h"
 
 #include "System/TypeIdGenerator.h"
+#include "Common/PropatyObject.h"
 
 //====================================================//
 // 前方宣言
@@ -29,7 +30,7 @@ struct HitContact2D;
 //====================================================//
 // クラス宣言
 //====================================================//
-class ComponentBase
+class ComponentBase : public PropatyObject
 {
 	//-----------------------------------------------------
 	// メンバ変数

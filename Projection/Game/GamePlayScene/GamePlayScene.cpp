@@ -8,7 +8,7 @@
 #include "Camera/TPSCamera.h"
 #include "Player/Player.h"
 #include "Components/World/Sounds/AudioListener.h"
-#include "Components/World/Sounds/AudioSource.h"
+//#include "Components/World/Sounds/AudioSource.h"
 
 // 管理クラス
 #include "ChangeDimention/ChangeColliderComponent.h"
@@ -20,7 +20,6 @@
 #include "Input/MouseInput.h"
 
 // その他
-#include "Common/Random.h"
 #include "Scene/Transition/FadeTransition.h"
 
 #include "Saver/ObjectSaver.h"
@@ -72,25 +71,20 @@ void GamePlayScene::Initialize()
 	// リスナーに設定
 
 	// プレイヤーを生成
-	//m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
-	m_player = Generate();
+	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
+	//m_player = Generate();
 	m_player->AddComponent<AudioListener>();
 
 	// プレイヤーをテスト保存
-	ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
+	//ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
+	ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
 
 	// 敵を生成
 	m_enemy = Generate();
-	ObjectLoader::LoadFromFile(L"Resources/Objects/Enemy.gameobject", m_enemy);
-
-	auto au = m_enemy->AddComponent<AudioSource>();
-	au->Load("Jump", true);
-	au->SetPan(1.0f);
-	//au->SetLoop(true);
-	au->SetPitch(-1.0f);
+	//ObjectLoader::LoadFromFile(L"Resources/Objects/Enemy2.gameobject", m_enemy);
 
 	// ゴールの生成
 	ObjectFactory::CreateGoal(this, { 0, 10.0f, 0 });
@@ -140,18 +134,13 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 	}
 
 	// Rキーでリトライ
-	if (Input::Key::Get(Input::State::Up, Input::Key::Code::R))
+	if (Input::Key::Get(Input::State::Down, Input::Key::Code::R))
 	{
 		ChangeScene(
 			"GamePlay",
 			std::make_unique<Transition::Fade>(0.5f),
 			std::make_unique<Transition::Fade>(0.5f)
 		);
-	}
-
-	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Space))
-	{
-		m_enemy->GetComponent<AudioSource>()->Play();
 	}
 }
 
