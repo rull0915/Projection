@@ -24,61 +24,57 @@
 
 using namespace nlohmann;
 
-nlohmann::json ObjectSaver::SavePropaty(const PropatyObject& obj)
+nlohmann::json ObjectSaver::SaveProperty(const PropertyObject& obj)
 {
 	json js;
 
 	// 全プロパティを調べる
-	for (auto& propaty : obj.GetPropaties())
+	for (auto& property : obj.GetPropaties())
 	{
 		// 型によって分岐
-		switch (propaty.type)
+		switch (property.type)
 		{
-			// 型によって分岐
-			switch (propaty.type)
-			{
-				// int
-			case PropatyType::Int:
-				js[propaty.name] = *(static_cast<int*>(propaty.value));
-				break;
+			// int
+		case PropertyType::Int:
+			js[property.name] = *(static_cast<int*>(property.value));
+			break;
 
-				// float
-			case PropatyType::Float:
-				js[propaty.name] = *(static_cast<float*>(propaty.value));
-				break;
+			// float
+		case PropertyType::Float:
+			js[property.name] = *(static_cast<float*>(property.value));
+			break;
 
-				// bool
-			case PropatyType::Bool:
-				js[propaty.name] = *(static_cast<bool*>(propaty.value));
-				break;
+			// bool
+		case PropertyType::Bool:
+			js[property.name] = *(static_cast<bool*>(property.value));
+			break;
 
-				// string
-			case PropatyType::String:
-				js[propaty.name] = *(static_cast<std::string*>(propaty.value));
-				break;
+			// string
+		case PropertyType::String:
+			js[property.name] = *(static_cast<std::string*>(property.value));
+			break;
 
-				// Vector2
-			case PropatyType::Vector2: {
-				auto v = (static_cast<DirectX::SimpleMath::Vector2*>(propaty.value));
-				js[propaty.name] = { v->x, v->y };
-				break;
-			}
-				// Vector3
-			case PropatyType::Vector3: {
-				auto v = (static_cast<DirectX::SimpleMath::Vector3*>(propaty.value));
-				js[propaty.name] = { v->x, v->y, v->z };
-				break;
-			}
-				// Quaternion
-			case PropatyType::Quaternion: {
-				auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(propaty.value));
-				js[propaty.name] = { v->x, v->y, v->z, v->w };
-				break;
-			}
+			// Vector2
+		case PropertyType::Vector2: {
+			auto v = (static_cast<DirectX::SimpleMath::Vector2*>(property.value));
+			js[property.name] = { v->x, v->y };
+			break;
+		}
+			// Vector3
+		case PropertyType::Vector3: {
+			auto v = (static_cast<DirectX::SimpleMath::Vector3*>(property.value));
+			js[property.name] = { v->x, v->y, v->z };
+			break;
+		}
+			// Quaternion
+		case PropertyType::Quaternion: {
+			auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(property.value));
+			js[property.name] = { v->x, v->y, v->z, v->w };
+			break;
+		}
 
-			default:
-				break;
-			}
+		default:
+			break;
 		}
 	}
 
@@ -90,13 +86,13 @@ json ObjectSaver::SaveObject(const GameObject* obj)
 	json j;
 
 	// GameObject部分を保存
-	SavePropaty(*obj);
+	SaveProperty(*obj);
 
 	// コンポーネントを全て調べる
 	for (auto& component : obj->GetAllComponents())
 	{
 		// jsonを生成
-		json compJson = SavePropaty(*component);
+		json compJson = SaveProperty(*component);
 
 		// コンポーネント名を取得
 		std::string componentName = ClassNameGetter::Get(*component);

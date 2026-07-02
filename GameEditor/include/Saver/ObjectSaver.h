@@ -40,7 +40,7 @@ public:
     //-----------------------------------------------------
 
 	// 保存関数
-    static nlohmann::json SavePropaty(const PropatyObject& obj);
+    static nlohmann::json SaveProperty(const PropertyObject& obj);
 
     // 保存関数
     static nlohmann::json SaveObject(const GameObject* obj);

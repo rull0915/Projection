@@ -1,5 +1,5 @@
 ﻿//====================================================//
-// ファイル名   : PropatyObject.h
+// ファイル名   : PropertyObject.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/07/02
 //
@@ -19,7 +19,7 @@
 #include <vector>
 
 // マクロ
-#define ADD_PROPATY(propaty) (AddPropaty(#propaty, &propaty))
+#define ADD_PROPERTY(property) (AddProperty(#property, &property))
 
 //====================================================//
 // クラス宣言
@@ -27,7 +27,7 @@
 
 
 // 型の列挙型
-enum class PropatyType
+enum class PropertyType
 {
 	None,
 	Int,
@@ -40,58 +40,60 @@ enum class PropatyType
 };
 
 // プロパティ
-struct Propaty
+struct Property
 {
 	std::string name;
-	PropatyType type;
+	PropertyType type;
 	void* value;
 };
 
 // プロパティを扱うオブジェクトの基底クラス
-class PropatyObject
+class PropertyObject
 {
 private:
 	// プロパティ一覧
-	std::vector<Propaty> m_propaties;
+	std::vector<Property> m_propaties;
 
 protected:
 	// コンストラクタ
-	PropatyObject();
+	PropertyObject()
+		: m_propaties{}
+	{}
 
 public:
 	// プロパティを取得する関数
-	const std::vector<Propaty>& GetPropaties() const { return m_propaties; }
+	const std::vector<Property>& GetPropaties() const { return m_propaties; }
 
 protected:
 	// プロパティの追加関数
 	template<typename T>
-	void AddPropaty(std::string name, T* value)
+	void AddProperty(std::string name, T* value)
 	{
 		// 追加
-		m_propaties.push_back({name, GetPropatyType<T>(), value});
+		m_propaties.push_back({name, GetPropertyType<T>(), value});
 	}
 
 private:
 	// 型からタイプを取得する関数
 	template<typename T>
-	PropatyType GetPropatyType()
+	PropertyType GetPropertyType()
 	{
 		// bool
-		if constexpr (std::is_same_v<T, bool>) return PropatyType::Bool;
+		if constexpr (std::is_same_v<T, bool>) return PropertyType::Bool;
 		// int
-		else if constexpr (std::is_same_v<T, int>) return PropatyType::Int;
+		else if constexpr (std::is_same_v<T, int>) return PropertyType::Int;
 		// float
-		else if constexpr (std::is_same_v<T, float>) return PropatyType::Float;
+		else if constexpr (std::is_same_v<T, float>) return PropertyType::Float;
 		// string
-		else if constexpr (std::is_same_v<T, std::string>) return PropatyType::String;
+		else if constexpr (std::is_same_v<T, std::string>) return PropertyType::String;
 		// Vector2
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>) return PropatyType::Vector2;
+		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>) return PropertyType::Vector2;
 		// Vector3
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropatyType::Vector3;
+		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropertyType::Vector3;
 		// Quaternion
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropatyType::Quaternion;
+		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
 
 		// その他
-		else return PropatyType::None;
+		else return PropertyType::None;
 	}
 };

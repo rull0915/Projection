@@ -19,7 +19,7 @@
 #include <memory>
 #include <type_traits>
 
-#include "Common/PropatyObject.h"
+#include "Common/PropertyObject.h"
 #include "Interface/IColliderReceiver.h"
 #include "Interface/IComponentOwner.h"
 
@@ -37,7 +37,7 @@ class Renderer;
 //====================================================//
 
 class GameObject final 
-	: public PropatyObject			// プロパティ
+	: public PropertyObject			// プロパティ
 	, public IComponentOwner        // コンポーネントに公開するインターフェース
 	, public IColliderReceiver      // コライダーの衝突応答を受け取るインターフェース
 {

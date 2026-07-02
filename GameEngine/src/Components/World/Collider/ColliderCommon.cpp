@@ -25,7 +25,7 @@ ColliderCommon::ColliderCommon(IComponentOwner* own)
 	, m_colliderReceiver{ dynamic_cast<IColliderReceiver*>(own) }
 	, m_needInfo{ false }
 {
-	ADD_PROPATY(m_isTrigger);
-	ADD_PROPATY(m_needInfo);
-	ADD_PROPATY(m_layerNum);
+	ADD_PROPERTY(m_isTrigger);
+	ADD_PROPERTY(m_needInfo);
+	ADD_PROPERTY(m_layerNum);
 }

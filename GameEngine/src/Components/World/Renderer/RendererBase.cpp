@@ -24,4 +24,5 @@ RendererBase::RendererBase(IComponentOwner* own)
 	, m_pTransform{ GetComponent<Transform>() }
 	, m_alpha{ 1.0f }
 {
+	ADD_PROPERTY(m_alpha);
 };

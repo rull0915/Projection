@@ -43,7 +43,7 @@ public:
 		: ColliderBase2D(own)
 		, m_radius{ 0.5f }
 	{
-		ADD_PROPATY(m_radius);
+		ADD_PROPERTY(m_radius);
 	};
 	~CircleCollider2D() = default;
 

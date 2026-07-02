@@ -31,6 +31,9 @@ Transform::Transform(IComponentOwner* own)
 	, m_addCache{ 0, 0, 0 }
 	, m_changeCache{ false }
 {
+	ADD_PROPERTY(m_localPosition);
+	ADD_PROPERTY(m_localRotation);
+	ADD_PROPERTY(m_localScale);
 }
 
 Transform::~Transform()

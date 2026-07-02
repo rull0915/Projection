@@ -60,7 +60,7 @@ public:
 		, m_localSize{ 1, 1, 1 }
 		, m_cache{}
 	{
-		ADD_PROPATY(m_localSize);
+		ADD_PROPERTY(m_localSize);
 	};
 	~BoxCollider() = default;
 

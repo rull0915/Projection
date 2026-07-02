@@ -21,47 +21,47 @@
 // 関数の実体宣言
 //====================================================//
 
-void ObjectLoader::LoadPropaty(const nlohmann::json& json, PropatyObject& obj)
+void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj)
 {
 	// 登録されているプロパティを全て調べる
-	for (auto& propaty : obj.GetPropaties())
+	for (auto& property : obj.GetPropaties())
 	{
 		// 型によって分岐
-		switch (propaty.type)
+		switch (property.type)
 		{
 			// int
-		case PropatyType::Int:
-			*(static_cast<int*>(propaty.value)) = json[propaty.name];
+		case PropertyType::Int:
+			*(static_cast<int*>(property.value)) = json[property.name];
 			break;
 
 			// float
-		case PropatyType::Float:
-			*(static_cast<float*>(propaty.value)) = json[propaty.name];
+		case PropertyType::Float:
+			*(static_cast<float*>(property.value)) = json[property.name];
 			break;
 
 			// bool
-		case PropatyType::Bool:
-			*(static_cast<bool*>(propaty.value)) = json[propaty.name];
+		case PropertyType::Bool:
+			*(static_cast<bool*>(property.value)) = json[property.name];
 			break;
 
 			// string
-		case PropatyType::String:
-			*(static_cast<std::string*>(propaty.value)) = json[propaty.name];
+		case PropertyType::String:
+			*(static_cast<std::string*>(property.value)) = json[property.name];
 			break;
 
 			// Vector2
-		case PropatyType::Vector2:
-			*(static_cast<DirectX::SimpleMath::Vector2*>(propaty.value)) = { json[propaty.name][0], json[propaty.name][1] };
+		case PropertyType::Vector2:
+			*(static_cast<DirectX::SimpleMath::Vector2*>(property.value)) = { json[property.name][0], json[property.name][1] };
 			break;
 
 			// Vector3
-		case PropatyType::Vector3:
-			*(static_cast<DirectX::SimpleMath::Vector3*>(propaty.value)) = { json[propaty.name][0], json[propaty.name][1], json[propaty.name][2] };
+		case PropertyType::Vector3:
+			*(static_cast<DirectX::SimpleMath::Vector3*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2] };
 			break;
 
 			// Quaternion
-		case PropatyType::Quaternion:
-			*(static_cast<DirectX::SimpleMath::Quaternion*>(propaty.value)) = { json[propaty.name][0], json[propaty.name][1], json[propaty.name][2], json[propaty.name][3] };
+		case PropertyType::Quaternion:
+			*(static_cast<DirectX::SimpleMath::Quaternion*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
 			break;
 
 		default:
@@ -73,7 +73,7 @@ void ObjectLoader::LoadPropaty(const nlohmann::json& json, PropatyObject& obj)
 void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj)
 {
 	// ゲームオブジェクト部分をロード
-	LoadPropaty(json, *obj);
+	LoadProperty(json, *obj);
 
 	// コンポーネントをロード
 	for (auto& js : json["Components"])
@@ -82,7 +82,7 @@ void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj)
 		ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
 
 		// ロード
-		LoadPropaty(js["Data"], *component);
+		if (component) LoadProperty(js["Data"], *component);
 	}
 }
 

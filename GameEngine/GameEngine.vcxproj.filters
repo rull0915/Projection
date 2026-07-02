@@ -557,7 +557,7 @@
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\PropatyObject.h">
+    <ClInclude Include="include\Common\PropertyObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

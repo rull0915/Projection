@@ -2,19 +2,19 @@
     "Components": [
         {
             "Data": {
-                "IsActive": true,
-                "Position": [
-                    1.0,
-                    2.0,
+                "m_isActive": true,
+                "m_localPosition": [
+                    0.0,
+                    -2.0,
                     0.0
                 ],
-                "Rotation": [
+                "m_localRotation": [
                     0.0,
                     0.0,
                     0.0,
-                    0.0
+                    1.0
                 ],
-                "Scale": [
+                "m_localScale": [
                     0.4000000059604645,
                     0.4000000059604645,
                     0.4000000059604645
@@ -23,94 +23,103 @@
             "Type": "Transform"
         },
         {
-            "Data": null,
+            "Data": {
+                "m_isActive": true
+            },
             "Type": "Player"
         },
         {
             "Data": {
-                "IsActive": true,
-                "Layer": 10,
-                "LocalPosition": [
+                "m_isActive": true,
+                "m_isTrigger": false,
+                "m_layerNum": 10,
+                "m_localCenterPos": [
                     0.0,
                     0.0,
                     0.0
                 ],
-                "LocalSize": [
+                "m_localSize": [
                     1.0,
                     1.600000023841858,
                     1.0
                 ],
-                "NeedInfo": false,
-                "Trigger": false
+                "m_needInfo": false
             },
             "Type": "BoxCollider"
         },
         {
             "Data": {
-                "IsActive": true,
-                "Layer": 10,
-                "LocalPosition": [
+                "m_isActive": true,
+                "m_isTrigger": false,
+                "m_layerNum": 10,
+                "m_localCenterPos": [
                     0.0,
                     1.600000023841858,
                     0.0
                 ],
-                "LocalSize": [
+                "m_localSize": [
                     1.600000023841858,
                     1.600000023841858,
                     1.600000023841858
                 ],
-                "NeedInfo": false,
-                "Trigger": false
+                "m_needInfo": false
             },
             "Type": "BoxCollider"
         },
         {
             "Data": {
-                "IsActive": true,
-                "Layer": 0,
-                "LocalPosition": [
+                "m_isActive": true,
+                "m_isTrigger": true,
+                "m_layerNum": 0,
+                "m_localCenterPos": [
                     0.0,
                     -0.8500000238418579,
                     0.0
                 ],
-                "LocalSize": [
+                "m_localSize": [
                     1.0,
                     0.10000000149011612,
                     1.0
                 ],
-                "NeedInfo": true,
-                "Trigger": true
+                "m_needInfo": true
             },
             "Type": "BoxCollider"
         },
         {
             "Data": {
-                "Alpha": 1.0,
-                "IsActive": true,
-                "ModelName": "Player"
+                "m_alpha": 1.0,
+                "m_isActive": true,
+                "m_modelName": "Player"
             },
             "Type": "ModelComponent"
         },
         {
             "Data": {
-                "IsActive": true,
-                "LinearDamping": 0.0,
-                "Mass": 1.0,
-                "Static": false,
-                "UseGravity": true
+                "m_isActive": true,
+                "m_isStatic": false,
+                "m_linearDamping": 0.0,
+                "m_mass": 1.0,
+                "m_useGravity": true
             },
             "Type": "RigidBody"
         },
         {
-            "Data": null,
+            "Data": {
+                "m_isActive": true
+            },
             "Type": "ChangeColliderComponent"
         },
         {
-            "Data": null,
+            "Data": {
+                "m_isActive": true
+            },
             "Type": "DepthCorrection"
+        },
+        {
+            "Data": {
+                "m_isActive": true
+            },
+            "Type": "AudioListener"
         }
-    ],
-    "IsActive": true,
-    "Name": "",
-    "Tag": "Player"
+    ]
 }

@@ -39,10 +39,6 @@ private:
 	// かかっている力
 	DirectX::SimpleMath::Vector3 m_force;
 
-	// 前フレームの位置
-	DirectX::SimpleMath::Vector3 m_oldPosition;
-	DirectX::SimpleMath::Vector3 m_nowPosition;
-
 public:
 
 	//-----------------------------------------------------

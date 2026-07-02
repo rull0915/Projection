@@ -44,12 +44,15 @@ public:
 		: RendererBase(own)
 		, m_model{ nullptr }
 	{
+		ADD_PROPERTY(m_modelName);
 	};
 	~ModelComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
+
+	void Start() override;
 
 	// 描画関数
 	void Draw(Renderer& renderer) override;

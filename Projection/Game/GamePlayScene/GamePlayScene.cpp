@@ -71,13 +71,13 @@ void GamePlayScene::Initialize()
 	// リスナーに設定
 
 	// プレイヤーを生成
-	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
-	//m_player = Generate();
-	m_player->AddComponent<AudioListener>();
+	//m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
+	m_player = Generate();
+	//m_player->AddComponent<AudioListener>();
 
 	// プレイヤーをテスト保存
-	//ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
-	ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
+	ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
+	//ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());

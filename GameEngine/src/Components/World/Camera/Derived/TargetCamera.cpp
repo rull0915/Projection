@@ -29,10 +29,10 @@ TargetCamera::TargetCamera(IComponentOwner* own)
 	, m_fov{ PI_F / 4 }
 	, m_target{ nullptr }
 {
-	ADD_PROPATY(m_nearZ);
-	ADD_PROPATY(m_farZ);
-	ADD_PROPATY(m_aspect);
-	ADD_PROPATY(m_fov);
+	ADD_PROPERTY(m_nearZ);
+	ADD_PROPERTY(m_farZ);
+	ADD_PROPERTY(m_aspect);
+	ADD_PROPERTY(m_fov);
 
 	UpdateView();
 	UpdateProj();

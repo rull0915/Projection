@@ -71,8 +71,8 @@ public:
 		, m_boundingBox{}
 		, m_worldCenterPos{}
 	{
-		ADD_PROPATY(m_localCenterPos);
-		ADD_PROPATY(m_rotation);
+		ADD_PROPERTY(m_localCenterPos);
+		ADD_PROPERTY(m_rotation);
 	}
 
 	virtual ~ColliderBase2D() = default;

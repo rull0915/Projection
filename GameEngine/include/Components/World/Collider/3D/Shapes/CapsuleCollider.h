@@ -74,9 +74,9 @@ public:
 		, m_radius{ 0.5f }
 		, m_cache{}
 	{
-		ADD_PROPATY(m_lineDir);
-		ADD_PROPATY(m_capsuleHeight);
-		ADD_PROPATY(m_radius);
+		ADD_PROPERTY(m_lineDir);
+		ADD_PROPERTY(m_capsuleHeight);
+		ADD_PROPERTY(m_radius);
 	};
 	~CapsuleCollider() = default;
 

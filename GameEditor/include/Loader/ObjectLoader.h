@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <nlohmann/json.hpp>
-#include "Common/PropatyObject.h"
+#include "Common/PropertyObject.h"
 
 class GameObject;
 
@@ -37,7 +37,7 @@ public:
     //-----------------------------------------------------
 
     // 保存関数
-    static void LoadPropaty(const nlohmann::json& json, PropatyObject& obj);
+    static void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
 
 	// 保存関数
     static void LoadObject(const nlohmann::json& json, GameObject* obj);

@@ -47,7 +47,7 @@ public:
 		, m_radius{ 0.5f }
 		, m_worldRadius{ 1.0f }
 	{
-		ADD_PROPATY(m_radius);
+		ADD_PROPERTY(m_radius);
 	};
 	~SphereCollider() = default;
 

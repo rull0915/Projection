@@ -37,6 +37,9 @@
 #include "GamePlayScene/Player/Player.h"
 #include "GamePlayScene/Stage/Components/GoalComponent.h"
 
+// 生成関数登録マクロ
+#define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, [](GameObject* o){ return o->AddComponent<Name>(); }))
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -74,36 +77,14 @@ void GameInitializer::Initialize()
 void GameInitializer::RegistFactries()
 {
 	// Todo: 新規コンポーネントはここに生成関数の登録を追加してください。
-	// 名前とクラス名は一致させてください。
-	// 
-	//	ComponentFactory::Register(
-	//	"XXXComponent", [](GameObject* o) { return o->AddComponent<XXXComponent>(); }
-	//);
-
-	ComponentFactory::Register(
-		"ProjectionSmoothCamera", [](GameObject* o) { return o->AddComponent<ProjectionSmoothCamera>(); }
-	);
-	ComponentFactory::Register(
-		"TPSCamera", [](GameObject* o) { return o->AddComponent<TPSCamera>(); }
-	);
-	ComponentFactory::Register(
-		"ConvexPolygonCollider2D", [](GameObject* o) { return o->AddComponent<ConvexPolygonCollider2D>(); }
-	);
-	ComponentFactory::Register(
-		"ChangeColliderComponent", [](GameObject* o) { return o->AddComponent<ChangeColliderComponent>(); }
-	);
-	ComponentFactory::Register(
-		"DepthCorrection", [](GameObject* o) { return o->AddComponent<DepthCorrection>(); }
-	);
-	ComponentFactory::Register(
-		"Enemy", [](GameObject* o) { return o->AddComponent<Enemy>(); }
-	);
-	ComponentFactory::Register(
-		"Player", [](GameObject* o) { return o->AddComponent<Player>(); }
-	);
-	ComponentFactory::Register(
-		"GoalComponent", [](GameObject* o) { return o->AddComponent<GoalComponent>(); }
-	);
+	REGISTER_FACTORY(ProjectionSmoothCamera);
+	REGISTER_FACTORY(TPSCamera);
+	REGISTER_FACTORY(ConvexPolygonCollider2D);
+	REGISTER_FACTORY(ChangeColliderComponent);
+	REGISTER_FACTORY(DepthCorrection);
+	REGISTER_FACTORY(Enemy);
+	REGISTER_FACTORY(Player);
+	REGISTER_FACTORY(GoalComponent);
 }
 
 void GameInitializer::AddKey()

@@ -31,6 +31,13 @@ AudioSource::AudioSource(IComponentOwner* own)
 	, m_playOnStart{ false }
 	, m_use3DAudio{ false }
 {
+	ADD_PROPERTY(m_soundName);
+	ADD_PROPERTY(m_volume);
+	ADD_PROPERTY(m_pan);
+	ADD_PROPERTY(m_pitch);
+	ADD_PROPERTY(m_loop);
+	ADD_PROPERTY(m_playOnStart);
+	ADD_PROPERTY(m_use3DAudio);
 }
 
 void AudioSource::Load(const std::string& key, bool use3D)
@@ -60,6 +67,12 @@ void AudioSource::Load(const std::string& key, bool use3D)
 // 最初のUpdate関数の直線に一度呼ばれます
 void AudioSource::Start()
 {
+	// 未設定なら
+	if (!m_soundInstance && m_soundName.size() > 0)
+	{
+		Load(m_soundName, m_use3DAudio);
+	}
+
 	// 開始時に鳴らすフラグがオンなら
 	if (m_playOnStart)
 	{
