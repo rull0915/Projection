@@ -18,6 +18,8 @@
 #include "Components/World/Components.h"
 #include "GameObject/GameObject.h"
 
+#define ADD_FACTORY(type) ComponentFactory::Register(#type, [](GameObject* o) { return o->AddComponent<type>(); });
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -31,55 +33,31 @@ void EditorInitializer::Initialize()
 void EditorInitializer::RegistFactories()
 {
 	// Transform
-	ComponentFactory::Register(
-		"Transform", [](GameObject* o) { return o->AddComponent<Transform>(); }
-	);
+	ADD_FACTORY(Transform);
 
 	// Collider
-	ComponentFactory::Register(
-		"BoxCollider", [](GameObject* o) { return o->AddComponent<BoxCollider>(); }
-	);
-	ComponentFactory::Register(
-		"CapsuleCollider", [](GameObject* o) { return o->AddComponent<CapsuleCollider>(); }
-	);
-	ComponentFactory::Register(
-		"SphereCollider", [](GameObject* o) { return o->AddComponent<SphereCollider>(); }
-	);
+	ADD_FACTORY(BoxCollider);
+	ADD_FACTORY(CapsuleCollider);
+	ADD_FACTORY(SphereCollider);
 
 	// Collider2D
-	ComponentFactory::Register(
-		"BoxCollider2D", [](GameObject* o) { return o->AddComponent<BoxCollider2D>(); }
-	);
-	ComponentFactory::Register(
-		"CapsuleCollider2D", [](GameObject* o) { return o->AddComponent<CapsuleCollider2D>(); }
-	);
-	ComponentFactory::Register(
-		"CircleCollider2D", [](GameObject* o) { return o->AddComponent<CircleCollider2D>(); }
-	);
+	ADD_FACTORY(BoxCollider2D);
+	ADD_FACTORY(CapsuleCollider2D);
+	ADD_FACTORY(CircleCollider2D);
 
 	// RigidBody
-	ComponentFactory::Register(
-		"RigidBody", [](GameObject* o) { return o->AddComponent<RigidBody>(); }
-	);
-	ComponentFactory::Register(
-		"RigidBody2D", [](GameObject* o) { return o->AddComponent<RigidBody2D>(); }
-	);
+	ADD_FACTORY(RigidBody);
+	ADD_FACTORY(RigidBody2D);
 
 	// Renderer
-	ComponentFactory::Register(
-		"ModelComponent", [](GameObject* o) { return o->AddComponent<ModelComponent>(); }
-	);
+	ADD_FACTORY(ModelComponent);
+	ADD_FACTORY(SkyboxComponent);
 
 	// Camera
-	ComponentFactory::Register(
-		"StandardCamera", [](GameObject* o) { return o->AddComponent<StandardCamera>(); }
-	);
-	ComponentFactory::Register(
-		"TargetCamera", [](GameObject* o) { return o->AddComponent<TargetCamera>(); }
-	);
+	ADD_FACTORY(StandardCamera);
+	ADD_FACTORY(TargetCamera);
 
-	// AudioSource
-	ComponentFactory::Register(
-		"AudioSource", [](GameObject* o) { return o->AddComponent<AudioSource>(); }
-	);
+	// Audio
+	ADD_FACTORY(AudioSource);
+	ADD_FACTORY(AudioListener);
 }

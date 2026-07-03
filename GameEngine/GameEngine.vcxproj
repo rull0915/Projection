@@ -162,8 +162,10 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\Collider\3D\Shapes\SphereCollider.cpp" />
     <ClCompile Include="src\Components\World\Collider\ColliderCommon.cpp" />
     <ClCompile Include="src\Components\ComponentBase.cpp" />
-    <ClCompile Include="src\Components\World\Renderer\Model\ModelComponent.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\ModelComponent.cpp" />
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxComponent.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxEffect.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody2D.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp" />
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
@@ -258,7 +260,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\ComponentBase.h" />
     <ClInclude Include="include\Components\ComponentCategory.h" />
     <ClInclude Include="include\Components\World\Components.h" />
-    <ClInclude Include="include\Components\World\Renderer\Model\ModelComponent.h" />
+    <ClInclude Include="include\Components\World\Renderer\ModelComponent.h" />
     <ClInclude Include="include\Components\World\Renderer\RendererBase.h" />
     <ClInclude Include="include\Components\World\RigidBody\RigidBody2D.h" />
     <ClInclude Include="include\Components\World\RigidBody\RigidBody.h" />
@@ -295,6 +297,13 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Debug\ColliderDebugRenderer.h" />
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h" />
     <ClInclude Include="include\Components\World\Sounds\AudioSource.h" />
+    <ClInclude Include="include\System\GetExtension.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
+    <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
+    <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />
     <ClInclude Include="src\Debug\EachColliderDebugRenderer.h">
       <SubType>
       </SubType>

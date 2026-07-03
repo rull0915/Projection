@@ -120,6 +120,14 @@
                 "m_isActive": true
             },
             "Type": "AudioListener"
+        },
+        {
+            "Data": {
+                "m_alpha": 1.0,
+                "m_isActive": true,
+                "m_keyName": "Skybox"
+            },
+            "Type": "SkyboxComponent"
         }
     ]
 }

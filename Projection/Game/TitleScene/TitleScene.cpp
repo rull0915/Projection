@@ -24,6 +24,7 @@
 #include "Input/MouseInput.h"
 
 #include "GameLib/Transition/SlideTransition.h"
+#include "Components/World/Renderer/Skybox/SkyboxComponent.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -53,6 +54,8 @@ void TitleScene::Initialize()
 	auto cameraComponent = m_camera->AddComponent<StandardCamera>();
 	SetMainCamera(cameraComponent);
 
+	m_camera->AddComponent<SkyboxComponent>()->Load("Skybox");
+
 	// キャンバスの生成
 	m_canvas = GenerateCanvas();
 
@@ -75,7 +78,7 @@ void TitleScene::Initialize()
 
 		// Rectの設定変更	
 		auto r = ui->GetComponent<RectTransform>();
-		r->SetAnchor({ 0.5f, 0.7f });		// 基準の位置を設定	
+		r->SetAnchor({ 0.5f, 0.5f });		// 基準の位置を設定	
 		r->SetPivot({ 0.5f, 0.5f });		// 基準点に置かれるポイントを設定
 		r->SetSize({ 400, 75 });			// サイズを設定
 
@@ -95,18 +98,25 @@ void TitleScene::Initialize()
 		// UIオブジェクトの生成
 		auto ui = m_canvas->Generate();
 
+		// 画像コンポーネントの追加
+		auto i = ui->AddComponent<ImageUI>();
+		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
+		i->SetColor(0x993333);												// 色の設定	
+
 		// テキストコンポーネントの追加	
 		auto t = ui->AddComponent<TextUI>();
 		t->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));	// 使うフォントの設定	
 		t->SetFontSize(96);													// フォントサイズの設定	
 		t->SetText(L"Projection");											// 文字列の設定	
 		t->SetOrigin(Origin::Type::Center);	
+		t->SetColor(0x000000);
 		
 		// Rectの設定変更	
 		auto r = ui->GetComponent<RectTransform>();
 		r->SetAnchor({ 0.5f, 0.4f });		// 基準の位置を設定	
 		r->SetPivot({ 0.5f, 0.5f });		// 基準点に置かれるポイントを設定
-		r->SetSize({ 500, 75 });			// サイズを設定// 原点を設定
+		r->SetSize({ 700, 200 });			// サイズを設定// 原点を設定
+		r->SetRotation(DirectX::XMConvertToRadians(30));	// 
 	}
 }
 

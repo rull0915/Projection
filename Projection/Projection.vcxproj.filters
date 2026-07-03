@@ -162,6 +162,7 @@
     <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h" />
     <ClInclude Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.h" />
     <ClInclude Include="Game\GamePlayScene\Player\MoveComponent.h" />
+    <ClInclude Include="Game\ShaderTestScene\ShaderTestScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\MoveComponent.cpp" />
+    <ClCompile Include="Game\ShaderTestScene\ShaderTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -216,5 +218,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Shaders\Header.hlsli" />
+    <None Include="Shaders\SkyboxEffect_Common.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\VertexShader.hlsl" />
+    <FxCompile Include="Shaders\PixelShader.hlsl" />
+    <FxCompile Include="Shaders\SkyboxEffect_VS.hlsl" />
+    <FxCompile Include="Shaders\SkyboxEffect_PS.hlsl" />
   </ItemGroup>
 </Project>

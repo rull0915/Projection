@@ -18,6 +18,7 @@
 
 #include "GamePlayScene/GamePlayScene.h"
 #include "TitleScene/TitleScene.h"
+#include "ShaderTestScene/ShaderTestScene.h"
 
 #include "Common/Random.h"
 #include "Math/ColorLib.h"
@@ -29,9 +30,7 @@ using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept(false)
-	: m_states{}
-	, m_stageCount{ 0 }
-	, m_fps{}
+	: m_fps{}
 	, m_timeAccumulator{}
 	, m_frameCount{}
 	, m_renderer{}
@@ -80,11 +79,15 @@ void Game::Initialize(HWND window, int width, int height)
 	// ====== シーンの登録 ====== //
 	m_sceneManager.RegisterScene("GamePlay", std::make_unique<GamePlayScene>(this));
 	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
+	m_sceneManager.RegisterScene("ShaderTest", std::make_unique<ShaderTestScene>(this));
 
 	// 開始時のシーンを設定
-	m_sceneManager.SetStartScene("GamePlay");
+	m_sceneManager.SetStartScene("Title");
 
 	// ====== リソースの追加 ====== //
+
+	// Skybox
+	ResourceManager::Instance().AddTexture("Skybox", L"Resources/Textures/Skybox.dds");
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -152,7 +155,6 @@ void Game::Render()
 	m_deviceResources->PIXBeginEvent(L"Render");
 	auto context = m_deviceResources->GetD3DDeviceContext();
 
-	// TODO: Add your rendering code here.
 	context;
 
 	// 描画の開始 ----------------------------------------
@@ -162,10 +164,9 @@ void Game::Render()
 	m_sceneManager.Render(m_renderer);
 
 	// 描画の終了 ----------------------------------------
+	m_renderer.End();
 
 	m_deviceResources->PIXEndEvent();
-
-	m_renderer.End();
 
 	// Show the new frame.
 	m_deviceResources->Present();
@@ -257,14 +258,12 @@ void Game::CreateDeviceDependentResources()
 {
 	auto device = m_deviceResources->GetD3DDevice();
 	auto context = m_deviceResources->GetD3DDeviceContext();
+	auto states = m_deviceResources->GetCommonStates();
 
 	// TODO: Initialize device dependent objects here (independent of window size).
 
-	// コモンステートの作成
-	m_states = std::make_unique<CommonStates>(device);
-
 	// 描画クラスの初期化
-	m_renderer.Initialize(device, context, m_states.get());
+	m_renderer.Initialize(device, context, states);
 
 	// リソースマネージャの初期化
 	ResourceManager::Instance().Initialize(m_deviceResources.get());
@@ -278,6 +277,9 @@ void Game::CreateWindowSizeDependentResources()
 
 void Game::TitleNameUpdate(float elapsedTime)
 {
+	// デバッグなら
+#ifdef _DEBUG
+
 	// FPSの計算
 	m_timeAccumulator += elapsedTime;
 	++m_frameCount;
@@ -305,6 +307,8 @@ void Game::TitleNameUpdate(float elapsedTime)
 		m_frameCount = 0;
 		m_timeAccumulator = 0;
 	}
+
+#endif
 }
 
 void Game::OnDeviceLost()

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <CommonStates.h>
+
 namespace DX
 {
 	// Provides an interface for an application that owns DeviceResources to be notified of the device being lost or created.
@@ -66,6 +68,7 @@ namespace DX
 		UINT                    GetBackBufferCount() const noexcept     { return m_backBufferCount; }
 		DXGI_COLOR_SPACE_TYPE   GetColorSpace() const noexcept          { return m_colorSpace; }
 		unsigned int            GetDeviceOptions() const noexcept       { return m_options; }
+		DirectX::CommonStates*	GetCommonStates() const noexcept		{ return m_states.get(); }
 
 		// Performance events
 		void PIXBeginEvent(_In_z_ const wchar_t* name)
@@ -120,5 +123,8 @@ namespace DX
 
 		// The IDeviceNotify can be held directly as it owns the DeviceResources.
 		IDeviceNotify*                                  m_deviceNotify;
+
+		// コモンステート
+		std::unique_ptr<DirectX::CommonStates> m_states;
 	};
 }

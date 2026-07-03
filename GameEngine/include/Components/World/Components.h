@@ -21,6 +21,7 @@
 #include "Collider/3D/Shapes/Colliders.h"
 #include "RigidBody/RigidBody2D.h"
 #include "RigidBody/RigidBody.h"
-#include "Renderer/Model/ModelComponent.h"
+#include "Renderer/ModelComponent.h"
+#include "Renderer/Skybox/SkyboxComponent.h"
 #include "Sounds/AudioListener.h"
 #include "Sounds/AudioSource.h"

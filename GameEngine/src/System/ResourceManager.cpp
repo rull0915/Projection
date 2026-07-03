@@ -11,8 +11,10 @@
 //====================================================//
 #include "pch.h"
 #include "System/ResourceManager.h"
+#include "System/GetExtension.h"
 
 #include <WICTextureLoader.h>
+#include <DDSTextureLoader.h>
 
 using namespace DirectX;
 
@@ -64,12 +66,29 @@ void ResourceManager::AddTexture(const std::string& keyName, const std::wstring&
 	// テクスチャを用意
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture;
 
-	HRESULT hr = CreateWICTextureFromFile(
-		m_device,                 // ID3D11Device*
-		filePass.data(),          // ファイルパス
-		nullptr,
-		texture.GetAddressOf()
-	);
+	HRESULT hr;
+
+	// キーの拡張子を取得
+	std::string extension = GetExtension::Get(filePass);
+
+	if (extension == ".dds")
+	{
+		hr = CreateDDSTextureFromFile(
+			m_device,                 // ID3D11Device*
+			filePass.data(),          // ファイルパス
+			nullptr,
+			texture.GetAddressOf()
+		);
+	}
+	else
+	{
+		hr = CreateWICTextureFromFile(
+			m_device,                 // ID3D11Device*
+			filePass.data(),          // ファイルパス
+			nullptr,
+			texture.GetAddressOf()
+		);
+	}
 
 	if (FAILED(hr))
 	{

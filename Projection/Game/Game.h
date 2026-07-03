@@ -82,13 +82,8 @@ private:
 	// シーンマネージャー
 	SceneManager m_sceneManager;
 
-	// コモンステート
-	std::unique_ptr<DirectX::CommonStates> m_states;
-
 	// ゲームタイマー
 	GameTimer m_gameTimer;
-
-	int m_stageCount;
 
 public:
 	// シーンマネージャーを返す関数

@@ -8,7 +8,7 @@
 #include "Camera/TPSCamera.h"
 #include "Player/Player.h"
 #include "Components/World/Sounds/AudioListener.h"
-//#include "Components/World/Sounds/AudioSource.h"
+#include "Components/World/Renderer/Skybox/SkyboxComponent.h"
 
 // 管理クラス
 #include "ChangeDimention/ChangeColliderComponent.h"
@@ -47,7 +47,7 @@ void GamePlayScene::Initialize()
 	ResourceManager::Instance().AddSound("Jump", L"Resources/Sounds/se_jump_006.wav");
 
 	// モデルの読み込み
-	ResourceManager::Instance().AddModel("Player", L"Resources/Models/Player.cmo");
+	ResourceManager::Instance().AddModel("Player", L"Resources/Models/Player.cmo ");
 	ResourceManager::Instance().AddModel("Goal", L"Resources/Models/Goal.cmo");
 	ResourceManager::Instance().AddModel("Enemy", L"Resources/Models/Enemy.cmo");
 
@@ -71,16 +71,18 @@ void GamePlayScene::Initialize()
 	// リスナーに設定
 
 	// プレイヤーを生成
-	//m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
-	m_player = Generate();
-	//m_player->AddComponent<AudioListener>();
+	m_player = ObjectFactory::CreatePlayer(this, { 0, -2, 0 });
+	//m_player = Generate();
+	m_player->AddComponent<AudioListener>();
 
 	// プレイヤーをテスト保存
-	ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
-	//ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
+	//ObjectLoader::LoadFromFile(L"Resources/Objects/Player.gameobject", m_player);
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
+	m_player->AddComponent<SkyboxComponent>()->Load("Skybox");
+
+	ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
 
 	// 敵を生成
 	m_enemy = Generate();

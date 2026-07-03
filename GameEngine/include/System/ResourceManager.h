@@ -111,17 +111,23 @@ public:
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
+
+	// テクスチャの取得
 	ID3D11ShaderResourceView* GetTexture(const std::string& key) const;
 
+	// フォントの取得
 	DirectX::SpriteFont* GetSpriteFont(const std::string& key) const;
 	float GetFontSize(DirectX::SpriteFont* key) const;
 	float GetFontSize(const std::string& key) const { return GetFontSize(GetSpriteFont(key)); }
 
+	// モデルの取得
 	DirectX::Model* GetModel(const std::string& key) const;
 
-	DX::DeviceResources* GetResources() const { return m_deviceResources; }
-
+	// 音の取得
 	DirectX::SoundEffect* GetSound(const std::string& key) const;
+
+	// デバイスリソースの取得
+	DX::DeviceResources* GetResources() const { return m_deviceResources; }
 
 	//-----------------------------------------------------
 	// セッター

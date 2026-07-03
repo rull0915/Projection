@@ -253,6 +253,9 @@ void DeviceResources::CreateDeviceResources()
 	ThrowIfFailed(device.As(&m_d3dDevice));
 	ThrowIfFailed(context.As(&m_d3dContext));
 	ThrowIfFailed(context.As(&m_d3dAnnotation));
+
+	// CreateCommonState
+	m_states = std::make_unique<DirectX::CommonStates>(m_d3dDevice.Get());
 }
 
 // These resources need to be recreated every time the window size is changed.

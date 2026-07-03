@@ -48,7 +48,7 @@
     <ClCompile Include="src\Components\World\Collider\ColliderCommon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\World\Renderer\Model\ModelComponent.cpp">
+    <ClCompile Include="src\Components\World\Renderer\ModelComponent.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp">
@@ -219,6 +219,12 @@
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h">
@@ -266,7 +272,7 @@
     <ClInclude Include="include\Components\World\Collider\PhysicsMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\World\Renderer\Model\ModelComponent.h">
+    <ClInclude Include="include\Components\World\Renderer\ModelComponent.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\World\Renderer\RendererBase.h">
@@ -558,6 +564,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\PropertyObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\System\GetExtension.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

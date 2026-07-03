@@ -12,6 +12,31 @@
 #include "pch.h"
 #include "ClearUIMaker.h"
 
+#include "Scene/Scene.h"
+#include "Managers/UI/Canvas.h"
+
+#include "Components/UI/UIComponents.h"
+#include "System/ResourceManager.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
+
+ClearUIMaker::ClearUIMaker(Scene* pScene)
+	: m_canvas{ nullptr }
+{
+	m_canvas = pScene->GenerateCanvas();
+}
+
+void ClearUIMaker::Initialize()
+{
+	auto obj = m_canvas->Generate();
+
+	TextUI* text = obj->AddComponent<TextUI>();
+	text->SetText(L"Test");
+	text->SetFontSize(24);
+	text->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));
+
+	RectTransform* rect = text->GetComponent<RectTransform>();
+	
+}

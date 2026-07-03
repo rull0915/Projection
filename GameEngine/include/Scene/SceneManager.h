@@ -20,7 +20,6 @@ class Scene;
 // シーンマネージャークラス
 class SceneManager
 {
-
 private:
 
 	// エイリアス宣言
