@@ -71,7 +71,7 @@ public:
 	// デバッグ描画
 	void DebugDraw(Renderer& renderer) override;
 
-	void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00) override;
+	void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, DirectX::SimpleMath::Color color = { 0, 1, 0, 1 }) override;
 
 	//-----------------------------------------------------
 	// ゲッター

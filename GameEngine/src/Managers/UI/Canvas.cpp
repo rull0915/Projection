@@ -13,6 +13,7 @@
 #include "Managers/UI/Canvas.h"
 
 #include "Components/UI/Graphics/UIGraphicBase.h"
+#include "Components/UI/Behaviour/UIBehaviorBase.h"
 #include "Components/UI/Graphics/ImageUI.h"
 #include "Managers/UI/UIManager.h"
 
@@ -27,6 +28,7 @@ Canvas::Canvas(UIManager* uiManager)
 	, m_pUIManager{ uiManager }
 	, m_uiObjects{}
 	, m_isActive{ true }
+	, m_components{}
 {
 	// シーンを設定
 	m_pScene = m_pUIManager->GetScene();
@@ -170,6 +172,26 @@ RectTransform* Canvas::HitTest(const DirectX::SimpleMath::Vector2& point)
 	return nullptr;
 }
 
+void Canvas::OnMouseDown()
+{
+	// 全ての子に対して操作
+	for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
+	{
+		// 子を描画
+		MouseCheckChild(child, true);
+	}
+}
+
+void Canvas::OnMouseUp()
+{
+	// 全ての子に対して操作
+	for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
+	{
+		// 子を描画
+		MouseCheckChild(child, false);
+	}
+}
+
 // 描画順のセッター
 void Canvas::SetDrawOrder(int order)
 {
@@ -241,4 +263,35 @@ RectTransform* Canvas::HitTestChild(RectTransform* child, const DirectX::SimpleM
 	}
 
 	return nullptr;
+}
+
+void Canvas::MouseCheckChild(RectTransform* child, bool down)
+{
+	GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
+
+	if (!childObj->IsActive()) return;
+
+	// 子のUIObjectがアクティブなら
+
+	// 逆順で再帰的にチェック
+	std::vector<RectTransform*>& children = child->GetChildren();
+	for (auto it = children.rbegin(); it != children.rend(); ++it)
+	{
+		MouseCheckChild(*it, down);
+	}
+
+	// 子をチェックした後に自分をチェック
+	childObj->GetComponentsWithCategory(Category::UIBehavior, m_components);
+
+	// コンポーネントを走査
+	for (auto& behavior : m_components)
+	{
+		// アクティブなら
+		if (behavior->IsActive())
+		{
+			// クリック時処理
+			if (down) static_cast<UIBehaviorBase*>(behavior)->OnMouseDown();
+			else static_cast<UIBehaviorBase*>(behavior)->OnMouseUp();
+		}
+	}
 }

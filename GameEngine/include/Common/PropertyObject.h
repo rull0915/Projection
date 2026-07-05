@@ -37,6 +37,7 @@ enum class PropertyType
 	Vector2,
 	Vector3,
 	Quaternion,
+	Color,
 };
 
 // プロパティ
@@ -92,6 +93,8 @@ private:
 		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropertyType::Vector3;
 		// Quaternion
 		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
+		// Color
+		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Color>) return PropertyType::Color;
 
 		// その他
 		else return PropertyType::None;

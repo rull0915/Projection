@@ -48,7 +48,7 @@ namespace Transition
 
 		float m_transSec;
 
-		int m_slideColor;
+		DirectX::SimpleMath::Color m_slideColor;
 
 		float m_slideAngle;
 
@@ -60,7 +60,7 @@ namespace Transition
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		Slide(float transTime, int slideColor = 0x000000, float slideAngle = 0)
+		Slide(float transTime, DirectX::SimpleMath::Color slideColor = { 0, 0, 0, 1 }, float slideAngle = 0)
 			: m_elapsedTime{ 0.0f }
 			, m_transSec{ transTime }
 			, m_slideColor{ slideColor }

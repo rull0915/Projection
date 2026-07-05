@@ -24,5 +24,5 @@ class Renderer;
 namespace DrawCollider2D
 {
 	// 凸多角形
-	void DrawCollider_Convex(ColliderBase2D* collider, Renderer& renderer, int color);
+	void DrawCollider_Convex(ColliderBase2D* collider, Renderer& renderer, DirectX::SimpleMath::Color color);
 }

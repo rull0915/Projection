@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : ShaderTestScene.h
+// ファイル名   : EditScene.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/03
+// 作成日       : 2026/07/05
 //
-// 概要 : ShaderTestSceneシーン
+// 概要 : EditSceneシーン
 //
 // 更新履歴 : 
-// 2026/07/03 新規作成
+// 2026/07/05 新規作成
 //====================================================//
 
 #pragma once
@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Scene/Scene.h"
+#include "Editor/EditGUI.h"
 
 //====================================================//
 // 前方宣言
@@ -24,18 +25,8 @@ class Game;
 //====================================================//
 // クラス宣言
 //====================================================//
-class ShaderTestScene : public Scene
+class EditScene : public Scene
 {
-	// 情報受け渡し用構造体
-	struct ConstBuffer
-	{
-		DirectX::SimpleMath::Matrix world;
-		DirectX::SimpleMath::Matrix view;
-		DirectX::SimpleMath::Matrix projection;
-		DirectX::SimpleMath::Vector3 lightDir;
-		float padding;	// サイズを16の倍数に補正する用の未使用変数
-	};
-
 private:
 
 	//-----------------------------------------------------
@@ -48,30 +39,28 @@ private:
 	//-----------------------------------------------------
 	Game* m_pGame;
 
+	// GUI
+	EditGUI m_gui;
+
 	// カメラ
 	GameObject* m_camera;
 
-	//-------- シェーダー --------//
+	// テスト用
+	GameObject* m_testObject;
 
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;	// 頂点シェーダ
-	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;	// ピクセルシェーダ
+	// シーンビュー
+	std::unique_ptr<RenderTarget> m_sceneView;
 
-	Microsoft::WRL::ComPtr<ID3D11InputLayout>  m_inputLayout;	// インプットレイアウト
-
-	// 送信用バッファオブジェクト
-	Microsoft::WRL::ComPtr<ID3D11Buffer> m_constBuffer;
-
-	// 頂点バッファ
-	Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
-	Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+	// シーンビューカメラ
+	CameraBase* m_sceneViewCamera;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ShaderTestScene(Game* pGame);
-	~ShaderTestScene();
+	EditScene(Game* pGame);
+	~EditScene();
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -96,6 +85,4 @@ private:
 	// 内部実装
 	//-----------------------------------------------------
 
-	// シェーダーの初期設定を行う関数
-	void InitializeShader();
 };

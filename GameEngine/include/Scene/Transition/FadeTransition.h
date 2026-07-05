@@ -38,14 +38,14 @@ namespace Transition
 
 		float m_transSec;
 
-		int m_fadeColor;
+		DirectX::SimpleMath::Color m_fadeColor;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		Fade(float sec = 0.5f, int color = 0)
+		Fade(float sec = 0.5f, DirectX::SimpleMath::Color color = { 0, 0, 0, 1 })
 			: m_transSec{ sec }
 			, m_fadeColor{ color }
 			, m_elapsedTime{ 0.0f }

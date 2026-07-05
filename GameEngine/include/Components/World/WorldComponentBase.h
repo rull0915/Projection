@@ -27,6 +27,10 @@
 class WorldComponentBase : public ComponentBase
 {
 public:
+	// 自身の所属空間
+	static constexpr ComponentSpace SPACE = ComponentSpace::World;
+
+public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
@@ -40,12 +44,6 @@ public:
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
-
-	// 所属空間をWorldに設定
-	ComponentSpace GetSpace() const override
-	{
-		return ComponentSpace::World;
-	}
 
 	// カテゴリをOriginalに指定
 	ComponentCategory GetCategory() const override

@@ -11,7 +11,6 @@
 //====================================================//
 #include "pch.h"
 #include "Renderer/EachRenderer/PrimitiveRenderer.h"
-#include "Math/ColorLib.h"
 #include "Renderer/Renderer.h"
 
 //====================================================//
@@ -180,17 +179,17 @@ void PrimitiveRenderer::DrawTriangle(DirectX::VertexPositionColor v1, DirectX::V
 /// <param name="p2">頂点座標2</param>
 /// <param name="p3">頂点座標3</param>
 /// <param name="color">色</param>
-void PrimitiveRenderer::DrawTriangle(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, int color, bool fillFlag)
+void PrimitiveRenderer::DrawTriangle(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Color color, bool fillFlag)
 {
 	// ステート変更のチェック
 	CheckChangeState();
 
 	// 色変換
-	DirectX::XMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
+	color.w = m_renderState.GetAlpha();
 
-	DirectX::VertexPositionColor v1(p1, col);
-	DirectX::VertexPositionColor v2(p2, col);
-	DirectX::VertexPositionColor v3(p3, col);
+	DirectX::VertexPositionColor v1(p1, color);
+	DirectX::VertexPositionColor v2(p2, color);
+	DirectX::VertexPositionColor v3(p3, color);
 
 	DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
 
@@ -244,17 +243,17 @@ void PrimitiveRenderer::DrawRect(DirectX::VertexPositionColor v1, DirectX::Verte
 /// <param name="p3">頂点座標3</param>
 /// <param name="p4">頂点座標4</param>
 /// <param name="color">色</param>
-void PrimitiveRenderer::DrawRect(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Vector3 p4, int color, bool fillFlag)
+void PrimitiveRenderer::DrawRect(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Vector3 p4, DirectX::SimpleMath::Color color, bool fillFlag)
 {
 	CheckChangeState();
 
 	// 色変換
-	DirectX::XMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
+	color.w = m_renderState.GetAlpha();
 
-	DirectX::VertexPositionColor v1(p1, col);
-	DirectX::VertexPositionColor v2(p2, col);
-	DirectX::VertexPositionColor v3(p3, col);
-	DirectX::VertexPositionColor v4(p4, col);
+	DirectX::VertexPositionColor v1(p1, color);
+	DirectX::VertexPositionColor v2(p2, color);
+	DirectX::VertexPositionColor v3(p3, color);
+	DirectX::VertexPositionColor v4(p4, color);
 
 	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 
@@ -290,15 +289,15 @@ void PrimitiveRenderer::DrawLine(DirectX::VertexPositionColor v1, DirectX::Verte
 /// <param name="start">頂点座標1</param>
 /// <param name="end">頂点座標2</param>
 /// <param name="color">色</param>
-void PrimitiveRenderer::DrawLine(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 end, int color)
+void PrimitiveRenderer::DrawLine(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 end, DirectX::SimpleMath::Color color)
 {
 	CheckChangeState();
 
 	// 色変換
-	DirectX::XMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
+	color.w = m_renderState.GetAlpha();
 
-	DirectX::VertexPositionColor v1(start, col);
-	DirectX::VertexPositionColor v2(end, col);
+	DirectX::VertexPositionColor v1(start, color);
+	DirectX::VertexPositionColor v2(end, color);
 
 	m_primitiveBatch->DrawLine(v1, v2);
 }
@@ -311,14 +310,14 @@ void PrimitiveRenderer::DrawLine(DirectX::SimpleMath::Vector3 start, DirectX::Si
 /// <param name="radius">半径</param>
 /// <param name="division">分割数</param>
 /// <param name="color">色</param>
-void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, DirectX::SimpleMath::Vector3 normal, float radius, uint16_t division, int color, bool fillFlag)
+void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, DirectX::SimpleMath::Vector3 normal, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
 {
 	CheckChangeState();
 
 	if (division < 3) return;
 
 	// 色変換
-	DirectX::XMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
+	color.w = m_renderState.GetAlpha();
 
 	// --- 基底ベクトルの計算 ---
 	normal.Normalize();
@@ -341,7 +340,7 @@ void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, Direc
 		float theta = step * i;
 
 		// 頂点情報を計算
-		DirectX::VertexPositionColor v(centerPos + (vU * cosf(theta) + vV * sinf(theta)) * radius, col);
+		DirectX::VertexPositionColor v(centerPos + (vU * cosf(theta) + vV * sinf(theta)) * radius, color);
 
 		vertices[i] = v;
 	}
@@ -351,7 +350,7 @@ void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, Direc
 	// 塗りつぶすとき
 	if (fillFlag)
 	{
-		vertices[division] = DirectX::VertexPositionColor(centerPos, col);
+		vertices[division] = DirectX::VertexPositionColor(centerPos, color);
 
 		indices.resize(division * 3);
 
@@ -390,7 +389,7 @@ void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, Direc
 /// <param name="division">分割数</param>
 /// <param name="radius">半径</param>
 /// <param name="color">色</param>
-void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, DirectX::SimpleMath::Vector3 vStart, DirectX::SimpleMath::Vector3 vEnd, uint16_t division, float radius, int color, bool fillFlag)
+void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, DirectX::SimpleMath::Vector3 vStart, DirectX::SimpleMath::Vector3 vEnd, uint16_t division, float radius, DirectX::SimpleMath::Color color, bool fillFlag)
 {
 	CheckChangeState();
 
@@ -420,7 +419,7 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 	float endRadian = std::atan2(vV.Dot(vEnd), vU.Dot(vEnd));
 
 	// 色変換
-	DirectX::XMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
+	color.w = m_renderState.GetAlpha();
 
 	// 描画
 	float step = endRadian / static_cast<float>(division);
@@ -436,7 +435,7 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 		// 円周上の座標を算出
 		DirectX::SimpleMath::Vector3 currentPoint = center + (vU * cosf(theta) + vV * sinf(theta)) * radius;
 
-		DirectX::VertexPositionColor v(currentPoint, col);
+		DirectX::VertexPositionColor v(currentPoint, color);
 
 		vertices[i] = v;
 	}
@@ -446,7 +445,7 @@ void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, Dire
 	// 塗りつぶすとき
 	if (fillFlag)
 	{
-		vertices[division + 1] = DirectX::VertexPositionColor(center, col);
+		vertices[division + 1] = DirectX::VertexPositionColor(center, color);
 
 		indices.resize((division + 1) * 3);
 

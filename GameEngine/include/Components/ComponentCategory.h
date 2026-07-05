@@ -19,6 +19,7 @@
 // コンポーネントが所属する空間
 enum class ComponentSpace : unsigned char
 {
+	None,
 	World,
 	UI,
 };
@@ -38,4 +39,5 @@ namespace Category
 	// UIComponent
 	static constexpr ComponentCategory UIOriginal	= 5;
 	static constexpr ComponentCategory UIGraphic	= 6;
+	static constexpr ComponentCategory UIBehavior	= 7;
 };

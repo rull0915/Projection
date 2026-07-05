@@ -33,11 +33,12 @@ private:
 	RectTransform* m_pRectTransform;
 
 	// 色
-	int m_color;
-	int m_mulColor;
+	DirectX::SimpleMath::Color m_color;
+	DirectX::SimpleMath::Color m_mulColor;
 
 	// 透明度
 	float m_alpha;
+
 public:
 
 	//-----------------------------------------------------
@@ -56,8 +57,8 @@ public:
 
 	RectTransform* GetRectTransform() const { return m_pRectTransform; }
 
-	void SetColor(int color) { m_color = color; }
-	void SetMulColor(int color) { m_mulColor = color; }
+	void SetColor(DirectX::SimpleMath::Color color) { m_color = color; }
+	void SetMulColor(DirectX::SimpleMath::Color color) { m_mulColor = color; }
 	void SetAlpha(float alpha) { m_alpha = alpha; }
 
 	// カテゴリをUIグラフィックに指定
@@ -68,7 +69,7 @@ public:
 
 protected:
 
-	int GetColor() const { return m_color; }
-	int GetMulColor() const { return m_mulColor; }
+	DirectX::SimpleMath::Color GetColor() const { return m_color; }
+	DirectX::SimpleMath::Color GetMulColor() const { return m_mulColor; }
 	float GetAlpha() const { return m_alpha; }
 };

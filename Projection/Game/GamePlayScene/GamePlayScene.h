@@ -61,6 +61,11 @@ private:
 	// 敵管理クラス
 	EnemyManager m_enemyManager;
 
+	// ----- テスト用 ----- //
+	std::unique_ptr<RenderTarget> m_renderTarget;
+
+	GameObject* m_birdCamera;	// 俯瞰カメラ
+
 public:
 
 	//-----------------------------------------------------
@@ -76,6 +81,7 @@ public:
 	void Initialize() override;
 	void Update(const GameTimer& gameTimer) override;
 	void Render(Renderer& renderer) override;
+	void RenderOnScreen(Renderer& renderer) override;
 	void Finalize() override;
 
 	void RegisterComponentOnDerived(ComponentBase* component) override;

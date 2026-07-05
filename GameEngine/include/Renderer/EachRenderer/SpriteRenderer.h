@@ -17,7 +17,6 @@
 #include <SpriteBatch.h>
 
 #include "Renderer/RenderStateCache.h"
-#include "Math/ColorLib.h"
 #include "IRenderer.h"
 
 //====================================================//
@@ -71,11 +70,12 @@ public:
 		DirectX::SimpleMath::Vector2 scale,
 		float angle,
 		DirectX::SimpleMath::Vector2 origin,
-		int color
+		DirectX::SimpleMath::Color color
 	)
 	{
-		DirectX::FXMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
-		if (texture) m_spriteBatch->Draw(texture, pos, srcRect, col, angle, origin, scale);
+		color.w = m_renderState.GetAlpha();
+
+		if (texture) m_spriteBatch->Draw(texture, pos, srcRect, color, angle, origin, scale);
 	}
 
 	static DirectX::SimpleMath::Vector2 GetTextureSize(ID3D11ShaderResourceView* srv)

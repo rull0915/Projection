@@ -21,6 +21,7 @@
 
 CameraManager::CameraManager()
 	: m_mainCamera{ nullptr }
+	, m_spareCamera{ nullptr }
 {
 
 }
@@ -34,16 +35,5 @@ void CameraManager::Initialize(Scene* pScene)
 	// 予備カメラの作成
 	m_spareCamera = pScene->Generate({ 0, 0, 10 });
 	m_spareCamera->AddComponent<StandardCamera>();
-}
-
-void CameraManager::Update()
-{
-	CameraBase* mainCamera = GetMainCamera();
-
-	if (mainCamera->IsNeedUpdateProj())
-	{
-		mainCamera->UpdateProj();
-	}
-
-	mainCamera->UpdateView();
+	m_spareCamera->SetInvincible(true);
 }

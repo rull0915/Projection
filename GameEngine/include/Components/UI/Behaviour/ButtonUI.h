@@ -14,7 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/UI/UIComponentBase.h"
+#include "UIBehaviorBase.h"
 #include <functional>
 
 //====================================================//
@@ -25,7 +25,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ButtonUI : public UIComponentBase
+class ButtonUI : public UIBehaviorBase
 {
 private:
 
@@ -40,14 +40,13 @@ private:
 
 	// 各状態の色
 
-	int m_normalColor;  // 通常時
-	int m_hoverdColor;  // ホバー時
-	int m_pressedColor; // 押されている時
+	DirectX::SimpleMath::Color m_normalColor;  // 通常時
+	DirectX::SimpleMath::Color m_hoverdColor;  // ホバー時
+	DirectX::SimpleMath::Color m_pressedColor; // 押されている時
 
 	// クリック時に実行される処理
 	std::function<void()> m_onClick;
 
-	bool m_isHovered;   // マウスが自分の上にあるか
 	bool m_isPressed;   // 自分が押されているか
 
 public:
@@ -63,6 +62,10 @@ public:
 	//-----------------------------------------------------
 	void Update(const GameTimer& gameTimer) override;
 
+	// マウスクリック
+	void OnMouseDown() override;
+	void OnMouseUp() override;
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
@@ -77,11 +80,9 @@ public:
 	// セッター
 	//-----------------------------------------------------
 
-	void SetNormalColor(int color) { m_normalColor = color; }
-	void SetHoveredColor(int color) { m_hoverdColor = color; }
-	void SetPressedColor(int color) { m_pressedColor = color; }
-
-	void SetIsHovered(bool f) { m_isHovered = f; }
+	void SetNormalColor(DirectX::SimpleMath::Color color) { m_normalColor = color; }
+	void SetHoveredColor(DirectX::SimpleMath::Color color) { m_hoverdColor = color; }
+	void SetPressedColor(DirectX::SimpleMath::Color color) { m_pressedColor = color; }
 
 	void SetOnClick(std::function<void()> func) { m_onClick = func; }
 

@@ -219,8 +219,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClCompile>
     <ClCompile Include="src\Debug\DebugManager.cpp" />
+    <ClCompile Include="src\Scene\UpdatePipeline.cpp" />
     <ClCompile Include="src\System\DeviceResources.cpp" />
     <ClCompile Include="src\System\EngineInitializer.cpp" />
+    <ClCompile Include="src\System\Render\RenderTarget.cpp" />
     <ClCompile Include="src\System\ResourceManager.cpp" />
     <ClCompile Include="src\System\WindowManager.cpp" />
     <ClCompile Include="src\Timer\GameTimer.cpp" />
@@ -280,7 +282,6 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Input\KeyInput.h" />
     <ClInclude Include="include\Input\MouseInput.h" />
-    <ClInclude Include="include\Math\ColorLib.h" />
     <ClInclude Include="include\Math\Easing.h" />
     <ClInclude Include="include\Math\GameMath.h">
       <SubType>
@@ -301,6 +302,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
     <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />
@@ -339,7 +341,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Managers\CameraManager.h" />
     <ClInclude Include="include\Managers\CollisionMap.h" />
     <ClInclude Include="include\Physics\HitContact.h" />
-    <ClInclude Include="src\Managers\ObjectManager.h" />
+    <ClInclude Include="include\Managers\ObjectManager.h" />
     <ClInclude Include="src\Managers\Renderer\RendererManager.h" />
     <ClInclude Include="src\Managers\Sounds\SoundManager.h" />
     <ClInclude Include="src\Managers\System\CollideEventSystem.h" />
@@ -375,7 +377,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Timer\GameTimer.h" />
     <ClInclude Include="include\Timer\StepTimer.h" />
     <ClInclude Include="include\Managers\UI\Canvas.h" />
-    <ClInclude Include="src\Managers\UI\UIManager.h" />
+    <ClInclude Include="include\Managers\UI\UIManager.h" />
     <ClInclude Include="include\Components\UI\UIComponentBase.h" />
     <ClInclude Include="include\Components\UI\Behaviour\ButtonUI.h" />
     <ClInclude Include="include\Components\UI\Graphics\UIGraphicBase.h" />
@@ -383,6 +385,12 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\UI\Graphics\TextUI.h" />
     <ClInclude Include="include\Components\UI\RectTransform\RectTransform.h" />
     <ClInclude Include="include\Components\UI\UIComponents.h" />
+    <ClInclude Include="include\System\Render\RenderContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\System\Render\RenderTarget.h" />
+    <ClInclude Include="src\Scene\UpdatePipeline.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

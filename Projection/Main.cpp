@@ -6,6 +6,7 @@
 #include "Game/Game.h"
 
 #include "System/WindowManager.h"
+#include "Editor/ImguiManager.h"
 
 using namespace DirectX;
 
@@ -122,6 +123,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 // Windows procedure
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
+	{
+		return true;
+	}
+
 	static bool s_in_sizemove = false;
 	static bool s_in_suspend = false;
 	static bool s_minimized = false;

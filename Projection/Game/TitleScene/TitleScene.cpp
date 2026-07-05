@@ -67,7 +67,7 @@ void TitleScene::Initialize()
 		// 画像コンポーネントの追加
 		auto i = ui->AddComponent<ImageUI>();
 		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
-		i->SetColor(0x777777);												// 色の設定	
+		i->SetColor({ 0.45, 0.45, 0.45 });												// 色の設定	
 
 		// テキストコンポーネントの追加	
 		auto t = ui->AddComponent<TextUI>();
@@ -88,8 +88,8 @@ void TitleScene::Initialize()
 			[this]()
 			{
 				ChangeScene("GamePlay",
-					std::make_unique<Transition::Slide>(0.3f, 0, DirectX::XMConvertToRadians(30)),
-					std::make_unique<Transition::Slide>(0.3f, 0, DirectX::XMConvertToRadians(210))
+					std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
+					std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
 				);
 			}
 		);
@@ -101,7 +101,7 @@ void TitleScene::Initialize()
 		// 画像コンポーネントの追加
 		auto i = ui->AddComponent<ImageUI>();
 		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
-		i->SetColor(0x993333);												// 色の設定	
+		i->SetColor({ 0.7, 0.3, 0.3 });												// 色の設定	
 
 		// テキストコンポーネントの追加	
 		auto t = ui->AddComponent<TextUI>();
@@ -109,7 +109,7 @@ void TitleScene::Initialize()
 		t->SetFontSize(96);													// フォントサイズの設定	
 		t->SetText(L"Projection");											// 文字列の設定	
 		t->SetOrigin(Origin::Type::Center);	
-		t->SetColor(0x000000);
+		t->SetColor({ 0, 0, 0 });
 		
 		// Rectの設定変更	
 		auto r = ui->GetComponent<RectTransform>();

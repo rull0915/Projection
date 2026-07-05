@@ -23,11 +23,10 @@
 /// コンストラクタ
 /// </summary>
 ButtonUI::ButtonUI(IComponentOwner* owner)
-	: UIComponentBase(owner)
-	, m_normalColor{ 0xFFFFFF }
-	, m_hoverdColor{ 0xF5F5F5 }
-	, m_pressedColor{ 0xC8C8C8 }
-	, m_isHovered{ false }
+	: UIBehaviorBase(owner)
+	, m_normalColor{ 1.0f, 1.0f, 1.0f, 0 }
+	, m_hoverdColor{ 0.92f, 0.92f, 0.92f, 0 }
+	, m_pressedColor{ 0.75f, 0.75f, 0.75f }
 	, m_isPressed{ false }
 	, m_onClick{}
 {
@@ -44,54 +43,53 @@ ButtonUI::~ButtonUI()
 /// </summary>
 void ButtonUI::Update(const GameTimer& gameTimer)
 {
-	// マウスの状態を調べる
+	// 警告対策
 	gameTimer;
 
-	// 押されたとき
-	if (Input::Mouse::Get(Input::State::Down, Input::Mouse::Button::Left))
-	{
-		// 自分にマウスが乗っているなら
-		if (m_isHovered)
-		{
-			// 押下フラグをONに
-			m_isPressed = true;
-
-			// Imageの色を変更
-			if (auto* image = GetOwn()->GetComponent<ImageUI>())
-			{
-				image->SetMulColor(m_pressedColor);
-			}
-		}
-	}
-	// 離されたとき
-	else if (Input::Mouse::Get(Input::State::Up, Input::Mouse::Button::Left))
-	{
-		// 自分にマウスが乗っているなら
-		if (m_isHovered)
-		{
-			// 関数を実行
-			if(m_onClick) m_onClick();
-		}
-
-		// フラグリセット
-		m_isPressed = false;
-
-		// Imageの色を変更
-		if (auto* image = GetOwn()->GetComponent<ImageUI>())
-		{
-			image->SetMulColor(m_normalColor);
-		}
-	}
-	// どちらでもないとき
-	else
+	if (!m_isPressed) 
 	{
 		// Imageの色を変更
 		if (auto* image = GetOwn()->GetComponent<ImageUI>())
 		{
-			if(!m_isPressed) image->SetMulColor(m_isHovered ? m_hoverdColor : m_normalColor);
+			image->SetMulColor(IsHovered() ? m_hoverdColor : m_normalColor);
 		}
 	}
 
 	// フラグをリセットする
-	m_isHovered = false;
+	SetHovered(false);
+}
+
+void ButtonUI::OnMouseDown()
+{
+	// 自分にマウスが乗っているなら
+	if (IsHovered())
+	{
+		// 押下フラグをONに
+		m_isPressed = true;
+
+		// Imageの色を変更
+		if (auto* image = GetOwn()->GetComponent<ImageUI>())
+		{
+			image->SetMulColor(m_pressedColor);
+		}
+	}
+}
+
+void ButtonUI::OnMouseUp()
+{
+	// 押されていたら
+	if (m_isPressed && IsHovered())
+	{
+		// 関数を実行
+		if (m_onClick) m_onClick();
+	}
+
+	// フラグリセット
+	m_isPressed = false;
+
+	// Imageの色を変更
+	if (auto* image = GetOwn()->GetComponent<ImageUI>())
+	{
+		image->SetMulColor(m_normalColor);
+	}
 }

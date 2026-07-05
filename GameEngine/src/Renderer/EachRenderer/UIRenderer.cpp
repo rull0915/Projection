@@ -122,16 +122,13 @@ void UIRenderer::End()
 
 #pragma region Draw
 
-void UIRenderer::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, int color, bool fillFlag)
+void UIRenderer::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Color color, bool fillFlag)
 {
-	float r = static_cast<float>((color >> 16) & 0b11111111) / 0xFF;
-	float g = static_cast<float>((color >> 8) & 0b11111111) / 0xFF;
-	float b = static_cast<float>((color >> 0) & 0b11111111) / 0xFF;
-	float a = m_renderState.GetAlpha();
+	color.w = m_renderState.GetAlpha();
 
-	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), {r, g, b, a});
-	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), { r, g, b, a });
-	DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), { r, g, b, a });
+	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), color);
+	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), color);
+	DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), color);
 
 	DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
 
@@ -149,17 +146,14 @@ void UIRenderer::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMa
 	}
 }
 
-void UIRenderer::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, int color, bool fillFlag)
+void UIRenderer::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, DirectX::SimpleMath::Color color, bool fillFlag)
 {
-	float r = static_cast<float>((color >> 16) & 0b11111111) / 255.0f;
-	float g = static_cast<float>((color >> 8) & 0b11111111) / 255.0f;
-	float b = static_cast<float>((color >> 0) & 0b11111111) / 255.0f;
-	float a = m_renderState.GetAlpha();
+	color.w = m_renderState.GetAlpha();
 
-	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), { r, g, b, a });
-	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), { r, g, b, a });
-	DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), { r, g, b, a });
-	DirectX::VertexPositionColor v4(WindowManager::Instance().ScreenToPixel(p4), { r, g, b, a });
+	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), color);
+	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), color);
+	DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), color);
+	DirectX::VertexPositionColor v4(WindowManager::Instance().ScreenToPixel(p4), color);
 
 	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 
@@ -176,30 +170,22 @@ void UIRenderer::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::
 	}
 }
 
-void UIRenderer::DrawLine(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, int color)
+void UIRenderer::DrawLine(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, DirectX::SimpleMath::Color color)
 {
-	float r = static_cast<float>((color >> 16) & 0b11111111) / 0xFF;
-	float g = static_cast<float>((color >> 8) & 0b11111111) / 0xFF;
-	float b = static_cast<float>((color >> 0) & 0b11111111) / 0xFF;
-	float a = m_renderState.GetAlpha();
+	color.w = m_renderState.GetAlpha();
 
-	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(start), { r, g, b, a });
-	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(end), { r, g, b, a });
+	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(start), color);
+	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(end), color);
 
 	m_primitiveBatch->DrawLine(v1, v2);
 }
 
-void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius, uint16_t division, int color, bool fillFlag)
+void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
 {
 	if (division < 3) return;
 
 	// --- 色の展開 ---
-	float r = static_cast<float>((color >> 16) & 0xFF) / 255.0f;
-	float g = static_cast<float>((color >> 8) & 0xFF) / 255.0f;
-	float b = static_cast<float>((color >> 0) & 0xFF) / 255.0f;
-	float a = m_renderState.GetAlpha();
-
-	DirectX::SimpleMath::Vector4 col(r, g, b, a);
+	color.w = m_renderState.GetAlpha();
 
 	// 角度の間隔を算出
 	float step = 2.0f * PI_F / static_cast<float>(division);
@@ -214,7 +200,7 @@ void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius
 		float theta = step * i;
 
 		// 頂点情報を計算
-		DirectX::VertexPositionColor v(WindowManager::Instance().ScreenToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), col);
+		DirectX::VertexPositionColor v(WindowManager::Instance().ScreenToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), color);
 
 		vertices[i] = v;
 	}
@@ -224,7 +210,7 @@ void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius
 	// 塗りつぶすとき
 	if (fillFlag)
 	{
-		vertices[division] = DirectX::VertexPositionColor(WindowManager::Instance().ScreenToPixel(centerPos), col);
+		vertices[division] = DirectX::VertexPositionColor(WindowManager::Instance().ScreenToPixel(centerPos), color);
 
 		indices.resize(division * 3);
 
@@ -254,22 +240,19 @@ void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius
 	}
 }
 
-void UIRenderer::DrawBox(DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, int color, bool fillFlag)
+void UIRenderer::DrawBox(DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Color color, bool fillFlag)
 {
-	float r = static_cast<float>((color >> 16) & 0b11111111) / 255.0f;
-	float g = static_cast<float>((color >> 8) & 0b11111111) / 255.0f;
-	float b = static_cast<float>((color >> 0) & 0b11111111) / 255.0f;
-	float a = m_renderState.GetAlpha();
+	color.w = m_renderState.GetAlpha();
 
 	DirectX::SimpleMath::Vector2 p1{ min.x, min.y };
 	DirectX::SimpleMath::Vector2 p2{ min.x, max.y };
 	DirectX::SimpleMath::Vector2 p3{ max.x, max.y };
 	DirectX::SimpleMath::Vector2 p4{ max.x, min.y };
 
-	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), { r, g, b, a });
-	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), { r, g, b, a });
-	DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), { r, g, b, a });
-	DirectX::VertexPositionColor v4(WindowManager::Instance().ScreenToPixel(p4), { r, g, b, a });
+	DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), color);
+	DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), color);
+	DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), color);
+	DirectX::VertexPositionColor v4(WindowManager::Instance().ScreenToPixel(p4), color);
 
 	DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
 

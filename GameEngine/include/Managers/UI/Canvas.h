@@ -60,6 +60,9 @@ private:
 	// 保持するUIObjectのリスト
 	std::vector<std::unique_ptr<GameObject>> m_uiObjects;
 
+	// コンポーネントリストを保持する用の変数
+	std::vector<ComponentBase*> m_components;
+
 public:
 
 	//-----------------------------------------------------
@@ -90,6 +93,10 @@ public:
 	// 点と衝突するかどうか
 	RectTransform* HitTest(const DirectX::SimpleMath::Vector2& point);
 
+	// クリック時関数
+	void OnMouseDown();
+	void OnMouseUp();
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
@@ -101,6 +108,9 @@ public:
 	// 全オブジェクト
 	const std::vector<std::unique_ptr<GameObject>>& GetAllObjects() const { return m_uiObjects; }
 
+	// ルートオブジェクト
+	GameObject* GetRootObject() const { return m_rootObject.get(); }
+	
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------
@@ -160,4 +170,7 @@ private:
 			obj->Destroy();
 		}
 	}
+
+	// 押されたとき
+	void MouseCheckChild(RectTransform* child, bool dowm);
 };

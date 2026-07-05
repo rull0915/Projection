@@ -21,6 +21,10 @@
 //====================================================//
 class UIComponentBase : public ComponentBase
 {
+public: 
+	// 自身の所属空間
+	static constexpr ComponentSpace SPACE = ComponentSpace::UI;
+
 public:
 
 	//-----------------------------------------------------
@@ -36,12 +40,6 @@ public:
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
-
-	// 所属空間をUIに設定
-	ComponentSpace GetSpace() const override
-	{
-		return ComponentSpace::UI;
-	}
 
 	// カテゴリをUIに指定
 	ComponentCategory GetCategory() const override

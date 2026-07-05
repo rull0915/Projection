@@ -69,6 +69,9 @@ private:
 	// 削除フラグ
 	bool m_isDead;
 
+	// 削除不可フラグ
+	bool m_isInvincible;
+
 public:
 	// タグ
 	std::string m_tag;
@@ -102,6 +105,8 @@ public:
 	
 	bool IsDead() const { return m_isDead; }
 
+	bool IsInvincible() const { return m_isInvincible; }
+
 	const std::string& GetTag() const override { return m_tag; }
 
 	const std::string& GetName() const override { return m_name; }
@@ -110,6 +115,8 @@ public:
 	// セッター
 	//-----------------------------------------------------
 	void SetActive(bool value) { m_isActive = value; }
+
+	void SetInvincible(bool f) { m_isInvincible = f; }
 
 	void SetScene(Scene* scene) 
 	{

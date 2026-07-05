@@ -34,6 +34,7 @@ GamePlayScene::GamePlayScene(Game* pGame)
 	, m_pGame{ pGame }
 	, m_camera{ nullptr }
 	, m_player{ nullptr }
+	, m_renderTarget{ std::make_unique<RenderTarget>() }
 {
 }
 
@@ -44,12 +45,20 @@ GamePlayScene::~GamePlayScene()
 // 初期化関数
 void GamePlayScene::Initialize()
 {
+	// 初期化
+	m_renderTarget->Create(
+		ResourceManager::Instance().GetResources()->GetD3DDevice(),
+		1280, 720
+	);
+
 	ResourceManager::Instance().AddSound("Jump", L"Resources/Sounds/se_jump_006.wav");
 
 	// モデルの読み込み
 	ResourceManager::Instance().AddModel("Player", L"Resources/Models/Player.cmo ");
 	ResourceManager::Instance().AddModel("Goal", L"Resources/Models/Goal.cmo");
 	ResourceManager::Instance().AddModel("Enemy", L"Resources/Models/Enemy.cmo");
+
+	ResourceManager::Instance().AddModel("Grass", L"Resources/Models/Cube_Grass_Single.cmo");
 
 	// マウスを相対モードに
 	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
@@ -113,6 +122,10 @@ void GamePlayScene::Initialize()
 			ChangeScene("Title");
 		}
 	);
+
+	m_birdCamera = Generate({ 0, 20, 0 });
+	m_birdCamera->AddComponent<StandardCamera>();
+	m_birdCamera->GetComponent<Transform>()->SetLocalEulerAngle({ DirectX::XMConvertToRadians(-90), 0, 0 });
 }
 
 // 更新関数
@@ -149,7 +162,22 @@ void GamePlayScene::Update(const GameTimer& gameTimer)
 // 描画関数
 void GamePlayScene::Render(Renderer& renderer)
 {
-	m_enemyManager.DebugRenderer(renderer);
+	RenderWithContext(
+		{
+			m_birdCamera->GetComponent<StandardCamera>(),
+			m_renderTarget.get(),
+			{ 0, 0, 0, 0 },
+			DrawFlag::World
+		},
+		renderer
+	);
+}
+
+void GamePlayScene::RenderOnScreen(Renderer& renderer)
+{
+	renderer.Draw().Sprite()
+		.Rect({ 80, 40 }, { 400, 220 })
+		.Execute(m_renderTarget->GetShaderResourceView());
 }
 
 // 終了関数

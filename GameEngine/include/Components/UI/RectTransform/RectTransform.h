@@ -77,7 +77,14 @@ public:
 		, m_scale{ 1.0f, 1.0f }
 		, m_rotation{ 0 }
 		, m_isDirty{ true }
-	{};
+	{
+		ADD_PROPERTY(m_anchoredPosition);
+		ADD_PROPERTY(m_anchor);
+		ADD_PROPERTY(m_pivot);
+		ADD_PROPERTY(m_size);
+		ADD_PROPERTY(m_rotation);
+		ADD_PROPERTY(m_scale);
+	};
 
 	~RectTransform()
 	{
@@ -233,11 +240,6 @@ public:
 		SetDirty();
 	}
 
-private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
 	void SetDirty() 
 	{
 		m_isDirty = true; 
@@ -248,6 +250,11 @@ private:
 			child->SetDirty();
 		}
 	}
+private:
+
+	//-----------------------------------------------------
+	// 内部実装
+	//-----------------------------------------------------
 
 	// 指定したトランスフォームが自分のツリーに含まれるか調べる関数
 	bool IsDescendantOf(RectTransform* target)

@@ -12,6 +12,7 @@
 #include "pch.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
+#include "System/ResourceManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -54,8 +55,17 @@ void SceneManager::Render(Renderer& renderer)
 	// シーンの描画処理
 	if (m_pCurrentScene) m_pCurrentScene->BaseRender(renderer);
 
+	// 描画開始
+	renderer.Start(ResourceManager::Instance().GetResources()->GetD3DDeviceContext());
+
+	// シーンのスクリーンへの描画処理
+	if (m_pCurrentScene) m_pCurrentScene->BaseRenderOnScreen(renderer);
+
 	// 遷移演出の描画
 	m_transitionManager.Render(renderer);
+
+	// 描画終了
+	renderer.End();
 }
 
 // 開始シーンの設定

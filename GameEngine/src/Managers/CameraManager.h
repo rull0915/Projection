@@ -59,8 +59,6 @@ public:
 
 	void Initialize(Scene* pScene);
 
-	void Update();
-
 	// メインカメラを設定する関数
 	void SetMainCamera(CameraBase* camera)
 	{
@@ -82,11 +80,5 @@ public:
 	const DirectX::SimpleMath::Matrix& GetProj() { return GetMainCamera()->GetProj(); }
 	const DirectX::SimpleMath::Matrix& GetInverseView() { return GetMainCamera()->GetInverseView(); }
 	const DirectX::SimpleMath::Matrix& GetInverseProj() { return GetMainCamera()->GetInverseProj(); }
-
-private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
 
 };

@@ -48,13 +48,16 @@ void SkyboxComponent::Start()
 
 void SkyboxComponent::Draw(Renderer& renderer)
 {
-	// プロジェクション行列を設定
-	m_effect->SetProjection(renderer.GetRenderState().GetProjection());
-	// ビュー行列を設定
-	m_effect->SetView(renderer.GetRenderState().GetView());
+	if (m_effect)
+	{
+		// プロジェクション行列を設定
+		m_effect->SetProjection(renderer.GetRenderState().GetProjection());
+		// ビュー行列を設定
+		m_effect->SetView(renderer.GetRenderState().GetView());
 
-	// 描画
-	m_sky->Draw(m_effect.get(), m_skyInputLayout.Get());
+		// 描画
+		m_sky->Draw(m_effect.get(), m_skyInputLayout.Get());
+	}
 }
 
 // 読み込み

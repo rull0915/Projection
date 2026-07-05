@@ -149,7 +149,7 @@ public:
 		);
 	}
 	template <typename = std::enable_if_t<!HasRect>> // Rectを指定していない場合
-	void Execute(DirectX::SpriteFont* spriteFont, const wchar_t* text, DirectX::SimpleMath::Vector2 position, int color = 0xFFFFFF)
+	void Execute(DirectX::SpriteFont* spriteFont, const wchar_t* text, DirectX::SimpleMath::Vector2 position, DirectX::SimpleMath::Color color = {1, 1, 1, 1})
 	{
 		if constexpr (HasOrigin)
 		{

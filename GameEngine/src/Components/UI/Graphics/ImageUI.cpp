@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "Components/UI/Graphics/ImageUI.h"
 
-#include "Math/ColorLib.h"
 #include "Renderer/Renderer.h"
 
 //====================================================//
@@ -44,7 +43,7 @@ void ImageUI::Draw(Renderer& renderer)
 		Rotate(transform->GetWorldRotation()).									// 回転
 		Extend(transform->GetWorldScale()).						// 拡大縮小
 		Origin(pivot).
-		Execute(m_pTexture, Color::MultiplyColor(GetColor(), GetMulColor()));							// 描画呼び出し
+		Execute(m_pTexture, GetColor() * GetMulColor());							// 描画呼び出し
 
 	// 描画後はアルファを元に戻す
 	renderer.SetAlpha(1.0f);

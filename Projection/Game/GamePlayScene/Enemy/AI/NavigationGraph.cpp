@@ -45,7 +45,7 @@ void NavigationGraph::DebugDraw(Renderer& renderer)
 	}
 }
 
-void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color)
+void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, DirectX::SimpleMath::Color color)
 {
 	for (auto& edge : edges)
 	{

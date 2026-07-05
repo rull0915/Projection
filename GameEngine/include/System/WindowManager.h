@@ -45,7 +45,7 @@ private:
 	int m_height;
 
 	// 背景色
-	int m_backGroundColor;
+	DirectX::SimpleMath::Color m_backGroundColor;
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
@@ -54,7 +54,7 @@ private:
 	WindowManager()
 		: m_width{ 1280 }
 		, m_height{ 720 }
-		, m_backGroundColor{ 0x6495ED }
+		, m_backGroundColor{ 0.3f, 0.6f, 0.8f, 1.0f }
 	{};
 	~WindowManager() = default;
 
@@ -104,7 +104,7 @@ public:
 
 	float GetAspect() const { return GetWidthF() / GetHeightF(); }	// アスペクト比
 
-	int GetBackGroundColor() const { return m_backGroundColor; }
+	DirectX::SimpleMath::Color GetBackGroundColor() const { return m_backGroundColor; }
 
 	//-----------------------------------------------------
 	// セッター
@@ -113,5 +113,5 @@ public:
 	void SetWidth(int value) { m_width = value; }    // 幅
 	void SetHeight(int value) { m_height = value; }  // 高さ
 
-	void SetBackGroundColor(int color) { m_backGroundColor = color; }	// 色
+	void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
 };

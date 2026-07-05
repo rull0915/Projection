@@ -29,7 +29,10 @@ GameObject::GameObject(CreateToken)
 	, m_components{ this }
 	, m_tag{}
 	, m_name{}
+	, m_isInvincible{ false }
 {
+	ADD_PROPERTY(m_name);
+	ADD_PROPERTY(m_tag);
 }
 
 void GameObject::BaseUpdate(const GameTimer& gameTimer)

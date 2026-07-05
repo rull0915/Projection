@@ -41,19 +41,19 @@ public:
 	void SetUI(UIRenderer* ui) { m_ui = ui; }
 
 	// ----- 描画仲介関数 ----- //
-	void Triangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, int color, bool fillFlag = true) {
+	void Triangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Color color, bool fillFlag = true) {
 		m_ui->DrawTriangle(p1, p2, p3, color, fillFlag);
 	};
-	void Rect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, int color, bool fillFlag = true) {
+	void Rect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, DirectX::SimpleMath::Color color, bool fillFlag = true) {
 		m_ui->DrawRect(p1, p2, p3, p4, color, fillFlag);
 	};
-	void Line(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, int color) {
+	void Line(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, DirectX::SimpleMath::Color color) {
 		m_ui->DrawLine(start, end, color);
 	};
-	void Circle(DirectX::SimpleMath::Vector2 centerPos, float radius, uint16_t division, int color, bool fillFlag = true) {
+	void Circle(DirectX::SimpleMath::Vector2 centerPos, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag = true) {
 		m_ui->DrawCircle(centerPos, radius, division, color, fillFlag);
 	};
-	void Box(DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, int color, bool fillFlag = true) {
+	void Box(DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Color color, bool fillFlag = true) {
 		m_ui->DrawBox(min, max, color, fillFlag);
 	};
 };
@@ -116,7 +116,7 @@ public:
 	void Triangle(DirectX::VertexPositionColor v1, DirectX::VertexPositionColor v2, DirectX::VertexPositionColor v3, bool fillFrag = true){
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawTriangle(v1, v2, v3, fillFrag);}
-	void Triangle(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, int color, bool fillFrag = true){
+	void Triangle(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Color color, bool fillFrag = true){
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawTriangle(p1, p2, p3, color, fillFrag);}
 
@@ -124,7 +124,7 @@ public:
 	void Rect(DirectX::VertexPositionColor v1, DirectX::VertexPositionColor v2, DirectX::VertexPositionColor v3, DirectX::VertexPositionColor v4, bool fillFrag = true) {
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawRect(v1, v2, v3, v4, fillFrag);}
-	void Rect(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Vector3 p4, int color, bool fillFrag = true) {
+	void Rect(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Vector3 p4, DirectX::SimpleMath::Color color, bool fillFrag = true) {
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawRect(p1, p2, p3, p4, color, fillFrag);}
 
@@ -132,17 +132,17 @@ public:
 	void Line(DirectX::VertexPositionColor v1, DirectX::VertexPositionColor v2) {
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawLine(v1, v2); }
-	void Line(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 end, int color){
+	void Line(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 end, DirectX::SimpleMath::Color color){
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawLine(start, end, color);}
 
 	// Circle
-	void Circle(DirectX::SimpleMath::Vector3 centerPos, DirectX::SimpleMath::Vector3 normal, float radius, uint16_t division, int color, bool fillFrag = true){
+	void Circle(DirectX::SimpleMath::Vector3 centerPos, DirectX::SimpleMath::Vector3 normal, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFrag = true){
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawCircle(centerPos, normal, radius, division, color, fillFrag);}
 
 	// Arc
-	void Arc(const DirectX::SimpleMath::Vector3& center, DirectX::SimpleMath::Vector3 vStart, DirectX::SimpleMath::Vector3 vEnd, uint16_t division, float radius, int color, bool fillFlag = true) {
+	void Arc(const DirectX::SimpleMath::Vector3& center, DirectX::SimpleMath::Vector3 vStart, DirectX::SimpleMath::Vector3 vEnd, uint16_t division, float radius, DirectX::SimpleMath::Color color, bool fillFlag = true) {
 		m_switchRenderer(m_renderer, RendererType::Primitive);
 		m_primitive->DrawArc(center, vStart, vEnd, division, radius, color, fillFlag);}
 

@@ -87,7 +87,7 @@ public:
 		DirectX::SimpleMath::Vector2 p1,
 		DirectX::SimpleMath::Vector2 p2,
 		DirectX::SimpleMath::Vector2 p3,
-		int color, bool fillFlag
+		DirectX::SimpleMath::Color color, bool fillFlag
 	);
 
 	// -------- Rect -------- //
@@ -98,7 +98,7 @@ public:
 		DirectX::SimpleMath::Vector2 p2,
 		DirectX::SimpleMath::Vector2 p3,
 		DirectX::SimpleMath::Vector2 p4,
-		int color, bool fillFlag
+		DirectX::SimpleMath::Color color, bool fillFlag
 	);
 	
 	// -------- Line -------- //
@@ -107,7 +107,7 @@ public:
 	(
 		DirectX::SimpleMath::Vector2 start,
 		DirectX::SimpleMath::Vector2 end,
-		int color
+		DirectX::SimpleMath::Color color
 	);
 	 
 	// -------- Circle -------- //
@@ -117,7 +117,7 @@ public:
 		DirectX::SimpleMath::Vector2 centerPos,
 		float radius,
 		uint16_t division,
-		int color,
+		DirectX::SimpleMath::Color color,
 		bool fillFlag
 	);
 
@@ -126,7 +126,7 @@ public:
 	(
 		DirectX::SimpleMath::Vector2 min,
 		DirectX::SimpleMath::Vector2 max,
-		int color,
+		DirectX::SimpleMath::Color color,
 		bool fillFlag
 	);
 };

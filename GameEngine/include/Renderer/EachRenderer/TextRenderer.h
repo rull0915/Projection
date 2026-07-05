@@ -16,7 +16,6 @@
 //====================================================//
 #include <SpriteFont.h>
 
-#include "Math/ColorLib.h"
 #include "Renderer/RenderStateCache.h"
 #include "IRenderer.h"
 
@@ -79,15 +78,16 @@ public:
 		DirectX::SimpleMath::Vector2 scale,
 		float angle,
 		DirectX::SimpleMath::Vector2 origin,
-		int color
+		DirectX::SimpleMath::Color color
 	)
 	{
-		DirectX::FXMVECTOR col = Color::CastColor(color, m_renderState.GetAlpha());
+		color.w = m_renderState.GetAlpha();
+
 		if (spriteFont) spriteFont->DrawString(
 			m_spriteBatch.get(),
 			text,
 			pos,
-			col,
+			color,
 			angle,
 			origin,
 			scale);

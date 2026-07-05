@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "UIManager.h"
+#include "Managers/UI/UIManager.h"
 
 #include "Renderer/Renderer.h"
 #include "Components/UI/RectTransform/RectTransform.h"
@@ -46,14 +46,25 @@ void UIManager::Update(const GameTimer& gameTimer)
 	// キャンバスを更新する
 	for (auto& canvas : m_canvases)
 	{
+		// キャンバスがアクティブなら
 		if (canvas->IsActive())
 		{
+			// クリックされていれば
+			if (Input::Mouse::Get(Input::State::Down, Input::Mouse::Button::Left))
+			{
+				canvas->OnMouseDown();
+			}
+
+			// 離されていれば
+			if (Input::Mouse::Get(Input::State::Up, Input::Mouse::Button::Left))
+			{
+				canvas->OnMouseUp();
+			}
+
+			// 更新
 			canvas->Update(gameTimer);
 		}
 	}
-
-	// rayの衝突を調べる
-	CheckHitRay(Input::Mouse::GetScaledMousePoint());
 }
 
 void UIManager::LateUpdate(const GameTimer& gameTimer)
@@ -91,11 +102,15 @@ void UIManager::CheckHitRay(DirectX::SimpleMath::Vector2 position)
 	// 衝突していれば
 	if (hitRect)
 	{
-		// ボタンコンポーネントを持っていれば
-		if (ButtonUI* button = hitRect->GetOwn()->GetComponent<ButtonUI>())
+		static std::vector<ComponentBase*> base{};
+
+		// ビヘイビアコンポーネントを取得
+		hitRect->GetOwn()->GetComponentsWithCategory(Category::UIBehavior, base);
+
+		for (auto& behavior : base)
 		{
 			// Hover状態にする
-			button->SetIsHovered(true);
+			static_cast<UIBehaviorBase*>(behavior)->SetHovered(true);
 		}
 	}
 }
@@ -174,7 +189,7 @@ void UIManager::RemoveObjects()
 	}
 }
 
-void UIManager::DebugDraw(Renderer& renderer, int color)
+void UIManager::DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color)
 {
 	// 全キャンバスをループ
 	for (auto& canvas : m_canvases)

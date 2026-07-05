@@ -5,23 +5,29 @@
 #include "pch.h"
 #include "Game.h"
 
-#include "Debug/DebugManager.h"
-#include "System/WindowManager.h"
-#include "System/ResourceManager.h"
-#include "System/EngineInitializer.h"
-#include "System/EditorInitializer.h"
+// 各システム管理クラス
+#include "Debug/DebugManager.h"			// デバッグ	
+#include "System/WindowManager.h"		// ウィンドウ	
+#include "System/ResourceManager.h"		// リソース
+#include "Editor/ImguiManager.h"		// imgui
 
-#include "GameInitializer.h"
+// 各プロジェクト初期化
+#include "System/EngineInitializer.h"	// エンジン部分	
+#include "System/EditorInitializer.h"	// エディター	部分
+#include "GameInitializer.h"			// ゲーム部分	
 
-#include "Input/KeyInput.h"
-#include "Input/MouseInput.h"
+// 入力
+#include "Input/KeyInput.h"				// キー	
+#include "Input/MouseInput.h"			// マウス
 
+// 各シーン
 #include "GamePlayScene/GamePlayScene.h"
 #include "TitleScene/TitleScene.h"
-#include "ShaderTestScene/ShaderTestScene.h"
 
+#include "EditScene/EditScene.h"
+
+// その他
 #include "Common/Random.h"
-#include "Math/ColorLib.h"
 
 extern void ExitGame() noexcept;
 
@@ -48,6 +54,8 @@ Game::Game() noexcept(false)
 /// </summary>
 Game::~Game()
 {
+	// Imguiの終了
+	ImguiManager::Finalize();
 }
 
 // Initialize the Direct3D resources required to run.
@@ -74,33 +82,36 @@ void Game::Initialize(HWND window, int width, int height)
 	Random::Init();
 
 	// 背景色の設定
-	WindowManager::Instance().SetBackGroundColor(0x6495ED);
+	WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
 
 	// ====== シーンの登録 ====== //
 	m_sceneManager.RegisterScene("GamePlay", std::make_unique<GamePlayScene>(this));
 	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
-	m_sceneManager.RegisterScene("ShaderTest", std::make_unique<ShaderTestScene>(this));
+	m_sceneManager.RegisterScene("Edit", std::make_unique<EditScene>(this));
 
 	// 開始時のシーンを設定
-	m_sceneManager.SetStartScene("Title");
+	m_sceneManager.SetStartScene("Edit");
 
 	// ====== リソースの追加 ====== //
 
 	// Skybox
 	ResourceManager::Instance().AddTexture("Skybox", L"Resources/Textures/Skybox.dds");
 
-	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
-	// e.g. for 60 FPS fixed timestep update logic, call:
-	/*
-	m_timer.SetFixedTimeStep(true);
-	m_timer.SetTargetElapsedSeconds(1.0 / 60);
-	*/
+	// ========================== //
+
+	// imguiの初期化
+	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
+	auto* context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+	ImguiManager::Initialize(window, device, context);
 }
 
 #pragma region Frame Update
 // Executes the basic game loop.
 void Game::Tick()
 {
+	// Imguiの更新
+	ImguiManager::Update();
+
 	m_timer.Tick([&]()
 	{
 		Update(m_timer);
@@ -158,15 +169,18 @@ void Game::Render()
 	context;
 
 	// 描画の開始 ----------------------------------------
-	m_renderer.Start(context);
+	// m_renderer.Start(context);
 
 	// 現在のシーンの描画
 	m_sceneManager.Render(m_renderer);
 
 	// 描画の終了 ----------------------------------------
-	m_renderer.End();
+	// m_renderer.End();
 
 	m_deviceResources->PIXEndEvent();
+
+	// Imguiの描画
+	ImguiManager::Render();
 
 	// Show the new frame.
 	m_deviceResources->Present();
@@ -182,10 +196,8 @@ void Game::Clear()
 	auto renderTarget = m_deviceResources->GetRenderTargetView();
 	auto depthStencil = m_deviceResources->GetDepthStencilView();
 
-	auto col = Color::CastColor(WindowManager::Instance().GetBackGroundColor(), 1.0f);
-
-	DirectX::XMVECTORF32 color;
-	color.v = col;
+	auto color = WindowManager::Instance().GetBackGroundColor();
+	
 	context->ClearRenderTargetView(renderTarget, color);
 	context->ClearDepthStencilView(depthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	context->OMSetRenderTargets(1, &renderTarget, depthStencil);

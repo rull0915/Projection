@@ -32,6 +32,12 @@ struct HitContact2D;
 //====================================================//
 class ComponentBase : public PropertyObject
 {
+public:
+
+	// 自身の所属空間
+	static constexpr ComponentSpace SPACE = ComponentSpace::None;
+
+private:
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
@@ -61,9 +67,6 @@ public:
 	bool IsActive() const { return m_isActive; }        // アクティブフラグ
 
 	bool IsStarted() const { return m_isStarted; }      // スタート済みかどうか
-
-	// 所属空間
-	virtual ComponentSpace GetSpace() const = 0;
 
 	// カテゴリ
 	virtual ComponentCategory GetCategory() const { return Category::Original; }

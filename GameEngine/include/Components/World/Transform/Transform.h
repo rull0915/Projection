@@ -211,6 +211,12 @@ public:
 
 	inline uint32_t GetVersion() const { return m_nowVersion; }
 
+	// 親
+	const Transform* GetParent() const { return m_pParent; }
+
+	// 子供
+	const std::unordered_set<Transform*>& GetChildren() const { return m_children; }
+
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------
@@ -277,6 +283,9 @@ public:
 		m_changeCache = false;
 	}
 
+	// Dirtyフラグをセットする関数
+	void SetDirty();
+
 private:
 
 	//-----------------------------------------------------
@@ -322,7 +331,4 @@ private:
 		// 最後まで到達した時
 		return false;
 	}
-
-	// Dirtyフラグをセットする関数
-	void SetDirty();
 };

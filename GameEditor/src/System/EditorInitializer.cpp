@@ -16,9 +16,10 @@
 #include "Loader/ComponentFactory.h"
 
 #include "Components/World/Components.h"
+#include "Components/UI/UIComponents.h"
 #include "GameObject/GameObject.h"
 
-#define ADD_FACTORY(type) ComponentFactory::Register(#type, [](GameObject* o) { return o->AddComponent<type>(); });
+#define ADD_FACTORY(type) ComponentFactory::Register(#type, type::SPACE, [](GameObject* o) { return o->AddComponent<type>(); });
 
 //====================================================//
 // 関数の実体宣言
@@ -60,4 +61,10 @@ void EditorInitializer::RegistFactories()
 	// Audio
 	ADD_FACTORY(AudioSource);
 	ADD_FACTORY(AudioListener);
+
+	// UI
+	ADD_FACTORY(RectTransform);
+	ADD_FACTORY(ImageUI);
+	ADD_FACTORY(TextUI);
+	ADD_FACTORY(ButtonUI);
 }

@@ -15,7 +15,6 @@
 // インクルードファイル
 //====================================================//
 #include <PrimitiveBatch.h>
-#include <CommonStates.h>
 #include <Effects.h>
 
 #include "Renderer/RenderStateCache.h"
@@ -97,7 +96,7 @@ public:
 		DirectX::SimpleMath::Vector3 p1,
 		DirectX::SimpleMath::Vector3 p2,
 		DirectX::SimpleMath::Vector3 p3,
-		int color, bool fillFlag
+		DirectX::SimpleMath::Color color, bool fillFlag
 	);
 
 	// -------- Rect -------- //
@@ -117,7 +116,7 @@ public:
 		DirectX::SimpleMath::Vector3 p2,
 		DirectX::SimpleMath::Vector3 p3,
 		DirectX::SimpleMath::Vector3 p4,
-		int color, bool fillFlag
+		DirectX::SimpleMath::Color color, bool fillFlag
 	);
 	
 	// -------- Line -------- //
@@ -131,7 +130,7 @@ public:
 	(
 		DirectX::SimpleMath::Vector3 start,
 		DirectX::SimpleMath::Vector3 end,
-		int color
+		DirectX::SimpleMath::Color color
 	);
 	 
 	// -------- Circle -------- //
@@ -142,7 +141,7 @@ public:
 		DirectX::SimpleMath::Vector3 normal,
 		float radius,
 		uint16_t division,
-		int color,
+		DirectX::SimpleMath::Color color,
 		bool fillFlag
 	);
 
@@ -154,7 +153,7 @@ public:
 		DirectX::SimpleMath::Vector3 vEnd,   // 終了方向（正規化されている前提）
 		uint16_t segments,
 		float radius,
-		int color,
+		DirectX::SimpleMath::Color color,
 		bool fillFlag
 	);
 

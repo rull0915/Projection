@@ -14,7 +14,6 @@
 #include "System/ResourceManager.h"
 
 #include "Renderer/Renderer.h"
-#include "Math/ColorLib.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -56,7 +55,7 @@ void TextUI::Draw(Renderer& renderer)
 		Extend(scale * fontScale).									// 拡大縮小
 		Origin(ratio).
 		Execute(m_pFont, m_text.c_str(), drawPos, 
-			Color::MultiplyColor(GetColor(), GetMulColor()));		// 描画呼び出し
+			GetColor() * GetMulColor());		// 描画呼び出し
 
 	// 描画後はアルファを元に戻す
 	renderer.SetAlpha(1.0f);

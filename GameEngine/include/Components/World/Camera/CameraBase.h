@@ -70,8 +70,20 @@ public:
     // カテゴリをカメラに指定
     ComponentCategory GetCategory() const override { return Category::Camera; }
 
-    const DirectX::SimpleMath::Matrix& GetView() { return m_view; }
-    const DirectX::SimpleMath::Matrix& GetProj() { return m_proj; }
+    const DirectX::SimpleMath::Matrix& GetView() 
+	{
+		UpdateView();
+		return m_view; 
+	}
+    const DirectX::SimpleMath::Matrix& GetProj() 
+	{
+		if (m_needUpdateProj)
+		{
+			UpdateProj();
+			m_needUpdateProj = false;
+		}
+		return m_proj; 
+	}
     const DirectX::SimpleMath::Matrix& GetInverseView() { return m_inverseView; }
     const DirectX::SimpleMath::Matrix& GetInverseProj() { return m_inverseProj; }
 

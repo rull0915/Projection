@@ -22,55 +22,51 @@
 #include "Physics/Ray.h"
 #include "Physics/RaycastHit.h"
 
+#include "System/Render/RenderContext.h"
+#include "System/Render/RenderTarget.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
 
 class SceneManager;
 class ComponentRegister;
-
-// 各管理クラス
-class ObjectManager;
-class CameraManager;
-class PhysicsManager;
-class PhysicsManager2D;
-class RendererManager;
-class UIManager;
-class CollideEventSystem;
-class SoundManager;
+class UpdatePipeline;
 
 class Renderer;
 class CameraBase;
-
 class Canvas;
+
+class ObjectManager;
+class UIManager;
 
 //====================================================//
 // クラス宣言
 //====================================================//
 class Scene
 {
-	// friend指定
-	friend ComponentRegister;
-
 private:
 
 	// シーンマネージャーへのポインタ
 	SceneManager* m_pSceneManager;
 
+	// マネージャー管理をするクラス
+	std::unique_ptr<UpdatePipeline> m_updatePipeline;
+
 	// コンポーネント登録システム
 	std::unique_ptr<ComponentRegister> m_componentRegister;
 
-	// 各マネージャーの実体
-	std::unique_ptr<PhysicsManager> m_physicsManager;		// 3D物理
-	std::unique_ptr<PhysicsManager2D> m_physicsManager2D;	// 2D物理
-	std::unique_ptr<CollideEventSystem> m_colEvent;			// 衝突時のイベント
+	// デフォルトで使用する描画ターゲット
+	std::unique_ptr<RenderTarget> m_defaultRenderTarget;
 
-	std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
-	std::unique_ptr<RendererManager> m_rendererManager;	// 描画
-	std::unique_ptr<SoundManager> m_soundManager;		// 音
-	std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
+	// メインスクリーンの描画設定
+	bool m_drawMainScreen;	// 描画するかどうか
 
-	std::unique_ptr<UIManager> m_uiManager;				// UI
+	DirectX::SimpleMath::Vector2 m_startPoint;	// 始点	
+	DirectX::SimpleMath::Vector2 m_scale;		// 拡大率
+
+	// 再生フラグ
+	bool m_play;
 
 public:
 
@@ -82,20 +78,21 @@ public:
 
 	// 初期化処理
 	void BaseInitialize();
-	virtual void Initialize() = 0;
 
 	// 更新処理
 	void BaseUpdate(const GameTimer& gameTimer);
-	virtual void Update(const GameTimer& gameTimer) = 0;
 
 	// 描画処理
 	void BaseRender(Renderer& renderer);
-	virtual void Render(Renderer& renderer) = 0;
+
+	// スクリーン本体への描画処理
+	void BaseRenderOnScreen(Renderer& renderer);
+
+	// RenderContext指定
+	void RenderWithContext(const RenderContext& context, Renderer& renderer);
 
 	// 終了処理
 	void BaseFinalize();
-	virtual void Finalize() = 0;
-
 public:
 
 	// オブジェクトを生成する関数
@@ -109,22 +106,53 @@ public:
 	// コンポーネントの登録を解除する関数
 	void UnRegsisterComponent(ComponentBase* component);
 
-	// 派生クラスへ通知する用
-	virtual void RegisterComponentOnDerived([[maybe_unused]] ComponentBase* component) {};
-	virtual void UnRegisterComponentOnDerived([[maybe_unused]] ComponentBase* component) {};
-
 	// メインカメラをセットする関数
 	void SetMainCamera(CameraBase* camera);
 
 	// メインカメラを取得する関数
 	CameraBase* GetMainCamera() const;
 
+	// メインの描画ターゲットを取得する関数
+	const RenderTarget* GetMainRenderTarget() const { return m_defaultRenderTarget.get(); }
+
 	// RayCast関数
 	bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
+
+	// メインスクリーンの位置を反映したマウス位置
+	DirectX::SimpleMath::Vector2 GetMousePointOnMainScreen();
+
+	// 描画フラグ
+	void SetDrawMainScreen(bool f) { m_drawMainScreen = f; }
+
+	// 再生フラグ
+	void SetPlayFlag(bool f) { m_play = f; }
+
+	// スクリーン設定
+	DirectX::SimpleMath::Vector2 GetMainScreenStartPoint() const { return m_startPoint; }
+	DirectX::SimpleMath::Vector2 GetMainScreenScale() const { return m_scale; }
+
+	void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
+	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
 
 protected:
 
 	// シーンの変更
 	void ChangeScene(const std::string& nextSceneName, std::unique_ptr<Transition::Base> outTrans, std::unique_ptr<Transition::Base> inTrans);
 	void ChangeScene(const std::string& nextSceneName);
+
+	// 二大管理クラスの取得
+	ObjectManager* GetObjectManager() const;
+	UIManager* GetUIManager() const;
+
+private:
+
+	// 派生クラスへ通知する関数
+	virtual void Initialize() = 0;
+	virtual void Update(const GameTimer& gameTimer) = 0;
+	virtual void Render(Renderer& renderer) = 0;
+	virtual void RenderOnScreen(Renderer& renderer) {};
+	virtual void Finalize() = 0;
+
+	virtual void RegisterComponentOnDerived([[maybe_unused]] ComponentBase* component) {};
+	virtual void UnRegisterComponentOnDerived([[maybe_unused]] ComponentBase* component) {};
 };

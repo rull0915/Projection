@@ -408,7 +408,7 @@ public:
 			T* ptr = comp.get();
 
 			// オブジェクトの所属空間と追加コンポーネントの所属空間が同じか調べる
-			if (IsCorrect(comp->GetSpace()))
+			if (IsCorrect(comp->SPACE))
 			{
 				// 配列に追加
 				m_pReservesAdd.push_back(std::move(comp));

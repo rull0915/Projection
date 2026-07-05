@@ -13,33 +13,29 @@
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
 
-#include "Managers/ObjectManager.h"
-#include "Managers/CameraManager.h"
-#include "Managers/Renderer/RendererManager.h"
-#include "Managers/2DManagers/PhysicsManager2D.h"
-#include "Managers/2DManagers/Collider/CollideManager2D.h"
-#include "Managers/3DManagers/PhysicsManager.h"
-#include "Managers/Sounds/SoundManager.h"
-#include "Managers/3DManagers/Collider/CollideManager.h"
+// 各管理クラス
+#include "Scene/UpdatePipeline.h"
 #include "Managers/UI/UIManager.h"
 #include "Managers/3DManagers/Ray/RaySystem.h"
 
-#include "Managers/System/CollideEventSystem.h"
+// システム
+#include "System/ResourceManager.h"
+#include "System/WindowManager.h"
 #include "ComponentRegister.h"
 
 #include "Debug/DebugManager.h"
-#include "Debug/ColliderDebugRenderer.h"
-#include <memory>
-#include <string>
-#include <utility>
+
+// 各コンポーネント
 #include "Components/ComponentBase.h"
 #include "Components/World/Camera/CameraBase.h"
 #include "Components/World/Transform/Transform.h"
+
 #include "GameObject/GameObject.h"
 #include "Renderer/Renderer.h"
 #include "Scene/Transition/TransitionBase.h"
 #include "Timer/GameTimer.h"
 #include "SimpleMath.h"
+#include "Input/MouseInput.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -48,23 +44,25 @@
 // コンストラクタ
 Scene::Scene(SceneManager* pSceneManager)
 	: m_pSceneManager(pSceneManager)
-	, m_componentRegister	{ std::make_unique<ComponentRegister>(this) }
-	, m_physicsManager		{ std::make_unique<PhysicsManager>() }
-	, m_physicsManager2D	{ std::make_unique<PhysicsManager2D>() }
-	, m_colEvent			{ std::make_unique<CollideEventSystem>() }
-	, m_cameraManager		{ std::make_unique<CameraManager>() }
-	, m_rendererManager		{ std::make_unique<RendererManager>() }
-	, m_objectManager		{ std::make_unique<ObjectManager>() }
-	, m_uiManager			{ std::make_unique<UIManager>(this) }
-	, m_soundManager		{ std::make_unique<SoundManager>() }
+	, m_updatePipeline		{ std::make_unique<UpdatePipeline>(this) }
+	, m_componentRegister	{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
+	, m_defaultRenderTarget { std::make_unique<RenderTarget>() }
+	, m_drawMainScreen{ true }
+	, m_startPoint{ 0, 0 }
+	, m_scale{ 1.0f, 1.0f }
+	, m_play{ true }
 {
-	m_cameraManager->Initialize(this);
+	// レンダーターゲットの初期化
+	m_defaultRenderTarget->Create(
+		ResourceManager::Instance().GetResources()->GetD3DDevice(),
+		WindowManager::Instance().GetWidth(),
+		WindowManager::Instance().GetHeight()
+	);
 }
 
 // デストラクタ
 Scene::~Scene()
 {
-
 }
 
 /// <summary>
@@ -73,6 +71,9 @@ Scene::~Scene()
 void Scene::BaseInitialize()
 {
 	Initialize();
+
+	// 初期化
+	m_updatePipeline->Initialize();
 }
 
 void Scene::BaseUpdate(const GameTimer& gameTimer)
@@ -80,42 +81,8 @@ void Scene::BaseUpdate(const GameTimer& gameTimer)
 	// 派生クラスの更新
 	Update(gameTimer);
 
-	// 各オブジェクトの更新
-	m_objectManager->Update(gameTimer);
-
-	// リジッドボディの更新
-	m_physicsManager->Update(gameTimer.GetElapsedTime());
-
-	// 2Dリジッドボディの更新
-	m_physicsManager2D->Update(gameTimer.GetElapsedTime());
-
-	// 衝突判定後の値の更新
-	m_objectManager->AllReflectCache();
-
-	// 衝突後関数の呼び出し
-	m_colEvent->CallCollideFunctions(m_physicsManager->GetHitList());
-	m_colEvent->CallCollideFunctions2D(m_physicsManager2D->GetHitList());
-
-	// 音の更新
-	m_soundManager->Update();
-
-	// 各オブジェクトの遅延更新
-	m_objectManager->LateUpdate(gameTimer);
-
-	// カメラの更新
-	m_cameraManager->Update();
-
-	// 削除予約を消す
-	m_objectManager->RemoveDeadComponent();
-	m_objectManager->RemoveDeadObject();
-
-	// 描画管理クラスの更新
-	m_rendererManager->Update();
-
-	// UIの更新
-	m_uiManager->Update(gameTimer);
-	m_uiManager->LateUpdate(gameTimer);
-	m_uiManager->RemoveObjects();
+	// 各管理クラスの更新
+	if (m_play) m_updatePipeline->Update(gameTimer);
 }
 
 /// <summary>
@@ -124,46 +91,92 @@ void Scene::BaseUpdate(const GameTimer& gameTimer)
 /// <param name="renderer"></param>
 void Scene::BaseRender(Renderer& renderer)
 {
-	// メインカメラの行列を適用
-	renderer.SetView(m_cameraManager->GetView());
-	renderer.SetProjection(m_cameraManager->GetProj());
-
-	// 描画管理クラスの描画処理
-	m_rendererManager->DrawAll(renderer);
+	// メインカメラの描画
+	RenderWithContext(
+		{ GetMainCamera(), m_defaultRenderTarget.get(), WindowManager::Instance().GetBackGroundColor(),
+			DrawFlag::World | 
+			DrawFlag::UI | 
+			DrawFlag::ColliderDebug | 
+			DrawFlag::RectDebug
+		},
+		renderer
+	);
 
 	// 派生クラスの描画処理
 	Render(renderer);
+}
 
-	// 
-	static const int color = 0x00FF00;
-
-	// コライダーのデバッグ描画
-	if (DebugManager::Instance().IsDrawColliderDebug())
+void Scene::BaseRenderOnScreen(Renderer& renderer)
+{
+	if (m_drawMainScreen)
 	{
-		// 3Dコライダー
-		ColliderDebugRenderer::DebugDrawColliders(
-			m_physicsManager->GetCollideManager()->GetAllColliders(),
-			renderer, color, DebugManager::Instance().IsDrawColliderDebugAABB()
-		);
-
-		// 2Dコライダー
-		ColliderDebugRenderer2D::DebugDrawColliders(
-			m_physicsManager2D->GetCollideManager()->GetAllColliders(),
-			renderer, color, DebugManager::Instance().IsDrawColliderDebugAABB()
-		);
+		// 描画
+		renderer.Draw().Sprite()
+			.Extend(m_scale)
+			.Execute(m_defaultRenderTarget->GetShaderResourceView(), m_startPoint);
 	}
 
+	// 派生クラスの描画
+	RenderOnScreen(renderer);
+}
+
+void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
+{
+	auto* deviceContext = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+
+	// 描画を開始
+	context.target->Begin(deviceContext);
+
+	// クリア
+	context.target->Clear(deviceContext, context.back);
+
+	// Renderの開始
+	renderer.Start(deviceContext);
+
+	// 各行列の設定
+	if (context.camera)
+	{
+		renderer.SetView(context.camera->GetView());
+		renderer.SetProjection(context.camera->GetProj());
+	}
+
+	// Worldの描画
+	if (context.flags & DrawFlag::World)
+	{
+		// 描画管理クラスの描画処理
+		m_updatePipeline->DrawWorld(renderer);
+	}
+
+	// 色 (緑)
+	static const DirectX::SimpleMath::Color color = { 0, 1, 0, 1 };
+
+	// コライダーのデバッグ描画
+	if (context.flags & DrawFlag::ColliderDebug && DebugManager::Instance().IsDrawColliderDebug())
+	{
+		m_updatePipeline->DrawColliders(renderer, color);
+	}
+
+	// 行列のリセット
 	renderer.SetView(DirectX::SimpleMath::Matrix::Identity);
 	renderer.SetProjection(DirectX::SimpleMath::Matrix::Identity);
 
 	// UIの描画
-	m_uiManager->Draw(renderer);
-
-	// Rectのデバッグ描画
-	if (DebugManager::Instance().IsDrawRectTransform())
+	if (context.flags & DrawFlag::UI)
 	{
-		m_uiManager->DebugDraw(renderer, color);
+		m_updatePipeline->DrawUI(renderer);
 	}
+
+	// RectTransformのデバッグ描画
+	if (context.flags & DrawFlag::RectDebug && DebugManager::Instance().IsDrawRectTransform())
+	{
+		m_updatePipeline->DrawRects(renderer, color);
+	}
+
+	// Rendererの終了
+	renderer.End();
+
+	// 描画の終了
+	context.target->End(deviceContext);
 }
 
 /// <summary>
@@ -172,22 +185,6 @@ void Scene::BaseRender(Renderer& renderer)
 void Scene::BaseFinalize()
 {
 	Finalize();
-
-	// オブジェクトのリセット
-	m_objectManager->Finalize();
-	
-	// 各マネージャーから全削除
-	m_rendererManager->RemoveReserved();
-	m_physicsManager->RemoveReserved();
-	m_physicsManager->GetCollideManager()->RemoveReserved();
-	
-	m_physicsManager2D->RemoveReserved();
-	m_physicsManager2D->GetCollideManager()->RemoveReserved();
-
-	m_colEvent->ResetEvent();
-
-	m_uiManager->Finalize();
-	m_uiManager->Reset();
 }
 
 GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)
@@ -199,7 +196,7 @@ GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)
 	pObj->SetScene(this);
 
 	// オブジェクト管理クラスに追加
-	m_objectManager->AddObject(pObj);
+	m_updatePipeline->GetObjectManager()->AddObject(pObj);
 
 	// Transformを追加
 	pObj->AddComponent<Transform>();
@@ -213,7 +210,7 @@ GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)
 
 Canvas* Scene::GenerateCanvas()
 {
-	return m_uiManager->CreateCanvas();
+	return m_updatePipeline->GetUIManager()->CreateCanvas();
 }
 
 void Scene::RegisterComponent(ComponentBase* component)
@@ -237,13 +234,13 @@ void Scene::UnRegsisterComponent(ComponentBase * component)
 // メインカメラ設定関数
 void Scene::SetMainCamera(CameraBase* camera)
 {
-	m_cameraManager->SetMainCamera(camera);
+	m_updatePipeline->GetCameraManager()->SetMainCamera(camera);
 }
 
 // メインカメラ取得関数
 CameraBase* Scene::GetMainCamera() const
 {
-	return m_cameraManager->GetMainCamera();
+	return m_updatePipeline->GetCameraManager()->GetMainCamera();
 }
 
 // Rayの衝突を調べる
@@ -251,18 +248,34 @@ bool Scene::RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask)
 {
 	return 
 		RaySystem::RayCast(
-		m_physicsManager->GetCollideManager()->GetAllColliders(),
+		m_updatePipeline->GetPhysicsManager()->GetCollideManager()->GetAllColliders(),
 		ray, max, hit, layerMask
 	);
 }
 
+DirectX::SimpleMath::Vector2 Scene::GetMousePointOnMainScreen()
+{
+	return (Input::Mouse::GetScaledMousePoint() - m_startPoint) / m_scale;
+}
+
+// シーンの変更
 void Scene::ChangeScene(const std::string& nextSceneName, std::unique_ptr<Transition::Base> outTrans, std::unique_ptr<Transition::Base> inTrans)
 {
 	m_pSceneManager->RequestSceneChange(nextSceneName, std::move(outTrans), std::move(inTrans));
 }
 
-// シーンの変更
+// シーンの変更（演出なし）
 void Scene::ChangeScene(const std::string& nextSceneName)
 {
 	m_pSceneManager->RequestSceneChange(nextSceneName);
+}
+
+ObjectManager* Scene::GetObjectManager() const
+{
+	return m_updatePipeline->GetObjectManager();
+}
+
+UIManager* Scene::GetUIManager() const
+{
+	return m_updatePipeline->GetUIManager();
 }

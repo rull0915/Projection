@@ -16,7 +16,8 @@
 // 関数の実体宣言
 //====================================================//
 
-void ComponentFactory::Register(const std::string& name, CreateFunc func)
+
+void ComponentFactory::Register(const std::string& name, ComponentSpace space, CreateFunc func)
 {
 	// イテレータを取得
 	auto it = m_creatorMap.find(name);
@@ -29,7 +30,7 @@ void ComponentFactory::Register(const std::string& name, CreateFunc func)
 	}
 
 	// 新規のキーなら追加
-	m_creatorMap.insert({ name, func });
+	m_creatorMap.insert({ name, { space, func} });
 }
 
 ComponentBase* ComponentFactory::Create(const std::string & name, GameObject * owner)
@@ -45,5 +46,5 @@ ComponentBase* ComponentFactory::Create(const std::string & name, GameObject * o
 	}
 
 	// あれば実行
-	return it->second(owner);
+	return it->second.second(owner);
 }

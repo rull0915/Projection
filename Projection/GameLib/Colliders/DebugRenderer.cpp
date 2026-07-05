@@ -21,7 +21,7 @@
 
 namespace DrawCollider2D
 {
-	void DrawCollider2D::DrawCollider_Convex(ColliderBase2D* collider, Renderer& renderer, int color)
+	void DrawCollider2D::DrawCollider_Convex(ColliderBase2D* collider, Renderer& renderer, DirectX::SimpleMath::Color color)
 	{
 		ConvexPolygonCollider2D* convex = static_cast<ConvexPolygonCollider2D*>(collider);
 

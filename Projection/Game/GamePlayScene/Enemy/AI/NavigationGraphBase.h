@@ -88,7 +88,7 @@ public:
 	// デバッグ描画
 	virtual void DebugDraw(Renderer& renderer) = 0;
 
-	virtual void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, int color = 0x00FF00) = 0;
+	virtual void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, DirectX::SimpleMath::Color color = { 0, 1, 0, 0 }) = 0;
 
 	//-----------------------------------------------------
 	// ゲッター

@@ -133,7 +133,7 @@ public:
 
 	// 描画を確定する関数
 	template <typename = std::enable_if_t<HasRect>> // Rectを指定している場合
-	void Execute(ID3D11ShaderResourceView* texture, int color = 0xFFFFFF)
+	void Execute(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Color color = { 1, 1, 1, 1 })
 	{
 		// Originを考慮して中心を計算
 		DirectX::SimpleMath::Vector2 center = m_min + (m_max - m_min) * m_origin;
@@ -160,7 +160,7 @@ public:
 		);
 	}
 	template <typename = std::enable_if_t<!HasRect>> // Rectを指定していない場合
-	void Execute(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 position, int color = 0xFFFFFF)
+	void Execute(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 position, DirectX::SimpleMath::Color color = { 1, 1, 1, 1 })
 	{
 		if constexpr (HasOrigin)
 		{

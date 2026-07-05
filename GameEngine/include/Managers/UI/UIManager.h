@@ -15,7 +15,6 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <algorithm>
 #include <memory>
 #include <vector>
 
@@ -71,6 +70,9 @@ public:
 
 	void Finalize();
 
+	// マウスとの衝突を調べる関数
+	void CheckHitRay(DirectX::SimpleMath::Vector2 position);
+
 	// キャンバスを生成する関数
 	Canvas* CreateCanvas();
 
@@ -78,8 +80,9 @@ public:
 	void RemoveObjects();
 
 	// デバッグ描画関数
-	void DebugDraw(Renderer& renderer, int color);
+	void DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color);
 
+	// リセット
 	void Reset()
 	{
 		m_reserveCanvases.clear();
@@ -87,6 +90,9 @@ public:
 
 		m_needSort = true;
 	}
+
+	// 全キャンバスを取得する関数
+	std::vector<std::unique_ptr<Canvas>>& GetAllCanvas() { return m_canvases; }
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -106,8 +112,6 @@ private:
 	//-----------------------------------------------------
 	// 内部実装
 	//-----------------------------------------------------
-
-	void CheckHitRay(DirectX::SimpleMath::Vector2 position);
 
 	// キャンバスの並び順をソートする関数
 	void SortCanvas();
