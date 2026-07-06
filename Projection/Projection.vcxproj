@@ -212,6 +212,10 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Game\EditScene\TestPlayScene.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameInitializer.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.h">
@@ -275,6 +279,10 @@ $(ProjectDir)
     <ClCompile Include="GameLib\Math\GameMath.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\EditScene\EditScene.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\EditScene\TestPlayScene.cpp">
       <SubType>
       </SubType>
     </ClCompile>

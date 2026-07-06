@@ -21,10 +21,11 @@
 #include "Input/MouseInput.h"			// マウス
 
 // 各シーン
+#include "EditScene/TestPlayScene.h"
+#include "EditScene/EditScene.h"
+
 #include "GamePlayScene/GamePlayScene.h"
 #include "TitleScene/TitleScene.h"
-
-#include "EditScene/EditScene.h"
 
 // その他
 #include "Common/Random.h"
@@ -85,9 +86,11 @@ void Game::Initialize(HWND window, int width, int height)
 	WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
 
 	// ====== シーンの登録 ====== //
+	m_sceneManager.RegisterScene("Edit", std::make_unique<EditScene>(this));
+	m_sceneManager.RegisterScene("TestPlay", std::make_unique<TestPlayScene>(this));
+
 	m_sceneManager.RegisterScene("GamePlay", std::make_unique<GamePlayScene>(this));
 	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
-	m_sceneManager.RegisterScene("Edit", std::make_unique<EditScene>(this));
 
 	// 開始時のシーンを設定
 	m_sceneManager.SetStartScene("Edit");

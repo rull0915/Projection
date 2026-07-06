@@ -20,6 +20,7 @@
 #include "System/WindowManager.h"
 
 #include "Saver/ObjectSaver.h"
+#include "Loader/ObjectLoader.h"
 #include "Input/KeyInput.h"
 
 //====================================================//
@@ -69,22 +70,8 @@ void EditScene::Initialize()
 	// カメラの追加
 	m_sceneViewCamera = game->AddComponent<StandardCamera>();
 
-	// オブジェクトの追加
-	// カメラ
-	m_camera = Generate({ 0, 0, 10 });
-	m_camera->SetName("Camera");
-
-	// メインカメラに設定
-	auto cameraComponent = m_camera->AddComponent<StandardCamera>();
-	SetMainCamera(cameraComponent);
-
-	auto test = Generate();
-	test->SetName("Child");
-	test->GetComponent<Transform>()->SetParent(m_camera->GetComponent<Transform>());
-
-	m_testObject = Generate({ 0, 0, 0 });
-	m_testObject->AddComponent<BoxCollider>();
-	m_testObject->AddComponent<ModelComponent>()->SetModel("Cube");
+	// テストロード
+	ObjectLoader::LoadSceneFromFile(L"Resources/Scenes/TestPlayScene.scene", this);
 }
 
 // 更新関数
@@ -98,12 +85,16 @@ void EditScene::Update(const GameTimer& gameTimer)
 	// 2つのビューを描画
 	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), GetMainRenderTarget()->GetShaderResourceView());
 
-	// Ctrl + S で保存
+	// Ctrl + P でテストプレイ
 	if (
 		Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
-		Input::Key::Get(Input::State::Down, Input::Key::Code::S))
+		Input::Key::Get(Input::State::Down, Input::Key::Code::P))
 	{
-		ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestScene.scene", this);
+		// 保存
+		ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", this);
+
+		// シーン変更
+		ChangeScene("TestPlay");
 	}
 }
 

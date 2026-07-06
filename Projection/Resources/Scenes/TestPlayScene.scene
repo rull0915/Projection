@@ -305,6 +305,25 @@
                             "m_modelName": "Cube"
                         },
                         "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
                     }
                 ],
                 "m_name": "Cube1",
@@ -383,6 +402,72 @@
                     }
                 ],
                 "m_name": "Parent",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                3.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": false,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": true
+                        },
+                        "Type": "RigidBody"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    }
+                ],
+                "m_name": "Rigid",
                 "m_tag": ""
             }
         ]
