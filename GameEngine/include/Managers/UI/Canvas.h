@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "GameObject/GameObject.h"
+#include "Common/PropertyObject.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
 //====================================================//
@@ -26,14 +27,9 @@ class Scene;
 //====================================================//
 // クラス宣言
 //====================================================//
-class Canvas
+class Canvas : public PropertyObject
 {
 private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
 
 	//-----------------------------------------------------
 	// メンバ変数
@@ -41,6 +37,9 @@ private:
 
 	// アクティブフラグ
 	bool m_isActive;
+
+	// 名前
+	std::string m_canvasName;
 
 	// 描画順
 	int m_drawOrder;
@@ -110,6 +109,9 @@ public:
 
 	// ルートオブジェクト
 	GameObject* GetRootObject() const { return m_rootObject.get(); }
+
+	// キャンバス名
+	const std::string GetName() const { return m_canvasName; }
 	
 	//-----------------------------------------------------
 	// セッター
@@ -119,6 +121,8 @@ public:
 
 	void SetIsActive(bool f) { m_isActive = f; }
 
+	// キャンバス名
+	void SetCanvasName(const std::string& name) { m_canvasName = name; }
 	
 	// Destroyのオブジェクトを削除する関数
 	void RemoveReserves()

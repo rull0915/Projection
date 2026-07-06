@@ -40,30 +40,6 @@ AudioSource::AudioSource(IComponentOwner* own)
 	ADD_PROPERTY(m_use3DAudio);
 }
 
-void AudioSource::Load(const std::string& key, bool use3D)
-{
-	// 音読み込み
-	m_soundEffect = ResourceManager::Instance().GetSound(key);
-
-	m_use3DAudio = use3D;
-
-	// キー名保存
-	m_soundName = key;
-
-	// インスタンス作成
-
-	// 3Dを使用するなら
-	if (use3D)
-	{
-		m_soundInstance = m_soundEffect->CreateInstance(DirectX::SoundEffectInstance_Use3D);
-	}
-	// 使わないなら
-	else
-	{
-		m_soundInstance = m_soundEffect->CreateInstance();
-	}
-}
-
 // 最初のUpdate関数の直線に一度呼ばれます
 void AudioSource::Start()
 {
@@ -100,4 +76,20 @@ void AudioSource::Play() const
 
 void AudioSource::Stop() const
 {
+}
+
+void AudioSource::ReflectLoading()
+{
+	// インスタンス作成
+
+	// 3Dを使用するなら
+	if (m_use3DAudio)
+	{
+		m_soundInstance = m_soundEffect->CreateInstance(DirectX::SoundEffectInstance_Use3D);
+	}
+	// 使わないなら
+	else
+	{
+		m_soundInstance = m_soundEffect->CreateInstance();
+	}
 }

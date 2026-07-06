@@ -42,19 +42,19 @@ void TextUI::Draw(Renderer& renderer)
 	renderer.SetAlpha(GetAlpha());
 
 	// 描画位置を算出
-	DirectX::SimpleMath::Vector2 ratio = Origin::GetPosition(m_origin);
-
 	DirectX::SimpleMath::Vector2 drawPos =
 		transform->GetLUPixelPos() +
-		transform->GetRight() * size.x * scale.x * ratio.x +
-		transform->GetUp() * size.y * scale.y * ratio.y;
+		transform->GetRight() * size.x * scale.x * m_origin.x +
+		transform->GetUp() * size.y * scale.y * m_origin.y;
+
+	std::wstring s{ m_text.begin(), m_text.end() };
 
 	// 描画
 	renderer.Draw().Text().
 		Rotate(transform->GetWorldRotation()).						// 回転
 		Extend(scale * fontScale).									// 拡大縮小
-		Origin(ratio).
-		Execute(m_pFont, m_text.c_str(), drawPos, 
+		Origin(m_origin).
+		Execute(m_pFont, s.c_str(), drawPos, 
 			GetColor() * GetMulColor());		// 描画呼び出し
 
 	// 描画後はアルファを元に戻す

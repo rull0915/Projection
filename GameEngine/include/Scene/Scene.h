@@ -134,15 +134,15 @@ public:
 	void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
 	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
 
+	// 二大管理クラスの取得
+	ObjectManager* GetObjectManager() const;
+	UIManager* GetUIManager() const;
+
 protected:
 
 	// シーンの変更
 	void ChangeScene(const std::string& nextSceneName, std::unique_ptr<Transition::Base> outTrans, std::unique_ptr<Transition::Base> inTrans);
 	void ChangeScene(const std::string& nextSceneName);
-
-	// 二大管理クラスの取得
-	ObjectManager* GetObjectManager() const;
-	UIManager* GetUIManager() const;
 
 private:
 

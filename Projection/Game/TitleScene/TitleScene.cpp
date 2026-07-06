@@ -54,7 +54,7 @@ void TitleScene::Initialize()
 	auto cameraComponent = m_camera->AddComponent<StandardCamera>();
 	SetMainCamera(cameraComponent);
 
-	m_camera->AddComponent<SkyboxComponent>()->Load("Skybox");
+	m_camera->AddComponent<SkyboxComponent>()->SetTexture("Skybox");
 
 	// キャンバスの生成
 	m_canvas = GenerateCanvas();
@@ -66,15 +66,15 @@ void TitleScene::Initialize()
 
 		// 画像コンポーネントの追加
 		auto i = ui->AddComponent<ImageUI>();
-		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
+		i->SetTexture("Default");	// 描画する画像の設定	
 		i->SetColor({ 0.45, 0.45, 0.45 });												// 色の設定	
 
 		// テキストコンポーネントの追加	
 		auto t = ui->AddComponent<TextUI>();
-		t->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));	// 使うフォントの設定	
+		t->SetFont("Default");	// 使うフォントの設定	
 		t->SetFontSize(24);													// フォントサイズの設定	
-		t->SetText(L"ToPlayScene");											// 文字列の設定	
-		t->SetOrigin(Origin::Type::Center);									// 原点を設定
+		t->SetText("ToPlayScene");											// 文字列の設定	
+		t->SetOrigin({ 0, 0 });									// 原点を設定
 
 		// Rectの設定変更	
 		auto r = ui->GetComponent<RectTransform>();
@@ -100,15 +100,15 @@ void TitleScene::Initialize()
 
 		// 画像コンポーネントの追加
 		auto i = ui->AddComponent<ImageUI>();
-		i->SetTexture(ResourceManager::Instance().GetTexture("Default"));	// 描画する画像の設定	
+		i->SetTexture("Default");	// 描画する画像の設定	
 		i->SetColor({ 0.7, 0.3, 0.3 });												// 色の設定	
 
 		// テキストコンポーネントの追加	
 		auto t = ui->AddComponent<TextUI>();
-		t->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));	// 使うフォントの設定	
+		t->SetFont("Default");	// 使うフォントの設定	
 		t->SetFontSize(96);													// フォントサイズの設定	
-		t->SetText(L"Projection");											// 文字列の設定	
-		t->SetOrigin(Origin::Type::Center);	
+		t->SetText("Projection");											// 文字列の設定	
+		t->SetOrigin({ 0, 0 });
 		t->SetColor({ 0, 0, 0 });
 		
 		// Rectの設定変更	

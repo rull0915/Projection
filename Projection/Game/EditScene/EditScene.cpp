@@ -19,6 +19,9 @@
 #include "System/ResourceManager.h"
 #include "System/WindowManager.h"
 
+#include "Saver/ObjectSaver.h"
+#include "Input/KeyInput.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -35,6 +38,15 @@ EditScene::EditScene(Game* pGame)
 {
 	// メインスクリーンを描画しない設定に
 	SetDrawMainScreen(false);
+
+	// 再生しない設定に
+	SetPlayFlag(false);
+
+	// メインスクリーンの場所を設定
+	SetMainScreenStartPoint({});
+
+	// サイズ
+	SetMainScreenScale({ 0.45f, 0.45f });
 }
 
 EditScene::~EditScene()
@@ -80,37 +92,19 @@ void EditScene::Update(const GameTimer& gameTimer)
 {
 	gameTimer;
 
-	// ヒエラルキーの描画を開始
-	m_gui.StartHierarchy();
+	// 3つのウィンドウを描画
+	m_gui.DrawWindows();
 
-	// World空間のオブジェクト
-	m_gui.DrawObjects(GetObjectManager());
+	// 2つのビューを描画
+	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), GetMainRenderTarget()->GetShaderResourceView());
 
-	// UI空間のオブジェクト
-	m_gui.DrawObjects(GetUIManager());
-
-	m_gui.EndWindow();
-
-	// インスペクターの描画を開始
-	m_gui.StartInspector();
-
-	m_gui.DrawGameObjectOnInspector(m_gui.GetSelected());
-
-	m_gui.EndWindow();
-
-	// シーンビューの描画を開始
-	m_gui.StartSceneView();
-
-	m_gui.DrawImage(m_sceneView->GetShaderResourceView(), {576, 324});
-
-	m_gui.EndWindow();
-
-	// ゲームビューの描画を開始
-	m_gui.StartGameView();
-
-	m_gui.DrawImage(GetMainRenderTarget()->GetShaderResourceView(), { 576, 324 });
-
-	m_gui.EndWindow();
+	// Ctrl + S で保存
+	if (
+		Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
+		Input::Key::Get(Input::State::Down, Input::Key::Code::S))
+	{
+		ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestScene.scene", this);
+	}
 }
 
 // 描画関数

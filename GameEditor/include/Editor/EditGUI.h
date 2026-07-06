@@ -21,6 +21,10 @@
 
 class Scene;
 
+class HierarchyWindow;
+class InspectorWindow;
+class ProjectWindow;
+
 //====================================================//
 // クラス宣言
 //====================================================//
@@ -40,61 +44,27 @@ private:
 	// 所属先のシーン
 	Scene* m_pScene;
 
-	// 選択中のゲームオブジェクト
-	GameObject* m_selected;
+	std::unique_ptr<HierarchyWindow> m_hierarchy;	// ヒエラルキーウィンドウ
+	std::unique_ptr<InspectorWindow> m_inspector;	// インスペクターウィンドウ
+	std::unique_ptr<ProjectWindow> m_project;		// プロジェクトウィンドウ
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	EditGUI(Scene* pScene)
-		: m_pScene{ pScene }
-		, m_selected{ nullptr }
-	{};
-	~EditGUI() = default;
+	EditGUI(Scene* pScene);
+	~EditGUI();
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+	// ウィンドウの描画をする関数
+	void DrawWindows();
 
-	// ObjectManagerから全Objectを描画する
-	void DrawObjects(ObjectManager* objectManager);
-
-	// UIManagerから全Objectを描画する
-	void DrawObjects(UIManager* UIManager);
-
-	// GameObjectの情報をInspectorに表示する関数
-	void DrawGameObjectOnInspector(GameObject* object);
-
-	// 画像の表示
-	void DrawImage(ID3D11ShaderResourceView* img, DirectX::SimpleMath::Vector2 position);
-
-	// ヒエラルキー描画の開始
-	void StartHierarchy();
-
-	// インスペクター描画の開始
-	void StartInspector();
-
-	// シーンビュー描画の開始
-	void StartSceneView();
-
-	// ゲームビュー描画の開始
-	void StartGameView();
-	
-	// ウィンドウの終了
-	void EndWindow();
-
-	// 選択中のオブジェクトを返す関数
-	GameObject* GetSelected() const { return m_selected; }
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+	// ビューの描画をする関数
+	void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView);
 
 private:
 
@@ -102,18 +72,12 @@ private:
 	// 内部実装
 	//-----------------------------------------------------
 
-	// GameObjectの表示関数
-	void DrawGameObject(GameObject* object);
+	// 画像の表示
+	void DrawImage(ID3D11ShaderResourceView* img, DirectX::SimpleMath::Vector2 position);
 
-	// Canvasの表示関数
-	void DrawCanvas(Canvas* canvas);
+	// シーンビュー描画の開始
+	void StartSceneView();
 
-	// プロパティを一つ表示する関数
-	bool DrawProperty(const Property* property);
-
-	// コンポーネントの追加を表示する関数
-	void DrawAddComponent(GameObject* object);
-
-	// 値が変更されていた時の処理
-	void OnChanged(ComponentBase* component);
+	// ゲームビュー描画の開始
+	void StartGameView();
 };

@@ -111,7 +111,12 @@ void ObjectManager::AllDestroy()
 	// 管理リストを全て調べる
 	for (auto& obj : m_objects)
 	{
-		obj->Destroy();
+		// 削除可能なら
+		if (!obj->IsInvincible())
+		{
+			// 削除
+			obj->Destroy();
+		}
 	}
 }
 

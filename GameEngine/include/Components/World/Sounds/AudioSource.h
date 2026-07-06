@@ -20,6 +20,7 @@
 
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
+#include "Components/Interface/IResourceReader.h"
 
 //====================================================//
 // 前方宣言
@@ -29,7 +30,7 @@ class Gam;
 //====================================================//
 // クラス宣言
 //====================================================//
-class AudioSource : public WorldComponentBase
+class AudioSource : public WorldComponentBase, public IResourceReader
 {
 private:
 
@@ -77,7 +78,14 @@ public:
 	//-----------------------------------------------------
 
 	// オーディオ読み込み関数
-	void Load(const std::string& key, bool use3D = false);
+	void Load(const std::string& key, bool use3D = false)
+	{
+		m_soundName = key;
+		m_use3DAudio = use3D;
+
+		LoadResource();
+		ReflectLoading();
+	}
 
 	void Start() override;
 
@@ -161,10 +169,18 @@ public:
 	// 3Dオーディオ
 	void SetUse3D(bool f) { m_use3DAudio = f; }
 
+	// ---------- リソース関連 ---------- //
+
+	// 読み込みを反映する
+	void ReflectLoading() override;
+	
 private:
+	// リソースタイプ
+	Type GetType() const override { return Type::Sound; }
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+	// キー名
+	const std::string& GetKeyName() const override { return m_soundName; }
 
+	// リソースポインタポインタ
+	void** GetMyResource() const override { return (void**) &m_soundEffect; }
 };

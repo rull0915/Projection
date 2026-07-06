@@ -70,12 +70,16 @@ void GamePlayScene::Initialize()
 	m_enemyManager.Initialize();
 
 	//======== オブジェクトの追加 ========//
+
+	m_birdCamera = Generate({ 0, 20, 0 });
+	m_birdCamera->AddComponent<StandardCamera>();
+	m_birdCamera->GetComponent<Transform>()->SetLocalEulerAngle({ DirectX::XMConvertToRadians(-90), 0, 0 });
+	 
 	// カメラ
 	m_camera = Generate();
 
 	// メインカメラに設定
 	auto cameraComponent = m_camera->AddComponent<ProjectionSmoothCamera>();
-	SetMainCamera(cameraComponent);
 
 	// リスナーに設定
 
@@ -89,9 +93,9 @@ void GamePlayScene::Initialize()
 
 	// カメラのターゲットに設定
 	m_camera->AddComponent<TPSCamera>()->SetTarget(m_player->GetComponent<Transform>());
-	m_player->AddComponent<SkyboxComponent>()->Load("Skybox");
+	m_player->AddComponent<SkyboxComponent>()->SetTexture("Skybox");
 
-	ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
+	// ObjectSaver::SaveToFile(L"Resources/Objects/Player.gameobject", m_player);
 
 	// 敵を生成
 	m_enemy = Generate();
@@ -122,10 +126,6 @@ void GamePlayScene::Initialize()
 			ChangeScene("Title");
 		}
 	);
-
-	m_birdCamera = Generate({ 0, 20, 0 });
-	m_birdCamera->AddComponent<StandardCamera>();
-	m_birdCamera->GetComponent<Transform>()->SetLocalEulerAngle({ DirectX::XMConvertToRadians(-90), 0, 0 });
 }
 
 // 更新関数

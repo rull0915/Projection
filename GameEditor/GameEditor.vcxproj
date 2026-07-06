@@ -159,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="include\Editor\ImguiManager.h" />
     <ClInclude Include="include\Editor\EditGUI.h" />
+    <ClInclude Include="src\Editor\HierarchyWindow.h" />
+    <ClInclude Include="src\Editor\InspectorWindow.h" />
+    <ClInclude Include="src\Editor\ProjectWindow.h" />
     <ClInclude Include="src\Editor\SceneCamera.h" />
     <ClInclude Include="src\framework.h" />
     <ClInclude Include="include\Loader\ComponentFactory.h" />
@@ -178,7 +181,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor\EditGUI.cpp" />
+    <ClCompile Include="src\Editor\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\ImguiManager.cpp" />
+    <ClCompile Include="src\Editor\InspectorWindow.cpp" />
+    <ClCompile Include="src\Editor\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\SceneCamera.cpp" />
     <ClCompile Include="src\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Loader\ObjectLoader.cpp" />

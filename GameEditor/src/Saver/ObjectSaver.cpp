@@ -10,13 +10,19 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
+#include <filesystem>
+#include <fstream>
+
 #include "Saver/ObjectSaver.h"
 
 #include "GameObject/GameObject.h"
 #include "Common/ClassNameGetter.h"
 
-#include <fstream>
-#include <filesystem>
+#include "Managers/ObjectManager.h"
+#include "Managers/UI/UIManager.h"
+
+#include "Scene/Scene.h"
+
 
 //====================================================//
 // 関数の実体宣言
@@ -108,7 +114,65 @@ json ObjectSaver::SaveObject(const GameObject* obj)
 	return j;
 }
 
-void ObjectSaver::SaveToFile(const std::wstring& filePath, GameObject* obj)
+nlohmann::json ObjectSaver::SaveCanvas(const Canvas* canvas)
+{
+	json j;
+
+	// GameObject部分を保存
+	SaveProperty(*canvas);
+
+	// ゲームオブジェクトを全て調べる
+	for (auto& object : canvas->GetAllObjects())
+	{
+		// 追加
+		j["GameObjects"].push_back(SaveObject(object.get()));
+	}
+
+	return j;
+}
+
+nlohmann::json ObjectSaver::SaveObjectManager(const ObjectManager* objManager)
+{
+	json j;
+
+	// 保存
+	for (auto& object : objManager->GetAllObject())
+	{
+		if (!object->IsInvincible())
+		{
+			// jsonを追加
+			j["GameObjects"].push_back(SaveObject(object.get()));
+		}
+	}
+
+	return j;
+}
+
+nlohmann::json ObjectSaver::SaveUIManager(const UIManager* uiManager)
+{
+	json j;
+
+	// 全キャンバスを取得
+	for (auto& canvas : uiManager->GetAllCanvas())
+	{
+		// 追加
+		j["Canvaces"].push_back(SaveCanvas(canvas.get()));
+	}
+
+	return j;
+}
+
+nlohmann::json ObjectSaver::SaveScene(const Scene* scene)
+{
+	json j;
+	
+	j["World"] = SaveObjectManager(scene->GetObjectManager());
+	j["UI"] = SaveUIManager(scene->GetUIManager());
+
+	return j;
+}
+
+void ObjectSaver::SaveObjectToFile(const std::wstring& filePath, GameObject* obj)
 {
 	std::ofstream ofs(std::filesystem::path(filePath).c_str());
 
@@ -117,6 +181,21 @@ void ObjectSaver::SaveToFile(const std::wstring& filePath, GameObject* obj)
 	{
 		// パス
 		ofs << SaveObject(obj).dump(4);
+	}
+
+	// 閉じる
+	ofs.close();
+}
+
+void ObjectSaver::SaveSceneToFile(const std::wstring& filePath, Scene* scene)
+{
+	std::ofstream ofs(std::filesystem::path(filePath).c_str());
+
+	// 開けていたら
+	if (ofs.is_open())
+	{
+		// パス
+		ofs << SaveScene(scene).dump(4);
 	}
 
 	// 閉じる

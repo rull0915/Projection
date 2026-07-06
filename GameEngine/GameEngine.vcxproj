@@ -151,6 +151,7 @@ $(ProjectDir)ThirdParty;
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Interface\IResourceReader.cpp" />
     <ClCompile Include="src\Components\World\Camera\CameraBase.cpp" />
     <ClCompile Include="src\Components\World\Camera\Derived\StandardCamera.cpp" />
     <ClCompile Include="src\Components\World\Camera\Derived\TargetCamera.cpp" />
@@ -303,6 +304,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
+    <ClInclude Include="include\Components\Interface\IResourceReader.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
     <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />

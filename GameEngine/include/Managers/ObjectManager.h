@@ -89,7 +89,7 @@ public:
 	void RemoveDeadObject();
 
 	// 全オブジェクトを取得する関数
-	const std::vector<std::unique_ptr<GameObject>>& GetAllAbject() const
+	const std::vector<std::unique_ptr<GameObject>>& GetAllObject() const
 	{
 		return m_objects;
 	}

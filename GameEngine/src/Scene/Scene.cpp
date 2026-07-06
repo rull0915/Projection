@@ -58,6 +58,9 @@ Scene::Scene(SceneManager* pSceneManager)
 		WindowManager::Instance().GetWidth(),
 		WindowManager::Instance().GetHeight()
 	);
+
+	// 初期化
+	m_updatePipeline->Initialize();
 }
 
 // デストラクタ
@@ -71,9 +74,6 @@ Scene::~Scene()
 void Scene::BaseInitialize()
 {
 	Initialize();
-
-	// 初期化
-	m_updatePipeline->Initialize();
 }
 
 void Scene::BaseUpdate(const GameTimer& gameTimer)
@@ -82,7 +82,7 @@ void Scene::BaseUpdate(const GameTimer& gameTimer)
 	Update(gameTimer);
 
 	// 各管理クラスの更新
-	if (m_play) m_updatePipeline->Update(gameTimer);
+	m_updatePipeline->Update(gameTimer, m_play);
 }
 
 /// <summary>
@@ -185,6 +185,8 @@ void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
 void Scene::BaseFinalize()
 {
 	Finalize();
+
+	m_updatePipeline->Finalize();
 }
 
 GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)

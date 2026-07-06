@@ -60,6 +60,7 @@ protected:
 	PropertyObject()
 		: m_propaties{}
 	{}
+	virtual ~PropertyObject() = default;
 
 public:
 	// プロパティを取得する関数

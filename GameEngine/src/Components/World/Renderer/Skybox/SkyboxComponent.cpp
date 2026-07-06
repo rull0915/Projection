@@ -27,6 +27,7 @@ SkyboxComponent::SkyboxComponent(IComponentOwner* own)
 	, m_effect{}
 	, m_skyInputLayout{ nullptr }
 	, m_keyName{}
+	, m_texture{ nullptr }
 {
 	ADD_PROPERTY(m_keyName);
 }
@@ -34,6 +35,22 @@ SkyboxComponent::SkyboxComponent(IComponentOwner* own)
 // 生成直後に一度呼ばれます
 void SkyboxComponent::Awake()
 {
+	// デバイスを取得
+	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
+
+	// コンテキストを取得
+	auto context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+
+	// 球体を作成
+	m_sky = DirectX::GeometricPrimitive::CreateGeoSphere(context, 2.f, 3,
+		false /*invert for being inside the shape*/);
+
+	// スカイボックスエフェクトの生成
+	m_effect = std::make_unique<SkyboxEffect>(device);
+
+	// インプットレイアウトの作成
+	m_sky->CreateInputLayout(m_effect.get(),
+		m_skyInputLayout.ReleaseAndGetAddressOf());
 }
 
 void SkyboxComponent::Start()
@@ -42,7 +59,7 @@ void SkyboxComponent::Start()
 	if (m_keyName.size() > 0)
 	{
 		// 読み込み
-		Load(m_keyName);
+		SetTexture(m_keyName);
 	}
 }
 
@@ -61,27 +78,20 @@ void SkyboxComponent::Draw(Renderer& renderer)
 }
 
 // 読み込み
-void SkyboxComponent::Load(const std::string& key)
+void SkyboxComponent::SetTexture(const std::string& key)
 {
 	m_keyName = key;
 
-	// デバイスを取得
-	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
-
-	// コンテキストを取得
-	auto context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
-
-	// 球体を作成
-	m_sky = DirectX::GeometricPrimitive::CreateGeoSphere(context, 2.f, 3,
-		false /*invert for being inside the shape*/);
-
-	// スカイボックスエフェクトの生成
-	m_effect = std::make_unique<SkyboxEffect>(device);
-
-	// インプットレイアウトの作成
-	m_sky->CreateInputLayout(m_effect.get(),
-		m_skyInputLayout.ReleaseAndGetAddressOf());
-
 	// テクスチャの読み込み
-	m_effect->SetTexture(ResourceManager::Instance().GetTexture(key));
+	if (m_effect)
+	{
+		LoadResource();
+
+		ReflectLoading();
+	}
+}
+
+void SkyboxComponent::ReflectLoading()
+{
+	if (m_texture && m_effect) m_effect->SetTexture(m_texture);
 }

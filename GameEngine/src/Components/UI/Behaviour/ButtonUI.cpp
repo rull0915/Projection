@@ -30,6 +30,9 @@ ButtonUI::ButtonUI(IComponentOwner* owner)
 	, m_isPressed{ false }
 	, m_onClick{}
 {
+	ADD_PROPERTY(m_normalColor);
+	ADD_PROPERTY(m_hoverdColor);
+	ADD_PROPERTY(m_pressedColor);
 }
 
 /// <summary>

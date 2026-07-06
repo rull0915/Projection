@@ -65,7 +65,7 @@ public:
 
 	void Initialize();
 
-	void Update(const GameTimer& timer);
+	void Update(const GameTimer& timer, bool playing);
 
 	// 各マネージャーを介した描画
 	void DrawWorld(Renderer& renderer);

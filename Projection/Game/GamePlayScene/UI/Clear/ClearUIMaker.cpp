@@ -33,9 +33,9 @@ void ClearUIMaker::Initialize()
 	auto obj = m_canvas->Generate();
 
 	TextUI* text = obj->AddComponent<TextUI>();
-	text->SetText(L"Test");
+	text->SetText("Test");
 	text->SetFontSize(24);
-	text->SetFont(ResourceManager::Instance().GetSpriteFont("Default"));
+	text->SetFont("Default");
 
 	RectTransform* rect = text->GetComponent<RectTransform>();
 	

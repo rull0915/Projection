@@ -24,12 +24,18 @@
 //====================================================//
 
 Canvas::Canvas(UIManager* uiManager)
-	: m_drawOrder{ 0 }
+	: m_isActive{ true }
+	, m_canvasName{}
+	, m_drawOrder{ 0 }
 	, m_pUIManager{ uiManager }
+	, m_rootObject{}
+	, m_reservations{}
 	, m_uiObjects{}
-	, m_isActive{ true }
 	, m_components{}
 {
+	ADD_PROPERTY(m_canvasName);
+	ADD_PROPERTY(m_drawOrder);
+
 	// シーンを設定
 	m_pScene = m_pUIManager->GetScene();
 
@@ -195,8 +201,6 @@ void Canvas::OnMouseUp()
 // 描画順のセッター
 void Canvas::SetDrawOrder(int order)
 {
-	if (m_drawOrder == order) return;
-
 	m_drawOrder = order;
 
 	// UIManagerに順番の更新を通知

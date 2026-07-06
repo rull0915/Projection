@@ -14,9 +14,10 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <Model.h>
 #include "RendererBase.h"
 #include "System/ResourceManager.h"
-#include <Model.h>
+#include "Components/Interface/IResourceReader.h"
 
 //====================================================//
 // 前方宣言
@@ -26,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ModelComponent : public RendererBase
+class ModelComponent : public RendererBase, public IResourceReader
 {
 	//-----------------------------------------------------
 	// メンバ変数
@@ -61,7 +62,9 @@ public:
 	void SetModel(const std::string& keyName)
 	{
 		m_modelName = keyName;
-		m_model = ResourceManager::Instance().GetModel(keyName);
+
+		LoadResource();
+		ReflectLoading();
 	}
 
 	// ID取得
@@ -70,9 +73,18 @@ public:
 		return TypeIDGenerator::GetID<ModelComponent>();
 	}
 
-	// モデル名
-	const std::string& GetModelName() const
-	{
-		return m_modelName;
-	}
+	// ---------- リソース関連 ---------- //
+
+	// 読み込みを反映する
+	void ReflectLoading() override {};
+
+private:
+	// リソースタイプ
+	Type GetType() const override { return Type::Model; }
+
+	// キー名
+	const std::string& GetKeyName() const override { return m_modelName; }
+
+	// リソースポインタポインタ
+	void** GetMyResource() const override { return (void**)& m_model; }
 };

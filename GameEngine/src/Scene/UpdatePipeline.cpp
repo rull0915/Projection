@@ -41,29 +41,32 @@ void UpdatePipeline::Initialize()
 	m_cameraManager->Initialize(m_pScene);
 }
 
-void UpdatePipeline::Update(const GameTimer& gameTimer)
+void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 {
 	// 各オブジェクトの更新
 	m_objectManager->Update(gameTimer);
 
-	// リジッドボディの更新
-	m_physicsManager->Update(gameTimer.GetElapsedTime());
+	if (playing)
+	{
+		// リジッドボディの更新
+		m_physicsManager->Update(gameTimer.GetElapsedTime());
 
-	// 2Dリジッドボディの更新
-	m_physicsManager2D->Update(gameTimer.GetElapsedTime());
+		// 2Dリジッドボディの更新
+		m_physicsManager2D->Update(gameTimer.GetElapsedTime());
 
-	// 衝突判定後の値の更新
-	m_objectManager->AllReflectCache();
+		// 衝突判定後の値の更新
+		m_objectManager->AllReflectCache();
 
-	// 衝突後関数の呼び出し
-	m_colEvent->CallCollideFunctions(m_physicsManager->GetHitList());
-	m_colEvent->CallCollideFunctions2D(m_physicsManager2D->GetHitList());
+		// 衝突後関数の呼び出し
+		m_colEvent->CallCollideFunctions(m_physicsManager->GetHitList());
+		m_colEvent->CallCollideFunctions2D(m_physicsManager2D->GetHitList());
 
-	// 音の更新
-	m_soundManager->Update();
+		// 音の更新
+		m_soundManager->Update();
 
-	// 各オブジェクトの遅延更新
-	m_objectManager->LateUpdate(gameTimer);
+		// 各オブジェクトの遅延更新
+		m_objectManager->LateUpdate(gameTimer);
+	}
 
 	// 削除予約を消す
 	m_objectManager->RemoveDeadComponent();

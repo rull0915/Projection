@@ -45,6 +45,27 @@ void ImguiManager::Update()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	//static int* data = new int(10);
+
+	//ImGui::Begin("Test");
+
+	//ImGui::Button("Player");
+
+
+
+	//if (ImGui::BeginDragDropTarget())
+	//{
+	//	if (const ImGuiPayload* payload =
+	//		ImGui::AcceptDragDropPayload("OBJECT"))
+	//	{
+	//		auto data = *(int*)payload->Data;
+	//	}
+
+	//	ImGui::EndDragDropTarget();
+	//}
+
+	//ImGui::End();
 }
 
 // フレーム終了時処理

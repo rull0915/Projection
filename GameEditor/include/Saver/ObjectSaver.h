@@ -21,6 +21,12 @@
 #include "Components/ComponentBase.h"
 
 class GameObject;
+class Canvas;
+
+class ObjectManager;
+class UIManager;
+
+class Scene;
 
 //====================================================//
 // クラス宣言
@@ -39,12 +45,25 @@ public:
     // 公開関数
     //-----------------------------------------------------
 
-	// 保存関数
+	// Propertyの保存
     static nlohmann::json SaveProperty(const PropertyObject& obj);
 
-    // 保存関数
+    // GameObjectの保存
     static nlohmann::json SaveObject(const GameObject* obj);
 
+	// キャンバスの保存
+	static nlohmann::json SaveCanvas(const Canvas* canvas);
+
+	// ObjectManagerの保存
+    static nlohmann::json SaveObjectManager(const ObjectManager* objManager);
+
+	// UIManagerの保存
+	static nlohmann::json SaveUIManager(const UIManager* uiManager);
+
+	// Sceneの保存
+	static nlohmann::json SaveScene(const Scene* scene);
+
     // 保存関数
-    static void SaveToFile(const std::wstring& filePath, GameObject* obj);
+    static void SaveObjectToFile(const std::wstring& filePath, GameObject* obj);
+    static void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
 };

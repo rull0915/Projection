@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <functional>
-#include <unordered_map>
+#include <map>
 #include <string>
 
 #include "Components/ComponentBase.h"
@@ -27,21 +27,21 @@ class GameObject;
 //====================================================//
 class ComponentFactory
 {
-	// GUIをフレンドに指定
-	friend class EditGUI;
+	// インスペクターをフレンドに指定
+	friend class InspectorWindow;
 
 private:
     // 別名宣言
     using CreateFunc = std::function<ComponentBase*(GameObject*)>;
 
     // 関数マップ
-    static inline std::unordered_map<std::string, std::pair<ComponentSpace, CreateFunc>> m_creatorMap;
+    static inline std::map<std::string, std::pair<ComponentSpace, CreateFunc>> m_creatorMap;
 
 public:
 
     // 登録関数
     static void Register(const std::string& name, ComponentSpace space, CreateFunc func);
-
+		
     // 作成を実行
     static ComponentBase* Create(const std::string& id, GameObject* owner);
 };

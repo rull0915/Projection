@@ -27,4 +27,7 @@ UIGraphicBase::UIGraphicBase(IComponentOwner* owner)
 	, m_mulColor{ 0xFFFFFF }
 	, m_alpha{ 1.0f }
 {
+	ADD_PROPERTY(m_color);
+	ADD_PROPERTY(m_mulColor);
+	ADD_PROPERTY(m_alpha);
 }

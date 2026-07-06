@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Components/UI/Graphics/UIGraphicBase.h"
+#include "Components/Interface/IResourceReader.h"
 
 //====================================================//
 // 前方宣言
@@ -24,7 +25,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ImageUI : public UIGraphicBase
+class ImageUI : public UIGraphicBase, public IResourceReader
 {
 private:
 
@@ -34,6 +35,9 @@ private:
 
 	// テクスチャ
 	ID3D11ShaderResourceView* m_pTexture;
+
+	// テクスチャ名
+	std::string m_textureName;
 
 	// Rayと衝突するかどうか
 	bool m_raycastTarget;
@@ -46,8 +50,10 @@ public:
 	ImageUI(IComponentOwner* owner)
 		: UIGraphicBase(owner)
 		, m_pTexture{ nullptr }
+		, m_textureName{}
 		, m_raycastTarget{ true }
 	{
+		ADD_PROPERTY(m_textureName);
 	}
 	
 	~ImageUI() = default;
@@ -74,13 +80,27 @@ public:
 	// セッター
 	//-----------------------------------------------------
 
-	void SetTexture(ID3D11ShaderResourceView* texture) { m_pTexture = texture; }
+	void SetTexture(const std::string& key) 
+	{
+		m_textureName = key;
+
+		LoadResource();
+		ReflectLoading();
+	}
 	void SetRaycastTarget(bool f) { m_raycastTarget = f; }
 
+	// ---------- リソース関連 ---------- //
+
+	// 読み込みを反映する
+	void ReflectLoading() override {};
+	
 private:
+	// リソースタイプ
+	Type GetType() const override { return Type::Texture; }
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+	// キー名
+	const std::string& GetKeyName() const override { return m_textureName; }
 
+	// リソースポインタポインタ
+	void** GetMyResource() const override { return (void**) &m_pTexture; }
 };
