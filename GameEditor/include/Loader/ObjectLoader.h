@@ -18,6 +18,10 @@
 #include "Common/PropertyObject.h"
 
 class GameObject;
+class Canvas;
+class Scene;
+class ObjectManager;
+class UIManager;
 
 //====================================================//
 // クラス宣言
@@ -36,12 +40,29 @@ public:
     // 公開関数
     //-----------------------------------------------------
 
-    // 保存関数
+    // プロパティのロード
     static void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
 
-	// 保存関数
-    static void LoadObject(const nlohmann::json& json, GameObject* obj);
+	// Worldオブジェクトのロード
+    static void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
 
-    // 保存関数
+	// UIオブジェクトのロード
+    static void LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas);
+
+	// Canvasのロード
+	static void LoadCanvas(const nlohmann::json& json, Canvas* canvas);
+
+	// UIManagerのロード
+	static void LoadUIManager(const nlohmann::json& json, UIManager* manager);
+
+	// ObjectManagerのロード
+	static void LoadObjectManager(const nlohmann::json& json, Scene* pScene);
+
+	// シーンのロード関数
+	static void LoadScene(const nlohmann::json& json, Scene* pScene);
+
+    // ロード関数
     static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
+
+    static void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
 };

@@ -78,6 +78,12 @@ nlohmann::json ObjectSaver::SaveProperty(const PropertyObject& obj)
 			js[property.name] = { v->x, v->y, v->z, v->w };
 			break;
 		}
+			// Color
+		case PropertyType::Color: {
+			auto v = (static_cast<DirectX::SimpleMath::Color*>(property.value));
+			js[property.name] = { v->x, v->y, v->z, v->w };
+			break;
+		}
 
 		default:
 			break;
@@ -89,10 +95,8 @@ nlohmann::json ObjectSaver::SaveProperty(const PropertyObject& obj)
 
 json ObjectSaver::SaveObject(const GameObject* obj)
 {
-	json j;
-
 	// GameObject部分を保存
-	SaveProperty(*obj);
+	json j = SaveProperty(*obj);
 
 	// コンポーネントを全て調べる
 	for (auto& component : obj->GetAllComponents())
@@ -111,21 +115,50 @@ json ObjectSaver::SaveObject(const GameObject* obj)
 		);
 	}
 
+	j["Children"] = nlohmann::json::array();
+
+	// Transformを取得
+	if (auto* tr = obj->GetComponent<Transform>())
+	{
+		// 再帰的に子供を保存
+		for (auto& child : tr->GetChildren())
+		{
+			j["Children"].push_back(SaveObject(static_cast<GameObject*>(child->GetOwn())));
+		}
+	}
+	// RectTransformの場合も同様
+	if (auto* tr = obj->GetComponent<RectTransform>())
+	{
+		// 再帰的に子供を保存
+		for (auto& child : tr->GetChildren())
+		{
+			j["Children"].push_back(SaveObject(static_cast<GameObject*>(child->GetOwn())));
+		}
+	}
+
 	return j;
 }
 
 nlohmann::json ObjectSaver::SaveCanvas(const Canvas* canvas)
 {
-	json j;
+	// Property部分を保存
+	json j = SaveProperty(*canvas);
 
-	// GameObject部分を保存
-	SaveProperty(*canvas);
+	j["GameObjects"] = nlohmann::json::array();
 
 	// ゲームオブジェクトを全て調べる
 	for (auto& object : canvas->GetAllObjects())
 	{
-		// 追加
-		j["GameObjects"].push_back(SaveObject(object.get()));
+		if (!object->IsInvincible())
+		{
+			// 親がルートの場合
+			if (object->GetComponent<RectTransform>()->GetParent() ==
+				canvas->GetRootObject()->GetComponent<RectTransform>())
+			{
+				// 追加
+				j["GameObjects"].push_back(SaveObject(object.get()));
+			}
+		}
 	}
 
 	return j;
@@ -134,14 +167,19 @@ nlohmann::json ObjectSaver::SaveCanvas(const Canvas* canvas)
 nlohmann::json ObjectSaver::SaveObjectManager(const ObjectManager* objManager)
 {
 	json j;
+	j["GameObjects"] = nlohmann::json::array();
 
 	// 保存
 	for (auto& object : objManager->GetAllObject())
 	{
 		if (!object->IsInvincible())
 		{
-			// jsonを追加
-			j["GameObjects"].push_back(SaveObject(object.get()));
+			// 親がnullの場合
+			if (object->GetComponent<Transform>()->GetParent() == nullptr)
+			{
+				// jsonを追加
+				j["GameObjects"].push_back(SaveObject(object.get()));
+			}
 		}
 	}
 
@@ -151,12 +189,13 @@ nlohmann::json ObjectSaver::SaveObjectManager(const ObjectManager* objManager)
 nlohmann::json ObjectSaver::SaveUIManager(const UIManager* uiManager)
 {
 	json j;
+	j["Canvases"] = nlohmann::json::array();
 
 	// 全キャンバスを取得
 	for (auto& canvas : uiManager->GetAllCanvas())
 	{
 		// 追加
-		j["Canvaces"].push_back(SaveCanvas(canvas.get()));
+		j["Canvases"].push_back(SaveCanvas(canvas.get()));
 	}
 
 	return j;
