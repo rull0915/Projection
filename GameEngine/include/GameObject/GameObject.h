@@ -105,6 +105,8 @@ public:
 	
 	bool IsDead() const { return m_isDead; }
 
+	Scene* GetScene() const { return m_pScene; }
+
 	bool IsInvincible() const { return m_isInvincible; }
 
 	const std::string& GetTag() const override { return m_tag; }

@@ -42,12 +42,9 @@ AudioSource::AudioSource(IComponentOwner* own)
 
 // 最初のUpdate関数の直線に一度呼ばれます
 void AudioSource::Start()
-{
-	// 未設定なら
-	if (!m_soundInstance && m_soundName.size() > 0)
-	{
-		Load(m_soundName, m_use3DAudio);
-	}
+{ 
+	LoadResource();
+	ReflectLoading();
 
 	// 開始時に鳴らすフラグがオンなら
 	if (m_playOnStart)

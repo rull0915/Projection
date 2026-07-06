@@ -55,12 +55,9 @@ void SkyboxComponent::Awake()
 
 void SkyboxComponent::Start()
 {
-	// 既に設定されていたら
-	if (m_keyName.size() > 0)
-	{
-		// 読み込み
-		SetTexture(m_keyName);
-	}
+	LoadResource();
+
+	ReflectLoading();
 }
 
 void SkyboxComponent::Draw(Renderer& renderer)

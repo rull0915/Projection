@@ -16,7 +16,6 @@
 //====================================================//
 #include <Model.h>
 #include "RendererBase.h"
-#include "System/ResourceManager.h"
 #include "Components/Interface/IResourceReader.h"
 
 //====================================================//

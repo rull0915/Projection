@@ -20,11 +20,8 @@
 
 void ModelComponent::Start()
 {
-	// モデル名が設定されていれば読み込む
-	if (!m_model && m_modelName.size() > 0)
-	{
-		SetModel(m_modelName);
-	}
+	LoadResource();
+	ReflectLoading();
 }
 
 void ModelComponent::Draw(Renderer& renderer)

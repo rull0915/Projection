@@ -62,6 +62,12 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
+	void Start() override
+	{
+		LoadResource();
+		ReflectLoading();
+	}
+
 	void Draw(Renderer& renderer) override;
 
 	//-----------------------------------------------------
