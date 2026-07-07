@@ -87,12 +87,6 @@ void CollideManager::UpdateCaches()
 
 void CollideManager::MoveAllColliderOnTree()
 {
-	// 予約済みコライダーの登録
-	AddReserved();
-
-	// 削除予約済みコライダーの削除
-	RemoveReserved();
-
 	// 全オブジェクトのチェック
 	for (size_t i = 0; i < m_colliders.size(); i++)
 	{
@@ -123,12 +117,6 @@ void CollideManager::MoveAllColliderOnTree()
 /// </summary>
 void CollideManager::CheckHitAll(std::vector<HitContact>& contacts)
 {
-	// 予約済みコライダーの登録
-	AddReserved();
-
-	// 削除予約済みコライダーの削除
-	RemoveReserved();
-
 	// 条件のラムダ式
 	auto condition = [&](ColliderBase* a, ColliderBase* b)
 		{

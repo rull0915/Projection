@@ -85,6 +85,18 @@ void PhysicsManager2D::Update(float elapsedTime)
 	HittedCorrection();
 }
 
+void PhysicsManager2D::ReflectReserves()
+{
+	// 登録予約済みのコライダーを追加
+	AddReserved();
+
+	// 削除予約済みのコライダーを削除
+	RemoveReserved();
+
+	// 衝突も同様
+	m_collideManager->ReflectReserves();
+}
+
 // 衝突後の補正を行う関数
 void PhysicsManager2D::HittedCorrection()
 {

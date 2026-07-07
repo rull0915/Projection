@@ -31,11 +31,6 @@ void SoundManager::Update()
 	// リスナーがなければ何もしない
 	if (!m_listener) return;
 
-	// 予約の反映
-	AddReserved();
-
-	RemoveReserved();
-
 	// リスナーを取得
 	DirectX::AudioListener* listener = m_listener->GetListener();
 

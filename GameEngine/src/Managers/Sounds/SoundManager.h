@@ -60,6 +60,13 @@ public:
 	// 更新処理
 	void Update();
 
+	// 予約反映
+	void ReflectReserves()
+	{
+		AddReserved();
+		RemoveReserved();
+	}
+
 	// 登録予約
 	void AddAudioSource(AudioSource* r) { m_reserves.push_back(r); }
 	void RemoveAudioSource(AudioSource* r) { m_removeReserves.insert(r); }

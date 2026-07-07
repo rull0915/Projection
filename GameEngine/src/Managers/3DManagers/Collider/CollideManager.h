@@ -58,14 +58,13 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	CollideManager() 
+	CollideManager()
 		: m_reserves{}
 		, m_removeReserves{}
 		, m_colliders{}
 		, m_treeObjects{}
 		, m_tree{ { 256, 256, 256 }, 5, {0, 0, 0} }
-	{
-	};
+	{};
 
 	~CollideManager() = default;
 
@@ -82,11 +81,12 @@ public:
 		m_removeReserves.insert(collide);
 	}
 
-	// 登録予約済みのコライダーを追加する関数
-	void AddReserved();
-
-	// 削除予約済みのコライダーを削除する関数
-	void RemoveReserved();
+	// 予約の反映
+	void ReflectReserves()
+	{
+		AddReserved();
+		RemoveReserved();
+	}
 
 	// 全コライダーのキャッシュ更新
 	void UpdateCaches();
@@ -101,12 +101,19 @@ public:
 	bool CheckHitPair(ColliderBase*, ColliderBase*, HitContact& contact);
 
 	// 所有しているコライダーを全て返す関数
-	const std::vector<ColliderBase*> GetAllColliders()  
+	const std::vector<ColliderBase*> GetAllColliders()
 	{
 		// 予約を反映
 		AddReserved();
 		RemoveReserved();
-		
-		return m_colliders; 
+
+		return m_colliders;
 	}
+private:
+
+	// 登録予約済みのコライダーを追加する関数
+	void AddReserved();
+
+	// 削除予約済みのコライダーを削除する関数
+	void RemoveReserved();
 };

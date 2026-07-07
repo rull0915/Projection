@@ -81,11 +81,12 @@ public:
 		m_removeReserves.insert(collide);
 	}
 
-	// 登録予約済みのコライダーを追加する関数
-	void AddReserved();
-
-	// 削除予約済みのコライダーを削除する関数
-	void RemoveReserved();
+	// 予約の反映
+	void ReflectReserves()
+	{
+		AddReserved();
+		RemoveReserved();
+	}
 
 	// 全コライダーのキャッシュ更新
 	void UpdateCaches();
@@ -108,4 +109,12 @@ public:
 
 		return m_colliders; 
 	}
+
+private:
+
+	// 登録予約済みのコライダーを追加する関数
+	void AddReserved();
+
+	// 削除予約済みのコライダーを削除する関数
+	void RemoveReserved();
 };

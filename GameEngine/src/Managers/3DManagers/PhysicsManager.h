@@ -68,6 +68,8 @@ public:
 	// 更新処理
 	void Update(float elapsedTime);
 
+	void ReflectReserves();
+
 	// 登録予約
 	void AddRigidBody(RigidBody* r) { m_reserves.push_back(r); }
 	void RemoveRigidBody(RigidBody* r) { m_removeReserves.insert(r); }

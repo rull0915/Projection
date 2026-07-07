@@ -71,10 +71,10 @@ public:
 
 	// 登録予約
 	void AddRigidBody(RigidBody2D* r) { m_reserves.push_back(r); }
-	void RemoveRigidBody(RigidBody2D* r)
-	{
-		m_removeReserves.insert(r); 
-	}
+	void RemoveRigidBody(RigidBody2D* r){ m_removeReserves.insert(r); }
+
+	// 予約の反映
+	void ReflectReserves();
 
 	// 予約済みポインタの追加
 	void AddReserved()
