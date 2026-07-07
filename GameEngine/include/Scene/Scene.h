@@ -93,6 +93,10 @@ public:
 
 	// 終了処理
 	void BaseFinalize();
+
+	// 全オブジェクトの削除関数
+	void ResetObjects();
+
 public:
 
 	// オブジェクトを生成する関数

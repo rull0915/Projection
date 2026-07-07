@@ -46,6 +46,11 @@ void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 	// 各オブジェクトの更新
 	m_objectManager->Update(gameTimer);
 
+	// 各管理クラスの予約反映
+	m_physicsManager->ReflectReserves();
+	m_physicsManager2D->ReflectReserves();
+	m_soundManager->ReflectReserves();
+
 	if (playing)
 	{
 		// リジッドボディの更新
@@ -121,10 +126,10 @@ void UpdatePipeline::Finalize()
 	// 各マネージャーから全削除
 	m_rendererManager->RemoveReserved();
 	m_physicsManager->RemoveReserved();
-	m_physicsManager->GetCollideManager()->RemoveReserved();
+	m_physicsManager->GetCollideManager()->ReflectReserves();
 
 	m_physicsManager2D->RemoveReserved();
-	m_physicsManager2D->GetCollideManager()->RemoveReserved();
+	m_physicsManager2D->GetCollideManager()->ReflectReserves();
 
 	m_colEvent->ResetEvent();
 

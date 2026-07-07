@@ -73,6 +73,7 @@ void AudioSource::Play() const
 
 void AudioSource::Stop() const
 {
+	m_soundInstance->Stop();
 }
 
 void AudioSource::ReflectLoading()

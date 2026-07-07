@@ -159,7 +159,9 @@
     </ClInclude>
     <ClInclude Include="include\Editor\ImguiManager.h" />
     <ClInclude Include="include\Editor\EditGUI.h" />
+    <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\HierarchyWindow.h" />
+    <ClInclude Include="src\Editor\InfoWindow.h" />
     <ClInclude Include="src\Editor\InspectorWindow.h" />
     <ClInclude Include="src\Editor\ProjectWindow.h" />
     <ClInclude Include="src\Editor\SceneCamera.h" />
@@ -180,9 +182,11 @@
     <ClInclude Include="ThirdParty\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Common\OpenFileDialog.cpp" />
     <ClCompile Include="src\Editor\EditGUI.cpp" />
     <ClCompile Include="src\Editor\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\ImguiManager.cpp" />
+    <ClCompile Include="src\Editor\InfoWindow.cpp" />
     <ClCompile Include="src\Editor\InspectorWindow.cpp" />
     <ClCompile Include="src\Editor\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\SceneCamera.cpp" />

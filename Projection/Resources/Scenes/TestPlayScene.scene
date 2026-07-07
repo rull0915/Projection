@@ -62,7 +62,7 @@
                                         "Type": "TextUI"
                                     }
                                 ],
-                                "m_name": "Text",
+                                "m_name": "FFF",
                                 "m_tag": ""
                             }
                         ],
@@ -178,8 +178,8 @@
                             {
                                 "Data": {
                                     "m_anchor": [
-                                        0.5,
-                                        0.9800000190734863
+                                        0.30000001192092896,
+                                        0.5
                                     ],
                                     "m_anchoredPosition": [
                                         0.0,
@@ -188,7 +188,7 @@
                                     "m_isActive": true,
                                     "m_pivot": [
                                         0.5,
-                                        1.0
+                                        -2.0
                                     ],
                                     "m_rotation": 0.0,
                                     "m_scale": [
@@ -196,8 +196,8 @@
                                         1.0
                                     ],
                                     "m_size": [
-                                        1280.0,
-                                        30.0
+                                        100.0,
+                                        100.0
                                     ]
                                 },
                                 "Type": "RectTransform"
@@ -206,9 +206,9 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_color": [
-                                        0.23529410362243652,
-                                        0.23529410362243652,
-                                        0.23529410362243652,
+                                        0.3235294222831726,
+                                        0.3235294222831726,
+                                        0.3235294222831726,
                                         0.0
                                     ],
                                     "m_isActive": true,
@@ -221,9 +221,95 @@
                                     "m_textureName": "Default"
                                 },
                                 "Type": "ImageUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Default",
+                                    "m_fontSize": 28.200000762939453,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_text": "Text"
+                                },
+                                "Type": "TextUI"
                             }
                         ],
-                        "m_name": "Buttom",
+                        "m_name": "",
+                        "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        -143.39999389648438,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        4.699999809265137
+                                    ],
+                                    "m_size": [
+                                        66.5999984741211,
+                                        86.30000305175781
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Default",
+                                    "m_fontSize": 64.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_text": "SFAfhuhfa"
+                                },
+                                "Type": "TextUI"
+                            }
+                        ],
+                        "m_name": "",
                         "m_tag": ""
                     }
                 ],
@@ -281,7 +367,7 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 0.0,
-                                0.0,
+                                -3.799999952316284,
                                 0.0
                             ],
                             "m_localRotation": [
@@ -291,9 +377,9 @@
                                 1.0
                             ],
                             "m_localScale": [
+                                9.699999809265137,
                                 1.0,
-                                1.0,
-                                1.0
+                                7.099999904632568
                             ]
                         },
                         "Type": "Transform"
@@ -327,7 +413,7 @@
                     }
                 ],
                 "m_name": "Cube1",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -411,15 +497,15 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                3.0,
+                                -2.299999952316284,
+                                -2.0999999046325684,
                                 0.0
                             ],
                             "m_localRotation": [
+                                0.4820561707019806,
                                 0.0,
                                 0.0,
-                                0.0,
-                                1.0
+                                0.8761403560638428
                             ],
                             "m_localScale": [
                                 1.0,
@@ -450,6 +536,31 @@
                     {
                         "Data": {
                             "m_isActive": true,
+                            "m_isTrigger": true,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                -0.550000011920929,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                0.10000000149011612,
+                                1.0
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "Player"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
                             "m_isTrigger": false,
                             "m_layerNum": 0,
                             "m_localCenterPos": [
@@ -467,7 +578,92 @@
                         "Type": "BoxCollider"
                     }
                 ],
-                "m_name": "Rigid",
+                "m_name": "Player",
+                "m_tag": "Player"
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                -3.0,
+                                -1.0
+                            ],
+                            "m_localRotation": [
+                                0.3894183337688446,
+                                0.0,
+                                0.0,
+                                0.9210609793663025
+                            ],
+                            "m_localScale": [
+                                2.0,
+                                1.0,
+                                2.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    }
+                ],
+                "m_name": "",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    }
+                ],
+                "m_name": "",
                 "m_tag": ""
             }
         ]

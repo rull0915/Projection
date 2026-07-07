@@ -34,12 +34,6 @@
 class ResourceManager
 {
 private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
@@ -53,7 +47,7 @@ private:
 	// 音管理クラス
 	std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
 
-	// エフェクト
+	// エフェクトファクトリ
 	std::unique_ptr<DirectX::EffectFactory> m_effect;
 
 	// 画像リソース
@@ -128,6 +122,20 @@ public:
 
 	// デバイスリソースの取得
 	DX::DeviceResources* GetResources() const { return m_deviceResources; }
+
+	//--------- 全リソースの取得関数 --------//
+
+	// 画像リソース
+	const std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>>& GetAllTextures() { return m_textures; }
+
+	// フォント
+	const std::unordered_map<std::string, std::unique_ptr<DirectX::SpriteFont>>& GetAllFonts() { return m_spriteFonts; }
+
+	// モデル
+	const std::unordered_map<std::string, std::unique_ptr<DirectX::Model>>& GetAllModels() { return m_models; }
+	
+	// 音
+	const std::unordered_map<std::string, std::unique_ptr<DirectX::SoundEffect>>& GetAllSounds() { return m_sounds; }
 
 	//-----------------------------------------------------
 	// セッター

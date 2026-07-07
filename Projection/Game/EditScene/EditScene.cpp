@@ -23,6 +23,8 @@
 #include "Loader/ObjectLoader.h"
 #include "Input/KeyInput.h"
 
+#include "../GameEditor/src/Common/OpenFileDialog.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -31,7 +33,7 @@
 EditScene::EditScene(Game* pGame)
 	: Scene(pGame->GetSceneManager())
 	, m_pGame{ pGame }
-	, m_gui{ this }
+	, m_gui{ this, [this]() { TestPlay(); } }
 	, m_camera{ nullptr }
 	, m_testObject{ nullptr }
 	, m_sceneView{ std::make_unique<RenderTarget>() }
@@ -48,15 +50,9 @@ EditScene::EditScene(Game* pGame)
 
 	// サイズ
 	SetMainScreenScale({ 0.45f, 0.45f });
-}
+	// 初期位置
+	SetMainScreenStartPoint({ 8, 26 });
 
-EditScene::~EditScene()
-{
-}
-
-// 初期化関数
-void EditScene::Initialize()
-{
 	// ゲームビューの作成
 	m_sceneView->Create(
 		ResourceManager::Instance().GetResources()->GetD3DDevice(),
@@ -69,9 +65,17 @@ void EditScene::Initialize()
 	game->SetInvincible(true);
 	// カメラの追加
 	m_sceneViewCamera = game->AddComponent<StandardCamera>();
+}
 
-	// テストロード
-	ObjectLoader::LoadSceneFromFile(L"Resources/Scenes/TestPlayScene.scene", this);
+EditScene::~EditScene()
+{
+}
+
+// 初期化関数
+void EditScene::Initialize()
+{
+	// GUIのリセット
+	m_gui.Reset();
 }
 
 // 更新関数
@@ -84,18 +88,6 @@ void EditScene::Update(const GameTimer& gameTimer)
 
 	// 2つのビューを描画
 	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), GetMainRenderTarget()->GetShaderResourceView());
-
-	// Ctrl + P でテストプレイ
-	if (
-		Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
-		Input::Key::Get(Input::State::Down, Input::Key::Code::P))
-	{
-		// 保存
-		ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", this);
-
-		// シーン変更
-		ChangeScene("TestPlay");
-	}
 }
 
 // 描画関数
@@ -112,4 +104,13 @@ void EditScene::Render(Renderer& renderer)
 // 終了関数
 void EditScene::Finalize()
 {
+}
+
+void EditScene::TestPlay()
+{
+	// 保存
+	ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", this);
+
+	// シーン変更
+	ChangeScene("TestPlay");
 }

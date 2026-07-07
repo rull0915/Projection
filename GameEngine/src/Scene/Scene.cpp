@@ -189,6 +189,11 @@ void Scene::BaseFinalize()
 	m_updatePipeline->Finalize();
 }
 
+void Scene::ResetObjects()
+{
+	m_updatePipeline->Finalize();
+}
+
 GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)
 {
 	// ポインタを作成

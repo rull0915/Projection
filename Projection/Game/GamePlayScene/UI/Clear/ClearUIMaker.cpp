@@ -37,6 +37,5 @@ void ClearUIMaker::Initialize()
 	text->SetFontSize(24);
 	text->SetFont("Default");
 
-	RectTransform* rect = text->GetComponent<RectTransform>();
-	
+	RectTransform* rect = text->GetComponent<RectTransform>();	
 }
