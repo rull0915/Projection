@@ -24,10 +24,10 @@
 //====================================================//
 
 
-void HierarchyWindow::DrawHierarchy()
+bool HierarchyWindow::DrawHierarchy()
 {
 	// 描画開始
-	StartHierarchy();
+	bool clicked = StartHierarchy();
 
 	// World
 	DrawObjects(m_pScene->GetObjectManager());
@@ -37,23 +37,22 @@ void HierarchyWindow::DrawHierarchy()
 
 	// 描画終了
 	ImGui::End();
+
+	return clicked;
 }
 
-void HierarchyWindow::StartHierarchy()
+bool HierarchyWindow::StartHierarchy()
 {
 	// 位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), 0));
-	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 7), WindowManager::Instance().GetHeightF()));
+	ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 12));
+	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 7), WindowManager::Instance().GetHeightF() * (11.0f / 12)));
 
 	ImGui::Begin("Hierarchy", nullptr,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
 	// ウィンドウへのクリックを検知
-	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-		&& ImGui::IsMouseClicked(0))
-	{
-		OutputDebugStringA("Clicked Window: Hierarchy\n");
-	}
+	return (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
+		&& ImGui::IsMouseClicked(0));
 }
 
 void HierarchyWindow::DrawObjects(ObjectManager* objectManager)

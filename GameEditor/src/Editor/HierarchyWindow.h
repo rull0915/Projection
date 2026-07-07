@@ -54,8 +54,10 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
+	void Reset() { m_selected = nullptr; }
+
 	// ヒエラルキーの描画
-	void DrawHierarchy();
+	bool DrawHierarchy();
 
 	// 選択中オブジェクトのゲッター
 	PropertyObject* GetSelected() const { return m_selected; }
@@ -63,7 +65,7 @@ public:
 private:
 
 	// ヒエラルキー描画の開始
-	void StartHierarchy();
+	bool StartHierarchy();
 
 	// GameObjectの表示関数
 	void DrawGameObject(GameObject* object);

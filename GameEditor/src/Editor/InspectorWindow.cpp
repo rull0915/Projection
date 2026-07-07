@@ -25,10 +25,10 @@
 // 関数の実体宣言
 //====================================================//
 
-void InspectorWindow::DrawInspector(PropertyObject* selected)
+bool InspectorWindow::DrawInspector(PropertyObject* selected)
 {
 	// 描画開始
-	StartInspector();
+	bool clicked = StartInspector();
 
 	// 選択されていたら
 	if (selected)
@@ -38,23 +38,22 @@ void InspectorWindow::DrawInspector(PropertyObject* selected)
 	
 	// 描画終了
 	ImGui::End();
+
+	return clicked;
 }
 
-void InspectorWindow::StartInspector()
+bool InspectorWindow::StartInspector()
 {
 	// 位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (3.0f / 4), 0));
-	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 4), WindowManager::Instance().GetHeightF()));
+	ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (3.0f / 4), WindowManager::Instance().GetHeightF() / 12));
+	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 4), WindowManager::Instance().GetHeightF() * (11.0f / 12)));
 
 	ImGui::Begin("Inspector", nullptr,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 			
 	// ウィンドウへのクリックを検知
-	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-		&& ImGui::IsMouseClicked(0))
-	{
-		OutputDebugStringA("Clicked Window: Inspector\n");
-	}
+	return (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
+		&& ImGui::IsMouseClicked(0));
 }
 
 void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)

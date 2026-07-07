@@ -12,6 +12,9 @@
 #include "pch.h"
 #include "SceneCamera.h"
 
+#include "Input/MouseInput.h"
+#include "Input/KeyInput.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -32,7 +35,18 @@ void SceneCamera::Start()
 
 // 毎フレーム呼ばれます
 void SceneCamera::Update(const GameTimer & gameTimer)
-{}
+{
+	// LeftAltが押されているとき
+	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftAlt))
+	{
+
+	}
+	// 押されていないとき
+	else
+	{
+
+	}
+}
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます
 void SceneCamera::LateUpdate(const GameTimer & gameTimer)

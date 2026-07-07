@@ -40,7 +40,7 @@ public:
 	//-----------------------------------------------------
 
 	// インスペクターの描画
-	void DrawInspector(PropertyObject* selected);
+	bool DrawInspector(PropertyObject* selected);
 
 private:
 
@@ -49,7 +49,7 @@ private:
 	//-----------------------------------------------------
 
 	// インスペクター描画の開始
-	void StartInspector();
+	bool StartInspector();
 
 	// GameObjectの情報をInspectorに表示する関数
 	void DrawPropertyObjectOnInspector(PropertyObject* object);

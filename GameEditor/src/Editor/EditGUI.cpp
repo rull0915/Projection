@@ -19,31 +19,43 @@
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
 #include "ProjectWindow.h"
+#include "InfoWindow.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-EditGUI::EditGUI(Scene* pScene)
+EditGUI::EditGUI(Scene* pScene, std::function<void()> playFunc)
 	: m_pScene{ pScene }
 	, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene) }
 	, m_inspector{ std::make_unique<InspectorWindow>() }
 	, m_project{ std::make_unique<ProjectWindow>() }
+	, m_info{ std::make_unique<InfoWindow>(pScene, playFunc) }
+	, m_nowType{ WindowType::None }
 {}
 
 EditGUI::~EditGUI()
 {}
 
+void EditGUI::Reset()
+{
+	// Hierarchyのリセット
+	m_hierarchy->Reset();
+}
+
 void EditGUI::DrawWindows()
 {
+	// Infoの描画
+	if (m_info->DrawInfo()) m_nowType = WindowType::Info;
+
 	// Hierarchyの描画
-	m_hierarchy->DrawHierarchy();
+	if (m_hierarchy->DrawHierarchy()) m_nowType = WindowType::Hieraychy;
 
 	// Projectの描画
-	m_project->DrawProject();
+	if (m_project->DrawProject()) m_nowType = WindowType::Project;
 
 	// Inspectorの描画
-	m_inspector->DrawInspector(m_hierarchy->GetSelected());
+	if (m_inspector->DrawInspector(m_hierarchy->GetSelected())) m_nowType = WindowType::Inspector;
 }
 
 void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView)
@@ -87,7 +99,7 @@ void EditGUI::StartSceneView()
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
 		&& ImGui::IsMouseClicked(0))
 	{
-		OutputDebugStringA("Clicked Window: SceneView\n");
+		m_nowType = WindowType::SceneView;
 	}
 }
 
@@ -104,6 +116,6 @@ void EditGUI::StartGameView()
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
 		&& ImGui::IsMouseClicked(0))
 	{
-		OutputDebugStringA("Clicked Window: GameView\n");
+		m_nowType = WindowType::GameView;
 	}
 }
