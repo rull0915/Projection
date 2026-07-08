@@ -80,6 +80,8 @@ public:
 
 	void SetTarget(const std::string& name);
 
+	void OnDestroy() override;
+
 	// ID取得
 	unsigned int GetID() override
 	{

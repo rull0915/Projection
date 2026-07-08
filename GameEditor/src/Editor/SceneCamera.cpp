@@ -48,7 +48,27 @@ void SceneCamera::Awake()
 
 // 最初のUpdate関数の直線に一度呼ばれます
 void SceneCamera::Start()
-{}
+{
+	// 行列を更新しておく
+	DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rot);
+
+	// Transformを取得
+	if (auto* t = GetComponent<Transform>())
+	{
+		// 向きを変更
+		t->SetLocalRotation(
+			m_rot
+		);
+
+		// 位置を変更
+		t->SetLocalPosition(
+			{ m_targetPoint - m_radius * forward }
+		);
+	}
+
+	UpdateView();
+	UpdateProj();
+}
 
 // 毎フレーム呼ばれます
 void SceneCamera::Update(const GameTimer& gameTimer)

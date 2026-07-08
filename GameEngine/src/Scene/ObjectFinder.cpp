@@ -34,6 +34,15 @@ GameObject* ObjectFinder::FindWithNameInWorld(const std::string& name) const
 			return object.get();
 		}
 	}
+	// 予約リストも調べる
+	for (auto& object : objManager->GetAllReserves())
+	{
+		// 名前を比較
+		if (object->GetName() == name)
+		{
+			return object.get();
+		}
+	}
 
 	// 見つからなかった場合null
 	return nullptr;
@@ -48,6 +57,15 @@ GameObject* ObjectFinder::FindWithTagInWorld(const std::string& tag) const
 	for (auto& object : objManager->GetAllObject())
 	{
 		// タグを比較
+		if (object->GetTag() == tag)
+		{
+			return object.get();
+		}
+	}
+	// 予約リストも調べる
+	for (auto& object : objManager->GetAllReserves())
+	{
+		// 名前を比較
 		if (object->GetTag() == tag)
 		{
 			return object.get();
@@ -68,6 +86,37 @@ GameObject* ObjectFinder::FindWithNameInUI(const std::string& name) const
 	{
 		// 全オブジェクトを調べる
 		for (auto& object : canvas->GetAllObjects())
+		{
+			// 名前を比較
+			if (object->GetName() == name)
+			{
+				return object.get();
+			}
+		}
+		// 見つからなかった場合予約リストも調べる
+		for (auto& object : canvas->GetAllReserves())
+		{
+			// 名前を比較
+			if (object->GetName() == name)
+			{
+				return object.get();
+			}
+		}
+	}
+	// 予約Canvasも調べる
+	for (auto& canvas : uiManager->GetAllReserves())
+	{
+		// 全オブジェクトを調べる
+		for (auto& object : canvas->GetAllObjects())
+		{
+			// 名前を比較
+			if (object->GetName() == name)
+			{
+				return object.get();
+			}
+		}
+		// 見つからなかった場合予約リストも調べる
+		for (auto& object : canvas->GetAllReserves())
 		{
 			// 名前を比較
 			if (object->GetName() == name)
@@ -97,6 +146,38 @@ GameObject* ObjectFinder::FindWithTagInUI(const std::string& tag) const
 				return object.get();
 			}
 		}
+		// 見つからなかった場合予約リストも調べる
+		for (auto& object : canvas->GetAllReserves())
+		{
+			// 名前を比較
+			if (object->GetTag() == tag)
+			{
+				return object.get();
+			}
+		}
+	}
+	// 予約Canvasも調べる
+	for (auto& canvas : uiManager->GetAllReserves())
+	{
+		// 全オブジェクトを調べる
+		for (auto& object : canvas->GetAllObjects())
+		{
+			// 名前を比較
+			if (object->GetTag() == tag)
+			{
+				return object.get();
+			}
+		}
+		// 見つからなかった場合予約リストも調べる
+		for (auto& object : canvas->GetAllReserves())
+		{
+			// 名前を比較
+			if (object->GetTag() == tag)
+			{
+				return object.get();
+			}
+		}
 	}
 
-	return nullptr;}
+	return nullptr;
+}

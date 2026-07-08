@@ -139,25 +139,25 @@ public:
 	// ボリューム
 	void SetVolume(float volume) 
 	{
-		m_volume = std::clamp(volume, 0.0f, 1.0f); 
+		m_volume = volume; 
 		
-		if (m_soundInstance) m_soundInstance->SetVolume(m_volume);
+		ReflectSetting();
 	};
 
 	// パン
 	void SetPan(float pan) 
 	{
-		m_pan = std::clamp(pan, -1.0f, 1.0f); 
+		m_pan = pan;
 
-		if (m_soundInstance) m_soundInstance->SetPan(m_pan);
+		ReflectSetting();
 	}
 
 	// ピッチ
 	void SetPitch(float pitch) 
 	{
-		m_pitch = std::clamp(pitch, -1.0f, 1.0f); 
+		m_pitch = pitch;
 		
-		if (m_soundInstance) m_soundInstance->SetPitch(m_pitch);
+		ReflectSetting();
 	}
 
 	// ループ
@@ -168,6 +168,9 @@ public:
 
 	// 3Dオーディオ
 	void SetUse3D(bool f) { m_use3DAudio = f; }
+	
+	// 設定の反映
+	void ReflectSetting();
 
 	// ---------- リソース関連 ---------- //
 

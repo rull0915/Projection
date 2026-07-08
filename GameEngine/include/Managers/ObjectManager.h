@@ -39,7 +39,7 @@ private:
 	//-----------------------------------------------------
 
 	// 生成予約中のオブジェクトリスト
-	std::vector<GameObject*> m_reservations;
+	std::vector<std::unique_ptr<GameObject>> m_reservations;
 
 	// 管理しているオブジェクトリスト
 	std::vector<std::unique_ptr<GameObject>> m_objects;
@@ -73,7 +73,7 @@ public:
 	void AddObject(GameObject* object)
 	{
 		// 予約リストに追加
-		m_reservations.push_back(object);
+		m_reservations.push_back(std::unique_ptr<GameObject>(object));
 	}
 
 	// オブジェクト削除関数
@@ -89,10 +89,8 @@ public:
 	void RemoveDeadObject();
 
 	// 全オブジェクトを取得する関数
-	const std::vector<std::unique_ptr<GameObject>>& GetAllObject() const
-	{
-		return m_objects;
-	}
+	const std::vector<std::unique_ptr<GameObject>>& GetAllObject() const { return m_objects; }
+	const std::vector<std::unique_ptr<GameObject>>& GetAllReserves() const { return m_reservations; }
 
 private:
 

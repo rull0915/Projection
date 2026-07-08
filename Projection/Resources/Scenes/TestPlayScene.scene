@@ -51,6 +51,7 @@
                         "Type": "SkyboxComponent"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
             },
@@ -179,6 +180,7 @@
                         "Type": "AudioListener"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Player",
                 "m_tag": "Player"
             },
@@ -241,6 +243,7 @@
                         "Type": "GoalComponent"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Goal",
                 "m_tag": ""
             },
@@ -315,6 +318,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
             },
@@ -389,6 +393,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube2",
                 "m_tag": "Floor"
             },
@@ -463,6 +468,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube3",
                 "m_tag": "Floor"
             },
@@ -537,6 +543,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube4",
                 "m_tag": "Floor"
             },
@@ -611,6 +618,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube5",
                 "m_tag": "Floor"
             },
@@ -685,6 +693,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube6",
                 "m_tag": "Floor"
             },
@@ -757,6 +766,7 @@
                         "Type": "RigidBody"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Enemy",
                 "m_tag": ""
             },
@@ -796,8 +806,31 @@
                             "m_isActive": true
                         },
                         "Type": "EnemyManager"
+                    },
+                    {
+                        "Data": {
+                            "m_cameraName": "MainCamera",
+                            "m_clearUIName": "ClearUI",
+                            "m_isActive": true,
+                            "m_playerName": "Player"
+                        },
+                        "Type": "PlaySceneManager"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_loop": true,
+                            "m_pan": -0.10000000149011612,
+                            "m_pitch": 0.0,
+                            "m_playOnStart": true,
+                            "m_soundName": "Dark_blue_night",
+                            "m_use3DAudio": true,
+                            "m_volume": 1.0
+                        },
+                        "Type": "AudioSource"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Manager",
                 "m_tag": ""
             }

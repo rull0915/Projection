@@ -56,6 +56,9 @@ void AudioSource::Start()
 			m_soundInstance->Play(m_loop);
 		}
 	}
+
+	// 設定の反映
+	ReflectSetting();
 }
 
 void AudioSource::Play() const
@@ -79,15 +82,28 @@ void AudioSource::Stop() const
 void AudioSource::ReflectLoading()
 {
 	// インスタンス作成
+	if (m_soundEffect)
+	{
+		// 3Dを使用するなら
+		if (m_use3DAudio)
+		{
+			m_soundInstance = m_soundEffect->CreateInstance(DirectX::SoundEffectInstance_Use3D);
+		}
+		// 使わないなら
+		else
+		{
+			m_soundInstance = m_soundEffect->CreateInstance();
+		}
+	}
+}
 
-	// 3Dを使用するなら
-	if (m_use3DAudio)
-	{
-		m_soundInstance = m_soundEffect->CreateInstance(DirectX::SoundEffectInstance_Use3D);
-	}
-	// 使わないなら
-	else
-	{
-		m_soundInstance = m_soundEffect->CreateInstance();
-	}
+void AudioSource::ReflectSetting()
+{
+	m_volume = std::clamp(m_volume, 0.0f, 1.0f);
+	m_pan = std::clamp(m_pan, -1.0f, 1.0f);
+	m_pitch = std::clamp(m_pitch, -1.0f, 1.0f);
+
+	if (m_soundInstance) m_soundInstance->SetVolume(m_volume);
+	if (m_soundInstance) m_soundInstance->SetPan(m_pan);
+	if (m_soundInstance) m_soundInstance->SetPitch(m_pitch);
 }

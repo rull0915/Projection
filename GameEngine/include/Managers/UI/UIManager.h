@@ -93,6 +93,7 @@ public:
 
 	// 全キャンバスを取得する関数
 	const std::vector<std::unique_ptr<Canvas>>& GetAllCanvas() const { return m_canvases; }
+	const std::vector<std::unique_ptr<Canvas>>& GetAllReserves() const { return m_addReserves; }
 
 	//-----------------------------------------------------
 	// ゲッター

@@ -309,6 +309,12 @@ void InspectorWindow::OnChanged(ComponentBase* component)
 		// 変更フラグをオンに
 		static_cast<ColliderBase2D*>(component)->SetDirty();
 	}
+	// AudioSourceなら
+	if (component->GetID() == TypeIDGenerator::GetID<AudioSource>())
+	{
+		// 変更を反映
+		static_cast<AudioSource*>(component)->ReflectSetting();
+	}
 
 	// リソース読み込みを行うコンポーネントなら
 	if (IResourceReader* reader = dynamic_cast<IResourceReader*>(component))

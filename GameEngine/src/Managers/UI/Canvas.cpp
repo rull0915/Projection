@@ -76,6 +76,9 @@ void Canvas::Update(const GameTimer& gameTimer, bool playing)
 		// アクティブチェック
 		if (!object->IsActive()) continue;
 
+		// Startの呼び出し
+		object->GetComponentContainer().StartComponets();
+
 		// 更新処理
 		if (playing || object->IsInvincible())
 			object->GetComponentContainer().UpdateComponents(gameTimer);

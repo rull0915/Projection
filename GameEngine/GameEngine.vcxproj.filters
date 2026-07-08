@@ -608,5 +608,8 @@
     <ClInclude Include="include\Components\Interface\IComponentListener.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="include\Settings\SoundSettings.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

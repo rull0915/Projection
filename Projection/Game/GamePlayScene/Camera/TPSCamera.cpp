@@ -25,6 +25,9 @@ void TPSCamera::Awake()
 {
 	// トランスフォームを取得
 	m_pOwnTransform = GetComponent<Transform>();
+
+	// マウスを相対モードに
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::Start()
@@ -87,4 +90,10 @@ void TPSCamera::SetTarget(const std::string& name)
 	{
 		m_pTargetTransform = obj->GetComponent<Transform>();
 	}
+}
+
+void TPSCamera::OnDestroy()
+{
+	// 削除時はマウスを絶対モードに
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 }

@@ -46,20 +46,6 @@ private:
 	//-----------------------------------------------------
 	Game* m_pGame;
 
-	// カメラ
-	GameObject* m_camera;
-
-	// プレイヤー
-	GameObject* m_player;
-
-	// 敵
-	GameObject* m_enemy;
-
-	DimentionManager* m_dimentionManager;
-
-	// 敵管理クラス
-	EnemyManager* m_enemyManager;
-
 	// ----- テスト用 ----- //
 	std::unique_ptr<RenderTarget> m_renderTarget;
 

@@ -20,7 +20,7 @@
 #include "Saver/ObjectSaver.h"
 #include "Loader/ObjectLoader.h"
 
-#include "Physics/Ray.h"
+#include "Input/MouseInput.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -83,6 +83,9 @@ void EditScene::Initialize()
 void EditScene::Update(const GameTimer& gameTimer)
 {
 	gameTimer;
+
+	// マウスを絶対モードに固定する
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 
 	// 3つのウィンドウを描画
 	m_gui.DrawWindows();

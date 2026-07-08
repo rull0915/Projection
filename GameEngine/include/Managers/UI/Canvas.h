@@ -111,6 +111,7 @@ public:
 
 	// 全オブジェクト
 	const std::vector<std::unique_ptr<GameObject>>& GetAllObjects() const { return m_uiObjects; }
+	const std::vector<std::unique_ptr<GameObject>>& GetAllReserves() const { return m_reservations; }
 
 	// ルートオブジェクト
 	GameObject* GetRootObject() const { return m_rootObject.get(); }

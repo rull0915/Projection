@@ -134,7 +134,7 @@ void ObjectManager::AddReservedObject()
 	for (auto& p : m_reservations)
 	{
 		// 管理リストへ追加
-		m_objects.push_back(std::unique_ptr<GameObject>(p));
+		m_objects.push_back(std::move(p));
 	}
 
 	// 予約リストをリセット

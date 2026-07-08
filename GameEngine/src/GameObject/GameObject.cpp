@@ -31,6 +31,7 @@ GameObject::GameObject(CreateToken)
 	, m_name{}
 	, m_isInvincible{ false }
 {
+	ADD_PROPERTY(m_isActive);
 	ADD_PROPERTY(m_name);
 	ADD_PROPERTY(m_tag);
 }

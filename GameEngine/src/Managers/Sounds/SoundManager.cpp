@@ -54,9 +54,12 @@ void SoundManager::Update()
 			);
 
 			// 3Dを適用
-			source->GetSoundInstance()->Apply3D(
-				*listener, emitter
-			);
+			if (const auto& instance = source->GetSoundInstance())
+			{
+				instance->Apply3D(
+					*listener, emitter
+				);
+			}
 		}
 	}
 }

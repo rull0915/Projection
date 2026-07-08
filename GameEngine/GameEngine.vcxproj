@@ -304,6 +304,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Debug\ColliderDebugRenderer.h" />
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h" />
     <ClInclude Include="include\Components\World\Sounds\AudioSource.h" />
+    <ClInclude Include="include\Settings\SoundSettings.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\System\GetExtension.h">
       <SubType>
       </SubType>

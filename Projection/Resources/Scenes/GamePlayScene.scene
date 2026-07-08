@@ -796,6 +796,27 @@
                             "m_isActive": true
                         },
                         "Type": "EnemyManager"
+                    },
+                    {
+                        "Data": {
+                            "m_cameraName": "MainCamera",
+                            "m_isActive": true,
+                            "m_playerName": "Player"
+                        },
+                        "Type": "PlaySceneManager"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_loop": true,
+                            "m_pan": -0.10000000149011612,
+                            "m_pitch": 0.0,
+                            "m_playOnStart": true,
+                            "m_soundName": "Dark_blue_night",
+                            "m_use3DAudio": true,
+                            "m_volume": 1.0
+                        },
+                        "Type": "AudioSource"
                     }
                 ],
                 "m_name": "Manager",
