@@ -13,8 +13,14 @@
 #include "ProjectWindow.h"
 
 #include "imgui/imgui.h"
+#include "imgui/imgui_stdlib.h"
+
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
+#include "System/PrefabManager.h"
+
+#include "Common/OpenFileDialog.h"
+#include "Saver/ObjectSaver.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -52,48 +58,115 @@ void ProjectWindow::DrawResources()
 {
 	ImGui::Text("Resources");
 
-	ImGui::BeginChild("Resources", ImVec2(0, -WindowManager::Instance().GetHeightF() / 3), ImGuiChildFlags_Borders);
+	ImGui::BeginChild("Resources", ImVec2(0, 0), ImGuiChildFlags_Borders);
 
 	if (ImGui::TreeNodeEx("Models", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		// モデル
 		for (auto& model : ResourceManager::Instance().GetAllModels())
 		{
-			ImGui::Text(model.first.c_str());
+			ImGui::InputText(
+				("##" + model.first).c_str(),
+				const_cast<std::string*>(&model.first),
+				ImGuiInputTextFlags_ReadOnly
+			);
 		}
 
 		ImGui::TreePop();
 	}
+
 	if (ImGui::TreeNodeEx("Textures", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		// テクスチャ
-		for (auto& model : ResourceManager::Instance().GetAllTextures())
+		for (auto& texture : ResourceManager::Instance().GetAllTextures())
 		{
-			ImGui::Text(model.first.c_str());
+			ImGui::InputText(
+				("##" + texture.first).c_str(),
+				const_cast<std::string*>(&texture.first),
+				ImGuiInputTextFlags_ReadOnly
+			);
 		}
 
 		ImGui::TreePop();
 	}
+
 	if (ImGui::TreeNodeEx("Sounds", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		// サウンド
-		for (auto& model : ResourceManager::Instance().GetAllSounds())
+		for (auto& sound : ResourceManager::Instance().GetAllSounds())
 		{
-			ImGui::Text(model.first.c_str());
+			ImGui::InputText(
+				("##" + sound.first).c_str(),
+				const_cast<std::string*>(&sound.first),
+				ImGuiInputTextFlags_ReadOnly
+			);
 		}
 
 		ImGui::TreePop();
 	}
+
 	if (ImGui::TreeNodeEx("Fonts", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		// フォント
-		for (auto& model : ResourceManager::Instance().GetAllFonts())
+		for (auto& font : ResourceManager::Instance().GetAllFonts())
 		{
-			ImGui::Text(model.first.c_str());
+			ImGui::InputText(
+				("##" + font.first).c_str(),
+				const_cast<std::string*>(&font.first),
+				ImGuiInputTextFlags_ReadOnly
+			);
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNodeEx("Objects", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		// オブジェクト
+		for (auto& object : PrefabManager::Instance().GetAllObjects())
+		{
+			ImGui::Text(object.first.c_str());	// ドラッグの開始
+
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+			{
+				// 渡したいデータを設定
+				ImGui::SetDragDropPayload("PREFAB", &object.second, sizeof(object.second));
+
+				// ドラッグ中に表示される内容
+				ImGui::Text(object.first.c_str());
+
+				ImGui::EndDragDropSource();
+			}
 		}
 
 		ImGui::TreePop();
 	}
 
 	ImGui::EndChild();
+
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		// WORLDオブジェクトを受け取ったら
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("WORLD_OBJECT"))
+		{
+			auto data = (GameObject*)payload->Data;
+
+			// ファイルを開き保存
+			auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Objects/", L".gameobject");
+
+			// セーブ
+			if (!path.empty())
+			{
+				ObjectSaver::SaveObjectToFile(
+					path,
+					data
+				);
+
+				// マネージャーに追加
+				PrefabManager::Instance().AddPrefab(std::filesystem::path(path).stem().string(), path);
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
 }

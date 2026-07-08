@@ -160,10 +160,10 @@
     <ClInclude Include="GameLib\Math\GameMath.h" />
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
     <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h" />
-    <ClInclude Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.h" />
     <ClInclude Include="Game\GamePlayScene\Player\MoveComponent.h" />
     <ClInclude Include="Game\EditScene\EditScene.h" />
     <ClInclude Include="Game\EditScene\TestPlayScene.h" />
+    <ClInclude Include="GameLib\Common\ResourceReader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -200,10 +200,10 @@
     <ClCompile Include="GameLib\Math\GameMath.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
-    <ClCompile Include="Game\GamePlayScene\UI\Clear\ClearUIMaker.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\MoveComponent.cpp" />
     <ClCompile Include="Game\EditScene\EditScene.cpp" />
     <ClCompile Include="Game\EditScene\TestPlayScene.cpp" />
+    <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

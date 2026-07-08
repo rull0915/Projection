@@ -29,6 +29,7 @@
 
 // その他
 #include "Common/Random.h"
+#include "GameLib/Common/ResourceReader.h"
 
 extern void ExitGame() noexcept;
 
@@ -93,12 +94,24 @@ void Game::Initialize(HWND window, int width, int height)
 	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
 
 	// 開始時のシーンを設定
-	m_sceneManager.SetStartScene("Edit");
+	m_sceneManager.SetStartScene("Title");
 
 	// ====== リソースの追加 ====== //
 
-	// Skybox
-	ResourceManager::Instance().AddTexture("Skybox", L"Resources/Textures/Skybox.dds");
+	// テクスチャ
+	ResourceReader::ReadTextures(L"Resources/Textures");
+
+	// 音
+	ResourceReader::ReadSounds(L"Resources/Sounds");
+
+	// フォント
+	ResourceReader::ReadFonts(L"Resources/Fonts");
+
+	// モデル
+	ResourceReader::ReadModels(L"Resources/Models");
+
+	// オブジェクト
+	ResourceReader::ReadObjects(L"Resources/Objects");
 
 	// ========================== //
 
@@ -172,13 +185,11 @@ void Game::Render()
 	context;
 
 	// 描画の開始 ----------------------------------------
-	// m_renderer.Start(context);
 
 	// 現在のシーンの描画
 	m_sceneManager.Render(m_renderer);
 
 	// 描画の終了 ----------------------------------------
-	// m_renderer.End();
 
 	m_deviceResources->PIXEndEvent();
 

@@ -35,16 +35,6 @@ GameObject::GameObject(CreateToken)
 	ADD_PROPERTY(m_tag);
 }
 
-void GameObject::BaseUpdate(const GameTimer& gameTimer)
-{
-	m_components.UpdateComponets(gameTimer);
-}
-
-void GameObject::BaseLateUpdate(const GameTimer& gameTimer)
-{
-	m_components.LateUpdateComponents(gameTimer);
-}
-
 void GameObject::BaseFinalize()
 {
 	// コンポーネント削除

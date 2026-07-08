@@ -20,6 +20,9 @@
 #include "Enemy.h"
 #include "Components/World/Transform/Transform.h"
 
+#include "Components/World/WorldComponentBase.h"
+#include "Components/Interface/IComponentListener.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
@@ -28,7 +31,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EnemyManager
+class EnemyManager : public WorldComponentBase, public IComponentListener
 {
 	// グラフを更新する感覚
 	static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
@@ -76,8 +79,9 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	EnemyManager()
-		: m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
+	EnemyManager(IComponentOwner* owner)
+		: WorldComponentBase(owner)
+		, m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
 		, m_normalNavigation2D{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
 		, m_enemies{}
 		, m_nowTime{ 0 }
@@ -90,43 +94,49 @@ public:
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
-	void Initialize();
+	void Awake() override;
 
-	void Update(const GameTimer& timer);
+	void Start() override;
+
+	void Update(const GameTimer& timer) override;
 
 	void DebugRenderer(Renderer& renderer);
 
 	// 敵を追加する関数
-	void AddEnemy(Enemy* component)
+	void OnComponentAdded(ComponentBase* component) override
 	{
-		m_addReserves.push_back(component);
+		// 敵なら
+		if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
+			// キャストして追加
+			m_addReserves.push_back(static_cast<Enemy*>(component));
+
+		// 着地候補点なら
+		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())
+			// キャストして追加
+			m_normalNavigation.AddNode(static_cast<LandingCandidatePoints*>(component));
+		
+		// 2D着地候補点なら
+		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints2D>())
+			// キャストして追加
+			m_normalNavigation2D.AddNode(static_cast<LandingCandidatePoints2D*>(component));
 	}
 	// 敵を削除する関数
-	void RemoveEnemy(Enemy* component)
+	void OnComponentRemoved(ComponentBase* component) override
 	{
-		m_removeReserves.push_back(component);
-	}
+		// 敵なら
+		if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
+			// キャストして追加
+			m_removeReserves.push_back(static_cast<Enemy*>(component));	
 
-	// 予約候補点を追加する関数
-	void AddPoints(LandingCandidatePoints* component)
-	{
-		m_normalNavigation.AddNode(component);
-	}
-	// 予約候補点を削除する関数
-	void RemovePoints(LandingCandidatePoints* component)
-	{
-		m_normalNavigation.RemoveNode(component);
-	}
+		// 着地候補点なら
+		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())
+			// キャストして追加
+			m_normalNavigation.RemoveNode(static_cast<LandingCandidatePoints*>(component));
 
-	// 2D予約候補点を追加する関数
-	void AddPoints(LandingCandidatePoints2D* component)
-	{
-		m_normalNavigation2D.AddNode(component);
-	}
-	// 2D予約候補点を削除する関数
-	void RemovePoints(LandingCandidatePoints2D* component)
-	{
-		m_normalNavigation2D.RemoveNode(component);
+		// 2D着地候補点なら
+		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints2D>())
+			// キャストして追加
+			m_normalNavigation2D.RemoveNode(static_cast<LandingCandidatePoints2D*>(component));
 	}
 
 	// 敵の次元変更を行う関数
@@ -136,11 +146,11 @@ public:
 	// ゲッター
 	//-----------------------------------------------------
 
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-	void SetPlayer(Transform* player) { m_playerTransform = player; }
+	// ID取得
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<EnemyManager>();
+	}
 
 private:
 

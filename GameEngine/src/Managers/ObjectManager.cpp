@@ -33,7 +33,7 @@ ObjectManager::~ObjectManager()
 /// <summary>
 /// 更新関数
 /// </summary>
-void ObjectManager::Update(const GameTimer& gameTimer)
+void ObjectManager::Update(const GameTimer& gameTimer, bool playing)
 {
 	// 予約されているオブジェクトを追加
 	AddReservedObject();
@@ -54,15 +54,19 @@ void ObjectManager::Update(const GameTimer& gameTimer)
 		// アクティブチェック
 		if (!object->IsActive()) continue;
 
+		// Start処理
+		object->GetComponentContainer().StartComponets();
+
 		// 更新処理
-		object->BaseUpdate(gameTimer);
+		if (playing || object->IsInvincible())
+			object->GetComponentContainer().UpdateComponents(gameTimer);
 	}
 }
 
 /// <summary>
 /// 遅延更新関数
 /// </summary>
-void ObjectManager::LateUpdate(const GameTimer& gameTimer)
+void ObjectManager::LateUpdate(const GameTimer& gameTimer, bool playing)
 {
 	// 全オブジェクトの遅延更新を呼び出す
 	for (auto& object : m_objects)
@@ -71,7 +75,8 @@ void ObjectManager::LateUpdate(const GameTimer& gameTimer)
 		if (!object->IsActive()) continue;
 
 		// 予約されたコンポーネントを追加
-		object->BaseLateUpdate(gameTimer);
+		if (playing || object->IsInvincible()) 
+			object->GetComponentContainer().LateUpdateComponents(gameTimer);
 	}
 }
 

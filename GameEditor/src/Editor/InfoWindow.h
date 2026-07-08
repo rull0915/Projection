@@ -17,6 +17,7 @@
 #include <functional>
 
 class Scene;
+class EditGUI;
 //====================================================//
 // クラス宣言
 //====================================================//
@@ -36,6 +37,9 @@ private:
 	// シーンポインタ
 	Scene* m_pScene;
 
+	// GUIポインタ
+	EditGUI* m_pGUI;
+
 	// 再生関数
 	std::function<void()> m_playFunc;
 
@@ -44,8 +48,9 @@ public:
     //-----------------------------------------------------
     // コンストラクタ / デストラクタ
     //-----------------------------------------------------
-	InfoWindow(Scene* pScene, std::function<void()> playFunc)
+	InfoWindow(Scene* pScene, EditGUI* pGUI, std::function<void()> playFunc)
 		: m_pScene{ pScene }
+		, m_pGUI{ pGUI }
 		, m_playFunc{ playFunc }
 	{
 	}

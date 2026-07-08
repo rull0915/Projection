@@ -17,6 +17,8 @@
 #include "Scene/Scene.h"
 #include "Editor/EditGUI.h"
 
+#include "Editor/SceneCamera.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
@@ -52,7 +54,7 @@ private:
 	std::unique_ptr<RenderTarget> m_sceneView;
 
 	// シーンビューカメラ
-	CameraBase* m_sceneViewCamera;
+	SceneCamera* m_sceneViewCamera;
 
 public:
 

@@ -164,13 +164,14 @@
     <ClInclude Include="src\Editor\InfoWindow.h" />
     <ClInclude Include="src\Editor\InspectorWindow.h" />
     <ClInclude Include="src\Editor\ProjectWindow.h" />
-    <ClInclude Include="src\Editor\SceneCamera.h" />
+    <ClInclude Include="include\Editor\SceneCamera.h" />
     <ClInclude Include="src\framework.h" />
     <ClInclude Include="include\Loader\ComponentFactory.h" />
     <ClInclude Include="include\Loader\ObjectLoader.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="include\Saver\ObjectSaver.h" />
     <ClInclude Include="include\System\EditorInitializer.h" />
+    <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="ThirdParty\imgui\imconfig.h" />
     <ClInclude Include="ThirdParty\imgui\imgui.h" />
     <ClInclude Include="ThirdParty\imgui\imgui_impl_dx11.h" />
@@ -200,6 +201,7 @@
     </ClCompile>
     <ClCompile Include="src\Saver\ObjectSaver.cpp" />
     <ClCompile Include="src\System\EditorInitializer.cpp" />
+    <ClCompile Include="src\System\PrefabManager.cpp" />
     <ClCompile Include="ThirdParty\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

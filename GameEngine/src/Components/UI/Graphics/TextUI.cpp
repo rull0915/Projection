@@ -55,7 +55,7 @@ void TextUI::Draw(Renderer& renderer)
 		Extend(scale * fontScale).									// 拡大縮小
 		Origin(m_origin).
 		Execute(m_pFont, s.c_str(), drawPos, 
-			GetColor() * GetMulColor());		// 描画呼び出し
+		GetColor() * GetMulColor());		// 描画呼び出し
 
 	// 描画後はアルファを元に戻す
 	renderer.SetAlpha(1.0f);

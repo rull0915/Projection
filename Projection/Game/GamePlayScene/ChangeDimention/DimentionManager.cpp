@@ -13,13 +13,17 @@
 #include "DimentionManager.h"
 #include "Settings/WorldSetting2D.h"
 
+#include "GameObject/GameObject.h"
+#include "Scene/Scene.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
 // コンストラクタ
-DimentionManager::DimentionManager()
-	: m_pCamera{ nullptr }
+DimentionManager::DimentionManager(IComponentOwner* owner)
+	: WorldComponentBase(owner)
+	, m_pCamera{ nullptr }
 	, m_components{}
 	, m_addReserves{}
 	, m_removeReserves{}
@@ -27,7 +31,7 @@ DimentionManager::DimentionManager()
 {
 }
 
-void DimentionManager::Initialize()
+void DimentionManager::Awake()
 {
 	m_nowState = State::World3D;
 
@@ -35,9 +39,19 @@ void DimentionManager::Initialize()
 
 	m_addReserves.clear();
 	m_removeReserves.clear();
+
+	// 現状存在する全てのChangeColliderを取得
+	auto& components = static_cast<GameObject*>(GetOwn())->GetScene()->GetAllComponents<ChangeColliderComponent>();
+
+	// 予約リストに追加
+	for (auto c : components) m_addReserves.push_back(static_cast<ChangeColliderComponent*>(c));
+
+	// ProjectionSmoothCameraを取得
+	ComponentBase* comp = static_cast<GameObject*>(GetOwn())->GetScene()->GetComponent<ProjectionSmoothCamera>();
+	if (comp) m_pCamera = static_cast<ProjectionSmoothCamera*>(comp);
 }
 
-void DimentionManager::Update()
+void DimentionManager::Update(const GameTimer& timer)
 {
 	// 今の状態によって分岐
 	switch (m_nowState)

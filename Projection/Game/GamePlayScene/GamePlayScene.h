@@ -55,11 +55,10 @@ private:
 	// 敵
 	GameObject* m_enemy;
 
-	// 次元管理クラス
-	DimentionManager m_dimentionManager;
+	DimentionManager* m_dimentionManager;
 
 	// 敵管理クラス
-	EnemyManager m_enemyManager;
+	EnemyManager* m_enemyManager;
 
 	// ----- テスト用 ----- //
 	std::unique_ptr<RenderTarget> m_renderTarget;
@@ -83,9 +82,6 @@ public:
 	void Render(Renderer& renderer) override;
 	void RenderOnScreen(Renderer& renderer) override;
 	void Finalize() override;
-
-	void RegisterComponentOnDerived(ComponentBase* component) override;
-	void UnRegisterComponentOnDerived(ComponentBase* component) override;
 
 	//-----------------------------------------------------
 	// ゲッター

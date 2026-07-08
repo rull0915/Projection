@@ -22,6 +22,7 @@
 #include "Loader/ObjectLoader.h"
 #include "Common/OpenFileDialog.h"
 
+#include "Editor/EditGUI.h"
 #include "Scene/Scene.h"
 
 //====================================================//
@@ -69,13 +70,16 @@ void InfoWindow::Draw()
 	ImGui::SameLine();
 	if (ImGui::Button("Save")) {
 
-		// 保存
-		ObjectSaver::SaveSceneToFile(
-			FileDialog::Open(
-				FileDialog::Mode::Save, L"Resources/Scenes/", L".scene"
-			),
-			m_pScene
-		);
+		auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Scenes/", L".scene");
+
+		// セーブ
+		if (!path.empty())
+		{
+			ObjectSaver::SaveSceneToFile(
+				path,
+				m_pScene
+			);
+		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load")) {
@@ -83,13 +87,18 @@ void InfoWindow::Draw()
 		// シーンのリセット
 		m_pScene->ResetObjects();
 
+		auto path = FileDialog::Open(FileDialog::Mode::Open, L"Resources/Scenes", L".scene");
+
 		// ロード
-		ObjectLoader::LoadSceneFromFile(
-			FileDialog::Open(
-				FileDialog::Mode::Open, L"Resources/Scenes/", L".scene"
-			),
-			m_pScene
-		);
+		if (!path.empty())
+		{
+			ObjectLoader::LoadSceneFromFile(
+				path,
+				m_pScene
+			);
+
+			m_pGUI->Reset();
+		}
 	}
 
 	ImGui::SameLine();

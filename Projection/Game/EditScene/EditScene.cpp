@@ -13,17 +13,14 @@
 #include "EditScene.h"
 
 #include "Game/Game.h"
-#include "Components/World/Camera/Derived/StandardCamera.h"
-#include "Components/World/Components.h"
 
 #include "System/ResourceManager.h"
 #include "System/WindowManager.h"
 
 #include "Saver/ObjectSaver.h"
 #include "Loader/ObjectLoader.h"
-#include "Input/KeyInput.h"
 
-#include "../GameEditor/src/Common/OpenFileDialog.h"
+#include "Physics/Ray.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -61,10 +58,12 @@ EditScene::EditScene(Game* pGame)
 
 	// ゲームビューカメラの作成
 	auto game = Generate();
+
 	// ヒエラルキー非表示
 	game->SetInvincible(true);
+
 	// カメラの追加
-	m_sceneViewCamera = game->AddComponent<StandardCamera>();
+	m_sceneViewCamera = game->AddComponent<SceneCamera>();
 }
 
 EditScene::~EditScene()
@@ -76,6 +75,8 @@ void EditScene::Initialize()
 {
 	// GUIのリセット
 	m_gui.Reset();
+
+	ObjectLoader::LoadSceneFromFile(L"Resources/Scenes/TestPlayScene.scene", this);
 }
 
 // 更新関数
@@ -88,6 +89,12 @@ void EditScene::Update(const GameTimer& gameTimer)
 
 	// 2つのビューを描画
 	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), GetMainRenderTarget()->GetShaderResourceView());
+
+	// シーンビューカメラ
+	m_sceneViewCamera->SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);
+
+	// カメラ
+	Ray ray = m_sceneViewCamera->GetRayToScreenPoint(GetMousePointOnMainScreen());
 }
 
 // 描画関数

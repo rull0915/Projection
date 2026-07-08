@@ -43,9 +43,6 @@
 // 関数定義
 //====================================================//
 
-// staticメンバ変数定義
-bool EngineInitializer::m_isInitialized = false;
-
 // エンジン全体の初期化処理
 void EngineInitializer::EngineInitialize()
 {
@@ -64,8 +61,6 @@ void EngineInitializer::EngineInitialize()
 	RegistDebugDrawers();
 
 	RegistCustomKeys();
-
-	AddResources();
 }
 
 void EngineInitializer::Regist3DCollisions()
@@ -255,18 +250,4 @@ void EngineInitializer::RegistCustomKeys()
 	Input::Custom::AddButton(
 		"Jump", Input::Bind(Input::Type::Key, Input::State::Down, Input::Key::Code::Space)
 	);
-}
-
-void EngineInitializer::AddResources()
-{
-	// テンプレートオブジェクト用モデル
-	ResourceManager::Instance().AddModel("Cube", L"Resources/Models/Cube.cmo");
-	ResourceManager::Instance().AddModel("Sphere", L"Resources/Models/Sphere.cmo");
-	ResourceManager::Instance().AddModel("Capsule", L"Resources/Models/Capsule.cmo");
-
-	// デフォルトフォント
-	ResourceManager::Instance().AddFont("Default", L"Resources/Fonts/Default.spritefont");
-
-	// デフォルトイメージ
-	ResourceManager::Instance().AddTexture("Default", L"Resources/Textures/Default.png");
 }

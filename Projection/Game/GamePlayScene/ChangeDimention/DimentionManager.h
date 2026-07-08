@@ -17,6 +17,9 @@
 #include "ChangeColliderComponent.h"
 #include "../Camera/ProjectionSmoothCamera.h"
 
+#include "Components/World/WorldComponentBase.h"
+#include "Components/Interface/IComponentListener.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
@@ -24,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class DimentionManager
+class DimentionManager : public WorldComponentBase, public IComponentListener
 {
 private:
 	// 状態
@@ -66,7 +69,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	DimentionManager();
+	DimentionManager(IComponentOwner* owner);
 	~DimentionManager() = default;
 
 	//-----------------------------------------------------
@@ -74,26 +77,46 @@ public:
 	//-----------------------------------------------------
 
 	// 初期化関数
-	void Initialize();
+	void Awake() override;
 
 	// 更新関数
-	void Update();
+	void Update(const GameTimer& timer) override;
 
 	// 次元を切り替える関数
 	void ChangeDimention(float changeTime = 1.0f);
 
 	bool GetIs2D() const { return (m_nowState == State::World2D); }
 
-	// コンポーネントを追加する関数
-	void AddChangeComponent(ChangeColliderComponent* component)
+	// コンポーネントが追加されたときに通知される関数
+	void OnComponentAdded(ComponentBase* component) override
 	{
-		m_addReserves.push_back(component);
+		// ChangeColliderの場合
+		if (component->GetID() == TypeIDGenerator::GetID<ChangeColliderComponent>())
+		{
+			m_addReserves.push_back(static_cast<ChangeColliderComponent*>(component));
+		}
+
+		// カメラの場合
+		if (component->GetID() == TypeIDGenerator::GetID<ProjectionSmoothCamera>())
+		{
+			m_pCamera = static_cast<ProjectionSmoothCamera*>(component);
+		}
 	}
 
-	// コンポーネントを削除する関数
-	void RemoveChangeComponent(ChangeColliderComponent* component)
+	// コンポーネントを削除されたときに通知される関数
+	void OnComponentRemoved(ComponentBase* component) override
 	{
-		m_removeReserves.push_back(component);
+		// ChangeColliderの場合
+		if (component->GetID() == TypeIDGenerator::GetID<ChangeColliderComponent>()) 
+		{
+			m_removeReserves.push_back(static_cast<ChangeColliderComponent*>(component));
+		}
+
+		// カメラの場合
+		if (component->GetID() == TypeIDGenerator::GetID<ProjectionSmoothCamera>())
+		{
+			if (m_pCamera == static_cast<ProjectionSmoothCamera*>(component)) m_pCamera = nullptr;
+		}
 	}
 
 	// カメラをセットする関数
@@ -108,6 +131,15 @@ public:
 		return m_nowState == State::ChangeTo2D || m_nowState == State::ChangeTo3D;
 	}
 
+	//-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
+
+	// ID取得
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<DimentionManager>();
+	}
 
 private:
 

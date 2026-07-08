@@ -43,7 +43,7 @@ private:
 	//-----------------------------------------------------
 
 	// 保持するキャンバスのリスト
-	std::vector<std::unique_ptr<Canvas>> m_reserveCanvases;
+	std::vector<std::unique_ptr<Canvas>> m_addReserves;
 	std::vector<std::unique_ptr<Canvas>> m_canvases;
 
 	bool m_needSort; // キャンバスの描画順を再ソートする必要があるか
@@ -63,8 +63,8 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Update(const GameTimer& gameTimer);
-	void LateUpdate(const GameTimer& gameTimer);
+	void Update(const GameTimer& gameTimer, bool playing);
+	void LateUpdate(const GameTimer& gameTimer, bool playing);
 
 	void Draw(Renderer& renderer);
 
@@ -85,7 +85,7 @@ public:
 	// リセット
 	void Reset()
 	{
-		m_reserveCanvases.clear();
+		m_addReserves.clear();
 		m_canvases.clear();
 
 		m_needSort = true;
@@ -118,4 +118,7 @@ private:
 
 	// 予約済みキャンバスを登録する関数
 	void RegisterReserveCanvases();
+
+	// 削除済みキャンバスを削除する関数
+	void RemoveDestroyedCanvas();
 };

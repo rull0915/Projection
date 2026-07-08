@@ -35,10 +35,13 @@ UIManager::~UIManager()
 /// <summary>
 /// 更新関数
 /// </summary>
-void UIManager::Update(const GameTimer& gameTimer)
+void UIManager::Update(const GameTimer& gameTimer, bool playing)
 {
 	// 予約済みを登録
 	RegisterReserveCanvases();
+
+	// 予約済みを削除
+	RemoveDestroyedCanvas();
 
 	// ソートが必要な場合
 	if (m_needSort) SortCanvas();
@@ -62,19 +65,19 @@ void UIManager::Update(const GameTimer& gameTimer)
 			}
 
 			// 更新
-			canvas->Update(gameTimer);
+			canvas->Update(gameTimer, playing);
 		}
 	}
 }
 
-void UIManager::LateUpdate(const GameTimer& gameTimer)
+void UIManager::LateUpdate(const GameTimer& gameTimer, bool playing)
 {
 	// キャンバスを更新する
 	for (auto& canvas : m_canvases)
 	{
 		if (canvas->IsActive())
 		{
-			canvas->LateUpdate(gameTimer);
+			canvas->LateUpdate(gameTimer, playing);
 		}
 	}
 }
@@ -133,11 +136,16 @@ void UIManager::SortCanvas()
 
 void UIManager::RegisterReserveCanvases()
 {
-	for (auto& reserve : m_reserveCanvases)
+	for (auto& reserve : m_addReserves)
 	{
 		m_canvases.push_back(std::move(reserve));
 	}
-	m_reserveCanvases.clear();
+	m_addReserves.clear();
+}
+
+void UIManager::RemoveDestroyedCanvas()
+{
+	std::erase_if(m_canvases, [](const std::unique_ptr<Canvas>& canvas) { return canvas->IsDestroy(); });
 }
 
 void UIManager::Draw(Renderer& renderer)
@@ -169,7 +177,7 @@ Canvas* UIManager::CreateCanvas()
 	// 生成
 	auto canvas = std::make_unique<Canvas>(this);
 	Canvas* ptr = canvas.get();
-	m_reserveCanvases.push_back(std::move(canvas));
+	m_addReserves.push_back(std::move(canvas));
 
 	m_needSort = true;
 
@@ -178,6 +186,7 @@ Canvas* UIManager::CreateCanvas()
 
 void UIManager::RemoveObjects()
 {
+	// 全キャンバスを調べる
 	for (auto& canvas : m_canvases)
 	{
 		canvas->RemoveDeadComponent();

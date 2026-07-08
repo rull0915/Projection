@@ -13,6 +13,7 @@
 #include "pch.h"
 #include <Windows.h>
 #include <shobjidl.h>
+#include <filesystem>
 
 #include "OpenFileDialog.h"
 
@@ -23,9 +24,18 @@ std::wstring FileDialog::Open(Mode mode, const std::wstring& initPath, const std
 
 	// ダイアログオブジェクトのポインタを作成
 	IFileDialog* pFile = nullptr;
-	
+
 	// 選択したファイルのパスを受け取る変数の作成
 	std::wstring resultPath = L"";
+
+	// 現在の作業ディレクトリを取得
+	std::filesystem::path current = std::filesystem::current_path();
+
+	// 相対パスを付け足す
+	current /= initPath;
+
+	// ファイルの区切りを\\に統一する。
+	current.make_preferred();
 
 	// インスタンス作成
 	HRESULT hr;
@@ -49,6 +59,21 @@ std::wstring FileDialog::Open(Mode mode, const std::wstring& initPath, const std
 	// 成功していたら
 	if (SUCCEEDED(hr))
 	{
+		// 初期ディレクトリを指定する変数を用意
+		Microsoft::WRL::ComPtr<IShellItem> folder;
+
+		// 作成
+		hr = SHCreateItemFromParsingName(
+			current.wstring().c_str(),
+			nullptr,
+			IID_PPV_ARGS(&folder));
+
+		// 反映する
+		if (SUCCEEDED(hr))
+		{
+			pFile->SetFolder(folder.Get());
+		}
+
 		// フィルターの設定
 		std::wstring filter = L"*" + extention;
 

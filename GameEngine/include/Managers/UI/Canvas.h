@@ -38,6 +38,9 @@ private:
 	// アクティブフラグ
 	bool m_isActive;
 
+	// 削除フラグ
+	bool m_destroy;
+
 	// 名前
 	std::string m_canvasName;
 
@@ -74,8 +77,8 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Update(const GameTimer& gameTimer);
-	void LateUpdate(const GameTimer& gameTimer);
+	void Update(const GameTimer& gameTimer, bool playing);
+	void LateUpdate(const GameTimer& gameTimer, bool playing);
 
 	void Draw(Renderer& renderer);
 
@@ -104,6 +107,8 @@ public:
 
 	bool IsActive() const { return m_isActive; }
 
+	bool IsDestroy() const { return m_destroy; }
+
 	// 全オブジェクト
 	const std::vector<std::unique_ptr<GameObject>>& GetAllObjects() const { return m_uiObjects; }
 
@@ -120,6 +125,8 @@ public:
 	void SetDrawOrder(int order);
 
 	void SetIsActive(bool f) { m_isActive = f; }
+
+	void Destroy() { m_destroy = true; }
 
 	// キャンバス名
 	void SetCanvasName(const std::string& name) { m_canvasName = name; }

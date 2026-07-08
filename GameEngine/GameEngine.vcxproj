@@ -209,6 +209,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Renderer\EachRenderer\UIRenderer.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Scene\ComponentRegister.cpp" />
+    <ClCompile Include="src\Scene\ObjectFinder.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Scene\Transition\FadeTransition.cpp">
@@ -245,6 +246,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Common\Random.h" />
     <ClInclude Include="include\Common\State\StateBase.h" />
     <ClInclude Include="include\Common\State\StateMachine.h" />
+    <ClInclude Include="include\Components\Interface\IComponentListener.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Components\World\Camera\CameraBase.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\TargetCamera.h" />
@@ -363,7 +368,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Renderer\RenderStateCache.h" />
-    <ClInclude Include="src\Scene\ComponentRegister.h" />
+    <ClInclude Include="include\Scene\ComponentRegister.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
     <ClInclude Include="include\Scene\Transition\TransitionBase.h" />
@@ -392,6 +397,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\System\Render\RenderTarget.h" />
+    <ClInclude Include="include\Scene\ObjectFinder.h" />
     <ClInclude Include="src\Scene\UpdatePipeline.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

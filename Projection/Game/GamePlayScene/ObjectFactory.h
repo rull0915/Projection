@@ -43,6 +43,9 @@ namespace ObjectFactory
 		// 原型を生成
 		GameObject* obj = scene->Generate(position);
 
+		obj->SetName("Player");
+		obj->SetTag("Player");
+
 		// 必須コンポーネントを追加
 
 		// プレイヤー
@@ -137,7 +140,7 @@ namespace ObjectFactory
 		enemy->AddComponent<ChangeColliderComponent>();
 
 		// 2D補正
-	//	enemy->AddComponent<DepthCorrection>();
+		enemy->AddComponent<DepthCorrection>();
 
 		// 敵
 		enemy->AddComponent<Enemy>();
@@ -170,7 +173,7 @@ namespace ObjectFactory
 		auto transform = col->GetComponent<Transform>();
 		transform->SetLocalEulerAngle({});
 
-		// 敵
+		// ゴール
 		goal->AddComponent<GoalComponent>();
 
 		return goal;

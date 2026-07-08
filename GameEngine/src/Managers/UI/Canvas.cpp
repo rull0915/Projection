@@ -25,6 +25,7 @@
 
 Canvas::Canvas(UIManager* uiManager)
 	: m_isActive{ true }
+	, m_destroy{ false }
 	, m_canvasName{}
 	, m_drawOrder{ 0 }
 	, m_pUIManager{ uiManager }
@@ -33,6 +34,7 @@ Canvas::Canvas(UIManager* uiManager)
 	, m_uiObjects{}
 	, m_components{}
 {
+	ADD_PROPERTY(m_isActive);
 	ADD_PROPERTY(m_canvasName);
 	ADD_PROPERTY(m_drawOrder);
 
@@ -53,7 +55,7 @@ Canvas::Canvas(UIManager* uiManager)
 	rectTransform->SetPivot({ 0.5f, 0.5f });
 }
 
-void Canvas::Update(const GameTimer& gameTimer)
+void Canvas::Update(const GameTimer& gameTimer, bool playing)
 {
 	// 生成予約されたオブジェクトを登録
 	AddReserves();
@@ -75,11 +77,12 @@ void Canvas::Update(const GameTimer& gameTimer)
 		if (!object->IsActive()) continue;
 
 		// 更新処理
-		object->BaseUpdate(gameTimer);
+		if (playing || object->IsInvincible())
+			object->GetComponentContainer().UpdateComponents(gameTimer);
 	}
 }
 
-void Canvas::LateUpdate(const GameTimer& gameTimer)
+void Canvas::LateUpdate(const GameTimer& gameTimer, bool playing)
 {
 	// 全オブジェクトの遅延更新を呼び出す
 	for (auto& object : m_uiObjects)
@@ -88,7 +91,8 @@ void Canvas::LateUpdate(const GameTimer& gameTimer)
 		if (!object->IsActive()) continue;
 
 		// 予約されたコンポーネントを追加
-		object->BaseLateUpdate(gameTimer);
+		if (playing || object->IsInvincible())
+			object->GetComponentContainer().LateUpdateComponents(gameTimer);
 	}
 }
 

@@ -31,6 +31,9 @@ void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj)
 	// 登録されているプロパティを全て調べる
 	for (auto& property : obj.GetPropaties())
 	{
+		// 存在チェック
+		if (!json.contains(property.name)) continue;	
+
 		// 型によって分岐
 		switch (property.type)
 		{

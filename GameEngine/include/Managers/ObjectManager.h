@@ -58,8 +58,8 @@ public:
 	//-----------------------------------------------------
 	
 	// 更新関数
-	void Update(const GameTimer& gameTimer);
-	void LateUpdate(const GameTimer& gameTimer);
+	void Update(const GameTimer& gameTimer, bool playing);
+	void LateUpdate(const GameTimer& gameTimer, bool playing);
 
 	void RemoveDeadComponent();
 

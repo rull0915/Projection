@@ -49,7 +49,10 @@ void TextRenderer::Initialize()
 /// </summary>
 void TextRenderer::Start()
 {
-	m_spriteBatch->Begin();
+	m_spriteBatch->Begin(
+		DirectX::SpriteSortMode_Deferred,
+		m_renderer.GetStates()->NonPremultiplied()
+	);
 }
 
 /// <summary>

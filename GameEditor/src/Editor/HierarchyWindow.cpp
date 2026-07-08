@@ -19,6 +19,8 @@
 #include "Managers/UI/UIManager.h"
 #include "Scene/Scene.h"
 
+#include "Loader/ObjectLoader.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -108,6 +110,16 @@ void HierarchyWindow::DrawObjects(ObjectManager* objectManager)
 			{
 				t->SetParent(nullptr);
 			}
+		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB"))
+		{
+			auto data = (std::wstring*)payload->Data;
+
+			// 追加
+			GameObject* obj = m_pScene->Generate();
+
+			// 読み込み
+			ObjectLoader::LoadFromFile(*data, obj);
 		}
 
 		ImGui::EndDragDropTarget();
@@ -335,7 +347,13 @@ void HierarchyWindow::DrawCanvas(Canvas* canvas)
 		// Deleteを表示
 		if (ImGui::MenuItem("Delete"))
 		{
-			// Todo 削除
+			canvas->Destroy();
+
+			// 選択中ならnullにする
+			if (m_selected == canvas)
+			{
+				m_selected = nullptr;
+			}
 		}
 		// Generate表示
 		if (ImGui::MenuItem("Generate"))

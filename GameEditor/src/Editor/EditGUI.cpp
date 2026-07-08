@@ -30,7 +30,7 @@ EditGUI::EditGUI(Scene* pScene, std::function<void()> playFunc)
 	, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene) }
 	, m_inspector{ std::make_unique<InspectorWindow>() }
 	, m_project{ std::make_unique<ProjectWindow>() }
-	, m_info{ std::make_unique<InfoWindow>(pScene, playFunc) }
+	, m_info{ std::make_unique<InfoWindow>(pScene, this, playFunc) }
 	, m_nowType{ WindowType::None }
 {}
 
@@ -90,10 +90,9 @@ void EditGUI::StartSceneView()
 {
 	// 位置とサイズを固定
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
+//	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
 
-	ImGui::Begin("Scene", nullptr,
-		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove);
 		
 	// ウィンドウへのクリックを検知
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
@@ -109,8 +108,7 @@ void EditGUI::StartGameView()
 	ImGui::SetNextWindowPos(ImVec2(0, WindowManager::Instance().GetHeightF() / 2));
 	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
 
-	ImGui::Begin("GameView", nullptr,
-		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("GameView", nullptr, ImGuiWindowFlags_NoMove);
 	
 	// ウィンドウへのクリックを検知
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知

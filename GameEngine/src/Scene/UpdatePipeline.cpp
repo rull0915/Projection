@@ -44,7 +44,7 @@ void UpdatePipeline::Initialize()
 void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 {
 	// 各オブジェクトの更新
-	m_objectManager->Update(gameTimer);
+	m_objectManager->Update(gameTimer, playing);
 
 	// 各管理クラスの予約反映
 	m_physicsManager->ReflectReserves();
@@ -69,9 +69,9 @@ void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 		// 音の更新
 		m_soundManager->Update();
 
-		// 各オブジェクトの遅延更新
-		m_objectManager->LateUpdate(gameTimer);
 	}
+	// 各オブジェクトの遅延更新
+	m_objectManager->LateUpdate(gameTimer, playing);
 
 	// 削除予約を消す
 	m_objectManager->RemoveDeadComponent();
@@ -81,9 +81,9 @@ void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 	m_rendererManager->Update();
 
 	// UIの更新
-	m_uiManager->Update(gameTimer);
+	m_uiManager->Update(gameTimer, playing);
 	m_uiManager->CheckHitRay(m_pScene->GetMousePointOnMainScreen());
-	m_uiManager->LateUpdate(gameTimer);
+	m_uiManager->LateUpdate(gameTimer, playing);
 	m_uiManager->RemoveObjects();
 }
 

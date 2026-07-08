@@ -78,8 +78,8 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	// 全コンポーネントを更新する関数
-	void UpdateComponets(const GameTimer& gameTimer)
+	// 全コンポーネントのStartを呼ぶ関数
+	void StartComponets()
 	{
 		for (auto& component : m_pComponents)
 		{
@@ -92,6 +92,15 @@ public:
 				component->Start();
 				component->SetStart();
 			}
+		}
+	}
+
+	// 全コンポーネントを更新する関数
+	void UpdateComponents(const GameTimer& gameTimer)
+	{
+		for (auto& component : m_pComponents)
+		{
+			if (!component->IsActive()) continue;
 
 			// 更新処理
 			component->Update(gameTimer);

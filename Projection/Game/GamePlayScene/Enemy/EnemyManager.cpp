@@ -15,11 +15,13 @@
 #include "AI/AStarPathFinder.h"
 #include "../Player/Player.h"
 
+#include "Scene/Scene.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-void EnemyManager::Initialize()
+void EnemyManager::Awake()
 {
 	// グラフの初期化
 	m_normalNavigation.ResetGraph();
@@ -31,8 +33,37 @@ void EnemyManager::Initialize()
 
 	m_normalNavigation2D.Initialize();
 
+	// シーンを取得
+	Scene* pScene = static_cast<GameObject*>(GetOwn())->GetScene();
+
+	// 既に存在する全敵を取得
+	auto& enemies = pScene->GetAllComponents<Enemy>();
+
+	// 予約リストに追加
+	for (auto& enemy : enemies) m_addReserves.push_back(static_cast<Enemy*>(enemy));
+
+	// 既に存在する全着地候補点を取得
+	auto& pointsList = pScene->GetAllComponents<LandingCandidatePoints>();
+
+	// 予約リストに追加
+	for (auto& points : pointsList) m_normalNavigation.AddNode(static_cast<LandingCandidatePoints*>(points));
+
+	// 既に存在する全2D着地候補点を取得
+	auto& pointsList2D = pScene->GetAllComponents<LandingCandidatePoints2D>();
+
+	// 予約リストに追加
+	for (auto& points2D : pointsList2D) m_normalNavigation2D.AddNode(static_cast<LandingCandidatePoints2D*>(points2D));
+}
+
+void EnemyManager::Start()
+{
 	// フラグのリセット
 	m_is2D = false;
+
+	// プレイヤーを取得
+	GameObject* player = static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
+
+	if (player) m_playerTransform = player->GetComponent<Transform>();
 }
 
 void EnemyManager::Update(const GameTimer& timer)

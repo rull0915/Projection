@@ -34,6 +34,8 @@
 #include "GamePlayScene/Enemy/Enemy.h"
 #include "GamePlayScene/Player/Player.h"
 #include "GamePlayScene/Stage/Components/GoalComponent.h"
+#include "GamePlayScene/ChangeDimention/DimentionManager.h"
+#include "GamePlayScene/Enemy/EnemyManager.h"
 
 // 生成関数登録マクロ
 #define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, Name::SPACE, [](GameObject* o){ return o->AddComponent<Name>(); }))
@@ -83,6 +85,10 @@ void GameInitializer::RegistFactries()
 	REGISTER_FACTORY(Enemy);
 	REGISTER_FACTORY(Player);
 	REGISTER_FACTORY(GoalComponent);
+	REGISTER_FACTORY(DimentionManager);
+	REGISTER_FACTORY(EnemyManager);
+	REGISTER_FACTORY(LandingCandidatePoints);
+	REGISTER_FACTORY(LandingCandidatePoints2D);
 }
 
 void GameInitializer::AddKey()

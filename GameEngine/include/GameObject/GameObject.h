@@ -90,10 +90,6 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void BaseUpdate(const GameTimer& gameTimer);
-
-	void BaseLateUpdate(const GameTimer& gameTimer);
-
 	void BaseFinalize();
 
 	GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });

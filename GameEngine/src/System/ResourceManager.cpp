@@ -58,7 +58,7 @@ void ResourceManager::Update()
 	}
 }
 
-void ResourceManager::AddTexture(const std::string& keyName, const std::wstring& filePass)
+void ResourceManager::AddTexture(const std::string& keyName, const std::wstring& filePath)
 {
 	// キーの重複チェック
 	if (m_textures.find(keyName) != m_textures.end()) return;
@@ -69,13 +69,13 @@ void ResourceManager::AddTexture(const std::string& keyName, const std::wstring&
 	HRESULT hr;
 
 	// キーの拡張子を取得
-	std::string extension = GetExtension::Get(filePass);
+	std::string extension = GetExtension::Get(filePath);
 
 	if (extension == ".dds")
 	{
 		hr = CreateDDSTextureFromFile(
 			m_device,                 // ID3D11Device*
-			filePass.data(),          // ファイルパス
+			filePath.data(),          // ファイルパス
 			nullptr,
 			texture.GetAddressOf()
 		);
@@ -84,7 +84,7 @@ void ResourceManager::AddTexture(const std::string& keyName, const std::wstring&
 	{
 		hr = CreateWICTextureFromFile(
 			m_device,                 // ID3D11Device*
-			filePass.data(),          // ファイルパス
+			filePath.data(),          // ファイルパス
 			nullptr,
 			texture.GetAddressOf()
 		);
@@ -121,9 +121,23 @@ void ResourceManager::AddModel(const std::string& key, const std::wstring& fileP
 	// 既に同じキーが存在する場合はスキップ
 	if (m_models.find(key) != m_models.end()) return;
 
-	auto playerModel = Model::CreateFromCMO(m_device, filePath.c_str(), *m_effect);
+	// キーの拡張子を取得
+	std::string extension = GetExtension::Get(filePath);
 
-	m_models.insert(std::make_pair(key, std::move(playerModel)));
+	std::unique_ptr<DirectX::Model> model;
+
+	// CMOファイルの場合
+	if (extension == ".cmo")
+	{
+		model = Model::CreateFromCMO(m_device, filePath.c_str(), *m_effect);
+	}
+	// SDKMESHファイルの場合
+	else if (extension == ".sdkmesh")
+	{
+		model = Model::CreateFromSDKMESH(m_device, filePath.c_str(), *m_effect);
+	}
+
+	m_models.insert(std::make_pair(key, std::move(model)));
 }
 
 void ResourceManager::AddSound(const std::string& key, const std::wstring& filePath)

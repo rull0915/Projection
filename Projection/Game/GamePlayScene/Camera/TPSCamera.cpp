@@ -13,6 +13,8 @@
 #include "TPSCamera.h"
 
 #include "Input/MouseInput.h"
+#include "GameObject/GameObject.h"
+#include "Scene/Scene.h"
 #include <algorithm>
 
 //====================================================//
@@ -26,7 +28,14 @@ void TPSCamera::Awake()
 }
 
 void TPSCamera::Start()
-{}
+{
+	// 既に設定されていれば
+	if (!m_targetName.empty())
+	{
+		// 読み込み
+		SetTarget(m_targetName);
+	}
+}
 
 void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 {
@@ -63,4 +72,19 @@ void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 
 	// ターゲットの角度を設置
 	m_pTargetTransform->SetLocalEulerAngle({ 0, m_angle.y, 0.0f });
+}
+
+void TPSCamera::SetTarget(const std::string& name)
+{
+	// ターゲットにセット
+	m_targetName = name;
+
+	// 名前でオブジェクトを検索する
+	GameObject* obj = static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
+
+	// 見つかれば
+	if (obj)
+	{
+		m_pTargetTransform = obj->GetComponent<Transform>();
+	}
 }

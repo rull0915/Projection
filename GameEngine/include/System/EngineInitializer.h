@@ -31,7 +31,7 @@ class EngineInitializer
 	//-----------------------------------------------------
 
 	// 初期化済みフラグ
-	static bool m_isInitialized;
+	inline static bool m_isInitialized = false;
 
 public:
 
@@ -64,7 +64,4 @@ private:
 
 	// デフォルトのカスタムキーの登録
 	static void RegistCustomKeys();
-
-	// デフォルトのリソースの追加
-	static void AddResources();
 };

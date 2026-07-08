@@ -43,6 +43,9 @@ private:
 	// メンバ変数
 	//-----------------------------------------------------
 
+	// ターゲットの名前
+	std::string m_targetName;
+
 	Transform* m_pOwnTransform;
 	Transform* m_pTargetTransform;
 
@@ -55,10 +58,12 @@ public:
 	//-----------------------------------------------------
 	TPSCamera(IComponentOwner* owner)
 		: WorldComponentBase(owner)
+		, m_targetName{ "" }
 		, m_pOwnTransform{ nullptr }
 		, m_pTargetTransform{ nullptr }
 		, m_angle{ 0.0f, 0.0f }
 	{
+		ADD_PROPERTY(m_targetName);
 	}
 
 	~TPSCamera() = default;
@@ -73,7 +78,7 @@ public:
 
 	void LateUpdate(const GameTimer& gameTimer) override;
 
-	void SetTarget(Transform* t) { m_pTargetTransform = t; }
+	void SetTarget(const std::string& name);
 
 	// ID取得
 	unsigned int GetID() override

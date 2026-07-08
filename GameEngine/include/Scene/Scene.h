@@ -25,12 +25,14 @@
 #include "System/Render/RenderContext.h"
 #include "System/Render/RenderTarget.h"
 
+#include "ComponentRegister.h"
+#include "ObjectFinder.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
 
 class SceneManager;
-class ComponentRegister;
 class UpdatePipeline;
 
 class Renderer;
@@ -58,6 +60,9 @@ private:
 
 	// デフォルトで使用する描画ターゲット
 	std::unique_ptr<RenderTarget> m_defaultRenderTarget;
+
+	// オブジェクト検索
+	std::unique_ptr<ObjectFinder> m_objectFinder;
 
 	// メインスクリーンの描画設定
 	bool m_drawMainScreen;	// 描画するかどうか
@@ -110,8 +115,12 @@ public:
 	// コンポーネントの登録を解除する関数
 	void UnRegsisterComponent(ComponentBase* component);
 
-	// メインカメラをセットする関数
-	void SetMainCamera(CameraBase* camera);
+	// RayCast関数
+	bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
+
+	//-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
 
 	// メインカメラを取得する関数
 	CameraBase* GetMainCamera() const;
@@ -119,11 +128,40 @@ public:
 	// メインの描画ターゲットを取得する関数
 	const RenderTarget* GetMainRenderTarget() const { return m_defaultRenderTarget.get(); }
 
-	// RayCast関数
-	bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
+	// 二大管理クラスの取得
+	ObjectManager* GetObjectManager() const;
+	UIManager* GetUIManager() const;
+
+	// オブジェクトファインダー
+	const ObjectFinder* GetObjectFinder() const { return m_objectFinder.get(); }
 
 	// メインスクリーンの位置を反映したマウス位置
 	DirectX::SimpleMath::Vector2 GetMousePointOnMainScreen();
+
+	// スクリーン設定
+	DirectX::SimpleMath::Vector2 GetMainScreenStartPoint() const { return m_startPoint; }
+	DirectX::SimpleMath::Vector2 GetMainScreenScale() const { return m_scale; }
+
+	// 全コンポーネントを取得する
+	template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
+	std::vector<ComponentBase*>& GetAllComponents() const { return m_componentRegister->GetAllComponents<T>(); }
+
+	// 1コンポーネントを取得する
+	template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
+	ComponentBase* GetComponent() const { return m_componentRegister->GetComponent<T>(); }
+
+	// カテゴリ指定
+	std::vector<ComponentBase*>& GetAllComponentsWithCategory(ComponentCategory c) const { return m_componentRegister->GetAllComponentsWithCategory(c); }
+
+	// 1コンポーネントを取得する
+	ComponentBase* GetComponentWithCategory(ComponentCategory category) const { return m_componentRegister->GetComponentWithCategory(category); }
+
+	//-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
+	
+	// メインカメラをセットする関数
+	void SetMainCamera(CameraBase* camera);
 
 	// 描画フラグ
 	void SetDrawMainScreen(bool f) { m_drawMainScreen = f; }
@@ -131,16 +169,8 @@ public:
 	// 再生フラグ
 	void SetPlayFlag(bool f) { m_play = f; }
 
-	// スクリーン設定
-	DirectX::SimpleMath::Vector2 GetMainScreenStartPoint() const { return m_startPoint; }
-	DirectX::SimpleMath::Vector2 GetMainScreenScale() const { return m_scale; }
-
 	void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
 	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
-
-	// 二大管理クラスの取得
-	ObjectManager* GetObjectManager() const;
-	UIManager* GetUIManager() const;
 
 protected:
 

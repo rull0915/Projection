@@ -21,7 +21,6 @@
 // システム
 #include "System/ResourceManager.h"
 #include "System/WindowManager.h"
-#include "ComponentRegister.h"
 
 #include "Debug/DebugManager.h"
 
@@ -47,6 +46,7 @@ Scene::Scene(SceneManager* pSceneManager)
 	, m_updatePipeline		{ std::make_unique<UpdatePipeline>(this) }
 	, m_componentRegister	{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
 	, m_defaultRenderTarget { std::make_unique<RenderTarget>() }
+	, m_objectFinder		{ std::make_unique<ObjectFinder>(this) }
 	, m_drawMainScreen{ true }
 	, m_startPoint{ 0, 0 }
 	, m_scale{ 1.0f, 1.0f }
