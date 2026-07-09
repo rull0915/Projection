@@ -1,0 +1,19 @@
+{
+  "Models": [
+    {
+      "key": "Stage",
+      "path": "Models/Stage1.fbx"
+    },
+    {
+      "key": "Enemy",
+      "path": "Models/Enemy.fbx"
+    }
+  ],
+
+  "Sounds": [
+    {
+      "key": "BGM",
+      "path": "Sounds/Stage1.mp3"
+    }
+  ]
+}
