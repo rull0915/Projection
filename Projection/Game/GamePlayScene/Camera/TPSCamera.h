@@ -27,11 +27,6 @@
 //====================================================//
 class TPSCamera : public WorldComponentBase
 {
-	// 感度
-	static constexpr float SENSITIVITY = 0.5f;
-
-	static constexpr float DISTANCE = 5.0f;
-
 private:
 
 	//-----------------------------------------------------
@@ -45,6 +40,11 @@ private:
 
 	// ターゲットの名前
 	std::string m_targetName;
+
+	// 感度
+	float m_sensitivity;
+
+	float m_distance;
 
 	Transform* m_pOwnTransform;
 	Transform* m_pTargetTransform;
@@ -62,8 +62,12 @@ public:
 		, m_pOwnTransform{ nullptr }
 		, m_pTargetTransform{ nullptr }
 		, m_angle{ 0.0f, 0.0f }
+		, m_sensitivity{ 0.5f }
+		, m_distance{ 5.0f }
 	{
 		ADD_PROPERTY(m_targetName);
+		ADD_PROPERTY(m_sensitivity);
+		ADD_PROPERTY(m_distance);
 	}
 
 	~TPSCamera() = default;

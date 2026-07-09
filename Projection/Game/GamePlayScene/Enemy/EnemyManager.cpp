@@ -17,6 +17,9 @@
 
 #include "Scene/Scene.h"
 
+#include "Common/EventBus.h"
+#include "../GamePlayEvent.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -40,7 +43,13 @@ void EnemyManager::Awake()
 	auto& enemies = pScene->GetAllComponents<Enemy>();
 
 	// 予約リストに追加
-	for (auto& enemy : enemies) m_addReserves.push_back(static_cast<Enemy*>(enemy));
+	for (auto& enemy : enemies)
+	{
+		// 一旦非アクティブにしておく
+		enemy->SetActive(false);
+
+		m_addReserves.push_back(static_cast<Enemy*>(enemy));
+	}
 
 	// 既に存在する全着地候補点を取得
 	auto& pointsList = pScene->GetAllComponents<LandingCandidatePoints>();
@@ -53,6 +62,16 @@ void EnemyManager::Awake()
 
 	// 予約リストに追加
 	for (auto& points2D : pointsList2D) m_normalNavigation2D.AddNode(static_cast<LandingCandidatePoints2D*>(points2D));
+
+	// スタート時イベントを追加する
+	EventBus<GamePlayEvent>::Register(
+		GamePlayEvent::Start,
+		[&]() {
+			m_isStarted = true;
+			for (auto& enemy : m_enemies) enemy->SetActive(true);
+			for (auto& enemy : m_addReserves) enemy->SetActive(true);
+		}
+	);
 }
 
 void EnemyManager::Start()
@@ -126,6 +145,8 @@ void EnemyManager::Update(const GameTimer& timer)
 			// 全ての敵をチェック
 			for (auto& enemy : m_enemies)
 			{
+				if (!enemy->IsActive()) continue;
+
 				// 敵の候補点のインデックスを取得
 				size_t enemyIndex = m_normalNavigation2D.GetIndex(enemy->GetLandingPoints2D());
 

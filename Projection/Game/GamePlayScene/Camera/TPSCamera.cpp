@@ -51,8 +51,8 @@ void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 	DirectX::SimpleMath::Vector2 moveVal = Input::Mouse::GetMouseMoveValue();
 
 	// 角度に加算する
-	m_angle.x += moveVal.y * SENSITIVITY * 0.01f;
-	m_angle.y -= moveVal.x * SENSITIVITY * 0.01f;
+	m_angle.x += moveVal.y * m_sensitivity * 0.01f;
+	m_angle.y -= moveVal.x * m_sensitivity * 0.01f;
 
 	// クランプする
 	m_angle.x = std::clamp(m_angle.x, -PI_F * (10.0f / 32.0f), PI_F * (10.0f / 32.0f));
@@ -65,7 +65,7 @@ void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 		std::cosf(m_angle.x) * std::sinf(m_angle.y), 
 		std::sinf(m_angle.x), 
 		std::cosf(m_angle.x) * std::cosf(m_angle.y) } 
-	* DISTANCE;
+		* m_distance;
 
 	// 位置を設定
 	m_pOwnTransform->SetLocalPosition(pos);

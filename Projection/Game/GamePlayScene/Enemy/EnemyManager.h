@@ -74,6 +74,9 @@ private:
 	// テスト用
 	std::vector<NavigationGraphBase::Edge> m_debugPath;
 
+	// スタートフラグ
+	bool m_isStarted;
+
 public:
 
 	//-----------------------------------------------------
@@ -87,6 +90,7 @@ public:
 		, m_nowTime{ 0 }
 		, m_playerTransform{ nullptr }
 		, m_is2D{ false }
+		, m_isStarted{ false }
 	{
 	}
 	~EnemyManager() = default;
@@ -107,8 +111,14 @@ public:
 	{
 		// 敵なら
 		if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
+		{
+			Enemy* enemy = static_cast<Enemy*>(component);
+
+			if (!m_isStarted) enemy->SetActive(false);
+
 			// キャストして追加
-			m_addReserves.push_back(static_cast<Enemy*>(component));
+			m_addReserves.push_back(enemy);
+		}
 
 		// 着地候補点なら
 		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())

@@ -18,11 +18,6 @@
 #include "Input/KeyInput.h"
 #include "GamePlayScene.h"
 
-#include "Common/EventBus.h"
-#include "GamePlayEvent.h"
-
-#include "Managers/UI/Canvas.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -38,7 +33,7 @@ PlaySceneManager::PlaySceneManager(IComponentOwner* own)
 	, m_dimentionManager{ nullptr }
 	, m_enemyManager{ nullptr }
 	, m_clearUI{ nullptr }
-	, m_eventID{ 0 }
+	, m_eventIds{}
 {
 	ADD_PROPERTY(m_cameraName);
 	ADD_PROPERTY(m_playerName);
@@ -48,20 +43,23 @@ PlaySceneManager::PlaySceneManager(IComponentOwner* own)
 void PlaySceneManager::Awake()
 {
 	// ゴールイベントの追加
-	m_eventID =
+	m_eventIds.push_back(
 		EventBus<GamePlayEvent>::Register(
 			GamePlayEvent::Goal,
 			[this]()
 			{
 				m_clearUI->SetActive(true);
 			}
-		);
+		));
 }
 
 void PlaySceneManager::OnDestroy()
 {
 	// ゴールイベントの削除
-	EventBus<GamePlayEvent>::Remove(GamePlayEvent::Goal, m_eventID);
+	for (auto& id : m_eventIds)
+	{
+		EventBus<GamePlayEvent>::Remove(id);
+	}
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます
@@ -72,6 +70,12 @@ void PlaySceneManager::Start()
 
 	// プレイヤー
 	m_player = scene->GetObjectFinder()->FindWithNameInWorld(m_playerName);
+
+	// 非アクティブにしておく
+	if (auto* p = m_player->GetComponent<Player>())
+	{
+		p->SetActive(false);
+	}
 
 	// カメラ
 	m_camera = scene->GetObjectFinder()->FindWithNameInWorld(m_cameraName);
@@ -84,6 +88,19 @@ void PlaySceneManager::Start()
 
 	// 次元管理
 	m_dimentionManager = static_cast<DimentionManager*>(scene->GetComponent<DimentionManager>());
+
+	// 開始イベントの追加
+	m_eventIds.push_back(
+	EventBus<GamePlayEvent>::Register(
+		GamePlayEvent::Start,
+		[&]() {
+			// Playerをアクティブ化
+			if (auto* p = m_player->GetComponent<Player>())
+			{
+				p->SetActive(true);
+			}
+		}
+	));
 }
 
 // 毎フレーム呼ばれます

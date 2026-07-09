@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : PlaySceneManager.h
+// ファイル名   : StartCamera.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/27
 //
-// 概要 : ゲームプレイシーンの管理コンポーネント
+// 概要 : ゲーム開始時の演出を担当するカメラ
 //
 // 更新履歴 :
 // 2026/05/27 新規作成
@@ -14,76 +14,79 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <vector>
-
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
 
-#include "Enemy/EnemyManager.h"
-#include "ChangeDimention/DimentionManager.h"
-#include "GameObject/GameObject.h"
-
-#include "Common/EventBus.h"
-#include "GamePlayEvent.h"
+#include "Components/World/Transform/Transform.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-class Canvas;
+
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class PlaySceneManager : public WorldComponentBase
+class StartCamera : public WorldComponentBase
 {
 private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
 
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// 検索に使用する名前
-	std::string m_playerName;
-	std::string m_cameraName;
-	std::string m_clearUIName;
+	// トランスフォームポインタ
+	Transform* m_pTransform;
 
-	// カメラ
-	GameObject* m_camera;
+	// ターゲット名
+	std::string m_targetName;
 
-	// プレイヤー
-	GameObject* m_player;
+	// ターゲット
+	DirectX::SimpleMath::Vector3 m_target;
 
-	// 次元管理
-	DimentionManager* m_dimentionManager;
+	// 回る半径
+	float m_radius;
 
-	// 敵管理
-	EnemyManager* m_enemyManager;
+	// 終了時の角度
+	float m_finalAngle;
 
-	// クリアUI
-	GameObject* m_clearUI;
+	// 回る各速度
+	float m_angleVelocity;
 
-	// イベントのID
-	std::vector<EventBus<GamePlayEvent>::Token> m_eventIds;
+	// 初期状態の高さ
+	float m_initialHeight;
+
+	// 落ちる速さ
+	float m_fallVelocity;
+
+	// 現在の角度
+	float m_nowAngle;
+
+	// オフセット
+	DirectX::SimpleMath::Vector3 m_offset;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PlaySceneManager(IComponentOwner* own);
-	~PlaySceneManager() = default;
+	StartCamera(IComponentOwner* own);
+	~StartCamera() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void Awake() override;
-
-	void OnDestroy() override;
-
 	void Start() override;
 
 	void Update(const GameTimer& gameTimer) override;
+	void LateUpdate(const GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -92,7 +95,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<PlaySceneManager>();
+		return TypeIDGenerator::GetID<StartCamera>();
 	}
 
 	//-----------------------------------------------------
@@ -105,6 +108,4 @@ private:
 	// 内部実装
 	//-----------------------------------------------------
 
-	// 次元の切り替えを試みる関数
-	void TryChangeDimention();
 };

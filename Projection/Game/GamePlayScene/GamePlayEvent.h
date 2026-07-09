@@ -17,5 +17,6 @@
 
 enum class GamePlayEvent
 {
+	Start,	// 開始
 	Goal,	// ゴール
 };
