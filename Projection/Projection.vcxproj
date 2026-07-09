@@ -223,6 +223,7 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Camera\StartCamera.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.h" />
@@ -294,6 +295,7 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Camera\StartCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.cpp" />

@@ -85,7 +85,7 @@ void SceneCamera::LateUpdate(const GameTimer& gameTimer)
 	DirectX::SimpleMath::Vector2 moveValue = Input::Mouse::GetMouseMoveValue();
 
 	// LeftAltが押されているとき
-	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftAlt))
+//	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftAlt))
 	{
 		// 左クリックされていたら
 		if (Input::Mouse::Get(Input::State::Press, Input::Mouse::Button::Left))

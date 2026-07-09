@@ -1,4 +1,20 @@
-﻿#include <functional>
+﻿//====================================================//
+// ファイル名   : EventBus.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/06/17
+//
+// 概要 : イベントバス
+//
+// 更新履歴 :
+// 2026/07/04 新規作成
+//====================================================//
+
+#pragma once
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include <functional>
 #include <unordered_map>
 #include <vector>
 #include <type_traits>
@@ -9,16 +25,31 @@ class EventBus
 public:
 	using CallBack = std::function<void()>;
 
+	// イベント識別用トークン
+	struct Token
+	{
+		unsigned int id;	// ID
+		EventID type;		// イベントのタイプ
+	};
+
+private:
+	// リスナー
+	struct Listener
+	{
+		unsigned int id;	// ID
+		CallBack callback;	// 処理
+	};
+
 	//----------------------------------------------
 	// メンバ変数
 	//----------------------------------------------
 private:
 
 	// 呼び出し関係マップ
-	static inline std::unordered_map<EventID, std::vector<std::pair<unsigned int, CallBack>>> m_events{};
+	static inline std::unordered_map<EventID, std::vector<Listener>> m_events{};
 
 	// 登録待ち
-	static inline std::unordered_map<EventID, std::vector<std::pair<unsigned int, CallBack>>> m_addReserves{};
+	static inline std::unordered_map<EventID, std::vector<Listener>> m_addReserves{};
 
 	// 現在のID
 	static inline unsigned int m_nowID = 0;
@@ -34,7 +65,7 @@ public:
 	EventBus() = delete;	// 静的クラスのためインスタンス化禁止
 
 	// 登録関数
-	static unsigned int Register(EventID id, CallBack call)
+	static Token Register(EventID id, CallBack call)
 	{
 		// 新規IDを生成
 		m_nowID += 1;
@@ -52,12 +83,16 @@ public:
 			m_addReserves[id].push_back({ m_nowID, call });
 		}
 
-		return m_nowID;
+		return { m_nowID, id };
 	}
 
 	// 削除関数
-	static void Remove(EventID eventId, unsigned int id)
+	static void Remove(Token token)
 	{
+		// ID
+		unsigned int id = token.id;
+		EventID eventId = token.type;
+
 		// 指定されたタイプのイベントリストを取得
 		auto it = m_events.find(eventId);
 
@@ -68,10 +103,10 @@ public:
 			for (size_t i = 0; i < it->second.size(); ++i)
 			{
 				// idが一致したら
-				if (it->second[i].first == id)
+				if (it->second[i].id == id)
 				{
 					// 削除予約として設定
-					it->second[i].first = 0;
+					it->second[i].id = 0;
 				}
 			}
 		}
@@ -86,10 +121,10 @@ public:
 			for (size_t i = 0; i < addIt->second.size(); ++i)
 			{
 				// idが一致したら
-				if (addIt->second[i].first == id)
+				if (addIt->second[i].id == id)
 				{
 					// 削除予約として設定
-					addIt->second[i].first = 0;
+					addIt->second[i].id = 0;
 				}
 			}
 		}
@@ -98,10 +133,10 @@ public:
 		if (m_publishDepth == 0)
 		{
 			// 削除予約をリストから削除
-			if (it != m_events.end()) std::erase_if(it->second, [](const std::pair<unsigned int, CallBack>& func) { return func.first == 0; });
+			if (it != m_events.end()) std::erase_if(it->second, [](const Listener& func) { return func.id == 0; });
 
 			// 予約リスト
-			if (addIt != m_addReserves.end()) std::erase_if(addIt->second, [](const std::pair<unsigned int, CallBack>& func) { return func.first == 0; });
+			if (addIt != m_addReserves.end()) std::erase_if(addIt->second, [](const Listener& func) { return func.id == 0; });
 		}
 	}
 
@@ -128,10 +163,10 @@ public:
 		for (auto& func : it->second)
 		{
 			// 削除予約中なら非実行
-			if (func.first == 0) continue;
+			if (func.id == 0) continue;
 
 			// 実行
-			func.second();
+			func.callback();
 		}
 
 		// デクリメント
@@ -155,7 +190,7 @@ private:
 			for (auto& func : it.second)
 			{
 				// 既に削除予約済みなら登録しない
-				if (func.first == 0) continue;
+				if (func.id == 0) continue;
 
 				// 追加
 				m_events[it.first].push_back(func);
@@ -175,7 +210,7 @@ private:
 			std::erase_if(vec,
 				[](auto& x)
 				{
-					return x.first == 0;
+					return x.id == 0;
 				});
 		}
 		
@@ -185,7 +220,7 @@ private:
 			std::erase_if(vec,
 				[](auto& x)
 				{
-					return x.first == 0;
+					return x.id == 0;
 				});
 		}
 	}

@@ -39,6 +39,7 @@
 #include "GamePlayScene/PlaySceneManager.h"
 #include "GamePlayScene/Enemy/Components/LandingCandidatePoints.h"
 #include "GamePlayScene/Enemy/Components/LandingCandidatePoints2D.h"
+#include "GamePlayScene/Camera/StartCamera.h"
 
 // 生成関数登録マクロ
 #define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, Name::SPACE, [](GameObject* o){ return o->AddComponent<Name>(); }))
@@ -93,6 +94,7 @@ void GameInitializer::RegistFactries()
 	REGISTER_FACTORY(LandingCandidatePoints);
 	REGISTER_FACTORY(LandingCandidatePoints2D);
 	REGISTER_FACTORY(PlaySceneManager);
+	REGISTER_FACTORY(StartCamera);
 }
 
 void GameInitializer::AddKey()

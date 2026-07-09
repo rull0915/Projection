@@ -165,6 +165,7 @@
     <ClInclude Include="Game\EditScene\TestPlayScene.h" />
     <ClInclude Include="GameLib\Common\ResourceReader.h" />
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
+    <ClInclude Include="Game\GamePlayScene\Camera\StartCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Game\EditScene\TestPlayScene.cpp" />
     <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Camera\StartCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
