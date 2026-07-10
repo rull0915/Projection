@@ -44,6 +44,12 @@ void ObjectManager::Update(const GameTimer& gameTimer, bool playing)
 		// アクティブチェック
 		if (!object->IsActive()) continue;
 
+		// Awakeの呼び出し
+		if (playing || object->IsInvincible())
+		{
+			object->GetComponentContainer().AwakeComponets();
+		}
+
 		// 予約されたコンポーネントを追加
 		object->GetComponentContainer().RegisterComponents();
 	}
@@ -59,7 +65,6 @@ void ObjectManager::Update(const GameTimer& gameTimer, bool playing)
 		// 更新処理
 		if (playing || object->IsInvincible())
 		{
-		object->GetComponentContainer().StartComponets();
 			object->GetComponentContainer().UpdateComponents(gameTimer);
 		}
 	}

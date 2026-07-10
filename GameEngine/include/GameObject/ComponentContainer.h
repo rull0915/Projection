@@ -47,7 +47,7 @@ private:
 	std::unique_ptr<RectTransform> m_pRectTransform;
 
 	// その他コンポーネント
-	std::vector<std::unique_ptr<ComponentBase>> m_pReservesAdd;
+	std::vector<std::unique_ptr<ComponentBase>> m_addReserves;
 	std::vector<ComponentBase*> m_pDestroyReserves;
 	std::vector<std::unique_ptr<ComponentBase>> m_pComponents;
 
@@ -60,7 +60,7 @@ public:
 	//-----------------------------------------------------
 	ComponentContainer(IComponentOwner* owner)
 		: m_pTransform{ nullptr }
-		, m_pReservesAdd{}
+		, m_addReserves{}
 		, m_pDestroyReserves{}
 		, m_pComponents{}
 		, m_pScene{ nullptr }
@@ -78,8 +78,20 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	// 全コンポーネントのStartを呼ぶ関数
-	void StartComponets()
+	// 全予約コンポーネントのAwakeを呼ぶ関数
+	void AwakeComponets()
+	{
+		for (auto& component : m_addReserves)
+		{
+			if (!component->IsActive()) continue;
+
+			// 更新処理
+			component->Awake();
+		}
+	}
+
+	// 全コンポーネントを更新する関数
+	void UpdateComponents(const GameTimer& gameTimer)
 	{
 		for (auto& component : m_pComponents)
 		{
@@ -92,15 +104,6 @@ public:
 				component->Start();
 				component->SetStart();
 			}
-		}
-	}
-
-	// 全コンポーネントを更新する関数
-	void UpdateComponents(const GameTimer& gameTimer)
-	{
-		for (auto& component : m_pComponents)
-		{
-			if (!component->IsActive()) continue;
 
 			// 更新処理
 			component->Update(gameTimer);
@@ -174,7 +177,7 @@ public:
 				}
 			}
 			// 予約リストをチェック
-			for (auto& comp : m_pReservesAdd)
+			for (auto& comp : m_addReserves)
 			{
 				// IDで比較する
 				if (comp->GetID() == id)
@@ -230,7 +233,7 @@ public:
 				}
 			}
 			// 予約リストをチェック
-			for (auto& comp : m_pReservesAdd)
+			for (auto& comp : m_addReserves)
 			{
 				// IDで比較する
 				if (comp->GetID() == id)
@@ -282,7 +285,7 @@ public:
 				}
 			}
 			// 予約リストをチェック
-			for (auto& comp : m_pReservesAdd)
+			for (auto& comp : m_addReserves)
 			{
 				// IDで比較する
 				if (comp->GetID() == TypeIDGenerator::GetID<T>())
@@ -309,7 +312,7 @@ public:
 			}
 		}
 		// 予約リストをチェック
-		for (auto& comp : m_pReservesAdd)
+		for (auto& comp : m_addReserves)
 		{
 			// IDで比較する
 			if (comp->GetCategory() == category)
@@ -338,7 +341,7 @@ public:
 			}
 		}
 		// 予約リストをチェック
-		for (auto& comp : m_pReservesAdd)
+		for (auto& comp : m_addReserves)
 		{
 			// IDで比較する
 			if (comp->GetCategory() == category)
@@ -366,7 +369,7 @@ public:
 		if (m_pTransform) all.push_back(m_pTransform.get());
 		if (m_pRectTransform) all.push_back(m_pRectTransform.get());
 		for (auto& comp : m_pComponents) all.push_back(comp.get());
-		for (auto& comp : m_pReservesAdd) all.push_back(comp.get());
+		for (auto& comp : m_addReserves) all.push_back(comp.get());
 
 		return all;
 	}
@@ -420,7 +423,7 @@ public:
 			if (IsCorrect(comp->SPACE))
 			{
 				// 配列に追加
-				m_pReservesAdd.push_back(std::move(comp));
+				m_addReserves.push_back(std::move(comp));
 
 				add = ptr;
 			}

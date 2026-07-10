@@ -34,19 +34,16 @@ void ComponentContainer::UnRegisterComponentToScene(ComponentBase* component)
 void ComponentContainer::RegisterComponents()
 {
 	// その他コンポーネント
-	for (auto& component : m_pReservesAdd)
+	for (auto& component : m_addReserves)
 	{
 		// シーンに登録
 		m_pScene->RegisterComponent(component.get());
-
-		// Awake呼び出し
-		component->Awake();
 
 		// リストに追加
 		m_pComponents.push_back(std::move(component));
 	}
 
-	m_pReservesAdd.clear();
+	m_addReserves.clear();
 }
 
 void ComponentContainer::RemoveRegistered()
