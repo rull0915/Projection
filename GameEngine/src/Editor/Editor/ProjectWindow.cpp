@@ -17,10 +17,10 @@
 
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
-#include "System/PrefabManager.h"
+#include "Editor/System/PrefabManager.h"
 
-#include "Common/OpenFileDialog.h"
-#include "Saver/ObjectSaver.h"
+#include "Editor/Common/OpenFileDialog.h"
+#include "Editor/Saver/ObjectSaver.h"
 
 //====================================================//
 // 関数の実体宣言

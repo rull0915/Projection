@@ -70,7 +70,6 @@ public:
 	// 各マネージャーを介した描画
 	void DrawWorld(Renderer& renderer);
 	void DrawUI(Renderer& renderer);
-	void DrawColliders(Renderer& renderer, DirectX::SimpleMath::Color color);
 	void DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color);
 
 	// 終了処理

@@ -12,7 +12,7 @@
 #include "pch.h"
 #include <SimpleMath.h>
 
-#include "Editor/SceneCamera.h"
+#include "Editor/Editor/SceneCamera.h"
 #include "Components/World/Transform/Transform.h"
 
 #include "System/WindowManager.h"

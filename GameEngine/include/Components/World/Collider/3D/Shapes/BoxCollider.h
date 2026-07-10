@@ -8,6 +8,7 @@
 // 更新履歴 :
 // 2026/03/18 新規作成
 // 2026/04/03 設計を変更
+// 2026/07/10 デバッグ描画をインターフェース化しました
 //====================================================//
 
 #pragma once
@@ -16,6 +17,7 @@
 // インクルードファイル
 //====================================================//
 #include "../ColliderBase.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 //====================================================//
 // 前方宣言
@@ -25,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class BoxCollider : public ColliderBase
+class BoxCollider : public ColliderBase, public IDebugRenderable
 {
 private:
 
@@ -64,7 +66,15 @@ public:
 	};
 	~BoxCollider() = default;
 
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
+
+	// キャッシュの更新
 	void UpdateCache() const override;
+
+	// デバッグ描画
+	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
 	//-----------------------------------------------------
 	// ゲッター

@@ -12,6 +12,8 @@
 #include "pch.h"
 #include "Components/World/Collider/3D/Shapes/CapsuleCollider.h"
 
+#include "Renderer/Renderer.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -123,4 +125,78 @@ void CapsuleCollider::UpdateCache() const
 	SetChanged(true);
 
 	ApplyVersion();
+}
+
+void CapsuleCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	// 情報の取得
+	float rad = GetRadius();
+	float len = GetLineLength();
+
+	// 始点 終点 向き
+	DirectX::SimpleMath::Vector3 p1, p2, v;
+
+	// 基準となる軸によって分岐
+	switch (GetLineAxis())
+	{
+		// X軸の場合
+	case AxisType::X:
+		p1 = { -len * 0.5f, 0, 0 }; p2 = { len * 0.5f, 0, 0 }; v = { 1, 0, 0 }; break;
+		// Y軸の場合
+	case AxisType::Y:
+		p1 = { 0, -len * 0.5f, 0 }; p2 = { 0, len * 0.5f, 0 }; v = { 0, 1, 0 }; break;
+		// X軸の場合
+	case AxisType::Z:
+		p1 = { 0, 0, -len * 0.5f }; p2 = { 0, 0, len * 0.5f }; v = { 0, 0, 1 }; break;
+	default:
+		break;
+	}
+
+	// ワールド行列の算出(Rot,Pos)
+	DirectX::SimpleMath::Vector3 pos = GetWorldCenterPos();
+	DirectX::SimpleMath::Quaternion rot = GetTransform()->GetWorldRotation();
+
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateFromQuaternion(rot) * DirectX::SimpleMath::Matrix::CreateTranslation(pos);
+
+	// Rendererにセット
+	renderer.SetWorld(world);
+
+	// 4つのベクトルを作成
+	DirectX::SimpleMath::Vector3 v1, v2, v3, v4, v5, v6, v7, v8;
+
+	// 2つの半円の描画
+	switch (GetLineAxis())
+	{
+	case AxisType::X:
+		v1 = { 0, 1, 0 }; v2 = { 0.01f, -1, 0 }; v3 = { 0, 0, 1 }; v4 = { 0.01f, 0, -1 };
+		v5 = { 0, 1, 0 }; v6 = { -0.01f, -1, 0 }; v7 = { 0, 0, 1 }; v8 = { -0.01f, 0, -1 };
+		break;
+	case AxisType::Y:
+		v1 = { 1, 0, 0 }; v2 = { -1, 0.01f, 0 }; v3 = { 0, 0, 1 }; v4 = { 0, 0.01f, -1 };
+		v5 = { 1, 0, 0 }; v6 = { -1, -0.01f, 0 }; v7 = { 0, 0, 1 }; v8 = { 0, -0.01f, -1 };
+		break;
+	case AxisType::Z:
+		v1 = { 0, 1, 0 }; v2 = { 0, -1, 0.01f }; v3 = { 1, 0, 0 }; v4 = { -1, 0, 0.01f };
+		v5 = { 0, 1, 0 }; v6 = { 0, -1, -0.01f }; v7 = { 1, 0, 0 }; v8 = { -1, 0, -0.01f };
+		break;
+	default:
+		break;
+	}
+
+	v1.Normalize(); v2.Normalize(); v3.Normalize(); v4.Normalize();
+
+	renderer.Draw().Arc(p1, v5, v6, 16, rad, color, false);
+	renderer.Draw().Arc(p1, v7, v8, 16, rad, color, false);
+	renderer.Draw().Circle(p1, v, rad, 16, color, false);
+
+	renderer.Draw().Arc(p2, v1, v2, 16, rad, color, false);
+	renderer.Draw().Arc(p2, v3, v4, 16, rad, color, false);
+	renderer.Draw().Circle(p2, v, rad, 16, color, false);
+
+	renderer.Draw().Line(p1 + v1 * rad, p2 + v1 * rad, color);
+	renderer.Draw().Line(p1 + v2 * rad, p2 + v2 * rad, color);
+	renderer.Draw().Line(p1 + v3 * rad, p2 + v3 * rad, color);
+	renderer.Draw().Line(p1 + v4 * rad, p2 + v4 * rad, color);
+
+	renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 }

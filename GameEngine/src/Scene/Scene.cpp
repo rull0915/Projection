@@ -150,10 +150,13 @@ void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
 	// 色 (緑)
 	static const DirectX::SimpleMath::Color color = { 0, 1, 0, 1 };
 
-	// コライダーのデバッグ描画
-	if (context.flags & DrawFlag::ColliderDebug && DebugManager::Instance().IsDrawColliderDebug())
+	// Worldのデバッグ描画
+	if (context.flags & DrawFlag::ColliderDebug && DebugManager::Instance().IsDrawDebugOnWorld())
 	{
-		m_updatePipeline->DrawColliders(renderer, color);
+		for (auto& c : m_componentRegister->GetDebugRenders())
+		{
+			c->DebugRender(renderer, color);
+		}
 	}
 
 	// 行列のリセット
@@ -167,7 +170,7 @@ void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
 	}
 
 	// RectTransformのデバッグ描画
-	if (context.flags & DrawFlag::RectDebug && DebugManager::Instance().IsDrawRectTransform())
+	if (context.flags & DrawFlag::RectDebug && DebugManager::Instance().IsDrawDebugOnUI())
 	{
 		m_updatePipeline->DrawRects(renderer, color);
 	}

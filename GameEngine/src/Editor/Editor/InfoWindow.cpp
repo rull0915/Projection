@@ -18,11 +18,11 @@
 
 #include "Input/MouseInput.h"
 
-#include "Saver/ObjectSaver.h"
-#include "Loader/ObjectLoader.h"
-#include "Common/OpenFileDialog.h"
+#include "Editor/Saver/ObjectSaver.h"
+#include "Editor/Loader/ObjectLoader.h"
+#include "Editor/Common/OpenFileDialog.h"
 
-#include "Editor/EditGUI.h"
+#include "Editor/Editor/EditGUI.h"
 #include "Scene/Scene.h"
 
 //====================================================//

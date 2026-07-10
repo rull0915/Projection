@@ -1,75 +1,6 @@
 {
     "UI": {
-        "Canvases": [
-            {
-                "GameObjects": [
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_anchor": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_anchoredPosition": [
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_pivot": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_rotation": 0.0,
-                                    "m_scale": [
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_size": [
-                                        100.0,
-                                        100.0
-                                    ]
-                                },
-                                "Type": "RectTransform"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 1.0,
-                                    "m_color": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_fontName": "Default",
-                                    "m_fontSize": 64.0,
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_origin": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_text": "Clear"
-                                },
-                                "Type": "TextUI"
-                            }
-                        ],
-                        "m_isActive": false,
-                        "m_name": "ClearUI",
-                        "m_tag": ""
-                    }
-                ],
-                "m_canvasName": "",
-                "m_drawOrder": 0,
-                "m_isActive": true
-            }
-        ]
+        "Canvases": []
     },
     "World": {
         "GameObjects": [
@@ -80,15 +11,15 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                2.6476452350616455,
-                                2.8199849128723145,
-                                -4.517120361328125
+                                0.0,
+                                0.0,
+                                10.0
                             ],
                             "m_localRotation": [
-                                0.0,
-                                -0.5687620639801025,
-                                0.0,
-                                0.822502076625824
+                                -4.2878818493213976e-23,
+                                -1.5986788673403337e-15,
+                                2.6821409093713555e-08,
+                                1.0
                             ],
                             "m_localScale": [
                                 1.0,
@@ -123,7 +54,7 @@
                     },
                     {
                         "Data": {
-                            "m_angleVelocity": 0.5419999957084656,
+                            "m_angleVelocity": 0.5,
                             "m_fallVelocity": 2.0,
                             "m_finalAngle": 0.0,
                             "m_initialHeight": 10.0,
@@ -170,7 +101,7 @@
                     },
                     {
                         "Data": {
-                            "m_isActive": false
+                            "m_isActive": true
                         },
                         "Type": "Player"
                     },

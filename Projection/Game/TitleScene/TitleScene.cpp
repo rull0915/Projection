@@ -18,7 +18,6 @@
 #include "Components/UI/Graphics/ImageUI.h"
 #include "Components/UI/Behaviour/ButtonUI.h"
 
-#include "System/ResourceManager.h"
 #include "Managers/UI/Canvas.h"
 
 #include "Input/MouseInput.h"

@@ -18,12 +18,12 @@
 #include <SimpleMath.h>
 
 #include "Components/World/Collider/2D/ColliderBase2D.h"
-
+#include "Components/Interface/IDebugRenderable.h"
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class ConvexPolygonCollider2D : public ColliderBase2D
+class ConvexPolygonCollider2D : public ColliderBase2D, public IDebugRenderable
 {
 private:
 
@@ -59,6 +59,12 @@ public:
 
 	// 時計回りに補正する関数
 	void CorrectionClockWise();
+
+	// キャッシュ更新
+	void UpdateCache() const override;
+
+	// デバッグ描画
+	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -125,9 +131,6 @@ public:
 
 		SetDirty();
 	}
-
-	// その他関数
-	void UpdateCache() const override;
 
 private: 
 	// 凸法であるか調べる関数

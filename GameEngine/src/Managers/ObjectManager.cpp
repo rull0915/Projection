@@ -55,11 +55,13 @@ void ObjectManager::Update(const GameTimer& gameTimer, bool playing)
 		if (!object->IsActive()) continue;
 
 		// Start処理
-		object->GetComponentContainer().StartComponets();
 
 		// 更新処理
 		if (playing || object->IsInvincible())
+		{
+		object->GetComponentContainer().StartComponets();
 			object->GetComponentContainer().UpdateComponents(gameTimer);
+		}
 	}
 }
 

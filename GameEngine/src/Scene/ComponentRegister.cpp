@@ -50,6 +50,8 @@ void ComponentRegister::RegisterComponent(ComponentBase* component)
 
 	// 読み取りコンポーネントなら追加
 	if (IComponentListener* listener = dynamic_cast<IComponentListener*>(component)) m_listeners.push_back(listener);
+	// デバッグ描画コンポーネントなら追加
+	if (IDebugRenderable* render = dynamic_cast<IDebugRenderable*>(component)) m_debugRenders.push_back(render);
 
 	// カテゴリで分類
 	switch (category)
@@ -137,10 +139,9 @@ void ComponentRegister::UnRegisterComponent(ComponentBase* component)
 	if (categoryList.empty()) m_categoriesMap.erase(category);
 
 	// 読み取りコンポーネントなら削除
-	if (IComponentListener* listener = dynamic_cast<IComponentListener*>(component))
-	{
-		std::erase(m_listeners, listener);
-	}
+	if (IComponentListener* listener = dynamic_cast<IComponentListener*>(component)) { std::erase(m_listeners, listener); }
+	// デバッグ描画コンポーネントなら削除
+	if (IDebugRenderable* debugRender = dynamic_cast<IDebugRenderable*>(component)) { std::erase(m_debugRenders, debugRender); }
 
 	// カテゴリで分類
 	switch (category)

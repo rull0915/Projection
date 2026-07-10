@@ -12,9 +12,9 @@
 #include "pch.h"
 #include "InspectorWindow.h"
 
-#include "Common/ClassNameGetter.h"
+#include "Editor/Common/ClassNameGetter.h"
 #include "System/WindowManager.h"
-#include "Loader/ComponentFactory.h"
+#include "Editor/Loader/ComponentFactory.h"
 #include "Components/World/Components.h"
 
 #include "imgui/imgui.h"

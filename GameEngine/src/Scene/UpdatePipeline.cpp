@@ -14,7 +14,6 @@
 #include "Scene/Scene.h"
 
 #include "Debug/DebugManager.h"
-#include "Debug/ColliderDebugRenderer.h"
 
 #include "Input/MouseInput.h"
 
@@ -96,21 +95,6 @@ void UpdatePipeline::DrawWorld(Renderer& renderer)
 void UpdatePipeline::DrawUI(Renderer& renderer)
 {
 	m_uiManager->Draw(renderer);
-}
-
-void UpdatePipeline::DrawColliders(Renderer& renderer, DirectX::SimpleMath::Color color)
-{
-	// 3Dコライダー
-	ColliderDebugRenderer::DebugDrawColliders(
-		m_physicsManager->GetCollideManager()->GetAllColliders(),
-		renderer, color, DebugManager::Instance().IsDrawColliderDebugAABB()
-	);
-
-	// 2Dコライダー
-	ColliderDebugRenderer2D::DebugDrawColliders(
-		m_physicsManager2D->GetCollideManager()->GetAllColliders(),
-		renderer, color, DebugManager::Instance().IsDrawColliderDebugAABB()
-	);
 }
 
 void UpdatePipeline::DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color)

@@ -42,15 +42,30 @@ PlaySceneManager::PlaySceneManager(IComponentOwner* own)
 
 void PlaySceneManager::Awake()
 {
+	// 開始イベントの追加
+	m_eventIds.push_back(
+	EventBus<GamePlayEvent>::Register(
+		GamePlayEvent::Start,
+		[this]() {
+			// Playerをアクティブ化
+			if (auto* p = m_player->GetComponent<Player>())
+			{
+				p->SetActive(true);
+			}
+		}
+	));
+
 	// ゴールイベントの追加
 	m_eventIds.push_back(
 		EventBus<GamePlayEvent>::Register(
 			GamePlayEvent::Goal,
 			[this]()
 			{
-				m_clearUI->SetActive(true);
+				if (m_clearUI) m_clearUI->SetActive(true);
 			}
 		));
+
+//	DirectX::SimpleMath::Vector2::CatmullRom();
 }
 
 void PlaySceneManager::OnDestroy()
@@ -88,19 +103,6 @@ void PlaySceneManager::Start()
 
 	// 次元管理
 	m_dimentionManager = static_cast<DimentionManager*>(scene->GetComponent<DimentionManager>());
-
-	// 開始イベントの追加
-	m_eventIds.push_back(
-	EventBus<GamePlayEvent>::Register(
-		GamePlayEvent::Start,
-		[&]() {
-			// Playerをアクティブ化
-			if (auto* p = m_player->GetComponent<Player>())
-			{
-				p->SetActive(true);
-			}
-		}
-	));
 }
 
 // 毎フレーム呼ばれます

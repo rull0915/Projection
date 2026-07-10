@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "../ColliderBase.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 //====================================================//
 // 前方宣言
@@ -24,7 +25,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class SphereCollider : public ColliderBase
+class SphereCollider : public ColliderBase, public IDebugRenderable
 {
 private:
 
@@ -50,6 +51,16 @@ public:
 		ADD_PROPERTY(m_radius);
 	};
 	~SphereCollider() = default;
+
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
+
+	// キャッシュ更新
+	void UpdateCache() const override;
+
+	// デバッグ描画
+	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -81,6 +92,4 @@ public:
 		m_radius = rad;
 		SetDirty();
 	}
-
-	void UpdateCache() const override;
 };

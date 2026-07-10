@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "../ColliderBase.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 //====================================================//
 // 前方宣言
@@ -32,7 +33,7 @@ namespace AxisType
 	static constexpr size_t Z = 2;
 }
 
-class CapsuleCollider : public ColliderBase
+class CapsuleCollider : public ColliderBase, public IDebugRenderable
 {
 private:
 
@@ -80,7 +81,15 @@ public:
 	};
 	~CapsuleCollider() = default;
 
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
+
+	// キャッシュ更新
 	void UpdateCache() const override;
+
+	// デバッグ描画
+	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
 
 	//-----------------------------------------------------
 	// ゲッター

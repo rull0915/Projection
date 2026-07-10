@@ -13,6 +13,7 @@
 #include "Components/World/Collider/2D/Shapes/CapsuleCollider2D.h"
 
 #include "Settings/WorldSetting2D.h"
+#include "Renderer/Renderer.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -84,4 +85,43 @@ void CapsuleCollider2D::UpdateCache() const
 	SetChanged(true);
 
 	ApplyVersion();
+}
+
+void CapsuleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	float rad = GetRadius();
+
+	DirectX::SimpleMath::Vector2 p1, p2, v;
+
+	DirectX::SimpleMath::Vector2 p1_2 = GetPoints().first, p2_2 = GetPoints().second;
+	p1 = { p1_2.x, p1_2.y }, p2 = { p2_2.x, p2_2.y };
+	v = p2 - p1;
+	v.Normalize();
+
+	// 中心線分の垂直ベクトルを作成
+	DirectX::SimpleMath::Vector2 nV = { -v.y, v.x };
+	nV.Normalize();
+
+	auto& world2D = WorldSetting2D::Instance();
+
+	if (nV.LengthSquared() < 0.001f)
+	{
+		renderer.Draw().Circle(world2D.Local2DToWorld3D({ p1.x, p1.y }), world2D.GetNormal(), rad, 16, color, false);
+	}
+	else
+	{
+		// 4点を算出
+		DirectX::SimpleMath::Vector2 p3, p4, p5, p6;
+
+		p3 = { p1 + nV * rad };
+		p4 = { p1 - nV * rad - v * 0.01f };
+		p5 = { p2 + nV * rad };
+		p6 = { p2 - nV * rad + v * 0.01f };
+
+		renderer.Draw().Arc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, color, false);
+		renderer.Draw().Arc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, color, false);
+
+		renderer.Draw().Line(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), color);
+		renderer.Draw().Line(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
+	}
 }

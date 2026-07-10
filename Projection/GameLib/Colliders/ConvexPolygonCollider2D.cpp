@@ -13,9 +13,10 @@
 #include "pch.h"
 #include "ConvexPolygonCollider2D.h"
 
-#include "Settings/WorldSetting2D.h"
-
 #include <algorithm>
+
+#include "Settings/WorldSetting2D.h"
+#include "Renderer/Renderer.h"
 
 using namespace DirectX;
 
@@ -114,6 +115,18 @@ void ConvexPolygonCollider2D::UpdateCache() const
 	SetChanged(true);
 
 	ApplyVersion();
+}
+
+void ConvexPolygonCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	auto& vertices = GetWorldVertices();
+	auto& vertices3D = GetWorldVertices3D();
+
+	for (int i = 0; i < vertices.size(); ++i)
+	{
+		// 描画
+		renderer.Draw().Line(vertices3D[i], vertices3D[(i + 1) % vertices.size()], color);
+	}
 }
 
 bool ConvexPolygonCollider2D::IsConvex() const

@@ -172,9 +172,20 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
     <ClCompile Include="src\Components\World\Sounds\AudioSource.cpp" />
     <ClCompile Include="src\Components\World\Transform\Transform.cpp" />
-    <ClCompile Include="src\Debug\ColliderDebugRenderer.cpp" />
-    <ClCompile Include="src\Debug\EachColliderDebugRenderer.cpp" />
     <ClCompile Include="src\Debug\RectDebugRenderer.cpp" />
+    <ClCompile Include="src\Editor\Common\OpenFileDialog.cpp" />
+    <ClCompile Include="src\Editor\Editor\EditGUI.cpp" />
+    <ClCompile Include="src\Editor\Editor\HierarchyWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
+    <ClCompile Include="src\Editor\Editor\InfoWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\InspectorWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\ProjectWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\SceneCamera.cpp" />
+    <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
+    <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
+    <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp" />
+    <ClCompile Include="src\Editor\System\EditorInitializer.cpp" />
+    <ClCompile Include="src\Editor\System\PrefabManager.cpp" />
     <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
     <ClCompile Include="src\GameObject\GameObject.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp">
@@ -235,6 +246,30 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\UI\Graphics\ImageUI.cpp" />
     <ClCompile Include="src\Components\UI\Graphics\TextUI.cpp" />
     <ClCompile Include="src\Components\UI\RectTransform\RectTransform.cpp" />
+    <ClCompile Include="ThirdParty\imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_stdlib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Common\EventBus.h" />
@@ -247,6 +282,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Common\State\StateBase.h" />
     <ClInclude Include="include\Common\State\StateMachine.h" />
     <ClInclude Include="include\Components\Interface\IComponentListener.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Components\Interface\IDebugRenderable.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -278,6 +317,14 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Editor\Editor\EditGUI.h" />
+    <ClInclude Include="include\Editor\Editor\ImguiManager.h" />
+    <ClInclude Include="include\Editor\Editor\SceneCamera.h" />
+    <ClInclude Include="include\Editor\Loader\ComponentFactory.h" />
+    <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
+    <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
+    <ClInclude Include="include\Editor\System\EditorInitializer.h" />
+    <ClInclude Include="include\Editor\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">
       <SubType>
       </SubType>
@@ -301,7 +348,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Debug\ColliderDebugRenderer.h" />
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h" />
     <ClInclude Include="include\Components\World\Sounds\AudioSource.h" />
     <ClInclude Include="include\Settings\SoundSettings.h">
@@ -317,10 +363,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
     <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />
-    <ClInclude Include="src\Debug\EachColliderDebugRenderer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\GameObject\ComponentContainer.h" />
     <ClInclude Include="include\GameObject\GameObject.h" />
     <ClInclude Include="include\GameObject\Interface\IColliderReceiver.h" />
@@ -329,6 +371,12 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="src\Editor\Common\ClassNameGetter.h" />
+    <ClInclude Include="src\Editor\Common\OpenFileDialog.h" />
+    <ClInclude Include="src\Editor\Editor\HierarchyWindow.h" />
+    <ClInclude Include="src\Editor\Editor\InfoWindow.h" />
+    <ClInclude Include="src\Editor\Editor\InspectorWindow.h" />
+    <ClInclude Include="src\Editor\Editor\ProjectWindow.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\StandardCheckHit2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CollideManager2D.h" />
@@ -403,15 +451,26 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\System\Render\RenderTarget.h" />
     <ClInclude Include="include\Scene\ObjectFinder.h" />
     <ClInclude Include="src\Scene\UpdatePipeline.h" />
+    <ClInclude Include="ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_stdlib.h" />
+    <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="ThirdParty\imgui\imstb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets" Condition="Exists('..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" />
+    <Import Project="..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets'))" />
+    <Error Condition="!Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
   </Target>
 </Project>

@@ -15,9 +15,9 @@
 // インクルードファイル
 //====================================================//
 #include "Scene/Scene.h"
-#include "Editor/EditGUI.h"
+#include "Editor/Editor/EditGUI.h"
 
-#include "Editor/SceneCamera.h"
+#include "Editor/Editor/SceneCamera.h"
 
 //====================================================//
 // 前方宣言

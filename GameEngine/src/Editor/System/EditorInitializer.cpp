@@ -10,10 +10,10 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "System/EditorInitializer.h"
+#include "Editor/System/EditorInitializer.h"
 
 // 生成
-#include "Loader/ComponentFactory.h"
+#include "Editor/Loader/ComponentFactory.h"
 
 #include "Components/World/Components.h"
 #include "Components/UI/UIComponents.h"

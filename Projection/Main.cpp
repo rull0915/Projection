@@ -6,7 +6,7 @@
 #include "Game/Game.h"
 
 #include "System/WindowManager.h"
-#include "Editor/ImguiManager.h"
+#include "Editor/Editor/ImguiManager.h"
 
 using namespace DirectX;
 

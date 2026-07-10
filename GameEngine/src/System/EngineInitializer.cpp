@@ -28,10 +28,6 @@
 #include "Managers/3DManagers/Ray/RaySystem.h"
 #include "Managers/3DManagers/Ray/CheckHitWithRay.h"
 
-// 描画関連
-#include "Debug/ColliderDebugRenderer.h"
-#include "Debug/EachColliderDebugRenderer.h"
-
 // 入力関連
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
@@ -57,8 +53,6 @@ void EngineInitializer::EngineInitialize()
 	Regist2DCollisions();
 
 	RegistRayCollisions();
-
-	RegistDebugDrawers();
 
 	RegistCustomKeys();
 }
@@ -171,49 +165,6 @@ void EngineInitializer::RegistRayCollisions()
 	RaySystem::Register(
 		TypeIDGenerator::GetID<BoxCollider>(),
 		RayCollision::CheckHit_Ray_Box
-	);
-}
-
-void EngineInitializer::RegistDebugDrawers()
-{
-	//============== DebugDraw =================//
-
-	// Sphere
-	ColliderDebugRenderer::Register(
-		TypeIDGenerator::GetID<SphereCollider>(),
-		DrawCollider::DrawCollider_Sphere
-	);
-
-	// Capsule
-	ColliderDebugRenderer::Register(
-		TypeIDGenerator::GetID<CapsuleCollider>(),
-		DrawCollider::DrawCollider_Capsule
-	);
-
-	// Box
-	ColliderDebugRenderer::Register(
-		TypeIDGenerator::GetID<BoxCollider>(),
-		DrawCollider::DrawCollider_Box
-	);
-
-	//============== DebugDraw2D =================//
-
-	// Circle
-	ColliderDebugRenderer2D::Register(
-		TypeIDGenerator::GetID<CircleCollider2D>(),
-		DrawCollider2D::DrawCollider_Circle
-	);
-
-	// Capsule
-	ColliderDebugRenderer2D::Register(
-		TypeIDGenerator::GetID<CapsuleCollider2D>(),
-		DrawCollider2D::DrawCollider_Capsule
-	);
-
-	// Box
-	ColliderDebugRenderer2D::Register(
-		TypeIDGenerator::GetID<BoxCollider2D>(),
-		DrawCollider2D::DrawCollider_Box
 	);
 }
 

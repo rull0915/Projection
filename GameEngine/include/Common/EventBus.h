@@ -14,6 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -25,7 +26,7 @@ class EventBus
 public:
 	using CallBack = std::function<void()>;
 
-	// イベント識別用トークン
+	// イベント識別トークン
 	struct Token
 	{
 		unsigned int id;	// ID

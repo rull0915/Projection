@@ -12,8 +12,8 @@
 #include "pch.h"
 #include <fstream>
 
-#include "Loader/ObjectLoader.h"
-#include "Loader/ComponentFactory.h"
+#include "Editor/Loader/ObjectLoader.h"
+#include "Editor/Loader/ComponentFactory.h"
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"

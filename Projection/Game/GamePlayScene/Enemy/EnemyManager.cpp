@@ -17,9 +17,6 @@
 
 #include "Scene/Scene.h"
 
-#include "Common/EventBus.h"
-#include "../GamePlayEvent.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -64,6 +61,7 @@ void EnemyManager::Awake()
 	for (auto& points2D : pointsList2D) m_normalNavigation2D.AddNode(static_cast<LandingCandidatePoints2D*>(points2D));
 
 	// スタート時イベントを追加する
+	m_eventToken =
 	EventBus<GamePlayEvent>::Register(
 		GamePlayEvent::Start,
 		[&]() {
@@ -83,6 +81,12 @@ void EnemyManager::Start()
 	GameObject* player = static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
 
 	if (player) m_playerTransform = player->GetComponent<Transform>();
+}
+
+void EnemyManager::OnDestroy()
+{
+	// イベント削除
+	EventBus<GamePlayEvent>::Remove(m_eventToken);
 }
 
 void EnemyManager::Update(const GameTimer& timer)

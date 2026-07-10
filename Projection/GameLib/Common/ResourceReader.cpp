@@ -13,7 +13,7 @@
 #include "ResourceReader.h"
 
 #include "System/ResourceManager.h"
-#include "System/PrefabManager.h"
+#include "Editor/System/PrefabManager.h"
 
 //====================================================//
 // 関数の実体宣言

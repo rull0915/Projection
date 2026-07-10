@@ -13,7 +13,7 @@
 #include "TestPlayScene.h"
 
 #include "Game/Game.h"
-#include "Loader/ObjectLoader.h"
+#include "Editor/Loader/ObjectLoader.h"
 
 #include "Input/KeyInput.h"
 

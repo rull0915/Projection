@@ -3,31 +3,8 @@
 #include "GamePlayScene.h"
 #include "../Game.h"
 
-// コンポーネント
-#include "Camera/ProjectionSmoothCamera.h"
-#include "Camera/TPSCamera.h"
-#include "Player/Player.h"
-#include "Components/World/Sounds/AudioListener.h"
-#include "Components/World/Renderer/Skybox/SkyboxComponent.h"
-
 // 管理クラス
-#include "ChangeDimention/ChangeColliderComponent.h"
 #include "System/ResourceManager.h"
-#include "ObjectFactory.h"
-
-// 入力
-#include "Input/KeyInput.h"
-#include "Input/MouseInput.h"
-
-// その他
-#include "Scene/Transition/FadeTransition.h"
-
-#include "Saver/ObjectSaver.h"
-#include "Loader/ObjectLoader.h"
-
-#include "Common/EventBus.h"
-#include "GamePlayEvent.h"
-#include "PlaySceneManager.h"
 
 // コンストラクタ
 GamePlayScene::GamePlayScene(Game* pGame)

@@ -18,6 +18,7 @@
 #include "Components/ComponentBase.h"
 
 #include "Components/Interface/IComponentListener.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 //====================================================//
 // 前方宣言
@@ -40,6 +41,9 @@ private:
 
 	// コンポーネントを読み取るリスト
 	std::vector<IComponentListener*> m_listeners;
+
+	// デバッグ描画のリスト
+	std::vector<IDebugRenderable*> m_debugRenders;
 
 	// 全コンポーネントのマップ
 	std::unordered_map<unsigned int, std::vector<ComponentBase*>> m_componentsMap;
@@ -64,6 +68,13 @@ public:
 
 	// 各マネージャーから登録解除する関数
 	void UnRegisterComponent(ComponentBase* component);
+
+	//-----------------------------------------------------
+	// コンポーネントの取得関数
+	//-----------------------------------------------------
+
+	// デバッグ描画コンポーネントの全取得
+	const std::vector<IDebugRenderable*>& GetDebugRenders() const { return m_debugRenders; }
 
 	// 全コンポーネントの取得関数
 	template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>

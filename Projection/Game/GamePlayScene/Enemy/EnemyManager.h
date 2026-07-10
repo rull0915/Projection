@@ -23,6 +23,9 @@
 #include "Components/World/WorldComponentBase.h"
 #include "Components/Interface/IComponentListener.h"
 
+#include "Common/EventBus.h"
+#include "../GamePlayEvent.h"
+
 //====================================================//
 // 前方宣言
 //====================================================//
@@ -77,6 +80,9 @@ private:
 	// スタートフラグ
 	bool m_isStarted;
 
+	// イベントのトークン
+	EventBus<GamePlayEvent>::Token m_eventToken;
+
 public:
 
 	//-----------------------------------------------------
@@ -101,6 +107,8 @@ public:
 	void Awake() override;
 
 	void Start() override;
+
+	void OnDestroy() override;
 
 	void Update(const GameTimer& timer) override;
 

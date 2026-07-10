@@ -12,6 +12,8 @@
 #include "pch.h"
 #include "Components/World/Collider/3D/Shapes/SphereCollider.h"
 
+#include "Renderer/Renderer.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -40,4 +42,20 @@ void SphereCollider::UpdateCache() const
 	ResetDirty();
 	SetChanged(true);
 	ApplyVersion();
+}
+
+void SphereCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	// ワールド行列の算出(Rot,Pos)
+	Transform* pT = GetTransform();
+	DirectX::SimpleMath::Vector3 pos = GetWorldCenterPos();
+	DirectX::SimpleMath::Quaternion rot = pT->GetWorldRotation();
+
+	// 半径の取得
+	float rad = GetRadius();
+
+	// 描画
+	renderer.Draw().Circle(pos, pT->GetUp(), rad, 16, color, false);
+	renderer.Draw().Circle(pos, pT->GetRight(), rad, 16, color, false);
+	renderer.Draw().Circle(pos, pT->GetForward(), rad, 16, color, false);
 }

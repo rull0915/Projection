@@ -13,6 +13,7 @@
 #include "Components/World/Collider/2D/Shapes/BoxCollider2D.h"
 
 #include "Settings/WorldSetting2D.h"
+#include "Renderer/Renderer.h"
 
 using namespace DirectX;
 
@@ -58,4 +59,49 @@ void BoxCollider2D::UpdateCache() const
 	SetChanged(true);
 
 	ApplyVersion();
+}
+
+void BoxCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	using namespace DirectX;
+
+	// ワールド行列の算出(Rot,Pos)
+	SimpleMath::Vector2 pos = GetWorldCenterPos();
+
+	// 情報を取得
+	SimpleMath::Vector2 halfSize = GetHalfSize();
+	SimpleMath::Vector2 xA = GetXAxis();
+	SimpleMath::Vector2 yA = GetYAxis();
+
+	// 点を生成
+	SimpleMath::Vector2 points[4] =
+	{
+		pos + (halfSize.x * xA + halfSize.y * yA),
+		pos + (halfSize.x * xA + -halfSize.y * yA),
+		pos + (-halfSize.x * xA + -halfSize.y * yA),
+		pos + (-halfSize.x * xA + halfSize.y * yA),
+	};
+
+	// 2D世界の情報を取得
+	auto& world2D = WorldSetting2D::Instance();
+
+	DirectX::SimpleMath::Vector3 right = world2D.GetXAxis(), up = world2D.GetYAxis();
+
+	// ワールド座標系での情報に変換
+	SimpleMath::Vector3 worldPoints[4] =
+	{
+		right * points[0].x + up * points[0].y,
+		right * points[1].x + up * points[1].y,
+		right * points[2].x + up * points[2].y,
+		right * points[3].x + up * points[3].y
+	};
+
+	// 描画
+	for (int i = 0; i < 4; i++)
+	{
+		renderer.Draw().Line(
+			DirectX::SimpleMath::Vector3{ worldPoints[i] },
+			DirectX::SimpleMath::Vector3{ worldPoints[(i + 1) % 4] },
+			color);
+	}
 }

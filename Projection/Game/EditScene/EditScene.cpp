@@ -17,8 +17,8 @@
 #include "System/ResourceManager.h"
 #include "System/WindowManager.h"
 
-#include "Saver/ObjectSaver.h"
-#include "Loader/ObjectLoader.h"
+#include "Editor/Saver/ObjectSaver.h"
+#include "Editor/Loader/ObjectLoader.h"
 
 #include "Input/MouseInput.h"
 

@@ -13,10 +13,10 @@
 #include <filesystem>
 #include <fstream>
 
-#include "Saver/ObjectSaver.h"
+#include "Editor/Saver/ObjectSaver.h"
 
 #include "GameObject/GameObject.h"
-#include "Common/ClassNameGetter.h"
+#include "Editor/Common/ClassNameGetter.h"
 
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"

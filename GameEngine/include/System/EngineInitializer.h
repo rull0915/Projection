@@ -59,9 +59,6 @@ private:
 	// Ray衝突関数の登録
 	static void RegistRayCollisions();
 
-	// デバッグ描画関数の登録
-	static void RegistDebugDrawers();
-
 	// デフォルトのカスタムキーの登録
 	static void RegistCustomKeys();
 };

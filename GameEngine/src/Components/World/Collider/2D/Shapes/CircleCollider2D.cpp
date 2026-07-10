@@ -13,6 +13,7 @@
 #include "Components/World/Collider/2D/Shapes/CircleCollider2D.h"
 
 #include "Settings/WorldSetting2D.h"
+#include "Renderer/Renderer.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -40,4 +41,15 @@ void CircleCollider2D::UpdateCache() const
 	SetChanged(true);
 
 	ApplyVersion();
+}
+
+void CircleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	// ワールド行列の算出(Rot,Pos)
+	DirectX::SimpleMath::Vector2 pos = GetWorldCenterPos();
+
+	auto& world2D = WorldSetting2D::Instance();
+
+	float rad = GetRadius();
+	renderer.Draw().Circle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
 }

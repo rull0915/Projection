@@ -23,19 +23,19 @@ class IComponentListener
 {
 public:
 
-    //-----------------------------------------------------
-    // コンストラクタ / デストラクタ
-    //-----------------------------------------------------
-    IComponentListener() = default;
-    ~IComponentListener() = default;
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	IComponentListener() = default;
+	virtual ~IComponentListener() = default;
 
-    //-----------------------------------------------------
-    // 公開関数
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
 
 	// コンポーネント追加時に通知される関数
-    virtual void OnComponentAdded(ComponentBase*) {}
+	virtual void OnComponentAdded(ComponentBase*) {}
 
 	// コンポーネント削除時に通知される関数
-    virtual void OnComponentRemoved(ComponentBase*) {}	
+	virtual void OnComponentRemoved(ComponentBase*) {}	
 };

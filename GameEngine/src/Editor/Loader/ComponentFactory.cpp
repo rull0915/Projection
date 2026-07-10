@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Loader/ComponentFactory.h"
+#include "Editor/Loader/ComponentFactory.h"
 
 //====================================================//
 // 関数の実体宣言

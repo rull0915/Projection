@@ -19,7 +19,7 @@
 #include "Managers/UI/UIManager.h"
 #include "Scene/Scene.h"
 
-#include "Loader/ObjectLoader.h"
+#include "Editor/Loader/ObjectLoader.h"
 
 //====================================================//
 // 関数の実体宣言

@@ -202,11 +202,8 @@ $(ProjectDir)
       </SubType>
     </ClInclude>
     <ClInclude Include="GameLib\Colliders\ConvexPolygonCollider2D.h" />
-    <ClInclude Include="GameLib\Colliders\DebugRenderer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GameLib\Common\ResourceReader.h" />
+    <ClInclude Include="GameLib\CatmullRomComponent.h" />
     <ClInclude Include="GameLib\Math\GameMath.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
     <ClInclude Include="Game\EditScene\EditScene.h">
@@ -274,11 +271,8 @@ $(ProjectDir)
       </SubType>
     </ClCompile>
     <ClCompile Include="GameLib\Colliders\ConvexPolygonCollider2D.cpp" />
-    <ClCompile Include="GameLib\Colliders\DebugRenderer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
+    <ClCompile Include="GameLib\CatmullRomComponent.cpp" />
     <ClCompile Include="GameLib\Math\GameMath.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\EditScene\EditScene.cpp">
@@ -346,9 +340,6 @@ $(ProjectDir)
     <None Include="Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameEditor\GameEditor.vcxproj">
-      <Project>{761ffe14-28df-491e-b4ad-74e3eabfd6bd}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
       <Project>{92af323a-9cde-4d83-ac9a-a51566f408ed}</Project>
     </ProjectReference>

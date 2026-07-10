@@ -10,9 +10,9 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "System/PrefabManager.h"
+#include "Editor/System/PrefabManager.h"
 
-#include "Loader/ObjectLoader.h"
+#include "Editor/Loader/ObjectLoader.h"
 
 //====================================================//
 // 関数の実体宣言

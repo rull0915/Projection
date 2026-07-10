@@ -12,6 +12,8 @@
 #include "pch.h"
 #include "Components/World/Collider/3D/Shapes/BoxCollider.h"
 
+#include "Renderer/Renderer.h"
+
 using namespace DirectX;
 
 //====================================================//
@@ -59,4 +61,40 @@ void BoxCollider::UpdateCache() const
 	SetChanged(true);
 
 	ApplyVersion();
+}
+
+void BoxCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+{
+	using namespace DirectX;
+
+	// ワールド行列の算出(Rot,Pos)
+	SimpleMath::Vector3 pos = GetWorldCenterPos();
+	SimpleMath::Quaternion rot = GetTransform()->GetWorldRotation();
+
+	SimpleMath::Matrix world = SimpleMath::Matrix::CreateFromQuaternion(rot) * SimpleMath::Matrix::CreateTranslation(pos);
+
+	SimpleMath::Vector3 halfSize = GetHalfSize();
+
+	// PointList
+	SimpleMath::Vector3 points[8] =
+	{
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(halfSize.x,  halfSize.y,  halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(-halfSize.x,  halfSize.y,  halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(-halfSize.x,  halfSize.y, -halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(halfSize.x,  halfSize.y, -halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(halfSize.x, -halfSize.y,  halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(-halfSize.x, -halfSize.y,  halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(-halfSize.x, -halfSize.y, -halfSize.z), world),
+		SimpleMath::Vector3::Transform(SimpleMath::Vector3(halfSize.x, -halfSize.y, -halfSize.z), world),
+	};
+
+	int edges[12 * 2] =
+	{
+		0, 1, 1, 2, 2, 3, 3, 0, 0, 4, 1, 5, 2, 6, 3, 7, 4, 5, 5, 6, 6, 7, 7, 4
+	};
+
+	for (int i = 0; i < 12; i++)
+	{
+		renderer.Draw().Line(points[edges[i * 2]], points[edges[i * 2 + 1]], color);
+	}
 }

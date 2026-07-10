@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Editor/EditGUI.h"
+#include "Editor/Editor/EditGUI.h"
 
 #include "imgui/imgui.h"
 

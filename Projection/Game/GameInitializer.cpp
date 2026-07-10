@@ -14,14 +14,12 @@
 
 // 衝突判定
 #include "Managers/CollisionMap.h"
-#include "Debug/ColliderDebugRenderer.h"
 #include "GameLib/Colliders/CheckHit.h"
-#include "GameLib/Colliders/DebugRenderer.h"
 #include "Components/World/Collider/2D/Shapes/2DColliders.h"
 
 #include "System/TypeIdGenerator.h"
 #include "GameObject/GameObject.h"
-#include "Loader/ComponentFactory.h"
+#include "Editor/Loader/ComponentFactory.h"
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
 
@@ -40,6 +38,7 @@
 #include "GamePlayScene/Enemy/Components/LandingCandidatePoints.h"
 #include "GamePlayScene/Enemy/Components/LandingCandidatePoints2D.h"
 #include "GamePlayScene/Camera/StartCamera.h"
+#include "GameLib/CatmullRomComponent.h"
 
 // 生成関数登録マクロ
 #define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, Name::SPACE, [](GameObject* o){ return o->AddComponent<Name>(); }))
@@ -62,12 +61,6 @@ void GameInitializer::Initialize()
 	CollisionMap2D::Register(
 		TypeIDGenerator::GetID<CapsuleCollider2D>(), TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
 		Collision2D::CheckHit2D_Capsule_Convex
-	);
-
-	// デバッグ描画関数の追加
-	ColliderDebugRenderer2D::Register(
-		TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
-		DrawCollider2D::DrawCollider_Convex
 	);
 
 	// 作成関数の追加
@@ -95,6 +88,7 @@ void GameInitializer::RegistFactries()
 	REGISTER_FACTORY(LandingCandidatePoints2D);
 	REGISTER_FACTORY(PlaySceneManager);
 	REGISTER_FACTORY(StartCamera);
+	REGISTER_FACTORY(CatmullRomComponent);
 }
 
 void GameInitializer::AddKey()

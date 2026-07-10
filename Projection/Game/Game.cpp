@@ -9,12 +9,12 @@
 #include "Debug/DebugManager.h"			// デバッグ	
 #include "System/WindowManager.h"		// ウィンドウ	
 #include "System/ResourceManager.h"		// リソース
-#include "Editor/ImguiManager.h"		// imgui
+#include "Editor/Editor/ImguiManager.h"	// imgui
 
 // 各プロジェクト初期化
-#include "System/EngineInitializer.h"	// エンジン部分	
-#include "System/EditorInitializer.h"	// エディター	部分
-#include "GameInitializer.h"			// ゲーム部分	
+#include "System/EngineInitializer.h"			// エンジン部分	
+#include "Editor/System/EditorInitializer.h"	// エディター	部分
+#include "GameInitializer.h"					// ゲーム部分	
 
 // 入力
 #include "Input/KeyInput.h"				// キー	

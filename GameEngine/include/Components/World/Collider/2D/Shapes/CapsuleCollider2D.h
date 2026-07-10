@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "../ColliderBase2D.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 //====================================================//
 // 前方宣言
@@ -31,7 +32,7 @@ namespace AxisType2D
 	static constexpr size_t Vertical = 1;
 }
 
-class CapsuleCollider2D : public ColliderBase2D
+class CapsuleCollider2D : public ColliderBase2D, public IDebugRenderable
 {
 private:
 
@@ -75,7 +76,15 @@ public:
     };
     ~CapsuleCollider2D() = default;
 
+    //-----------------------------------------------------
+    // 公開関数
+    //-----------------------------------------------------
+
+	// キャッシュ更新
     void UpdateCache() const override;
+
+	// デバッグ描画
+	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
 
     //-----------------------------------------------------
     // ゲッター

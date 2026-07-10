@@ -3,7 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="GameEditor/GameEditor.vcxproj" Id="761ffe14-28df-491e-b4ad-74e3eabfd6bd" />
   <Project Path="GameEngine/GameEngine.vcxproj" Id="92af323a-9cde-4d83-ac9a-a51566f408ed" />
   <Project Path="Projection/Projection.vcxproj" Id="d522513f-cf95-46e3-9768-9d55ae35739c" />
   <Project Path="ResourceBuild/ResourceBuild.vcxproj" Id="2165b15f-a117-4bd7-87b7-89e9cb2f92b2" />
