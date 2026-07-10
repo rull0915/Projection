@@ -97,7 +97,7 @@ public:
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
-	bool IsActive() const { return m_isActive; }
+	bool IsActive() const override { return m_isActive; }
 	
 	bool IsDead() const { return m_isDead; }
 

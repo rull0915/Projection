@@ -83,8 +83,6 @@ public:
 	{
 		for (auto& component : m_addReserves)
 		{
-			if (!component->IsActive()) continue;
-
 			// 更新処理
 			component->Awake();
 		}

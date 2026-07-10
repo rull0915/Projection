@@ -48,7 +48,7 @@ void RendererManager::DrawAll(Renderer& renderer)
 	for (auto& component : m_renderers)
 	{
 		// アクティブチェック
-		if (!component->IsActive()) continue;
+		if (!component->IsActive() || !component->GetOwn()->IsActive()) continue;
 
 		component->Draw(renderer);
 	}

@@ -155,7 +155,13 @@ void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
 	{
 		for (auto& c : m_componentRegister->GetDebugRenders())
 		{
-			c->DebugRender(renderer, color);
+			// キャスト
+			if (auto* com = dynamic_cast<ComponentBase*>(c))
+			{
+				if (!com->IsActive() || !com->GetOwn()->IsActive()) continue;
+
+				c->DebugRender(renderer, color);
+			}
 		}
 	}
 

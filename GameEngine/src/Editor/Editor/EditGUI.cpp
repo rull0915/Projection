@@ -11,8 +11,10 @@
 //====================================================//
 #include "pch.h"
 #include "Editor/Editor/EditGUI.h"
+#include "imgui/imgui_internal.h"
 
 #include "imgui/imgui.h"
+#include "Input/KeyInput.h"
 
 #include "System/WindowManager.h"
 
@@ -64,7 +66,44 @@ void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourc
 	StartSceneView();
 
 	// 描画
-	DrawImage(sceneView, { 576, 324 });
+	ImGui::Text("こんにちは");
+
+	// 同ライン
+	ImGui::SameLine();
+	ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical, 3.0f);
+
+	ImGui::SameLine();
+
+	// 右側に並べる要素の合計幅を計算
+	const ImGuiStyle& style = ImGui::GetStyle();
+
+	float totalWidth = 0.0f;
+
+	totalWidth += ImGui::CalcTextSize("Grid").x + ImGui::GetFrameHeight();
+	totalWidth += style.ItemInnerSpacing.x;
+
+	totalWidth += ImGui::CalcTextSize("Gizmo").x + ImGui::GetFrameHeight();
+	totalWidth += style.ItemInnerSpacing.x;
+
+	totalWidth += 60.0f; // Resetボタンの幅
+
+	// 右寄せ
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth);
+
+	static bool grid;
+	static bool gizmo;
+
+	// 描画
+	ImGui::Checkbox("Grid", &grid);
+
+	ImGui::SameLine();
+	ImGui::Checkbox("Gizmo", &gizmo);
+
+	ImGui::SameLine();
+	ImGui::Button("Reset", ImVec2(45, 0));
+
+	// 描画
+	DrawImage(sceneView);
 
 	// 終了
 	ImGui::End();
@@ -73,26 +112,47 @@ void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourc
 	StartGameView();
 
 	// 描画
-	DrawImage(gameView, { 576, 324 });
+	DrawImage(gameView);
 
 	// 終了
 	ImGui::End();
 }
 
-void EditGUI::DrawImage(ID3D11ShaderResourceView* img, DirectX::SimpleMath::Vector2 position)
+void EditGUI::DrawImage(ID3D11ShaderResourceView* img)
 {
+	// 有効サイズ
+	ImVec2 avail = ImGui::GetContentRegionAvail();
+
+	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftShift))
+	{
+		// アスペクト比
+		float aspect = WindowManager::Instance().GetAspect();
+
+		// 小さい方に合わせる
+		float correction = avail.x / aspect;
+
+		if (correction > avail.y)
+		{
+			avail.x = avail.y * aspect;
+		}
+		else if (correction < avail.y)
+		{
+			avail.y = avail.x / aspect;
+		}
+	}
+
 	ImGui::Image(
 		(ImTextureID)img,
-		{ position.x, position.y });
+		avail);
 }
 
 void EditGUI::StartSceneView()
 {
-	// 位置とサイズを固定
+	// 位置を固定
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 //	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
 
-	ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 		
 	// ウィンドウへのクリックを検知
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知

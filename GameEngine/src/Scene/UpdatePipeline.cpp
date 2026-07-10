@@ -67,8 +67,8 @@ void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 
 		// 音の更新
 		m_soundManager->Update();
-
 	}
+
 	// 各オブジェクトの遅延更新
 	m_objectManager->LateUpdate(gameTimer, playing);
 

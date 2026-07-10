@@ -116,6 +116,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);
 $(ProjectDir)ThirdParty;
 %(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +139,7 @@ $(ProjectDir)ThirdParty;
       <AdditionalIncludeDirectories>$(ProjectDir);
 $(ProjectDir)ThirdParty;
 %(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -272,6 +274,10 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Common\CastString.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Common\EventBus.h" />
     <ClInclude Include="include\Common\Origin.h">
       <SubType>

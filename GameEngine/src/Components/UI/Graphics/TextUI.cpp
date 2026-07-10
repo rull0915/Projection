@@ -14,6 +14,7 @@
 #include "System/ResourceManager.h"
 
 #include "Renderer/Renderer.h"
+#include "Common/CastString.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -47,7 +48,7 @@ void TextUI::Draw(Renderer& renderer)
 		transform->GetRight() * size.x * scale.x * m_origin.x +
 		transform->GetUp() * size.y * scale.y * m_origin.y;
 
-	std::wstring s{ m_text.begin(), m_text.end() };
+	std::wstring s = CastString::Utf8ToWide(m_text);
 
 	// 描画
 	renderer.Draw().Text().

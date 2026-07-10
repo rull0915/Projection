@@ -90,7 +90,7 @@ private:
 	//-----------------------------------------------------
 
 	// 画像の表示
-	void DrawImage(ID3D11ShaderResourceView* img, DirectX::SimpleMath::Vector2 position);
+	void DrawImage(ID3D11ShaderResourceView* img);
 
 	// シーンビュー描画の開始
 	void StartSceneView();

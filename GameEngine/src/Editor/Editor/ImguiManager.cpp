@@ -28,7 +28,13 @@ void ImguiManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceConte
 
 	//  コンテキストの作成
 	ImGui::CreateContext();
+
 	ImGuiIO& io = ImGui::GetIO();
+
+	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+
+	//	io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
 
@@ -47,25 +53,6 @@ void ImguiManager::Update()
 	ImGui::NewFrame();
 
 	//static int* data = new int(10);
-
-	//ImGui::Begin("Test");
-
-	//ImGui::Button("Player");
-
-
-
-	//if (ImGui::BeginDragDropTarget())
-	//{
-	//	if (const ImGuiPayload* payload =
-	//		ImGui::AcceptDragDropPayload("OBJECT"))
-	//	{
-	//		auto data = *(int*)payload->Data;
-	//	}
-
-	//	ImGui::EndDragDropTarget();
-	//}
-
-	//ImGui::End();
 }
 
 // フレーム終了時処理

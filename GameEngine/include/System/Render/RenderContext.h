@@ -34,6 +34,7 @@ struct RenderContext
 {
 	// 使用するカメラ
     CameraBase* camera = nullptr;
+
 	// 描画先
     RenderTarget* target = nullptr;
 

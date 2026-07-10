@@ -41,6 +41,9 @@ public:
 	virtual const std::string& GetName() const = 0;
 	virtual void SetName(const std::string& name) = 0;
 
+	// アクティブ
+	virtual bool IsActive() const = 0; 
+
 	// 自身の削除
 	virtual void Destroy() = 0;
 
