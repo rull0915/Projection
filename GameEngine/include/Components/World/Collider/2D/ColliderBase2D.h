@@ -77,6 +77,20 @@ public:
 
 	virtual ~ColliderBase2D() = default;
 
+
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
+
+	// キャッシュの更新をする関数
+	virtual void UpdateCache() const = 0;
+
+	// GUI変更時
+	void OnValidate() override
+	{
+		SetDirty();
+	}
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
@@ -110,14 +124,6 @@ public:
 		m_rotation = rot;
 		SetDirty();
 	}
-
-	//-----------------------------------------------------
-	// その他関数
-	//-----------------------------------------------------
-
-	// キャッシュの更新をする関数
-	virtual void UpdateCache() const = 0;
-
 protected:
 
 	inline void SetWorldPosition(const DirectX::SimpleMath::Vector2& pos) const { m_worldCenterPos = pos; }

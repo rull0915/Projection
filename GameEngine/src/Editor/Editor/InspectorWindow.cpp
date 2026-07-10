@@ -15,7 +15,6 @@
 #include "Editor/Common/ClassNameGetter.h"
 #include "System/WindowManager.h"
 #include "Editor/Loader/ComponentFactory.h"
-#include "Components/World/Components.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
@@ -125,7 +124,7 @@ void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)
 				// 値が変わっていたら
 				if (DrawProperty(&property))
 				{
-					OnChanged(component);
+					component->OnValidate();
 				}
 			}
 
@@ -280,47 +279,5 @@ void InspectorWindow::DrawAddComponent(GameObject* object)
 		}
 
 		ImGui::EndPopup();
-	}
-}
-
-void InspectorWindow::OnChanged(ComponentBase* component)
-{
-	// トランスフォームなら
-	if (component->GetID() == TypeIDGenerator::GetID<Transform>())
-	{
-		// 変更フラグをオンに
-		static_cast<Transform*>(component)->SetDirty();
-	}
-	// レクトトランスフォームなら
-	if (component->GetID() == TypeIDGenerator::GetID<RectTransform>())
-	{
-		// 変更フラグをオンに
-		static_cast<RectTransform*>(component)->SetDirty();
-	}
-	// コライダーなら
-	if (component->GetCategory() == Category::Collider)
-	{
-		// 変更フラグをオンに
-		static_cast<ColliderBase*>(component)->SetDirty();
-	}
-	// 2Dコライダーなら
-	if (component->GetCategory() == Category::Collider2D)
-	{
-		// 変更フラグをオンに
-		static_cast<ColliderBase2D*>(component)->SetDirty();
-	}
-	// AudioSourceなら
-	if (component->GetID() == TypeIDGenerator::GetID<AudioSource>())
-	{
-		// 変更を反映
-		static_cast<AudioSource*>(component)->ReflectSetting();
-	}
-
-	// リソース読み込みを行うコンポーネントなら
-	if (IResourceReader* reader = dynamic_cast<IResourceReader*>(component))
-	{
-		// 読み込みを行う
-		reader->LoadResource();
-		reader->ReflectLoading();
 	}
 }

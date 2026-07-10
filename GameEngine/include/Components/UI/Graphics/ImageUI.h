@@ -70,6 +70,13 @@ public:
 
 	void Draw(Renderer& renderer) override;
 
+	// GUI変更時
+	void OnValidate() override
+	{
+		LoadResource();
+		ReflectLoading();
+	}
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------

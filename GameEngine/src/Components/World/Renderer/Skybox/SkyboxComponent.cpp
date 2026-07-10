@@ -30,11 +30,7 @@ SkyboxComponent::SkyboxComponent(IComponentOwner* own)
 	, m_texture{ nullptr }
 {
 	ADD_PROPERTY(m_keyName);
-}
 
-// 生成直後に一度呼ばれます
-void SkyboxComponent::Awake()
-{
 	// デバイスを取得
 	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
 
@@ -42,8 +38,7 @@ void SkyboxComponent::Awake()
 	auto context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
 
 	// 球体を作成
-	m_sky = DirectX::GeometricPrimitive::CreateGeoSphere(context, 2.f, 3,
-		false /*invert for being inside the shape*/);
+	m_sky = DirectX::GeometricPrimitive::CreateGeoSphere(context, 2.f, 3, false);
 
 	// スカイボックスエフェクトの生成
 	m_effect = std::make_unique<SkyboxEffect>(device);

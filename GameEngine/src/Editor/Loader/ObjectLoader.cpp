@@ -96,6 +96,9 @@ void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene
 
 		// ロード
 		if (component) LoadProperty(js["Data"], *component);
+
+		// 変更時処理の呼び出し
+		component->OnValidate();
 	}
 
 	// 子供をロード

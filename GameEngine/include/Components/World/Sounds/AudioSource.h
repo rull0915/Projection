@@ -95,6 +95,14 @@ public:
 	// 停止
 	void Stop() const;
 
+	// GUI変更時
+	void OnValidate() override
+	{
+		ReflectSetting();
+		LoadResource();
+		ReflectLoading();
+	}
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------

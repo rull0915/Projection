@@ -23,10 +23,6 @@
 //====================================================//
 class InspectorWindow
 {
-private:
-
-
-
 public:
 
 	//-----------------------------------------------------
@@ -59,7 +55,4 @@ private:
 
 	// コンポーネントの追加を表示する関数
 	void DrawAddComponent(GameObject* object);
-
-	// 値が変更されていた時の処理
-	void OnChanged(ComponentBase* component);
 };

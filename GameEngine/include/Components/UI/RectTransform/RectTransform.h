@@ -106,6 +106,12 @@ public:
 
 	bool Contains(const DirectX::SimpleMath::Vector2& target);
 
+	// GUI変更時
+	void OnValidate() override
+	{
+		SetDirty();
+	}
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------

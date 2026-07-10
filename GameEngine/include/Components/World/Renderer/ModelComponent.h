@@ -72,6 +72,13 @@ public:
 		return TypeIDGenerator::GetID<ModelComponent>();
 	}
 
+	// GUI変更時
+	void OnValidate() override
+	{
+		LoadResource();
+		ReflectLoading();
+	}
+
 	// ---------- リソース関連 ---------- //
 
 	// 読み込みを反映する

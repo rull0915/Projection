@@ -56,13 +56,18 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Awake() override;
-
 	void Start() override;
 
 	void Draw(Renderer& renderer) override;
 
 	void SetTexture(const std::string& key);
+
+	// GUI変更時
+	void OnValidate() override
+	{
+		LoadResource();
+		ReflectLoading();
+	}
 
 	//-----------------------------------------------------
 	// ゲッター

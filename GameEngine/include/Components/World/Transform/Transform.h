@@ -85,6 +85,13 @@ public:
 		}
 	}
 
+	// GUI変更時
+	void OnValidate() override
+	{
+		// Dirtyに
+		SetDirty();
+	}
+
 	// ID取得
 	unsigned int GetID() override
 	{

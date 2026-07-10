@@ -62,6 +62,7 @@ public:
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
+
 	IComponentOwner* GetOwn() const { return m_own; }   // 所有者
 
 	bool IsActive() const { return m_isActive; }        // アクティブフラグ
@@ -95,6 +96,7 @@ public:
 	virtual void LateUpdate([[maybe_unused]] const GameTimer& gameTimer) {}  // 遅延更新関数
 
 	virtual void OnDestroy() {} // 削除時
+	virtual void OnValidate() {} // GUIでの値変更時
 
 	// ----- 衝突関連 ----- //
 
