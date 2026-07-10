@@ -41,21 +41,16 @@ private:
 	//-----------------------------------------------------
 
 	// ループフラグ
-	bool m_loop;
+	bool m_isLoop;
 
-	// スタート時に開始するかどうかのフラグ
+	// オフセット
+	DirectX::SimpleMath::Vector3 m_offset;
 
-	// 始点
-	DirectX::SimpleMath::Vector3 m_start;
-
-	// 終点
-	DirectX::SimpleMath::Vector3 m_end;
-
-	// 始点側制御点
-	DirectX::SimpleMath::Vector3 m_startControl;
-
-	// 終点側制御点
-	DirectX::SimpleMath::Vector3 m_endControl;
+	// 各点
+	DirectX::SimpleMath::Vector3 m_p0;
+	DirectX::SimpleMath::Vector3 m_p1;
+	DirectX::SimpleMath::Vector3 m_p2;
+	DirectX::SimpleMath::Vector3 m_p3;
 
 public:
 

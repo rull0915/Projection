@@ -92,12 +92,18 @@ public:
 	// 削除関数
 	void Remove(GameObject* obj);
 
-	// 点と衝突するかどうか
-	RectTransform* HitTest(const DirectX::SimpleMath::Vector2& point);
+	// 点と衝突するRectTransformを返す関数
+	RectTransform* HitTest(const DirectX::SimpleMath::Vector2& point) { return HitTestChild(m_rootObject->GetComponent<RectTransform>(), point); }
 
 	// クリック時関数
 	void OnMouseDown();
 	void OnMouseUp();
+
+	// Destroyのオブジェクトを削除する関数
+	void RemoveReserves()
+	{
+		std::erase_if(m_uiObjects, [](const std::unique_ptr<GameObject>& obj) { return obj->IsDead(); });
+	}
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -131,45 +137,28 @@ public:
 
 	// キャンバス名
 	void SetCanvasName(const std::string& name) { m_canvasName = name; }
-	
-	// Destroyのオブジェクトを削除する関数
-	void RemoveReserves()
-	{
-		// 管理リストを全て調べる
-		for (int i = 0; i < m_uiObjects.size(); i++)
-		{
-			GameObject* obj = m_uiObjects[i].get();
-
-			// オブジェクトの死亡フラグがオンなら
-			if (obj->IsDead())
-			{
-				obj->BaseFinalize();
-
-				// リストから削除
-				m_uiObjects.erase(m_uiObjects.begin() + i);
-
-				i--;
-			}
-		}
-	}
 
 private:
 	//-----------------------------------------------------
 	// 内部実装
 	//-----------------------------------------------------
 
+	// 再帰的に描画を行う関数
 	void DrawChild(RectTransform* child, Renderer& renderer);
 
+	// 再帰的にマウスとの衝突を判定する関数
 	RectTransform* HitTestChild(RectTransform* child, const DirectX::SimpleMath::Vector2& point);
+	
+	// 押されたことを再帰的に通知する関数
+	void MouseCheckChild(RectTransform* child, bool dowm);
 
 	// 予約リストから生成予約されたオブジェクトを登録する関数
 	void AddReserves()
 	{
 		// 予約リストにあるオブジェクトを全て登録
-		for (auto& reservation : m_reservations)
-		{
-			m_uiObjects.push_back(std::move(reservation));
-		}
+		for (auto& reservation : m_reservations) m_uiObjects.push_back(std::move(reservation));
+
+		// 予約リストをクリア
 		m_reservations.clear();
 	}
 
@@ -177,12 +166,6 @@ private:
 	void AllDestroy()
 	{
 		// 管理リストを全て調べる
-		for (auto& obj : m_uiObjects)
-		{
-			obj->Destroy();
-		}
+		for (auto& obj : m_uiObjects) obj->Destroy(); 
 	}
-
-	// 押されたとき
-	void MouseCheckChild(RectTransform* child, bool dowm);
 };

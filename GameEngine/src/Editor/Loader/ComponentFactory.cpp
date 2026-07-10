@@ -17,7 +17,7 @@
 //====================================================//
 
 
-void ComponentFactory::Register(const std::string& name, ComponentSpace space, CreateFunc func)
+void ComponentFactory::Register(const std::string& name, ComponentInfo space, CreateFunc func)
 {
 	// イテレータを取得
 	auto it = m_creatorMap.find(name);

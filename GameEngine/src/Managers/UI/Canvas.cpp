@@ -129,6 +129,7 @@ void Canvas::RemoveDeadComponent()
 
 void Canvas::Finalize()
 {
+	// 全オブジェクトを削除する
 	AllDestroy();
 	RemoveReserves();
 }
@@ -156,38 +157,8 @@ GameObject* Canvas::Generate()
 
 void Canvas::Remove(GameObject* obj)
 {
-	// 指定されたオブジェクトを探す
-	auto it = std::find_if(m_uiObjects.begin(), m_uiObjects.end(),
-		[obj](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == obj; });
-
-	// リストにあれば削除
-	if (it != m_uiObjects.end())
-	{
-		m_uiObjects.erase(it);
-	}
-}
-
-/// <summary>
-/// 指定した点が当たっているRectTransformを返す関数
-/// </summary>
-RectTransform* Canvas::HitTest(const DirectX::SimpleMath::Vector2& point)
-{
-	auto& children = m_rootObject->GetComponent<RectTransform>()->GetChildren();
-
-	// 管理しているオブジェクトを走査
-	for (auto it = children.rbegin();
-		it != children.rend();
-		++it)
-	{
-		// 子の中で当たっているRectを取得
-		if (auto* hit = HitTestChild((*it)->GetComponent<RectTransform>(), point))
-		{
-			// 返す
-			return hit;
-		}
-	}
-
-	return nullptr;
+	// 指定されたポインタがあれば削除する
+	std::erase_if(m_uiObjects, [obj](const std::unique_ptr<GameObject>& object) { return object.get() == obj; });
 }
 
 void Canvas::OnMouseDown()

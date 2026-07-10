@@ -41,7 +41,6 @@ private:
 	// 描画の状態
 	RenderStateCache& m_renderState;
 
-	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;
 	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
 
 public:

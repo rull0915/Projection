@@ -21,11 +21,19 @@
 // コンストラクタ
 CatmullRomComponent::CatmullRomComponent(IComponentOwner* own)
 	: WorldComponentBase(own)
+	, m_isLoop{ false }
+	, m_offset{}
+	, m_p0{}
+	, m_p1{}
+	, m_p2{}
+	, m_p3{}
 {
-	ADD_PROPERTY(m_start);
-	ADD_PROPERTY(m_end);
-	ADD_PROPERTY(m_startControl);
-	ADD_PROPERTY(m_endControl);
+	ADD_PROPERTY(m_isLoop);
+	ADD_PROPERTY(m_offset);
+	ADD_PROPERTY(m_p0);
+	ADD_PROPERTY(m_p1);
+	ADD_PROPERTY(m_p2);
+	ADD_PROPERTY(m_p3);
 }
 
 // 生成直後に一度呼ばれます
@@ -51,25 +59,33 @@ void CatmullRomComponent::DebugRender(Renderer & renderer, const DirectX::Simple
 
 	// 始点を開始点に
 	DirectX::SimpleMath::Vector3 prev = DirectX::SimpleMath::Vector3::Zero;
-	DirectX::SimpleMath::Vector3 now = m_start;
+	DirectX::SimpleMath::Vector3 now = m_p1 + m_offset;
 
-	// ループ
-	for (int i = 1; i < count; ++i)
+	// 点
+	DirectX::SimpleMath::Vector3 points[4] = { m_p0, m_p1, m_p2, m_p3 };
+	
+	for (size_t index = 0; index < (m_isLoop ? 4 : 1); ++index)
 	{
-		// 前の点を取得
-		prev = now;
+		// ループ
+		for (int i = 1; i < count; ++i)
+		{
+			// 前の点を取得
+			prev = now;
 
-		// 割合を算出
-		float t = static_cast<float>(i) / count;
+			// 割合を算出
+			float t = static_cast<float>(i) / count;
 
-		// 現在の座標を取得
-		now = DirectX::SimpleMath::Vector3::CatmullRom(
-			m_startControl, m_start,
-			m_end, m_endControl,
-			t
-		);
+			// 現在の座標を取得
+			now = DirectX::SimpleMath::Vector3::CatmullRom(
+				points[(index + 0) % 4] + m_offset,
+				points[(index + 1) % 4] + m_offset,
+				points[(index + 2) % 4] + m_offset,
+				points[(index + 3) % 4] + m_offset,
+				t
+			);
 
-		// 描画
-		renderer.Draw().Line(prev, now, color);
+			// 描画
+			renderer.Draw().Line(prev, now, color);
+		}
 	}
 }

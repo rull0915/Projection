@@ -35,12 +35,12 @@ private:
     using CreateFunc = std::function<ComponentBase*(GameObject*)>;
 
     // 関数マップ
-    static inline std::map<std::string, std::pair<ComponentSpace, CreateFunc>> m_creatorMap;
+    static inline std::map<std::string, std::pair<ComponentInfo, CreateFunc>> m_creatorMap;
 
 public:
 
     // 登録関数
-    static void Register(const std::string& name, ComponentSpace space, CreateFunc func);
+    static void Register(const std::string& name, ComponentInfo space, CreateFunc func);
 		
     // 作成を実行
     static ComponentBase* Create(const std::string& id, GameObject* owner);

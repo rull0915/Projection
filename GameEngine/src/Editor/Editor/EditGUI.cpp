@@ -66,41 +66,41 @@ void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourc
 	StartSceneView();
 
 	// 描画
-	ImGui::Text("こんにちは");
+	ImGui::Text("SceneView");
 
 	// 同ライン
 	ImGui::SameLine();
 	ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical, 3.0f);
 
-	ImGui::SameLine();
+	//ImGui::SameLine();
 
-	// 右側に並べる要素の合計幅を計算
-	const ImGuiStyle& style = ImGui::GetStyle();
+	//// 右側に並べる要素の合計幅を計算
+	//const ImGuiStyle& style = ImGui::GetStyle();
 
-	float totalWidth = 0.0f;
+	//float totalWidth = 0.0f;
 
-	totalWidth += ImGui::CalcTextSize("Grid").x + ImGui::GetFrameHeight();
-	totalWidth += style.ItemInnerSpacing.x;
+	//totalWidth += ImGui::CalcTextSize("Grid").x + ImGui::GetFrameHeight();
+	//totalWidth += style.ItemInnerSpacing.x;
 
-	totalWidth += ImGui::CalcTextSize("Gizmo").x + ImGui::GetFrameHeight();
-	totalWidth += style.ItemInnerSpacing.x;
+	//totalWidth += ImGui::CalcTextSize("Gizmo").x + ImGui::GetFrameHeight();
+	//totalWidth += style.ItemInnerSpacing.x;
 
-	totalWidth += 60.0f; // Resetボタンの幅
+	//totalWidth += 60.0f; // Resetボタンの幅
 
-	// 右寄せ
-	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth);
+	//// 右寄せ
+	//ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth);
 
-	static bool grid;
-	static bool gizmo;
+	//static bool grid;
+	//static bool gizmo;
 
-	// 描画
-	ImGui::Checkbox("Grid", &grid);
+	//// 描画
+	//ImGui::Checkbox("Grid", &grid);
 
-	ImGui::SameLine();
-	ImGui::Checkbox("Gizmo", &gizmo);
+	//ImGui::SameLine();
+	//ImGui::Checkbox("Gizmo", &gizmo);
 
-	ImGui::SameLine();
-	ImGui::Button("Reset", ImVec2(45, 0));
+	//ImGui::SameLine();
+	//ImGui::Button("Reset", ImVec2(45, 0));
 
 	// 描画
 	DrawImage(sceneView);

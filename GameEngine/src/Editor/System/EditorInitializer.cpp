@@ -18,8 +18,9 @@
 #include "Components/World/Components.h"
 #include "Components/UI/UIComponents.h"
 #include "GameObject/GameObject.h"
+#include "Components/ComponentCategory.h"
 
-#define ADD_FACTORY(type) ComponentFactory::Register(#type, type::SPACE, [](GameObject* o) { return o->AddComponent<type>(); });
+#define ADD_FACTORY(type) ComponentFactory::Register(#type, { ComponentProject::Engine, type::SPACE }, [](GameObject* o) { return o->AddComponent<type>(); });
 
 //====================================================//
 // 関数の実体宣言

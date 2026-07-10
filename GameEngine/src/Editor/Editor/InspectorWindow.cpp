@@ -234,50 +234,65 @@ void InspectorWindow::DrawAddComponent(GameObject* object)
 	// AddCompnentが開かれていたら
 	if (ImGui::BeginPopup("AddComponent"))
 	{
-		// 選択肢を表示
-
-		// Worldコンポーネント
-		if (ImGui::BeginMenu("World"))
+		// Engine側が開かれていれば
+		if (ImGui::BeginMenu("Standard"))
 		{
-			// ファクトリから候補を取得
-			for (auto& factory : ComponentFactory::m_creatorMap)
+			// Worldが開かれていれば
+			if (ImGui::BeginMenu("World"))
 			{
-				// Worldなら
-				if (factory.second.first == ComponentSpace::World)
-				{
-					// 表示
-					if (ImGui::Selectable(factory.first.c_str()))
-					{
-						// 押されたら追加
-						factory.second.second(object);
-					}
-				}
+				// コンポーネントリストを表示
+				DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::World });
+
+				//終了
+				ImGui::EndMenu();
+			}
+			// UIが開かれていれば
+			if (ImGui::BeginMenu("UI"))
+			{
+				DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::UI });
+
+				ImGui::EndMenu();
 			}
 
 			ImGui::EndMenu();
 		}
 
-		// UIコンポーネント
-		if (ImGui::BeginMenu("UI"))
+		// オリジナルが開かれていれば
+		if (ImGui::BeginMenu("Original"))
 		{
-			// ファクトリから候補を取得
-			for (auto& factory : ComponentFactory::m_creatorMap)
+			if (ImGui::BeginMenu("World"))
 			{
-				// UIなら
-				if (factory.second.first == ComponentSpace::UI)
-				{
-					// 表示
-					if (ImGui::Selectable(factory.first.c_str()))
-					{
-						// 押されたら追加
-						factory.second.second(object);
-					}
-				}
+				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::World });
+
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("UI"))
+			{
+				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::UI });
+
+				ImGui::EndMenu();
 			}
 
 			ImGui::EndMenu();
 		}
-
 		ImGui::EndPopup();
+	}
+}
+
+void InspectorWindow::DrawComponentList(GameObject* object, ComponentInfo info)
+{
+	// ファクトリから候補を取得
+	for (auto& factory : ComponentFactory::m_creatorMap)
+	{
+		// 一致したら
+		if (factory.second.first.project == info.project && factory.second.first.space == info.space)
+		{
+			// 表示
+			if (ImGui::Selectable(factory.first.c_str()))
+			{
+				// 押されたら追加
+				factory.second.second(object);
+			}
+		}
 	}
 }

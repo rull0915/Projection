@@ -1,6 +1,75 @@
 {
     "UI": {
-        "Canvases": []
+        "Canvases": [
+            {
+                "GameObjects": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        100.0,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Default",
+                                    "m_fontSize": 32.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_text": "CLEAR!!!!!!!!!!!!!!!!!!!!"
+                                },
+                                "Type": "TextUI"
+                            }
+                        ],
+                        "m_isActive": false,
+                        "m_name": "ClearUI",
+                        "m_tag": ""
+                    }
+                ],
+                "m_canvasName": "",
+                "m_drawOrder": 0,
+                "m_isActive": true
+            }
+        ]
     },
     "World": {
         "GameObjects": [
@@ -37,7 +106,9 @@
                     },
                     {
                         "Data": {
-                            "m_isActive": true,
+                            "m_distance": 5.0,
+                            "m_isActive": false,
+                            "m_sensitivity": 0.5,
                             "m_targetName": "Player"
                         },
                         "Type": "TPSCamera"
@@ -49,8 +120,26 @@
                             "m_keyName": "Skybox"
                         },
                         "Type": "SkyboxComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_angleVelocity": 0.800000011920929,
+                            "m_fallVelocity": 2.799999952316284,
+                            "m_finalAngle": 0.0,
+                            "m_initialHeight": 9.300000190734863,
+                            "m_isActive": true,
+                            "m_offset": [
+                                0.0,
+                                0.0,
+                                -2.5
+                            ],
+                            "m_radius": 7.5,
+                            "m_targetName": "Player"
+                        },
+                        "Type": "StartCamera"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
             },
@@ -92,32 +181,13 @@
                             "m_layerNum": 10,
                             "m_localCenterPos": [
                                 0.0,
-                                0.0,
+                                0.800000011920929,
                                 0.0
                             ],
                             "m_localSize": [
-                                1.0,
-                                1.600000023841858,
-                                1.0
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 10,
-                            "m_localCenterPos": [
-                                0.0,
-                                1.600000023841858,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                1.600000023841858,
-                                1.600000023841858,
-                                1.600000023841858
+                                1.2999999523162842,
+                                3.200000047683716,
+                                1.2999999523162842
                             ],
                             "m_needInfo": false
                         },
@@ -179,6 +249,7 @@
                         "Type": "AudioListener"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Player",
                 "m_tag": "Player"
             },
@@ -241,6 +312,7 @@
                         "Type": "GoalComponent"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Goal",
                 "m_tag": ""
             },
@@ -315,6 +387,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
             },
@@ -389,6 +462,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube2",
                 "m_tag": "Floor"
             },
@@ -463,6 +537,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube3",
                 "m_tag": "Floor"
             },
@@ -537,6 +612,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube4",
                 "m_tag": "Floor"
             },
@@ -611,6 +687,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube5",
                 "m_tag": "Floor"
             },
@@ -685,6 +762,7 @@
                         "Type": "LandingCandidatePoints2D"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Cube6",
                 "m_tag": "Floor"
             },
@@ -715,7 +793,7 @@
                     },
                     {
                         "Data": {
-                            "m_isActive": true
+                            "m_isActive": false
                         },
                         "Type": "Enemy"
                     },
@@ -755,8 +833,21 @@
                             "m_useGravity": true
                         },
                         "Type": "RigidBody"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "ChangeColliderComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "DepthCorrection"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Enemy",
                 "m_tag": ""
             },
@@ -800,6 +891,7 @@
                     {
                         "Data": {
                             "m_cameraName": "MainCamera",
+                            "m_clearUIName": "ClearUI",
                             "m_isActive": true,
                             "m_playerName": "Player"
                         },
@@ -808,7 +900,7 @@
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_loop": true,
+                            "m_loop": false,
                             "m_pan": -0.10000000149011612,
                             "m_pitch": 0.0,
                             "m_playOnStart": true,
@@ -819,6 +911,7 @@
                         "Type": "AudioSource"
                     }
                 ],
+                "m_isActive": true,
                 "m_name": "Manager",
                 "m_tag": ""
             }

@@ -31,9 +31,8 @@ void ImguiManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceConte
 
 	ImGuiIO& io = ImGui::GetIO();
 
+	// 日本語
 	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-
-	//	io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
@@ -47,12 +46,10 @@ void ImguiManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceConte
 // フレーム開始時処理
 void ImguiManager::Update()
 {
-	// 新フレームの開始（メインループの一番上に記述）
+	// 新フレームの開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	//static int* data = new int(10);
 }
 
 // フレーム終了時処理

@@ -73,4 +73,10 @@ private:
 
 	// 描画
 	void Draw();
+
+	// 保存
+	void Save();
+
+	// ロード
+	void Load();
 };

@@ -15,6 +15,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "System/WindowManager.h"
+#include "System/ResourceManager.h"
 
 #include "Input/MouseInput.h"
 
@@ -69,36 +70,28 @@ void InfoWindow::Draw()
 
 	ImGui::SameLine();
 	if (ImGui::Button("Save")) {
-
-		auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Scenes/", L".scene");
-
-		// セーブ
-		if (!path.empty())
-		{
-			ObjectSaver::SaveSceneToFile(
-				path,
-				m_pScene
-			);
-		}
+		Save();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load")) {
 
-		// シーンのリセット
-		m_pScene->ResetObjects();
+		HWND hwnd = ResourceManager::Instance().GetResources()->GetWindow();
 
-		auto path = FileDialog::Open(FileDialog::Mode::Open, L"Resources/Scenes", L".scene");
+		int result = MessageBox(
+			hwnd,
+			L"現在のシーンを保存しますか？",
+			L"確認",
+			MB_YESNO | MB_ICONQUESTION
+		);
 
-		// ロード
-		if (!path.empty())
+		// 肯定が押されたら
+		if (result == IDYES)
 		{
-			ObjectLoader::LoadSceneFromFile(
-				path,
-				m_pScene
-			);
-
-			m_pGUI->Reset();
+			// 保存
+			Save();
 		}
+
+		Load();
 	}
 
 	ImGui::SameLine();
@@ -106,4 +99,37 @@ void InfoWindow::Draw()
 
 	ImGui::SameLine(); // 次のアイテムを同じ行に配置
 	ImGui::Text("Cursor %d %d", (int)Input::Mouse::GetMousePoint().x, (int)Input::Mouse::GetMousePoint().y);
+}
+
+void InfoWindow::Save()
+{
+	auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Scenes/", L".scene");
+
+	// セーブ
+	if (!path.empty())
+	{
+		ObjectSaver::SaveSceneToFile(
+			path,
+			m_pScene
+		);
+	}
+}
+
+void InfoWindow::Load()
+{
+	// シーンのリセット
+	m_pScene->ResetObjects();
+
+	auto path = FileDialog::Open(FileDialog::Mode::Open, L"Resources/Scenes", L".scene");
+
+	// ロード
+	if (!path.empty())
+	{
+		ObjectLoader::LoadSceneFromFile(
+			path,
+			m_pScene
+		);
+
+		m_pGUI->Reset();
+	}
 }

@@ -108,6 +108,9 @@ void ResourceManager::AddFont(const std::string& key, const std::wstring& filePa
 	// Aの文字を描画した時の高さをフォントサイズとする
 	SpriteFont* font = m_spriteFonts[key].get();
 
+	// デフォルト文字を「?」に設定
+	font->SetDefaultCharacter(L'?');
+
 	float height;
 
 	RECT result = font->MeasureDrawBounds( L"A", XMFLOAT2(0.f, 0.f) );

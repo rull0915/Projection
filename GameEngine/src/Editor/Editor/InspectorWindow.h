@@ -18,6 +18,8 @@
 #include "Components/ComponentBase.h"
 #include "GameObject/GameObject.h"
 
+#include "Components/ComponentCategory.h"
+
 //====================================================//
 // クラス宣言
 //====================================================//
@@ -55,4 +57,7 @@ private:
 
 	// コンポーネントの追加を表示する関数
 	void DrawAddComponent(GameObject* object);
+
+	// コンポーネントリストを表示する関数
+	void DrawComponentList(GameObject* object, ComponentInfo info);
 };

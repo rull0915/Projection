@@ -16,12 +16,26 @@
 // 列挙型宣言
 //====================================================//
 
+// コンポーネントの所属プロジェクト
+enum class ComponentProject : unsigned char
+{
+	Engine,
+	Game,
+};
+
 // コンポーネントが所属する空間
 enum class ComponentSpace : unsigned char
 {
 	None,
 	World,
 	UI,
+};
+
+// コンポーネントの情報をまとめた構造体
+struct ComponentInfo
+{
+	ComponentProject project;
+	ComponentSpace space;
 };
 
 using ComponentCategory = unsigned char;

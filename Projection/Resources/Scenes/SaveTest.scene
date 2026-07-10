@@ -4,69 +4,7 @@
             {
                 "GameObjects": [
                     {
-                        "Children": [
-                            {
-                                "Children": [],
-                                "Components": [
-                                    {
-                                        "Data": {
-                                            "m_anchor": [
-                                                0.5,
-                                                0.699999988079071
-                                            ],
-                                            "m_anchoredPosition": [
-                                                0.0,
-                                                53.099998474121094
-                                            ],
-                                            "m_isActive": true,
-                                            "m_pivot": [
-                                                0.5,
-                                                0.5
-                                            ],
-                                            "m_rotation": 0.0,
-                                            "m_scale": [
-                                                1.0,
-                                                1.0
-                                            ],
-                                            "m_size": [
-                                                100.0,
-                                                100.0
-                                            ]
-                                        },
-                                        "Type": "RectTransform"
-                                    },
-                                    {
-                                        "Data": {
-                                            "m_alpha": 1.0,
-                                            "m_color": [
-                                                1.0,
-                                                1.0,
-                                                1.0,
-                                                0.0
-                                            ],
-                                            "m_fontName": "Makinas",
-                                            "m_fontSize": 32.0,
-                                            "m_isActive": true,
-                                            "m_mulColor": [
-                                                1.0,
-                                                1.0,
-                                                1.0,
-                                                0.0
-                                            ],
-                                            "m_origin": [
-                                                0.5,
-                                                0.5
-                                            ],
-                                            "m_text": "press space key"
-                                        },
-                                        "Type": "TextUI"
-                                    }
-                                ],
-                                "m_isActive": true,
-                                "m_name": "",
-                                "m_tag": ""
-                            }
-                        ],
+                        "Children": [],
                         "Components": [
                             {
                                 "Data": {
@@ -89,7 +27,7 @@
                                         1.0
                                     ],
                                     "m_size": [
-                                        300.0,
+                                        100.0,
                                         100.0
                                     ]
                                 },
@@ -104,8 +42,8 @@
                                         1.0,
                                         0.0
                                     ],
-                                    "m_fontName": "Makinas",
-                                    "m_fontSize": 64.0,
+                                    "m_fontName": "Default",
+                                    "m_fontSize": 32.0,
                                     "m_isActive": true,
                                     "m_mulColor": [
                                         1.0,
@@ -117,7 +55,7 @@
                                         0.5,
                                         0.5
                                     ],
-                                    "m_text": "クリア"
+                                    "m_text": "CLEAR!!!!!!!!!!!!!!!!!!!!"
                                 },
                                 "Type": "TextUI"
                             }
@@ -243,13 +181,32 @@
                             "m_layerNum": 10,
                             "m_localCenterPos": [
                                 0.0,
-                                0.800000011920929,
+                                0.0,
                                 0.0
                             ],
                             "m_localSize": [
-                                1.2999999523162842,
-                                3.200000047683716,
-                                1.2999999523162842
+                                1.0,
+                                1.600000023841858,
+                                1.0
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 10,
+                            "m_localCenterPos": [
+                                0.0,
+                                1.600000023841858,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.600000023841858,
+                                1.600000023841858,
+                                1.600000023841858
                             ],
                             "m_needInfo": false
                         },
@@ -540,9 +497,9 @@
                                 -5.0
                             ],
                             "m_localRotation": [
-                                -0.0,
                                 0.0,
-                                -0.0,
+                                0.0,
+                                0.0,
                                 1.0
                             ],
                             "m_localScale": [
@@ -604,83 +561,7 @@
                 "m_tag": "Floor"
             },
             {
-                "Children": [
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_isActive": true,
-                                    "m_localPosition": [
-                                        0.0,
-                                        3.0,
-                                        -0.6666666269302368
-                                    ],
-                                    "m_localRotation": [
-                                        -0.0,
-                                        0.0,
-                                        -0.0,
-                                        1.0
-                                    ],
-                                    "m_localScale": [
-                                        1.0,
-                                        1.0,
-                                        1.0
-                                    ]
-                                },
-                                "Type": "Transform"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true,
-                                    "m_isTrigger": false,
-                                    "m_layerNum": 0,
-                                    "m_localCenterPos": [
-                                        0.0,
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_localSize": [
-                                        1.0,
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_needInfo": false
-                                },
-                                "Type": "BoxCollider"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 1.0,
-                                    "m_isActive": true,
-                                    "m_modelName": "Cube"
-                                },
-                                "Type": "ModelComponent"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true
-                                },
-                                "Type": "ChangeColliderComponent"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true
-                                },
-                                "Type": "LandingCandidatePoints"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true
-                                },
-                                "Type": "LandingCandidatePoints2D"
-                            }
-                        ],
-                        "m_isActive": true,
-                        "m_name": "Cube5",
-                        "m_tag": "Floor"
-                    }
-                ],
+                "Children": [],
                 "Components": [
                     {
                         "Data": {
@@ -691,10 +572,10 @@
                                 5.0
                             ],
                             "m_localRotation": [
-                                0.3879181444644928,
-                                0.3976582884788513,
-                                0.580622673034668,
-                                0.5952014327049255
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
                             ],
                             "m_localScale": [
                                 3.0,
@@ -752,6 +633,81 @@
                 ],
                 "m_isActive": true,
                 "m_name": "Cube4",
+                "m_tag": "Floor"
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                7.0,
+                                3.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                3.0,
+                                1.0,
+                                3.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "ChangeColliderComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "LandingCandidatePoints"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "LandingCandidatePoints2D"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube5",
                 "m_tag": "Floor"
             },
             {

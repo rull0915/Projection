@@ -41,7 +41,7 @@
 #include "GameLib/CatmullRomComponent.h"
 
 // 生成関数登録マクロ
-#define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, Name::SPACE, [](GameObject* o){ return o->AddComponent<Name>(); }))
+#define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, { ComponentProject::Game, Name::SPACE }, [](GameObject* o){ return o->AddComponent<Name>(); }))
 
 //====================================================//
 // 関数の実体宣言
