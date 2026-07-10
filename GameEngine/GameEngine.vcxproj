@@ -366,6 +366,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
     <ClInclude Include="include\Components\Interface\IResourceReader.h" />
+    <ClInclude Include="include\Components\UI\Behaviour\ButtonListenerBase.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
     <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />

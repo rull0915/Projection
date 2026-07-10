@@ -172,8 +172,6 @@ public:
 	void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
 	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
 
-protected:
-
 	// シーンの変更
 	void ChangeScene(const std::string& nextSceneName, std::unique_ptr<Transition::Base> outTrans, std::unique_ptr<Transition::Base> inTrans);
 	void ChangeScene(const std::string& nextSceneName);

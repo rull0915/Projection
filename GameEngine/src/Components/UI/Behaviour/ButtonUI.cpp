@@ -14,6 +14,7 @@
 
 #include "Input/MouseInput.h"
 #include "Components/UI/Graphics/ImageUI.h"
+#include "Components/UI/Behaviour/ButtonListenerBase.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -28,7 +29,6 @@ ButtonUI::ButtonUI(IComponentOwner* owner)
 	, m_hoverdColor{ 0.92f, 0.92f, 0.92f, 0 }
 	, m_pressedColor{ 0.75f, 0.75f, 0.75f }
 	, m_isPressed{ false }
-	, m_onClick{}
 {
 	ADD_PROPERTY(m_normalColor);
 	ADD_PROPERTY(m_hoverdColor);
@@ -83,8 +83,16 @@ void ButtonUI::OnMouseUp()
 	// 押されていたら
 	if (m_isPressed && IsHovered())
 	{
-		// 関数を実行
-		if (m_onClick) m_onClick();
+		// リスナーを取得
+		std::vector<ComponentBase*> listeners{};
+		GetOwn()->GetComponentsWithCategory(Category::UIListener, listeners);
+
+		// ループ
+		for (auto& listener : listeners)
+		{
+			// 呼び出し
+			static_cast<ButtonListenerBase*>(listener)->OnClicked();
+		}
 	}
 
 	// フラグリセット

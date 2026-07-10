@@ -54,4 +54,5 @@ namespace Category
 	static constexpr ComponentCategory UIOriginal	= 5;
 	static constexpr ComponentCategory UIGraphic	= 6;
 	static constexpr ComponentCategory UIBehavior	= 7;
+	static constexpr ComponentCategory UIListener	= 8;
 };

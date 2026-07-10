@@ -84,15 +84,6 @@ void TitleScene::Initialize()
 
 		// ボタンの追加	
 		auto b = ui->AddComponent<ButtonUI>();
-		b->SetOnClick(		// クリック時の処理を設定
-			[this]()
-			{
-				ChangeScene("GamePlay",
-					std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
-					std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
-				);
-			}
-		);
 	}
 	{
 		// UIオブジェクトの生成

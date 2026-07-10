@@ -40,6 +40,8 @@
 #include "GamePlayScene/Camera/StartCamera.h"
 #include "GameLib/CatmullRomComponent.h"
 
+#include "TitleScene/TitleToPlayEvent.h"
+
 // 生成関数登録マクロ
 #define REGISTER_FACTORY(Name) (ComponentFactory::Register(#Name, { ComponentProject::Game, Name::SPACE }, [](GameObject* o){ return o->AddComponent<Name>(); }))
 
@@ -89,6 +91,8 @@ void GameInitializer::RegistFactries()
 	REGISTER_FACTORY(PlaySceneManager);
 	REGISTER_FACTORY(StartCamera);
 	REGISTER_FACTORY(CatmullRomComponent);
+
+	REGISTER_FACTORY(TitleToPlayEvent);
 }
 
 void GameInitializer::AddKey()

@@ -128,6 +128,9 @@ void ObjectLoader::LoadUIObject(const nlohmann::json& json, GameObject* obj, Can
 
 		// ロード
 		if (component) LoadProperty(js["Data"], *component);
+
+		// 変更時処理の呼び出し
+		component->OnValidate();
 	}
 
 	// 子供をロード

@@ -159,36 +159,6 @@
                                     "m_text": "ToPlayScene"
                                 },
                                 "Type": "TextUI"
-                            },
-                            {
-                                "Data": {
-                                    "m_hoverdColor": [
-                                        0.9200000166893005,
-                                        0.9200000166893005,
-                                        0.9200000166893005,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_normalColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_pressedColor": [
-                                        0.75,
-                                        0.75,
-                                        0.75,
-                                        1.0
-                                    ]
-                                },
-                                "Type": "ButtonUI"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true
-                                },
-                                "Type": "TitleToPlayEvent"
                             }
                         ],
                         "m_isActive": true,

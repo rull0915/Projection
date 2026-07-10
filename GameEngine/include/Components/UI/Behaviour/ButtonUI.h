@@ -44,9 +44,6 @@ private:
 	DirectX::SimpleMath::Color m_hoverdColor;  // ホバー時
 	DirectX::SimpleMath::Color m_pressedColor; // 押されている時
 
-	// クリック時に実行される処理
-	std::function<void()> m_onClick;
-
 	bool m_isPressed;   // 自分が押されているか
 
 public:
@@ -83,8 +80,6 @@ public:
 	void SetNormalColor(DirectX::SimpleMath::Color color) { m_normalColor = color; }
 	void SetHoveredColor(DirectX::SimpleMath::Color color) { m_hoverdColor = color; }
 	void SetPressedColor(DirectX::SimpleMath::Color color) { m_pressedColor = color; }
-
-	void SetOnClick(std::function<void()> func) { m_onClick = func; }
 
 private:
 

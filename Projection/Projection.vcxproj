@@ -263,6 +263,7 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Game\TitleScene\TitleToPlayEvent.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +319,7 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Game\TitleScene\TitleToPlayEvent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
