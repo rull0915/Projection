@@ -1,0 +1,242 @@
+{
+    "UI": {
+        "Canvases": []
+    },
+    "World": {
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                4.099999904632568,
+                                9.600000381469727
+                            ],
+                            "m_localRotation": [
+                                -0.2517615556716919,
+                                0.0,
+                                0.0,
+                                0.9677892923355103
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_aspect": 1.7777777910232544,
+                            "m_farZ": 1000.0,
+                            "m_fov": 0.7853981852531433,
+                            "m_isActive": true,
+                            "m_nearZ": 0.10000000149011612
+                        },
+                        "Type": "StandardCamera"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isLoop": true,
+                            "m_offset": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_p0": [
+                                0.0,
+                                0.0,
+                                -9.100000381469727
+                            ],
+                            "m_p1": [
+                                2.4000000953674316,
+                                0.0,
+                                0.0
+                            ],
+                            "m_p2": [
+                                -4.300000190734863,
+                                0.0,
+                                0.0
+                            ],
+                            "m_p3": [
+                                -4.5,
+                                0.0,
+                                -9.100000381469727
+                            ]
+                        },
+                        "Type": "CatmullRomComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_magnification": 0.5,
+                            "m_playOnStart": true,
+                            "m_rotateType": 1
+                        },
+                        "Type": "PathMover"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "MainCamera",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -4.800000190734863,
+                                0.0,
+                                -4.900000095367432
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                2.9000000953674316,
+                                -0.4000000059604645,
+                                -4.900000095367432
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.09784320741891861,
+                                0.0,
+                                0.995201826095581
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                4.199999809265137,
+                                8.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -2.5,
+                                0.6000000238418579,
+                                -1.100000023841858
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                3.5
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                1.2999999523162842,
+                                1.2999999523162842,
+                                1.899999976158142
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                -0.4277481138706207,
+                                0.0,
+                                0.9038980007171631
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                4.099999904632568,
+                                7.199999809265137
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": ""
+            }
+        ]
+    }
+}

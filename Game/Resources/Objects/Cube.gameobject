@@ -1,0 +1,38 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    -3.4000000953674316,
+                    1.2999999523162842,
+                    -4.900000095367432
+                ],
+                "m_localRotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "m_localScale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "Type": "Transform"
+        },
+        {
+            "Data": {
+                "m_alpha": 1.0,
+                "m_isActive": true,
+                "m_modelName": "Cube"
+            },
+            "Type": "ModelComponent"
+        }
+    ],
+    "m_isActive": true,
+    "m_name": "Cube",
+    "m_tag": ""
+}

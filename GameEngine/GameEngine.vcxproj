@@ -153,6 +153,10 @@ $(ProjectDir)ThirdParty;
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Math\GameMath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Components\Interface\IResourceReader.cpp" />
     <ClCompile Include="src\Components\World\Camera\CameraBase.cpp" />
     <ClCompile Include="src\Components\World\Camera\Derived\StandardCamera.cpp" />

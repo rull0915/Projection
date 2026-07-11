@@ -294,6 +294,9 @@
     <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="include\Math\GameMath.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h">

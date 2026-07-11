@@ -1,0 +1,336 @@
+{
+    "UI": {
+        "Canvases": [
+            {
+                "GameObjects": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.44999998807907104
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        700.0,
+                                        170.0
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 0.6000000238418579,
+                                    "m_color": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_textureName": "Default"
+                                },
+                                "Type": "ImageUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Makinas",
+                                    "m_fontSize": 84.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_text": "Projection"
+                                },
+                                "Type": "TextUI"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "Title",
+                        "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.6499999761581421
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        500.0,
+                                        75.0
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        0.7763713002204895,
+                                        0.7763713002204895,
+                                        0.7763713002204895,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_textureName": "Default"
+                                },
+                                "Type": "ImageUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Makinas",
+                                    "m_fontSize": 40.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_text": "ToPlayScene"
+                                },
+                                "Type": "TextUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_hoverdColor": [
+                                        0.9200000166893005,
+                                        0.9200000166893005,
+                                        0.9200000166893005,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_normalColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_pressedColor": [
+                                        0.75,
+                                        0.75,
+                                        0.75,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "ButtonUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true
+                                },
+                                "Type": "TitleToPlayEvent"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "Button",
+                        "m_tag": ""
+                    }
+                ],
+                "m_canvasName": "Title",
+                "m_drawOrder": 0,
+                "m_isActive": true
+            }
+        ]
+    },
+    "World": {
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                10.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_aspect": 1.7777777910232544,
+                            "m_farZ": 1000.0,
+                            "m_fov": 0.7853981852531433,
+                            "m_isActive": true,
+                            "m_nearZ": 0.10000000149011612
+                        },
+                        "Type": "StandardCamera"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "AudioListener"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "MainCamera",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -1.899999976158142,
+                                -0.800000011920929,
+                                6.599999904632568
+                            ],
+                            "m_localRotation": [
+                                0.15891213715076447,
+                                0.36590486764907837,
+                                -0.06356370449066162,
+                                0.9147788286209106
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": "Floor"
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_loop": true,
+                            "m_pan": 0.0,
+                            "m_pitch": 0.0,
+                            "m_playOnStart": true,
+                            "m_soundName": "",
+                            "m_use3DAudio": false,
+                            "m_volume": 1.0
+                        },
+                        "Type": "AudioSource"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "TitleManager",
+                "m_tag": ""
+            }
+        ]
+    }
+}
