@@ -16,29 +16,26 @@
 // インクルードファイル
 //====================================================//
 #include <memory>
-#include "GameObject/GameObject.h"
 
-#include "Transition/TransitionBase.h"
 #include "Physics/Ray.h"
 #include "Physics/RaycastHit.h"
+#include "UpdateMode.h"
 
-#include "System/Render/RenderContext.h"
-#include "System/Render/RenderTarget.h"
-
+#include "ObjectFactory.h"
 #include "ComponentRegister.h"
 #include "ObjectFinder.h"
+#include "MainScreen.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
 
-class SceneManager;
-class UpdatePipeline;
-
 class Renderer;
 class CameraBase;
 class Canvas;
 
+class SceneRenderer;
+class UpdatePipeline;
 class ObjectManager;
 class UIManager;
 
@@ -55,20 +52,20 @@ private:
 	// コンポーネント登録システム
 	std::unique_ptr<ComponentRegister> m_componentRegister;
 
-	// デフォルトで使用する描画ターゲット
-	std::unique_ptr<RenderTarget> m_defaultRenderTarget;
-
 	// オブジェクト検索
 	std::unique_ptr<ObjectFinder> m_objectFinder;
 
-	// メインスクリーンの描画設定
-	bool m_drawMainScreen;	// 描画するかどうか
+	// シーン描画
+	std::unique_ptr<SceneRenderer> m_sceneRenderer;
 
-	DirectX::SimpleMath::Vector2 m_startPoint;	// 始点	
-	DirectX::SimpleMath::Vector2 m_scale;		// 拡大率
+	// ファクトリ
+	std::unique_ptr<ObjectFactory> m_objectFactory;
 
-	// 再生フラグ
-	bool m_play;
+	// メインスクリーン
+	std::unique_ptr<MainScreen> m_mainScreen;
+
+	// 更新状態
+	UpdateMode m_updateMode;
 
 public:
 
@@ -90,9 +87,6 @@ public:
 	// スクリーン本体への描画処理
 	void RenderOnScreen(Renderer& renderer);
 
-	// RenderContext指定
-	void RenderWithContext(const RenderContext& context, Renderer& renderer);
-
 	// 終了処理
 	void Finalize();
 
@@ -100,12 +94,6 @@ public:
 	void ResetObjects();
 
 public:
-
-	// オブジェクトを生成する関数
-	GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
-
-	// キャンバスを生成する関数
-	Canvas* GenerateCanvas();
 
 	// コンポーネントを登録する関数
 	void RegisterComponent(ComponentBase* component);
@@ -123,23 +111,25 @@ public:
 	// メインカメラを取得する関数
 	CameraBase* GetMainCamera() const;
 
-	// メインの描画ターゲットを取得する関数
-	const RenderTarget* GetMainRenderTarget() const { return m_defaultRenderTarget.get(); }
-
-	// 二大管理クラスの取得
+	// 管理クラス
 	ObjectManager* GetObjectManager() const;
 	UIManager* GetUIManager() const;
 
+	// コンポーネント管理者
+	ComponentRegister* GetComponentRegister() const { return m_componentRegister.get(); }
+
 	// オブジェクトファインダー
-	const ObjectFinder* GetObjectFinder() const { return m_objectFinder.get(); }
+	ObjectFinder* GetObjectFinder() const { return m_objectFinder.get(); }
 
-	// メインスクリーンの位置を反映したマウス位置
-	DirectX::SimpleMath::Vector2 GetMousePointOnMainScreen();
+	// パイプライン
+	UpdatePipeline* GetPipeline() const { return m_updatePipeline.get(); }
 
-	// スクリーン設定
-	DirectX::SimpleMath::Vector2 GetMainScreenStartPoint() const { return m_startPoint; }
-	DirectX::SimpleMath::Vector2 GetMainScreenScale() const { return m_scale; }
+	// ファクトリ
+	ObjectFactory* GetFactory() const { return m_objectFactory.get(); }
 
+	// メインスクリーン
+	MainScreen* GetMainScreen() const { return m_mainScreen.get(); }
+	 
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------
@@ -147,31 +137,6 @@ public:
 	// メインカメラをセットする関数
 	void SetMainCamera(CameraBase* camera);
 
-	// 描画フラグ
-	void SetDrawMainScreen(bool f) { m_drawMainScreen = f; }
-
-	// 再生フラグ
-	void SetPlayFlag(bool f) { m_play = f; }
-
-	// メインスクリーンの設定
-	void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
-	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
-
-	//-----------------------------------------------------
-	// コンポーネント取得関数
-	//-----------------------------------------------------
-
-	// 全コンポーネントを取得する
-	template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
-	std::vector<ComponentBase*>& GetAllComponents() const { return m_componentRegister->GetAllComponents<T>(); }
-
-	// 1コンポーネントを取得する
-	template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
-	ComponentBase* GetComponent() const { return m_componentRegister->GetComponent<T>(); }
-
-	// カテゴリ指定
-	std::vector<ComponentBase*>& GetAllComponentsWithCategory(ComponentCategory c) const { return m_componentRegister->GetAllComponentsWithCategory(c); }
-
-	// 1コンポーネントを取得する
-	ComponentBase* GetComponentWithCategory(ComponentCategory category) const { return m_componentRegister->GetComponentWithCategory(category); }
+	// 更新モード
+	void SetPlayFlag(UpdateMode mode) { m_updateMode = mode; }
 };

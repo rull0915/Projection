@@ -10,7 +10,6 @@
 
 #include <memory>
 
-#include "Scene/SceneManager.h"
 #include "Renderer/Renderer.h"
 
 // A basic game implementation that creates a D3D11 device and
@@ -76,7 +75,7 @@ private:
 	
 	// タイトルの文字列
 public:
-	static constexpr const wchar_t TITLE_STRING[]{ L"Template" };
+	static constexpr const wchar_t TITLE_STRING[]{ L"Projection" };
 
 private:
 	// ゲームタイマー

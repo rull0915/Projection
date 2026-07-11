@@ -99,10 +99,10 @@ void PlaySceneManager::Start()
 	m_clearUI = scene->GetObjectFinder()->FindWithNameInUI(m_clearUIName);
 
 	// 敵管理
-	m_enemyManager = static_cast<EnemyManager*>(scene->GetComponent<EnemyManager>());
+	m_enemyManager = static_cast<EnemyManager*>(scene->GetComponentRegister()->GetComponent<EnemyManager>());
 
 	// 次元管理
-	m_dimentionManager = static_cast<DimentionManager*>(scene->GetComponent<DimentionManager>());
+	m_dimentionManager = static_cast<DimentionManager*>(scene->GetComponentRegister()->GetComponent<DimentionManager>());
 }
 
 // 毎フレーム呼ばれます

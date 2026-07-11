@@ -28,18 +28,6 @@ RendererManager::~RendererManager()
 }
 
 /// <summary>
-/// 更新処理
-/// </summary>
-void RendererManager::Update()
-{
-	// 予約されているRendererの追加
-	AddReserved();
-
-	// 削除予約のRendererを削除
-	RemoveReserved();
-}
-
-/// <summary>
 /// 全ての描画を行う関数
 /// </summary>
 void RendererManager::DrawAll(Renderer& renderer)

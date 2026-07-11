@@ -157,6 +157,9 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Scene\MainScreen.cpp" />
+    <ClCompile Include="src\Scene\ObjectFactory.cpp" />
+    <ClCompile Include="src\Scene\SceneRenderer.cpp" />
     <ClCompile Include="src\Components\Interface\IResourceReader.cpp" />
     <ClCompile Include="src\Components\World\Camera\CameraBase.cpp" />
     <ClCompile Include="src\Components\World\Camera\Derived\StandardCamera.cpp" />
@@ -333,6 +336,13 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ComponentFactory.h" />
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
+    <ClInclude Include="include\Scene\MainScreen.h" />
+    <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="include\Scene\SceneRenderer.h" />
+    <ClInclude Include="include\Scene\UpdateMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\System\FactoryRegister.h" />
     <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">

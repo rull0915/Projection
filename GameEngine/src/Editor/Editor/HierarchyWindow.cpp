@@ -90,7 +90,7 @@ void HierarchyWindow::DrawObjects(ObjectManager* objectManager)
 		if (ImGui::MenuItem("Generate"))
 		{
 			// Generate
-			m_pScene->Generate();
+			m_pScene->GetFactory()->Generate();
 		}
 		ImGui::EndPopup();
 	}
@@ -116,7 +116,7 @@ void HierarchyWindow::DrawObjects(ObjectManager* objectManager)
 			auto data = (std::wstring*)payload->Data;
 
 			// 追加
-			GameObject* obj = m_pScene->Generate();
+			GameObject* obj = m_pScene->GetFactory()->Generate();
 
 			// 読み込み
 			ObjectLoader::LoadFromFile(*data, obj);
@@ -157,7 +157,7 @@ void HierarchyWindow::DrawObjects(UIManager* UIManager)
 		if (ImGui::MenuItem("Generate"))
 		{
 			// Generate
-			m_pScene->GenerateCanvas();
+			m_pScene->GetFactory()->GenerateCanvas();
 		}
 		ImGui::EndPopup();
 	}

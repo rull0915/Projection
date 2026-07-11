@@ -46,5 +46,5 @@ void GameObject::BaseFinalize()
 
 GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
 {
-	return m_pScene->Generate(position);
+	return m_pScene->GetFactory()->Generate(position);
 }

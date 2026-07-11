@@ -41,13 +41,13 @@ void DimentionManager::Awake()
 	m_removeReserves.clear();
 
 	// 現状存在する全てのChangeColliderを取得
-	auto& components = static_cast<GameObject*>(GetOwn())->GetScene()->GetAllComponents<ChangeColliderComponent>();
+	auto& components = static_cast<GameObject*>(GetOwn())->GetScene()->GetComponentRegister()->GetAllComponents<ChangeColliderComponent>();
 
 	// 予約リストに追加
 	for (auto c : components) m_addReserves.push_back(static_cast<ChangeColliderComponent*>(c));
 
 	// ProjectionSmoothCameraを取得
-	ComponentBase* comp = static_cast<GameObject*>(GetOwn())->GetScene()->GetComponent<ProjectionSmoothCamera>();
+	ComponentBase* comp = static_cast<GameObject*>(GetOwn())->GetScene()->GetComponentRegister()->GetComponent<ProjectionSmoothCamera>();
 	if (comp) m_pCamera = static_cast<ProjectionSmoothCamera*>(comp);
 }
 

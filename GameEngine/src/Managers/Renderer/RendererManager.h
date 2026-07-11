@@ -56,15 +56,19 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	// 更新処理
-	void Update();
-
 	// 描画処理
 	void DrawAll(Renderer& renderer);
 
 	// 登録予約
 	void AddRenderer(RendererBase* r) { m_reserves.push_back(r); }
 	void RemoveRenderer(RendererBase* r) { m_removeReserves.insert(r); }
+
+	// 予約反映
+	void ReflectReserves()
+	{
+		AddReserved();
+		RemoveReserved();
+	}
 
 	//-----------------------------------------------------
 	// セッター

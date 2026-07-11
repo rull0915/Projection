@@ -84,10 +84,7 @@ void Game::Initialize(HWND window, int width, int height)
 	ImguiManager::Initialize(window, device, context);
 
 	// ====== シーンの登録 ====== //
-	//m_sceneManager.RegisterScene("Edit", std::make_unique<EditScene>(this));
-	//m_sceneManager.RegisterScene("TestPlay", std::make_unique<TestPlayScene>(this));
-
-	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/TitleScene.scene");
+	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/GamePlayScene.scene");
 	SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
 
 	// 開始時のシーンを設定

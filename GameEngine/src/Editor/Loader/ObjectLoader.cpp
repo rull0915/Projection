@@ -105,7 +105,7 @@ void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene
 	for (auto& child : json["Children"])
 	{
 		// 生成
-		GameObject* chObj = pScene->Generate();
+		GameObject* chObj = pScene->GetFactory()->Generate();
 
 		// 親を自分に
 		chObj->GetComponent<Transform>()->SetParent(obj->GetComponent<Transform>());
@@ -179,7 +179,7 @@ void ObjectLoader::LoadObjectManager(const nlohmann::json& json, Scene* pScene)
 	for (auto& obj : json["GameObjects"])
 	{
 		// 生成
-		GameObject* object = pScene->Generate();
+		GameObject* object = pScene->GetFactory()->Generate();
 
 		// ロード
 		LoadObject(obj, object, pScene);

@@ -13,10 +13,6 @@
 #include "UpdatePipeline.h"
 #include "Scene/Scene.h"
 
-#include "Debug/DebugManager.h"
-
-#include "Input/MouseInput.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -40,18 +36,24 @@ void UpdatePipeline::Initialize()
 	m_cameraManager->Initialize(m_pScene);
 }
 
-void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
+void UpdatePipeline::Update(const GameTimer& gameTimer, UpdateMode mode)
 {
+	// ポーズの場合何もしない
+	if (mode == UpdateMode::Pause) return;
+
+	bool playing = mode == UpdateMode::Play;
+
 	// 各オブジェクトの更新
 	m_objectManager->Update(gameTimer, playing);
 
-	// 各管理クラスの予約反映
-	m_physicsManager->ReflectReserves();
-	m_physicsManager2D->ReflectReserves();
-	m_soundManager->ReflectReserves();
-
 	if (playing)
 	{
+		// 各管理クラスの予約反映
+		m_physicsManager->ReflectReserves();
+		m_physicsManager2D->ReflectReserves();
+		m_soundManager->ReflectReserves();
+		m_rendererManager->ReflectReserves();
+
 		// リジッドボディの更新
 		m_physicsManager->Update(gameTimer.GetElapsedTime());
 
@@ -76,12 +78,14 @@ void UpdatePipeline::Update(const GameTimer& gameTimer, bool playing)
 	m_objectManager->RemoveDeadComponent();
 	m_objectManager->RemoveDeadObject();
 
-	// 描画管理クラスの更新
-	m_rendererManager->Update();
-
 	// UIの更新
 	m_uiManager->Update(gameTimer, playing);
-	m_uiManager->CheckHitRay(m_pScene->GetMousePointOnMainScreen());
+
+	if (playing)
+	{
+		m_uiManager->CheckHitRay(m_pScene->GetMainScreen()->GetMousePointOnMainScreen());
+	}
+
 	m_uiManager->LateUpdate(gameTimer, playing);
 	m_uiManager->RemoveObjects();
 }

@@ -25,6 +25,8 @@
 #include "Managers/UI/UIManager.h"
 #include "Managers/System/CollideEventSystem.h"
 
+#include "Scene/UpdateMode.h"
+
 class Scene;
 
 //====================================================//
@@ -65,7 +67,7 @@ public:
 
 	void Initialize();
 
-	void Update(const GameTimer& timer, bool playing);
+	void Update(const GameTimer& timer, UpdateMode mode);
 
 	// 各マネージャーを介した描画
 	void DrawWorld(Renderer& renderer);
@@ -85,6 +87,8 @@ public:
 	ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
 	// 3D物理
 	PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
+	// 描画
+	RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
 	// UI
 	UIManager* GetUIManager() const { return m_uiManager.get(); }
 	// Camera

@@ -33,19 +33,13 @@ EditScene::EditScene(Scene* pScene)
 	, m_sceneView{ std::make_unique<RenderTarget>() }
 	, m_sceneViewCamera{ nullptr }
 {
-	// メインスクリーンを描画しない設定に
-	m_pScene->SetDrawMainScreen(false);
+	//// メインスクリーンの場所を設定
+	//m_pScene->SetMainScreenStartPoint({});
 
-	// 再生しない設定に
-	m_pScene->SetPlayFlag(false);
-
-	// メインスクリーンの場所を設定
-	m_pScene->SetMainScreenStartPoint({});
-
-	// サイズ
-	m_pScene->SetMainScreenScale({ 0.45f, 0.45f });
-	// 初期位置
-	m_pScene->SetMainScreenStartPoint({ 8, 26 });
+	//// サイズ
+	//m_pScene->SetMainScreenScale({ 0.45f, 0.45f });
+	//// 初期位置
+	//m_pScene->SetMainScreenStartPoint({ 8, 26 });
 
 	// ゲームビューの作成
 	m_sceneView->Create(
@@ -54,7 +48,7 @@ EditScene::EditScene(Scene* pScene)
 	);
 
 	// ゲームビューカメラの作成
-	auto camera = m_pScene->Generate();
+	auto camera = m_pScene->GetFactory()->Generate();
 
 	// ヒエラルキーウィンドウ非表示
 	camera->SetInvincible(true);
@@ -88,7 +82,7 @@ void EditScene::Update(const GameTimer& gameTimer)
 	m_gui.DrawWindows();
 
 	// 2つのビューを描画
-	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetMainRenderTarget()->GetShaderResourceView());
+	// m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetMainRenderTarget()->GetShaderResourceView());
 
 	// シーンビューカメラ
 	m_sceneViewCamera->SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);
@@ -97,12 +91,12 @@ void EditScene::Update(const GameTimer& gameTimer)
 // 描画関数
 void EditScene::Render(Renderer& renderer)
 {
-	// ゲームビューへの描画
-	m_pScene->RenderWithContext(
-		{
-			m_sceneViewCamera, m_sceneView.get(), WindowManager::Instance().GetBackGroundColor(),
-			DrawFlag::World | DrawFlag::UI | DrawFlag::ColliderDebug | DrawFlag::RectDebug
-		}, renderer);
+	//// ゲームビューへの描画
+	//m_pScene->RenderWithContext(
+	//	{
+	//		m_sceneViewCamera, m_sceneView.get(), WindowManager::Instance().GetBackGroundColor(),
+	//		DrawFlag::World | DrawFlag::UI | DrawFlag::ColliderDebug | DrawFlag::RectDebug
+	//	}, renderer);
 }
 
 void EditScene::TestPlay()

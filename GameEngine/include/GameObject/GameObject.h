@@ -49,7 +49,7 @@ public:
 		CreateToken() = default;
 		
 		// 作成可能クラスをfriendに指定
-		friend class Scene;
+		friend class ObjectFactory;
 		friend class Canvas;
 	};
 	

@@ -33,7 +33,7 @@ CameraManager::~CameraManager()
 void CameraManager::Initialize(Scene* pScene)
 {
 	// 予備カメラの作成
-	m_spareCamera = pScene->Generate({ 0, 0, 10 });
+	m_spareCamera = pScene->GetFactory()->Generate({ 0, 0, 10 });
 	m_spareCamera->AddComponent<StandardCamera>();
 	m_spareCamera->SetInvincible(true);
 }
