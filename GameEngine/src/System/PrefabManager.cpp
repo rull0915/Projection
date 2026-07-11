@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Editor/System/PrefabManager.h"
+#include "System/PrefabManager.h"
 
 #include "Editor/Loader/ObjectLoader.h"
 

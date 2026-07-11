@@ -85,9 +85,6 @@ void PathMover::LateUpdate(const GameTimer & gameTimer)
 			// セット
 			m_pTransform->SetLocalRotation(q);
 		}
-		case 2: {
-
-		}
 			break;
 		default:
 			break;

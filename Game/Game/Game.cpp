@@ -10,22 +10,15 @@
 #include "System/WindowManager.h"		// ウィンドウ	
 #include "System/ResourceManager.h"		// リソース
 #include "Editor/Editor/ImguiManager.h"	// imgui
+#include "Scene/SceneManager.h"			// シーン
 
 // 各プロジェクト初期化
 #include "System/EngineInitializer.h"			// エンジン部分	
-#include "Editor/System/EditorInitializer.h"	// エディター	部分
 #include "GameInitializer.h"					// ゲーム部分	
 
 // 入力
 #include "Input/KeyInput.h"				// キー	
 #include "Input/MouseInput.h"			// マウス
-
-// 各シーン
-#include "EditScene/TestPlayScene.h"
-#include "EditScene/EditScene.h"
-
-#include "GamePlayScene/GamePlayScene.h"
-#include "TitleScene/TitleScene.h"
 
 // その他
 #include "Common/Random.h"
@@ -72,11 +65,11 @@ void Game::Initialize(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
+	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
+	auto* context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+
 	// ゲームエンジンの初期化
 	EngineInitializer::EngineInitialize();
-
-	// ゲームエディタの初期化
-	EditorInitializer::Initialize();
 
 	// ゲームの初期化
 	GameInitializer::Initialize();
@@ -86,16 +79,19 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// 背景色の設定
 	WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
+	
+	// imguiの初期化
+	ImguiManager::Initialize(window, device, context);
 
 	// ====== シーンの登録 ====== //
-	m_sceneManager.RegisterScene("Edit", std::make_unique<EditScene>(this));
-	m_sceneManager.RegisterScene("TestPlay", std::make_unique<TestPlayScene>(this));
+	//m_sceneManager.RegisterScene("Edit", std::make_unique<EditScene>(this));
+	//m_sceneManager.RegisterScene("TestPlay", std::make_unique<TestPlayScene>(this));
 
-	m_sceneManager.RegisterScene("GamePlay", std::make_unique<GamePlayScene>(this));
-	m_sceneManager.RegisterScene("Title", std::make_unique<TitleScene>(this));
+	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/TitleScene.scene");
+	SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
 
 	// 開始時のシーンを設定
-	m_sceneManager.SetStartScene("Title");
+	SceneManager::Instance().SetStartScene("Title");
 
 	// ====== リソースの追加 ====== //
 
@@ -115,11 +111,6 @@ void Game::Initialize(HWND window, int width, int height)
 	ResourceReader::ReadObjects(L"Resources/Objects");
 
 	// ========================== //
-
-	// imguiの初期化
-	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
-	auto* context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
-	ImguiManager::Initialize(window, device, context);
 }
 
 #pragma region Frame Update
@@ -164,14 +155,15 @@ void Game::Update(DX::StepTimer const& timer)
 		!DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
 		DebugManager::Instance().IsStepUpdate()      // ステップ実行フレーム
 		)
-		m_sceneManager.Update(m_gameTimer);
+		SceneManager::Instance().Update(m_gameTimer);
 
 #ifdef _DEBUG
 	// Ctrl + Eキーでエディット
 	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
 		Input::Key::Get(Input::State::Down, Input::Key::Code::E))
 	{
-		m_sceneManager.RequestSceneChange("Edit",
+		SceneManager::Instance().RequestSceneChange
+		("Edit",
 			std::make_unique<Transition::Fade>(0.3f),
 			std::make_unique<Transition::Fade>(0.3f)
 		);
@@ -200,7 +192,7 @@ void Game::Render()
 	// 描画の開始 ----------------------------------------
 
 	// 現在のシーンの描画
-	m_sceneManager.Render(m_renderer);
+	SceneManager::Instance().Render(m_renderer);
 
 	// 描画の終了 ----------------------------------------
 

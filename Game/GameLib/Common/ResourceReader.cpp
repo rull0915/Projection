@@ -13,7 +13,7 @@
 #include "ResourceReader.h"
 
 #include "System/ResourceManager.h"
-#include "Editor/System/PrefabManager.h"
+#include "System/PrefabManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -22,15 +22,15 @@
 void ResourceReader::ReadModels(const std::wstring& path)
 {
 	// 対応している拡張子は .cmo .sdkmesh のみ
-	auto pathes = Read(path, { ".cmo", ".sdkmesh" });
+	auto paths = Read(path, { ".cmo", ".sdkmesh" });
 
 	// パスを参照しリソースを読み込む
-	for (auto& path : pathes)
+	for (auto& p : paths)
 	{
 		// ファイル名をキーに
 		ResourceManager::Instance().AddModel(
-			path.stem().string(),	// ファイル名	
-			path.wstring()			// パス
+			p.stem().string(),	// ファイル名	
+			p.wstring()			// パス
 		);
 	}
 }
@@ -38,15 +38,15 @@ void ResourceReader::ReadModels(const std::wstring& path)
 void ResourceReader::ReadTextures(const std::wstring& path)
 {
 	// 対応している拡張子を列挙
-	auto pathes = Read(path, { ".png", ".jpeg", ".bmp", "tiff", ".gif", ".dds" });
+	auto paths = Read(path, { ".png", ".jpeg", ".bmp", "tiff", ".gif", ".dds" });
 
 	// パスを参照しリソースを読み込む
-	for (auto& path : pathes)
+	for (auto& p : paths)
 	{
 		// ファイル名をキーに
 		ResourceManager::Instance().AddTexture(
-			path.stem().string(),	// ファイル名	
-			path.wstring()			// パス
+			p.stem().string(),	// ファイル名	
+			p.wstring()			// パス
 		);
 	}
 }
@@ -54,15 +54,15 @@ void ResourceReader::ReadTextures(const std::wstring& path)
 void ResourceReader::ReadSounds(const std::wstring& path)
 {
 	// 対応している拡張子は .wav のみ
-	auto pathes = Read(path, { ".wav" });
+	auto paths = Read(path, { ".wav" });
 
 	// パスを参照しリソースを読み込む
-	for (auto& path : pathes)
+	for (auto& p : paths)
 	{
 		// ファイル名をキーに
 		ResourceManager::Instance().AddSound(
-			path.stem().string(),	// ファイル名	
-			path.wstring()			// パス
+			p.stem().string(),	// ファイル名	
+			p.wstring()			// パス
 		);
 	}
 }
@@ -70,15 +70,15 @@ void ResourceReader::ReadSounds(const std::wstring& path)
 void ResourceReader::ReadFonts(const std::wstring& path)
 {
 	// 対応している拡張子は .spritefont のみ
-	auto pathes = Read(path, { ".spritefont" });
+	auto paths = Read(path, { ".spritefont" });
 
 	// パスを参照しリソースを読み込む
-	for (auto& path : pathes)
+	for (auto& p : paths)
 	{
 		// ファイル名をキーに
 		ResourceManager::Instance().AddFont(
-			path.stem().string(),	// ファイル名	
-			path.wstring()			// パス
+			p.stem().string(),	// ファイル名	
+			p.wstring()			// パス
 		);
 	}
 }
@@ -86,15 +86,15 @@ void ResourceReader::ReadFonts(const std::wstring& path)
 void ResourceReader::ReadObjects(const std::wstring& path)
 {
 	// 対応している拡張子は .gameobject のみ
-	auto pathes = Read(path, { ".gameobject" });
+	auto paths = Read(path, { ".gameobject" });
 
 	// パスを参照しリソースを読み込む
-	for (auto& path : pathes)
+	for (auto& p : paths)
 	{
 		// ファイル名をキーに
 		PrefabManager::Instance().AddPrefab(
-			path.stem().string(),	// ファイル名	
-			path.wstring()			// パス
+			p.stem().string(),	// ファイル名	
+			p.wstring()			// パス
 		);
 	}
 }

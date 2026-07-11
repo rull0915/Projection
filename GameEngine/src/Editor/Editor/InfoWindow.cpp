@@ -21,7 +21,7 @@
 
 #include "Editor/Saver/ObjectSaver.h"
 #include "Editor/Loader/ObjectLoader.h"
-#include "Editor/Common/OpenFileDialog.h"
+#include "Common/OpenFileDialog.h"
 
 #include "Editor/Editor/EditGUI.h"
 #include "Scene/Scene.h"

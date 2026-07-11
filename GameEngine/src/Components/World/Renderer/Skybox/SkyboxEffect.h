@@ -1,9 +1,10 @@
 ﻿//====================================================//
 // ファイル名   : SkyboxEffect.h
-// 作成者       : Hoshino Ryunosuke
+// 作成者       : DirectX toolkit
 // 作成日       : 2026/07/03
 //
 // 概要 : スカイボックスエフェクト
+//		 https://github.com/microsoft/DirectXTK/wiki/Authoring-an-Effect
 //
 // 更新履歴 :
 // 2026/07/03 新規作成

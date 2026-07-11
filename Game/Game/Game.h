@@ -79,16 +79,10 @@ public:
 	static constexpr const wchar_t TITLE_STRING[]{ L"Template" };
 
 private:
-	// シーンマネージャー
-	SceneManager m_sceneManager;
-
 	// ゲームタイマー
 	GameTimer m_gameTimer;
 
 public:
-	// シーンマネージャーを返す関数
-	SceneManager* GetSceneManager() { return &m_sceneManager; }
-
 	// 描画担当
 	Renderer m_renderer;
 

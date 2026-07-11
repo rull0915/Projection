@@ -30,24 +30,24 @@ class ObjectLoader
 {
 public:
 
-    //-----------------------------------------------------
-    // コンストラクタ / デストラクタ
-    //-----------------------------------------------------
-    ObjectLoader() = default;
-    ~ObjectLoader() = default;
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	ObjectLoader() = default;
+	~ObjectLoader() = default;
 
-    //-----------------------------------------------------
-    // 公開関数
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
 
-    // プロパティのロード
-    static void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
+	// プロパティのロード
+	static void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
 
 	// Worldオブジェクトのロード
-    static void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
+	static void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
 
 	// UIオブジェクトのロード
-    static void LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas);
+	static void LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas);
 
 	// Canvasのロード
 	static void LoadCanvas(const nlohmann::json& json, Canvas* canvas);
@@ -61,8 +61,8 @@ public:
 	// シーンのロード関数
 	static void LoadScene(const nlohmann::json& json, Scene* pScene);
 
-    // ロード関数
-    static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
+	// ロード関数
+	static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
 
-    static void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
+	static void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
 };

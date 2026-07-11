@@ -33,10 +33,10 @@ namespace DrawFlag
 struct RenderContext
 {
 	// 使用するカメラ
-    CameraBase* camera = nullptr;
+	CameraBase* camera = nullptr;
 
 	// 描画先
-    RenderTarget* target = nullptr;
+	RenderTarget* target = nullptr;
 
 	// 背景色
 	DirectX::SimpleMath::Color back = { 0, 0, 0, 0 };

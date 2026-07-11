@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "InspectorWindow.h"
 
-#include "Editor/Common/ClassNameGetter.h"
+#include "Common/ClassNameGetter.h"
 #include "System/WindowManager.h"
 #include "Editor/Loader/ComponentFactory.h"
 
@@ -215,6 +215,8 @@ bool InspectorWindow::DrawProperty(const Property* property)
 	default:
 		break;
 	}
+
+	return false;
 }
 
 void InspectorWindow::DrawAddComponent(GameObject* object)

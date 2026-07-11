@@ -1,5 +1,5 @@
 ﻿//====================================================//
-// ファイル名  : EditorInitializer.cpp
+// ファイル名  : FactoryRegister.cpp
 // 作成者      : Hoshino Ryunosuke
 // 作成日       : 2026/06/29
 //
@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Editor/System/EditorInitializer.h"
+#include "System/FactoryRegister.h"
 
 // 生成
 #include "Editor/Loader/ComponentFactory.h"
@@ -26,13 +26,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void EditorInitializer::Initialize()
-{
-	// 各コンポーネントの生成関数の登録
-	RegistFactories();
-}
-
-void EditorInitializer::RegistFactories()
+void FactoryRegister::RegistFactories()
 {
 	// Transform
 	ADD_FACTORY(Transform);

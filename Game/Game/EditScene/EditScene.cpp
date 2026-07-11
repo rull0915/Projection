@@ -27,28 +27,25 @@
 //====================================================//
 
 // コンストラクタ
-EditScene::EditScene(Game* pGame)
-	: Scene(pGame->GetSceneManager())
-	, m_pGame{ pGame }
-	, m_gui{ this, [this]() { TestPlay(); } }
-	, m_camera{ nullptr }
-	, m_testObject{ nullptr }
+EditScene::EditScene(Scene* pScene)
+	: m_pScene{ pScene }
+	, m_gui{ m_pScene, [this]() { TestPlay(); } }
 	, m_sceneView{ std::make_unique<RenderTarget>() }
 	, m_sceneViewCamera{ nullptr }
 {
 	// メインスクリーンを描画しない設定に
-	SetDrawMainScreen(false);
+	m_pScene->SetDrawMainScreen(false);
 
 	// 再生しない設定に
-	SetPlayFlag(false);
+	m_pScene->SetPlayFlag(false);
 
 	// メインスクリーンの場所を設定
-	SetMainScreenStartPoint({});
+	m_pScene->SetMainScreenStartPoint({});
 
 	// サイズ
-	SetMainScreenScale({ 0.45f, 0.45f });
+	m_pScene->SetMainScreenScale({ 0.45f, 0.45f });
 	// 初期位置
-	SetMainScreenStartPoint({ 8, 26 });
+	m_pScene->SetMainScreenStartPoint({ 8, 26 });
 
 	// ゲームビューの作成
 	m_sceneView->Create(
@@ -57,13 +54,13 @@ EditScene::EditScene(Game* pGame)
 	);
 
 	// ゲームビューカメラの作成
-	auto game = Generate();
+	auto camera = m_pScene->Generate();
 
-	// ヒエラルキー非表示
-	game->SetInvincible(true);
+	// ヒエラルキーウィンドウ非表示
+	camera->SetInvincible(true);
 
 	// カメラの追加
-	m_sceneViewCamera = game->AddComponent<SceneCamera>();
+	m_sceneViewCamera = camera->AddComponent<SceneCamera>();
 }
 
 EditScene::~EditScene()
@@ -76,7 +73,7 @@ void EditScene::Initialize()
 	// GUIのリセット
 	m_gui.Reset();
 
-	ObjectLoader::LoadSceneFromFile(L"Resources/Scenes/TestPlayScene.scene", this);
+	ObjectLoader::LoadSceneFromFile(L"Resources/Scenes/TestPlayScene.scene", m_pScene);
 }
 
 // 更新関数
@@ -91,36 +88,25 @@ void EditScene::Update(const GameTimer& gameTimer)
 	m_gui.DrawWindows();
 
 	// 2つのビューを描画
-	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), GetMainRenderTarget()->GetShaderResourceView());
+	m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetMainRenderTarget()->GetShaderResourceView());
 
 	// シーンビューカメラ
 	m_sceneViewCamera->SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);
-
-	// カメラ
-	Ray ray = m_sceneViewCamera->GetRayToScreenPoint(GetMousePointOnMainScreen());
 }
 
 // 描画関数
 void EditScene::Render(Renderer& renderer)
 {
 	// ゲームビューへの描画
-	RenderWithContext(
+	m_pScene->RenderWithContext(
 		{
 			m_sceneViewCamera, m_sceneView.get(), WindowManager::Instance().GetBackGroundColor(),
 			DrawFlag::World | DrawFlag::UI | DrawFlag::ColliderDebug | DrawFlag::RectDebug
 		}, renderer);
 }
 
-// 終了関数
-void EditScene::Finalize()
-{
-}
-
 void EditScene::TestPlay()
 {
 	// 保存
-	ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", this);
-
-	// シーン変更
-	ChangeScene("TestPlay");
+	ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", m_pScene);
 }

@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Components/Interface/IResourceReader.h".h"
+#include "Components/Interface/IResourceReader.h"
 
 #include "System/ResourceManager.h"
 
@@ -52,5 +52,5 @@ bool IResourceReader::LoadResource()
 		break;
 	}
 
-    return target;
+	return target;
 }

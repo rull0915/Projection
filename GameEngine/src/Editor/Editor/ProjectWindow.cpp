@@ -17,9 +17,9 @@
 
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
-#include "Editor/System/PrefabManager.h"
+#include "System/PrefabManager.h"
 
-#include "Editor/Common/OpenFileDialog.h"
+#include "Common/OpenFileDialog.h"
 #include "Editor/Saver/ObjectSaver.h"
 
 //====================================================//

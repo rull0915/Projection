@@ -179,7 +179,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\Sounds\AudioSource.cpp" />
     <ClCompile Include="src\Components\World\Transform\Transform.cpp" />
     <ClCompile Include="src\Debug\RectDebugRenderer.cpp" />
-    <ClCompile Include="src\Editor\Common\OpenFileDialog.cpp" />
+    <ClCompile Include="src\Common\OpenFileDialog.cpp" />
     <ClCompile Include="src\Editor\Editor\EditGUI.cpp" />
     <ClCompile Include="src\Editor\Editor\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
@@ -190,8 +190,8 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
     <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp" />
-    <ClCompile Include="src\Editor\System\EditorInitializer.cpp" />
-    <ClCompile Include="src\Editor\System\PrefabManager.cpp" />
+    <ClCompile Include="src\System\FactoryRegister.cpp" />
+    <ClCompile Include="src\System\PrefabManager.cpp" />
     <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
     <ClCompile Include="src\GameObject\GameObject.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp">
@@ -333,8 +333,8 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ComponentFactory.h" />
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
-    <ClInclude Include="include\Editor\System\EditorInitializer.h" />
-    <ClInclude Include="include\Editor\System\PrefabManager.h" />
+    <ClInclude Include="src\System\FactoryRegister.h" />
+    <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">
       <SubType>
       </SubType>
@@ -382,8 +382,8 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\Editor\Common\ClassNameGetter.h" />
-    <ClInclude Include="src\Editor\Common\OpenFileDialog.h" />
+    <ClInclude Include="src\Common\ClassNameGetter.h" />
+    <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\Editor\HierarchyWindow.h" />
     <ClInclude Include="src\Editor\Editor\InfoWindow.h" />
     <ClInclude Include="src\Editor\Editor\InspectorWindow.h" />

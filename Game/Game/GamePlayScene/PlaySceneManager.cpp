@@ -16,7 +16,7 @@
 #include "Camera/TPSCamera.h"
 
 #include "Input/KeyInput.h"
-#include "GamePlayScene.h"
+#include "Scene/Scene.h"
 
 //====================================================//
 // 関数の実体宣言

@@ -8,11 +8,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "Renderer/Renderer.h"
 #include "Transition/TransitionManager.h"
-
-// 前方参照
-class Scene;
 
 // 前方参照
 class Scene;
@@ -22,22 +18,19 @@ class SceneManager
 {
 private:
 
-	// エイリアス宣言
-	using SceneCollection = std::unordered_map<std::string, std::unique_ptr<Scene>>;
+	// シーンの実体
+	std::unique_ptr<Scene> m_currentScene;
 
-	// シーン群
-	SceneCollection m_scenes;
+	// シーン名とシーン情報のマップ
+	std::unordered_map<std::string, std::wstring> m_sceneMap;
 
-	// 実行中のシーン
-	Scene* m_pCurrentScene;
-
-	// 要求されたシーン
-	Scene* m_pRequestedScene;
+	// 要求されたシーン名
+	std::string m_pRequestedScene;
 
 	// 演出管理クラス
 	TransitionManager m_transitionManager;
 
-public:
+private:
 
 	// コンストラクタ
 	SceneManager();
@@ -45,8 +38,18 @@ public:
 	// デストラクタ
 	~SceneManager();
 
+public:
+
+	// インスタンス
+	static SceneManager& Instance()
+	{
+		static SceneManager instance;
+
+		return instance;
+	}
+
 	// シーンの登録
-	void RegisterScene(const std::string& sceneName, std::unique_ptr<Scene> scene);
+	void RegisterScene(const std::string& sceneName, const std::wstring& sceneFile);
 
 	// 更新処理
 	void Update(const GameTimer& gameTimer);
@@ -58,22 +61,14 @@ public:
 	void SetStartScene(const std::string& startSceneName);
 
 	// シーンの変更
-
-	// Out|In別の演出指定版
 	void RequestSceneChange(
 		const std::string& requestSceneName,	// 遷移先のシーン名
-		std::unique_ptr<Transition::Base> out,	// Out演出
-		std::unique_ptr<Transition::Base> in	// In演出
-	);
-
-	// 演出なし版
-	void RequestSceneChange(
-		const std::string& requestSceneName		// 遷移先のシーン名
+		std::unique_ptr<Transition::Base> out = nullptr,	// Out演出
+		std::unique_ptr<Transition::Base> in  = nullptr		// In演出
 	);
 
 private:
 
 	// シーンの変更
 	void ChangeScene();
-
 };

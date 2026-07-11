@@ -41,9 +41,8 @@
 //====================================================//
 
 // コンストラクタ
-Scene::Scene(SceneManager* pSceneManager)
-	: m_pSceneManager(pSceneManager)
-	, m_updatePipeline		{ std::make_unique<UpdatePipeline>(this) }
+Scene::Scene()
+	: m_updatePipeline		{ std::make_unique<UpdatePipeline>(this) }
 	, m_componentRegister	{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
 	, m_defaultRenderTarget { std::make_unique<RenderTarget>() }
 	, m_objectFinder		{ std::make_unique<ObjectFinder>(this) }
@@ -68,28 +67,20 @@ Scene::~Scene()
 {
 }
 
-/// <summary>
-/// 基底初期化関数
-/// </summary>
-void Scene::BaseInitialize()
+// 初期化関数
+void Scene::Initialize()
 {
-	Initialize();
 }
 
-void Scene::BaseUpdate(const GameTimer& gameTimer)
+// 更新関数
+void Scene::Update(const GameTimer& gameTimer)
 {
-	// 派生クラスの更新
-	Update(gameTimer);
-
 	// 各管理クラスの更新
 	m_updatePipeline->Update(gameTimer, m_play);
 }
 
-/// <summary>
-/// 基底描画関数
-/// </summary>
-/// <param name="renderer"></param>
-void Scene::BaseRender(Renderer& renderer)
+// 描画関数
+void Scene::Render(Renderer& renderer)
 {
 	// メインカメラの描画
 	RenderWithContext(
@@ -101,12 +92,10 @@ void Scene::BaseRender(Renderer& renderer)
 		},
 		renderer
 	);
-
-	// 派生クラスの描画処理
-	Render(renderer);
 }
 
-void Scene::BaseRenderOnScreen(Renderer& renderer)
+// 実際の画面へ描画する関数
+void Scene::RenderOnScreen(Renderer& renderer)
 {
 	if (m_drawMainScreen)
 	{
@@ -115,11 +104,9 @@ void Scene::BaseRenderOnScreen(Renderer& renderer)
 			.Extend(m_scale)
 			.Execute(m_defaultRenderTarget->GetShaderResourceView(), m_startPoint);
 	}
-
-	// 派生クラスの描画
-	RenderOnScreen(renderer);
 }
 
+// RenderContextを使用して描画する関数
 void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
 {
 	auto* deviceContext = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
@@ -191,18 +178,18 @@ void Scene::RenderWithContext(const RenderContext& context, Renderer& renderer)
 /// <summary>
 /// 基底終了関数
 /// </summary>
-void Scene::BaseFinalize()
+void Scene::Finalize()
 {
-	Finalize();
-
-	m_updatePipeline->Finalize();
+	ResetObjects();
 }
 
+// オブジェクトのリセット関数
 void Scene::ResetObjects()
 {
 	m_updatePipeline->Finalize();
 }
 
+// ゲームオブジェクトを生成する関数
 GameObject* Scene::Generate(DirectX::SimpleMath::Vector3 position)
 {
 	// ポインタを作成
@@ -233,18 +220,12 @@ void Scene::RegisterComponent(ComponentBase* component)
 {
 	// 各マネージャーへ通知
 	m_componentRegister->RegisterComponent(component);
-
-	// 派生クラスに通知
-	RegisterComponentOnDerived(component);
 }
 
 void Scene::UnRegsisterComponent(ComponentBase * component)
 {
 	// 各マネージャーへ通知
 	m_componentRegister->UnRegisterComponent(component);
-
-	// 派生クラスに通知
-	UnRegisterComponentOnDerived(component);
 }
 
 // メインカメラ設定関数
@@ -269,28 +250,19 @@ bool Scene::RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask)
 	);
 }
 
+// メインスクリーンに補正したマウス座標を返す関数
 DirectX::SimpleMath::Vector2 Scene::GetMousePointOnMainScreen()
 {
 	return (Input::Mouse::GetScaledMousePoint() - m_startPoint) / m_scale;
 }
 
-// シーンの変更
-void Scene::ChangeScene(const std::string& nextSceneName, std::unique_ptr<Transition::Base> outTrans, std::unique_ptr<Transition::Base> inTrans)
-{
-	m_pSceneManager->RequestSceneChange(nextSceneName, std::move(outTrans), std::move(inTrans));
-}
-
-// シーンの変更（演出なし）
-void Scene::ChangeScene(const std::string& nextSceneName)
-{
-	m_pSceneManager->RequestSceneChange(nextSceneName);
-}
-
+// オブジェクトマネージャーの取得関数
 ObjectManager* Scene::GetObjectManager() const
 {
 	return m_updatePipeline->GetObjectManager();
 }
 
+// UIマネージャーの取得関数
 UIManager* Scene::GetUIManager() const
 {
 	return m_updatePipeline->GetUIManager();

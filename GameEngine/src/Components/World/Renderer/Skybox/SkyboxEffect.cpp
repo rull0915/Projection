@@ -19,27 +19,27 @@
 
 namespace
 {
-    constexpr uint32_t DirtyConstantBuffer = 0x1;
-    constexpr uint32_t DirtyWVPMatrix = 0x2;
+	constexpr uint32_t DirtyConstantBuffer = 0x1;
+	constexpr uint32_t DirtyWVPMatrix = 0x2;
 }
 
 SkyboxEffect::SkyboxEffect(ID3D11Device* device) :
 	m_dirtyFlags(uint32_t(-1)),
-    m_constantBuffer(device)
+	m_constantBuffer(device)
 {
 	static_assert((sizeof(SkyboxEffect::SkyboxEffectConstants) % 16) == 0, "CB size alignment");
 
-    m_vsBlob = DX::ReadData(L"Resources/Shaders/SkyboxEffect_VS.cso");
+	m_vsBlob = DX::ReadData(L"Resources/Shaders/SkyboxEffect_VS.cso");
 
-    DX::ThrowIfFailed(
-        device->CreateVertexShader(m_vsBlob.data(), m_vsBlob.size(),
-            nullptr, m_vs.ReleaseAndGetAddressOf()));
+	DX::ThrowIfFailed(
+		device->CreateVertexShader(m_vsBlob.data(), m_vsBlob.size(),
+			nullptr, m_vs.ReleaseAndGetAddressOf()));
 
-    auto psBlob = DX::ReadData(L"Resources/Shaders/SkyboxEffect_PS.cso");
+	auto psBlob = DX::ReadData(L"Resources/Shaders/SkyboxEffect_PS.cso");
 
-    DX::ThrowIfFailed(
-        device->CreatePixelShader(psBlob.data(), psBlob.size(),
-            nullptr, m_ps.ReleaseAndGetAddressOf()));
+	DX::ThrowIfFailed(
+		device->CreatePixelShader(psBlob.data(), psBlob.size(),
+			nullptr, m_ps.ReleaseAndGetAddressOf()));
 }
 
 void SkyboxEffect::Apply(
@@ -76,18 +76,18 @@ void SkyboxEffect::Apply(
 }
 
 void SkyboxEffect::GetVertexShaderBytecode(
-    void const** pShaderByteCode,
-    size_t* pByteCodeLength)
+	void const** pShaderByteCode,
+	size_t* pByteCodeLength)
 {
-    assert(pShaderByteCode != nullptr && pByteCodeLength != nullptr);
-    *pShaderByteCode = m_vsBlob.data();
-    *pByteCodeLength = m_vsBlob.size();
+	assert(pShaderByteCode != nullptr && pByteCodeLength != nullptr);
+	*pShaderByteCode = m_vsBlob.data();
+	*pByteCodeLength = m_vsBlob.size();
 }
 
 void SkyboxEffect::SetTexture(
-    ID3D11ShaderResourceView* value)
+	ID3D11ShaderResourceView* value)
 {
-    m_texture = value;
+	m_texture = value;
 }
 
 void XM_CALLCONV SkyboxEffect::SetWorld(DirectX::FXMMATRIX value)
@@ -110,10 +110,10 @@ void XM_CALLCONV SkyboxEffect::SetProjection(DirectX::FXMMATRIX value)
 
 void XM_CALLCONV SkyboxEffect::SetMatrices(DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection)
 {
-    // Skybox 
+	// Skybox 
 	// doesn't use the world matrix by design.
-    m_view = view;
-    m_proj = projection;
+	m_view = view;
+	m_proj = projection;
 
 	m_dirtyFlags |= DirtyWVPMatrix;
 }

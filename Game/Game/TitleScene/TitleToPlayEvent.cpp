@@ -12,10 +12,8 @@
 #include "pch.h"
 #include "TitleToPlayEvent.h"
 
-#include "GameObject/GameObject.h"
-#include "Scene/Scene.h"
-
 #include "GameLib/Transition/SlideTransition.h"
+#include "Scene/SceneManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -29,10 +27,7 @@ TitleToPlayEvent::TitleToPlayEvent(IComponentOwner* own)
 
 void TitleToPlayEvent::OnClicked()
 {
-	// シーンポインタを取得
-	Scene* pScene = static_cast<GameObject*>(GetOwn())->GetScene();
-
-	pScene->ChangeScene("GamePlay",
+	SceneManager::Instance().RequestSceneChange("GamePlay",
 		std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
 		std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
 	);

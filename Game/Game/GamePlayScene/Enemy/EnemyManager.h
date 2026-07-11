@@ -99,6 +99,7 @@ public:
 		, m_playerTransform{ nullptr }
 		, m_is2D{ false }
 		, m_isStarted{ false }
+		, m_eventToken{}
 	{
 	}
 	~EnemyManager() = default;

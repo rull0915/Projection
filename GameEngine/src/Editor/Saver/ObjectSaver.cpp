@@ -16,7 +16,7 @@
 #include "Editor/Saver/ObjectSaver.h"
 
 #include "GameObject/GameObject.h"
-#include "Editor/Common/ClassNameGetter.h"
+#include "Common/ClassNameGetter.h"
 
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"

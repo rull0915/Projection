@@ -41,8 +41,6 @@ class WindowManager
 	//-----------------------------------------------------
 private:
 
-	HWND* m_windowHandle;
-
 	int m_width;
 	int m_height;
 

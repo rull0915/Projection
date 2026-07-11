@@ -15,7 +15,6 @@
 // インクルードファイル
 //====================================================//
 #include "Common/PropertyObject.h"
-#include "Components/ComponentBase.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentCategory.h"

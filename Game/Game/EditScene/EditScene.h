@@ -16,7 +16,6 @@
 //====================================================//
 #include "Scene/Scene.h"
 #include "Editor/Editor/EditGUI.h"
-
 #include "Editor/Editor/SceneCamera.h"
 
 //====================================================//
@@ -27,28 +26,18 @@ class Game;
 //====================================================//
 // クラス宣言
 //====================================================//
-class EditScene : public Scene
+class EditScene
 {
 private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
-	Game* m_pGame;
+
+	// シーンポインタ
+	Scene* m_pScene;
 
 	// GUI
 	EditGUI m_gui;
-
-	// カメラ
-	GameObject* m_camera;
-
-	// テスト用
-	GameObject* m_testObject;
 
 	// シーンビュー
 	std::unique_ptr<RenderTarget> m_sceneView;
@@ -61,17 +50,16 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	EditScene(Game* pGame);
+	EditScene(Scene* pScene);
 	~EditScene();
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Initialize() override;
-	void Update(const GameTimer& gameTimer) override;
-	void Render(Renderer& renderer) override;
-	void Finalize() override;
+	void Initialize();
+	void Update(const GameTimer& gameTimer);
+	void Render(Renderer& renderer);
 
 	//-----------------------------------------------------
 	// ゲッター

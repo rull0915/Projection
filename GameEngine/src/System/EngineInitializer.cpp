@@ -14,6 +14,7 @@
 
 #include "System/EngineInitializer.h"
 #include "System/TypeIdGenerator.h"
+#include "FactoryRegister.h"
 
 // 衝突システム
 #include "Managers/CollisionMap.h"
@@ -31,9 +32,6 @@
 // 入力関連
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
-#include "Input/MouseInput.h"
-
-#include "System/ResourceManager.h"
 
 //====================================================//
 // 関数定義
@@ -55,6 +53,8 @@ void EngineInitializer::EngineInitialize()
 	RegistRayCollisions();
 
 	RegistCustomKeys();
+
+	FactoryRegister::RegistFactories();
 }
 
 void EngineInitializer::Regist3DCollisions()

@@ -123,7 +123,7 @@ void SceneCamera::LateUpdate(const GameTimer& gameTimer)
 	}
 
 	// ホイールの移動量
-	float wheel = Input::Mouse::GetWheelMoveValue();
+	int wheel = Input::Mouse::GetWheelMoveValue();
 
 	m_radius += wheel * m_scaleRatio;
 

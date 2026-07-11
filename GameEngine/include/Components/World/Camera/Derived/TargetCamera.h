@@ -66,14 +66,14 @@ public:
 	void UpdateProj() override;
 
 	//-----------------------------------------------------
-    // ゲッター
-    //-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
 
 	// ID取得
-    unsigned int GetID() override
-    {
-        return TypeIDGenerator::GetID<TargetCamera>();
-    }
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<TargetCamera>();
+	}
 
 	float GetAspect() const 
 	{
@@ -93,29 +93,29 @@ public:
 	}
 
 	//-----------------------------------------------------
-    // セッター
-    //-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
 
-    void SetAspect(float r) 
-    {
-        m_aspect = r; 
-        SetNeedUpdateProj(true);
-    }
-    void SetFov(float f)
-    {
-        m_fov = f;
-        SetNeedUpdateProj(true);
-    }
-    void SetNearClip(float n)
-    {
-        m_nearZ = n;
-        SetNeedUpdateProj(true);
-    }
-    void SetFarClip(float f)
-    {
-        m_farZ = f;
-        SetNeedUpdateProj(true);
-    }
+	void SetAspect(float r) 
+	{
+		m_aspect = r; 
+		SetNeedUpdateProj(true);
+	}
+	void SetFov(float f)
+	{
+		m_fov = f;
+		SetNeedUpdateProj(true);
+	}
+	void SetNearClip(float n)
+	{
+		m_nearZ = n;
+		SetNeedUpdateProj(true);
+	}
+	void SetFarClip(float f)
+	{
+		m_farZ = f;
+		SetNeedUpdateProj(true);
+	}
 	void SetTarget(IComponentOwner* target) { m_target = target; }
 
 private:

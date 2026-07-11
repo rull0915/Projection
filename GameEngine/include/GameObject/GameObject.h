@@ -43,15 +43,15 @@ class GameObject final
 {
 public:
 	// GameObjectを作成できるクラスを制限する為の仲介クラス
-    class CreateToken
-    {
-    private:
-        CreateToken() = default;
+	class CreateToken
+	{
+	private:
+		CreateToken() = default;
 		
 		// 作成可能クラスをfriendに指定
-        friend class Scene;
-        friend class Canvas;
-    };
+		friend class Scene;
+		friend class Canvas;
+	};
 	
 	//-----------------------------------------------------
 	// メンバ変数

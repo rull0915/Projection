@@ -231,7 +231,7 @@
     <ClCompile Include="src\Scene\ObjectFinder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Common\OpenFileDialog.cpp">
+    <ClCompile Include="src\Common\OpenFileDialog.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\EditGUI.cpp">
@@ -264,10 +264,10 @@
     <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\System\EditorInitializer.cpp">
+    <ClCompile Include="src\System\FactoryRegister.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\System\PrefabManager.cpp">
+    <ClCompile Include="src\System\PrefabManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\imgui\imgui.cpp">
@@ -686,16 +686,16 @@
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\System\EditorInitializer.h">
+    <ClInclude Include="src\System\FactoryRegister.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\System\PrefabManager.h">
+    <ClInclude Include="include\System\PrefabManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Common\ClassNameGetter.h">
+    <ClInclude Include="src\Common\ClassNameGetter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Common\OpenFileDialog.h">
+    <ClInclude Include="src\Common\OpenFileDialog.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Editor\Editor\HierarchyWindow.h">

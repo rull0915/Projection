@@ -35,27 +35,27 @@ class ObjectSaver
 {
 public:
 
-    //-----------------------------------------------------
-    // コンストラクタ / デストラクタ
-    //-----------------------------------------------------
-    ObjectSaver() = default;
-    ~ObjectSaver() = default;
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	ObjectSaver() = default;
+	~ObjectSaver() = default;
 
-    //-----------------------------------------------------
-    // 公開関数
-    //-----------------------------------------------------
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
 
 	// Propertyの保存
-    static nlohmann::json SaveProperty(const PropertyObject& obj);
+	static nlohmann::json SaveProperty(const PropertyObject& obj);
 
-    // GameObjectの保存
-    static nlohmann::json SaveObject(const GameObject* obj);
+	// GameObjectの保存
+	static nlohmann::json SaveObject(const GameObject* obj);
 
 	// キャンバスの保存
 	static nlohmann::json SaveCanvas(const Canvas* canvas);
 
 	// ObjectManagerの保存
-    static nlohmann::json SaveObjectManager(const ObjectManager* objManager);
+	static nlohmann::json SaveObjectManager(const ObjectManager* objManager);
 
 	// UIManagerの保存
 	static nlohmann::json SaveUIManager(const UIManager* uiManager);
@@ -63,7 +63,7 @@ public:
 	// Sceneの保存
 	static nlohmann::json SaveScene(const Scene* scene);
 
-    // 保存関数
-    static void SaveObjectToFile(const std::wstring& filePath, GameObject* obj);
-    static void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
+	// 保存関数
+	static void SaveObjectToFile(const std::wstring& filePath, GameObject* obj);
+	static void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
 };
