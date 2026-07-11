@@ -1,0 +1,3 @@
+import GenerateComponentRegister
+
+GenerateComponentRegister.generate_component_register()

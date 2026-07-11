@@ -1,0 +1,79 @@
+from pathlib import Path
+import re
+
+# content(...) の文字列が含まれるか調べる関数
+def contains_str_function(text, content):
+    # 正規表現パターンを定義
+    pattern = rf'{content}\(([^)]+)\)'
+    
+    # パターンにマッチするかどうかをチェック
+    match = re.findall(pattern, text)
+
+    # マッチした場合は、マッチした文字列を返す
+    if match:
+        return match
+    else:
+        return None
+
+def generate_component_register():
+
+    # ルートディレクトリ
+    script_dir = Path(__file__).parent
+    game_dir = script_dir.parent
+
+    # 指定したディレクトリ内のすべての .h ファイルをリストアップ
+    current_dir = Path(game_dir)
+
+    # 見つかったファイルパスのリスト
+    paths = []
+    # 見つかった文字列のリスト
+    results = []
+
+    # 再帰的に .h ファイルを検索
+    for file in current_dir.rglob("*.h"):
+        # ファイルを開く
+        with file.open("r", encoding="utf-8") as f:
+            content = f.read()
+            # IS_COMPONENT(...) の文字列が含まれるか調べる
+            result = contains_str_function(content, "IS_COMPONENT")
+            # 見つかれば
+            if result:
+                # ファイルパスを相対パスに変換
+                relative_path = file.relative_to(game_dir).as_posix()
+
+                # 見つかったファイルパスをリストに追加
+                paths.append(relative_path)
+
+                for r in result:
+                    # 見つかった文字列をリストに追加
+                    if r not in results:
+                        results.append(r)
+
+    # 書き込みファイルを開く
+    with open(f"{game_dir}/Game/ComponentRegister.cpp", "w", encoding="utf-8") as f:
+        # ファイルに書き込む
+
+        # ファイルの先頭に自動生成されたことを示すコメントを追加
+        f.write("// これは自動生成されたファイルです。\n")
+        f.write("// 手動で書き換えないようにしてください。\n\n")
+
+        # デフォルトの#include を追加
+        f.write("#include \"pch.h\"\n")
+        f.write("#include \"ComponentRegister.h\"\n")
+
+        # #include を追加
+        for path in paths:
+            f.write(f"#include \"{path}\"\n")
+
+        # 空行を追加
+        f.write("\n")
+
+        # void ComponentRegister::RegistComponents() 関数の定義を追加
+        f.write("void ComponentRegister::RegistComponents()\n")
+        f.write("{\n")
+
+        # 文字列を追加
+        for result in results:
+            f.write(f"    REGIST_TO_FACTORY({result});\n")
+
+        f.write("}\n")

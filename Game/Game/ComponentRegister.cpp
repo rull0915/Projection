@@ -1,0 +1,47 @@
+﻿// これは自動生成されたファイルです。
+// 手動で書き換えないようにしてください。
+
+#include "pch.h"
+#include "ComponentRegister.h"
+#include "Game/RegisterTest.h"
+#include "GameLib/CatmullRomComponent.h"
+#include "GameLib/PathMover.h"
+#include "GameLib/Colliders/ConvexPolygonCollider2D.h"
+#include "Game/GamePlayScene/PlaySceneManager.h"
+#include "Game/TitleScene/TitleToPlayEvent.h"
+#include "Game/GamePlayScene/Camera/ProjectionSmoothCamera.h"
+#include "Game/GamePlayScene/Camera/StartCamera.h"
+#include "Game/GamePlayScene/Camera/TPSCamera.h"
+#include "Game/GamePlayScene/ChangeDimention/ChangeColliderComponent.h"
+#include "Game/GamePlayScene/ChangeDimention/DepthCorrection.h"
+#include "Game/GamePlayScene/ChangeDimention/DimentionManager.h"
+#include "Game/GamePlayScene/Enemy/Enemy.h"
+#include "Game/GamePlayScene/Enemy/EnemyManager.h"
+#include "Game/GamePlayScene/Player/MoveComponent.h"
+#include "Game/GamePlayScene/Player/Player.h"
+#include "Game/GamePlayScene/Stage/Components/GoalComponent.h"
+#include "Game/GamePlayScene/Enemy/Components/LandingCandidatePoints.h"
+#include "Game/GamePlayScene/Enemy/Components/LandingCandidatePoints2D.h"
+
+void ComponentRegister::RegistComponents()
+{
+    REGIST_TO_FACTORY(RegisterTest);
+    REGIST_TO_FACTORY(CatmullRomComponent);
+    REGIST_TO_FACTORY(PathMover);
+    REGIST_TO_FACTORY(ConvexPolygonCollider2D);
+    REGIST_TO_FACTORY(PlaySceneManager);
+    REGIST_TO_FACTORY(TitleToPlayEvent);
+    REGIST_TO_FACTORY(ProjectionSmoothCamera);
+    REGIST_TO_FACTORY(StartCamera);
+    REGIST_TO_FACTORY(TPSCamera);
+    REGIST_TO_FACTORY(ChangeColliderComponent);
+    REGIST_TO_FACTORY(DepthCorrection);
+    REGIST_TO_FACTORY(DimentionManager);
+    REGIST_TO_FACTORY(Enemy);
+    REGIST_TO_FACTORY(EnemyManager);
+    REGIST_TO_FACTORY(MoveComponent);
+    REGIST_TO_FACTORY(Player);
+    REGIST_TO_FACTORY(GoalComponent);
+    REGIST_TO_FACTORY(LandingCandidatePoints);
+    REGIST_TO_FACTORY(LandingCandidatePoints2D);
+}
