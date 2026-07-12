@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : RegisterTest.h
+// ファイル名   : ToSelectComponent.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/27
 //
-// 概要 : 
+// 概要 : セレクトへ戻るコンポーネント
 //
 // 更新履歴 :
 // 2026/05/27 新規作成
@@ -11,13 +11,12 @@
 
 #pragma once
 
-#define IS_COMPONENT(RegisterTest)
+#define IS_COMPONENT(ToSelectComponent)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/WorldComponentBase.h"
-#include "GameObject/Interface/IComponentOwner.h"
+#include "Components/UI/Behaviour/ButtonListenerBase.h"
 
 //====================================================//
 // 前方宣言
@@ -27,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class RegisterTest : public WorldComponentBase
+class ToSelectComponent : public ButtonListenerBase
 {
 private:
 
@@ -46,18 +45,15 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	RegisterTest(IComponentOwner* own);
-	~RegisterTest() = default;
+	ToSelectComponent(IComponentOwner* own);
+	~ToSelectComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Awake() override;
-	void Start() override;
-
-	void Update(const GameTimer& gameTimer) override;
-	void LateUpdate(const GameTimer& gameTimer) override;
+	// 押されたとき
+	void OnClicked() override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -66,7 +62,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<RegisterTest>();
+		return TypeIDGenerator::GetID<ToSelectComponent>();
 	}
 
 	//-----------------------------------------------------

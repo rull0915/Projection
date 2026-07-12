@@ -1,74 +1,71 @@
 ﻿//====================================================//
-// ファイル名   : SceneEditor.h
+// ファイル名   : SelectBlock.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
+// 作成日       : 2026/05/27
 //
-// 概要 : シーンエディタ
+// 概要 : 選択
 //
-// 更新履歴 : 
-// 2026/07/05 新規作成
+// 更新履歴 :
+// 2026/05/27 新規作成
 //====================================================//
 
 #pragma once
 
+#define IS_COMPONENT(SelectBlock)
+
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Scene/Scene.h"
-#include "Editor/Editor/EditGUI.h"
-#include "Editor/Editor/SceneCamera.h"
+#include "Components/World/WorldComponentBase.h"
+#include "GameObject/Interface/IComponentOwner.h"
+
+//====================================================//
+// 前方宣言
+//====================================================//
+
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class SceneEditor
+class SelectBlock : public WorldComponentBase
 {
 private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
+
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// シーンポインタ
-	Scene* m_pScene;
-
-	// アクティブフラグ
-	bool m_isActive;
-
-	// 再生中フラグ
-	bool m_isPlaying;
-
-	// GUI
-	EditGUI m_gui;
-
-	// シーンビュー
-	std::unique_ptr<RenderTarget> m_sceneView;
-
-	// シーンビューカメラ
-	SceneCamera* m_sceneViewCamera;
+	// ターゲットシーン名
+	std::string m_targetScene;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	SceneEditor(Scene* pScene);
-	~SceneEditor();
+	SelectBlock(IComponentOwner* own);
+	~SelectBlock() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Initialize();
-	void Update(const GameTimer& gameTimer);
-	void Render(Renderer& renderer);
+	void OnTriggerStay(HitContact& contact) override;
 
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+	// ID取得
+	unsigned int GetID() override
+	{
+		return TypeIDGenerator::GetID<SelectBlock>();
+	}
 
 private:
 
@@ -76,5 +73,4 @@ private:
 	// 内部実装
 	//-----------------------------------------------------
 
-	void TestPlay();
 };

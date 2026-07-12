@@ -38,7 +38,7 @@ private:
 	//-----------------------------------------------------
 
 	// 登録予約中のCollider
-	std::vector<ColliderBase2D*> m_reserves;
+	std::vector<ColliderBase2D*> m_addReserves;
 	std::unordered_set<ColliderBase2D*> m_removeReserves;
 
 	// 管理しているコライダー
@@ -58,7 +58,7 @@ public:
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
 	CollideManager2D() 
-		: m_reserves{}
+		: m_addReserves{}
 		, m_removeReserves{}
 		, m_colliders{}
 		, m_treeObjects{}
@@ -72,7 +72,7 @@ public:
 	// コライダーの追加
 	void AddCollide(ColliderBase2D* collide)
 	{
-		m_reserves.push_back(collide);
+		m_addReserves.push_back(collide);
 	}
 
 	// コライダーの削除

@@ -89,8 +89,9 @@ void Game::Initialize(HWND window, int width, int height)
 	m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene());
 
 	// ====== シーンの登録 ====== //
-	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/GamePlayScene.scene");
 	SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
+	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/GamePlayScene.scene");
+	SceneManager::Instance().RegisterScene("Select", L"Resources/Scenes/SelectScene.scene");
 
 	// 開始時のシーンを設定
 	SceneManager::Instance().SetStartScene("Title");

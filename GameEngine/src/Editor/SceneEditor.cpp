@@ -30,6 +30,7 @@
 SceneEditor::SceneEditor(Scene* pScene)
 	: m_pScene{ pScene }
 	, m_isActive{ false }
+	, m_isPlaying{ false }
 	, m_gui{ m_pScene, [this]() { TestPlay(); } }
 	, m_sceneView{ std::make_unique<RenderTarget>() }
 	, m_sceneViewCamera{ nullptr }
@@ -72,6 +73,9 @@ void SceneEditor::Initialize()
 	// アクティブ化
 	m_isActive = true;
 
+	// プレイフラグのリセット
+	m_isPlaying = false;
+
 	// メインスクリーンの描画を無効化
 	m_pScene->GetMainScreen()->SetIsDraw(false);
 
@@ -112,6 +116,12 @@ void SceneEditor::Render(Renderer& renderer)
 
 void SceneEditor::TestPlay()
 {
+	// プレイ中なら何もしない
+	if (m_isPlaying) return;
+
+	// フラグをオン
+	m_isPlaying = true;
+
 	// 保存
 	ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", m_pScene);
 

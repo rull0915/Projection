@@ -43,7 +43,7 @@ private:
 	//-----------------------------------------------------
 
 	// 登録予約中のRigidBody
-	std::vector<RigidBody2D*> m_reserves;
+	std::vector<RigidBody2D*> m_addReserves;
 	std::unordered_set<RigidBody2D*> m_removeReserves;
 
 	// 登録されているRigidBody2D
@@ -70,7 +70,7 @@ public:
 	void Update(float elapsedTime);
 
 	// 登録予約
-	void AddRigidBody(RigidBody2D* r) { m_reserves.push_back(r); }
+	void AddRigidBody(RigidBody2D* r) { m_addReserves.push_back(r); }
 	void RemoveRigidBody(RigidBody2D* r){ m_removeReserves.insert(r); }
 
 	// 予約の反映
@@ -79,29 +79,29 @@ public:
 	// 予約済みポインタの追加
 	void AddReserved()
 	{
-		for (auto p : m_reserves)
+		for (auto p : m_addReserves)
 		{
 			m_rigidBodies.push_back(p);
 		}
 
-		m_reserves.clear();
+		m_addReserves.clear();
 	}
 
 	// 予約済みポインタの削除
 	void RemoveReserved()
 	{
-		for (int i = 0; i < m_rigidBodies.size(); i++)
-		{
-			// もし削除リストに含まれていたら
-			if (m_removeReserves.find(m_rigidBodies[i]) != m_removeReserves.end())
-			{
-				// 削除
-				m_removeReserves.erase(m_rigidBodies[i]);
-				m_rigidBodies.erase(m_rigidBodies.begin() + i);
+		// 削除リストが空なら何もしない
+		if (m_removeReserves.empty()) return;
 
-				--i;
-			}
-		}
+		// 削除リストに含まれているかを調べるラムダ式
+		auto shouldRemove = [this](RigidBody2D* base)
+			{
+				return m_removeReserves.contains(base);
+			};
+
+		// リストから削除
+		std::erase_if(m_addReserves, shouldRemove);
+		std::erase_if(m_rigidBodies, shouldRemove);
 
 		m_removeReserves.clear();
 	}

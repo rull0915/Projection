@@ -17,7 +17,7 @@
 //====================================================//
 
 RendererManager::RendererManager()
-	: m_reserves{}
+	: m_addReserves{}
 	, m_removeReserves{}
 	, m_renderers{}
 {

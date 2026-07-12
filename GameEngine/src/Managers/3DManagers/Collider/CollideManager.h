@@ -16,14 +16,12 @@
 // インクルードファイル
 //====================================================//
 
+#include <vector>
 #include <unordered_set>
 
 // 衝突判定
 #include "SpaceDivision/TreeManager.h"
 #include "Physics/HitContact.h"
-
-// Ray関連
-#include "../Ray/CheckHitWithRay.h"
 
 //====================================================//
 // 前方宣言
@@ -43,7 +41,7 @@ private:
 	//-----------------------------------------------------
 
 	// 登録予約中のCollider
-	std::vector<ColliderBase*> m_reserves;
+	std::vector<ColliderBase*> m_addReserves;
 	std::unordered_set<ColliderBase*> m_removeReserves;
 
 	// 管理しているコライダー
@@ -59,7 +57,7 @@ public:
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
 	CollideManager()
-		: m_reserves{}
+		: m_addReserves{}
 		, m_removeReserves{}
 		, m_colliders{}
 		, m_treeObjects{}
@@ -71,7 +69,7 @@ public:
 	// コライダーの追加
 	void AddCollide(ColliderBase* collide)
 	{
-		m_reserves.push_back(collide);
+		m_addReserves.push_back(collide);
 	}
 
 	// コライダーの削除

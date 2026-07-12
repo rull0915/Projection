@@ -14,6 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <vector>
+#include <unordered_set>
 #include "Components/World/Renderer/RendererBase.h"
 
 //====================================================//
@@ -38,7 +40,7 @@ private:
 	//-----------------------------------------------------
 
 	// 登録予約中のRenderer
-	std::vector<RendererBase*> m_reserves;
+	std::vector<RendererBase*> m_addReserves;
 	std::unordered_set<RendererBase*> m_removeReserves;
 
 	// 登録されているRendererBase
@@ -60,7 +62,7 @@ public:
 	void DrawAll(Renderer& renderer);
 
 	// 登録予約
-	void AddRenderer(RendererBase* r) { m_reserves.push_back(r); }
+	void AddRenderer(RendererBase* r) { m_addReserves.push_back(r); }
 	void RemoveRenderer(RendererBase* r) { m_removeReserves.insert(r); }
 
 	// 予約反映
@@ -77,30 +79,31 @@ public:
 	// 予約済みポインタの追加
 	void AddReserved()
 	{
-		for (auto p : m_reserves)
+		for (auto p : m_addReserves)
 		{
 			m_renderers.push_back(p);
 		}
 
-		m_reserves.clear();
+		m_addReserves.clear();
 	}
 
 	// 予約済みポインタの削除
 	void RemoveReserved()
 	{
-		for (int i = 0; i < m_renderers.size(); i++)
-		{
-			// もし削除リストに含まれていたら
-			if (m_removeReserves.find(m_renderers[i]) != m_removeReserves.end())
+		// 削除リストが空なら何もしない
+		if (m_removeReserves.empty()) return;
+
+		// 削除リストに含まれているかを調べるラムダ式
+		auto shouldRemove = [this](RendererBase* base)
 			{
-				// 削除
-				m_removeReserves.erase(m_renderers[i]);
-				m_renderers.erase(m_renderers.begin() + i);
+				return m_removeReserves.contains(base);
+			};
 
-				--i;
-			}
-		}
+		// 削除
+		std::erase_if(m_renderers, shouldRemove);
+		std::erase_if(m_addReserves, shouldRemove);
 
+		// 削除リストをクリア
 		m_removeReserves.clear();
 	}
 };

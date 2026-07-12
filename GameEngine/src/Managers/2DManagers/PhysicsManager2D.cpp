@@ -16,15 +16,13 @@
 #include "Settings/WorldSetting2D.h"
 #include "Settings/PhysicsSettings.h"
 
-#include "Managers/2DManagers/Collider/CollideManager2D.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
 PhysicsManager2D::PhysicsManager2D()
 	: m_removeReserves{}
-	, m_reserves{}
+	, m_addReserves{}
 	, m_rigidBodies{}
 	, m_collideManager{ std::make_unique<CollideManager2D>() }
 	, m_contacts{}

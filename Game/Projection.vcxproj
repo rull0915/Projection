@@ -214,6 +214,7 @@ $(ProjectDir)
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
     <ClInclude Include="GameLib\PathMover.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
+    <ClInclude Include="Game\ClearScene\ToSelectComponent.h" />
     <ClInclude Include="Game\ComponentRegister.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameInitializer.h" />
@@ -251,15 +252,11 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Game\GamePlayScene\ObjectFactory.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Game\GamePlayScene\Player\MoveComponent.h" />
     <ClInclude Include="Game\GamePlayScene\Player\Player.h" />
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
-    <ClInclude Include="Game\RegisterTest.h" />
+    <ClInclude Include="Game\SelectScene\Copmonents\SelectBlock.h" />
     <ClInclude Include="Game\TitleScene\TitleToPlayEvent.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -274,6 +271,7 @@ $(ProjectDir)
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
     <ClCompile Include="GameLib\PathMover.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
+    <ClCompile Include="Game\ClearScene\ToSelectComponent.cpp" />
     <ClCompile Include="Game\ComponentRegister.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameInitializer.cpp" />
@@ -305,7 +303,7 @@ $(ProjectDir)
     <ClCompile Include="Game\GamePlayScene\Player\Player.cpp" />
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
-    <ClCompile Include="Game\RegisterTest.cpp" />
+    <ClCompile Include="Game\SelectScene\Copmonents\SelectBlock.cpp" />
     <ClCompile Include="Game\TitleScene\TitleToPlayEvent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">

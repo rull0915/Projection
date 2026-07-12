@@ -20,7 +20,7 @@
 //====================================================//
 
 PhysicsManager::PhysicsManager()
-	: m_reserves{}
+	: m_addReserves{}
 	, m_removeReserves{}
 	, m_rigidBodies{}
 	, m_collideManager{ std::make_unique<CollideManager>() }

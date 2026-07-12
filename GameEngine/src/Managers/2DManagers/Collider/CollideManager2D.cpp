@@ -28,7 +28,7 @@ using namespace DirectX;
 
 void CollideManager2D::AddReserved()
 {
-	for (auto& collide : m_reserves)
+	for (auto& collide : m_addReserves)
 	{
 		m_colliders.push_back(collide);
 
@@ -41,34 +41,35 @@ void CollideManager2D::AddReserved()
 		m_tree.AddObject(pOFT);
 	}
 
-	m_reserves.clear();
+	m_addReserves.clear();
 }
 
 void CollideManager2D::RemoveReserved()
 {
-	if (m_removeReserves.size() <= 0) return;
+	// 削除リストが空なら何もしない
+	if (m_removeReserves.empty()) return;
 
-	for (auto& collide : m_removeReserves)
-	{
-		// 8分木から削除
-		m_treeObjects.erase(
-			std::remove_if(m_treeObjects.begin(), m_treeObjects.end(),
-				[collide](const auto& oft) {
-					if (oft->m_pObject == collide)
-					{
-						oft->Remove();
-						return true;
-					}
-					return false;
-				}),
-			m_treeObjects.end()
-		);
+	// 8分木から削除
+	std::erase_if(m_treeObjects,
+		[this](const auto& oft)
+		{
+			if (m_removeReserves.contains(oft->m_pObject))
+			{
+				oft->Remove();
+				return true;
+			}
+			return false;
+		});
 
-		m_colliders.erase(
-			std::remove(m_colliders.begin(), m_colliders.end(), collide),
-			m_colliders.end()
-		);
-	}
+	// 削除リストに含まれているかを調べるラムダ式
+	auto shouldRemove = [this](ColliderBase2D* base)
+		{
+			return m_removeReserves.contains(base);
+		};
+
+	// リストから削除
+	std::erase_if(m_addReserves, shouldRemove);
+	std::erase_if(m_colliders, shouldRemove);
 
 	m_removeReserves.clear();
 }
