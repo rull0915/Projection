@@ -67,6 +67,9 @@ public:
 		std::unique_ptr<Transition::Base> in  = nullptr		// In演出
 	);
 
+	// シーンを取得する関数
+	Scene* GetCurrentScene() const { return m_currentScene.get(); }
+
 private:
 
 	// シーンの変更

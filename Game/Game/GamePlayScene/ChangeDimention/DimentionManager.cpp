@@ -53,6 +53,8 @@ void DimentionManager::Awake()
 
 void DimentionManager::Update(const GameTimer& timer)
 {
+	timer;
+
 	// 今の状態によって分岐
 	switch (m_nowState)
 	{

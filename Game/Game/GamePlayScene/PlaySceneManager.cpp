@@ -108,6 +108,8 @@ void PlaySceneManager::Start()
 // 毎フレーム呼ばれます
 void PlaySceneManager::Update(const GameTimer& gameTimer)
 {
+	gameTimer;
+
 	// Qキーで次元の変更
 	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Q))
 	{

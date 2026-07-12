@@ -129,6 +129,9 @@ public:
 
 	// メインスクリーン
 	MainScreen* GetMainScreen() const { return m_mainScreen.get(); }
+
+	// レンダラー
+	SceneRenderer* GetSceneRenderer() const { return m_sceneRenderer.get(); }
 	 
 	//-----------------------------------------------------
 	// セッター
@@ -138,5 +141,5 @@ public:
 	void SetMainCamera(CameraBase* camera);
 
 	// 更新モード
-	void SetPlayFlag(UpdateMode mode) { m_updateMode = mode; }
+	void SetUpdateMode(UpdateMode mode) { m_updateMode = mode; }
 };

@@ -156,7 +156,6 @@
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
     <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h" />
     <ClInclude Include="Game\GamePlayScene\Player\MoveComponent.h" />
-    <ClInclude Include="Game\EditScene\EditScene.h" />
     <ClInclude Include="GameLib\Common\ResourceReader.h" />
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\StartCamera.h" />
@@ -197,7 +196,6 @@
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\MoveComponent.cpp" />
-    <ClCompile Include="Game\EditScene\EditScene.cpp" />
     <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\StartCamera.cpp" />

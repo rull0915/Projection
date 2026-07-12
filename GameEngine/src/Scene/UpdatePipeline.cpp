@@ -46,13 +46,14 @@ void UpdatePipeline::Update(const GameTimer& gameTimer, UpdateMode mode)
 	// 各オブジェクトの更新
 	m_objectManager->Update(gameTimer, playing);
 
+	m_rendererManager->ReflectReserves();
+
 	if (playing)
 	{
 		// 各管理クラスの予約反映
 		m_physicsManager->ReflectReserves();
 		m_physicsManager2D->ReflectReserves();
 		m_soundManager->ReflectReserves();
-		m_rendererManager->ReflectReserves();
 
 		// リジッドボディの更新
 		m_physicsManager->Update(gameTimer.GetElapsedTime());

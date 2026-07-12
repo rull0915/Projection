@@ -36,6 +36,7 @@ Game::Game() noexcept(false)
 	, m_timeAccumulator{}
 	, m_frameCount{}
 	, m_renderer{}
+	, m_editor{}
 	, m_gameTimer{}
 {
 	m_deviceResources = std::make_unique<DX::DeviceResources>();
@@ -59,6 +60,7 @@ void Game::Initialize(HWND window, int width, int height)
 {
 	m_deviceResources->SetWindow(window, width, height);
 
+	// デバイスの作成
 	m_deviceResources->CreateDeviceResources();
 	CreateDeviceDependentResources();
 
@@ -82,6 +84,9 @@ void Game::Initialize(HWND window, int width, int height)
 	
 	// imguiの初期化
 	ImguiManager::Initialize(window, device, context);
+
+	// エディターの生成
+	m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene());
 
 	// ====== シーンの登録 ====== //
 	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/GamePlayScene.scene");
@@ -155,15 +160,14 @@ void Game::Update(DX::StepTimer const& timer)
 		SceneManager::Instance().Update(m_gameTimer);
 
 #ifdef _DEBUG
+	// エディターの更新
+	m_editor->Update(m_gameTimer);
+
 	// Ctrl + Eキーでエディット
 	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
 		Input::Key::Get(Input::State::Down, Input::Key::Code::E))
 	{
-		SceneManager::Instance().RequestSceneChange
-		("Edit",
-			std::make_unique<Transition::Fade>(0.3f),
-			std::make_unique<Transition::Fade>(0.3f)
-		);
+		m_editor->Initialize();
 	}
 #endif
 }
@@ -191,12 +195,23 @@ void Game::Render()
 	// 現在のシーンの描画
 	SceneManager::Instance().Render(m_renderer);
 
+#ifdef _DEBUG
+
+	// エディターの描画
+	m_editor->Render(m_renderer);
+
+#endif
+
 	// 描画の終了 ----------------------------------------
 
 	m_deviceResources->PIXEndEvent();
 
+#ifdef _DEBUG
+
 	// Imguiの描画
 	ImguiManager::Render();
+
+#endif
 
 	// Show the new frame.
 	m_deviceResources->Present();

@@ -130,7 +130,3 @@ void StartCamera::Update(const GameTimer & gameTimer)
 		EventBus<GamePlayEvent>::Publish(GamePlayEvent::Start);
 	}
 }
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void StartCamera::LateUpdate(const GameTimer & gameTimer)
-{}

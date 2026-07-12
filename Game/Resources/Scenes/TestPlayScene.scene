@@ -80,15 +80,15 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                0.0,
-                                10.0
+                                -6.425350666046143,
+                                5.214536190032959,
+                                -6.368445873260498
                             ],
                             "m_localRotation": [
-                                -4.2878818493213976e-23,
-                                -1.5986788673403337e-15,
-                                2.6821409093713555e-08,
-                                1.0
+                                0.0,
+                                -0.8705724477767944,
+                                0.0,
+                                0.4920402765274048
                             ],
                             "m_localScale": [
                                 1.0,
@@ -137,6 +137,12 @@
                             "m_targetName": "Player"
                         },
                         "Type": "StartCamera"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "AudioListener"
                     }
                 ],
                 "m_isActive": true,
@@ -151,7 +157,7 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 0.0,
-                                -2.1800150871276855,
+                                -2.180009603500366,
                                 0.0
                             ],
                             "m_localRotation": [
@@ -170,7 +176,7 @@
                     },
                     {
                         "Data": {
-                            "m_isActive": true
+                            "m_isActive": false
                         },
                         "Type": "Player"
                     },
@@ -241,12 +247,6 @@
                             "m_isActive": true
                         },
                         "Type": "DepthCorrection"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "AudioListener"
                     }
                 ],
                 "m_isActive": true,
@@ -774,7 +774,7 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 3.0,
-                                1.0,
+                                0.8399841785430908,
                                 -10.0
                             ],
                             "m_localRotation": [
@@ -900,12 +900,12 @@
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_loop": false,
+                            "m_loop": true,
                             "m_pan": -0.10000000149011612,
                             "m_pitch": 0.0,
                             "m_playOnStart": true,
                             "m_soundName": "Dark_blue_night",
-                            "m_use3DAudio": true,
+                            "m_use3DAudio": false,
                             "m_volume": 1.0
                         },
                         "Type": "AudioSource"

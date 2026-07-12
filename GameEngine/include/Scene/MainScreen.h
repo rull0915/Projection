@@ -84,6 +84,9 @@ public:
 	// 拡大率
 	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
 
+	// 描画フラグ
+	void SetIsDraw(bool f) { m_draw = f; }
+
 private:
 
     //-----------------------------------------------------

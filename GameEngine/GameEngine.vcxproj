@@ -153,6 +153,7 @@ $(ProjectDir)ThirdParty;
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Editor\SceneEditor.cpp" />
     <ClCompile Include="include\Math\GameMath.cpp">
       <SubType>
       </SubType>
@@ -336,6 +337,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ComponentFactory.h" />
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
+    <ClInclude Include="include\Editor\SceneEditor.h" />
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
     <ClInclude Include="include\Scene\SceneRenderer.h" />

@@ -94,6 +94,4 @@ void TPSCamera::SetTarget(const std::string& name)
 
 void TPSCamera::OnDestroy()
 {
-	// 削除時はマウスを絶対モードに
-	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 }

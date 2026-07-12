@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "Renderer/Renderer.h"
+#include "Editor/SceneEditor.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -84,6 +85,9 @@ private:
 public:
 	// 描画担当
 	Renderer m_renderer;
+
+	// エディター
+	std::unique_ptr<SceneEditor> m_editor;
 
 	HWND GetWindow() const { return m_deviceResources->GetWindow(); }
 
