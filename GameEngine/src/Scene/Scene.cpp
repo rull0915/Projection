@@ -25,6 +25,7 @@
 #include "Renderer/Renderer.h"
 #include "Timer/GameTimer.h"
 #include "Scene/SceneRenderer.h"
+#include "Input/MouseInput.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -52,6 +53,11 @@ Scene::~Scene()
 // 初期化関数
 void Scene::Initialize()
 {
+	// マウスを表示
+	Input::Mouse::SetMouseVisible(true);
+
+	// マウスを絶対モードに変更
+	Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 }
 
 // 更新関数

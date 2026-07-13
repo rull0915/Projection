@@ -891,7 +891,6 @@
                     {
                         "Data": {
                             "m_cameraName": "MainCamera",
-                            "m_clearUIName": "ClearUI",
                             "m_isActive": true,
                             "m_playerName": "Player"
                         },
@@ -909,6 +908,15 @@
                             "m_volume": 1.0
                         },
                         "Type": "AudioSource"
+                    },
+                    {
+                        "Data": {
+                            "m_claerTimeScale": 0.20000000298023224,
+                            "m_clearUIName": "ClearUI",
+                            "m_isActive": false,
+                            "m_toClearTime": 1.0
+                        },
+                        "Type": "ClearEffect"
                     }
                 ],
                 "m_isActive": true,

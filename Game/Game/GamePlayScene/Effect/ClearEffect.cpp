@@ -15,6 +15,7 @@
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
 #include "Settings/TimeSettings.h"
+#include "GameLib/Transition/SlideTransition.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -36,7 +37,10 @@ ClearEffect::ClearEffect(IComponentOwner* own)
 
 // 生成直後に一度呼ばれます
 void ClearEffect::Awake()
-{}
+{
+	// スローに
+	TimeSettings::Instance().SetTimeScale(1.0f);
+}
 
 // 最初のUpdate関数の直線に一度呼ばれます
 void ClearEffect::Start()
@@ -52,11 +56,15 @@ void ClearEffect::Start()
 
 	// スローに
 	TimeSettings::Instance().SetTimeScale(m_claerTimeScale);
+
+	// アクティブ化
+	m_clearUI->SetActive(true);
 }
 
 void ClearEffect::OnDestroy()
 {
-	
+	// 時間設定を戻す
+	TimeSettings::Instance().SetTimeScale(1.0f);
 }
 
 // 毎フレーム呼ばれます
@@ -69,7 +77,10 @@ void ClearEffect::Update(const GameTimer & gameTimer)
 	if (m_sumTime > m_toClearTime)
 	{
 		// クリアシーンへの移行をリクエスト
-		SceneManager::Instance().RequestSceneChange("Clear");
+		SceneManager::Instance().RequestSceneChange("Clear",
+			std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
+			std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
+			);
 	}
 }
 

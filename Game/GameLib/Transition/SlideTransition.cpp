@@ -99,7 +99,7 @@ namespace Transition
 	bool Slide::InUpdate(const GameTimer& gameTimer)
 	{
 		// 経過時間の加算
-		m_elapsedTime += gameTimer.GetElapsedTime();
+		m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
 
 		// 補正
 		if (m_elapsedTime >= m_transSec) m_elapsedTime = m_transSec;
@@ -111,7 +111,7 @@ namespace Transition
 	bool Slide::OutUpdate(const GameTimer& gameTimer)
 	{
 		// 経過時間の加算
-		m_elapsedTime += gameTimer.GetElapsedTime();
+		m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
 
 		// 補正
 		if (m_elapsedTime >= m_transSec) m_elapsedTime = m_transSec;

@@ -20,27 +20,4 @@
       <UniqueIdentifier>{64d3c325-defb-4f05-8fd9-b13d316840e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <MeshContentTask Include="Models\Coin.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\Gem_Blue.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\Gem_Green.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\Gem_Pink.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\Key.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\Star.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Models\Thunder.obj">
-      <Filter>Models</Filter>
-    </MeshContentTask>
-  </ItemGroup>
 </Project>
