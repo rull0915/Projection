@@ -18,6 +18,9 @@
 #include "Input/KeyInput.h"
 #include "Scene/Scene.h"
 
+#include "Settings/TimeSettings.h"
+#include "Effect/ClearEffect.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -27,17 +30,14 @@ PlaySceneManager::PlaySceneManager(IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_cameraName{ "Camera" }
 	, m_playerName{ "Player" }
-	, m_clearUIName{ "ClearUI" }
 	, m_camera{ nullptr }
 	, m_player{ nullptr }
 	, m_dimentionManager{ nullptr }
 	, m_enemyManager{ nullptr }
-	, m_clearUI{ nullptr }
 	, m_eventIds{}
 {
 	ADD_PROPERTY(m_cameraName);
 	ADD_PROPERTY(m_playerName);
-	ADD_PROPERTY(m_clearUIName);
 }
 
 void PlaySceneManager::Awake()
@@ -61,11 +61,13 @@ void PlaySceneManager::Awake()
 			GamePlayEvent::Goal,
 			[this]()
 			{
-				if (m_clearUI) m_clearUI->SetActive(true);
+				// クリアUIの出現
+				if (auto* clear = GetComponent<ClearEffect>())
+				{
+					clear->SetActive(true);
+				}
 			}
 		));
-
-//	DirectX::SimpleMath::Vector2::CatmullRom();
 }
 
 void PlaySceneManager::OnDestroy()
@@ -94,9 +96,6 @@ void PlaySceneManager::Start()
 
 	// カメラ
 	m_camera = scene->GetObjectFinder()->FindWithNameInWorld(m_cameraName);
-
-	// クリアUI
-	m_clearUI = scene->GetObjectFinder()->FindWithNameInUI(m_clearUIName);
 
 	// 敵管理
 	m_enemyManager = static_cast<EnemyManager*>(scene->GetComponentRegister()->GetComponent<EnemyManager>());

@@ -164,6 +164,7 @@
     <ClInclude Include="Game\ComponentRegister.h" />
     <ClInclude Include="Game\ClearScene\ToSelectComponent.h" />
     <ClInclude Include="Game\SelectScene\Copmonents\SelectBlock.h" />
+    <ClInclude Include="Game\GamePlayScene\Effect\ClearEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="Game\ComponentRegister.cpp" />
     <ClCompile Include="Game\ClearScene\ToSelectComponent.cpp" />
     <ClCompile Include="Game\SelectScene\Copmonents\SelectBlock.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Effect\ClearEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

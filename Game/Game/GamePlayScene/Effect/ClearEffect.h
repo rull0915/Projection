@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : PlaySceneManager.h
+// ファイル名   : ClearEffect.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/27
 //
-// 概要 : ゲームプレイシーンの管理コンポーネント
+// 概要 : クリア時の演出、シーン遷移を行うコンポーネント
 //
 // 更新履歴 :
 // 2026/05/27 新規作成
@@ -11,77 +11,70 @@
 
 #pragma once
 
-#define IS_COMPONENT(PlaySceneManager)
+#define IS_COMPONENT(ClearEffect)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <vector>
-
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
-
-#include "Enemy/EnemyManager.h"
-#include "ChangeDimention/DimentionManager.h"
 #include "GameObject/GameObject.h"
-
-#include "Common/EventBus.h"
-#include "GamePlayEvent.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-class Canvas;
+
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class PlaySceneManager : public WorldComponentBase
+class ClearEffect : public WorldComponentBase
 {
 private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
 
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// 検索に使用する名前
-	std::string m_playerName;
-	std::string m_cameraName;
+	// クリアUIの名前
+	std::string m_clearUIName;
 
-	// カメラ
-	GameObject* m_camera;
+	// クリアUI
+	GameObject* m_clearUI;
 
-	// プレイヤー
-	GameObject* m_player;
+	// クリアシーンへ移行するまでの時間
+	float m_toClearTime;
 
-	// 次元管理
-	DimentionManager* m_dimentionManager;
+	// 現在の時間
+	float m_sumTime;
 
-	// 敵管理
-	EnemyManager* m_enemyManager;
-
-	// イベントのID
-	std::vector<EventBus<GamePlayEvent>::Token> m_eventIds;
+	// クリア時のタイムスケール
+	float m_claerTimeScale;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PlaySceneManager(IComponentOwner* own);
-	~PlaySceneManager() = default;
+	ClearEffect(IComponentOwner* own);
+	~ClearEffect() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void Awake() override;
+	void Start() override;
 
 	void OnDestroy() override;
 
-	void Start() override;
-
 	void Update(const GameTimer& gameTimer) override;
+	void LateUpdate(const GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -90,7 +83,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<PlaySceneManager>();
+		return TypeIDGenerator::GetID<ClearEffect>();
 	}
 
 	//-----------------------------------------------------
@@ -103,6 +96,4 @@ private:
 	// 内部実装
 	//-----------------------------------------------------
 
-	// 次元の切り替えを試みる関数
-	void TryChangeDimention();
 };

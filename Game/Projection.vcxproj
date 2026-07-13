@@ -227,6 +227,7 @@ $(ProjectDir)
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.h" />
     <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h" />
+    <ClInclude Include="Game\GamePlayScene\Effect\ClearEffect.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\AStarPathFinder.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraph2D.h" />
     <ClInclude Include="Game\GamePlayScene\Enemy\AI\NavigationGraphBase.h">
@@ -284,6 +285,7 @@ $(ProjectDir)
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.cpp" />
     <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Effect\ClearEffect.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraph2D.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\AI\NavigationGraphBase.cpp">
       <SubType>

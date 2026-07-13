@@ -32,7 +32,7 @@ def generate_component_register():
     # 再帰的に .h ファイルを検索
     for file in current_dir.rglob("*.h"):
         # ファイルを開く
-        with file.open("r", encoding="utf-8") as f:
+        with file.open("r", encoding="utf-8-sig") as f:
             content = f.read()
             # IS_COMPONENT(...) の文字列が含まれるか調べる
             result = contains_str_function(content, "IS_COMPONENT")
@@ -50,7 +50,7 @@ def generate_component_register():
                         results.append(r)
 
     # 書き込みファイルを開く
-    with open(f"{game_dir}/Game/ComponentRegister.cpp", "w", encoding="utf-8") as f:
+    with open(f"{game_dir}/Game/ComponentRegister.cpp", "w", encoding="utf-8-sig") as f:
         # ファイルに書き込む
 
         # ファイルの先頭に自動生成されたことを示すコメントを追加
