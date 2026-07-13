@@ -1,0 +1,76 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    3.9000000953674316,
+                    2.9000000953674316,
+                    -5.599999904632568
+                ],
+                "m_localRotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "m_localScale": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                ]
+            },
+            "Type": "Transform"
+        },
+        {
+            "Data": {
+                "m_alpha": 1.0,
+                "m_isActive": true,
+                "m_modelName": "Gem_Blue"
+            },
+            "Type": "ModelComponent"
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_targetScene": "GamePlay"
+            },
+            "Type": "SelectBlock"
+        },
+        {
+            "Data": {
+                "m_capsuleHeight": 2.299999952316284,
+                "m_isActive": true,
+                "m_isTrigger": false,
+                "m_layerNum": 0,
+                "m_localCenterPos": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_needInfo": false,
+                "m_radius": 0.5
+            },
+            "Type": "CapsuleCollider"
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isTrigger": true,
+                "m_layerNum": 0,
+                "m_localCenterPos": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_needInfo": false,
+                "m_radius": 2.200000047683716
+            },
+            "Type": "SphereCollider"
+        }
+    ],
+    "m_isActive": true,
+    "m_name": "Gem",
+    "m_tag": ""
+}
