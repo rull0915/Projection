@@ -19,7 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Models\Cube_Grass_Single.obj" />
+    <MeshContentTask Include="Models\Coin.obj" />
+    <MeshContentTask Include="Models\Gem_Blue.obj" />
+    <MeshContentTask Include="Models\Gem_Green.obj" />
+    <MeshContentTask Include="Models\Gem_Pink.obj" />
+    <MeshContentTask Include="Models\Key.obj" />
+    <MeshContentTask Include="Models\Star.obj" />
+    <MeshContentTask Include="Models\Thunder.obj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

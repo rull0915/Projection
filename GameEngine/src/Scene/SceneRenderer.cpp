@@ -61,7 +61,7 @@ void SceneRenderer::RenderWithContext(const RenderContext& context, Renderer& re
 	static const DirectX::SimpleMath::Color color = { 0, 1, 0, 1 };
 
 	// Worldのデバッグ描画
-	if (context.flags & DrawFlag::ColliderDebug && DebugManager::Instance().IsDrawDebugOnWorld())
+	if (context.flags & DrawFlag::WorldDebug && DebugManager::Instance().IsDrawDebugOnWorld())
 	{
 		for (auto& c : m_pScene->GetComponentRegister()->GetDebugRenders())
 		{
@@ -86,7 +86,7 @@ void SceneRenderer::RenderWithContext(const RenderContext& context, Renderer& re
 	}
 
 	// RectTransformのデバッグ描画
-	if (context.flags & DrawFlag::RectDebug && DebugManager::Instance().IsDrawDebugOnUI())
+	if (context.flags & DrawFlag::UIDebug && DebugManager::Instance().IsDrawDebugOnUI())
 	{
 		m_pScene->GetPipeline()->DrawRects(renderer, color);
 	}

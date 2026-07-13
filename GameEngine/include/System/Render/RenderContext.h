@@ -25,8 +25,8 @@ namespace DrawFlag
 {
 	static constexpr uint8_t World			= 1 << 0;
 	static constexpr uint8_t UI				= 1 << 1;
-	static constexpr uint8_t ColliderDebug	= 1 << 2;
-	static constexpr uint8_t RectDebug		= 1 << 3;
+	static constexpr uint8_t WorldDebug		= 1 << 2;
+	static constexpr uint8_t UIDebug		= 1 << 3;
 }
 
 // 描画の情報

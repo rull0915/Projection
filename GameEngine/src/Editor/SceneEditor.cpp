@@ -110,7 +110,7 @@ void SceneEditor::Render(Renderer& renderer)
 	m_pScene->GetSceneRenderer()->RenderWithContext(
 		{
 			m_sceneViewCamera, m_sceneView.get(), WindowManager::Instance().GetBackGroundColor(),
-			DrawFlag::World | DrawFlag::UI | DrawFlag::ColliderDebug | DrawFlag::RectDebug
+			m_gui.GetDrawSetting(),
 		}, renderer);
 }
 
@@ -121,6 +121,9 @@ void SceneEditor::TestPlay()
 
 	// フラグをオン
 	m_isPlaying = true;
+
+	// GUIリセット
+	m_gui.Reset();
 
 	// 保存
 	ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", m_pScene);

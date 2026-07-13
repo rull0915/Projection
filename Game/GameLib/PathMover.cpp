@@ -85,6 +85,36 @@ void PathMover::LateUpdate(const GameTimer & gameTimer)
 			// セット
 			m_pTransform->SetLocalRotation(q);
 		}
+			  break;
+		case 2:{
+
+			// 進行方向ベクトルを算出
+			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);
+
+			// 右方向を作成
+			DirectX::SimpleMath::Vector3 right = dir.Cross(DirectX::SimpleMath::Vector3::Up);
+
+			// 前方向が進行方向の右方向方向になるようなクォータニオンを作成する
+			DirectX::SimpleMath::Quaternion q = Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, right);
+
+			// セット
+			m_pTransform->SetLocalRotation(q);
+		}
+			break;
+		case 3:{
+
+			// 進行方向ベクトルを算出
+			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);
+
+			// 右方向を作成
+			DirectX::SimpleMath::Vector3 left = DirectX::SimpleMath::Vector3::Up.Cross(dir);
+
+			// 前方向が進行方向の右方向方向になるようなクォータニオンを作成する
+			DirectX::SimpleMath::Quaternion q = Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, left);
+
+			// セット
+			m_pTransform->SetLocalRotation(q);
+		}
 			break;
 		default:
 			break;

@@ -17,6 +17,7 @@
 #include "Input/KeyInput.h"
 
 #include "System/WindowManager.h"
+#include "System/Render/RenderContext.h"
 
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
@@ -34,6 +35,7 @@ EditGUI::EditGUI(Scene* pScene, std::function<void()> playFunc)
 	, m_project{ std::make_unique<ProjectWindow>() }
 	, m_info{ std::make_unique<InfoWindow>(pScene, this, playFunc) }
 	, m_nowType{ WindowType::None }
+	, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 {}
 
 EditGUI::~EditGUI()
@@ -72,35 +74,41 @@ void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourc
 	ImGui::SameLine();
 	ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical, 3.0f);
 
-	//ImGui::SameLine();
+	ImGui::SameLine();
 
-	//// 右側に並べる要素の合計幅を計算
-	//const ImGuiStyle& style = ImGui::GetStyle();
+	// 右側に並べる要素の合計幅を計算
+	const ImGuiStyle& style = ImGui::GetStyle();
 
-	//float totalWidth = 0.0f;
+	float totalWidth = 0.0f;
 
-	//totalWidth += ImGui::CalcTextSize("Grid").x + ImGui::GetFrameHeight();
-	//totalWidth += style.ItemInnerSpacing.x;
+	totalWidth += ImGui::CalcTextSize("World").x + ImGui::GetFrameHeight();
+	totalWidth += style.ItemInnerSpacing.x;
 
-	//totalWidth += ImGui::CalcTextSize("Gizmo").x + ImGui::GetFrameHeight();
-	//totalWidth += style.ItemInnerSpacing.x;
+	totalWidth += ImGui::CalcTextSize("UI").x + ImGui::GetFrameHeight();
+	totalWidth += style.ItemInnerSpacing.x;
 
-	//totalWidth += 60.0f; // Resetボタンの幅
+	totalWidth += ImGui::CalcTextSize("Debug").x + ImGui::GetFrameHeight();
+	totalWidth += style.ItemInnerSpacing.x;
 
-	//// 右寄せ
-	//ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth);
+	// 右寄せ
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth - 30);
 
-	//static bool grid;
-	//static bool gizmo;
+	bool drawWorld = m_sceneDrawSetting & DrawFlag::World;
+	bool drawUI = m_sceneDrawSetting & DrawFlag::UI;
+	bool drawDebug = m_sceneDrawSetting & DrawFlag::WorldDebug;
 
-	//// 描画
-	//ImGui::Checkbox("Grid", &grid);
+	// 描画
+	ImGui::Checkbox("World", &drawWorld);
 
-	//ImGui::SameLine();
-	//ImGui::Checkbox("Gizmo", &gizmo);
+	ImGui::SameLine();
+	ImGui::Checkbox("UI", &drawUI);
 
-	//ImGui::SameLine();
-	//ImGui::Button("Reset", ImVec2(45, 0));
+	ImGui::SameLine();
+	ImGui::Checkbox("Debug", &drawDebug);
+
+	m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::World) | (drawWorld ? DrawFlag::World : 0);
+	m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::UI) | (drawUI ? DrawFlag::UI : 0);
+	m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::WorldDebug) | (drawDebug ? DrawFlag::WorldDebug : 0);
 
 	// 描画
 	DrawImage(sceneView);

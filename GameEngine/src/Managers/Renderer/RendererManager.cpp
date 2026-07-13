@@ -32,6 +32,8 @@ RendererManager::~RendererManager()
 /// </summary>
 void RendererManager::DrawAll(Renderer& renderer)
 {
+	ReflectReserves();
+
 	// 管理している全てのコンポーネントの描画処理を呼び出す
 	for (auto& component : m_renderers)
 	{

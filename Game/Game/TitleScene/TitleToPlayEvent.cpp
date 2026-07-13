@@ -27,8 +27,8 @@ TitleToPlayEvent::TitleToPlayEvent(IComponentOwner* own)
 
 void TitleToPlayEvent::OnClicked()
 {
-	SceneManager::Instance().RequestSceneChange("GamePlay",
-		std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
-		std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
+	SceneManager::Instance().RequestSceneChange("Select",
+		std::make_unique<Transition::Slide>(0.5f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
+		std::make_unique<Transition::Slide>(0.5f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
 	);
 }

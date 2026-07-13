@@ -67,7 +67,7 @@ void Scene::Render(Renderer& renderer)
 	// メインの描画
 	m_sceneRenderer->RenderWithContext(
 		{ GetMainCamera(), m_mainScreen->GetRenderTarget(), WindowManager::Instance().GetBackGroundColor(),
-			DrawFlag::World | DrawFlag::UI | DrawFlag::ColliderDebug | DrawFlag::RectDebug },
+			DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug },
 		renderer
 	);
 }

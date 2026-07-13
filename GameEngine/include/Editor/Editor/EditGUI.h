@@ -57,6 +57,9 @@ private:
 	// クリックされているウィンドウ
 	WindowType m_nowType;
 
+	// シーンビューの描画設定
+	unsigned char m_sceneDrawSetting;
+
 public:
 
 	//-----------------------------------------------------
@@ -82,6 +85,9 @@ public:
 
 	// ウィンドウを取得する関数
 	WindowType GetWindowType() { return m_nowType; }
+
+	// 描画設定を取得する関数
+	unsigned char GetDrawSetting() const { return m_sceneDrawSetting; }
 
 private:
 
