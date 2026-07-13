@@ -247,7 +247,7 @@
                         "Data": {
                             "m_isActive": true,
                             "m_isTrigger": true,
-                            "m_layerNum": 0,
+                            "m_layerNum": 1,
                             "m_localCenterPos": [
                                 0.0,
                                 -0.8999999761581421,
@@ -267,7 +267,7 @@
                             "m_capsuleHeight": 3.5,
                             "m_isActive": true,
                             "m_isTrigger": false,
-                            "m_layerNum": 0,
+                            "m_layerNum": 1,
                             "m_localCenterPos": [
                                 0.0,
                                 0.800000011920929,
@@ -340,6 +340,22 @@
                             "m_targetName": "Player"
                         },
                         "Type": "TPSCamera"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_playerLayer": 1,
+                            "m_playerName": "Player"
+                        },
+                        "Type": "CameraCorrection"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Cube"
+                        },
+                        "Type": "ModelComponent"
                     }
                 ],
                 "m_isActive": true,

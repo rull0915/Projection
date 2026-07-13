@@ -7,9 +7,11 @@
 #include "GameLib/PathMover.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 #include "Game/ClearScene/ToSelectComponent.h"
+#include "Game/GamePlayScene/GameOverComponent.h"
 #include "Game/GamePlayScene/PlaySceneManager.h"
 #include "Game/TitleScene/TitleToPlayEvent.h"
 #include "Game/SelectScene/Copmonents/SelectBlock.h"
+#include "Game/GamePlayScene/Camera/CameraCorrection.h"
 #include "Game/GamePlayScene/Camera/ProjectionSmoothCamera.h"
 #include "Game/GamePlayScene/Camera/StartCamera.h"
 #include "Game/GamePlayScene/Camera/TPSCamera.h"
@@ -31,9 +33,11 @@ void ComponentRegister::RegistComponents()
     REGIST_TO_FACTORY(PathMover);
     REGIST_TO_FACTORY(ConvexPolygonCollider2D);
     REGIST_TO_FACTORY(ToSelectComponent);
+    REGIST_TO_FACTORY(GameOverComponent);
     REGIST_TO_FACTORY(PlaySceneManager);
     REGIST_TO_FACTORY(TitleToPlayEvent);
     REGIST_TO_FACTORY(SelectBlock);
+    REGIST_TO_FACTORY(CameraCorrection);
     REGIST_TO_FACTORY(ProjectionSmoothCamera);
     REGIST_TO_FACTORY(StartCamera);
     REGIST_TO_FACTORY(TPSCamera);

@@ -218,6 +218,7 @@ $(ProjectDir)
     <ClInclude Include="Game\ComponentRegister.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameInitializer.h" />
+    <ClInclude Include="Game\GamePlayScene\Camera\CameraCorrection.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.h">
       <SubType>
       </SubType>
@@ -249,6 +250,7 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\GameOverComponent.h" />
     <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h">
       <SubType>
       </SubType>
@@ -276,6 +278,7 @@ $(ProjectDir)
     <ClCompile Include="Game\ComponentRegister.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameInitializer.cpp" />
+    <ClCompile Include="Game\GamePlayScene\Camera\CameraCorrection.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.cpp">
       <SubType>
       </SubType>
@@ -301,6 +304,7 @@ $(ProjectDir)
     <ClCompile Include="Game\GamePlayScene\Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.cpp" />
+    <ClCompile Include="Game\GamePlayScene\GameOverComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\MoveComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\Player.cpp" />
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />

@@ -14,11 +14,11 @@
 
 #include "Player/Player.h"
 #include "Camera/TPSCamera.h"
+#include "Camera/CameraCorrection.h"
 
 #include "Input/KeyInput.h"
 #include "Scene/Scene.h"
 
-#include "Settings/TimeSettings.h"
 #include "Effect/ClearEffect.h"
 
 //====================================================//
@@ -132,6 +132,7 @@ void PlaySceneManager::TryChangeDimention()
 	{
 		// TPSをアクティブ化
 		m_camera->GetComponent<TPSCamera>()->SetActive(true);
+		m_camera->GetComponent<CameraCorrection>()->SetActive(true);
 
 		// カメラの親子関係を解除
 		m_camera->GetComponent<Transform>()->SetParent(nullptr);
@@ -140,6 +141,7 @@ void PlaySceneManager::TryChangeDimention()
 	{
 		// TPSカメラを非アクティブ化
 		m_camera->GetComponent<TPSCamera>()->SetActive(false);
+		m_camera->GetComponent<CameraCorrection>()->SetActive(false);
 
 		// カメラをプレイヤーの子に設定
 		m_camera->GetComponent<Transform>()->SetParent(m_player->GetComponent<Transform>());

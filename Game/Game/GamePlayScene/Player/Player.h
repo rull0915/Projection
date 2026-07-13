@@ -92,6 +92,9 @@ public:
 	LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }
 	LandingCandidatePoints2D* GetLandingPoints2D() const { return m_lastPoints2d; }
 
+	// 2Dかどうか
+	bool Is2D() const { return m_is2D; }
+
 	// ID取得
 	unsigned int GetID() override
 	{

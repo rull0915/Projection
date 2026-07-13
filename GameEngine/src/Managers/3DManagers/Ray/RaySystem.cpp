@@ -64,6 +64,8 @@ bool RaySystem::RayCast(const std::vector<ColliderBase*>& colliders, const Ray& 
 	// 全てのコライダーを検索
 	for (ColliderBase* collider : colliders)
 	{
+		if (collider->IsTrigger()) continue;
+
 		// レイヤー確認
 		int layer = collider->GetLayer();
 		if (!(layerMask & (1ULL << layer))) continue;

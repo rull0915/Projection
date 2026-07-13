@@ -1,33 +1,36 @@
 ﻿//====================================================//
-// ファイル名   : TPSCamera.h
+// ファイル名   : CameraCorrection.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/07
+// 作成日       : 2026/05/27
 //
-// 概要 : カメラをTPS用に動かすコンポーネント
+// 概要 : カメラ補正コンポーネント
 //
 // 更新履歴 :
-// 2026/06/07 新規作成
+// 2026/05/27 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(TPSCamera)
+#define IS_COMPONENT(CameraCorrection)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
-#include "Components/World/Transform/Transform.h"
+#include "GameObject/Interface/IComponentOwner.h"
+
+#include "GameObject/GameObject.h"
+#include "TPSCamera.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-
+class Scene;
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class TPSCamera : public WorldComponentBase
+class CameraCorrection : public WorldComponentBase
 {
 private:
 
@@ -39,68 +42,53 @@ private:
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
+	
+	// カメラ
+	TPSCamera* m_camera;
 
-	// ターゲットの名前
-	std::string m_targetName;
+	// プレイヤー
+	GameObject* m_player;
 
-	// 感度
-	float m_sensitivity;
+	// プレイヤーのオブジェクト名
+	std::string m_playerName;
 
-	float m_distance;
+	// プレイヤーのレイヤー
+	int m_playerLayer;
 
-	Transform* m_pOwnTransform;
-	Transform* m_pTargetTransform;
-
-	DirectX::SimpleMath::Vector2 m_angle;
-
-	// 位置
-	DirectX::SimpleMath::Vector3 m_position;
+	// シーンポインタ
+	Scene* m_pScene;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	TPSCamera(IComponentOwner* owner)
-		: WorldComponentBase(owner)
-		, m_targetName{ "" }
-		, m_pOwnTransform{ nullptr }
-		, m_pTargetTransform{ nullptr }
-		, m_angle{ 0.0f, 0.0f }
-		, m_sensitivity{ 0.5f }
-		, m_distance{ 5.0f }
-		, m_position{ 0, 0, 0 }
-	{
-		ADD_PROPERTY(m_targetName);
-		ADD_PROPERTY(m_sensitivity);
-		ADD_PROPERTY(m_distance);
-	}
-
-	~TPSCamera() = default;
+	CameraCorrection(IComponentOwner* own);
+	~CameraCorrection() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void Awake() override;
-
 	void Start() override;
 
+	void Update(const GameTimer& gameTimer) override;
 	void LateUpdate(const GameTimer& gameTimer) override;
 
-	void SetTarget(const std::string& name);
+	//-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
 
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<TPSCamera>();
+		return TypeIDGenerator::GetID<CameraCorrection>();
 	}
 
-	// 理想位置
-	DirectX::SimpleMath::Vector3 GetIdealPosition() const { return m_position; }
-
-	// 回転
-	DirectX::SimpleMath::Vector2 GetRotation() const { return m_angle; }
+	//-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
 
 private:
 

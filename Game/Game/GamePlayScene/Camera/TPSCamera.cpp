@@ -68,13 +68,7 @@ void TPSCamera::LateUpdate(const GameTimer& gameTimer)
 		* m_distance;
 
 	// 位置を設定
-	m_pOwnTransform->SetLocalPosition(pos);
-
-	// 角度を設定
-	m_pOwnTransform->SetLocalEulerAngle({ -m_angle.x, m_angle.y, 0.0f });
-
-	// ターゲットの角度を設置
-	m_pTargetTransform->SetLocalEulerAngle({ 0, m_angle.y, 0.0f });
+	m_position = pos;
 }
 
 void TPSCamera::SetTarget(const std::string& name)
@@ -90,8 +84,4 @@ void TPSCamera::SetTarget(const std::string& name)
 	{
 		m_pTargetTransform = obj->GetComponent<Transform>();
 	}
-}
-
-void TPSCamera::OnDestroy()
-{
 }

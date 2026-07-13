@@ -143,6 +143,14 @@
                             "m_isActive": true
                         },
                         "Type": "AudioListener"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": false,
+                            "m_playerLayer": 10,
+                            "m_playerName": "Player"
+                        },
+                        "Type": "CameraCorrection"
                     }
                 ],
                 "m_isActive": true,
@@ -334,9 +342,9 @@
                                 1.0
                             ],
                             "m_localScale": [
-                                3.0,
-                                1.0,
-                                3.0
+                                2.0,
+                                4.199999809265137,
+                                2.0
                             ]
                         },
                         "Type": "Transform"
@@ -352,9 +360,9 @@
                                 0.0
                             ],
                             "m_localSize": [
-                                1.0,
-                                1.0,
-                                1.0
+                                1.899999976158142,
+                                0.2199999988079071,
+                                1.899999976158142
                             ],
                             "m_needInfo": false
                         },
@@ -364,7 +372,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelName": "Platform_2x2_Empty"
                         },
                         "Type": "ModelComponent"
                     },
@@ -409,9 +417,9 @@
                                 1.0
                             ],
                             "m_localScale": [
-                                3.0,
-                                1.0,
-                                3.0
+                                4.0,
+                                3.9000000953674316,
+                                4.0
                             ]
                         },
                         "Type": "Transform"
@@ -427,9 +435,9 @@
                                 0.0
                             ],
                             "m_localSize": [
-                                1.0,
-                                1.0,
-                                1.0
+                                0.800000011920929,
+                                0.23000000417232513,
+                                0.800000011920929
                             ],
                             "m_needInfo": false
                         },
@@ -439,7 +447,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelName": "Platform_1x1_Empty"
                         },
                         "Type": "ModelComponent"
                     },
@@ -484,9 +492,9 @@
                                 1.0
                             ],
                             "m_localScale": [
-                                3.0,
-                                1.0,
-                                3.0
+                                1.899999976158142,
+                                1.899999976158142,
+                                1.899999976158142
                             ]
                         },
                         "Type": "Transform"
@@ -498,13 +506,13 @@
                             "m_layerNum": 0,
                             "m_localCenterPos": [
                                 0.0,
-                                0.0,
+                                -0.6000000238418579,
                                 0.0
                             ],
                             "m_localSize": [
-                                1.0,
-                                1.0,
-                                1.0
+                                2.0999999046325684,
+                                1.2999999523162842,
+                                2.0999999046325684
                             ],
                             "m_needInfo": false
                         },
@@ -514,7 +522,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelName": "Platform_2x2"
                         },
                         "Type": "ModelComponent"
                     },
@@ -548,9 +556,9 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                4.0,
-                                5.0
+                                0.10000000149011612,
+                                7.300000190734863,
+                                0.0
                             ],
                             "m_localRotation": [
                                 0.0,
@@ -559,9 +567,9 @@
                                 1.0
                             ],
                             "m_localScale": [
-                                3.0,
-                                1.0,
-                                3.0
+                                4.0,
+                                6.099999904632568,
+                                4.0
                             ]
                         },
                         "Type": "Transform"
@@ -577,9 +585,9 @@
                                 0.0
                             ],
                             "m_localSize": [
-                                1.0,
-                                1.0,
-                                1.0
+                                0.800000011920929,
+                                0.2199999988079071,
+                                0.800000011920929
                             ],
                             "m_needInfo": false
                         },
@@ -589,7 +597,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelName": "Platform_1x1_Empty"
                         },
                         "Type": "ModelComponent"
                     },
@@ -623,9 +631,9 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                7.0,
-                                3.0
+                                0.20000000298023224,
+                                4.699999809265137,
+                                5.0
                             ],
                             "m_localRotation": [
                                 7.450582373280668e-09,
@@ -634,9 +642,9 @@
                                 1.0
                             ],
                             "m_localScale": [
-                                3.0,
                                 1.0,
-                                3.0
+                                1.0,
+                                1.0
                             ]
                         },
                         "Type": "Transform"
@@ -648,13 +656,13 @@
                             "m_layerNum": 0,
                             "m_localCenterPos": [
                                 0.0,
-                                0.0,
+                                -1.100000023841858,
                                 0.0
                             ],
                             "m_localSize": [
-                                1.0,
-                                1.0,
-                                1.0
+                                3.5999999046325684,
+                                2.299999952316284,
+                                3.5999999046325684
                             ],
                             "m_needInfo": false
                         },
@@ -664,7 +672,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelName": "Platform_4x4"
                         },
                         "Type": "ModelComponent"
                     },
@@ -710,8 +718,8 @@
                             ],
                             "m_localScale": [
                                 1.0,
-                                6.0,
-                                3.0
+                                24.100000381469727,
+                                3.5999999046325684
                             ]
                         },
                         "Type": "Transform"
@@ -728,8 +736,8 @@
                             ],
                             "m_localSize": [
                                 1.0,
-                                1.0,
-                                1.0
+                                0.2199999988079071,
+                                0.800000011920929
                             ],
                             "m_needInfo": false
                         },
@@ -739,7 +747,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelName": "Platform_1x1_Empty"
                         },
                         "Type": "ModelComponent"
                     },
@@ -917,6 +925,15 @@
                             "m_toClearTime": 1.0
                         },
                         "Type": "ClearEffect"
+                    },
+                    {
+                        "Data": {
+                            "m_border2D": -30.0,
+                            "m_border3D": -30.0,
+                            "m_isActive": true,
+                            "m_playerName": "Player"
+                        },
+                        "Type": "GameOverComponent"
                     }
                 ],
                 "m_isActive": true,

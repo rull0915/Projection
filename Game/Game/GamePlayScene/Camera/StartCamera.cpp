@@ -16,6 +16,7 @@
 #include "Scene/Scene.h"
 
 #include "TPSCamera.h"
+#include "CameraCorrection.h"
 #include "../GamePlayEvent.h"
 #include "Common/EventBus.h"
 
@@ -122,6 +123,12 @@ void StartCamera::Update(const GameTimer & gameTimer)
 
 		// TPSカメラを持っていたらアクティブにする
 		if (auto* c = GetComponent<TPSCamera>())
+		{
+			c->SetActive(true);
+		}
+
+		// カメラ補正を持っていたらアクティブにする
+		if (auto* c = GetComponent<CameraCorrection>())
 		{
 			c->SetActive(true);
 		}

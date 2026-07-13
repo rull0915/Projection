@@ -25,6 +25,8 @@ DirectX::SimpleMath::Quaternion Math::FromToRotation(DirectX::SimpleMath::Vector
 	// 外積を用いて回転軸を求める
 	DirectX::SimpleMath::Vector3 cross = from.Cross(to);
 
+	if (cross == DirectX::SimpleMath::Vector3::Zero) return DirectX::SimpleMath::Quaternion::Identity;
+
 	// 正規化
 	cross.Normalize();
 

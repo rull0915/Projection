@@ -1,23 +1,25 @@
 ﻿//====================================================//
-// ファイル名   : TPSCamera.h
+// ファイル名   : GameOverComponent.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/07
+// 作成日       : 2026/05/27
 //
-// 概要 : カメラをTPS用に動かすコンポーネント
+// 概要 : ゲームオーバーコンポーネント
 //
 // 更新履歴 :
-// 2026/06/07 新規作成
+// 2026/05/27 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(TPSCamera)
+#define IS_COMPONENT(GameOverComponent)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
-#include "Components/World/Transform/Transform.h"
+#include "GameObject/Interface/IComponentOwner.h"
+#include "GameObject/GameObject.h"
+#include "Player/Player.h"
 
 //====================================================//
 // 前方宣言
@@ -27,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class TPSCamera : public WorldComponentBase
+class GameOverComponent : public WorldComponentBase
 {
 private:
 
@@ -40,67 +42,50 @@ private:
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// ターゲットの名前
-	std::string m_targetName;
+	// プレイヤー名
+	std::string m_playerName;
 
-	// 感度
-	float m_sensitivity;
+	// プレイヤー
+	GameObject* m_player;
 
-	float m_distance;
+	// プレイヤーコンポーネント
+	Player* m_playerComponent;
 
-	Transform* m_pOwnTransform;
-	Transform* m_pTargetTransform;
-
-	DirectX::SimpleMath::Vector2 m_angle;
-
-	// 位置
-	DirectX::SimpleMath::Vector3 m_position;
+	// ゲームオーバーボーダー
+	float m_border3D;
+	float m_border2D;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	TPSCamera(IComponentOwner* owner)
-		: WorldComponentBase(owner)
-		, m_targetName{ "" }
-		, m_pOwnTransform{ nullptr }
-		, m_pTargetTransform{ nullptr }
-		, m_angle{ 0.0f, 0.0f }
-		, m_sensitivity{ 0.5f }
-		, m_distance{ 5.0f }
-		, m_position{ 0, 0, 0 }
-	{
-		ADD_PROPERTY(m_targetName);
-		ADD_PROPERTY(m_sensitivity);
-		ADD_PROPERTY(m_distance);
-	}
-
-	~TPSCamera() = default;
+	GameOverComponent(IComponentOwner* own);
+	~GameOverComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void Awake() override;
-
 	void Start() override;
 
+	void Update(const GameTimer& gameTimer) override;
 	void LateUpdate(const GameTimer& gameTimer) override;
 
-	void SetTarget(const std::string& name);
+	//-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
 
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<TPSCamera>();
+		return TypeIDGenerator::GetID<GameOverComponent>();
 	}
 
-	// 理想位置
-	DirectX::SimpleMath::Vector3 GetIdealPosition() const { return m_position; }
-
-	// 回転
-	DirectX::SimpleMath::Vector2 GetRotation() const { return m_angle; }
+	//-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
 
 private:
 
