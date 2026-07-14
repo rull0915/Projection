@@ -82,6 +82,8 @@ void EnemyJumpState::Enter()
 
 void EnemyJumpState::Update(const GameTimer& timer)
 {
+	timer;
+
 	// トランスフォームを取得
 	Transform* pTransform = GetOwner()->GetComponent<Transform>();
 

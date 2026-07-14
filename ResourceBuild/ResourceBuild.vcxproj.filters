@@ -20,4 +20,12 @@
       <UniqueIdentifier>{64d3c325-defb-4f05-8fd9-b13d316840e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Models\flag.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Models\colormap.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

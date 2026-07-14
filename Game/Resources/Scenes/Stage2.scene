@@ -165,13 +165,13 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 0.0,
-                                -2.180009603500366,
+                                0.8199902772903442,
                                 0.0
                             ],
                             "m_localRotation": [
+                                -0.0,
                                 0.0,
-                                0.0,
-                                0.0,
+                                -0.0,
                                 1.0
                             ],
                             "m_localScale": [
@@ -269,70 +269,7 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 0.0,
-                                10.0,
-                                0.0
-                            ],
-                            "m_localRotation": [
                                 0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                0.30000001192092896,
-                                0.30000001192092896,
-                                0.30000001192092896
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Goal"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": true,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                3.0,
-                                3.0,
-                                3.0
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "GoalComponent"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Goal",
-                "m_tag": ""
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.0,
-                                -3.0,
                                 0.0
                             ],
                             "m_localRotation": [
@@ -400,7 +337,90 @@
                 "m_tag": "Floor"
             },
             {
-                "Children": [],
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        -5.960464477539063e-08,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        0.9999998807907104,
+                                        1.025640845298767,
+                                        0.9999998807907104
+                                    ]
+                                },
+                                "Type": "Transform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_isActive": true,
+                                    "m_modelName": "flag"
+                                },
+                                "Type": "ModelComponent"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_isTrigger": true,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.0,
+                                        0.5,
+                                        0.0
+                                    ],
+                                    "m_localSize": [
+                                        0.10000000149011612,
+                                        0.8999999761581421,
+                                        0.10000000149011612
+                                    ],
+                                    "m_needInfo": false
+                                },
+                                "Type": "BoxCollider"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true
+                                },
+                                "Type": "GoalComponent"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_isTrigger": true,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.23000000417232513,
+                                        0.699999988079071,
+                                        0.0
+                                    ],
+                                    "m_localSize": [
+                                        0.30000001192092896,
+                                        0.33000001311302185,
+                                        0.10000000149011612
+                                    ],
+                                    "m_needInfo": false
+                                },
+                                "Type": "BoxCollider"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "Goal",
+                        "m_tag": ""
+                    }
+                ],
                 "Components": [
                     {
                         "Data": {
@@ -481,391 +501,6 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                2.0,
-                                -1.5,
-                                -5.0
-                            ],
-                            "m_localRotation": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.899999976158142,
-                                1.899999976158142,
-                                1.899999976158142
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                -0.6000000238418579,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                2.0999999046325684,
-                                1.2999999523162842,
-                                2.0999999046325684
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Platform_2x2"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "ChangeColliderComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints2D"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Cube3",
-                "m_tag": "Floor"
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.10000000149011612,
-                                7.300000190734863,
-                                0.0
-                            ],
-                            "m_localRotation": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                4.0,
-                                6.099999904632568,
-                                4.0
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                0.800000011920929,
-                                0.2199999988079071,
-                                0.800000011920929
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Platform_1x1_Empty"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "ChangeColliderComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints2D"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Cube4",
-                "m_tag": "Floor"
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.20000000298023224,
-                                4.699999809265137,
-                                5.0
-                            ],
-                            "m_localRotation": [
-                                7.450582373280668e-09,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                -1.100000023841858,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                3.5999999046325684,
-                                2.299999952316284,
-                                3.5999999046325684
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Platform_4x4"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "ChangeColliderComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints2D"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Cube5",
-                "m_tag": "Floor"
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                1.0,
-                                3.0,
-                                -10.0
-                            ],
-                            "m_localRotation": [
-                                7.450582373280668e-09,
-                                0.0,
-                                -0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.0,
-                                24.100000381469727,
-                                3.5999999046325684
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                1.0,
-                                0.2199999988079071,
-                                0.800000011920929
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Platform_1x1_Empty"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "ChangeColliderComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints2D"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Cube6",
-                "m_tag": "Floor"
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                3.0,
-                                0.8399841785430908,
-                                -10.0
-                            ],
-                            "m_localRotation": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                0.4000000059604645,
-                                0.4000000059604645,
-                                0.4000000059604645
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": false
-                        },
-                        "Type": "Enemy"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Enemy"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.20000000298023224,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                1.2999999523162842,
-                                2.0999999046325684,
-                                1.2999999523162842
-                            ],
-                            "m_needInfo": false
-                        },
-                        "Type": "BoxCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isStatic": false,
-                            "m_linearDamping": 0.0,
-                            "m_mass": 1.0,
-                            "m_useGravity": true
-                        },
-                        "Type": "RigidBody"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "ChangeColliderComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "DepthCorrection"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Enemy",
-                "m_tag": ""
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
                                 0.0,
                                 0.0,
                                 0.0
@@ -931,6 +566,7 @@
                             "m_border2D": -30.0,
                             "m_border3D": -30.0,
                             "m_isActive": true,
+                            "m_overSceneName": "GameOver",
                             "m_playerName": "Player"
                         },
                         "Type": "GameOverComponent"

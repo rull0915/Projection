@@ -21,15 +21,6 @@
 // 関数の実体宣言
 //====================================================//
 
-void DepthCorrection::Awake()
-{}
-
-void DepthCorrection::Start()
-{}
-
-void DepthCorrection::Update(const GameTimer & gameTimer)
-{}
-
 void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
 {
 	// 床にぶつかっていた場合

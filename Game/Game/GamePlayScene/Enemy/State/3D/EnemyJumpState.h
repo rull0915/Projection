@@ -55,6 +55,8 @@ public:
 		, m_targetPosition{ 0, 0, 0 }
 		, m_moveVec{ 0, 0, 0 }
 		, m_moveSpeed{ 0 }
+		, m_arrivedXZ{ 0 }
+		, m_arrivedY{ 0 }
 	{}
 
 	// Stateの純粋仮想関数の実装

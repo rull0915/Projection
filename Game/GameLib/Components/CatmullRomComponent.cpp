@@ -36,22 +36,6 @@ CatmullRomComponent::CatmullRomComponent(IComponentOwner* own)
 	ADD_PROPERTY(m_p3);
 }
 
-// 生成直後に一度呼ばれます
-void CatmullRomComponent::Awake()
-{}
-
-// 最初のUpdate関数の直線に一度呼ばれます
-void CatmullRomComponent::Start()
-{}
-
-// 毎フレーム呼ばれます
-void CatmullRomComponent::Update(const GameTimer & gameTimer)
-{}
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void CatmullRomComponent::LateUpdate(const GameTimer & gameTimer)
-{}
-
 void CatmullRomComponent::DebugRender(Renderer & renderer, const DirectX::SimpleMath::Color & color)
 {
 	// 描画

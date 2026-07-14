@@ -83,7 +83,3 @@ void ClearEffect::Update(const GameTimer & gameTimer)
 			);
 	}
 }
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void ClearEffect::LateUpdate(const GameTimer & gameTimer)
-{}

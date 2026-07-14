@@ -210,9 +210,10 @@ $(ProjectDir)
     </ClInclude>
     <ClInclude Include="GameLib\Colliders\ConvexPolygonCollider2D.h" />
     <ClInclude Include="GameLib\Common\ResourceReader.h" />
-    <ClInclude Include="GameLib\CatmullRomComponent.h" />
+    <ClInclude Include="GameLib\Components\CatmullRomComponent.h" />
+    <ClInclude Include="GameLib\Components\ClickSE.h" />
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
-    <ClInclude Include="GameLib\PathMover.h" />
+    <ClInclude Include="GameLib\Components\PathMover.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
     <ClInclude Include="Game\ClearScene\SwingComponent.h" />
     <ClInclude Include="Game\ClearScene\ToSelectComponent.h" />
@@ -256,7 +257,6 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Game\GamePlayScene\Player\MoveComponent.h" />
     <ClInclude Include="Game\GamePlayScene\Player\Player.h" />
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
@@ -271,9 +271,10 @@ $(ProjectDir)
     </ClCompile>
     <ClCompile Include="GameLib\Colliders\ConvexPolygonCollider2D.cpp" />
     <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
-    <ClCompile Include="GameLib\CatmullRomComponent.cpp" />
+    <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp" />
+    <ClCompile Include="GameLib\Components\ClickSE.cpp" />
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
-    <ClCompile Include="GameLib\PathMover.cpp" />
+    <ClCompile Include="GameLib\Components\PathMover.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\ClearScene\SwingComponent.cpp" />
     <ClCompile Include="Game\ClearScene\ToSelectComponent.cpp" />
@@ -307,7 +308,6 @@ $(ProjectDir)
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyJumpState.cpp" />
     <ClCompile Include="Game\GamePlayScene\Enemy\State\3D\EnemyMoveState.cpp" />
     <ClCompile Include="Game\GamePlayScene\GameOverComponent.cpp" />
-    <ClCompile Include="Game\GamePlayScene\Player\MoveComponent.cpp" />
     <ClCompile Include="Game\GamePlayScene\Player\Player.cpp" />
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />

@@ -70,11 +70,9 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Awake() override;
 	void Start() override;
 
 	void Update(const GameTimer& gameTimer) override;
-	void LateUpdate(const GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター

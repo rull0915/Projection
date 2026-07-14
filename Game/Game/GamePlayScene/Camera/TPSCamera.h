@@ -86,6 +86,9 @@ public:
 
 	void Start() override;
 
+	void OnEnable() override;
+	void OnDisable() override;
+
 	void Update(const GameTimer& gameTimer) override;
 
 	void SetTarget(const std::string& name);

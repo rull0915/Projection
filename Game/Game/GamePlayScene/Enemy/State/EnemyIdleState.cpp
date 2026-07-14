@@ -23,6 +23,8 @@ void EnemyIdleState::Enter()
 
 void EnemyIdleState::Update(const GameTimer& timer)
 {
+	timer;
+
 	// 道が更新されていたらMoveに移行
 	if (GetOwner()->NeedUpdateWay())
 	{

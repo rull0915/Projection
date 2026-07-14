@@ -12,6 +12,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Editor/SceneEditor.h"
+#include "Scene/Transition/TransitionBase.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -82,15 +83,18 @@ private:
 	// ゲームタイマー
 	GameTimer m_gameTimer;
 
-public:
 	// 描画担当
 	Renderer m_renderer;
 
 	// エディター
 	std::unique_ptr<SceneEditor> m_editor;
 
-	HWND GetWindow() const { return m_deviceResources->GetWindow(); }
+	// 終了演出
+	std::unique_ptr<Transition::Base> m_exitTrans;
 
 private:
 	void TitleNameUpdate(float elapsedTime);
+
+public:
+	void RequestExit();
 };

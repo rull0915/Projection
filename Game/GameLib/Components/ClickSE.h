@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : MoveComponent.h
+// ファイル名   : ClickSE.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/27
 //
-// 概要 : 
+// 概要 : ボタンクリック時にSEを鳴らすコンポーネント
 //
 // 更新履歴 :
 // 2026/05/27 新規作成
@@ -11,13 +11,12 @@
 
 #pragma once
 
-#define IS_COMPONENT(MoveComponent)
+#define IS_COMPONENT(ClickSE)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/WorldComponentBase.h"
-#include "GameObject/Interface/IComponentOwner.h"
+#include "Components/UI/Behaviour/ButtonListenerBase.h"
 
 //====================================================//
 // 前方宣言
@@ -27,37 +26,21 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class MoveComponent : public WorldComponentBase
+class ClickSE : public ButtonListenerBase
 {
-private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	MoveComponent(IComponentOwner* own);
-	~MoveComponent() = default;
+	ClickSE(IComponentOwner* own);
+	~ClickSE() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Awake() override;
-	void Start() override;
-
-	void Update(const GameTimer& gameTimer) override;
-	void LateUpdate(const GameTimer& gameTimer) override;
+	void OnClicked() override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -66,7 +49,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<MoveComponent>();
+		return TypeIDGenerator::GetID<ClickSE>();
 	}
 
 	//-----------------------------------------------------
@@ -78,4 +61,5 @@ private:
 	//-----------------------------------------------------
 	// 内部実装
 	//-----------------------------------------------------
+
 };

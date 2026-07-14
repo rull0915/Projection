@@ -30,10 +30,6 @@ void SwingComponent::Awake()
 	m_rectTransform = GetComponent<RectTransform>();
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
-void SwingComponent::Start()
-{}
-
 // 毎フレーム呼ばれます
 void SwingComponent::Update(const GameTimer & gameTimer)
 {
@@ -43,7 +39,3 @@ void SwingComponent::Update(const GameTimer & gameTimer)
 	// 揺らす
 	m_rectTransform->SetRotation(std::sinf(e * 2) * 0.5f);
 }
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void SwingComponent::LateUpdate(const GameTimer & gameTimer)
-{}

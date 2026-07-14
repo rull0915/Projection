@@ -80,6 +80,8 @@ void Enemy2DMoveState::Enter()
 
 void Enemy2DMoveState::Update(const GameTimer& timer)
 {
+	timer;
+
 	// トランスフォームを取得
 	Transform* pTransform = GetOwner()->GetComponent<Transform>();
 		

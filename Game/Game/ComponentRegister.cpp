@@ -3,9 +3,10 @@
 
 #include "pch.h"
 #include "ComponentRegister.h"
-#include "GameLib/CatmullRomComponent.h"
-#include "GameLib/PathMover.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
+#include "GameLib/Components/CatmullRomComponent.h"
+#include "GameLib/Components/ClickSE.h"
+#include "GameLib/Components/PathMover.h"
 #include "Game/ClearScene/SwingComponent.h"
 #include "Game/ClearScene/ToSelectComponent.h"
 #include "Game/GamePlayScene/GameOverComponent.h"
@@ -22,7 +23,6 @@
 #include "Game/GamePlayScene/Effect/ClearEffect.h"
 #include "Game/GamePlayScene/Enemy/Enemy.h"
 #include "Game/GamePlayScene/Enemy/EnemyManager.h"
-#include "Game/GamePlayScene/Player/MoveComponent.h"
 #include "Game/GamePlayScene/Player/Player.h"
 #include "Game/GamePlayScene/Stage/Components/GoalComponent.h"
 #include "Game/GamePlayScene/Enemy/Components/LandingCandidatePoints.h"
@@ -30,9 +30,10 @@
 
 void ComponentRegister::RegistComponents()
 {
-    REGIST_TO_FACTORY(CatmullRomComponent);
-    REGIST_TO_FACTORY(PathMover);
     REGIST_TO_FACTORY(ConvexPolygonCollider2D);
+    REGIST_TO_FACTORY(CatmullRomComponent);
+    REGIST_TO_FACTORY(ClickSE);
+    REGIST_TO_FACTORY(PathMover);
     REGIST_TO_FACTORY(SwingComponent);
     REGIST_TO_FACTORY(ToSelectComponent);
     REGIST_TO_FACTORY(GameOverComponent);
@@ -49,7 +50,6 @@ void ComponentRegister::RegistComponents()
     REGIST_TO_FACTORY(ClearEffect);
     REGIST_TO_FACTORY(Enemy);
     REGIST_TO_FACTORY(EnemyManager);
-    REGIST_TO_FACTORY(MoveComponent);
     REGIST_TO_FACTORY(Player);
     REGIST_TO_FACTORY(GoalComponent);
     REGIST_TO_FACTORY(LandingCandidatePoints);

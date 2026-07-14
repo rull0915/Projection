@@ -23,7 +23,7 @@
 // その他
 #include "Common/Random.h"
 #include "GameLib/Common/ResourceReader.h"
-#include "Scene/Transition/FadeTransition.h"
+#include "GameLib/Transition/SlideTransition.h"
 
 extern void ExitGame() noexcept;
 
@@ -51,6 +51,9 @@ Game::Game() noexcept(false)
 /// </summary>
 Game::~Game()
 {
+	// シーンの終了
+	SceneManager::Instance().Finalize();
+
 	// Imguiの終了
 	ImguiManager::Finalize();
 }
@@ -90,7 +93,9 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// ====== シーンの登録 ====== //
 	SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
-	SceneManager::Instance().RegisterScene("GamePlay", L"Resources/Scenes/GamePlayScene.scene");
+	SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");
+	SceneManager::Instance().RegisterScene("Stage2", L"Resources/Scenes/Stage2.scene");
+	SceneManager::Instance().RegisterScene("Stage3", L"Resources/Scenes/Stage3.scene");
 	SceneManager::Instance().RegisterScene("Select", L"Resources/Scenes/SelectScene.scene");
 	SceneManager::Instance().RegisterScene("Clear", L"Resources/Scenes/ClearScene.scene");
 	SceneManager::Instance().RegisterScene("GameOver", L"Resources/Scenes/GameOverScene.scene");
@@ -145,6 +150,18 @@ void Game::Update(DX::StepTimer const& timer)
 	// 入力情報の更新
 	Input::Key::Update();
 	Input::Mouse::Update();
+
+	// 終了チェック
+    if (m_exitTrans)
+    {
+		if (m_exitTrans->OutUpdate(m_gameTimer)) ExitGame();
+    }
+
+	// エスケープキーで終了
+	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Escape))
+	{
+		RequestExit();
+	}
 
 	// デバッグマネージャーの更新
 	DebugManager::Instance().Update(elapsedTime);
@@ -204,6 +221,13 @@ void Game::Render()
 	m_editor->Render(m_renderer);
 
 #endif
+
+	if (m_exitTrans)
+	{
+		m_renderer.Start(context);
+		m_exitTrans->OutRender(m_renderer);
+		m_renderer.End();
+	}
 
 	// 描画の終了 ----------------------------------------
 
@@ -356,6 +380,19 @@ void Game::TitleNameUpdate(float elapsedTime)
 
 #endif
 }
+
+void Game::RequestExit()
+{
+	// 演出中でなければ
+	if (!m_exitTrans)
+	{
+		// 作成
+		m_exitTrans = std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0.2768f, 0.2679f, 0.4554f, 1 }, DirectX::XMConvertToRadians(30));
+
+		// 初期化
+		m_exitTrans->Initialize();
+	}
+};
 
 void Game::OnDeviceLost()
 {

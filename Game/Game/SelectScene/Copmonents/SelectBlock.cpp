@@ -58,12 +58,16 @@ void SelectBlock::OnTriggerStay(HitContact & contact)
 
 void SelectBlock::OnTriggerEnter(HitContact& contact)
 {
+	contact;
+
 	// UIを表示
 	if (m_uiObject) m_uiObject->SetActive(true);
 }
 
 void SelectBlock::OnTriggerExit(HitContact & contact)
 {
+	contact;
+
 	// UIを非表示
 	if (m_uiObject) m_uiObject->SetActive(false);
 }

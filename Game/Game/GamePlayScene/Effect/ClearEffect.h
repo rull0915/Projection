@@ -74,7 +74,6 @@ public:
 	void OnDestroy() override;
 
 	void Update(const GameTimer& gameTimer) override;
-	void LateUpdate(const GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター

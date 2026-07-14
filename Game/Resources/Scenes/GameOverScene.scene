@@ -10,6 +10,68 @@
                                 "Data": {
                                     "m_anchor": [
                                         0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        1063.0,
+                                        597.7999877929688
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 0.4000000059604645,
+                                    "m_color": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_textureName": "Default"
+                                },
+                                "Type": "ImageUI"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    }
+                ],
+                "m_canvasName": "",
+                "m_drawOrder": 0,
+                "m_isActive": true
+            },
+            {
+                "GameObjects": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
                                         0.4000000059604645
                                     ],
                                     "m_anchoredPosition": [
@@ -43,7 +105,7 @@
                                         0.0
                                     ],
                                     "m_fontName": "Default",
-                                    "m_fontSize": 100.0,
+                                    "m_fontSize": 83.5999984741211,
                                     "m_isActive": true,
                                     "m_mulColor": [
                                         1.0,
@@ -55,7 +117,7 @@
                                         0.5,
                                         0.5
                                     ],
-                                    "m_text": "GameOver :("
+                                    "m_text": "GameOver"
                                 },
                                 "Type": "TextUI"
                             }
@@ -174,15 +236,169 @@
                         "m_isActive": true,
                         "m_name": "Button",
                         "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.6000000238418579,
+                                        0.30000001192092896
+                                    ],
+                                    "m_anchoredPosition": [
+                                        174.10000610351563,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        219.39999389648438,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Makinas",
+                                    "m_fontSize": 49.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_text": ":("
+                                },
+                                "Type": "TextUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true
+                                },
+                                "Type": "SwingComponent"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
                     }
                 ],
                 "m_canvasName": "",
-                "m_drawOrder": 0,
+                "m_drawOrder": 12,
                 "m_isActive": true
             }
         ]
     },
     "World": {
-        "GameObjects": []
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                10.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_aspect": 1.7777777910232544,
+                            "m_farZ": 1000.0,
+                            "m_fov": 0.7853981852531433,
+                            "m_isActive": true,
+                            "m_nearZ": 0.10000000149011612
+                        },
+                        "Type": "StandardCamera"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_keyName": "Skybox"
+                        },
+                        "Type": "SkyboxComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "MainCamera",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.30000001192092896,
+                                -2.4000000953674316,
+                                5.400000095367432
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                2.5,
+                                2.5,
+                                2.5
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Platform_4x2"
+                        },
+                        "Type": "ModelComponent"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": ""
+            }
+        ]
     }
 }

@@ -32,10 +32,6 @@ CameraCorrection::CameraCorrection(IComponentOwner* own)
 	ADD_PROPERTY(m_playerLayer);
 }
 
-// 生成直後に一度呼ばれます
-void CameraCorrection::Awake()
-{}
-
 // 最初のUpdate関数の直線に一度呼ばれます
 void CameraCorrection::Start()
 {
@@ -49,10 +45,12 @@ void CameraCorrection::Start()
 	m_player = m_pScene->GetObjectFinder()->FindWithNameInWorld(m_playerName);
 }
 
-// 毎フレーム呼ばれます
-void CameraCorrection::Update(const GameTimer & gameTimer)
+// 毎フレームUpdate及び物理挙動の後に呼ばれます
+void CameraCorrection::LateUpdate(const GameTimer& gameTimer)
 {
-		// プレイヤーがなければ何もしない
+	gameTimer;
+
+	// プレイヤーがなければ何もしない
 	if (!m_player || !m_camera) return;
 
 	// プレイヤーからカメラへRayを飛ばす
@@ -79,7 +77,7 @@ void CameraCorrection::Update(const GameTimer & gameTimer)
 		// カメラの位置を補正する
 		result = info.point;
 	}
-	
+
 	Transform* own = GetComponent<Transform>();
 	Transform* target = m_player->GetComponent<Transform>();
 
@@ -94,10 +92,4 @@ void CameraCorrection::Update(const GameTimer & gameTimer)
 
 	// ターゲットの角度を設置
 	target->SetLocalEulerAngle({ 0, angle.y, 0.0f });
-}
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void CameraCorrection::LateUpdate(const GameTimer & gameTimer)
-{
-
 }

@@ -16,9 +16,9 @@
                     1.0
                 ],
                 "m_localScale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    2.0,
+                    4.199999809265137,
+                    2.0
                 ]
             },
             "Type": "Transform"
@@ -34,9 +34,9 @@
                     0.0
                 ],
                 "m_localSize": [
-                    1.0,
-                    1.0,
-                    1.0
+                    1.899999976158142,
+                    0.2199999988079071,
+                    1.899999976158142
                 ],
                 "m_needInfo": false
             },
@@ -46,7 +46,7 @@
             "Data": {
                 "m_alpha": 1.0,
                 "m_isActive": true,
-                "m_modelName": "Cube"
+                "m_modelName": "Platform_2x2_Empty"
             },
             "Type": "ModelComponent"
         },
@@ -69,6 +69,7 @@
             "Type": "LandingCandidatePoints2D"
         }
     ],
-    "m_name": "Cube",
+    "m_isActive": true,
+    "m_name": "Cube1",
     "m_tag": "Floor"
 }

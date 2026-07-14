@@ -43,6 +43,8 @@ void LandingCandidatePoints2D::Start()
 
 void LandingCandidatePoints2D::Update(const GameTimer& gameTimer)
 {
+	gameTimer;
+
 	// 再取得
 	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(Category::Collider2D));
 

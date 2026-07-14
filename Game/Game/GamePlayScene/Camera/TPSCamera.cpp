@@ -25,9 +25,6 @@ void TPSCamera::Awake()
 {
 	// トランスフォームを取得
 	m_pOwnTransform = GetComponent<Transform>();
-
-	// マウスを相対モードに
-	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::Start()
@@ -38,6 +35,18 @@ void TPSCamera::Start()
 		// 読み込み
 		SetTarget(m_targetName);
 	}
+}
+
+void TPSCamera::OnEnable()
+{
+	// マウスを相対モードに
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+}
+
+void TPSCamera::OnDisable()
+{
+	// マウスを絶対モードに
+	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 }
 
 void TPSCamera::Update(const GameTimer& gameTimer)

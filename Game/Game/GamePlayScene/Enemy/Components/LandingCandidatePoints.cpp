@@ -39,6 +39,8 @@ void LandingCandidatePoints::Start()
 
 void LandingCandidatePoints::Update(const GameTimer& gameTimer)
 {
+	gameTimer;
+
 	// 再取得
 	m_ownCollider = static_cast<ColliderBase*>(GetOwn()->GetComponentWithCategory(Category::Collider));
 

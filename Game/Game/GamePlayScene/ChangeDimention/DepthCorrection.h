@@ -47,12 +47,6 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Awake() override;
-
-	void Start() override;
-
-	void Update(const GameTimer& gameTimer) override;
-
 	void OnCollisionEnter2D(HitContact2D& contact) override;
 
 	// ID取得

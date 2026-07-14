@@ -38,10 +38,6 @@ GameOverComponent::GameOverComponent(IComponentOwner* own)
 	ADD_PROPERTY(m_border3D);
 }
 
-// 生成直後に一度呼ばれます
-void GameOverComponent::Awake()
-{}
-
 // 最初のUpdate関数の直線に一度呼ばれます
 void GameOverComponent::Start()
 {
@@ -58,6 +54,8 @@ void GameOverComponent::Start()
 // 毎フレーム呼ばれます
 void GameOverComponent::Update(const GameTimer & gameTimer)
 {
+	gameTimer;
+
 	// 2Dなら
 	if (m_playerComponent->Is2D())
 	{
@@ -85,7 +83,3 @@ void GameOverComponent::Update(const GameTimer & gameTimer)
 		}
 	}
 }
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void GameOverComponent::LateUpdate(const GameTimer & gameTimer)
-{}

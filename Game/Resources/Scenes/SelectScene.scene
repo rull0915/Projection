@@ -4,7 +4,69 @@
             {
                 "GameObjects": [
                     {
-                        "Children": [],
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                5.400000095367432
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                300.0,
+                                                50.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_alpha": 1.0,
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.0
+                                            ],
+                                            "m_fontName": "Makinas",
+                                            "m_fontSize": 32.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "press space"
+                                        },
+                                        "Type": "TextUI"
+                                    }
+                                ],
+                                "m_isActive": true,
+                                "m_name": "",
+                                "m_tag": ""
+                            }
+                        ],
                         "Components": [
                             {
                                 "Data": {
@@ -81,11 +143,73 @@
                             }
                         ],
                         "m_isActive": false,
-                        "m_name": "State1UI",
+                        "m_name": "Stage1UI",
                         "m_tag": ""
                     },
                     {
-                        "Children": [],
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                5.400000095367432
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                300.0,
+                                                50.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_alpha": 1.0,
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.0
+                                            ],
+                                            "m_fontName": "Makinas",
+                                            "m_fontSize": 32.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "press space"
+                                        },
+                                        "Type": "TextUI"
+                                    }
+                                ],
+                                "m_isActive": true,
+                                "m_name": "",
+                                "m_tag": ""
+                            }
+                        ],
                         "Components": [
                             {
                                 "Data": {
@@ -118,17 +242,17 @@
                                 "Data": {
                                     "m_alpha": 0.550000011920929,
                                     "m_color": [
+                                        0.7932489514350891,
+                                        0.7932489514350891,
                                         1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
+                                        1.0
                                     ],
                                     "m_isActive": true,
                                     "m_mulColor": [
                                         1.0,
                                         1.0,
                                         1.0,
-                                        0.0
+                                        1.0
                                     ],
                                     "m_textureName": "Default"
                                 },
@@ -144,7 +268,7 @@
                                         0.0
                                     ],
                                     "m_fontName": "Makinas",
-                                    "m_fontSize": 48.900001525878906,
+                                    "m_fontSize": 48.0,
                                     "m_isActive": true,
                                     "m_mulColor": [
                                         1.0,
@@ -164,6 +288,149 @@
                         "m_isActive": false,
                         "m_name": "Stage2UI",
                         "m_tag": ""
+                    },
+                    {
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                5.400000095367432
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                300.0,
+                                                50.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_alpha": 1.0,
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.0
+                                            ],
+                                            "m_fontName": "Makinas",
+                                            "m_fontSize": 32.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "press space"
+                                        },
+                                        "Type": "TextUI"
+                                    }
+                                ],
+                                "m_isActive": true,
+                                "m_name": "",
+                                "m_tag": ""
+                            }
+                        ],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.20000000298023224
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        600.0,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 0.550000011920929,
+                                    "m_color": [
+                                        0.7932489514350891,
+                                        0.7932489514350891,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_textureName": "Default"
+                                },
+                                "Type": "ImageUI"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_fontName": "Makinas",
+                                    "m_fontSize": 48.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "m_origin": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_text": "Stage3"
+                                },
+                                "Type": "TextUI"
+                            }
+                        ],
+                        "m_isActive": false,
+                        "m_name": "Stage3UI",
+                        "m_tag": ""
                     }
                 ],
                 "m_canvasName": "",
@@ -174,83 +441,6 @@
     },
     "World": {
         "GameObjects": [
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                3.9000000953674316,
-                                2.9000000953674316,
-                                -5.599999904632568
-                            ],
-                            "m_localRotation": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                0.800000011920929,
-                                0.800000011920929,
-                                0.800000011920929
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Gem_Blue"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_targetScene": "GamePlay",
-                            "m_uiName": "State1UI"
-                        },
-                        "Type": "SelectBlock"
-                    },
-                    {
-                        "Data": {
-                            "m_capsuleHeight": 2.299999952316284,
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_needInfo": false,
-                            "m_radius": 0.5
-                        },
-                        "Type": "CapsuleCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": true,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_needInfo": false,
-                            "m_radius": 2.200000047683716
-                        },
-                        "Type": "SphereCollider"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Gem",
-                "m_tag": ""
-            },
             {
                 "Children": [],
                 "Components": [
@@ -309,7 +499,85 @@
                 "m_tag": ""
             },
             {
-                "Children": [],
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.05000007152557373,
+                                        0.4500000476837158,
+                                        0.04999995231628418
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        0.4000000059604645,
+                                        0.4000000059604645,
+                                        0.4000000059604645
+                                    ]
+                                },
+                                "Type": "Transform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_isActive": true,
+                                    "m_modelName": "Gem_Blue"
+                                },
+                                "Type": "ModelComponent"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_targetScene": "Stage2",
+                                    "m_uiName": "Stage2UI"
+                                },
+                                "Type": "SelectBlock"
+                            },
+                            {
+                                "Data": {
+                                    "m_capsuleHeight": 2.299999952316284,
+                                    "m_isActive": true,
+                                    "m_isTrigger": false,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_needInfo": false,
+                                    "m_radius": 0.5
+                                },
+                                "Type": "CapsuleCollider"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_isTrigger": true,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_needInfo": false,
+                                    "m_radius": 2.200000047683716
+                                },
+                                "Type": "SphereCollider"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "Gem2",
+                        "m_tag": ""
+                    }
+                ],
                 "Components": [
                     {
                         "Data": {
@@ -461,7 +729,7 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                9.100000381469727,
+                                8.100000381469727,
                                 5.5,
                                 6.5
                             ],
@@ -522,14 +790,6 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Cube"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
                             "m_border2D": -10.0,
                             "m_border3D": -10.0,
                             "m_isActive": true,
@@ -555,15 +815,15 @@
                                 -2.0999999046325684
                             ],
                             "m_localRotation": [
-                                0.18862676620483398,
-                                0.6815580725669861,
-                                0.1885884553194046,
+                                0.18862679600715637,
+                                0.6815581321716309,
+                                0.1885884404182434,
                                 0.6814197301864624
                             ],
                             "m_localScale": [
-                                1.7999999523162842,
-                                1.7999999523162842,
-                                1.7999999523162842
+                                1.7999998331069946,
+                                1.799999713897705,
+                                1.7999998331069946
                             ]
                         },
                         "Type": "Transform"
@@ -765,83 +1025,6 @@
                 "m_tag": ""
             },
             {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                17.399999618530273,
-                                3.9000000953674316,
-                                -6.0
-                            ],
-                            "m_localRotation": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                0.6000000238418579,
-                                0.6000000238418579,
-                                0.6000000238418579
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
-                            "m_alpha": 1.0,
-                            "m_isActive": true,
-                            "m_modelName": "Gem_Blue"
-                        },
-                        "Type": "ModelComponent"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_targetScene": "GamePlay2",
-                            "m_uiName": "Stage2UI"
-                        },
-                        "Type": "SelectBlock"
-                    },
-                    {
-                        "Data": {
-                            "m_capsuleHeight": 2.299999952316284,
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_needInfo": false,
-                            "m_radius": 0.5
-                        },
-                        "Type": "CapsuleCollider"
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": true,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_needInfo": false,
-                            "m_radius": 2.200000047683716
-                        },
-                        "Type": "SphereCollider"
-                    }
-                ],
-                "m_isActive": true,
-                "m_name": "Gem",
-                "m_tag": ""
-            },
-            {
                 "Children": [
                     {
                         "Children": [],
@@ -920,7 +1103,85 @@
                         "m_tag": ""
                     },
                     {
-                        "Children": [],
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_localPosition": [
+                                                0.0,
+                                                0.6217389106750488,
+                                                0.07692289352416992
+                                            ],
+                                            "m_localRotation": [
+                                                -1.6848657614487034e-14,
+                                                1.776357262916724e-15,
+                                                3.47859945293294e-08,
+                                                1.0
+                                            ],
+                                            "m_localScale": [
+                                                0.46153849363327026,
+                                                0.2608695328235626,
+                                                0.46153849363327026
+                                            ]
+                                        },
+                                        "Type": "Transform"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_alpha": 1.0,
+                                            "m_isActive": true,
+                                            "m_modelName": "Gem_Blue"
+                                        },
+                                        "Type": "ModelComponent"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_targetScene": "Stage3",
+                                            "m_uiName": "Stage3UI"
+                                        },
+                                        "Type": "SelectBlock"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_capsuleHeight": 2.299999952316284,
+                                            "m_isActive": true,
+                                            "m_isTrigger": false,
+                                            "m_layerNum": 0,
+                                            "m_localCenterPos": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_needInfo": false,
+                                            "m_radius": 0.5
+                                        },
+                                        "Type": "CapsuleCollider"
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_isTrigger": true,
+                                            "m_layerNum": 0,
+                                            "m_localCenterPos": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_needInfo": false,
+                                            "m_radius": 2.200000047683716
+                                        },
+                                        "Type": "SphereCollider"
+                                    }
+                                ],
+                                "m_isActive": true,
+                                "m_name": "Gem3",
+                                "m_tag": ""
+                            }
+                        ],
                         "Components": [
                             {
                                 "Data": {
@@ -1022,6 +1283,198 @@
                 ],
                 "m_isActive": true,
                 "m_name": "Stairs2",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.4500000476837158,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        0.0,
+                                        0.7071787714958191,
+                                        0.0,
+                                        0.7070348262786865
+                                    ],
+                                    "m_localScale": [
+                                        0.4000000059604645,
+                                        0.4000000059604645,
+                                        0.4000000059604645
+                                    ]
+                                },
+                                "Type": "Transform"
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_isActive": true,
+                                    "m_modelName": "Gem_Blue"
+                                },
+                                "Type": "ModelComponent"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_targetScene": "Stage1",
+                                    "m_uiName": "Stage1UI"
+                                },
+                                "Type": "SelectBlock"
+                            },
+                            {
+                                "Data": {
+                                    "m_capsuleHeight": 2.299999952316284,
+                                    "m_isActive": true,
+                                    "m_isTrigger": false,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_needInfo": false,
+                                    "m_radius": 0.5
+                                },
+                                "Type": "CapsuleCollider"
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_isTrigger": true,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_needInfo": false,
+                                    "m_radius": 3.0999999046325684
+                                },
+                                "Type": "SphereCollider"
+                            }
+                        ],
+                        "m_isActive": true,
+                        "m_name": "Gem1",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                8.800000190734863,
+                                2.0,
+                                3.0999999046325684
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                -0.7071787714958191,
+                                0.0,
+                                0.7070347666740417
+                            ],
+                            "m_localScale": [
+                                2.0,
+                                2.0,
+                                2.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Platform_2x2"
+                        },
+                        "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                -0.44999998807907104,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                2.0999999046325684,
+                                1.0,
+                                2.0999999046325684
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Floor",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                5.200143337249756,
+                                1.0,
+                                2.999267101287842
+                            ],
+                            "m_localRotation": [
+                                -4.3116902048723205e-08,
+                                -2.3475448074350425e-07,
+                                0.2667314410209656,
+                                0.963770866394043
+                            ],
+                            "m_localScale": [
+                                1.7999998331069946,
+                                1.799999713897705,
+                                1.7999998331069946
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelName": "Platform_2x1_Empty"
+                        },
+                        "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                2.0,
+                                0.20000000298023224,
+                                0.800000011920929
+                            ],
+                            "m_needInfo": false
+                        },
+                        "Type": "BoxCollider"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "Stairs",
                 "m_tag": ""
             }
         ]

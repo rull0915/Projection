@@ -65,6 +65,8 @@ void PathMover::Update(const GameTimer & gameTimer)
 // 毎フレームUpdate及び物理挙動の後に呼ばれます
 void PathMover::LateUpdate(const GameTimer & gameTimer)
 {
+	gameTimer;
+
 	if (m_pCatmull)
 	{
 		// 位置を計算

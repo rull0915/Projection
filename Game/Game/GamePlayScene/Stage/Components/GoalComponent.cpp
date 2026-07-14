@@ -28,22 +28,6 @@ GoalComponent::GoalComponent(IComponentOwner* own)
 {
 }
 
-// 生成直後に一度呼ばれます
-void GoalComponent::Awake()
-{}
-
-// 最初のUpdate関数の直線に一度呼ばれます
-void GoalComponent::Start()
-{}
-
-// 毎フレーム呼ばれます
-void GoalComponent::Update(const GameTimer & gameTimer)
-{}
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void GoalComponent::LateUpdate(const GameTimer & gameTimer)
-{}
-
 // トリガーで衝突したら
 void GoalComponent::OnTriggerEnter(HitContact & contact)
 {
