@@ -12,8 +12,6 @@
 #include "pch.h"
 #include "Components/World/Sounds/AudioSource.h"
 
-#include "System/ResourceManager.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//

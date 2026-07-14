@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : GameOverComponent.h
+// ファイル名   : SwingComponent.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/27
 //
-// 概要 : ゲームオーバーコンポーネント
+// 概要 : UIを揺らすコンポーネント
 //
 // 更新履歴 :
 // 2026/05/27 新規作成
@@ -11,15 +11,14 @@
 
 #pragma once
 
-#define IS_COMPONENT(GameOverComponent)
+#define IS_COMPONENT(SwingComponent)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/WorldComponentBase.h"
-#include "GameObject/Interface/IComponentOwner.h"
-#include "GameObject/GameObject.h"
-#include "Player/Player.h"
+#include "Components/UI/UIComponentBase.h"
+
+#include "Components/UI/RectTransform/RectTransform.h"
 
 //====================================================//
 // 前方宣言
@@ -29,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class GameOverComponent : public WorldComponentBase
+class SwingComponent : public UIComponentBase
 {
 private:
 
@@ -42,29 +41,18 @@ private:
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// 移行先のシーン名
-	std::string m_overSceneName;
+	// RectTransform
+	RectTransform* m_rectTransform;
 
-	// プレイヤー名
-	std::string m_playerName;
-
-	// プレイヤー
-	GameObject* m_player;
-
-	// プレイヤーコンポーネント
-	Player* m_playerComponent;
-
-	// ゲームオーバーボーダー
-	float m_border3D;
-	float m_border2D;
+	// 揺れの幅
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	GameOverComponent(IComponentOwner* own);
-	~GameOverComponent() = default;
+	SwingComponent(IComponentOwner* own);
+	~SwingComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -83,7 +71,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<GameOverComponent>();
+		return TypeIDGenerator::GetID<SwingComponent>();
 	}
 
 	//-----------------------------------------------------

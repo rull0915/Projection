@@ -6,6 +6,7 @@
 #include "GameLib/CatmullRomComponent.h"
 #include "GameLib/PathMover.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
+#include "Game/ClearScene/SwingComponent.h"
 #include "Game/ClearScene/ToSelectComponent.h"
 #include "Game/GamePlayScene/GameOverComponent.h"
 #include "Game/GamePlayScene/PlaySceneManager.h"
@@ -32,6 +33,7 @@ void ComponentRegister::RegistComponents()
     REGIST_TO_FACTORY(CatmullRomComponent);
     REGIST_TO_FACTORY(PathMover);
     REGIST_TO_FACTORY(ConvexPolygonCollider2D);
+    REGIST_TO_FACTORY(SwingComponent);
     REGIST_TO_FACTORY(ToSelectComponent);
     REGIST_TO_FACTORY(GameOverComponent);
     REGIST_TO_FACTORY(PlaySceneManager);

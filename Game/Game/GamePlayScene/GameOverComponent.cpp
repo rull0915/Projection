@@ -25,12 +25,14 @@
 // コンストラクタ
 GameOverComponent::GameOverComponent(IComponentOwner* own)
 	: WorldComponentBase(own)
+	, m_overSceneName{ "GameOver" }
 	, m_playerName{}
 	, m_player{ nullptr }
 	, m_playerComponent{ nullptr }
 	, m_border3D{ -10.0f }
 	, m_border2D{ -10.0f }
 {
+	ADD_PROPERTY(m_overSceneName);
 	ADD_PROPERTY(m_playerName);
 	ADD_PROPERTY(m_border2D);
 	ADD_PROPERTY(m_border3D);
@@ -66,7 +68,7 @@ void GameOverComponent::Update(const GameTimer & gameTimer)
 		if (pos.y < m_border2D)
 		{
 			// ゲームオーバー
-			SceneManager::Instance().RequestSceneChange("GameOver", std::make_unique<Transition::Fade>(), std::make_unique<Transition::Fade>());
+			SceneManager::Instance().RequestSceneChange(m_overSceneName, std::make_unique<Transition::Fade>(0.3f), std::make_unique<Transition::Fade>(0.3f));
 		}
 	}
 	// 3Dなら
@@ -79,7 +81,7 @@ void GameOverComponent::Update(const GameTimer & gameTimer)
 		if (pos.y < m_border3D)
 		{
 			// ゲームオーバー
-			SceneManager::Instance().RequestSceneChange("GameOver");
+			SceneManager::Instance().RequestSceneChange(m_overSceneName, std::make_unique<Transition::Fade>(0.3f), std::make_unique<Transition::Fade>(0.3f));
 		}
 	}
 }

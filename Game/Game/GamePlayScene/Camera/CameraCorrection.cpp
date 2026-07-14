@@ -51,12 +51,8 @@ void CameraCorrection::Start()
 
 // 毎フレーム呼ばれます
 void CameraCorrection::Update(const GameTimer & gameTimer)
-{}
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void CameraCorrection::LateUpdate(const GameTimer & gameTimer)
 {
-	// プレイヤーがなければ何もしない
+		// プレイヤーがなければ何もしない
 	if (!m_player || !m_camera) return;
 
 	// プレイヤーからカメラへRayを飛ばす
@@ -98,4 +94,10 @@ void CameraCorrection::LateUpdate(const GameTimer & gameTimer)
 
 	// ターゲットの角度を設置
 	target->SetLocalEulerAngle({ 0, angle.y, 0.0f });
+}
+
+// 毎フレームUpdate及び物理挙動の後に呼ばれます
+void CameraCorrection::LateUpdate(const GameTimer & gameTimer)
+{
+
 }

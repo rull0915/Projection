@@ -167,6 +167,7 @@
     <ClInclude Include="Game\GamePlayScene\Effect\ClearEffect.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\CameraCorrection.h" />
     <ClInclude Include="Game\GamePlayScene\GameOverComponent.h" />
+    <ClInclude Include="Game\ClearScene\SwingComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="Game\GamePlayScene\Effect\ClearEffect.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\CameraCorrection.cpp" />
     <ClCompile Include="Game\GamePlayScene\GameOverComponent.cpp" />
+    <ClCompile Include="Game\ClearScene\SwingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

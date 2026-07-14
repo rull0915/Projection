@@ -161,7 +161,7 @@
                                 "Type": "TextUI"
                             }
                         ],
-                        "m_isActive": true,
+                        "m_isActive": false,
                         "m_name": "Stage2UI",
                         "m_tag": ""
                     }
@@ -527,6 +527,16 @@
                             "m_modelName": "Cube"
                         },
                         "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_border2D": -10.0,
+                            "m_border3D": -10.0,
+                            "m_isActive": true,
+                            "m_overSceneName": "Select",
+                            "m_playerName": "Player"
+                        },
+                        "Type": "GameOverComponent"
                     }
                 ],
                 "m_isActive": true,
