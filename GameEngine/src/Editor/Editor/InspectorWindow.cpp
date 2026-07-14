@@ -78,7 +78,11 @@ void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)
 	// GameObjectの特殊処理
 	GameObject* gameObject = dynamic_cast<GameObject*>(object);
 
-	if (!gameObject)
+	if (gameObject)
+	{
+		if (changed) gameObject->OnValidate();
+	}
+	else
 	{
 		// Canvasの特殊処理
 		Canvas* canvas = dynamic_cast<Canvas*>(object);

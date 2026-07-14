@@ -86,7 +86,7 @@ public:
 
 	void Start() override;
 
-	void LateUpdate(const GameTimer& gameTimer) override;
+	void Update(const GameTimer& gameTimer) override;
 
 	void SetTarget(const std::string& name);
 

@@ -159,7 +159,7 @@ void ObjectManager::RemoveDeadObject()
 			if (object->IsDead())
 			{
 				// 終了処理
-				object->BaseFinalize();
+				object->Finalize();
 
 				// true
 				return true;

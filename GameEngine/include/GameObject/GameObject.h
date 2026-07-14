@@ -63,6 +63,9 @@ private:
 	// 自身を持つシーンのポインタ
 	Scene* m_pScene;
 
+	// 親がアクティブかどうかのフラグ
+	bool m_parentIsActive;
+
 	// アクティブフラグ　
 	bool m_isActive;
 
@@ -90,14 +93,16 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void BaseFinalize();
+	void Finalize();
+
+	void OnValidate();
 
 	GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
-	bool IsActive() const override { return m_isActive; }
+	bool IsActive() const override { return m_isActive && m_parentIsActive; }
 	
 	bool IsDead() const { return m_isDead; }
 
@@ -112,7 +117,8 @@ public:
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------
-	void SetActive(bool value) { m_isActive = value; }
+	void SetParentActive(bool value);
+	void SetActive(bool value);
 
 	void SetInvincible(bool f) { m_isInvincible = f; }
 
@@ -267,6 +273,9 @@ public:
 
 	// ----- 内部実装 ------- //
 private:
+
+	// アクティブ状況が変更されたときに呼ばれる関数
+	void OnActiveChanged(bool f);
 
 	// コンポーネントを取得するラップ関数
 	ComponentBase* GetComponentRaw(

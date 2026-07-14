@@ -85,6 +85,12 @@ public:
 		{
 			// 更新処理
 			component->Awake();
+
+			// Activeなら
+			if (component->IsActive())
+			{
+				component->OnEnable();
+			}
 		}
 	}
 

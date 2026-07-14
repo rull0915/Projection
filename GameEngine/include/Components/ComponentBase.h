@@ -32,11 +32,6 @@ struct HitContact2D;
 //====================================================//
 class ComponentBase : public PropertyObject
 {
-public:
-
-	// 自身の所属空間
-	static constexpr ComponentSpace SPACE = ComponentSpace::None;
-
 private:
 	//-----------------------------------------------------
 	// メンバ変数
@@ -47,6 +42,9 @@ private:
 
 	// アクティブフラグ
 	bool m_isActive;
+
+	// 所有者がアクティブかどうか
+	bool m_ownerIsActive;
 
 	// Start関数が呼ばれたか
 	bool m_isStarted;
@@ -65,7 +63,7 @@ public:
 
 	IComponentOwner* GetOwn() const { return m_own; }   // 所有者
 
-	bool IsActive() const { return m_isActive; }        // アクティブフラグ
+	bool IsActive() const { return m_isActive && m_ownerIsActive; }  // アクティブフラグ
 
 	bool IsStarted() const { return m_isStarted; }      // スタート済みかどうか
 
@@ -79,7 +77,8 @@ public:
 	// セッター
 	//-----------------------------------------------------
 
-	void SetActive(bool f) { m_isActive = f; }
+	void SetOwnerActive(bool f);
+	void SetActive(bool f);
 
 	void SetStart() { m_isStarted = true; }
 
@@ -97,6 +96,9 @@ public:
 
 	virtual void OnDestroy() {} // 削除時
 	virtual void OnValidate() {} // GUIでの値変更時
+
+	virtual void OnEnable() {} // Activeに変更時
+	virtual void OnDisable() {} // 非Activeに変更時
 
 	// ----- 衝突関連 ----- //
 
@@ -126,4 +128,8 @@ public:
 
 	template<typename T>
 	void GetComponents(std::vector<T*>& vec) { m_own->GetComponents<T>(vec); }
+
+private:
+	// アクティブ状況変化時に呼ばれる関数
+	void OnActiveChanged(bool f);
 };

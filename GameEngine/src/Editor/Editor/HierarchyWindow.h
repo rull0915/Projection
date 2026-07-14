@@ -54,7 +54,10 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Reset() { m_selected = nullptr; }
+	void Reset()
+	{
+		m_selected = nullptr;
+	}
 
 	// ヒエラルキーの描画
 	bool DrawHierarchy();

@@ -51,6 +51,12 @@ void ComponentContainer::RemoveRegistered()
 	// その他コンポーネント
 	for (auto& component : m_pDestroyReserves)
 	{
+		// Activeなら
+		if (component->IsActive())
+		{
+			component->OnDisable();
+		}
+
 		// 削除時処理を呼ぶ
 		component->OnDestroy();
 

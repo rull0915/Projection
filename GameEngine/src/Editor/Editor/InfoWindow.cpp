@@ -120,6 +120,9 @@ void InfoWindow::Load()
 	// シーンのリセット
 	m_pScene->ResetObjects();
 
+	// GUIのリセット
+	m_pGUI->Reset();
+
 	auto path = FileDialog::Open(FileDialog::Mode::Open, L"Resources/Scenes", L".scene");
 
 	// ロード
@@ -129,7 +132,5 @@ void InfoWindow::Load()
 			path,
 			m_pScene
 		);
-
-		m_pGUI->Reset();
 	}
 }

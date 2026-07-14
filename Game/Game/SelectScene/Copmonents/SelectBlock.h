@@ -18,6 +18,7 @@
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
+#include "GameObject/GameObject.h"
 
 //====================================================//
 // 前方宣言
@@ -43,6 +44,12 @@ private:
 	// ターゲットシーン名
 	std::string m_targetScene;
 
+	// 対応するUIの名前
+	std::string m_uiName;
+
+	// UIオブジェクト
+	GameObject* m_uiObject;
+
 public:
 
 	//-----------------------------------------------------
@@ -55,7 +62,11 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
+	void Start() override;
+
 	void OnTriggerStay(HitContact& contact) override;
+	void OnTriggerEnter(HitContact& contact) override;
+	void OnTriggerExit(HitContact& contact) override;
 
 	//-----------------------------------------------------
 	// ゲッター

@@ -14,6 +14,7 @@
 
 #include "Physics/HitContact.h"
 #include "Scene/SceneManager.h"
+#include "Scene/Scene.h"
 #include "Scene/Transition/FadeTransition.h"
 #include "Input/KeyInput.h"
 
@@ -25,8 +26,18 @@
 SelectBlock::SelectBlock(IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_targetScene{}
+	, m_uiName{}
+	, m_uiObject{ nullptr }
 {
 	ADD_PROPERTY(m_targetScene);
+	ADD_PROPERTY(m_uiName);
+}
+
+void SelectBlock::Start()
+{
+	// UIオブジェクトを取得
+	m_uiObject =
+		static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInUI(m_uiName);
 }
 
 void SelectBlock::OnTriggerStay(HitContact & contact)
@@ -43,4 +54,16 @@ void SelectBlock::OnTriggerStay(HitContact & contact)
 				);
 		}
 	}
+}
+
+void SelectBlock::OnTriggerEnter(HitContact& contact)
+{
+	// UIを表示
+	if (m_uiObject) m_uiObject->SetActive(true);
+}
+
+void SelectBlock::OnTriggerExit(HitContact & contact)
+{
+	// UIを非表示
+	if (m_uiObject) m_uiObject->SetActive(false);
 }

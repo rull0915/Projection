@@ -13,6 +13,9 @@
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
 
+#include "Components/World/Transform/Transform.h"
+#include "Components/UI/RectTransform/RectTransform.h"
+
 struct HitContact;
 
 //====================================================//
@@ -24,6 +27,7 @@ struct HitContact;
 /// </summary>
 GameObject::GameObject(CreateToken)
 	: m_isActive{ true }
+	, m_parentIsActive{ true }
 	, m_isDead{ false }
 	, m_pScene{ nullptr }
 	, m_components{ this }
@@ -36,7 +40,7 @@ GameObject::GameObject(CreateToken)
 	ADD_PROPERTY(m_tag);
 }
 
-void GameObject::BaseFinalize()
+void GameObject::Finalize()
 {
 	// コンポーネント削除
 	RemoveComponents();
@@ -44,7 +48,78 @@ void GameObject::BaseFinalize()
 	GetComponentContainer().RemoveRegistered();
 }
 
+void GameObject::OnValidate()
+{
+	// 変更時処理を呼び出して強制的に合わせる
+	OnActiveChanged(m_parentIsActive && m_isActive);
+}
+
 GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
 {
 	return m_pScene->GetFactory()->Generate(position);
+}
+
+void GameObject::SetParentActive(bool value)
+{
+	// 値が変わっていなければ何もしない
+	if (m_parentIsActive == value) return;
+
+	// フラグ更新
+	m_parentIsActive = value;
+
+	// 子がアクティブなら
+	if (m_isActive)
+	{
+		// 変更時処理
+		OnActiveChanged(m_parentIsActive);
+	}
+}
+
+void GameObject::SetActive(bool value)
+{
+	// 値が変わっていなければ何もしない
+	if (m_isActive == value) return;
+
+	// フラグ更新
+	m_isActive = value;
+
+	// 親がtrueなら
+	if (m_parentIsActive)
+	{
+		// 変更時処理
+		OnActiveChanged(m_isActive);
+	}
+}
+
+void GameObject::OnActiveChanged(bool f)
+{
+	// 子に通知する
+
+	// Transformの場合
+	if (Transform* t = GetComponent<Transform>())
+	{
+		// 子を全て調べる
+		for (auto& child : t->GetChildren())
+		{
+			// 通知
+			static_cast<GameObject*>(child->GetOwn())->SetParentActive(f);
+		}
+	}
+
+	// RectTransformの場合
+	if (RectTransform* t = GetComponent<RectTransform>())
+	{
+		// 子を全て調べる
+		for (auto& child : t->GetChildren())
+		{
+			// 通知
+			static_cast<GameObject*>(child->GetOwn())->SetParentActive(f);
+		}
+	}
+
+	// コンポーネントに通知する
+	for (auto& component : m_components.GetAll())
+	{
+		component->SetOwnerActive(f);
+	}
 }

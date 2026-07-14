@@ -40,7 +40,7 @@ void TPSCamera::Start()
 	}
 }
 
-void TPSCamera::LateUpdate(const GameTimer& gameTimer)
+void TPSCamera::Update(const GameTimer& gameTimer)
 {
 	gameTimer;
 
