@@ -56,7 +56,7 @@ void AudioListener::LateUpdate(const GameTimer& timer)
 	if (m_nowVersion != version)
 	{
 		// リスナーの情報を更新
-			// 位置
+		// 位置
 		m_listener->SetPosition(m_pTransform->GetWorldPosition());
 
 		// 向き

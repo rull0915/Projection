@@ -57,6 +57,9 @@ public:
 	// 描画処理
 	void Render(Renderer& renderer);
 
+	// 終了処理
+	void Finalize();
+
 	// 開始シーンの設定
 	void SetStartScene(const std::string& startSceneName);
 

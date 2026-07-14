@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Components/World/Sounds/AudioSource.h"
+#include "Components/Both/Sounds/AudioSource.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -18,7 +18,7 @@
 
 // コンストラクタ
 AudioSource::AudioSource(IComponentOwner* own)
-	: WorldComponentBase(own)
+	: BothComponentBase(own)
 	, m_soundEffect{}
 	, m_soundInstance{ nullptr }
 	, m_soundName{}

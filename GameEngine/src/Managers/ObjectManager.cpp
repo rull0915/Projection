@@ -38,16 +38,24 @@ void ObjectManager::Update(const GameTimer& gameTimer, bool playing)
 	// 予約されているオブジェクトを追加
 	AddReservedObject();
 
+	// 全オブジェクトのアクティブ反映
+	for (auto& object : m_objects)
+	{
+		object->Reserve();
+	}
+
+
 	// 全オブジェクトのコンポーネントを追加
 	for (auto& object : m_objects)
 	{
 		// アクティブチェック
-		if (!object->IsActive()) continue;
-
-		// Awakeの呼び出し
-		if (playing || object->IsInvincible())
+		if (object->IsActive())
 		{
-			object->GetComponentContainer().AwakeComponets();
+			// Awakeの呼び出し
+			if (playing || object->IsInvincible())
+			{
+				object->GetComponentContainer().AwakeComponets();
+			}
 		}
 
 		// 予約されたコンポーネントを追加
@@ -92,9 +100,6 @@ void ObjectManager::RemoveDeadComponent()
 	// 全オブジェクトの予約済みコンポーネントを削除
 	for (auto& object : m_objects)
 	{
-		// アクティブチェック
-		if (!object->IsActive()) continue;
-
 		// 予約されたコンポーネントを追加
 		object->GetComponentContainer().RemoveRegistered();
 	}

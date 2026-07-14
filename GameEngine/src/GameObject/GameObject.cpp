@@ -27,6 +27,7 @@ struct HitContact;
 /// </summary>
 GameObject::GameObject(CreateToken)
 	: m_isActive{ true }
+	, m_changedActive{ false }
 	, m_parentIsActive{ true }
 	, m_isDead{ false }
 	, m_pScene{ nullptr }
@@ -54,6 +55,31 @@ void GameObject::OnValidate()
 	OnActiveChanged(m_parentIsActive && m_isActive);
 }
 
+void GameObject::Reserve()
+{
+	// 変更されていなかったら何もしない
+	if (m_changedActive)
+	{
+		// フラグの更新
+		m_isActive = !m_isActive;
+
+		m_changedActive = false;
+
+		// 親がtrueなら
+		if (m_parentIsActive)
+		{
+			// 変更時処理
+			OnActiveChanged(m_isActive);
+		}
+	}
+
+	// コンポーネントのReserveを呼び出す
+	for (auto& component : m_components.GetAll())
+	{
+		component->Reserve();
+	}
+}
+
 GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
 {
 	return m_pScene->GetFactory()->Generate(position);
@@ -75,19 +101,28 @@ void GameObject::SetParentActive(bool value)
 	}
 }
 
-void GameObject::SetActive(bool value)
+void GameObject::SetActive(bool f)
 {
-	// 値が変わっていなければ何もしない
-	if (m_isActive == value) return;
+	// 現在フレーム終了時の予定状態
+	bool current = m_changedActive ? !m_isActive : m_isActive;
 
-	// フラグ更新
-	m_isActive = value;
+	// 既にその状態なら何もしない
+	if (current == f) return;
 
-	// 親がtrueなら
-	if (m_parentIsActive)
+	// 元の状態に戻るなら変更を取り消す
+	if (m_changedActive && f == m_isActive)
 	{
-		// 変更時処理
-		OnActiveChanged(m_isActive);
+		m_changedActive = false;
+	}
+	// 通常時はフラグを立てる
+	else
+	{
+		m_changedActive = true;
+
+		if (m_isActive)
+		{
+			Reserve();
+		}
 	}
 }
 

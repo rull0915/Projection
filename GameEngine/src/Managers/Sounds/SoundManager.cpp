@@ -44,21 +44,22 @@ void SoundManager::Update()
 		if (source->Is3D())
 		{
 			// Transformを取得
-			Transform* transform = source->GetComponent<Transform>();
-
-			// Emitterを設定
-			emitter.SetPosition(transform->GetWorldPosition());
-
-			emitter.SetOrientation(
-				transform->GetForward(), transform->GetUp()
-			);
-
-			// 3Dを適用
-			if (const auto& instance = source->GetSoundInstance())
+			if (Transform* transform = source->GetComponent<Transform>())
 			{
-				instance->Apply3D(
-					*listener, emitter
+				// Emitterを設定
+				emitter.SetPosition(transform->GetWorldPosition());
+
+				emitter.SetOrientation(
+					transform->GetForward(), transform->GetUp()
 				);
+
+				// 3Dを適用
+				if (const auto& instance = source->GetSoundInstance())
+				{
+					instance->Apply3D(
+						*listener, emitter
+					);
+				}
 			}
 		}
 	}

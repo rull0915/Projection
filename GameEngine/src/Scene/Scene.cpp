@@ -53,11 +53,6 @@ Scene::~Scene()
 // 初期化関数
 void Scene::Initialize()
 {
-	// マウスを表示
-	Input::Mouse::SetMouseVisible(true);
-
-	// マウスを絶対モードに変更
-	Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 }
 
 // 更新関数

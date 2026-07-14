@@ -180,7 +180,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\RigidBody\RigidBody2D.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp" />
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
-    <ClCompile Include="src\Components\World\Sounds\AudioSource.cpp" />
+    <ClCompile Include="src\Components\Both\Sounds\AudioSource.cpp" />
     <ClCompile Include="src\Components\World\Transform\Transform.cpp" />
     <ClCompile Include="src\Debug\RectDebugRenderer.cpp" />
     <ClCompile Include="src\Common\OpenFileDialog.cpp" />
@@ -295,6 +295,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Common\Random.h" />
     <ClInclude Include="include\Common\State\StateBase.h" />
     <ClInclude Include="include\Common\State\StateMachine.h" />
+    <ClInclude Include="include\Components\Both\BothComponents.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Components\Interface\IComponentListener.h">
       <SubType>
       </SubType>
@@ -345,6 +349,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\Both\BothComponentBase.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
     <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">
@@ -371,7 +376,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h" />
-    <ClInclude Include="include\Components\World\Sounds\AudioSource.h" />
+    <ClInclude Include="include\Components\Both\Sounds\AudioSource.h" />
     <ClInclude Include="include\Settings\SoundSettings.h">
       <SubType>
       </SubType>

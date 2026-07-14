@@ -63,6 +63,7 @@ public:
 
 	// ロード関数
 	static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
+	static void LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas);
 
 	static void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
 };

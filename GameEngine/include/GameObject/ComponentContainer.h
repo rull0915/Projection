@@ -142,6 +142,9 @@ public:
 		// 無効オブジェクトなら
 		if (!IsValid()) return false;
 
+		// Both
+		if (space == ComponentSpace::Both) return true;
+			
 		// UI判定
 		if (space == ComponentSpace::UI && IsUI()) return true;
 

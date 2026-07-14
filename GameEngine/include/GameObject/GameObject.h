@@ -63,6 +63,9 @@ private:
 	// 自身を持つシーンのポインタ
 	Scene* m_pScene;
 
+	// アクティブ変更フラグ
+	bool m_changedActive;
+
 	// 親がアクティブかどうかのフラグ
 	bool m_parentIsActive;
 
@@ -97,6 +100,9 @@ public:
 
 	void OnValidate();
 
+	// アクティブ変更の適用
+	void Reserve();
+
 	GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
 	//-----------------------------------------------------
@@ -117,8 +123,8 @@ public:
 	//-----------------------------------------------------
 	// セッター
 	//-----------------------------------------------------
-	void SetParentActive(bool value);
-	void SetActive(bool value);
+	void SetParentActive(bool f);
+	void SetActive(bool f);
 
 	void SetInvincible(bool f) { m_isInvincible = f; }
 

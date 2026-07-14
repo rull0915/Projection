@@ -16,9 +16,8 @@
 //====================================================//
 #include <memory>
 #include <Audio.h>
-#include <algorithm>
 
-#include "Components/World/WorldComponentBase.h"
+#include "Components/Both/BothComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
 #include "Components/Interface/IResourceReader.h"
 
@@ -30,7 +29,7 @@ class Gam;
 //====================================================//
 // クラス宣言
 //====================================================//
-class AudioSource : public WorldComponentBase, public IResourceReader
+class AudioSource : public BothComponentBase, public IResourceReader
 {
 private:
 

@@ -17,6 +17,7 @@
 
 #include "Components/World/Components.h"
 #include "Components/UI/UIComponents.h"
+#include "Components/Both/BothComponents.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentCategory.h"
 

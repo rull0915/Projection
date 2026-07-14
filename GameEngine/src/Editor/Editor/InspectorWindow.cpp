@@ -243,6 +243,15 @@ void InspectorWindow::DrawAddComponent(GameObject* object)
 		// Engine側が開かれていれば
 		if (ImGui::BeginMenu("Standard"))
 		{
+			// Bothが開かれていれば
+			if (ImGui::BeginMenu("Both"))
+			{
+				// コンポーネントリストを表示
+				DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::Both });
+
+				//終了
+				ImGui::EndMenu();
+			}
 			// Worldが開かれていれば
 			if (ImGui::BeginMenu("World"))
 			{
@@ -266,6 +275,15 @@ void InspectorWindow::DrawAddComponent(GameObject* object)
 		// オリジナルが開かれていれば
 		if (ImGui::BeginMenu("Original"))
 		{
+			// Bothが開かれていれば
+			if (ImGui::BeginMenu("Both"))
+			{
+				// コンポーネントリストを表示
+				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::Both });
+
+				//終了
+				ImGui::EndMenu();
+			}
 			if (ImGui::BeginMenu("World"))
 			{
 				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::World });

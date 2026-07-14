@@ -71,6 +71,12 @@ void SceneManager::Render(Renderer& renderer)
 	renderer.End();
 }
 
+void SceneManager::Finalize()
+{
+	// シーンの解放
+	m_currentScene = nullptr;
+}
+
 // 開始シーンの設定
 void SceneManager::SetStartScene(const std::string& startSceneName)
 {

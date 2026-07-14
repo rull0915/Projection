@@ -29,6 +29,7 @@ enum class ComponentSpace : unsigned char
 	None,
 	World,
 	UI,
+	Both,
 };
 
 // コンポーネントの情報をまとめた構造体

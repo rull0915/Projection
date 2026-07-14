@@ -214,6 +214,25 @@ void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)
 	ifs.close();
 }
 
+void ObjectLoader::LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas)
+{
+	std::ifstream ifs(std::filesystem::path(filePath).c_str());
+
+	// 開けていたら
+	if (ifs.is_open())
+	{
+		// jsonから読み取り
+		nlohmann::json j;
+		ifs >> j;
+
+		// ロード
+		LoadUIObject(j, obj, canvas);
+	}
+
+	// 閉じる
+	ifs.close();
+}
+
 void ObjectLoader::LoadSceneFromFile(const std::wstring& filePath, Scene* scene)
 {
 	std::ifstream ifs(std::filesystem::path(filePath).c_str());

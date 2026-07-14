@@ -167,6 +167,25 @@ void ProjectWindow::DrawResources()
 				PrefabManager::Instance().AddPrefab(std::filesystem::path(path).stem().string(), path);
 			}
 		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("UI_OBJECT"))
+		{
+			auto data = (GameObject*)payload->Data;
+
+			// ファイルを開き保存
+			auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Objects/", L".gameobject");
+
+			// セーブ
+			if (!path.empty())
+			{
+				ObjectSaver::SaveObjectToFile(
+					path,
+					data
+				);
+
+				// マネージャーに追加
+				PrefabManager::Instance().AddPrefab(std::filesystem::path(path).stem().string(), path);
+			}
+		}
 		ImGui::EndDragDropTarget();
 	}
 }

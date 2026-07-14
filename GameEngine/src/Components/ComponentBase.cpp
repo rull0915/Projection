@@ -24,6 +24,7 @@
 /// </summary>
 ComponentBase::ComponentBase(IComponentOwner* own)
 	: m_own{ own }
+	, m_changedActive{ false }
 	, m_isActive{ true }
 	, m_ownerIsActive{ true }
 	, m_isStarted{ false }
@@ -56,11 +57,38 @@ void ComponentBase::SetOwnerActive(bool f)
 
 void ComponentBase::SetActive(bool f)
 {
-	// 変化がないなら何もしない
-	if (m_isActive == f) return;
+	// 現在フレーム終了時の予定状態
+	bool current = m_changedActive ? !m_isActive : m_isActive;
 
-	// フラグを更新
-	m_isActive = f;
+	// 既にその状態なら何もしない
+	if (current == f) return;
+
+	// 元の状態に戻るなら変更を取り消す
+	if (m_changedActive && f == m_isActive)
+	{
+		m_changedActive = false;
+	}
+	// 通常時はフラグを立てる
+	else
+	{
+		m_changedActive = true;
+
+		if (m_isActive)
+		{
+			Reserve();
+		}
+	}
+}
+
+void ComponentBase::Reserve()
+{
+	// 変更されていなかったら何もしない
+	if (!m_changedActive) return;
+
+	// フラグの更新
+	m_isActive = !m_isActive;
+
+	m_changedActive = false;
 
 	// 所有者がtrueなら
 	if (m_ownerIsActive)
@@ -72,9 +100,6 @@ void ComponentBase::SetActive(bool f)
 
 void ComponentBase::OnActiveChanged(bool f)
 {
-	// スタートが呼ばれる前は通知しない
-	if (!m_isStarted) return;
-	
 	// アクティブへ変更時
 	if (f)	
 	{

@@ -63,7 +63,7 @@ void ComponentContainer::RemoveRegistered()
 		// コンポーネントをマネージャーから削除
 		if (m_pScene) UnRegisterComponentToScene(component);
 
-		// 探索
+		// 目的のポインタと一致するイテレータを探索
 		auto it = std::find_if(
 			m_pComponents.begin(), m_pComponents.end(),
 			[&component](const std::unique_ptr<ComponentBase>& ptr) {
@@ -74,6 +74,21 @@ void ComponentContainer::RemoveRegistered()
 		if (it != m_pComponents.end())
 		{
 			m_pComponents.erase(it);
+		}
+		else
+		{
+			// 予約リストから探索
+			auto it = std::find_if(
+				m_addReserves.begin(), m_addReserves.end(),
+				[&component](const std::unique_ptr<ComponentBase>& ptr) {
+					return ptr.get() == component;
+				});
+
+			// 見つかれば削除
+			if (it != m_addReserves.end())
+			{
+				m_addReserves.erase(it);
+			}
 		}
 	}
 

@@ -112,6 +112,9 @@ void UpdatePipeline::Finalize()
 	// オブジェクトのリセット
 	m_objectManager->Finalize();
 
+	m_uiManager->Finalize();
+	m_uiManager->Reset();
+
 	// 各マネージャーから全削除
 	m_rendererManager->RemoveReserved();
 	m_physicsManager->RemoveReserved();
@@ -121,7 +124,4 @@ void UpdatePipeline::Finalize()
 	m_physicsManager2D->GetCollideManager()->ReflectReserves();
 
 	m_colEvent->ResetEvent();
-
-	m_uiManager->Finalize();
-	m_uiManager->Reset();
 }

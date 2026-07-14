@@ -102,7 +102,23 @@ public:
 	// Destroyのオブジェクトを削除する関数
 	void RemoveReserves()
 	{
-		std::erase_if(m_uiObjects, [](const std::unique_ptr<GameObject>& obj) { return obj->IsDead(); });
+		// Deadフラグがオンのオブジェクトを削除
+		std::erase_if(
+			m_uiObjects,
+			[](const std::unique_ptr<GameObject>& object)
+			{
+				// フラグがオンなら
+				if (object->IsDead())
+				{
+					// 終了処理
+					object->Finalize();
+
+					// true
+					return true;
+				}
+				return false;
+			}
+		);
 	}
 
 	//-----------------------------------------------------

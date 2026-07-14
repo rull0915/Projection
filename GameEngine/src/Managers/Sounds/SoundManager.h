@@ -16,7 +16,7 @@
 //====================================================//
 #include <unordered_set>
 
-#include "Components/World/Sounds/AudioSource.h"
+#include "Components/Both/Sounds/AudioSource.h"
 #include "Components/World/Sounds/AudioListener.h"
 
 //====================================================//
@@ -68,8 +68,14 @@ public:
 	}
 
 	// 登録予約
-	void AddAudioSource(AudioSource* r) { m_reserves.push_back(r); }
-	void RemoveAudioSource(AudioSource* r) { m_removeReserves.insert(r); }
+	void AddAudioSource(AudioSource* r) 
+	{
+		m_reserves.push_back(r); 
+	}
+	void RemoveAudioSource(AudioSource* r) 
+	{
+		m_removeReserves.insert(r); 
+	}
 
 	// リスナーの設定
 	void SetListener(AudioListener* l)
@@ -101,6 +107,9 @@ public:
 	// 予約済みポインタの削除
 	void RemoveReserved()
 	{
+		// 削除予約がなければ何もしない
+		if (m_removeReserves.empty()) return;
+
 		// 削除リストに含まれる要素を削除
 		std::erase_if(
 			m_sources,

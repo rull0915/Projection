@@ -165,10 +165,7 @@ void UIManager::Finalize()
 	// 全キャンバスの終了処理を呼び出す
 	for (auto& canvas : m_canvases)
 	{
-		if (canvas->IsActive())
-		{
-			canvas->Finalize();
-		}
+		canvas->Finalize();
 	}
 }
 

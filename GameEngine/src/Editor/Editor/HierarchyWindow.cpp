@@ -216,7 +216,7 @@ void HierarchyWindow::DrawGameObject(GameObject* object)
 	// 右クリック時のメニュー
 	if (ImGui::BeginPopupContextItem())
 	{
-		// Deleteを表示
+		// Delete
 		if (ImGui::MenuItem("Delete"))
 		{
 			// 削除
@@ -375,6 +375,16 @@ void HierarchyWindow::DrawCanvas(Canvas* canvas)
 			{
 				t->SetParent(root->GetComponent<RectTransform>());
 			}
+		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB"))
+		{
+			auto data = (std::wstring*)payload->Data;
+
+			// 追加
+			GameObject* obj = canvas->Generate();
+
+			// 読み込み
+			ObjectLoader::LoadUIFromFile(*data, obj, canvas);
 		}
 
 		ImGui::EndDragDropTarget();

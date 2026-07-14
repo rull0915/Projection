@@ -40,6 +40,9 @@ private:
 	// 自身の所有者のポインタ
 	IComponentOwner* m_own;
 
+	// アクティブ状況変更フラグ
+	bool m_changedActive;
+
 	// アクティブフラグ
 	bool m_isActive;
 
@@ -61,11 +64,14 @@ public:
 	// ゲッター
 	//-----------------------------------------------------
 
-	IComponentOwner* GetOwn() const { return m_own; }   // 所有者
+	// 所有者
+	IComponentOwner* GetOwn() const { return m_own; }
 
-	bool IsActive() const { return m_isActive && m_ownerIsActive; }  // アクティブフラグ
+	// アクティブフラグ
+	bool IsActive() const { return m_isActive && m_ownerIsActive; }
 
-	bool IsStarted() const { return m_isStarted; }      // スタート済みかどうか
+	// スタート済みかどうか
+	bool IsStarted() const { return m_isStarted; }      
 
 	// カテゴリ
 	virtual ComponentCategory GetCategory() const { return Category::Original; }
@@ -83,6 +89,9 @@ public:
 	void SetStart() { m_isStarted = true; }
 
 public:
+
+	// アクティブフラグの変更を適応する関数
+	void Reserve();
 
 	//-----------------------------------------------------
 	// 仮想関数

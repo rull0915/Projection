@@ -60,16 +60,23 @@ void Canvas::Update(const GameTimer& gameTimer, bool playing)
 	// 生成予約されたオブジェクトを登録
 	AddReserves();
 
+	// 全オブジェクトのアクティブ反映
+	for (auto& object : m_uiObjects)
+	{
+		object->Reserve();
+	}
+
 	// 全オブジェクトのコンポーネントを追加
 	for (auto& object : m_uiObjects)
 	{
 		// アクティブチェック
-		if (!object->IsActive()) continue;
-
-		// 更新処理
-		if (playing || object->IsInvincible())
+		if (object->IsActive())
 		{
-			object->GetComponentContainer().AwakeComponets();
+			// 更新処理
+			if (playing || object->IsInvincible())
+			{
+				object->GetComponentContainer().AwakeComponets();
+			}
 		}
 
 		// 予約されたコンポーネントを追加
@@ -119,9 +126,6 @@ void Canvas::RemoveDeadComponent()
 	// 全オブジェクトの予約済みコンポーネントを削除
 	for (auto& object : m_uiObjects)
 	{
-		// アクティブチェック
-		if (!object->IsActive()) continue;
-
 		// 予約されたコンポーネントを追加
 		object->GetComponentContainer().RemoveRegistered();
 	}
