@@ -11,182 +11,185 @@
 
 #pragma once
 
-class IComponentOwner;
-class ColliderBase;
-class ColliderBase2D;
-class RigidBody;
-class RigidBody2D;
-
-//====================================================//
-// 構造体宣言
-//====================================================//
-
-struct ObjectPair
+namespace REngine
 {
-	ColliderBase* a;
-	ColliderBase* b;
+	class IComponentOwner;
+	class ColliderBase;
+	class ColliderBase2D;
+	class RigidBody;
+	class RigidBody2D;
 
-public:
-	ObjectPair(ColliderBase* pA, ColliderBase* pB)
+	//====================================================//
+	// 構造体宣言
+	//====================================================//
+
+	struct ObjectPair
 	{
-		a = pA > pB ? pA : pB;
-		b = pA < pB ? pA : pB;
-	}
+		ColliderBase* a;
+		ColliderBase* b;
 
-	bool operator==(const ObjectPair& other) const
+	public:
+		ObjectPair(ColliderBase* pA, ColliderBase* pB)
+		{
+			a = pA > pB ? pA : pB;
+			b = pA < pB ? pA : pB;
+		}
+
+		bool operator==(const ObjectPair& other) const
+		{
+			return (a == other.a && b == other.b) ||
+				(a == other.b && b == other.a);
+		}
+	};
+
+	struct ObjectPairHash
 	{
-		return (a == other.a && b == other.b) ||
-			(a == other.b && b == other.a);
-	}
-};
+		size_t operator()(const ObjectPair& p) const
+		{
+			size_t h1 = std::hash<ColliderBase*>()(p.a);
+			size_t h2 = std::hash<ColliderBase*>()(p.b);
+			return h1 ^ (h2 << 1);
+		}
+	};
 
-struct ObjectPairHash
-{
-	size_t operator()(const ObjectPair& p) const
+	struct ObjectPair2D
 	{
-		size_t h1 = std::hash<ColliderBase*>()(p.a);
-		size_t h2 = std::hash<ColliderBase*>()(p.b);
-		return h1 ^ (h2 << 1);
-	}
-};
+		ColliderBase2D* a;
+		ColliderBase2D* b;
 
-struct ObjectPair2D
-{
-	ColliderBase2D* a;
-	ColliderBase2D* b;
+	public:
+		ObjectPair2D(ColliderBase2D* pA, ColliderBase2D* pB)
+		{
+			a = pA > pB ? pA : pB;
+			b = pA < pB ? pA : pB;
+		}
 
-public:
-	ObjectPair2D(ColliderBase2D* pA, ColliderBase2D* pB)
+		bool operator==(const ObjectPair2D& other) const
+		{
+			return (a == other.a && b == other.b) ||
+				(a == other.b && b == other.a);
+		}
+	};
+
+	struct ObjectPairHash2D
 	{
-		a = pA > pB ? pA : pB;
-		b = pA < pB ? pA : pB;
-	}
+		size_t operator()(const ObjectPair2D& p) const
+		{
+			size_t h1 = std::hash<ColliderBase2D*>()(p.a);
+			size_t h2 = std::hash<ColliderBase2D*>()(p.b);
+			return h1 ^ (h2 << 1);
+		}
+	};
 
-	bool operator==(const ObjectPair2D& other) const
+	struct HitContact
 	{
-		return (a == other.a && b == other.b) ||
-			(a == other.b && b == other.a);
-	}
-};
+		// 衝突した2つのオブジェクト
+		IComponentOwner* own = nullptr;
+		IComponentOwner* other = nullptr;
 
-struct ObjectPairHash2D
-{
-	size_t operator()(const ObjectPair2D& p) const
+		// 衝突したリジッドボディ
+		RigidBody* ownRigid = nullptr;
+		RigidBody* otherRigid = nullptr;
+
+		// 衝突したコライダー
+		ColliderBase* ownCol = nullptr;
+		ColliderBase* otherCol = nullptr;
+
+		// トリガーフラグ
+		bool isTrigger = false;
+
+		// スタティックかどうか
+		bool ownIsStatic = false;
+		bool otherIsStatic = false;
+
+		// 衝突法線
+		DirectX::SimpleMath::Vector3 normal = DirectX::SimpleMath::Vector3::Zero;
+
+		// めり込み量
+		float penetration = 0.0f;
+
+		// 衝突点(未使用)
+		DirectX::SimpleMath::Vector3 point = DirectX::SimpleMath::Vector3::Zero;
+
+		HitContact Inverse() const
+		{
+			HitContact hit;
+
+			hit.own = other;
+			hit.other = own;
+
+			hit.ownRigid = otherRigid;
+			hit.otherRigid = ownRigid;
+
+			hit.ownCol = otherCol;
+			hit.otherCol = ownCol;
+
+			hit.isTrigger = isTrigger;
+
+			hit.ownIsStatic = otherIsStatic;
+			hit.otherIsStatic = ownIsStatic;
+
+			hit.normal = -normal;
+			hit.penetration = penetration;
+			hit.point = point;
+
+			return hit;
+		}
+	};
+
+	struct HitContact2D
 	{
-		size_t h1 = std::hash<ColliderBase2D*>()(p.a);
-		size_t h2 = std::hash<ColliderBase2D*>()(p.b);
-		return h1 ^ (h2 << 1);
-	}
-};
+		// 衝突した2つのオブジェクト
+		IComponentOwner* own = nullptr;
+		IComponentOwner* other = nullptr;
 
-struct HitContact
-{
-	// 衝突した2つのオブジェクト
-	IComponentOwner* own = nullptr;
-	IComponentOwner* other = nullptr;
+		// 衝突したリジッドボディ
+		RigidBody2D* ownRigid = nullptr;
+		RigidBody2D* otherRigid = nullptr;
 
-	// 衝突したリジッドボディ
-	RigidBody* ownRigid = nullptr;
-	RigidBody* otherRigid = nullptr;
+		// 衝突したコライダー
+		ColliderBase2D* ownCol = nullptr;
+		ColliderBase2D* otherCol = nullptr;
 
-	// 衝突したコライダー
-	ColliderBase* ownCol = nullptr;
-	ColliderBase* otherCol = nullptr;
+		// トリガーフラグ
+		bool isTrigger = false;
 
-	// トリガーフラグ
-	bool isTrigger = false;
+		// スタティックかどうか
+		bool ownIsStatic = false;
+		bool otherIsStatic = false;
 
-	// スタティックかどうか
-	bool ownIsStatic = false;
-	bool otherIsStatic = false;
+		// 衝突法線
+		DirectX::SimpleMath::Vector2 normal = DirectX::SimpleMath::Vector2::Zero;
 
-	// 衝突法線
-	DirectX::SimpleMath::Vector3 normal = DirectX::SimpleMath::Vector3::Zero;
+		// めり込み量
+		float penetration = 0.0f;
 
-	// めり込み量
-	float penetration = 0.0f;
+		// 衝突点(未使用)
+		DirectX::SimpleMath::Vector2 point = DirectX::SimpleMath::Vector2::Zero;
 
-	// 衝突点(未使用)
-	DirectX::SimpleMath::Vector3 point = DirectX::SimpleMath::Vector3::Zero;
+		HitContact2D Inverse() const
+		{
+			HitContact2D hit;
 
-	HitContact Inverse() const
-	{
-		HitContact hit;
+			hit.own = other;
+			hit.other = own;
 
-		hit.own = other;
-		hit.other = own;
+			hit.ownRigid = otherRigid;
+			hit.otherRigid = ownRigid;
 
-		hit.ownRigid = otherRigid;
-		hit.otherRigid = ownRigid;
+			hit.ownCol = otherCol;
+			hit.otherCol = ownCol;
 
-		hit.ownCol = otherCol;
-		hit.otherCol = ownCol;
+			hit.isTrigger = isTrigger;
 
-		hit.isTrigger = isTrigger;
+			hit.ownIsStatic = otherIsStatic;
+			hit.otherIsStatic = ownIsStatic;
 
-		hit.ownIsStatic = otherIsStatic;
-		hit.otherIsStatic = ownIsStatic;
+			hit.normal = -normal;
+			hit.penetration = penetration;
+			hit.point = point;
 
-		hit.normal = -normal;
-		hit.penetration = penetration;
-		hit.point = point;
-
-		return hit;
-	}
-};
-
-struct HitContact2D
-{
-	// 衝突した2つのオブジェクト
-	IComponentOwner* own = nullptr;
-	IComponentOwner* other = nullptr;
-
-	// 衝突したリジッドボディ
-	RigidBody2D* ownRigid = nullptr;
-	RigidBody2D* otherRigid = nullptr;
-
-	// 衝突したコライダー
-	ColliderBase2D* ownCol = nullptr;
-	ColliderBase2D* otherCol = nullptr;
-
-	// トリガーフラグ
-	bool isTrigger = false;
-
-	// スタティックかどうか
-	bool ownIsStatic = false;
-	bool otherIsStatic = false;
-
-	// 衝突法線
-	DirectX::SimpleMath::Vector2 normal = DirectX::SimpleMath::Vector2::Zero;
-
-	// めり込み量
-	float penetration = 0.0f;
-
-	// 衝突点(未使用)
-	DirectX::SimpleMath::Vector2 point = DirectX::SimpleMath::Vector2::Zero;
-
-	HitContact2D Inverse() const
-	{
-		HitContact2D hit;
-
-		hit.own = other;
-		hit.other = own;
-
-		hit.ownRigid = otherRigid;
-		hit.otherRigid = ownRigid;
-
-		hit.ownCol = otherCol;
-		hit.otherCol = ownCol;
-
-		hit.isTrigger = isTrigger;
-
-		hit.ownIsStatic = otherIsStatic;
-		hit.otherIsStatic = ownIsStatic;
-
-		hit.normal = -normal;
-		hit.penetration = penetration;
-		hit.point = point;
-
-		return hit;
-	}
-};
+			return hit;
+		}
+	};
+}	// namespace REngine

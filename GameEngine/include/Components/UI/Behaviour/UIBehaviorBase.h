@@ -17,57 +17,54 @@
 #include "Components/UI/UIComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class UIBehaviorBase : public UIComponentBase
+namespace REngine
 {
-private:
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	bool m_isHovered;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	UIBehaviorBase(IComponentOwner* own)
-		: UIComponentBase(own)
-		, m_isHovered{ false }
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class UIBehaviorBase : public UIComponentBase
 	{
-	}
-	~UIBehaviorBase() = default;
+	private:
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		bool m_isHovered;
 
-	// マウスクリック開始時
-	virtual void OnMouseDown() {};
+	public:
 
-	// マウスクリック終了時
-	virtual void OnMouseUp() {};
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		UIBehaviorBase(IComponentOwner* own)
+			: UIComponentBase(own)
+			, m_isHovered{ false }
+		{}
+		~UIBehaviorBase() = default;
 
-	// ホバーセット
-	void SetHovered(bool hovered) { m_isHovered = hovered; };
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+		// マウスクリック開始時
+		virtual void OnMouseDown() {};
 
-	// カテゴリをUIビヘイビアに指定
-	ComponentCategory GetCategory() const override
-	{
-		return Category::UIBehavior;
-	}
+		// マウスクリック終了時
+		virtual void OnMouseUp() {};
 
-	bool IsHovered() { return m_isHovered; }
-};
+		// ホバーセット
+		void SetHovered(bool hovered) { m_isHovered = hovered; };
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// カテゴリをUIビヘイビアに指定
+		ComponentCategory GetCategory() const override
+		{
+			return Category::UIBehavior;
+		}
+
+		bool IsHovered() { return m_isHovered; }
+	};
+} // namespace REngine

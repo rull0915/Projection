@@ -20,106 +20,109 @@
 
 #include "Managers/UI/Canvas.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Renderer;
-class Scene;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class UIManager
+namespace REngine
 {
-private:
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Renderer;
+	class Scene;
 
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 保持するキャンバスのリスト
-	std::vector<std::unique_ptr<Canvas>> m_addReserves;
-	std::vector<std::unique_ptr<Canvas>> m_canvases;
-
-	bool m_needSort; // キャンバスの描画順を再ソートする必要があるか
-
-	// シーンへのポインタ
-	Scene* m_pScene;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	UIManager(Scene* pScene);
-	~UIManager();
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	void Update(const GameTimer& gameTimer, bool playing);
-	void LateUpdate(const GameTimer& gameTimer, bool playing);
-
-	void Draw(Renderer& renderer);
-
-	void Finalize();
-
-	// マウスとの衝突を調べる関数
-	void CheckHitRay(DirectX::SimpleMath::Vector2 position);
-
-	// キャンバスを生成する関数
-	Canvas* CreateCanvas();
-
-	// キャンバスからオブジェクトの削除を行う関数
-	void RemoveObjects();
-
-	// デバッグ描画関数
-	void DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color);
-
-	// リセット
-	void Reset()
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class UIManager
 	{
-		m_addReserves.clear();
-		m_canvases.clear();
+	private:
 
-		m_needSort = true;
-	}
+		//-----------------------------------------------------
+		// 定数
+		//-----------------------------------------------------
 
-	// 全キャンバスを取得する関数
-	const std::vector<std::unique_ptr<Canvas>>& GetAllCanvas() const { return m_canvases; }
-	const std::vector<std::unique_ptr<Canvas>>& GetAllReserves() const { return m_addReserves; }
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// シーンポインタ
-	Scene* GetScene() const { return m_pScene; }
+		// 保持するキャンバスのリスト
+		std::vector<std::unique_ptr<Canvas>> m_addReserves;
+		std::vector<std::unique_ptr<Canvas>> m_canvases;
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+		bool m_needSort; // キャンバスの描画順を再ソートする必要があるか
 
-	void SetNeedSort(bool f) { m_needSort = f; }
+		// シーンへのポインタ
+		Scene* m_pScene;
 
-private:
+	public:
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		UIManager(Scene* pScene);
+		~UIManager();
 
-	// キャンバスの並び順をソートする関数
-	void SortCanvas();
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	// 予約済みキャンバスを登録する関数
-	void RegisterReserveCanvases();
+		void Update(const GameTimer& gameTimer, bool playing);
+		void LateUpdate(const GameTimer& gameTimer, bool playing);
 
-	// 削除済みキャンバスを削除する関数
-	void RemoveDestroyedCanvas();
-};
+		void Draw(Renderer& renderer);
+
+		void Finalize();
+
+		// マウスとの衝突を調べる関数
+		void CheckHitRay(DirectX::SimpleMath::Vector2 position);
+
+		// キャンバスを生成する関数
+		Canvas* CreateCanvas();
+
+		// キャンバスからオブジェクトの削除を行う関数
+		void RemoveObjects();
+
+		// デバッグ描画関数
+		void DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color);
+
+		// リセット
+		void Reset()
+		{
+			m_addReserves.clear();
+			m_canvases.clear();
+
+			m_needSort = true;
+		}
+
+		// 全キャンバスを取得する関数
+		const std::vector<std::unique_ptr<Canvas>>& GetAllCanvas() const { return m_canvases; }
+		const std::vector<std::unique_ptr<Canvas>>& GetAllReserves() const { return m_addReserves; }
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// シーンポインタ
+		Scene* GetScene() const { return m_pScene; }
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetNeedSort(bool f) { m_needSort = f; }
+
+	private:
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
+		// キャンバスの並び順をソートする関数
+		void SortCanvas();
+
+		// 予約済みキャンバスを登録する関数
+		void RegisterReserveCanvases();
+
+		// 削除済みキャンバスを削除する関数
+		void RemoveDestroyedCanvas();
+	};
+}	// namespace REngine

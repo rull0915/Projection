@@ -19,73 +19,71 @@
 #include <unordered_map>
 #include <string>
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-
-namespace Input
+namespace REngine
 {
-	enum class Type
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+
+	namespace Input
 	{
-		Key,
-		Mouse,
-	};
-
-	struct Bind
-	{
-		// 入力デバイスの種類
-		Type deviceType;
-		
-		// 入力の状態
-		State state;
-
-		// 入力のID
-		ID inputID;
-	};
-
-	struct Axis
-	{
-		std::vector<Bind> negative;
-		std::vector<Bind> positive;
-
-		enum class Side : bool
+		enum class Type
 		{
-			Positive = true,
-			Negative = false
+			Key,
+			Mouse,
 		};
-	};
 
-	struct Button
-	{
-		std::vector<Bind> inputs;
-	};
+		struct Bind
+		{
+			// 入力デバイスの種類
+			Type deviceType;
 
-	class Custom
-	{
-	private:
-		// ユーザー設定のキー入力を保持する変数
-		inline static std::unordered_map<std::string, Axis> m_axes;
+			// 入力の状態
+			State state;
 
-		inline static std::unordered_map<std::string, Button> m_buttons;
+			// 入力のID
+			ID inputID;
+		};
 
-	public:
-		// 入力を調べる関数
-		static bool GetButton(const std::string& key);
+		struct Axis
+		{
+			std::vector<Bind> negative;
+			std::vector<Bind> positive;
 
-		static int GetAxis(const std::string& key);
+			enum class Side : bool
+			{
+				Positive = true,
+				Negative = false
+			};
+		};
 
-		// 入力を追加する関数
-		static void AddButton(const std::string& key, const Bind& bind);
+		struct Button
+		{
+			std::vector<Bind> inputs;
+		};
 
-		static void AddAxis(const std::string& key, const Bind& bind, Axis::Side side);
+		class Custom
+		{
+		private:
+			// ユーザー設定のキー入力を保持する変数
+			inline static std::unordered_map<std::string, Axis> m_axes;
 
-	private:
-		// Bindの入力状態を取得する関数
-		static bool GetBindInput(Bind bind);
-	};
-}
+			inline static std::unordered_map<std::string, Button> m_buttons;
+
+		public:
+			// 入力を調べる関数
+			static bool GetButton(const std::string& key);
+
+			static int GetAxis(const std::string& key);
+
+			// 入力を追加する関数
+			static void AddButton(const std::string& key, const Bind& bind);
+
+			static void AddAxis(const std::string& key, const Bind& bind, Axis::Side side);
+
+		private:
+			// Bindの入力状態を取得する関数
+			static bool GetBindInput(Bind bind);
+		};
+	}
+}	// namespace REngine

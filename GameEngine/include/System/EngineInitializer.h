@@ -24,41 +24,45 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EngineInitializer
+
+namespace REngine
 {
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+	class EngineInitializer
+	{
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 初期化済みフラグ
-	inline static bool m_isInitialized = false;
+		// 初期化済みフラグ
+		inline static bool m_isInitialized = false;
 
-public:
+	public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	EngineInitializer() = default;
-	~EngineInitializer() = default;
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		EngineInitializer() = default;
+		~EngineInitializer() = default;
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	// ゲームエンジン部分全体の初期化
-	static void EngineInitialize();
+		// ゲームエンジン部分全体の初期化
+		static void EngineInitialize();
 
-private:
-	
-	// 3D衝突関数の登録
-	static void Regist3DCollisions();
+	private:
 
-	// 2D衝突関数の登録
-	static void Regist2DCollisions();
+		// 3D衝突関数の登録
+		static void Regist3DCollisions();
 
-	// Ray衝突関数の登録
-	static void RegistRayCollisions();
+		// 2D衝突関数の登録
+		static void Regist2DCollisions();
 
-	// デフォルトのカスタムキーの登録
-	static void RegistCustomKeys();
-};
+		// Ray衝突関数の登録
+		static void RegistRayCollisions();
+
+		// デフォルトのカスタムキーの登録
+		static void RegistCustomKeys();
+	};
+} // namespace REngine

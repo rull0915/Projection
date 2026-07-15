@@ -11,42 +11,40 @@
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-
-//====================================================//
-// 前方宣言
-//====================================================//
-struct HitContact;
-struct HitContact2D;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class IColliderReceiver
+namespace REngine
 {
-public:
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	struct HitContact;
+	struct HitContact2D;
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	virtual ~IColliderReceiver() = default;
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class IColliderReceiver
+	{
+	public:
 
-	// 3D
-	virtual void BaseOnCollisionEnter(HitContact& contact) = 0;
-	virtual void BaseOnCollisionStay(HitContact& contact) = 0;
-	virtual void BaseOnCollisionExit(HitContact& contact) = 0;
-	virtual void BaseOnTriggerEnter(HitContact& contact) = 0;
-	virtual void BaseOnTriggerStay(HitContact& contact) = 0;
-	virtual void BaseOnTriggerExit(HitContact& contact) = 0;
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		virtual ~IColliderReceiver() = default;
 
-	// 2D
-	virtual void BaseOnCollisionEnter2D(HitContact2D& contact) = 0;
-	virtual void BaseOnCollisionStay2D(HitContact2D& contact) = 0;
-	virtual void BaseOnCollisionExit2D(HitContact2D& contact) = 0;
-	virtual void BaseOnTriggerEnter2D(HitContact2D& contact) = 0;
-	virtual void BaseOnTriggerStay2D(HitContact2D& contact) = 0;
-	virtual void BaseOnTriggerExit2D(HitContact2D& contact) = 0;
-};
+		// 3D
+		virtual void BaseOnCollisionEnter(HitContact& contact) = 0;
+		virtual void BaseOnCollisionStay(HitContact& contact) = 0;
+		virtual void BaseOnCollisionExit(HitContact& contact) = 0;
+		virtual void BaseOnTriggerEnter(HitContact& contact) = 0;
+		virtual void BaseOnTriggerStay(HitContact& contact) = 0;
+		virtual void BaseOnTriggerExit(HitContact& contact) = 0;
+
+		// 2D
+		virtual void BaseOnCollisionEnter2D(HitContact2D& contact) = 0;
+		virtual void BaseOnCollisionStay2D(HitContact2D& contact) = 0;
+		virtual void BaseOnCollisionExit2D(HitContact2D& contact) = 0;
+		virtual void BaseOnTriggerEnter2D(HitContact2D& contact) = 0;
+		virtual void BaseOnTriggerStay2D(HitContact2D& contact) = 0;
+		virtual void BaseOnTriggerExit2D(HitContact2D& contact) = 0;
+	};
+} // namespace REngine

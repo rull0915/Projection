@@ -17,68 +17,66 @@
 #include "../ColliderBase2D.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class CircleCollider2D : public ColliderBase2D, public IDebugRenderable
+namespace REngine
 {
-private:
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 半径
-	float m_radius;
-public:
-
-	//-----------------------------------------------------
-	// 生成 / 破棄
-	//-----------------------------------------------------
-	CircleCollider2D(IComponentOwner* own)
-		: ColliderBase2D(own)
-		, m_radius{ 0.5f }
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class CircleCollider2D : public ColliderBase2D, public IDebugRenderable
 	{
-		ADD_PROPERTY(m_radius);
+	private:
+
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
+
+		// 半径
+		float m_radius;
+	public:
+
+		//-----------------------------------------------------
+		// 生成 / 破棄
+		//-----------------------------------------------------
+		CircleCollider2D(IComponentOwner* own)
+			: ColliderBase2D(own)
+			, m_radius{ 0.5f }
+		{
+			ADD_PROPERTY(m_radius);
+		};
+		~CircleCollider2D() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// キャッシュ更新
+		void UpdateCache() const override;
+
+		// デバッグ描画
+		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// ID取得
+		unsigned int GetID() override
+		{
+			return TypeIDGenerator::GetID<CircleCollider2D>();
+		}
+
+		float GetRadius() const
+		{
+			return m_radius;
+		}
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+		void SetRadius(float rad)
+		{
+			m_radius = rad;
+			SetDirty();
+		}
 	};
-	~CircleCollider2D() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// キャッシュ更新
-	void UpdateCache() const override;
-
-	// デバッグ描画
-	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return TypeIDGenerator::GetID<CircleCollider2D>();
-	}
-
-	float GetRadius() const
-	{
-		return m_radius;
-	}
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-	void SetRadius(float rad)
-	{
-		m_radius = rad;
-		SetDirty();
-	}
-};
+} // namespace REngine

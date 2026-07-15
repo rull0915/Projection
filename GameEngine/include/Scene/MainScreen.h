@@ -16,81 +16,84 @@
 //====================================================//
 #include "System/Render/RenderTarget.h"
 
-class Renderer;
-//====================================================//
-// クラス宣言
-//====================================================//
-
-/// <summary>
-/// メインスクリーン
-/// </summary>
-class MainScreen
+namespace REngine
 {
-private:
-    //-----------------------------------------------------
-    // メンバ変数
-    //-----------------------------------------------------
-	
-	// 描画するかどうか
-	bool m_draw;
+	class Renderer;
+	//====================================================//
+	// クラス宣言
+	//====================================================//
 
-	// 使用する描画ターゲット
-	std::unique_ptr<RenderTarget> m_defaultRenderTarget;
+	/// <summary>
+	/// メインスクリーン
+	/// </summary>
+	class MainScreen
+	{
+	private:
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 描画の始点
-	DirectX::SimpleMath::Vector2 m_startPoint;
+		// 描画するかどうか
+		bool m_draw;
 
-	// 描画の拡大率
-	DirectX::SimpleMath::Vector2 m_scale;
+		// 使用する描画ターゲット
+		std::unique_ptr<RenderTarget> m_defaultRenderTarget;
 
-public:
+		// 描画の始点
+		DirectX::SimpleMath::Vector2 m_startPoint;
 
-    //-----------------------------------------------------
-    // コンストラクタ / デストラクタ
-    //-----------------------------------------------------
-    MainScreen();
-    ~MainScreen() = default;
+		// 描画の拡大率
+		DirectX::SimpleMath::Vector2 m_scale;
 
-    //-----------------------------------------------------
-    // 公開関数
-    //-----------------------------------------------------
-	
-	// 描画関数
-	void Render(Renderer& renderer);
+	public:
 
-	// メインスクリーンの位置を反映したマウス位置を取得する関数
-	DirectX::SimpleMath::Vector2 GetMousePointOnMainScreen();
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		MainScreen();
+		~MainScreen() = default;
 
-    //-----------------------------------------------------
-    // ゲッター
-    //-----------------------------------------------------
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	// 始点
-	DirectX::SimpleMath::Vector2 GetMainScreenStartPoint() const { return m_startPoint; }
+		// 描画関数
+		void Render(Renderer& renderer);
 
-	// 拡大率
-	DirectX::SimpleMath::Vector2 GetMainScreenScale() const { return m_scale; }
+		// メインスクリーンの位置を反映したマウス位置を取得する関数
+		DirectX::SimpleMath::Vector2 GetMousePointOnMainScreen();
 
-	// レンダーターゲット
-	RenderTarget* GetRenderTarget() const { return m_defaultRenderTarget.get(); }
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
 
-    //-----------------------------------------------------
-    // セッター
-    //-----------------------------------------------------
+		// 始点
+		DirectX::SimpleMath::Vector2 GetMainScreenStartPoint() const { return m_startPoint; }
 
-	// 始点
-	void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
+		// 拡大率
+		DirectX::SimpleMath::Vector2 GetMainScreenScale() const { return m_scale; }
 
-	// 拡大率
-	void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
+		// レンダーターゲット
+		RenderTarget* GetRenderTarget() const { return m_defaultRenderTarget.get(); }
 
-	// 描画フラグ
-	void SetIsDraw(bool f) { m_draw = f; }
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
 
-private:
+		// 始点
+		void SetMainScreenStartPoint(DirectX::SimpleMath::Vector2 p) { m_startPoint = p; };
 
-    //-----------------------------------------------------
-    // 内部実装
-    //-----------------------------------------------------
+		// 拡大率
+		void SetMainScreenScale(DirectX::SimpleMath::Vector2 p) { m_scale = p; };
 
-};
+		// 描画フラグ
+		void SetIsDraw(bool f) { m_draw = f; }
+
+	private:
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
+	};
+}	// namespace REngine

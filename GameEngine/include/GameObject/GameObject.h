@@ -25,302 +25,334 @@
 
 #include "ComponentContainer.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-class Scene;
-class Renderer;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-
-class GameObject final 
-	: public PropertyObject			// プロパティ
-	, public IComponentOwner        // コンポーネントに公開するインターフェース
-	, public IColliderReceiver      // コライダーの衝突応答を受け取るインターフェース
+namespace REngine
 {
-public:
-	// GameObjectを作成できるクラスを制限する為の仲介クラス
-	class CreateToken
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Scene;
+	class Renderer;
+
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+
+	class GameObject final
+		: public PropertyObject			// プロパティ
+		, public IComponentOwner        // コンポーネントに公開するインターフェース
+		, public IColliderReceiver      // コライダーの衝突応答を受け取るインターフェース
 	{
+	public:
+		// GameObjectを作成できるクラスを制限する為の仲介クラス
+		class CreateToken
+		{
+		private:
+			CreateToken() = default;
+
+			// 作成可能クラスをfriendに指定
+			friend class ObjectFactory;
+			friend class Canvas;
+		};
+
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 	private:
-		CreateToken() = default;
-		
-		// 作成可能クラスをfriendに指定
-		friend class ObjectFactory;
-		friend class Canvas;
-	};
-	
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-private:
-	// コンポーネント
-	ComponentContainer m_components;
+		// コンポーネント
+		ComponentContainer m_components;
 
-	// 自身を持つシーンのポインタ
-	Scene* m_pScene;
+		// 自身を持つシーンのポインタ
+		Scene* m_pScene;
 
-	// アクティブ変更フラグ
-	bool m_changedActive;
+		// アクティブ変更フラグ
+		bool m_changedActive;
 
-	// 親がアクティブかどうかのフラグ
-	bool m_parentIsActive;
+		// 親がアクティブかどうかのフラグ
+		bool m_parentIsActive;
 
-	// アクティブフラグ　
-	bool m_isActive;
+		// アクティブフラグ　
+		bool m_isActive;
 
-	// 削除フラグ
-	bool m_isDead;
+		// 削除フラグ
+		bool m_isDead;
 
-	// 削除不可フラグ
-	bool m_isInvincible;
+		// 削除不可フラグ
+		bool m_isInvincible;
 
-public:
-	// タグ
-	std::string m_tag;
+	public:
+		// タグ
+		std::string m_tag;
 
-	// 名前
-	std::string m_name;
+		// 名前
+		std::string m_name;
 
-public:
+	public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	GameObject(CreateToken);
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		GameObject(CreateToken);
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	void Finalize();
+		void Finalize();
 
-	void OnValidate();
+		void OnValidate();
 
-	// アクティブ変更の適用
-	void Reserve();
+		// アクティブ変更の適用
+		void Reserve();
 
-	GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
+		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-	bool IsActive() const override { return m_isActive && m_parentIsActive; }
-	
-	bool IsDead() const { return m_isDead; }
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+		bool IsActive() const override { return m_isActive && m_parentIsActive; }
 
-	Scene* GetScene() const { return m_pScene; }
+		bool IsDead() const { return m_isDead; }
 
-	bool IsInvincible() const { return m_isInvincible; }
+		Scene* GetScene() const { return m_pScene; }
 
-	const std::string& GetTag() const override { return m_tag; }
+		bool IsInvincible() const { return m_isInvincible; }
 
-	const std::string& GetName() const override { return m_name; }
+		const std::string& GetTag() const override { return m_tag; }
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-	void SetParentActive(bool f);
-	void SetActive(bool f);
+		const std::string& GetName() const override { return m_name; }
 
-	void SetInvincible(bool f) { m_isInvincible = f; }
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+		void SetParentActive(bool f);
+		void SetActive(bool f);
 
-	void SetScene(Scene* scene) 
-	{
-		m_pScene = scene; 
-		m_components.SetScene(scene);
-	}
+		void SetInvincible(bool f) { m_isInvincible = f; }
 
-	void SetTag(const std::string& tag) override { m_tag = tag; }
+		void SetScene(Scene* scene)
+		{
+			m_pScene = scene;
+			m_components.SetScene(scene);
+		}
 
-	void SetName(const std::string& name) override { m_name = name; }
+		void SetTag(const std::string& tag) override { m_tag = tag; }
 
-	void Destroy() override { m_isDead = true; }
+		void SetName(const std::string& name) override { m_name = name; }
 
-public:
-	// 衝突関連
+		void Destroy() override { m_isDead = true; }
+
+	public:
+		// 衝突関連
 #pragma region CollisionEvent
 
 	// 衝突時に呼び出される関数
 
 	// 3D
-	void BaseOnCollisionEnter(HitContact& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnCollisionEnter(contact);   // コンポーネントに通知
-	};
-	void BaseOnCollisionStay(HitContact& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnCollisionStay(contact);   // コンポーネントに通知
-	};
-	void BaseOnCollisionExit(HitContact& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnCollisionExit(contact);   // コンポーネントに通知
-	};
-	void BaseOnTriggerEnter(HitContact& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnTriggerEnter(contact);   // コンポーネントに通知
-	};
-	void BaseOnTriggerStay(HitContact& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnTriggerStay(contact);   // コンポーネントに通知
-	};
-	void BaseOnTriggerExit(HitContact& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnTriggerExit(contact);   // コンポーネントに通知
-	};
+		void BaseOnCollisionEnter(HitContact& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnCollisionEnter(contact);   // コンポーネントに通知
+		};
+		void BaseOnCollisionStay(HitContact& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnCollisionStay(contact);   // コンポーネントに通知
+		};
+		void BaseOnCollisionExit(HitContact& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnCollisionExit(contact);   // コンポーネントに通知
+		};
+		void BaseOnTriggerEnter(HitContact& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnTriggerEnter(contact);   // コンポーネントに通知
+		};
+		void BaseOnTriggerStay(HitContact& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnTriggerStay(contact);   // コンポーネントに通知
+		};
+		void BaseOnTriggerExit(HitContact& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnTriggerExit(contact);   // コンポーネントに通知
+		};
 
-	// 2D
-	void BaseOnCollisionEnter2D(HitContact2D& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnCollisionEnter2D(contact);   // コンポーネントに通知
-	};
-	void BaseOnCollisionStay2D(HitContact2D& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnCollisionStay2D(contact);   // コンポーネントに通知
-	};
-	void BaseOnCollisionExit2D(HitContact2D& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnCollisionExit2D(contact);   // コンポーネントに通知
-	};
-	void BaseOnTriggerEnter2D(HitContact2D& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnTriggerEnter2D(contact);   // コンポーネントに通知
-	};
-	void BaseOnTriggerStay2D(HitContact2D& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnTriggerStay2D(contact);   // コンポーネントに通知
-	};
-	void BaseOnTriggerExit2D(HitContact2D& contact) override
-	{
-		for (auto& component : m_components.GetAll()) component->OnTriggerExit2D(contact);   // コンポーネントに通知
-	};
+		// 2D
+		void BaseOnCollisionEnter2D(HitContact2D& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnCollisionEnter2D(contact);   // コンポーネントに通知
+		};
+		void BaseOnCollisionStay2D(HitContact2D& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnCollisionStay2D(contact);   // コンポーネントに通知
+		};
+		void BaseOnCollisionExit2D(HitContact2D& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnCollisionExit2D(contact);   // コンポーネントに通知
+		};
+		void BaseOnTriggerEnter2D(HitContact2D& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnTriggerEnter2D(contact);   // コンポーネントに通知
+		};
+		void BaseOnTriggerStay2D(HitContact2D& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnTriggerStay2D(contact);   // コンポーネントに通知
+		};
+		void BaseOnTriggerExit2D(HitContact2D& contact) override
+		{
+			for (auto& component : m_components.GetAll()) component->OnTriggerExit2D(contact);   // コンポーネントに通知
+		};
 
 #pragma endregion
 
-public:
-	// コンポーネント関連
+	public:
+		// コンポーネント関連
 #pragma region ComponentsFunc
 
 	// コンポーネントを追加する関数
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	T* AddComponent()
-	{ return m_components.Add<T>(); }
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		T* AddComponent()
+		{
+			return m_components.Add<T>();
+		}
 
-	// コンポーネントを1つ取得する関数
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	T* GetComponent() const
-	{ return m_components.Get<T>(); }
+		// コンポーネントを1つ取得する関数
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		T* GetComponent() const
+		{
+			return m_components.Get<T>();
+		}
 
-	// カテゴリからコンポーネントを1つ取得する関数
-	ComponentBase* GetComponentWithCategory(ComponentCategory category) const
-	{ return m_components.GetWithCategory(category); }
+		// カテゴリからコンポーネントを1つ取得する関数
+		ComponentBase* GetComponentWithCategory(ComponentCategory category) const
+		{
+			return m_components.GetWithCategory(category);
+		}
 
-	// 指定したコンポーネントをすべて取得する関数
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	std::vector<T*> GetComponents() const
-	{ return m_components.Gets<T>(); }
+		// 指定したコンポーネントをすべて取得する関数
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		std::vector<T*> GetComponents() const
+		{
+			return m_components.Gets<T>();
+		}
 
-	// カテゴリからコンポーネントを1つ取得する関数
-	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category) const
-	{ return m_components.GetsWithCategory(category); }
+		// カテゴリからコンポーネントを1つ取得する関数
+		std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category) const
+		{
+			return m_components.GetsWithCategory(category);
+		}
 
-	// 参照渡し版
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	void GetComponents(std::vector<T*>& array) const
-	{ m_components.Gets<T>(array); }
+		// 参照渡し版
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		void GetComponents(std::vector<T*>& array) const
+		{
+			m_components.Gets<T>(array);
+		}
 
-	// カテゴリからコンポーネントを1つ取得する関数
-	std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array) const
-	{ m_components.GetsWithCategory(category, array); }
+		// カテゴリからコンポーネントを1つ取得する関数
+		std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array) const
+		{
+			m_components.GetsWithCategory(category, array);
+		}
 
-	// コンポーネントをすべて取得する関数
-	const std::vector<ComponentBase*> GetAllComponents() const
-	{ return m_components.GetAll(); }
+		// コンポーネントをすべて取得する関数
+		const std::vector<ComponentBase*> GetAllComponents() const
+		{
+			return m_components.GetAll();
+		}
 
-	// コンポーネントがあるか調べる関数
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	bool HasComponent() const
-	{ return m_components.Has<T>(); }
+		// コンポーネントがあるか調べる関数
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		bool HasComponent() const
+		{
+			return m_components.Has<T>();
+		}
 
-	// コンポーネントを削除する関数
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	void RemoveComponent(T* component)
-	{ m_components.Remove(component); }
+		// コンポーネントを削除する関数
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		void RemoveComponent(T* component)
+		{
+			m_components.Remove(component);
+		}
 
-	// 型指定版
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	void RemoveComponent()
-	{ m_components.Remove<T>(); }
+		// 型指定版
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		void RemoveComponent()
+		{
+			m_components.Remove<T>();
+		}
 
-	// カテゴリ指定版
-	void RemoveComponentWithCategory(ComponentCategory caterogy)
-	{ m_components.RemoveWithCategory(caterogy); }
+		// カテゴリ指定版
+		void RemoveComponentWithCategory(ComponentCategory caterogy)
+		{
+			m_components.RemoveWithCategory(caterogy);
+		}
 
-	// 指定した型のコンポーネント全てを削除する関数
-	template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-	void RemoveComponents()
-	{ m_components.Removes<T>(); }
+		// 指定した型のコンポーネント全てを削除する関数
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		void RemoveComponents()
+		{
+			m_components.Removes<T>();
+		}
 
-	// コンポーネントを全て削除する関数(Transformは削除不可)
-	void RemoveComponents()
-	{ m_components.AllRemove(); }
+		// コンポーネントを全て削除する関数(Transformは削除不可)
+		void RemoveComponents()
+		{
+			m_components.AllRemove();
+		}
 
-	// カテゴリ指定版
-	void RemoveComponentsWithCategory(ComponentCategory caterogy)
-	{ m_components.RemovesWithCategory(caterogy); }
+		// カテゴリ指定版
+		void RemoveComponentsWithCategory(ComponentCategory caterogy)
+		{
+			m_components.RemovesWithCategory(caterogy);
+		}
 
-	// コンテナを取得する関数
-	ComponentContainer& GetComponentContainer() { return m_components; }
+		// コンテナを取得する関数
+		ComponentContainer& GetComponentContainer() { return m_components; }
 
 #pragma endregion
 
-	// ----- 内部実装 ------- //
-private:
+		// ----- 内部実装 ------- //
+	private:
 
-	// アクティブ状況が変更されたときに呼ばれる関数
-	void OnActiveChanged(bool f);
+		// アクティブ状況が変更されたときに呼ばれる関数
+		void OnActiveChanged(bool f);
 
-	// コンポーネントを取得するラップ関数
-	ComponentBase* GetComponentRaw(
-		unsigned int id
+		// コンポーネントを取得するラップ関数
+		ComponentBase* GetComponentRaw(
+			unsigned int id
 		) override
-	{
-		return m_components.Get(id);
-	}
+		{
+			return m_components.Get(id);
+		}
 
-	// コンポーネントを取得するラップ関数
-	ComponentBase* GetComponentWithCategoryRaw(
-		ComponentCategory category
+		// コンポーネントを取得するラップ関数
+		ComponentBase* GetComponentWithCategoryRaw(
+			ComponentCategory category
 		) override
-	{
-		return m_components.GetWithCategory(category);
-	}
+		{
+			return m_components.GetWithCategory(category);
+		}
 
-	// 全てのコンポーネントを取得するラップ関数
-	void GetComponentsRaw(
-		unsigned int id,
-		std::vector<ComponentBase*>& out) override
-	{
-		m_components.Gets(id, out);
-	}
+		// 全てのコンポーネントを取得するラップ関数
+		void GetComponentsRaw(
+			unsigned int id,
+			std::vector<ComponentBase*>& out) override
+		{
+			m_components.Gets(id, out);
+		}
 
-	// 全てのコンポーネントを取得するラップ関数
-	void GetComponentsWithCategoryRaw(
-		ComponentCategory category,
-		std::vector<ComponentBase*>& out
+		// 全てのコンポーネントを取得するラップ関数
+		void GetComponentsWithCategoryRaw(
+			ComponentCategory category,
+			std::vector<ComponentBase*>& out
 		) override
-	{
-		m_components.GetsWithCategory(category, out);
-	}
+		{
+			m_components.GetsWithCategory(category, out);
+		}
 
-	// コンポーネントがあるかを調べるラップ関数
-	bool HasComponentRaw(
-		unsigned int id
+		// コンポーネントがあるかを調べるラップ関数
+		bool HasComponentRaw(
+			unsigned int id
 		) override
-	{
-		return m_components.Has(id);
-	}
-};
+		{
+			return m_components.Has(id);
+		}
+	};
+} // namespace REngine

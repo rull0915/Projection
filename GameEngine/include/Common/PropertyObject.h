@@ -25,79 +25,81 @@
 // クラス宣言
 //====================================================//
 
-
-// 型の列挙型
-enum class PropertyType
+namespace REngine
 {
-	None,
-	Int,
-	Float,
-	Bool,
-	String,
-	Vector2,
-	Vector3,
-	Quaternion,
-	Color,
-};
-
-// プロパティ
-struct Property
-{
-	std::string name;
-	PropertyType type;
-	void* value;
-};
-
-// プロパティを扱うオブジェクトの基底クラス
-class PropertyObject
-{
-private:
-	// プロパティ一覧
-	std::vector<Property> m_propaties;
-
-protected:
-	// コンストラクタ
-	PropertyObject()
-		: m_propaties{}
-	{}
-	virtual ~PropertyObject() = default;
-
-public:
-	// プロパティを取得する関数
-	const std::vector<Property>& GetPropaties() const { return m_propaties; }
-
-protected:
-	// プロパティの追加関数
-	template<typename T>
-	void AddProperty(std::string name, T* value)
+	// 型の列挙型
+	enum class PropertyType
 	{
-		// 追加
-		m_propaties.push_back({name, GetPropertyType<T>(), value});
-	}
+		None,
+		Int,
+		Float,
+		Bool,
+		String,
+		Vector2,
+		Vector3,
+		Quaternion,
+		Color,
+	};
 
-private:
-	// 型からタイプを取得する関数
-	template<typename T>
-	PropertyType GetPropertyType()
+	// プロパティ
+	struct Property
 	{
-		// bool
-		if constexpr (std::is_same_v<T, bool>) return PropertyType::Bool;
-		// int
-		else if constexpr (std::is_same_v<T, int>) return PropertyType::Int;
-		// float
-		else if constexpr (std::is_same_v<T, float>) return PropertyType::Float;
-		// string
-		else if constexpr (std::is_same_v<T, std::string>) return PropertyType::String;
-		// Vector2
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>) return PropertyType::Vector2;
-		// Vector3
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropertyType::Vector3;
-		// Quaternion
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
-		// Color
-		else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Color>) return PropertyType::Color;
+		std::string name;
+		PropertyType type;
+		void* value;
+	};
 
-		// その他
-		else return PropertyType::None;
-	}
-};
+	// プロパティを扱うオブジェクトの基底クラス
+	class PropertyObject
+	{
+	private:
+		// プロパティ一覧
+		std::vector<Property> m_propaties;
+
+	protected:
+		// コンストラクタ
+		PropertyObject()
+			: m_propaties{}
+		{}
+		virtual ~PropertyObject() = default;
+
+	public:
+		// プロパティを取得する関数
+		const std::vector<Property>& GetPropaties() const { return m_propaties; }
+
+	protected:
+		// プロパティの追加関数
+		template<typename T>
+		void AddProperty(std::string name, T* value)
+		{
+			// 追加
+			m_propaties.push_back({ name, GetPropertyType<T>(), value });
+		}
+
+	private:
+		// 型からタイプを取得する関数
+		template<typename T>
+		PropertyType GetPropertyType()
+		{
+			// bool
+			if constexpr (std::is_same_v<T, bool>) return PropertyType::Bool;
+			// int
+			else if constexpr (std::is_same_v<T, int>) return PropertyType::Int;
+			// float
+			else if constexpr (std::is_same_v<T, float>) return PropertyType::Float;
+			// string
+			else if constexpr (std::is_same_v<T, std::string>) return PropertyType::String;
+			// Vector2
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>) return PropertyType::Vector2;
+			// Vector3
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropertyType::Vector3;
+			// Quaternion
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
+			// Color
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Color>) return PropertyType::Color;
+
+			// その他
+			else return PropertyType::None;
+		}
+	};
+} // namespace REngine

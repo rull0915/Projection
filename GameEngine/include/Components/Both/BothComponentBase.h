@@ -24,30 +24,34 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class BothComponentBase : public ComponentBase
+
+namespace REngine
 {
-public:
-	// 自身の所属空間
-	static constexpr ComponentSpace SPACE = ComponentSpace::Both;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	BothComponentBase(IComponentOwner* owner)
-		: ComponentBase(owner)
-	{}
-
-	virtual ~BothComponentBase() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// カテゴリをOriginalに指定
-	ComponentCategory GetCategory() const override
+	class BothComponentBase : public ComponentBase
 	{
-		return Category::Original;
-	}
-};
+	public:
+		// 自身の所属空間
+		static constexpr ComponentSpace SPACE = ComponentSpace::Both;
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		BothComponentBase(IComponentOwner* owner)
+			: ComponentBase(owner)
+		{}
+
+		virtual ~BothComponentBase() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// カテゴリをOriginalに指定
+		ComponentCategory GetCategory() const override
+		{
+			return Category::Original;
+		}
+	};
+} // namespace REngine

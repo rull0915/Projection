@@ -20,113 +20,116 @@
 #include "Renderer/RenderStateCache.h"
 #include "IRenderer.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Renderer;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class UIRenderer : public IRenderer
+namespace REngine
 {
-private:
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Renderer;
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class UIRenderer : public IRenderer
+	{
+	private:
 
-	// 所有者のRenderer
-	Renderer& m_renderer;
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 描画の状態
-	RenderStateCache& m_renderState;
+		// 所有者のRenderer
+		Renderer& m_renderer;
 
-	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_primitiveBatch;	// プリミティブバッチ
+		// 描画の状態
+		RenderStateCache& m_renderState;
 
-	std::unique_ptr<DirectX::BasicEffect> m_basicEffect;	// ベーシックエフェクト
+		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_primitiveBatch;	// プリミティブバッチ
 
-	// 入力レイアウト
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+		std::unique_ptr<DirectX::BasicEffect> m_basicEffect;	// ベーシックエフェクト
+
+		// 入力レイアウト
+		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
 
-	// 開始済みフラグ
-	bool m_isStarted;
+		// 開始済みフラグ
+		bool m_isStarted;
 
-public:
+	public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	UIRenderer(Renderer& renderer);
-	~UIRenderer() = default;
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		UIRenderer(Renderer& renderer);
+		~UIRenderer() = default;
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	void Initialize() override;
-	void Start() override ;
-	void End() override;
+		void Initialize() override;
+		void Start() override;
+		void End() override;
 
-private:
+	private:
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
-public:
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+	public:
 
-	//-----------------------------------------------------
-	// 描画関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// 描画関数
+		//-----------------------------------------------------
 
-	// ------ Triangle ------ //
+		// ------ Triangle ------ //
 
-	void DrawTriangle	// 短縮版
-	(
-		DirectX::SimpleMath::Vector2 p1,
-		DirectX::SimpleMath::Vector2 p2,
-		DirectX::SimpleMath::Vector2 p3,
-		DirectX::SimpleMath::Color color, bool fillFlag
-	);
+		void DrawTriangle	// 短縮版
+		(
+			DirectX::SimpleMath::Vector2 p1,
+			DirectX::SimpleMath::Vector2 p2,
+			DirectX::SimpleMath::Vector2 p3,
+			DirectX::SimpleMath::Color color, bool fillFlag
+		);
 
-	// -------- Rect -------- //
+		// -------- Rect -------- //
 
-   void DrawRect
-	(
-		DirectX::SimpleMath::Vector2 p1,
-		DirectX::SimpleMath::Vector2 p2,
-		DirectX::SimpleMath::Vector2 p3,
-		DirectX::SimpleMath::Vector2 p4,
-		DirectX::SimpleMath::Color color, bool fillFlag
-	);
-	
-	// -------- Line -------- //
-	 
-	void DrawLine
-	(
-		DirectX::SimpleMath::Vector2 start,
-		DirectX::SimpleMath::Vector2 end,
-		DirectX::SimpleMath::Color color
-	);
-	 
-	// -------- Circle -------- //
+		void DrawRect
+		(
+			DirectX::SimpleMath::Vector2 p1,
+			DirectX::SimpleMath::Vector2 p2,
+			DirectX::SimpleMath::Vector2 p3,
+			DirectX::SimpleMath::Vector2 p4,
+			DirectX::SimpleMath::Color color, bool fillFlag
+		);
 
-	void DrawCircle
-	(
-		DirectX::SimpleMath::Vector2 centerPos,
-		float radius,
-		uint16_t division,
-		DirectX::SimpleMath::Color color,
-		bool fillFlag
-	);
+		// -------- Line -------- //
 
-	// --------- Box ---------- //
-	void DrawBox
-	(
-		DirectX::SimpleMath::Vector2 min,
-		DirectX::SimpleMath::Vector2 max,
-		DirectX::SimpleMath::Color color,
-		bool fillFlag
-	);
-};
+		void DrawLine
+		(
+			DirectX::SimpleMath::Vector2 start,
+			DirectX::SimpleMath::Vector2 end,
+			DirectX::SimpleMath::Color color
+		);
+
+		// -------- Circle -------- //
+
+		void DrawCircle
+		(
+			DirectX::SimpleMath::Vector2 centerPos,
+			float radius,
+			uint16_t division,
+			DirectX::SimpleMath::Color color,
+			bool fillFlag
+		);
+
+		// --------- Box ---------- //
+		void DrawBox
+		(
+			DirectX::SimpleMath::Vector2 min,
+			DirectX::SimpleMath::Vector2 max,
+			DirectX::SimpleMath::Color color,
+			bool fillFlag
+		);
+	};
+}	// namespace REngine

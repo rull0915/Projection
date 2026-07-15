@@ -19,66 +19,68 @@
 #include <memory>
 #include <functional>
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Renderer;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class TransitionManager
+namespace REngine
 {
-private:
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Renderer;
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 今のモード
-	Transition::Mode m_nowMode;
-
-	// Out演出
-	std::unique_ptr<Transition::Base> m_outTransition;
-
-	// In演出
-	std::unique_ptr<Transition::Base> m_inTransition;
-
-	// Out終了時,Inの直前に呼ばれる関数
-	std::function<void()> m_func;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	TransitionManager()
-		: m_outTransition{}
-		, m_inTransition{}
-		, m_func{}
-		, m_nowMode{ Transition::Mode::None }
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class TransitionManager
 	{
-	}
+	private:
 
-	~TransitionManager() = default;
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		// 今のモード
+		Transition::Mode m_nowMode;
 
-	// 更新関数
-	void Update(const GameTimer& gameTimer);
+		// Out演出
+		std::unique_ptr<Transition::Base> m_outTransition;
 
-	// 描画関数
-	void Render(Renderer& renderer);
+		// In演出
+		std::unique_ptr<Transition::Base> m_inTransition;
 
-	// 遷移演出を開始する関数
-	void StartTrans(
-		std::unique_ptr<Transition::Base> outTrans,
-		std::unique_ptr<Transition::Base> inTrans,
-		std::function<void()> func
-	);
+		// Out終了時,Inの直前に呼ばれる関数
+		std::function<void()> m_func;
 
-	// 演出中かどうかを返す関数
-	bool IsTransitioning() const;
-};
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		TransitionManager()
+			: m_outTransition{}
+			, m_inTransition{}
+			, m_func{}
+			, m_nowMode{ Transition::Mode::None }
+		{}
+
+		~TransitionManager() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// 更新関数
+		void Update(const GameTimer& gameTimer);
+
+		// 描画関数
+		void Render(Renderer& renderer);
+
+		// 遷移演出を開始する関数
+		void StartTrans(
+			std::unique_ptr<Transition::Base> outTrans,
+			std::unique_ptr<Transition::Base> inTrans,
+			std::function<void()> func
+		);
+
+		// 演出中かどうかを返す関数
+		bool IsTransitioning() const;
+	};
+}	// namespace REngine

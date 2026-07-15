@@ -16,34 +16,36 @@
 //====================================================//
 #include "Components/ComponentBase.h"
 
-//====================================================//
-// クラス宣言
-//====================================================//
-class UIComponentBase : public ComponentBase
+namespace REngine
 {
-public: 
-	// 自身の所属空間
-	static constexpr ComponentSpace SPACE = ComponentSpace::UI;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	UIComponentBase(IComponentOwner* owner)
-		: ComponentBase(owner)
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class UIComponentBase : public ComponentBase
 	{
-	}
+	public:
+		// 自身の所属空間
+		static constexpr ComponentSpace SPACE = ComponentSpace::UI;
 
-	virtual ~UIComponentBase() = default;
+	public:
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		UIComponentBase(IComponentOwner* owner)
+			: ComponentBase(owner)
+		{}
 
-	// カテゴリをUIに指定
-	ComponentCategory GetCategory() const override
-	{
-		return Category::UIOriginal;
-	}
-};
+		virtual ~UIComponentBase() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// カテゴリをUIに指定
+		ComponentCategory GetCategory() const override
+		{
+			return Category::UIOriginal;
+		}
+	};
+} // namespace REngine

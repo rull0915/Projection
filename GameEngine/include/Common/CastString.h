@@ -21,41 +21,44 @@
 // クラス宣言
 //====================================================//
 
-namespace CastString
+namespace REngine
 {
-	std::wstring Utf8ToWide(const std::string& str, UINT codePage = CP_UTF8)
+	namespace CastString
 	{
-		// 空文字列なら空文字列を返す
-		if (str.empty()) return {};
+		std::wstring Utf8ToWide(const std::string& str, UINT codePage = CP_UTF8)
+		{
+			// 空文字列なら空文字列を返す
+			if (str.empty()) return {};
 
-		// 必要なバッファサイズを取得
-		int size = MultiByteToWideChar(codePage, 0,	str.c_str(), -1, nullptr, 0);
+			// 必要なバッファサイズを取得
+			int size = MultiByteToWideChar(codePage, 0, str.c_str(), -1, nullptr, 0);
 
-		// 結果を格納するワイド文字列を用意
-		std::wstring result(size - 1, L'\0');
+			// 結果を格納するワイド文字列を用意
+			std::wstring result(size - 1, L'\0');
 
-		// 変換
-		MultiByteToWideChar(codePage, 0, str.c_str(), -1, result.data(), size);
+			// 変換
+			MultiByteToWideChar(codePage, 0, str.c_str(), -1, result.data(), size);
 
-		// 返す
-		return result;
+			// 返す
+			return result;
+		}
+
+		std::string WideToUtf8(const std::wstring& str, UINT codePage = CP_UTF8)
+		{
+			// 空文字列なら空文字列を返す
+			if (str.empty()) return {};
+
+			// 必要なバッファサイズを取得
+			int size = WideCharToMultiByte(codePage, 0, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
+
+			// 結果を格納する文字列を用意
+			std::string result(size - 1, '\0');
+
+			// 変換
+			WideCharToMultiByte(codePage, 0, str.c_str(), -1, result.data(), size, nullptr, nullptr);
+
+			// 返す
+			return result;
+		}
 	}
-
-	std::string WideToUtf8(const std::wstring& str, UINT codePage = CP_UTF8)
-	{
-		// 空文字列なら空文字列を返す
-		if (str.empty()) return {};
-
-		// 必要なバッファサイズを取得
-		int size = WideCharToMultiByte(codePage, 0, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
-
-		// 結果を格納する文字列を用意
-		std::string result(size - 1, '\0');
-
-		// 変換
-		WideCharToMultiByte(codePage, 0, str.c_str(), -1, result.data(), size, nullptr, nullptr);
-
-		// 返す
-		return result;
-	}
-}
+} // namespace REngine

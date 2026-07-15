@@ -11,17 +11,20 @@
 
 #pragma once
 
-//====================================================//
-// 列挙型宣言
-//====================================================//
-
-// レンダラータイプ
-enum class RendererType
+namespace REngine
 {
-	None,
-	Primitive,
-	Model,
-	Sprite,
-	Text,
-	UI,
-};
+	//====================================================//
+	// 列挙型宣言
+	//====================================================//
+
+	// レンダラータイプ
+	enum class RendererType
+	{
+		None,
+		Primitive,
+		Model,
+		Sprite,
+		Text,
+		UI,
+	};
+}	// namespace REngine

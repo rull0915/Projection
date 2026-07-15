@@ -16,112 +16,110 @@
 //====================================================//
 #include "../CameraBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class TargetCamera : public CameraBase
+namespace REngine
 {
-private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// projection行列のパラメータ
-
-	float m_nearZ;  // ニアクリップ
-	float m_farZ;   // ファークリップ
-	float m_aspect; // アスペクト比
-	float m_fov;    // 画角
-
-	// ターゲット
-	IComponentOwner* m_target;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	TargetCamera
-	(
-		IComponentOwner* own
-	);
-	~TargetCamera() {};
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	void UpdateView() override;
-	void UpdateProj() override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class TargetCamera : public CameraBase
 	{
-		return TypeIDGenerator::GetID<TargetCamera>();
-	}
+	private:
 
-	float GetAspect() const 
-	{
-		return m_aspect;
-	}
-	float GetFov() const
-	{
-		return m_fov;
-	}
-	float GetNearClip() const
-	{
-		return m_nearZ;
-	}
-	float GetFarClip() const
-	{
-		return m_farZ;
-	}
+		//-----------------------------------------------------
+		// 定数
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
 
-	void SetAspect(float r) 
-	{
-		m_aspect = r; 
-		SetNeedUpdateProj(true);
-	}
-	void SetFov(float f)
-	{
-		m_fov = f;
-		SetNeedUpdateProj(true);
-	}
-	void SetNearClip(float n)
-	{
-		m_nearZ = n;
-		SetNeedUpdateProj(true);
-	}
-	void SetFarClip(float f)
-	{
-		m_farZ = f;
-		SetNeedUpdateProj(true);
-	}
-	void SetTarget(IComponentOwner* target) { m_target = target; }
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-private:
+		// projection行列のパラメータ
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+		float m_nearZ;  // ニアクリップ
+		float m_farZ;   // ファークリップ
+		float m_aspect; // アスペクト比
+		float m_fov;    // 画角
 
-};
+		// ターゲット
+		IComponentOwner* m_target;
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		TargetCamera
+		(
+			IComponentOwner* own
+		);
+		~TargetCamera() {};
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		void UpdateView() override;
+		void UpdateProj() override;
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// ID取得
+		unsigned int GetID() override
+		{
+			return TypeIDGenerator::GetID<TargetCamera>();
+		}
+
+		float GetAspect() const
+		{
+			return m_aspect;
+		}
+		float GetFov() const
+		{
+			return m_fov;
+		}
+		float GetNearClip() const
+		{
+			return m_nearZ;
+		}
+		float GetFarClip() const
+		{
+			return m_farZ;
+		}
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetAspect(float r)
+		{
+			m_aspect = r;
+			SetNeedUpdateProj(true);
+		}
+		void SetFov(float f)
+		{
+			m_fov = f;
+			SetNeedUpdateProj(true);
+		}
+		void SetNearClip(float n)
+		{
+			m_nearZ = n;
+			SetNeedUpdateProj(true);
+		}
+		void SetFarClip(float f)
+		{
+			m_farZ = f;
+			SetNeedUpdateProj(true);
+		}
+		void SetTarget(IComponentOwner* target) { m_target = target; }
+
+	private:
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
+	};
+} // namespace REngine

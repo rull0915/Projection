@@ -16,119 +16,121 @@
 //====================================================//
 #include "../ColliderCommon.h"
 
-//====================================================//
-// 列挙型宣言
-//====================================================//
-enum class ColliderType
+namespace REngine
 {
-	Sphere,
-	Line,
-	Capsule,
-	Box,
-};
-
-//====================================================//
-// 構造体宣言
-//====================================================//
-struct AABB
-{
-	DirectX::SimpleMath::Vector3 min;
-	DirectX::SimpleMath::Vector3 max;
-
-	AABB(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b)
-		: min{ a }
-		, max{ b }
+	//====================================================//
+	// 列挙型宣言
+	//====================================================//
+	enum class ColliderType
 	{
+		Sphere,
+		Line,
+		Capsule,
+		Box,
 	};
 
-	AABB() 
-		: min{ 0, 0, 0 }, max{ 0, 0, 0 }
-	{}
-};
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ColliderBase : public ColliderCommon
-{
-private:
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-	
-	// コライダーのタイプ
-	const ColliderType m_type;
-
-	// ローカル中心座標
-	DirectX::SimpleMath::Vector3 m_localCenterPos;
-
-	// 自身を覆うAABB
-	mutable AABB m_boundingBox;
-
-	// ワールド中心座標のキャッシュ
-	mutable DirectX::SimpleMath::Vector3 m_worldCenterPos;
-
-public:
-
-	//-----------------------------------------------------
-	// 生成 / 破棄
-	//-----------------------------------------------------
-	ColliderBase(IComponentOwner* own, ColliderType type)
-		: ColliderCommon(own)
-		, m_type{ type }
-		, m_boundingBox{ {0, 0, 0}, {0, 0, 0} }
-		, m_localCenterPos{ 0, 0, 0 }
+	//====================================================//
+	// 構造体宣言
+	//====================================================//
+	struct AABB
 	{
-		ADD_PROPERTY(m_localCenterPos);
-	}
+		DirectX::SimpleMath::Vector3 min;
+		DirectX::SimpleMath::Vector3 max;
 
-	virtual ~ColliderBase() = default;
+		AABB(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b)
+			: min{ a }
+			, max{ b }
+		{};
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-	
-	// キャッシュの更新をする関数
-	virtual void UpdateCache() const = 0;
+		AABB()
+			: min{ 0, 0, 0 }, max{ 0, 0, 0 }
+		{}
+	};
 
-	// GUI変更時
-	void OnValidate() override
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ColliderBase : public ColliderCommon
 	{
-		SetDirty();
-	}
+	private:
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// カテゴリを3Dコライダーに指定
-	ComponentCategory GetCategory() const override { return Category::Collider; }
+		// コライダーのタイプ
+		const ColliderType m_type;
 
-	ColliderType GetType() const { return m_type; };
+		// ローカル中心座標
+		DirectX::SimpleMath::Vector3 m_localCenterPos;
 
-	inline AABB& GetBoundingBox() const{ return m_boundingBox; } // 自身を覆うAABBを取得する関数
+		// 自身を覆うAABB
+		mutable AABB m_boundingBox;
 
-	// ワールド座標系での中心座標を返す関数
-	DirectX::SimpleMath::Vector3 GetWorldCenterPos() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_worldCenterPos;
-	}
-	// ローカル座標系
-	DirectX::SimpleMath::Vector3 GetLocalCenterPos() const { return m_localCenterPos; }
+		// ワールド中心座標のキャッシュ
+		mutable DirectX::SimpleMath::Vector3 m_worldCenterPos;
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-	void SetLocalPos(DirectX::SimpleMath::Vector3 pos)
-	{
-		m_localCenterPos = pos;
-		SetDirty();
-	}
+	public:
 
-protected:
+		//-----------------------------------------------------
+		// 生成 / 破棄
+		//-----------------------------------------------------
+		ColliderBase(IComponentOwner* own, ColliderType type)
+			: ColliderCommon(own)
+			, m_type{ type }
+			, m_boundingBox{ {0, 0, 0}, {0, 0, 0} }
+			, m_localCenterPos{ 0, 0, 0 }
+		{
+			ADD_PROPERTY(m_localCenterPos);
+		}
 
-	inline void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos) const { m_worldCenterPos = pos; }
-	inline void SetBoundingBox(const AABB& box) const { m_boundingBox = box; }
-};
+		virtual ~ColliderBase() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// キャッシュの更新をする関数
+		virtual void UpdateCache() const = 0;
+
+		// GUI変更時
+		void OnValidate() override
+		{
+			SetDirty();
+		}
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// カテゴリを3Dコライダーに指定
+		ComponentCategory GetCategory() const override { return Category::Collider; }
+
+		ColliderType GetType() const { return m_type; };
+
+		inline AABB& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うAABBを取得する関数
+
+		// ワールド座標系での中心座標を返す関数
+		DirectX::SimpleMath::Vector3 GetWorldCenterPos() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_worldCenterPos;
+		}
+		// ローカル座標系
+		DirectX::SimpleMath::Vector3 GetLocalCenterPos() const { return m_localCenterPos; }
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+		void SetLocalPos(DirectX::SimpleMath::Vector3 pos)
+		{
+			m_localCenterPos = pos;
+			SetDirty();
+		}
+
+	protected:
+
+		inline void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos) const { m_worldCenterPos = pos; }
+		inline void SetBoundingBox(const AABB& box) const { m_boundingBox = box; }
+	};
+} // namespace REngine

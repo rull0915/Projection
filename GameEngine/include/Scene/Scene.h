@@ -42,104 +42,108 @@ class UIManager;
 //====================================================//
 // クラス宣言
 //====================================================//
-class Scene final
+
+namespace REngine
 {
-private:
+	class Scene final
+	{
+	private:
 
-	// マネージャー管理をするクラス
-	std::unique_ptr<UpdatePipeline> m_updatePipeline;
+		// マネージャー管理をするクラス
+		std::unique_ptr<UpdatePipeline> m_updatePipeline;
 
-	// コンポーネント登録システム
-	std::unique_ptr<ComponentRegister> m_componentRegister;
+		// コンポーネント登録システム
+		std::unique_ptr<ComponentRegister> m_componentRegister;
 
-	// オブジェクト検索
-	std::unique_ptr<ObjectFinder> m_objectFinder;
+		// オブジェクト検索
+		std::unique_ptr<ObjectFinder> m_objectFinder;
 
-	// シーン描画
-	std::unique_ptr<SceneRenderer> m_sceneRenderer;
+		// シーン描画
+		std::unique_ptr<SceneRenderer> m_sceneRenderer;
 
-	// ファクトリ
-	std::unique_ptr<ObjectFactory> m_objectFactory;
+		// ファクトリ
+		std::unique_ptr<ObjectFactory> m_objectFactory;
 
-	// メインスクリーン
-	std::unique_ptr<MainScreen> m_mainScreen;
+		// メインスクリーン
+		std::unique_ptr<MainScreen> m_mainScreen;
 
-	// 更新状態
-	UpdateMode m_updateMode;
+		// 更新状態
+		UpdateMode m_updateMode;
 
-public:
+	public:
 
-	// コンストラクタ
-	Scene();
+		// コンストラクタ
+		Scene();
 
-	// デストラクタ
-	virtual ~Scene();
+		// デストラクタ
+		virtual ~Scene();
 
-	// 初期化処理
-	void Initialize();
+		// 初期化処理
+		void Initialize();
 
-	// 更新処理
-	void Update(const GameTimer& gameTimer);
+		// 更新処理
+		void Update(const GameTimer& gameTimer);
 
-	// 描画処理
-	void Render(Renderer& renderer);
+		// 描画処理
+		void Render(Renderer& renderer);
 
-	// スクリーン本体への描画処理
-	void RenderOnScreen(Renderer& renderer);
+		// スクリーン本体への描画処理
+		void RenderOnScreen(Renderer& renderer);
 
-	// 終了処理
-	void Finalize();
+		// 終了処理
+		void Finalize();
 
-	// 全オブジェクトの削除関数
-	void ResetObjects();
+		// 全オブジェクトの削除関数
+		void ResetObjects();
 
-public:
+	public:
 
-	// コンポーネントを登録する関数
-	void RegisterComponent(ComponentBase* component);
+		// コンポーネントを登録する関数
+		void RegisterComponent(ComponentBase* component);
 
-	// コンポーネントの登録を解除する関数
-	void UnRegsisterComponent(ComponentBase* component);
+		// コンポーネントの登録を解除する関数
+		void UnRegsisterComponent(ComponentBase* component);
 
-	// RayCast関数
-	bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
+		// RayCast関数
+		bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
 
-	// メインカメラを取得する関数
-	CameraBase* GetMainCamera() const;
+		// メインカメラを取得する関数
+		CameraBase* GetMainCamera() const;
 
-	// 管理クラス
-	ObjectManager* GetObjectManager() const;
-	UIManager* GetUIManager() const;
+		// 管理クラス
+		ObjectManager* GetObjectManager() const;
+		UIManager* GetUIManager() const;
 
-	// コンポーネント管理者
-	ComponentRegister* GetComponentRegister() const { return m_componentRegister.get(); }
+		// コンポーネント管理者
+		ComponentRegister* GetComponentRegister() const { return m_componentRegister.get(); }
 
-	// オブジェクトファインダー
-	ObjectFinder* GetObjectFinder() const { return m_objectFinder.get(); }
+		// オブジェクトファインダー
+		ObjectFinder* GetObjectFinder() const { return m_objectFinder.get(); }
 
-	// パイプライン
-	UpdatePipeline* GetPipeline() const { return m_updatePipeline.get(); }
+		// パイプライン
+		UpdatePipeline* GetPipeline() const { return m_updatePipeline.get(); }
 
-	// ファクトリ
-	ObjectFactory* GetFactory() const { return m_objectFactory.get(); }
+		// ファクトリ
+		ObjectFactory* GetFactory() const { return m_objectFactory.get(); }
 
-	// メインスクリーン
-	MainScreen* GetMainScreen() const { return m_mainScreen.get(); }
+		// メインスクリーン
+		MainScreen* GetMainScreen() const { return m_mainScreen.get(); }
 
-	// レンダラー
-	SceneRenderer* GetSceneRenderer() const { return m_sceneRenderer.get(); }
-	 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-	
-	// メインカメラをセットする関数
-	void SetMainCamera(CameraBase* camera);
+		// レンダラー
+		SceneRenderer* GetSceneRenderer() const { return m_sceneRenderer.get(); }
 
-	// 更新モード
-	void SetUpdateMode(UpdateMode mode) { m_updateMode = mode; }
-};
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		// メインカメラをセットする関数
+		void SetMainCamera(CameraBase* camera);
+
+		// 更新モード
+		void SetUpdateMode(UpdateMode mode) { m_updateMode = mode; }
+	};
+} // namespace REngine

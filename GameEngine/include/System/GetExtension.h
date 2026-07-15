@@ -17,23 +17,26 @@
 #include <string>
 #include <filesystem>
 
-//====================================================//
-// クラス宣言
-//====================================================//
-namespace GetExtension
+namespace REngine
 {
-	static const std::string Get(const std::wstring& filePath)
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	namespace GetExtension
 	{
-		// ファイルパスを解析
-		std::filesystem::path path(filePath);
+		static const std::string Get(const std::wstring& filePath)
+		{
+			// ファイルパスを解析
+			std::filesystem::path path(filePath);
 
-		// 拡張子を取得
-		std::string extension = path.extension().string();
+			// 拡張子を取得
+			std::string extension = path.extension().string();
 
-		// 安全のために小文字に変換
-		std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+			// 安全のために小文字に変換
+			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 
-		// 拡張子を返す
-		return extension;
-	}
-};
+			// 拡張子を返す
+			return extension;
+		}
+	};
+}	// namespace REngine

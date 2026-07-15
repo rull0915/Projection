@@ -16,12 +16,6 @@
 //====================================================//
 
 //====================================================//
-// 前方宣言
-//====================================================//
-
-class Game;
-
-//====================================================//
 // マクロ宣言
 //====================================================//
 
@@ -31,87 +25,91 @@ class Game;
 					 WS_SYSMENU        | \
 					 WS_MINIMIZEBOX )
 
+namespace REngine
+{
+
 //====================================================//
 // クラス宣言
 //====================================================//
-class WindowManager
-{
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-private:
-
-	int m_width;
-	int m_height;
-
-	// 背景色
-	DirectX::SimpleMath::Color m_backGroundColor;
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-private:
-	WindowManager()
-		: m_width{ 1280 }
-		, m_height{ 720 }
-		, m_backGroundColor{ 0.3f, 0.6f, 0.8f, 1.0f }
-	{};
-	~WindowManager() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-public:
-
-	// シングルトン化
-	static WindowManager& Instance()
+	class WindowManager
 	{
-		static WindowManager instance;
-		return instance;
-	}
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
+	private:
 
-	// フルスクリーンとウィンドウを切り替える関数
-	void SwitchScreenMode(HWND hWnd, Game* game);
+		int m_width;
+		int m_height;
 
-	// -1 ~ +1 の座標系からピクセル座標に変換する関数
-	DirectX::SimpleMath::Vector2 PixelToScreen(DirectX::SimpleMath::Vector2 pos) 
-	{
-		float xRatio = (pos.x + 1) / 2;
-		float yRatio = (pos.y + 1) / 2;
+		// 背景色
+		DirectX::SimpleMath::Color m_backGroundColor;
 
-		return { m_width * xRatio, m_height * yRatio };
-	}
-	// ピクセル座標から -1 ~ +1 の座標系に変換する関数
-	DirectX::SimpleMath::Vector2 ScreenToPixel(DirectX::SimpleMath::Vector2 pos)
-	{
-		float xRatio = pos.x / m_width;
-		float yRatio = pos.y / m_height;
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+	private:
+		WindowManager()
+			: m_width{ 1280 }
+			, m_height{ 720 }
+			, m_backGroundColor{ 0.3f, 0.6f, 0.8f, 1.0f }
+		{};
+		~WindowManager() = default;
 
-		return { xRatio * 2 - 1, -(yRatio * 2 - 1) };
-	}
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+	public:
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+		// シングルトン化
+		static WindowManager& Instance()
+		{
+			static WindowManager instance;
+			return instance;
+		}
 
-	int GetWidth() const { return m_width; }    // 幅
-	int GetHeight() const { return m_height; }  // 高さ
+		// フルスクリーンとウィンドウを切り替える関数
+		void SwitchScreenMode(HWND hWnd, Game* game);
 
-	float GetWidthF() const { return static_cast<float>(m_width); }    // 幅
-	float GetHeightF() const { return static_cast<float>(m_height); }  // 高さ
+		// -1 ~ +1 の座標系からピクセル座標に変換する関数
+		DirectX::SimpleMath::Vector2 PixelToScreen(DirectX::SimpleMath::Vector2 pos)
+		{
+			float xRatio = (pos.x + 1) / 2;
+			float yRatio = (pos.y + 1) / 2;
 
-	DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }    // サイズ
+			return { m_width * xRatio, m_height * yRatio };
+		}
+		// ピクセル座標から -1 ~ +1 の座標系に変換する関数
+		DirectX::SimpleMath::Vector2 ScreenToPixel(DirectX::SimpleMath::Vector2 pos)
+		{
+			float xRatio = pos.x / m_width;
+			float yRatio = pos.y / m_height;
 
-	float GetAspect() const { return GetWidthF() / GetHeightF(); }	// アスペクト比
+			return { xRatio * 2 - 1, -(yRatio * 2 - 1) };
+		}
 
-	DirectX::SimpleMath::Color GetBackGroundColor() const { return m_backGroundColor; }
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+		int GetWidth() const { return m_width; }    // 幅
+		int GetHeight() const { return m_height; }  // 高さ
 
-	void SetWidth(int value) { m_width = value; }    // 幅
-	void SetHeight(int value) { m_height = value; }  // 高さ
+		float GetWidthF() const { return static_cast<float>(m_width); }    // 幅
+		float GetHeightF() const { return static_cast<float>(m_height); }  // 高さ
 
-	void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
-};
+		DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }    // サイズ
+
+		float GetAspect() const { return GetWidthF() / GetHeightF(); }	// アスペクト比
+
+		DirectX::SimpleMath::Color GetBackGroundColor() const { return m_backGroundColor; }
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetWidth(int value) { m_width = value; }    // 幅
+		void SetHeight(int value) { m_height = value; }  // 高さ
+
+		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
+	};
+}	// namespace REngine

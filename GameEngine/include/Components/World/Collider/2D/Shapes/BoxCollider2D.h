@@ -17,104 +17,102 @@
 #include "../ColliderBase2D.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class BoxCollider2D : public ColliderBase2D, public IDebugRenderable
+namespace REngine
 {
-private:
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class BoxCollider2D : public ColliderBase2D, public IDebugRenderable
+	{
+	private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// ボックスのローカルでのサイズ
-	DirectX::SimpleMath::Vector2 m_localSize;
+		// ボックスのローカルでのサイズ
+		DirectX::SimpleMath::Vector2 m_localSize;
 
-	// 計算済みワールド情報
-	struct WorldCache {
-		DirectX::SimpleMath::Vector2 xAxis;
-		DirectX::SimpleMath::Vector2 yAxis;
+		// 計算済みワールド情報
+		struct WorldCache {
+			DirectX::SimpleMath::Vector2 xAxis;
+			DirectX::SimpleMath::Vector2 yAxis;
+		};
+
+		mutable WorldCache m_cache;
+
+
+	public:
+
+		//-----------------------------------------------------
+		// 生成 / 破棄
+		//-----------------------------------------------------
+		BoxCollider2D(IComponentOwner* own)
+			: ColliderBase2D(own)
+			, m_localSize{ 1, 1 }
+			, m_cache{}
+		{
+			ADD_PROPERTY(m_localSize);
+		};
+		~BoxCollider2D() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// キャッシュ更新
+		void UpdateCache() const override;
+
+		// デバッグ描画
+		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// ID取得
+		unsigned int GetID() override
+		{
+			return TypeIDGenerator::GetID<BoxCollider2D>();
+		}
+
+		// 各軸ベクトルを取得する関数
+		float GetAngle() const
+		{
+			return GetRotation();
+		}
+		DirectX::SimpleMath::Vector2 GetXAxis() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.xAxis;
+		}
+		DirectX::SimpleMath::Vector2 GetYAxis() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.yAxis;
+		}
+		DirectX::SimpleMath::Vector2 GetSize() const
+		{
+			return m_localSize;
+		}
+		DirectX::SimpleMath::Vector2 GetHalfSize() const
+		{
+			return m_localSize * 0.5f;
+		}
+
+		DirectX::SimpleMath::Vector2 GetLocalSize() const
+		{
+			return m_localSize;
+		}
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetLocalSize(DirectX::SimpleMath::Vector2 scale)
+		{
+			m_localSize = scale;
+			SetDirty();
+		}
 	};
-
-	mutable WorldCache m_cache;
-
-
-public:
-
-	//-----------------------------------------------------
-	// 生成 / 破棄
-	//-----------------------------------------------------
-	BoxCollider2D(IComponentOwner* own)
-		: ColliderBase2D(own)
-		, m_localSize{ 1, 1 }
-		, m_cache{}
-	{
-		ADD_PROPERTY(m_localSize);
-	};
-	~BoxCollider2D() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// キャッシュ更新
-	void UpdateCache() const override;
-
-	// デバッグ描画
-	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return TypeIDGenerator::GetID<BoxCollider2D>();
-	}
-
-	// 各軸ベクトルを取得する関数
-	float GetAngle() const
-	{
-		return GetRotation();
-	}
-	DirectX::SimpleMath::Vector2 GetXAxis() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.xAxis;
-	}
-	DirectX::SimpleMath::Vector2 GetYAxis() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.yAxis;
-	}
-	DirectX::SimpleMath::Vector2 GetSize() const
-	{
-		return m_localSize;
-	}
-	DirectX::SimpleMath::Vector2 GetHalfSize() const
-	{
-		return m_localSize * 0.5f;
-	}
-
-	DirectX::SimpleMath::Vector2 GetLocalSize() const
-	{
-		return m_localSize;
-	}
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-
-	void SetLocalSize(DirectX::SimpleMath::Vector2 scale)
-	{
-		m_localSize = scale;
-		SetDirty();
-	}
-};
+} // namespace REngine

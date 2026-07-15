@@ -19,122 +19,120 @@
 #include "../ColliderBase.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class BoxCollider : public ColliderBase, public IDebugRenderable
+namespace REngine
 {
-private:
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class BoxCollider : public ColliderBase, public IDebugRenderable
+	{
+	private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// ボックスのローカルでのサイズ
-	DirectX::SimpleMath::Vector3 m_localSize;
+		// ボックスのローカルでのサイズ
+		DirectX::SimpleMath::Vector3 m_localSize;
 
-	// 計算済みワールド情報
-	struct WorldCache {
-		DirectX::SimpleMath::Vector3 xAxis;
-		DirectX::SimpleMath::Vector3 yAxis;
-		DirectX::SimpleMath::Vector3 zAxis;
+		// 計算済みワールド情報
+		struct WorldCache {
+			DirectX::SimpleMath::Vector3 xAxis;
+			DirectX::SimpleMath::Vector3 yAxis;
+			DirectX::SimpleMath::Vector3 zAxis;
 
-		DirectX::SimpleMath::Vector3 scale;
+			DirectX::SimpleMath::Vector3 scale;
 
-		DirectX::SimpleMath::Matrix localMatrix;
-		DirectX::SimpleMath::Matrix localMatrixInverse;
+			DirectX::SimpleMath::Matrix localMatrix;
+			DirectX::SimpleMath::Matrix localMatrixInverse;
+		};
+
+		mutable WorldCache m_cache;
+
+	public:
+
+		//-----------------------------------------------------
+		// 生成 / 破棄
+		//-----------------------------------------------------
+		BoxCollider(IComponentOwner* own)
+			: ColliderBase(own, ColliderType::Box)
+			, m_localSize{ 1, 1, 1 }
+			, m_cache{}
+		{
+			ADD_PROPERTY(m_localSize);
+		};
+		~BoxCollider() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// キャッシュの更新
+		void UpdateCache() const override;
+
+		// デバッグ描画
+		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// ID取得
+		unsigned int GetID() override
+		{
+			return TypeIDGenerator::GetID<BoxCollider>();
+		}
+
+		DirectX::SimpleMath::Vector3 GetLocalSize() const
+		{
+			return m_localSize;
+		}
+
+		// 各軸ベクトルを取得する関数
+		DirectX::SimpleMath::Vector3 GetXAxis() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.xAxis;
+		}
+		DirectX::SimpleMath::Vector3 GetYAxis() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.yAxis;
+		}
+		DirectX::SimpleMath::Vector3 GetZAxis() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.zAxis;
+		}
+		DirectX::SimpleMath::Vector3 GetSize() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.scale;
+		}
+		DirectX::SimpleMath::Vector3 GetHalfSize() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.scale * 0.5f;
+		}
+		DirectX::SimpleMath::Matrix GetLocalMatrix() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.localMatrix;
+		}
+		DirectX::SimpleMath::Matrix GetLocalMatrixInverse() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.localMatrixInverse;
+		}
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetLocalSize(DirectX::SimpleMath::Vector3 scale)
+		{
+			m_localSize = scale;
+			SetDirty();
+		}
 	};
-
-	mutable WorldCache m_cache;
-
-public:
-
-	//-----------------------------------------------------
-	// 生成 / 破棄
-	//-----------------------------------------------------
-	BoxCollider(IComponentOwner* own)
-		: ColliderBase(own, ColliderType::Box) 
-		, m_localSize{ 1, 1, 1 }
-		, m_cache{}
-	{
-		ADD_PROPERTY(m_localSize);
-	};
-	~BoxCollider() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// キャッシュの更新
-	void UpdateCache() const override;
-
-	// デバッグ描画
-	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return TypeIDGenerator::GetID<BoxCollider>();
-	}
-
-	DirectX::SimpleMath::Vector3 GetLocalSize() const
-	{
-		return m_localSize;
-	}
-
-	// 各軸ベクトルを取得する関数
-	DirectX::SimpleMath::Vector3 GetXAxis() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.xAxis;
-	}
-	DirectX::SimpleMath::Vector3 GetYAxis() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.yAxis;
-	}
-	DirectX::SimpleMath::Vector3 GetZAxis() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.zAxis;
-	}
-	DirectX::SimpleMath::Vector3 GetSize() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.scale;
-	}
-	DirectX::SimpleMath::Vector3 GetHalfSize() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.scale * 0.5f;
-	}
-	DirectX::SimpleMath::Matrix GetLocalMatrix() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.localMatrix;
-	}
-	DirectX::SimpleMath::Matrix GetLocalMatrixInverse() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.localMatrixInverse;
-	}
-	
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-
-	void SetLocalSize(DirectX::SimpleMath::Vector3 scale)
-	{
-		m_localSize = scale;
-		SetDirty();
-	}
-};
+} // namespace REngine

@@ -18,47 +18,50 @@
 #include <Keyboard.h>
 #include "InputInfo.h"
 
-namespace Input
+namespace REngine
 {
-	class Key
+	namespace Input
 	{
-	public:
-		using Code = DirectX::Keyboard::Keys;
-
-	private:
-		inline static DirectX::Keyboard::State m_nowState;
-		inline static DirectX::Keyboard::State m_oldState;
-
-	public:
-		// ----- 関数宣言 ----- //
-
-		Key();
-
-		~Key() = default;
-
-		// キー情報の更新
-		static void Update();
-
-		// キー情報取得関数
-		static inline bool Get(State state, Code key)
+		class Key
 		{
-			switch (state)
+		public:
+			using Code = DirectX::Keyboard::Keys;
+
+		private:
+			inline static DirectX::Keyboard::State m_nowState;
+			inline static DirectX::Keyboard::State m_oldState;
+
+		public:
+			// ----- 関数宣言 ----- //
+
+			Key();
+
+			~Key() = default;
+
+			// キー情報の更新
+			static void Update();
+
+			// キー情報取得関数
+			static inline bool Get(State state, Code key)
 			{
-				// 押されたとき
-			case Input::State::Down:
-				return !m_oldState.IsKeyDown(key) && m_nowState.IsKeyDown(key);
+				switch (state)
+				{
+					// 押されたとき
+				case Input::State::Down:
+					return !m_oldState.IsKeyDown(key) && m_nowState.IsKeyDown(key);
 
-				// 押されているとき
-			case Input::State::Press:
-				return m_nowState.IsKeyDown(key);
+					// 押されているとき
+				case Input::State::Press:
+					return m_nowState.IsKeyDown(key);
 
-				// 離されたとき
-			case Input::State::Up:
-				return m_oldState.IsKeyDown(key) && !m_nowState.IsKeyDown(key);
+					// 離されたとき
+				case Input::State::Up:
+					return m_oldState.IsKeyDown(key) && !m_nowState.IsKeyDown(key);
 
-			default:
-				return false;
+				default:
+					return false;
+				}
 			}
-		}
-	};
-}
+		};
+	}
+}	// namespace REngine

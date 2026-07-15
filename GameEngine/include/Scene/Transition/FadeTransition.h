@@ -16,53 +16,50 @@
 //====================================================//
 #include "TransitionBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-
-namespace Transition
+namespace REngine
 {
-	class Fade : public Base
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+
+	namespace Transition
 	{
-	private:
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		float m_elapsedTime;
-
-		float m_transSec;
-
-		DirectX::SimpleMath::Color m_fadeColor;
-
-	public:
-
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		Fade(float sec = 0.5f, DirectX::SimpleMath::Color color = { 0, 0, 0, 1 })
-			: m_transSec{ sec }
-			, m_fadeColor{ color }
-			, m_elapsedTime{ 0.0f }
+		class Fade : public Base
 		{
-		}
-		~Fade() = default;
+		private:
+			//-----------------------------------------------------
+			// メンバ変数
+			//-----------------------------------------------------
 
-		// 純粋仮想関数
-		void Initialize() override;
+			float m_elapsedTime;
 
-		// 更新関数
-		// 遷移終了時にtrue
-		bool InUpdate(const GameTimer& gameTimer) override;	    // Inの場合	
-		bool OutUpdate(const GameTimer& gameTimer) override;	// Outの場合	
+			float m_transSec;
 
-		// 描画関数
-		void InRender(Renderer& renderer) override;	    // Inの場合
-		void OutRender(Renderer& renderer) override;	// Outの場合	
-	};
-}
+			DirectX::SimpleMath::Color m_fadeColor;
+
+		public:
+
+			//-----------------------------------------------------
+			// コンストラクタ / デストラクタ
+			//-----------------------------------------------------
+			Fade(float sec = 0.5f, DirectX::SimpleMath::Color color = { 0, 0, 0, 1 })
+				: m_transSec{ sec }
+				, m_fadeColor{ color }
+				, m_elapsedTime{ 0.0f }
+			{}
+			~Fade() = default;
+
+			// 純粋仮想関数
+			void Initialize() override;
+
+			// 更新関数
+			// 遷移終了時にtrue
+			bool InUpdate(const GameTimer& gameTimer) override;	    // Inの場合	
+			bool OutUpdate(const GameTimer& gameTimer) override;	// Outの場合	
+
+			// 描画関数
+			void InRender(Renderer& renderer) override;	    // Inの場合
+			void OutRender(Renderer& renderer) override;	// Outの場合	
+		};
+	}
+}	// namespace REngine

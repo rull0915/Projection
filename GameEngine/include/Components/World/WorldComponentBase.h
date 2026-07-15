@@ -16,38 +16,36 @@
 //====================================================//
 #include "Components/ComponentBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class WorldComponentBase : public ComponentBase
+namespace REngine
 {
-public:
-	// 自身の所属空間
-	static constexpr ComponentSpace SPACE = ComponentSpace::World;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	WorldComponentBase(IComponentOwner* owner)
-		: ComponentBase(owner)
-	{}
-
-	virtual ~WorldComponentBase() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// カテゴリをOriginalに指定
-	ComponentCategory GetCategory() const override
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class WorldComponentBase : public ComponentBase
 	{
-		return Category::Original;
-	}
-};
+	public:
+		// 自身の所属空間
+		static constexpr ComponentSpace SPACE = ComponentSpace::World;
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		WorldComponentBase(IComponentOwner* owner)
+			: ComponentBase(owner)
+		{}
+
+		virtual ~WorldComponentBase() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// カテゴリをOriginalに指定
+		ComponentCategory GetCategory() const override
+		{
+			return Category::Original;
+		}
+	};
+} // namespace REngine

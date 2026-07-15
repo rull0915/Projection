@@ -17,87 +17,85 @@
 #include "GameObject/GameObject.h"
 #include <vector>
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ObjectManager
+namespace REngine
 {
-private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 生成予約中のオブジェクトリスト
-	std::vector<std::unique_ptr<GameObject>> m_reservations;
-
-	// 管理しているオブジェクトリスト
-	std::vector<std::unique_ptr<GameObject>> m_objects;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-public:
-	ObjectManager();
-	~ObjectManager();
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-	
-	// 更新関数
-	void Update(const GameTimer& gameTimer, bool playing);
-	void LateUpdate(const GameTimer& gameTimer, bool playing);
-
-	void RemoveDeadComponent();
-
-	// 終了関数
-	void Finalize();
-
-	// キャッシュを適用する関数
-	void AllReflectCache();
-
-	// オブジェクト追加関数
-	void AddObject(GameObject* object)
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ObjectManager
 	{
-		// 予約リストに追加
-		m_reservations.push_back(std::unique_ptr<GameObject>(object));
-	}
+	private:
 
-	// オブジェクト削除関数
-	void Destroy(GameObject* object)
-	{
-		// 削除フラグを立てる
-		object->Destroy();
-	}
+		//-----------------------------------------------------
+		// 定数
+		//-----------------------------------------------------
 
-	void AllDestroy();
 
-	// 死亡オブジェクトを削除する関数
-	void RemoveDeadObject();
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 全オブジェクトを取得する関数
-	const std::vector<std::unique_ptr<GameObject>>& GetAllObject() const { return m_objects; }
-	const std::vector<std::unique_ptr<GameObject>>& GetAllReserves() const { return m_reservations; }
+		// 生成予約中のオブジェクトリスト
+		std::vector<std::unique_ptr<GameObject>> m_reservations;
 
-private:
+		// 管理しているオブジェクトリスト
+		std::vector<std::unique_ptr<GameObject>> m_objects;
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+	public:
 
-	// 予約されているオブジェクトを全てリストへ追加する関数
-	void AddReservedObject();
-};
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+	public:
+		ObjectManager();
+		~ObjectManager();
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// 更新関数
+		void Update(const GameTimer& gameTimer, bool playing);
+		void LateUpdate(const GameTimer& gameTimer, bool playing);
+
+		void RemoveDeadComponent();
+
+		// 終了関数
+		void Finalize();
+
+		// キャッシュを適用する関数
+		void AllReflectCache();
+
+		// オブジェクト追加関数
+		void AddObject(GameObject* object)
+		{
+			// 予約リストに追加
+			m_reservations.push_back(std::unique_ptr<GameObject>(object));
+		}
+
+		// オブジェクト削除関数
+		void Destroy(GameObject* object)
+		{
+			// 削除フラグを立てる
+			object->Destroy();
+		}
+
+		void AllDestroy();
+
+		// 死亡オブジェクトを削除する関数
+		void RemoveDeadObject();
+
+		// 全オブジェクトを取得する関数
+		const std::vector<std::unique_ptr<GameObject>>& GetAllObject() const { return m_objects; }
+		const std::vector<std::unique_ptr<GameObject>>& GetAllReserves() const { return m_reservations; }
+
+	private:
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
+		// 予約されているオブジェクトを全てリストへ追加する関数
+		void AddReservedObject();
+	};
+}	// namespace REngine

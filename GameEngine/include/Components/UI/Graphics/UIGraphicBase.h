@@ -19,57 +19,60 @@
 
 #include "Common/Origin.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Renderer;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class UIGraphicBase : public UIComponentBase
+namespace REngine
 {
-private:
-	RectTransform* m_pRectTransform;
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Renderer;
 
-	// 色
-	DirectX::SimpleMath::Color m_color;
-	DirectX::SimpleMath::Color m_mulColor;
-
-	// 透明度
-	float m_alpha;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	UIGraphicBase(IComponentOwner* owner);
-
-	virtual ~UIGraphicBase() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// 描画関数
-	virtual void Draw(Renderer& renderer) = 0;
-
-	RectTransform* GetRectTransform() const { return m_pRectTransform; }
-
-	void SetColor(DirectX::SimpleMath::Color color) { m_color = color; }
-	void SetMulColor(DirectX::SimpleMath::Color color) { m_mulColor = color; }
-	void SetAlpha(float alpha) { m_alpha = alpha; }
-
-	// カテゴリをUIグラフィックに指定
-	ComponentCategory GetCategory() const override
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class UIGraphicBase : public UIComponentBase
 	{
-		return Category::UIGraphic;
-	}
+	private:
+		RectTransform* m_pRectTransform;
 
-protected:
+		// 色
+		DirectX::SimpleMath::Color m_color;
+		DirectX::SimpleMath::Color m_mulColor;
 
-	DirectX::SimpleMath::Color GetColor() const { return m_color; }
-	DirectX::SimpleMath::Color GetMulColor() const { return m_mulColor; }
-	float GetAlpha() const { return m_alpha; }
-};
+		// 透明度
+		float m_alpha;
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		UIGraphicBase(IComponentOwner* owner);
+
+		virtual ~UIGraphicBase() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// 描画関数
+		virtual void Draw(Renderer& renderer) = 0;
+
+		RectTransform* GetRectTransform() const { return m_pRectTransform; }
+
+		void SetColor(DirectX::SimpleMath::Color color) { m_color = color; }
+		void SetMulColor(DirectX::SimpleMath::Color color) { m_mulColor = color; }
+		void SetAlpha(float alpha) { m_alpha = alpha; }
+
+		// カテゴリをUIグラフィックに指定
+		ComponentCategory GetCategory() const override
+		{
+			return Category::UIGraphic;
+		}
+
+	protected:
+
+		DirectX::SimpleMath::Color GetColor() const { return m_color; }
+		DirectX::SimpleMath::Color GetMulColor() const { return m_mulColor; }
+		float GetAlpha() const { return m_alpha; }
+	};
+} // namespace REngine

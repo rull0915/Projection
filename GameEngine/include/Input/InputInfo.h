@@ -15,16 +15,19 @@
 // インクルードファイル
 //====================================================//
 
-namespace Input
+namespace REngine
 {
-	// キーIDの型指定
-	using ID = unsigned char;
-
-	// 押下状況
-	enum class State
+	namespace Input
 	{
-		Down,
-		Press,
-		Up,
-	};
-}
+		// キーIDの型指定
+		using ID = unsigned char;
+
+		// 押下状況
+		enum class State
+		{
+			Down,
+			Press,
+			Up,
+		};
+	}
+}	// namespace REngine

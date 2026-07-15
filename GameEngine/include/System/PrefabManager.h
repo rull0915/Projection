@@ -17,50 +17,53 @@
 #include <unordered_map>
 #include <string>
 
-class GameObject;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class PrefabManager
+namespace REngine
 {
-private:
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+	class GameObject;
 
-	// リスト
-	std::unordered_map<std::string, std::wstring> m_prefabList;
-
-private:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	PrefabManager() = default;
-	~PrefabManager() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-public:
-
-	// インスタンス
-	static PrefabManager& Instance()
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class PrefabManager
 	{
-		static PrefabManager instance;
-		return instance;
-	}
+	private:
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 追加
-	void AddPrefab(const std::string& key, const std::wstring& path);
+		// リスト
+		std::unordered_map<std::string, std::wstring> m_prefabList;
 
-	// 取得
-	const std::wstring GetPrefab(const std::string& key);
+	private:
 
-	// 読み込み関数
-	void LoadPrefab(const std::string& key, GameObject* obj);
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		PrefabManager() = default;
+		~PrefabManager() = default;
 
-	// 全取得
-	const std::unordered_map<std::string, std::wstring>& GetAllObjects() const { return m_prefabList; }
-};
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+	public:
+
+		// インスタンス
+		static PrefabManager& Instance()
+		{
+			static PrefabManager instance;
+			return instance;
+		}
+
+		// 追加
+		void AddPrefab(const std::string& key, const std::wstring& path);
+
+		// 取得
+		const std::wstring GetPrefab(const std::string& key);
+
+		// 読み込み関数
+		void LoadPrefab(const std::string& key, GameObject* obj);
+
+		// 全取得
+		const std::unordered_map<std::string, std::wstring>& GetAllObjects() const { return m_prefabList; }
+	};
+}	// namespace REngine

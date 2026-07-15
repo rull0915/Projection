@@ -154,10 +154,6 @@ $(ProjectDir)ThirdParty;
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor\SceneEditor.cpp" />
-    <ClCompile Include="include\Math\GameMath.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="src\Scene\MainScreen.cpp" />
     <ClCompile Include="src\Scene\ObjectFactory.cpp" />
     <ClCompile Include="src\Scene\SceneRenderer.cpp" />

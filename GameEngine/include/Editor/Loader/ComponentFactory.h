@@ -20,28 +20,31 @@
 
 #include "Components/ComponentBase.h"
 
-class GameObject;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ComponentFactory
+namespace REngine
 {
-	// インスペクターをフレンドに指定
-	friend class InspectorWindow;
+	class GameObject;
 
-private:
-	// 別名宣言
-	using CreateFunc = std::function<ComponentBase*(GameObject*)>;
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ComponentFactory
+	{
+		// インスペクターをフレンドに指定
+		friend class InspectorWindow;
 
-	// 関数マップ
-	static inline std::map<std::string, std::pair<ComponentInfo, CreateFunc>> m_creatorMap;
+	private:
+		// 別名宣言
+		using CreateFunc = std::function<ComponentBase* (GameObject*)>;
 
-public:
+		// 関数マップ
+		static inline std::map<std::string, std::pair<ComponentInfo, CreateFunc>> m_creatorMap;
 
-	// 登録関数
-	static void Register(const std::string& name, ComponentInfo space, CreateFunc func);
-		
-	// 作成を実行
-	static ComponentBase* Create(const std::string& id, GameObject* owner);
-};
+	public:
+
+		// 登録関数
+		static void Register(const std::string& name, ComponentInfo space, CreateFunc func);
+
+		// 作成を実行
+		static ComponentBase* Create(const std::string& id, GameObject* owner);
+	};
+} // namespace REngine

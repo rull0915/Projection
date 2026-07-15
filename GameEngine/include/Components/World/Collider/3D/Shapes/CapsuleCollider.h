@@ -17,161 +17,159 @@
 #include "../ColliderBase.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-
-namespace AxisType
+namespace REngine
 {
-	static constexpr size_t X = 0;
-	static constexpr size_t Y = 1;
-	static constexpr size_t Z = 2;
-}
+	//====================================================//
+	// クラス宣言
+	//====================================================//
 
-class CapsuleCollider : public ColliderBase, public IDebugRenderable
-{
-private:
+	namespace AxisType
+	{
+		static constexpr size_t X = 0;
+		static constexpr size_t Y = 1;
+		static constexpr size_t Z = 2;
+	}
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+	class CapsuleCollider : public ColliderBase, public IDebugRenderable
+	{
+	private:
 
-	// 使用する軸
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 0: x, 1: y, 2: z
-	size_t m_lineDir;
+		// 使用する軸
 
-	// ラインの長さ
-	float m_capsuleHeight;
+		// 0: x, 1: y, 2: z
+		size_t m_lineDir;
 
-	// 半径
-	float m_radius;
+		// ラインの長さ
+		float m_capsuleHeight;
 
-	// 計算済みワールド情報
-	struct WorldCache {
-		float radius;
-		float height;
-		float lineLength;
-		DirectX::SimpleMath::Vector3 dir;
-		std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> points;
+		// 半径
+		float m_radius;
+
+		// 計算済みワールド情報
+		struct WorldCache {
+			float radius;
+			float height;
+			float lineLength;
+			DirectX::SimpleMath::Vector3 dir;
+			std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> points;
+		};
+
+		mutable WorldCache m_cache;
+
+	public:
+
+		//-----------------------------------------------------
+		// 生成 / 破棄
+		//-----------------------------------------------------
+		CapsuleCollider(IComponentOwner* own)
+			: ColliderBase(own, ColliderType::Capsule)
+			, m_lineDir{ 1 }
+			, m_capsuleHeight{ 2.0f }
+			, m_radius{ 0.5f }
+			, m_cache{}
+		{
+			ADD_PROPERTY(m_lineDir);
+			ADD_PROPERTY(m_capsuleHeight);
+			ADD_PROPERTY(m_radius);
+		};
+		~CapsuleCollider() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// キャッシュ更新
+		void UpdateCache() const override;
+
+		// デバッグ描画
+		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// ID取得
+		unsigned int GetID() override
+		{
+			return TypeIDGenerator::GetID<CapsuleCollider>();
+		}
+
+		// ラインの方向ベクトルを返す関数
+		DirectX::SimpleMath::Vector3 GetLineDir() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.dir;
+		}
+
+		// ラインの基準軸を返す関数
+		size_t GetLineAxis() const
+		{
+			return m_lineDir;
+		}
+
+		// 半径を返す関数
+		float GetRadius() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.radius;
+		}
+
+		// カプセルの高さを返す関数
+		float GetHeight() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.height;
+		}
+
+		// 線の長さを返す関数
+		float GetLineLength() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.lineLength;
+		}
+
+		// Lineを構成する2点を返す関数
+		std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> GetPoints() const
+		{
+			if (IsDirty()) UpdateCache();
+			return m_cache.points;
+		}
+
+		// ローカルの半径
+		float GetLocalRadius() const
+		{
+			return m_radius;
+		}
+
+		// ローカルの半径
+		float GetLocalHeight() const
+		{
+			return m_capsuleHeight;
+		}
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+		void SetHeight(float height)
+		{
+			m_capsuleHeight = height;
+			SetDirty();
+		}
+
+		void SetRadius(float radius)
+		{
+			m_radius = radius;
+			SetDirty();
+		}
+
+		void SetLineAxis(size_t type)
+		{
+			m_lineDir = type;
+			SetDirty();
+		}
 	};
-
-	mutable WorldCache m_cache;
-
-public:
-
-	//-----------------------------------------------------
-	// 生成 / 破棄
-	//-----------------------------------------------------
-	CapsuleCollider(IComponentOwner* own)
-		: ColliderBase(own, ColliderType::Capsule)
-		, m_lineDir{ 1 }
-		, m_capsuleHeight{ 2.0f }
-		, m_radius{ 0.5f }
-		, m_cache{}
-	{
-		ADD_PROPERTY(m_lineDir);
-		ADD_PROPERTY(m_capsuleHeight);
-		ADD_PROPERTY(m_radius);
-	};
-	~CapsuleCollider() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// キャッシュ更新
-	void UpdateCache() const override;
-
-	// デバッグ描画
-	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return TypeIDGenerator::GetID<CapsuleCollider>();
-	}
-
-	// ラインの方向ベクトルを返す関数
-	DirectX::SimpleMath::Vector3 GetLineDir() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.dir;
-	}
-
-	// ラインの基準軸を返す関数
-	size_t GetLineAxis() const
-	{
-		return m_lineDir;
-	}
-
-	// 半径を返す関数
-	float GetRadius() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.radius;
-	}
-
-	// カプセルの高さを返す関数
-	float GetHeight() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.height;
-	}
-
-	// 線の長さを返す関数
-	float GetLineLength() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.lineLength;
-	}
-	
-	// Lineを構成する2点を返す関数
-	std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> GetPoints() const
-	{
-		if (IsDirty()) UpdateCache();
-		return m_cache.points;
-	}
-
-	// ローカルの半径
-	float GetLocalRadius() const
-	{
-		return m_radius;
-	}
-
-	// ローカルの半径
-	float GetLocalHeight() const
-	{
-		return m_capsuleHeight;
-	}
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-	void SetHeight(float height) 
-	{
-		m_capsuleHeight = height;
-		SetDirty();
-	}
-
-	void SetRadius(float radius) 
-	{
-		m_radius = radius;
-		SetDirty();
-	}
-
-	void SetLineAxis(size_t type)
-	{
-		m_lineDir = type;
-		SetDirty();
-	}
-};
+} // namespace REngine

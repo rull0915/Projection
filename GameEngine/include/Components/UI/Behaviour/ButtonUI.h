@@ -16,74 +16,72 @@
 //====================================================//
 #include "UIBehaviorBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ButtonUI : public UIBehaviorBase
+namespace REngine
 {
-private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 各状態の色
-
-	DirectX::SimpleMath::Color m_normalColor;  // 通常時
-	DirectX::SimpleMath::Color m_hoverdColor;  // ホバー時
-	DirectX::SimpleMath::Color m_pressedColor; // 押されている時
-
-	bool m_isPressed;   // 自分が押されているか
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	ButtonUI(IComponentOwner* own);
-	~ButtonUI();
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-	void Update(const GameTimer& gameTimer) override;
-
-	// マウスクリック
-	void OnMouseDown() override;
-	void OnMouseUp() override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ButtonUI : public UIBehaviorBase
 	{
-		return TypeIDGenerator::GetID<ButtonUI>();
-	}
+	private:
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// 定数
+		//-----------------------------------------------------
 
-	void SetNormalColor(DirectX::SimpleMath::Color color) { m_normalColor = color; }
-	void SetHoveredColor(DirectX::SimpleMath::Color color) { m_hoverdColor = color; }
-	void SetPressedColor(DirectX::SimpleMath::Color color) { m_pressedColor = color; }
 
-private:
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+		// 各状態の色
 
-};
+		DirectX::SimpleMath::Color m_normalColor;  // 通常時
+		DirectX::SimpleMath::Color m_hoverdColor;  // ホバー時
+		DirectX::SimpleMath::Color m_pressedColor; // 押されている時
+
+		bool m_isPressed;   // 自分が押されているか
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		ButtonUI(IComponentOwner* own);
+		~ButtonUI();
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+		void Update(const GameTimer& gameTimer) override;
+
+		// マウスクリック
+		void OnMouseDown() override;
+		void OnMouseUp() override;
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+		// ID取得
+		unsigned int GetID() override
+		{
+			return TypeIDGenerator::GetID<ButtonUI>();
+		}
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetNormalColor(DirectX::SimpleMath::Color color) { m_normalColor = color; }
+		void SetHoveredColor(DirectX::SimpleMath::Color color) { m_hoverdColor = color; }
+		void SetPressedColor(DirectX::SimpleMath::Color color) { m_pressedColor = color; }
+
+	private:
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
+	};
+} // namespace REngine

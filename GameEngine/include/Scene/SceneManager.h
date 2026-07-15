@@ -10,71 +10,74 @@
 
 #include "Transition/TransitionManager.h"
 
-// 前方参照
-class Scene;
-
-// シーンマネージャークラス
-class SceneManager
+namespace REngine
 {
-private:
+	// 前方参照
+	class Scene;
 
-	// シーンの実体
-	std::unique_ptr<Scene> m_currentScene;
-
-	// シーン名とシーン情報のマップ
-	std::unordered_map<std::string, std::wstring> m_sceneMap;
-
-	// 要求されたシーン名
-	std::string m_pRequestedScene;
-
-	// 演出管理クラス
-	TransitionManager m_transitionManager;
-
-private:
-
-	// コンストラクタ
-	SceneManager();
-
-	// デストラクタ
-	~SceneManager();
-
-public:
-
-	// インスタンス
-	static SceneManager& Instance()
+	// シーンマネージャークラス
+	class SceneManager
 	{
-		static SceneManager instance;
+	private:
 
-		return instance;
-	}
+		// シーンの実体
+		std::unique_ptr<Scene> m_currentScene;
 
-	// シーンの登録
-	void RegisterScene(const std::string& sceneName, const std::wstring& sceneFile);
+		// シーン名とシーン情報のマップ
+		std::unordered_map<std::string, std::wstring> m_sceneMap;
 
-	// 更新処理
-	void Update(const GameTimer& gameTimer);
+		// 要求されたシーン名
+		std::string m_pRequestedScene;
 
-	// 描画処理
-	void Render(Renderer& renderer);
+		// 演出管理クラス
+		TransitionManager m_transitionManager;
 
-	// 終了処理
-	void Finalize();
+	private:
 
-	// 開始シーンの設定
-	void SetStartScene(const std::string& startSceneName);
+		// コンストラクタ
+		SceneManager();
 
-	// シーンの変更
-	void RequestSceneChange(
-		const std::string& requestSceneName,	// 遷移先のシーン名
-		std::unique_ptr<Transition::Base> out = nullptr,	// Out演出
-		std::unique_ptr<Transition::Base> in  = nullptr		// In演出
-	);
+		// デストラクタ
+		~SceneManager();
 
-	// シーンを取得する関数
-	Scene* GetCurrentScene() const { return m_currentScene.get(); }
+	public:
 
-private:
+		// インスタンス
+		static SceneManager& Instance()
+		{
+			static SceneManager instance;
 
-	// シーンの変更
-	void ChangeScene();
-};
+			return instance;
+		}
+
+		// シーンの登録
+		void RegisterScene(const std::string& sceneName, const std::wstring& sceneFile);
+
+		// 更新処理
+		void Update(const GameTimer& gameTimer);
+
+		// 描画処理
+		void Render(Renderer& renderer);
+
+		// 終了処理
+		void Finalize();
+
+		// 開始シーンの設定
+		void SetStartScene(const std::string& startSceneName);
+
+		// シーンの変更
+		void RequestSceneChange(
+			const std::string& requestSceneName,	// 遷移先のシーン名
+			std::unique_ptr<Transition::Base> out = nullptr,	// Out演出
+			std::unique_ptr<Transition::Base> in = nullptr		// In演出
+		);
+
+		// シーンを取得する関数
+		Scene* GetCurrentScene() const { return m_currentScene.get(); }
+
+	private:
+
+		// シーンの変更
+		void ChangeScene();
+	};
+}	// namespace REngine

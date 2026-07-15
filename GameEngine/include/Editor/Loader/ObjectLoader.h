@@ -17,53 +17,56 @@
 #include <nlohmann/json.hpp>
 #include "Common/PropertyObject.h"
 
-class GameObject;
-class Canvas;
-class Scene;
-class ObjectManager;
-class UIManager;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ObjectLoader
+namespace REngine
 {
-public:
+	class GameObject;
+	class Canvas;
+	class Scene;
+	class ObjectManager;
+	class UIManager;
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	ObjectLoader() = default;
-	~ObjectLoader() = default;
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ObjectLoader
+	{
+	public:
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		ObjectLoader() = default;
+		~ObjectLoader() = default;
 
-	// プロパティのロード
-	static void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	// Worldオブジェクトのロード
-	static void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
+		// プロパティのロード
+		static void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
 
-	// UIオブジェクトのロード
-	static void LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas);
+		// Worldオブジェクトのロード
+		static void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
 
-	// Canvasのロード
-	static void LoadCanvas(const nlohmann::json& json, Canvas* canvas);
+		// UIオブジェクトのロード
+		static void LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas);
 
-	// UIManagerのロード
-	static void LoadUIManager(const nlohmann::json& json, UIManager* manager);
+		// Canvasのロード
+		static void LoadCanvas(const nlohmann::json& json, Canvas* canvas);
 
-	// ObjectManagerのロード
-	static void LoadObjectManager(const nlohmann::json& json, Scene* pScene);
+		// UIManagerのロード
+		static void LoadUIManager(const nlohmann::json& json, UIManager* manager);
 
-	// シーンのロード関数
-	static void LoadScene(const nlohmann::json& json, Scene* pScene);
+		// ObjectManagerのロード
+		static void LoadObjectManager(const nlohmann::json& json, Scene* pScene);
 
-	// ロード関数
-	static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
-	static void LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas);
+		// シーンのロード関数
+		static void LoadScene(const nlohmann::json& json, Scene* pScene);
 
-	static void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
-};
+		// ロード関数
+		static void LoadFromFile(const std::wstring& filePath, GameObject* obj);
+		static void LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas);
+
+		static void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
+	};
+} // namespace REngine

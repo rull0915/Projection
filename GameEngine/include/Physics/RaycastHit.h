@@ -11,25 +11,23 @@
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-
-//====================================================//
-// 前方宣言
-//====================================================//
-class ColliderBase;
-
-//====================================================//
-// 構造体宣言
-//====================================================//
-struct RaycastHit
+namespace REngine
 {
-	ColliderBase* collider = nullptr;   // 衝突したコライダ
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class ColliderBase;
 
-	DirectX::SimpleMath::Vector3 point{};
-	DirectX::SimpleMath::Vector3 normal{};
+	//====================================================//
+	// 構造体宣言
+	//====================================================//
+	struct RaycastHit
+	{
+		ColliderBase* collider = nullptr;   // 衝突したコライダ
 
-	float distance = FLT_MAX;
-};
+		DirectX::SimpleMath::Vector3 point{};
+		DirectX::SimpleMath::Vector3 normal{};
+
+		float distance = FLT_MAX;
+	};
+}	// namespace REngine

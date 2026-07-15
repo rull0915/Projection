@@ -16,48 +16,51 @@
 //====================================================//
 #include <string>
 
-//====================================================//
-// クラス宣言
-//====================================================//
-class IResourceReader
+namespace REngine
 {
-public:
-	// 扱うリソースの種類
-	enum class Type
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class IResourceReader
 	{
-		Model,
-		Texture,
-		Sound, 
-		Font,
-		Object,
+	public:
+		// 扱うリソースの種類
+		enum class Type
+		{
+			Model,
+			Texture,
+			Sound,
+			Font,
+			Object,
+		};
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		IResourceReader() = default;
+		virtual ~IResourceReader() = default;
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+
+	public:
+		// 読み込み関数
+		bool LoadResource();
+
+		// 読み込みを反映する関数
+		virtual void ReflectLoading() = 0;
+
+	private:
+		// 自身のリソースタイプ
+		virtual Type GetType() const = 0;
+
+		// 自身のキー名
+		virtual const std::string& GetKeyName() const = 0;
+
+		// 自身のリソースポインタへのアドレス
+		virtual void** GetMyResource() const = 0;
 	};
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	IResourceReader() = default;
-	virtual ~IResourceReader() = default;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-public:
-	// 読み込み関数
-	bool LoadResource();
-
-	// 読み込みを反映する関数
-	virtual void ReflectLoading() = 0;
-
-private:
-	// 自身のリソースタイプ
-	virtual Type GetType() const = 0;
-
-	// 自身のキー名
-	virtual const std::string& GetKeyName() const = 0;
-
-	// 自身のリソースポインタへのアドレス
-	virtual void** GetMyResource() const = 0;
-};
+} // namespace REngine

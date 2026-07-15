@@ -20,50 +20,53 @@
 #include <nlohmann/json.hpp>
 #include "Components/ComponentBase.h"
 
-class GameObject;
-class Canvas;
-
-class ObjectManager;
-class UIManager;
-
-class Scene;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ObjectSaver
+namespace REngine
 {
-public:
+	class GameObject;
+	class Canvas;
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	ObjectSaver() = default;
-	~ObjectSaver() = default;
+	class ObjectManager;
+	class UIManager;
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+	class Scene;
 
-	// Propertyの保存
-	static nlohmann::json SaveProperty(const PropertyObject& obj);
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ObjectSaver
+	{
+	public:
 
-	// GameObjectの保存
-	static nlohmann::json SaveObject(const GameObject* obj);
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		ObjectSaver() = default;
+		~ObjectSaver() = default;
 
-	// キャンバスの保存
-	static nlohmann::json SaveCanvas(const Canvas* canvas);
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	// ObjectManagerの保存
-	static nlohmann::json SaveObjectManager(const ObjectManager* objManager);
+		// Propertyの保存
+		static nlohmann::json SaveProperty(const PropertyObject& obj);
 
-	// UIManagerの保存
-	static nlohmann::json SaveUIManager(const UIManager* uiManager);
+		// GameObjectの保存
+		static nlohmann::json SaveObject(const GameObject* obj);
 
-	// Sceneの保存
-	static nlohmann::json SaveScene(const Scene* scene);
+		// キャンバスの保存
+		static nlohmann::json SaveCanvas(const Canvas* canvas);
 
-	// 保存関数
-	static void SaveObjectToFile(const std::wstring& filePath, GameObject* obj);
-	static void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
-};
+		// ObjectManagerの保存
+		static nlohmann::json SaveObjectManager(const ObjectManager* objManager);
+
+		// UIManagerの保存
+		static nlohmann::json SaveUIManager(const UIManager* uiManager);
+
+		// Sceneの保存
+		static nlohmann::json SaveScene(const Scene* scene);
+
+		// 保存関数
+		static void SaveObjectToFile(const std::wstring& filePath, GameObject* obj);
+		static void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
+	};
+} // namespace REngine

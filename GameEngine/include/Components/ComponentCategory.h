@@ -16,44 +16,47 @@
 // 列挙型宣言
 //====================================================//
 
-// コンポーネントの所属プロジェクト
-enum class ComponentProject : unsigned char
+namespace REngine
 {
-	Engine,
-	Game,
-};
+	// コンポーネントの所属プロジェクト
+	enum class ComponentProject : unsigned char
+	{
+		Engine,
+		Game,
+	};
 
-// コンポーネントが所属する空間
-enum class ComponentSpace : unsigned char
-{
-	None,
-	World,
-	UI,
-	Both,
-};
+	// コンポーネントが所属する空間
+	enum class ComponentSpace : unsigned char
+	{
+		None,
+		World,
+		UI,
+		Both,
+	};
 
-// コンポーネントの情報をまとめた構造体
-struct ComponentInfo
-{
-	ComponentProject project;
-	ComponentSpace space;
-};
+	// コンポーネントの情報をまとめた構造体
+	struct ComponentInfo
+	{
+		ComponentProject project;
+		ComponentSpace space;
+	};
 
-using ComponentCategory = unsigned char;
+	using ComponentCategory = unsigned char;
 
-// コンポーネントのカテゴリ
-namespace Category
-{
-	// WorldComponent
-	static constexpr ComponentCategory Original		= 0;
-	static constexpr ComponentCategory Camera		= 1;
-	static constexpr ComponentCategory Collider		= 2;
-	static constexpr ComponentCategory Collider2D	= 3;
-	static constexpr ComponentCategory Renderer		= 4;
+	// コンポーネントのカテゴリ
+	namespace Category
+	{
+		// WorldComponent
+		static constexpr ComponentCategory Original = 0;
+		static constexpr ComponentCategory Camera = 1;
+		static constexpr ComponentCategory Collider = 2;
+		static constexpr ComponentCategory Collider2D = 3;
+		static constexpr ComponentCategory Renderer = 4;
 
-	// UIComponent
-	static constexpr ComponentCategory UIOriginal	= 5;
-	static constexpr ComponentCategory UIGraphic	= 6;
-	static constexpr ComponentCategory UIBehavior	= 7;
-	static constexpr ComponentCategory UIListener	= 8;
-};
+		// UIComponent
+		static constexpr ComponentCategory UIOriginal = 5;
+		static constexpr ComponentCategory UIGraphic = 6;
+		static constexpr ComponentCategory UIBehavior = 7;
+		static constexpr ComponentCategory UIListener = 8;
+	};
+} // namespace REngine

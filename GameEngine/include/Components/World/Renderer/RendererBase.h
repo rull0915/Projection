@@ -17,57 +17,60 @@
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Renderer;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class RendererBase : public WorldComponentBase
+namespace REngine
 {
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-	
-	// トランスフォームポインタ
-	Transform* m_pTransform;
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Renderer;
 
-	// 透明度
-	float m_alpha;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	RendererBase(IComponentOwner* own);
-	~RendererBase() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// 描画関数
-	virtual void Draw(Renderer& renderer) = 0;
-
-	// 透明度
-	float GetAlpha() const { return m_alpha; }
-
-	// セッター
-	void SetAlpha(float alpha)
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class RendererBase : public WorldComponentBase
 	{
-		m_alpha = std::clamp(alpha, 0.0f, 1.0f); 
-	}
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// カテゴリを描画に指定
-	ComponentCategory GetCategory() const override { return Category::Renderer; }
+		// トランスフォームポインタ
+		Transform* m_pTransform;
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-protected:
-	Transform* GetTransform() const { return m_pTransform; }
+		// 透明度
+		float m_alpha;
 
-};
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		RendererBase(IComponentOwner* own);
+		~RendererBase() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// 描画関数
+		virtual void Draw(Renderer& renderer) = 0;
+
+		// 透明度
+		float GetAlpha() const { return m_alpha; }
+
+		// セッター
+		void SetAlpha(float alpha)
+		{
+			m_alpha = std::clamp(alpha, 0.0f, 1.0f);
+		}
+
+		// カテゴリを描画に指定
+		ComponentCategory GetCategory() const override { return Category::Renderer; }
+
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
+	protected:
+		Transform* GetTransform() const { return m_pTransform; }
+
+	};
+} // namespace REngine
