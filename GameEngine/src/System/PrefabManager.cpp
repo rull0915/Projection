@@ -14,38 +14,41 @@
 
 #include "Editor/Loader/ObjectLoader.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void PrefabManager::AddPrefab(const std::string& key, const std::wstring& path)
+namespace REngine
 {
-	// 存在しないキーなら追加する
-	if (m_prefabList.find(key) == m_prefabList.end())
-	{
-		m_prefabList.insert({ key, path });
-	}
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-const std::wstring PrefabManager::GetPrefab(const std::string& key)
-{
-	// 存在するキーなら返す
-	if (m_prefabList.find(key) != m_prefabList.end())
+	void PrefabManager::AddPrefab(const std::string& key, const std::wstring& path)
 	{
-		return m_prefabList[key];
+		// 存在しないキーなら追加する
+		if (m_prefabList.find(key) == m_prefabList.end())
+		{
+			m_prefabList.insert({ key, path });
+		}
 	}
 
-	return std::wstring();
-}
+	const std::wstring PrefabManager::GetPrefab(const std::string& key)
+	{
+		// 存在するキーなら返す
+		if (m_prefabList.find(key) != m_prefabList.end())
+		{
+			return m_prefabList[key];
+		}
 
-void PrefabManager::LoadPrefab(const std::string& key, GameObject* obj)
-{
-	// 取得
-	auto& path = GetPrefab(key);
+		return std::wstring();
+	}
 
-	// 取得できなければ読み込まない
-	if (path.empty()) return;
+	void PrefabManager::LoadPrefab(const std::string& key, GameObject* obj)
+	{
+		// 取得
+		auto& path = GetPrefab(key);
 
-	// 読み込み
-	ObjectLoader::LoadFromFile(path, obj);
-}
+		// 取得できなければ読み込まない
+		if (path.empty()) return;
+
+		// 読み込み
+		ObjectLoader::LoadFromFile(path, obj);
+	}
+}	// namespace REngine

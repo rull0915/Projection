@@ -27,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class TPSCamera : public WorldComponentBase
+class TPSCamera : public REngine::WorldComponentBase
 {
 private:
 
@@ -48,8 +48,8 @@ private:
 
 	float m_distance;
 
-	Transform* m_pOwnTransform;
-	Transform* m_pTargetTransform;
+	REngine::Transform* m_pOwnTransform;
+	REngine::Transform* m_pTargetTransform;
 
 	DirectX::SimpleMath::Vector2 m_angle;
 
@@ -61,7 +61,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	TPSCamera(IComponentOwner* owner)
+	TPSCamera(REngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_targetName{ "" }
 		, m_pOwnTransform{ nullptr }
@@ -89,14 +89,14 @@ public:
 	void OnEnable() override;
 	void OnDisable() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	void SetTarget(const std::string& name);
 
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<TPSCamera>();
+		return REngine::TypeIDGenerator::GetID<TPSCamera>();
 	}
 
 	// 理想位置

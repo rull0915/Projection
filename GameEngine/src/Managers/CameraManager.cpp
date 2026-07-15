@@ -15,25 +15,27 @@
 #include "Components/World/Camera/Derived/StandardCamera.h"
 #include "Scene/Scene.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-CameraManager::CameraManager()
-	: m_mainCamera{ nullptr }
-	, m_spareCamera{ nullptr }
+namespace REngine
 {
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-}
+	CameraManager::CameraManager()
+		: m_mainCamera{ nullptr }
+		, m_spareCamera{ nullptr }
+	{
 
-CameraManager::~CameraManager()
-{
-}
+	}
 
-void CameraManager::Initialize(Scene* pScene)
-{
-	// 予備カメラの作成
-	m_spareCamera = pScene->GetFactory()->Generate({ 0, 0, 10 });
-	m_spareCamera->AddComponent<StandardCamera>();
-	m_spareCamera->SetInvincible(true);
-}
+	CameraManager::~CameraManager()
+	{}
+
+	void CameraManager::Initialize(Scene* pScene)
+	{
+		// 予備カメラの作成
+		m_spareCamera = pScene->GetFactory()->Generate({ 0, 0, 10 });
+		m_spareCamera->AddComponent<StandardCamera>();
+		m_spareCamera->SetInvincible(true);
+	}
+}	// namespace REngine

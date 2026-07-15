@@ -25,12 +25,12 @@
 //====================================================//
 // 前方宣言
 //====================================================//
-class Scene;
+class REngine::Scene;
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class CameraCorrection : public WorldComponentBase
+class CameraCorrection : public REngine::WorldComponentBase
 {
 private:
 
@@ -47,7 +47,7 @@ private:
 	TPSCamera* m_camera;
 
 	// プレイヤー
-	GameObject* m_player;
+	REngine::GameObject* m_player;
 
 	// プレイヤーのオブジェクト名
 	std::string m_playerName;
@@ -56,14 +56,14 @@ private:
 	int m_playerLayer;
 
 	// シーンポインタ
-	Scene* m_pScene;
+	REngine::Scene* m_pScene;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	CameraCorrection(IComponentOwner* own);
+	CameraCorrection(REngine::IComponentOwner* own);
 	~CameraCorrection() = default;
 
 	//-----------------------------------------------------
@@ -72,7 +72,7 @@ public:
 
 	void Start() override;
 
-	void LateUpdate(const GameTimer& gameTimer) override;
+	void LateUpdate(const REngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -81,7 +81,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<CameraCorrection>();
+		return REngine::TypeIDGenerator::GetID<CameraCorrection>();
 	}
 
 	//-----------------------------------------------------

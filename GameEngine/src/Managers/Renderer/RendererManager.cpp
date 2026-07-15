@@ -12,34 +12,35 @@
 #include "pch.h"
 #include "RendererManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-RendererManager::RendererManager()
-	: m_addReserves{}
-	, m_removeReserves{}
-	, m_renderers{}
+namespace REngine
 {
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-RendererManager::~RendererManager()
-{
-}
+	RendererManager::RendererManager()
+		: m_addReserves{}
+		, m_removeReserves{}
+		, m_renderers{}
+	{}
 
-/// <summary>
-/// 全ての描画を行う関数
-/// </summary>
-void RendererManager::DrawAll(Renderer& renderer)
-{
-	ReflectReserves();
+	RendererManager::~RendererManager()
+	{}
 
-	// 管理している全てのコンポーネントの描画処理を呼び出す
-	for (auto& component : m_renderers)
+	/// <summary>
+	/// 全ての描画を行う関数
+	/// </summary>
+	void RendererManager::DrawAll(Renderer& renderer)
 	{
-		// アクティブチェック
-		if (!component->IsActive() || !component->GetOwn()->IsActive()) continue;
+		ReflectReserves();
 
-		component->Draw(renderer);
+		// 管理している全てのコンポーネントの描画処理を呼び出す
+		for (auto& component : m_renderers)
+		{
+			// アクティブチェック
+			if (!component->IsActive() || !component->GetOwn()->IsActive()) continue;
+
+			component->Draw(renderer);
+		}
 	}
-}
+}	// namespace REngine

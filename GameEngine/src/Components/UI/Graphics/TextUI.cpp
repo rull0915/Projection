@@ -16,48 +16,51 @@
 #include "Renderer/Renderer.h"
 #include "Common/CastString.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void TextUI::Draw(Renderer& renderer)
+namespace REngine
 {
-	if (!m_pFont) return;
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	RectTransform* transform = GetRectTransform();
+	void TextUI::Draw(Renderer& renderer)
+	{
+		if (!m_pFont) return;
 
-	// ピボットのピクセル座標
-	DirectX::SimpleMath::Vector2 pivotPixelPos = transform->GetPivotPixelPos();
+		RectTransform* transform = GetRectTransform();
 
-	DirectX::SimpleMath::Vector2 pivot = transform->GetPivot();
-	DirectX::SimpleMath::Vector2 disPivot = DirectX::SimpleMath::Vector2{ 1 - pivot.x, 1 - pivot.y };
+		// ピボットのピクセル座標
+		DirectX::SimpleMath::Vector2 pivotPixelPos = transform->GetPivotPixelPos();
 
-	DirectX::SimpleMath::Vector2 size = transform->GetSize();
-	DirectX::SimpleMath::Vector2 scale = transform->GetWorldScale();
+		DirectX::SimpleMath::Vector2 pivot = transform->GetPivot();
+		DirectX::SimpleMath::Vector2 disPivot = DirectX::SimpleMath::Vector2{ 1 - pivot.x, 1 - pivot.y };
 
-	float defaultFontSize = ResourceManager::Instance().GetFontSize(m_pFont);
+		DirectX::SimpleMath::Vector2 size = transform->GetSize();
+		DirectX::SimpleMath::Vector2 scale = transform->GetWorldScale();
 
-	float fontScale = m_fontSize / defaultFontSize;
+		float defaultFontSize = ResourceManager::Instance().GetFontSize(m_pFont);
 
-	// 透明度を指定
-	renderer.SetAlpha(GetAlpha());
+		float fontScale = m_fontSize / defaultFontSize;
 
-	// 描画位置を算出
-	DirectX::SimpleMath::Vector2 drawPos =
-		transform->GetLUPixelPos() +
-		transform->GetRight() * size.x * scale.x * m_origin.x +
-		transform->GetUp() * size.y * scale.y * m_origin.y;
+		// 透明度を指定
+		renderer.SetAlpha(GetAlpha());
 
-	std::wstring s = CastString::Utf8ToWide(m_text);
+		// 描画位置を算出
+		DirectX::SimpleMath::Vector2 drawPos =
+			transform->GetLUPixelPos() +
+			transform->GetRight() * size.x * scale.x * m_origin.x +
+			transform->GetUp() * size.y * scale.y * m_origin.y;
 
-	// 描画
-	renderer.Draw().Text().
-		Rotate(transform->GetWorldRotation()).						// 回転
-		Extend(scale * fontScale).									// 拡大縮小
-		Origin(m_origin).
-		Execute(m_pFont, s.c_str(), drawPos, 
-		GetColor() * GetMulColor());		// 描画呼び出し
+		std::wstring s = CastString::Utf8ToWide(m_text);
 
-	// 描画後はアルファを元に戻す
-	renderer.SetAlpha(1.0f);
-}
+		// 描画
+		renderer.Draw().Text().
+			Rotate(transform->GetWorldRotation()).						// 回転
+			Extend(scale * fontScale).									// 拡大縮小
+			Origin(m_origin).
+			Execute(m_pFont, s.c_str(), drawPos,
+				GetColor() * GetMulColor());		// 描画呼び出し
+
+		// 描画後はアルファを元に戻す
+		renderer.SetAlpha(1.0f);
+	}
+}	// namespace REngine

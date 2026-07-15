@@ -25,7 +25,7 @@ namespace Collision2D
 {
 	using namespace DirectX;
 
-	bool CheckHit2D_Convex_Convex(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info)
+	bool CheckHit2D_Convex_Convex(REngine::ColliderBase2D* col1, REngine::ColliderBase2D* col2, REngine::HitInfomation2D* info)
 	{
 		// コライダーの変換
 		ConvexPolygonCollider2D* colA = static_cast<ConvexPolygonCollider2D*>(col1);
@@ -129,10 +129,10 @@ namespace Collision2D
 		return true;
 	}
 
-	bool CheckHit2D_Circle_Convex(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info)
+	bool CheckHit2D_Circle_Convex(REngine::ColliderBase2D* col1, REngine::ColliderBase2D* col2, REngine::HitInfomation2D* info)
 	{
 		// コライダーを変換
-		CircleCollider2D* colA = static_cast<CircleCollider2D*>(col1);
+		REngine::CircleCollider2D* colA = static_cast<REngine::CircleCollider2D*>(col1);
 		ConvexPolygonCollider2D* colB = static_cast<ConvexPolygonCollider2D*>(col2);
 
 		// 全ての辺に対して最短距離を求めることで衝突を調べる。
@@ -164,7 +164,7 @@ namespace Collision2D
 		for (auto& edge : edges)
 		{
 			// 線分と点の最近点を求める
-			SimpleMath::Vector2 closedPoint = ClosestPointOnSegment(edge.first, edge.second, center);
+			SimpleMath::Vector2 closedPoint = REngine::ClosestPointOnSegment(edge.first, edge.second, center);
 
 			float lenSq = (closedPoint - center).LengthSquared();
 
@@ -225,10 +225,10 @@ namespace Collision2D
 		return true;
 	}
 
-	bool CheckHit2D_Capsule_Convex(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info)
+	bool CheckHit2D_Capsule_Convex(REngine::ColliderBase2D* col1, REngine::ColliderBase2D* col2, REngine::HitInfomation2D* info)
 	{
 		// コライダーを変換
-		CapsuleCollider2D* colA = static_cast<CapsuleCollider2D*>(col1);
+		REngine::CapsuleCollider2D* colA = static_cast<REngine::CapsuleCollider2D*>(col1);
 		ConvexPolygonCollider2D* colB = static_cast<ConvexPolygonCollider2D*>(col2);
 
 		// ポリゴンの頂点を取得

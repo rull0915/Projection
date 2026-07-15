@@ -24,7 +24,7 @@
 void TPSCamera::Awake()
 {
 	// トランスフォームを取得
-	m_pOwnTransform = GetComponent<Transform>();
+	m_pOwnTransform = GetComponent<REngine::Transform>();
 }
 
 void TPSCamera::Start()
@@ -40,16 +40,16 @@ void TPSCamera::Start()
 void TPSCamera::OnEnable()
 {
 	// マウスを相対モードに
-	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+	REngine::Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::OnDisable()
 {
 	// マウスを絶対モードに
-	Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
+	REngine::Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 }
 
-void TPSCamera::Update(const GameTimer& gameTimer)
+void TPSCamera::Update(const REngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
@@ -57,7 +57,7 @@ void TPSCamera::Update(const GameTimer& gameTimer)
 	if (!m_pTargetTransform) return;
 
 	// マウスの移動量を取得
-	DirectX::SimpleMath::Vector2 moveVal = Input::Mouse::GetMouseMoveValue();
+	DirectX::SimpleMath::Vector2 moveVal = REngine::Input::Mouse::GetMouseMoveValue();
 
 	// 角度に加算する
 	m_angle.x += moveVal.y * m_sensitivity * 0.01f;
@@ -86,11 +86,11 @@ void TPSCamera::SetTarget(const std::string& name)
 	m_targetName = name;
 
 	// 名前でオブジェクトを検索する
-	GameObject* obj = static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
+	REngine::GameObject* obj = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
 
 	// 見つかれば
 	if (obj)
 	{
-		m_pTargetTransform = obj->GetComponent<Transform>();
+		m_pTargetTransform = obj->GetComponent<REngine::Transform>();
 	}
 }

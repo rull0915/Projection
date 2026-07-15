@@ -24,7 +24,6 @@ using namespace DirectX;
 
 namespace REngine
 {
-
 	ResourceManager::ResourceManager()
 		: m_device{ nullptr }
 		, m_effect{}

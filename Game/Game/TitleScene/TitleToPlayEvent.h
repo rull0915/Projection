@@ -26,14 +26,14 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class TitleToPlayEvent : public ButtonListenerBase
+class TitleToPlayEvent : public REngine::ButtonListenerBase
 {
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	TitleToPlayEvent(IComponentOwner* own);
+	TitleToPlayEvent(REngine::IComponentOwner* own);
 	~TitleToPlayEvent() = default;
 
 	//-----------------------------------------------------
@@ -49,6 +49,6 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<TitleToPlayEvent>();
+		return REngine::TypeIDGenerator::GetID<TitleToPlayEvent>();
 	}
 };

@@ -44,7 +44,7 @@ public:
 public:
 	void Enter() override;
 
-	void Update(const GameTimer& timer) override;
+	void Update(const REngine::GameTimer& timer) override;
 
 	void Exit() override;
 };

@@ -81,16 +81,16 @@ public:
 
 private:
 	// ゲームタイマー
-	GameTimer m_gameTimer;
+	REngine::GameTimer m_gameTimer;
 
 	// 描画担当
-	Renderer m_renderer;
+	REngine::Renderer m_renderer;
 
 	// エディター
-	std::unique_ptr<SceneEditor> m_editor;
+	std::unique_ptr<REngine::SceneEditor> m_editor;
 
 	// 終了演出
-	std::unique_ptr<Transition::Base> m_exitTrans;
+	std::unique_ptr<REngine::Transition::Base> m_exitTrans;
 
 private:
 	void TitleNameUpdate(float elapsedTime);

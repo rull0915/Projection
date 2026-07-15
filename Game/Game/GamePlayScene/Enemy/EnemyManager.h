@@ -36,7 +36,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EnemyManager : public WorldComponentBase, public IComponentListener
+class EnemyManager : public REngine::WorldComponentBase, public  REngine::IComponentListener
 {
 	// グラフを更新する感覚
 	static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
@@ -68,7 +68,7 @@ private:
 	float m_nowTime;
 
 	// プレイヤーのトランスフォーム
-	Transform* m_playerTransform;
+	REngine::Transform* m_playerTransform;
 
 	// プレイヤーがいた位置
 	DirectX::SimpleMath::Vector3 m_oldPlayerPosition;
@@ -83,14 +83,14 @@ private:
 	bool m_isStarted;
 
 	// イベントのトークン
-	EventBus<GamePlayEvent>::Token m_eventToken;
+	REngine::EventBus<GamePlayEvent>::Token m_eventToken;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	EnemyManager(IComponentOwner* owner)
+	EnemyManager(REngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
 		, m_normalNavigation2D{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
@@ -113,15 +113,15 @@ public:
 
 	void OnDestroy() override;
 
-	void Update(const GameTimer& timer) override;
+	void Update(const REngine::GameTimer& timer) override;
 
-	void DebugRenderer(Renderer& renderer);
+	void DebugRenderer(REngine::Renderer& renderer);
 
 	// 敵を追加する関数
 	void OnComponentAdded(ComponentBase* component) override
 	{
 		// 敵なら
-		if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<Enemy>())
 		{
 			Enemy* enemy = static_cast<Enemy*>(component);
 
@@ -132,12 +132,12 @@ public:
 		}
 
 		// 着地候補点なら
-		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints>())
 			// キャストして追加
 			m_normalNavigation.AddNode(static_cast<LandingCandidatePoints*>(component));
 		
 		// 2D着地候補点なら
-		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints2D>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints2D>())
 			// キャストして追加
 			m_normalNavigation2D.AddNode(static_cast<LandingCandidatePoints2D*>(component));
 	}
@@ -145,17 +145,17 @@ public:
 	void OnComponentRemoved(ComponentBase* component) override
 	{
 		// 敵なら
-		if (component->GetID() == TypeIDGenerator::GetID<Enemy>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<Enemy>())
 			// キャストして追加
 			m_removeReserves.push_back(static_cast<Enemy*>(component));	
 
 		// 着地候補点なら
-		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints>())
 			// キャストして追加
 			m_normalNavigation.RemoveNode(static_cast<LandingCandidatePoints*>(component));
 
 		// 2D着地候補点なら
-		if (component->GetID() == TypeIDGenerator::GetID<LandingCandidatePoints2D>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints2D>())
 			// キャストして追加
 			m_normalNavigation2D.RemoveNode(static_cast<LandingCandidatePoints2D*>(component));
 	}
@@ -170,7 +170,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<EnemyManager>();
+		return REngine::TypeIDGenerator::GetID<EnemyManager>();
 	}
 
 private:

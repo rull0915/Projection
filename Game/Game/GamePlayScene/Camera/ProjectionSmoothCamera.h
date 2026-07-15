@@ -26,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ProjectionSmoothCamera : public CameraBase
+class ProjectionSmoothCamera : public REngine::CameraBase
 {
 private:
 
@@ -40,7 +40,7 @@ private:
 	//-----------------------------------------------------
 
 	// projection行列のパラメータ
-	ProjectionType m_type;
+	REngine::ProjectionType m_type;
 
 	// 共通
 	float m_nearZ;  // ニアクリップ
@@ -73,18 +73,18 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ProjectionSmoothCamera(IComponentOwner* owner);
+	ProjectionSmoothCamera(REngine::IComponentOwner* owner);
 	~ProjectionSmoothCamera() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	void ChangeProjectionMode(float changeTime = 1.0f);
 
-	ProjectionType GetProjectionType() const { return m_type; }
+	REngine::ProjectionType GetProjectionType() const { return m_type; }
 
 	void UpdateView() override;
 	void UpdateProj() override;
@@ -94,7 +94,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<ProjectionSmoothCamera>();
+		return REngine::TypeIDGenerator::GetID<ProjectionSmoothCamera>();
 	}
 
 	//-----------------------------------------------------

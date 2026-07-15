@@ -16,38 +16,40 @@
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-
-ObjectFactory::ObjectFactory(Scene* pScene)
-	: m_pScene{ pScene }
-{}
-
-// ゲームオブジェクトを生成する関数
-GameObject* ObjectFactory::Generate(DirectX::SimpleMath::Vector3 position)
+namespace REngine
 {
-	// ポインタを作成
-	GameObject* pObj = new GameObject(GameObject::CreateToken{});
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// オブジェクトのシーンを設定
-	pObj->SetScene(m_pScene);
+	ObjectFactory::ObjectFactory(Scene* pScene)
+		: m_pScene{ pScene }
+	{}
 
-	// オブジェクト管理クラスに追加
-	m_pScene->GetObjectManager()->AddObject(pObj);
+	// ゲームオブジェクトを生成する関数
+	GameObject* ObjectFactory::Generate(DirectX::SimpleMath::Vector3 position)
+	{
+		// ポインタを作成
+		GameObject* pObj = new GameObject(GameObject::CreateToken{});
 
-	// Transformを追加
-	pObj->AddComponent<Transform>();
+		// オブジェクトのシーンを設定
+		pObj->SetScene(m_pScene);
 
-	// 位置を設定
-	pObj->GetComponent<Transform>()->SetLocalPosition(position);
+		// オブジェクト管理クラスに追加
+		m_pScene->GetObjectManager()->AddObject(pObj);
 
-	// 作成したポインタを返す
-	return pObj;
-}
+		// Transformを追加
+		pObj->AddComponent<Transform>();
 
-Canvas* ObjectFactory::GenerateCanvas()
-{
-	return m_pScene->GetUIManager()->CreateCanvas();
-}
+		// 位置を設定
+		pObj->GetComponent<Transform>()->SetLocalPosition(position);
+
+		// 作成したポインタを返す
+		return pObj;
+	}
+
+	Canvas* ObjectFactory::GenerateCanvas()
+	{
+		return m_pScene->GetUIManager()->CreateCanvas();
+	}
+}	// namespace REngine

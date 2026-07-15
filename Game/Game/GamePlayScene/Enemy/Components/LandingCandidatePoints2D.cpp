@@ -29,7 +29,7 @@ void LandingCandidatePoints2D::Start()
 {
 	// コライダーを取得
 	// 1つ目のみに対応
-	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(Category::Collider2D));
+	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider2D));
 
 	// 取得できなかったら何もしない
 	if (!m_ownCollider) return;
@@ -41,12 +41,12 @@ void LandingCandidatePoints2D::Start()
 	m_latestVersion = m_ownCollider->GetVersion();
 }
 
-void LandingCandidatePoints2D::Update(const GameTimer& gameTimer)
+void LandingCandidatePoints2D::Update(const REngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
 	// 再取得
-	m_ownCollider = static_cast<ColliderBase2D*>(GetOwn()->GetComponentWithCategory(Category::Collider2D));
+	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider2D));
 
 	// 再取得も失敗したら何もしない
 	if (!m_ownCollider) return;
@@ -61,10 +61,10 @@ void LandingCandidatePoints2D::Update(const GameTimer& gameTimer)
 		UpdateCandidatePoints();
 
 		// 2D世界の設定を取得
-		auto& world2D = WorldSetting2D::Instance();
+		auto& world2D = REngine::WorldSetting2D::Instance();
 
 		// 中心点の更新(トランスフォームの3D座標を2D座標系に変換)
-		m_centerPoint = world2D.World3DToLocal2D(GetComponent<Transform>()->GetWorldPosition());
+		m_centerPoint = world2D.World3DToLocal2D(GetComponent<REngine::Transform>()->GetWorldPosition());
 	}
 }
 
@@ -77,22 +77,22 @@ void LandingCandidatePoints2D::UpdateCandidatePoints()
 	unsigned int id = m_ownCollider->GetID();
 
 	// ボックスの場合
-	if (id == TypeIDGenerator::GetID<BoxCollider2D>())
+	if (id == REngine::TypeIDGenerator::GetID<REngine::BoxCollider2D>())
 	{
 		UpdateCandidatePointsOnBox();
 	}
 	// カプセル
-	else if (id == TypeIDGenerator::GetID<CapsuleCollider2D>())
+	else if (id == REngine::TypeIDGenerator::GetID<REngine::CapsuleCollider2D>())
 	{
 
 	}
 	// 円
-	else if (id == TypeIDGenerator::GetID<CircleCollider2D>())
+	else if (id == REngine::TypeIDGenerator::GetID<REngine::CircleCollider2D>())
 	{
 
 	}
 	// 凸ポリゴン
-	else if (id == TypeIDGenerator::GetID<ConvexPolygonCollider2D>())
+	else if (id == REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>())
 	{
 		UpdateCandidatePointsOnConvexPolygon();
 	}
@@ -105,7 +105,7 @@ void LandingCandidatePoints2D::UpdateCandidatePointsOnBox()
 	using namespace DirectX;
 
 	// ボックスコライダーに変換
-	BoxCollider2D* collider = dynamic_cast<BoxCollider2D*>(m_ownCollider);
+	REngine::BoxCollider2D* collider = dynamic_cast<REngine::BoxCollider2D*>(m_ownCollider);
 
 	// 変換に失敗したら何もしない
 	if (!collider) return;

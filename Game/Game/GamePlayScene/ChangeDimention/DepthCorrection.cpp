@@ -21,7 +21,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
+void DepthCorrection::OnCollisionEnter2D(REngine::HitContact2D & contact)
 {
 	// 床にぶつかっていた場合
 	if (contact.other->GetTag() == "Floor")
@@ -35,7 +35,7 @@ void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
 		// 衝突したオブジェクトに近づくように補正する
 
 		// カメラ基準のZ座標を求める
-		auto& world2D = WorldSetting2D::Instance();
+		auto& world2D = REngine::WorldSetting2D::Instance();
 
 		// 軸を取得する
 		DirectX::SimpleMath::Vector3 xAxis = world2D.GetXAxis(), yAxis = world2D.GetYAxis();
@@ -45,8 +45,8 @@ void DepthCorrection::OnCollisionEnter2D(HitContact2D & contact)
 		zAxis.Normalize();
 
 		// トランスフォームを取得
-		Transform* targetTransform = contact.other->GetComponent<Transform>();
-		Transform* ownTransform = GetComponent<Transform>();
+		REngine::Transform* targetTransform = contact.other->GetComponent<REngine::Transform>();
+		REngine::Transform* ownTransform = GetComponent<REngine::Transform>();
 
 		// 投影して座標を求める
 		float targetZ = zAxis.Dot(targetTransform->GetWorldPosition());

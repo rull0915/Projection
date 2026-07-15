@@ -13,52 +13,53 @@
 #include "Renderer/EachRenderer/TextRenderer.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-/// <summary>
-/// コンストラクタ
-/// </summary>
-TextRenderer::TextRenderer(Renderer& renderer)
-	: m_renderer{ renderer }
-	, m_renderState{ renderer.GetRenderState() }
+namespace REngine
 {
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-TextRenderer::~TextRenderer()
-{
-}
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	TextRenderer::TextRenderer(Renderer& renderer)
+		: m_renderer{ renderer }
+		, m_renderState{ renderer.GetRenderState() }
+	{}
 
-/// <summary>
-/// 初期化関数
-/// </summary>
-void TextRenderer::Initialize()
-{
-	auto context = m_renderer.GetContext();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	TextRenderer::~TextRenderer()
+	{}
 
-	// スプライトバッチの初期化
-	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
-}
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	void TextRenderer::Initialize()
+	{
+		auto context = m_renderer.GetContext();
 
-/// <summary>
-/// 描画開始関数
-/// </summary>
-void TextRenderer::Start()
-{
-	m_spriteBatch->Begin(
-		DirectX::SpriteSortMode_Deferred,
-		m_renderer.GetStates()->NonPremultiplied()
-	);
-}
+		// スプライトバッチの初期化
+		m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
+	}
 
-/// <summary>
-/// 描画終了関数
-/// </summary>
-void TextRenderer::End()
-{
-	m_spriteBatch->End();
-}
+	/// <summary>
+	/// 描画開始関数
+	/// </summary>
+	void TextRenderer::Start()
+	{
+		m_spriteBatch->Begin(
+			DirectX::SpriteSortMode_Deferred,
+			m_renderer.GetStates()->NonPremultiplied()
+		);
+	}
+
+	/// <summary>
+	/// 描画終了関数
+	/// </summary>
+	void TextRenderer::End()
+	{
+		m_spriteBatch->End();
+	}
+}	// namespace REngine

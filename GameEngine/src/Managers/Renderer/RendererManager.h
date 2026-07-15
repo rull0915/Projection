@@ -18,92 +18,90 @@
 #include <unordered_set>
 #include "Components/World/Renderer/RendererBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class RendererManager
+namespace REngine
 {
-private:
-
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-   //-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 登録予約中のRenderer
-	std::vector<RendererBase*> m_addReserves;
-	std::unordered_set<RendererBase*> m_removeReserves;
-
-	// 登録されているRendererBase
-	std::vector<RendererBase*> m_renderers;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	RendererManager();
-	~RendererManager();
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// 描画処理
-	void DrawAll(Renderer& renderer);
-
-	// 登録予約
-	void AddRenderer(RendererBase* r) { m_addReserves.push_back(r); }
-	void RemoveRenderer(RendererBase* r) { m_removeReserves.insert(r); }
-
-	// 予約反映
-	void ReflectReserves()
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class RendererManager
 	{
-		AddReserved();
-		RemoveReserved();
-	}
+	private:
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// 定数
+		//-----------------------------------------------------
 
-	// 予約済みポインタの追加
-	void AddReserved()
-	{
-		for (auto p : m_addReserves)
+
+	   //-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
+
+		// 登録予約中のRenderer
+		std::vector<RendererBase*> m_addReserves;
+		std::unordered_set<RendererBase*> m_removeReserves;
+
+		// 登録されているRendererBase
+		std::vector<RendererBase*> m_renderers;
+
+	public:
+
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		RendererManager();
+		~RendererManager();
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		// 描画処理
+		void DrawAll(Renderer& renderer);
+
+		// 登録予約
+		void AddRenderer(RendererBase* r) { m_addReserves.push_back(r); }
+		void RemoveRenderer(RendererBase* r) { m_removeReserves.insert(r); }
+
+		// 予約反映
+		void ReflectReserves()
 		{
-			m_renderers.push_back(p);
+			AddReserved();
+			RemoveReserved();
 		}
 
-		m_addReserves.clear();
-	}
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
 
-	// 予約済みポインタの削除
-	void RemoveReserved()
-	{
-		// 削除リストが空なら何もしない
-		if (m_removeReserves.empty()) return;
-
-		// 削除リストに含まれているかを調べるラムダ式
-		auto shouldRemove = [this](RendererBase* base)
+		// 予約済みポインタの追加
+		void AddReserved()
+		{
+			for (auto p : m_addReserves)
 			{
-				return m_removeReserves.contains(base);
-			};
+				m_renderers.push_back(p);
+			}
 
-		// 削除
-		std::erase_if(m_renderers, shouldRemove);
-		std::erase_if(m_addReserves, shouldRemove);
+			m_addReserves.clear();
+		}
 
-		// 削除リストをクリア
-		m_removeReserves.clear();
-	}
-};
+		// 予約済みポインタの削除
+		void RemoveReserved()
+		{
+			// 削除リストが空なら何もしない
+			if (m_removeReserves.empty()) return;
+
+			// 削除リストに含まれているかを調べるラムダ式
+			auto shouldRemove = [this](RendererBase* base)
+				{
+					return m_removeReserves.contains(base);
+				};
+
+			// 削除
+			std::erase_if(m_renderers, shouldRemove);
+			std::erase_if(m_addReserves, shouldRemove);
+
+			// 削除リストをクリア
+			m_removeReserves.clear();
+		}
+	};
+}	// namespace REngine

@@ -30,7 +30,7 @@ NavigationGraphBase::NavigationGraphBase(float jumpImpulse, float mass, float ho
 	float initV = m_jumpImpulse / m_enemyMass;
 
 	// 重力加速度を取得
-	m_gravity = PhysicsSettings::Instance().GetGravityScale();
+	m_gravity = REngine::PhysicsSettings::Instance().GetGravityScale();
 
 	// 届く高さの最大値を求める
 	m_maxHeight = (initV * initV) / (2 * m_gravity);

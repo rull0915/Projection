@@ -18,24 +18,26 @@
 // クラス宣言
 //====================================================//
 
-
-namespace ClassNameGetter
+namespace REngine
 {
-	// クラスのみを受け取るテンプレート
-	template<typename T, typename = std::enable_if_t<std::is_class_v<T>>>
-	std::string Get()
+	namespace ClassNameGetter
 	{
-		std::string name = typeid(T).name();
-		name.erase(name.begin(), name.begin() + 6);
-	}
+		// クラスのみを受け取るテンプレート
+		template<typename T, typename = std::enable_if_t<std::is_class_v<T>>>
+		std::string Get()
+		{
+			std::string name = typeid(T).name();
+			name.erase(name.begin(), name.begin() + 6);
+		}
 
-	// クラスのみを受け取るテンプレート
-	template<typename T, typename = std::enable_if_t<std::is_class_v<T>>>
-	std::string Get(const T& t)
-	{
-		std::string name = typeid(t).name();
-		name.erase(name.begin(), name.begin() + 6);
+		// クラスのみを受け取るテンプレート
+		template<typename T, typename = std::enable_if_t<std::is_class_v<T>>>
+		std::string Get(const T& t)
+		{
+			std::string name = typeid(t).name();
+			name.erase(name.begin(), name.begin() + 6);
 
-		return name;
-	}
-};
+			return name;
+		}
+	};
+}	// namespace REngine

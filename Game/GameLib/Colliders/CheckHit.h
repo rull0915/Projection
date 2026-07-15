@@ -27,15 +27,15 @@ namespace Collision2D
 	/// <summary>
 	/// 凸多角形同士
 	/// </summary>
-	bool CheckHit2D_Convex_Convex(ColliderBase2D* colA, ColliderBase2D* colB, HitInfomation2D* info);
+	bool CheckHit2D_Convex_Convex(REngine::ColliderBase2D* colA, REngine::ColliderBase2D* colB, REngine::HitInfomation2D* info);
 
 	/// <summary>
 	/// 円と凸多角形
 	/// </summary>
-	bool CheckHit2D_Circle_Convex(ColliderBase2D* colA, ColliderBase2D* colB, HitInfomation2D* info);
+	bool CheckHit2D_Circle_Convex(REngine::ColliderBase2D* colA, REngine::ColliderBase2D* colB, REngine::HitInfomation2D* info);
 
 	/// <summary>
 	/// カプセルと凸多角形
 	/// </summary>
-	bool CheckHit2D_Capsule_Convex(ColliderBase2D* colA, ColliderBase2D* colB, HitInfomation2D* info);
+	bool CheckHit2D_Capsule_Convex(REngine::ColliderBase2D* colA, REngine::ColliderBase2D* colB, REngine::HitInfomation2D* info);
 }

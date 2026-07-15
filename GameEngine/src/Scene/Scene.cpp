@@ -27,115 +27,116 @@
 #include "Scene/SceneRenderer.h"
 #include "Input/MouseInput.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
-Scene::Scene()
-	: m_updatePipeline		{ std::make_unique<UpdatePipeline>(this) }
-	, m_componentRegister	{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
-	, m_objectFinder		{ std::make_unique<ObjectFinder>(this) }
-	, m_sceneRenderer		{ std::make_unique<SceneRenderer>(this) }
-	, m_objectFactory		{ std::make_unique<ObjectFactory>(this) }
-	, m_mainScreen			{ std::make_unique<MainScreen>() }
-	, m_updateMode			{ UpdateMode::Play }
+namespace REngine
 {
-	// 初期化
-	m_updatePipeline->Initialize();
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-// デストラクタ
-Scene::~Scene()
-{
-}
+	// コンストラクタ
+	Scene::Scene()
+		: m_updatePipeline{ std::make_unique<UpdatePipeline>(this) }
+		, m_componentRegister{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
+		, m_objectFinder{ std::make_unique<ObjectFinder>(this) }
+		, m_sceneRenderer{ std::make_unique<SceneRenderer>(this) }
+		, m_objectFactory{ std::make_unique<ObjectFactory>(this) }
+		, m_mainScreen{ std::make_unique<MainScreen>() }
+		, m_updateMode{ UpdateMode::Play }
+	{
+		// 初期化
+		m_updatePipeline->Initialize();
+	}
 
-// 初期化関数
-void Scene::Initialize()
-{
-}
+	// デストラクタ
+	Scene::~Scene()
+	{}
 
-// 更新関数
-void Scene::Update(const GameTimer& gameTimer)
-{
-	// 各管理クラスの更新
-	m_updatePipeline->Update(gameTimer, m_updateMode);
-}
+	// 初期化関数
+	void Scene::Initialize()
+	{}
 
-// 描画関数
-void Scene::Render(Renderer& renderer)
-{
-	// メインの描画
-	m_sceneRenderer->RenderWithContext(
-		{ GetMainCamera(), m_mainScreen->GetRenderTarget(), WindowManager::Instance().GetBackGroundColor(),
-			DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug },
-		renderer
-	);
-}
+	// 更新関数
+	void Scene::Update(const GameTimer& gameTimer)
+	{
+		// 各管理クラスの更新
+		m_updatePipeline->Update(gameTimer, m_updateMode);
+	}
 
-// 実際の画面へ描画する関数
-void Scene::RenderOnScreen(Renderer& renderer)
-{
-	// メインスクリーンを描画
-	m_mainScreen->Render(renderer);
-}
+	// 描画関数
+	void Scene::Render(Renderer& renderer)
+	{
+		// メインの描画
+		m_sceneRenderer->RenderWithContext(
+			{ GetMainCamera(), m_mainScreen->GetRenderTarget(), WindowManager::Instance().GetBackGroundColor(),
+				DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug },
+			renderer
+		);
+	}
 
-/// <summary>
-/// 基底終了関数
-/// </summary>
-void Scene::Finalize()
-{
-	ResetObjects();
-}
+	// 実際の画面へ描画する関数
+	void Scene::RenderOnScreen(Renderer& renderer)
+	{
+		// メインスクリーンを描画
+		m_mainScreen->Render(renderer);
+	}
 
-// オブジェクトのリセット関数
-void Scene::ResetObjects()
-{
-	m_updatePipeline->Finalize();
-}
+	/// <summary>
+	/// 基底終了関数
+	/// </summary>
+	void Scene::Finalize()
+	{
+		ResetObjects();
+	}
 
-void Scene::RegisterComponent(ComponentBase* component)
-{
-	// 各マネージャーへ通知
-	m_componentRegister->RegisterComponent(component);
-}
+	// オブジェクトのリセット関数
+	void Scene::ResetObjects()
+	{
+		m_updatePipeline->Finalize();
+	}
 
-void Scene::UnRegsisterComponent(ComponentBase * component)
-{
-	// 各マネージャーへ通知
-	m_componentRegister->UnRegisterComponent(component);
-}
+	void Scene::RegisterComponent(ComponentBase* component)
+	{
+		// 各マネージャーへ通知
+		m_componentRegister->RegisterComponent(component);
+	}
 
-// メインカメラ設定関数
-void Scene::SetMainCamera(CameraBase* camera)
-{
-	m_updatePipeline->GetCameraManager()->SetMainCamera(camera);
-}
+	void Scene::UnRegsisterComponent(ComponentBase* component)
+	{
+		// 各マネージャーへ通知
+		m_componentRegister->UnRegisterComponent(component);
+	}
 
-// メインカメラ取得関数
-CameraBase* Scene::GetMainCamera() const
-{
-	return m_updatePipeline->GetCameraManager()->GetMainCamera();
-}
+	// メインカメラ設定関数
+	void Scene::SetMainCamera(CameraBase* camera)
+	{
+		m_updatePipeline->GetCameraManager()->SetMainCamera(camera);
+	}
 
-// Rayの衝突を調べる
-bool Scene::RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask)
-{
-	return 
-		RaySystem::RayCast(
-		m_updatePipeline->GetPhysicsManager()->GetCollideManager()->GetAllColliders(),
-		ray, max, hit, layerMask
-	);
-}
+	// メインカメラ取得関数
+	CameraBase* Scene::GetMainCamera() const
+	{
+		return m_updatePipeline->GetCameraManager()->GetMainCamera();
+	}
 
-// オブジェクトマネージャーの取得関数
-ObjectManager* Scene::GetObjectManager() const
-{
-	return m_updatePipeline->GetObjectManager();
-}
+	// Rayの衝突を調べる
+	bool Scene::RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask)
+	{
+		return
+			RaySystem::RayCast(
+				m_updatePipeline->GetPhysicsManager()->GetCollideManager()->GetAllColliders(),
+				ray, max, hit, layerMask
+			);
+	}
 
-// UIマネージャーの取得関数
-UIManager* Scene::GetUIManager() const
-{
-	return m_updatePipeline->GetUIManager();
-}
+	// オブジェクトマネージャーの取得関数
+	ObjectManager* Scene::GetObjectManager() const
+	{
+		return m_updatePipeline->GetObjectManager();
+	}
+
+	// UIマネージャーの取得関数
+	UIManager* Scene::GetUIManager() const
+	{
+		return m_updatePipeline->GetUIManager();
+	}
+}	// namespace REngine

@@ -13,56 +13,54 @@
 #include "Renderer/EachRenderer/ModelRenderer.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-/// <summary>
-/// コンストラクタ
-/// </summary>
-/// <param name="renderer">レンダラー</param>
-ModelRenderer::ModelRenderer(Renderer& renderer)
-	: m_renderer{ renderer }
-	, m_renderState{ renderer.GetRenderState() }
+namespace REngine
 {
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-/// <summary>
-/// 初期化関数
-/// </summary>
-void ModelRenderer::Initialize()
-{
-}
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="renderer">レンダラー</param>
+	ModelRenderer::ModelRenderer(Renderer& renderer)
+		: m_renderer{ renderer }
+		, m_renderState{ renderer.GetRenderState() }
+	{}
 
-/// <summary>
-/// 描画開始関数
-/// </summary>
-void ModelRenderer::Start()
-{
-}
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	void ModelRenderer::Initialize()
+	{}
 
-/// <summary>
-/// 描画終了関数
-/// </summary>
-void ModelRenderer::End()
-{
-}
+	/// <summary>
+	/// 描画開始関数
+	/// </summary>
+	void ModelRenderer::Start()
+	{}
 
-/// <summary>
-/// モデル
-/// </summary>
-/// <param name="model">モデルハンドル</param>
-/// <param name="world">ワールド行列</param>
-void ModelRenderer::DrawModel(DirectX::Model* model, DirectX::SimpleMath::Matrix world)
-{
-	if (!model) return;
+	/// <summary>
+	/// 描画終了関数
+	/// </summary>
+	void ModelRenderer::End()
+	{}
 
-	model->Draw(
-		m_renderer.GetContext(), 
-		*m_renderer.GetStates(), 
-		world, 
-		m_renderState.GetView(), 
-		m_renderState.GetProjection()
-	);
-}
+	/// <summary>
+	/// モデル
+	/// </summary>
+	/// <param name="model">モデルハンドル</param>
+	/// <param name="world">ワールド行列</param>
+	void ModelRenderer::DrawModel(DirectX::Model* model, DirectX::SimpleMath::Matrix world)
+	{
+		if (!model) return;
 
+		model->Draw(
+			m_renderer.GetContext(),
+			*m_renderer.GetStates(),
+			world,
+			m_renderState.GetView(),
+			m_renderState.GetProjection()
+		);
+	}
+}	// namespace REngine

@@ -30,7 +30,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class PathMover : public WorldComponentBase
+class PathMover : public REngine::WorldComponentBase
 {
 private:
 	//-----------------------------------------------------
@@ -50,7 +50,7 @@ private:
 	float m_sumTime;
 
 	// トランスフォーム
-	Transform* m_pTransform;
+	REngine::Transform* m_pTransform;
 
 	// 補間コンポーネント
 	CatmullRomComponent* m_pCatmull;
@@ -63,7 +63,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PathMover(IComponentOwner* own);
+	PathMover(REngine::IComponentOwner* own);
 	~PathMover() = default;
 
 	//-----------------------------------------------------
@@ -72,8 +72,8 @@ public:
 
 	void Start() override;
 
-	void Update(const GameTimer& gameTimer) override;
-	void LateUpdate(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
+	void LateUpdate(const REngine::GameTimer& gameTimer) override;
 
 	// 移動開始関数
 	void MoveStart();
@@ -85,6 +85,6 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<PathMover>();
+		return REngine::TypeIDGenerator::GetID<PathMover>();
 	}
 };

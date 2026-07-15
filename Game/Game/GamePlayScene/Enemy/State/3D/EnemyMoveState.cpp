@@ -15,6 +15,8 @@
 #include "../../Enemy.h"
 #include "Components/World/RigidBody/RigidBody.h"
 
+using namespace REngine;
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//

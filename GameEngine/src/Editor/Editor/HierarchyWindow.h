@@ -13,72 +13,74 @@
 
 #include "Common/PropertyObject.h"
 
-class Scene;
-
-class GameObject;
-class Canvas;
-
-class ObjectManager;
-class UIManager;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class HierarchyWindow
+namespace REngine
 {
-private:
+	class Scene;
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+	class GameObject;
+	class Canvas;
 
-	// 所属先のシーン
-	Scene* m_pScene;
+	class ObjectManager;
+	class UIManager;
 
-	// 選択中のプロパティオブジェクト
-	PropertyObject* m_selected;
-
-public:
-
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	HierarchyWindow(Scene* pScene)
-		: m_pScene{ pScene }
-		, m_selected{ nullptr }
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class HierarchyWindow
 	{
-	}
-	~HierarchyWindow() = default;
+	private:
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	void Reset()
-	{
-		m_selected = nullptr;
-	}
+		// 所属先のシーン
+		Scene* m_pScene;
 
-	// ヒエラルキーの描画
-	bool DrawHierarchy();
+		// 選択中のプロパティオブジェクト
+		PropertyObject* m_selected;
 
-	// 選択中オブジェクトのゲッター
-	PropertyObject* GetSelected() const { return m_selected; }
+	public:
 
-private:
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		HierarchyWindow(Scene* pScene)
+			: m_pScene{ pScene }
+			, m_selected{ nullptr }
+		{}
+		~HierarchyWindow() = default;
 
-	// ヒエラルキー描画の開始
-	bool StartHierarchy();
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	// GameObjectの表示関数
-	void DrawGameObject(GameObject* object);
+		void Reset()
+		{
+			m_selected = nullptr;
+		}
 
-	// Canvasの表示関数
-	void DrawCanvas(Canvas* canvas);
+		// ヒエラルキーの描画
+		bool DrawHierarchy();
 
-	// ObjectManagerから全Objectを描画する
-	void DrawObjects(ObjectManager* objectManager);
+		// 選択中オブジェクトのゲッター
+		PropertyObject* GetSelected() const { return m_selected; }
 
-	// UIManagerから全Objectを描画する
-	void DrawObjects(UIManager* UIManager);
-};
+	private:
+
+		// ヒエラルキー描画の開始
+		bool StartHierarchy();
+
+		// GameObjectの表示関数
+		void DrawGameObject(GameObject* object);
+
+		// Canvasの表示関数
+		void DrawCanvas(Canvas* canvas);
+
+		// ObjectManagerから全Objectを描画する
+		void DrawObjects(ObjectManager* objectManager);
+
+		// UIManagerから全Objectを描画する
+		void DrawObjects(UIManager* UIManager);
+	};
+}	// namespace REngine

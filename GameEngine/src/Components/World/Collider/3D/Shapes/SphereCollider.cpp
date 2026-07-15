@@ -14,48 +14,51 @@
 
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void SphereCollider::UpdateCache() const
+namespace REngine
 {
-	Transform* pT = GetTransform();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// ワールドの拡大率を取得
-	DirectX::SimpleMath::Vector3 worldScale = pT->GetWorldScale();
+	void SphereCollider::UpdateCache() const
+	{
+		Transform* pT = GetTransform();
 
-	// ----- 中心座標の更新 ----- //
-	DirectX::SimpleMath::Vector3 world = DirectX::SimpleMath::Vector3::Transform(GetLocalCenterPos(), pT->GetWorldMatrix());
-	SetWorldPosition(world);
+		// ワールドの拡大率を取得
+		DirectX::SimpleMath::Vector3 worldScale = pT->GetWorldScale();
 
-	// ----- 半径の更新 ----- //
-	float max = std::max(std::max(worldScale.x, worldScale.y), worldScale.z);
+		// ----- 中心座標の更新 ----- //
+		DirectX::SimpleMath::Vector3 world = DirectX::SimpleMath::Vector3::Transform(GetLocalCenterPos(), pT->GetWorldMatrix());
+		SetWorldPosition(world);
 
-	m_worldRadius = max * m_radius;
+		// ----- 半径の更新 ----- //
+		float max = std::max(std::max(worldScale.x, worldScale.y), worldScale.z);
 
-	// ----- AABBの更新 ----- //
-	DirectX::SimpleMath::Vector3 size = { m_worldRadius, m_worldRadius, m_worldRadius };
-	SetBoundingBox(AABB(world - size, world + size));
+		m_worldRadius = max * m_radius;
 
-	// フラグのリセット
-	ResetDirty();
-	SetChanged(true);
-	ApplyVersion();
-}
+		// ----- AABBの更新 ----- //
+		DirectX::SimpleMath::Vector3 size = { m_worldRadius, m_worldRadius, m_worldRadius };
+		SetBoundingBox(AABB(world - size, world + size));
 
-void SphereCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
-{
-	// ワールド行列の算出(Rot,Pos)
-	Transform* pT = GetTransform();
-	DirectX::SimpleMath::Vector3 pos = GetWorldCenterPos();
-	DirectX::SimpleMath::Quaternion rot = pT->GetWorldRotation();
+		// フラグのリセット
+		ResetDirty();
+		SetChanged(true);
+		ApplyVersion();
+	}
 
-	// 半径の取得
-	float rad = GetRadius();
+	void SphereCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	{
+		// ワールド行列の算出(Rot,Pos)
+		Transform* pT = GetTransform();
+		DirectX::SimpleMath::Vector3 pos = GetWorldCenterPos();
+		DirectX::SimpleMath::Quaternion rot = pT->GetWorldRotation();
 
-	// 描画
-	renderer.Draw().Circle(pos, pT->GetUp(), rad, 16, color, false);
-	renderer.Draw().Circle(pos, pT->GetRight(), rad, 16, color, false);
-	renderer.Draw().Circle(pos, pT->GetForward(), rad, 16, color, false);
-}
+		// 半径の取得
+		float rad = GetRadius();
+
+		// 描画
+		renderer.Draw().Circle(pos, pT->GetUp(), rad, 16, color, false);
+		renderer.Draw().Circle(pos, pT->GetRight(), rad, 16, color, false);
+		renderer.Draw().Circle(pos, pT->GetForward(), rad, 16, color, false);
+	}
+}	// namespace REngine

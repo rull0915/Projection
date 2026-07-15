@@ -26,14 +26,14 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ClickSE : public ButtonListenerBase
+class ClickSE : public REngine::ButtonListenerBase
 {
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ClickSE(IComponentOwner* own);
+	ClickSE(REngine::IComponentOwner* own);
 	~ClickSE() = default;
 
 	//-----------------------------------------------------
@@ -49,7 +49,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<ClickSE>();
+		return REngine::TypeIDGenerator::GetID<ClickSE>();
 	}
 
 	//-----------------------------------------------------

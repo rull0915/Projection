@@ -16,62 +16,64 @@
 
 using namespace DirectX;
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-RigidBody2D::RigidBody2D(IComponentOwner* own)
-	: RigidBodyBase(own)
-	, m_velocity{ 0.0f }
-	, m_acceleration{ 0.0f }
-	, m_force{ 0.0f }
+namespace REngine
 {
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-void RigidBody2D::Integrate(float elapsedTime)
-{
-	CheckWakeUp();
+	RigidBody2D::RigidBody2D(IComponentOwner* own)
+		: RigidBodyBase(own)
+		, m_velocity{ 0.0f }
+		, m_acceleration{ 0.0f }
+		, m_force{ 0.0f }
+	{}
 
-	// 非アクティブならスキップ
-	if (!IsActive()) return;
-
-	// スリープ中ならスキップ
-	if (IsSleep()) return;
-
-	// 速度を調べる
-	if (m_velocity.LengthSquared() < 0.1f)
+	void RigidBody2D::Integrate(float elapsedTime)
 	{
-		AddStoppingTime(elapsedTime);
-	}
-	else SetStoppingTime(0);
+		CheckWakeUp();
 
-	// 一定時間止まっていたら
-	if (GetStoppingTime() >= SLEEP_BORDER)
-	{
-		// スリープにセット
-		SetSleep(true);
-		m_velocity = SimpleMath::Vector2::Zero;
+		// 非アクティブならスキップ
+		if (!IsActive()) return;
+
+		// スリープ中ならスキップ
+		if (IsSleep()) return;
+
+		// 速度を調べる
+		if (m_velocity.LengthSquared() < 0.1f)
+		{
+			AddStoppingTime(elapsedTime);
+		}
+		else SetStoppingTime(0);
+
+		// 一定時間止まっていたら
+		if (GetStoppingTime() >= SLEEP_BORDER)
+		{
+			// スリープにセット
+			SetSleep(true);
+			m_velocity = SimpleMath::Vector2::Zero;
+			m_force = SimpleMath::Vector2::Zero;
+		}
+
+		// 加速度を力から計算
+		SimpleMath::Vector2 acceleration = m_force * GetInvMass();
+
+		// 速度に反映
+		m_velocity += acceleration * elapsedTime;
+
+		// 速度の減衰
+		m_velocity *= 1.0f / (1.0f + GetLinearDamping() * elapsedTime);
+
+		// 座標に反映
+		auto& world2D = WorldSetting2D::Instance();
+
+		auto velocity3D =
+			m_velocity.x * world2D.GetXAxis()
+			+ m_velocity.y * world2D.GetYAxis();
+
+		GetTransform()->AddWorldPosition(velocity3D * elapsedTime);
+
+		// 貯まった力をリセット
 		m_force = SimpleMath::Vector2::Zero;
 	}
-
-	// 加速度を力から計算
-	SimpleMath::Vector2 acceleration = m_force * GetInvMass();
-
-	// 速度に反映
-	m_velocity += acceleration * elapsedTime;
-
-	// 速度の減衰
-	m_velocity *= 1.0f / (1.0f + GetLinearDamping() * elapsedTime);
-
-	// 座標に反映
-	auto& world2D = WorldSetting2D::Instance();
-
-	auto velocity3D =
-		m_velocity.x * world2D.GetXAxis()
-		+ m_velocity.y * world2D.GetYAxis();
-
-	GetTransform()->AddWorldPosition(velocity3D * elapsedTime);
-
-	// 貯まった力をリセット
-	m_force = SimpleMath::Vector2::Zero;
-}
+}	// namespace REngine

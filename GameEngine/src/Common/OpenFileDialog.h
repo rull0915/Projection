@@ -16,19 +16,22 @@
 //====================================================//
 #include <string>
 
-//====================================================//
-// 関数宣言
-//====================================================//
-
-namespace FileDialog
+namespace REngine
 {
-	enum class Mode
+	//====================================================//
+	// 関数宣言
+	//====================================================//
+
+	namespace FileDialog
 	{
-		Save,
-		Open,
-	};
+		enum class Mode
+		{
+			Save,
+			Open,
+		};
 
-	std::wstring Open(Mode mode, const std::wstring& initPath, const std::wstring& extention);
+		std::wstring Open(Mode mode, const std::wstring& initPath, const std::wstring& extention);
 
-	std::wstring LoadFileDialog(const std::wstring& initPath, const std::wstring& extention);
-}
+		std::wstring LoadFileDialog(const std::wstring& initPath, const std::wstring& extention);
+	}
+}	// namespace REngine

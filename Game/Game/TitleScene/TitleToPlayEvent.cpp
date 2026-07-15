@@ -20,14 +20,14 @@
 //====================================================//
 
 // コンストラクタ
-TitleToPlayEvent::TitleToPlayEvent(IComponentOwner* own)
+TitleToPlayEvent::TitleToPlayEvent(REngine::IComponentOwner* own)
 	: ButtonListenerBase(own)
 {
 }
 
 void TitleToPlayEvent::OnClicked()
 {
-	SceneManager::Instance().RequestSceneChange("Select",
+	REngine::SceneManager::Instance().RequestSceneChange("Select",
 		std::make_unique<Transition::Slide>(0.5f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
 		std::make_unique<Transition::Slide>(0.5f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
 	);

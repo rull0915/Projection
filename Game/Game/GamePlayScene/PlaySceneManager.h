@@ -36,7 +36,7 @@ class Canvas;
 //====================================================//
 // クラス宣言
 //====================================================//
-class PlaySceneManager : public WorldComponentBase
+class PlaySceneManager : public REngine::WorldComponentBase
 {
 private:
 
@@ -49,10 +49,10 @@ private:
 	std::string m_cameraName;
 
 	// カメラ
-	GameObject* m_camera;
+	REngine::GameObject* m_camera;
 
 	// プレイヤー
-	GameObject* m_player;
+	REngine::GameObject* m_player;
 
 	// 次元管理
 	DimentionManager* m_dimentionManager;
@@ -61,14 +61,14 @@ private:
 	EnemyManager* m_enemyManager;
 
 	// イベントのID
-	std::vector<EventBus<GamePlayEvent>::Token> m_eventIds;
+	std::vector<REngine::EventBus<GamePlayEvent>::Token> m_eventIds;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PlaySceneManager(IComponentOwner* own);
+	PlaySceneManager(REngine::IComponentOwner* own);
 	~PlaySceneManager() = default;
 
 	//-----------------------------------------------------
@@ -81,7 +81,7 @@ public:
 
 	void Start() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -90,7 +90,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<PlaySceneManager>();
+		return REngine::TypeIDGenerator::GetID<PlaySceneManager>();
 	}
 
 	//-----------------------------------------------------

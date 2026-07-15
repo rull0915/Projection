@@ -16,76 +16,19 @@
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-GameObject* ObjectFinder::FindWithNameInWorld(const std::string& name) const
+namespace REngine
 {
-	// ObjectManagerを取得
-	ObjectManager* objManager = m_pScene->GetObjectManager();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// 全オブジェクトを調べる
-	for (auto& object : objManager->GetAllObject())
+	GameObject* ObjectFinder::FindWithNameInWorld(const std::string& name) const
 	{
-		// 名前を比較
-		if (object->GetName() == name)
-		{
-			return object.get();
-		}
-	}
-	// 予約リストも調べる
-	for (auto& object : objManager->GetAllReserves())
-	{
-		// 名前を比較
-		if (object->GetName() == name)
-		{
-			return object.get();
-		}
-	}
+		// ObjectManagerを取得
+		ObjectManager* objManager = m_pScene->GetObjectManager();
 
-	// 見つからなかった場合null
-	return nullptr;
-}
-
-GameObject* ObjectFinder::FindWithTagInWorld(const std::string& tag) const
-{
-	// ObjectManagerを取得
-	ObjectManager* objManager = m_pScene->GetObjectManager();
-
-	// 全オブジェクトを調べる
-	for (auto& object : objManager->GetAllObject())
-	{
-		// タグを比較
-		if (object->GetTag() == tag)
-		{
-			return object.get();
-		}
-	}
-	// 予約リストも調べる
-	for (auto& object : objManager->GetAllReserves())
-	{
-		// 名前を比較
-		if (object->GetTag() == tag)
-		{
-			return object.get();
-		}
-	}
-
-	// 見つからなかった場合null
-	return nullptr;
-}
-
-GameObject* ObjectFinder::FindWithNameInUI(const std::string& name) const
-{
-	// UIManagerを取得
-	UIManager* uiManager = m_pScene->GetUIManager();
-
-	// 全Canvasを調べる
-	for (auto& canvas : uiManager->GetAllCanvas())
-	{
 		// 全オブジェクトを調べる
-		for (auto& object : canvas->GetAllObjects())
+		for (auto& object : objManager->GetAllObject())
 		{
 			// 名前を比較
 			if (object->GetName() == name)
@@ -93,8 +36,8 @@ GameObject* ObjectFinder::FindWithNameInUI(const std::string& name) const
 				return object.get();
 			}
 		}
-		// 見つからなかった場合予約リストも調べる
-		for (auto& object : canvas->GetAllReserves())
+		// 予約リストも調べる
+		for (auto& object : objManager->GetAllReserves())
 		{
 			// 名前を比較
 			if (object->GetName() == name)
@@ -102,82 +45,142 @@ GameObject* ObjectFinder::FindWithNameInUI(const std::string& name) const
 				return object.get();
 			}
 		}
+
+		// 見つからなかった場合null
+		return nullptr;
 	}
-	// 予約Canvasも調べる
-	for (auto& canvas : uiManager->GetAllReserves())
+
+	GameObject* ObjectFinder::FindWithTagInWorld(const std::string& tag) const
 	{
+		// ObjectManagerを取得
+		ObjectManager* objManager = m_pScene->GetObjectManager();
+
 		// 全オブジェクトを調べる
-		for (auto& object : canvas->GetAllObjects())
+		for (auto& object : objManager->GetAllObject())
 		{
-			// 名前を比較
-			if (object->GetName() == name)
+			// タグを比較
+			if (object->GetTag() == tag)
 			{
 				return object.get();
 			}
 		}
-		// 見つからなかった場合予約リストも調べる
-		for (auto& object : canvas->GetAllReserves())
+		// 予約リストも調べる
+		for (auto& object : objManager->GetAllReserves())
 		{
 			// 名前を比較
-			if (object->GetName() == name)
+			if (object->GetTag() == tag)
 			{
 				return object.get();
 			}
 		}
+
+		// 見つからなかった場合null
+		return nullptr;
 	}
 
-	return nullptr;
-}
-
-GameObject* ObjectFinder::FindWithTagInUI(const std::string& tag) const
-{
-	// UIManagerを取得
-	UIManager* uiManager = m_pScene->GetUIManager();
-
-	// 全Canvasを調べる
-	for (auto& canvas : uiManager->GetAllCanvas())
+	GameObject* ObjectFinder::FindWithNameInUI(const std::string& name) const
 	{
-		// 全オブジェクトを調べる
-		for (auto& object : canvas->GetAllObjects())
+		// UIManagerを取得
+		UIManager* uiManager = m_pScene->GetUIManager();
+
+		// 全Canvasを調べる
+		for (auto& canvas : uiManager->GetAllCanvas())
 		{
-			// 名前を比較
-			if (object->GetTag() == tag)
+			// 全オブジェクトを調べる
+			for (auto& object : canvas->GetAllObjects())
 			{
-				return object.get();
+				// 名前を比較
+				if (object->GetName() == name)
+				{
+					return object.get();
+				}
+			}
+			// 見つからなかった場合予約リストも調べる
+			for (auto& object : canvas->GetAllReserves())
+			{
+				// 名前を比較
+				if (object->GetName() == name)
+				{
+					return object.get();
+				}
 			}
 		}
-		// 見つからなかった場合予約リストも調べる
-		for (auto& object : canvas->GetAllReserves())
+		// 予約Canvasも調べる
+		for (auto& canvas : uiManager->GetAllReserves())
 		{
-			// 名前を比較
-			if (object->GetTag() == tag)
+			// 全オブジェクトを調べる
+			for (auto& object : canvas->GetAllObjects())
 			{
-				return object.get();
+				// 名前を比較
+				if (object->GetName() == name)
+				{
+					return object.get();
+				}
+			}
+			// 見つからなかった場合予約リストも調べる
+			for (auto& object : canvas->GetAllReserves())
+			{
+				// 名前を比較
+				if (object->GetName() == name)
+				{
+					return object.get();
+				}
 			}
 		}
-	}
-	// 予約Canvasも調べる
-	for (auto& canvas : uiManager->GetAllReserves())
-	{
-		// 全オブジェクトを調べる
-		for (auto& object : canvas->GetAllObjects())
-		{
-			// 名前を比較
-			if (object->GetTag() == tag)
-			{
-				return object.get();
-			}
-		}
-		// 見つからなかった場合予約リストも調べる
-		for (auto& object : canvas->GetAllReserves())
-		{
-			// 名前を比較
-			if (object->GetTag() == tag)
-			{
-				return object.get();
-			}
-		}
+
+		return nullptr;
 	}
 
-	return nullptr;
-}
+	GameObject* ObjectFinder::FindWithTagInUI(const std::string& tag) const
+	{
+		// UIManagerを取得
+		UIManager* uiManager = m_pScene->GetUIManager();
+
+		// 全Canvasを調べる
+		for (auto& canvas : uiManager->GetAllCanvas())
+		{
+			// 全オブジェクトを調べる
+			for (auto& object : canvas->GetAllObjects())
+			{
+				// 名前を比較
+				if (object->GetTag() == tag)
+				{
+					return object.get();
+				}
+			}
+			// 見つからなかった場合予約リストも調べる
+			for (auto& object : canvas->GetAllReserves())
+			{
+				// 名前を比較
+				if (object->GetTag() == tag)
+				{
+					return object.get();
+				}
+			}
+		}
+		// 予約Canvasも調べる
+		for (auto& canvas : uiManager->GetAllReserves())
+		{
+			// 全オブジェクトを調べる
+			for (auto& object : canvas->GetAllObjects())
+			{
+				// 名前を比較
+				if (object->GetTag() == tag)
+				{
+					return object.get();
+				}
+			}
+			// 見つからなかった場合予約リストも調べる
+			for (auto& object : canvas->GetAllReserves())
+			{
+				// 名前を比較
+				if (object->GetTag() == tag)
+				{
+					return object.get();
+				}
+			}
+		}
+
+		return nullptr;
+	}
+}	// namespace REngine

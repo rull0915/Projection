@@ -27,81 +27,84 @@
 
 #include "Scene/UpdateMode.h"
 
-class Scene;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class UpdatePipeline
+namespace REngine
 {
-	friend class ComponentRegister;
-private:
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+	class Scene;
 
-	// シーンのポインタ
-	Scene* m_pScene;
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class UpdatePipeline
+	{
+		friend class ComponentRegister;
+	private:
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	// 各マネージャーの実体
-	std::unique_ptr<PhysicsManager> m_physicsManager;		// 3D物理
-	std::unique_ptr<PhysicsManager2D> m_physicsManager2D;	// 2D物理
-	std::unique_ptr<CollideEventSystem> m_colEvent;			// 衝突時のイベント
-	std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
-	std::unique_ptr<RendererManager> m_rendererManager;	// 描画
-	std::unique_ptr<SoundManager> m_soundManager;		// 音
-	std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
-	std::unique_ptr<UIManager> m_uiManager;				// UI
+		// シーンのポインタ
+		Scene* m_pScene;
 
-public:
+		// 各マネージャーの実体
+		std::unique_ptr<PhysicsManager> m_physicsManager;		// 3D物理
+		std::unique_ptr<PhysicsManager2D> m_physicsManager2D;	// 2D物理
+		std::unique_ptr<CollideEventSystem> m_colEvent;			// 衝突時のイベント
+		std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
+		std::unique_ptr<RendererManager> m_rendererManager;	// 描画
+		std::unique_ptr<SoundManager> m_soundManager;		// 音
+		std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
+		std::unique_ptr<UIManager> m_uiManager;				// UI
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	UpdatePipeline(Scene* pScene);
-	~UpdatePipeline() = default;
+	public:
 
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		UpdatePipeline(Scene* pScene);
+		~UpdatePipeline() = default;
 
-	void Initialize();
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
-	void Update(const GameTimer& timer, UpdateMode mode);
+		void Initialize();
 
-	// 各マネージャーを介した描画
-	void DrawWorld(Renderer& renderer);
-	void DrawUI(Renderer& renderer);
-	void DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color);
+		void Update(const GameTimer& timer, UpdateMode mode);
 
-	// 終了処理
-	void Finalize();
+		// 各マネージャーを介した描画
+		void DrawWorld(Renderer& renderer);
+		void DrawUI(Renderer& renderer);
+		void DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color);
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
+		// 終了処理
+		void Finalize();
 
-	// 管理クラスの取得
+		//-----------------------------------------------------
+		// ゲッター
+		//-----------------------------------------------------
 
-	// オブジェクト
-	ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
-	// 3D物理
-	PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
-	// 描画
-	RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
-	// UI
-	UIManager* GetUIManager() const { return m_uiManager.get(); }
-	// Camera
-	CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
+		// 管理クラスの取得
 
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
+		// オブジェクト
+		ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
+		// 3D物理
+		PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
+		// 描画
+		RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
+		// UI
+		UIManager* GetUIManager() const { return m_uiManager.get(); }
+		// Camera
+		CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
 
-private:
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
+	private:
 
-};
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
+	};
+}	// namespace REngine

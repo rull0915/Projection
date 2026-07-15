@@ -28,7 +28,7 @@ void ResourceReader::ReadModels(const std::wstring& path)
 	for (auto& p : paths)
 	{
 		// ファイル名をキーに
-		ResourceManager::Instance().AddModel(
+		REngine::ResourceManager::Instance().AddModel(
 			p.stem().string(),	// ファイル名	
 			p.wstring()			// パス
 		);
@@ -44,7 +44,7 @@ void ResourceReader::ReadTextures(const std::wstring& path)
 	for (auto& p : paths)
 	{
 		// ファイル名をキーに
-		ResourceManager::Instance().AddTexture(
+		REngine::ResourceManager::Instance().AddTexture(
 			p.stem().string(),	// ファイル名	
 			p.wstring()			// パス
 		);
@@ -60,7 +60,7 @@ void ResourceReader::ReadSounds(const std::wstring& path)
 	for (auto& p : paths)
 	{
 		// ファイル名をキーに
-		ResourceManager::Instance().AddSound(
+		REngine::ResourceManager::Instance().AddSound(
 			p.stem().string(),	// ファイル名	
 			p.wstring()			// パス
 		);
@@ -76,7 +76,7 @@ void ResourceReader::ReadFonts(const std::wstring& path)
 	for (auto& p : paths)
 	{
 		// ファイル名をキーに
-		ResourceManager::Instance().AddFont(
+		REngine::ResourceManager::Instance().AddFont(
 			p.stem().string(),	// ファイル名	
 			p.wstring()			// パス
 		);
@@ -92,7 +92,7 @@ void ResourceReader::ReadObjects(const std::wstring& path)
 	for (auto& p : paths)
 	{
 		// ファイル名をキーに
-		PrefabManager::Instance().AddPrefab(
+		REngine::PrefabManager::Instance().AddPrefab(
 			p.stem().string(),	// ファイル名	
 			p.wstring()			// パス
 		);

@@ -19,7 +19,7 @@
 //====================================================//
 
 // コンストラクタ
-CatmullRomComponent::CatmullRomComponent(IComponentOwner* own)
+CatmullRomComponent::CatmullRomComponent(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_isLoop{ false }
 	, m_offset{}
@@ -36,7 +36,7 @@ CatmullRomComponent::CatmullRomComponent(IComponentOwner* own)
 	ADD_PROPERTY(m_p3);
 }
 
-void CatmullRomComponent::DebugRender(Renderer & renderer, const DirectX::SimpleMath::Color & color)
+void CatmullRomComponent::DebugRender(REngine::Renderer & renderer, const DirectX::SimpleMath::Color & color)
 {
 	// 描画
 	const size_t count = 100;

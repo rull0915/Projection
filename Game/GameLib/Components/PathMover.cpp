@@ -19,7 +19,7 @@
 //====================================================//
 
 // コンストラクタ
-PathMover::PathMover(IComponentOwner* own)
+PathMover::PathMover(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_magnification{ 1.0f }
 	, m_playOnStart{ false }
@@ -38,7 +38,7 @@ PathMover::PathMover(IComponentOwner* own)
 void PathMover::Start()
 {
 	// トランスフォームの取得
-	m_pTransform = GetComponent<Transform>();
+	m_pTransform = GetComponent<REngine::Transform>();
 
 	// 補間コンポーネントの取得
 	m_pCatmull = GetComponent<CatmullRomComponent>();
@@ -52,7 +52,7 @@ void PathMover::Start()
 }
 
 // 毎フレーム呼ばれます
-void PathMover::Update(const GameTimer & gameTimer)
+void PathMover::Update(const REngine::GameTimer & gameTimer)
 {
 	// プレイ中なら
 	if (m_isPlaying)
@@ -63,7 +63,7 @@ void PathMover::Update(const GameTimer & gameTimer)
 }
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます
-void PathMover::LateUpdate(const GameTimer & gameTimer)
+void PathMover::LateUpdate(const REngine::GameTimer & gameTimer)
 {
 	gameTimer;
 
@@ -82,7 +82,7 @@ void PathMover::LateUpdate(const GameTimer & gameTimer)
 			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);
 
 			// 前方向が進行方向になるようなクォータニオンを作成する
-			DirectX::SimpleMath::Quaternion q = Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, dir);
+			DirectX::SimpleMath::Quaternion q = REngine::Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, dir);
 
 			// セット
 			m_pTransform->SetLocalRotation(q);
@@ -97,7 +97,7 @@ void PathMover::LateUpdate(const GameTimer & gameTimer)
 			DirectX::SimpleMath::Vector3 right = dir.Cross(DirectX::SimpleMath::Vector3::Up);
 
 			// 前方向が進行方向の右方向方向になるようなクォータニオンを作成する
-			DirectX::SimpleMath::Quaternion q = Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, right);
+			DirectX::SimpleMath::Quaternion q = REngine::Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, right);
 
 			// セット
 			m_pTransform->SetLocalRotation(q);
@@ -112,7 +112,7 @@ void PathMover::LateUpdate(const GameTimer & gameTimer)
 			DirectX::SimpleMath::Vector3 left = DirectX::SimpleMath::Vector3::Up.Cross(dir);
 
 			// 前方向が進行方向の右方向方向になるようなクォータニオンを作成する
-			DirectX::SimpleMath::Quaternion q = Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, left);
+			DirectX::SimpleMath::Quaternion q = REngine::Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, left);
 
 			// セット
 			m_pTransform->SetLocalRotation(q);

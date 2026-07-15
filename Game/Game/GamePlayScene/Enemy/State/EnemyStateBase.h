@@ -36,7 +36,7 @@ enum class EnemyStateID
 //====================================================//
 // クラス宣言
 //====================================================//
-class EnemyStateBase : public StateBase<EnemyStateID>
+class EnemyStateBase : public REngine::StateBase<EnemyStateID>
 {
 private:
 	Enemy* m_owner = nullptr;
@@ -49,7 +49,7 @@ public:
 
 	virtual void Enter() override = 0;
 
-	virtual void Update(const GameTimer& timer) override = 0;
+	virtual void Update(const REngine::GameTimer& timer) override = 0;
 
 	virtual void Exit() override = 0;
 

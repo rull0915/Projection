@@ -16,47 +16,48 @@
 //====================================================//
 #include "Components/World/Collider/3D/ColliderBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Cell;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ObjectForTree
+namespace REngine
 {
-public:
-	Cell* m_pCell;			// 登録空間
-	ColliderBase* m_pObject;				// 判定対象オブジェクト
-	ObjectForTree* m_pPre;	// 前のObjectForTree構造体
-	ObjectForTree* m_pNext;	// 次のObjectForTree構造体
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Cell;
 
-public:
-	ObjectForTree() 
-		: m_pCell{ nullptr }
-		, m_pObject{ nullptr }
-		, m_pPre{ nullptr }
-		, m_pNext{ nullptr }
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ObjectForTree
 	{
-	}
+	public:
+		Cell* m_pCell;			// 登録空間
+		ColliderBase* m_pObject;				// 判定対象オブジェクト
+		ObjectForTree* m_pPre;	// 前のObjectForTree構造体
+		ObjectForTree* m_pNext;	// 次のObjectForTree構造体
 
-	virtual ~ObjectForTree()
-	{
-	}
+	public:
+		ObjectForTree()
+			: m_pCell{ nullptr }
+			, m_pObject{ nullptr }
+			, m_pPre{ nullptr }
+			, m_pNext{ nullptr }
+		{}
 
-public:
-	// 空間から削除する関数
-	bool Remove();
+		virtual ~ObjectForTree()
+		{}
 
-	// 空間を登録
-	void RegistCell(Cell* pCell)
-	{
-		m_pCell = pCell;
-	}
+	public:
+		// 空間から削除する関数
+		bool Remove();
 
-	// 次のオブジェクトへのポインタを取得
-	ObjectForTree* GetNextObj() const {
-		return m_pNext;
-	}
-};
+		// 空間を登録
+		void RegistCell(Cell* pCell)
+		{
+			m_pCell = pCell;
+		}
+
+		// 次のオブジェクトへのポインタを取得
+		ObjectForTree* GetNextObj() const {
+			return m_pNext;
+		}
+	};
+}	// namespace REngine

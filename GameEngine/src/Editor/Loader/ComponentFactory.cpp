@@ -12,39 +12,41 @@
 #include "pch.h"
 #include "Editor/Loader/ComponentFactory.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-
-void ComponentFactory::Register(const std::string& name, ComponentInfo space, CreateFunc func)
+namespace REngine
 {
-	// イテレータを取得
-	auto it = m_creatorMap.find(name);
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// 既に存在するキーなら
-	if (it != m_creatorMap.end())
+	void ComponentFactory::Register(const std::string& name, ComponentInfo space, CreateFunc func)
 	{
-		// 何もしない
-		return;
+		// イテレータを取得
+		auto it = m_creatorMap.find(name);
+
+		// 既に存在するキーなら
+		if (it != m_creatorMap.end())
+		{
+			// 何もしない
+			return;
+		}
+
+		// 新規のキーなら追加
+		m_creatorMap.insert({ name, { space, func} });
 	}
 
-	// 新規のキーなら追加
-	m_creatorMap.insert({ name, { space, func} });
-}
-
-ComponentBase* ComponentFactory::Create(const std::string & name, GameObject * owner)
-{
-	// イテレータを取得
-	auto it = m_creatorMap.find(name);
-
-	// 存在しないキーなら
-	if (it == m_creatorMap.end())
+	ComponentBase* ComponentFactory::Create(const std::string& name, GameObject* owner)
 	{
-		// 何もしない
-		return nullptr;
-	}
+		// イテレータを取得
+		auto it = m_creatorMap.find(name);
 
-	// あれば実行
-	return it->second.second(owner);
-}
+		// 存在しないキーなら
+		if (it == m_creatorMap.end())
+		{
+			// 何もしない
+			return nullptr;
+		}
+
+		// あれば実行
+		return it->second.second(owner);
+	}
+}	// namespace REngine

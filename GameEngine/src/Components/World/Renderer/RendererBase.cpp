@@ -14,15 +14,17 @@
 
 #include "Components/World/Transform/Transform.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-
-RendererBase::RendererBase(IComponentOwner* own)
-	: WorldComponentBase(own)
-	, m_pTransform{ GetComponent<Transform>() }
-	, m_alpha{ 1.0f }
+namespace REngine
 {
-	ADD_PROPERTY(m_alpha);
-};
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
+
+	RendererBase::RendererBase(IComponentOwner* own)
+		: WorldComponentBase(own)
+		, m_pTransform{ GetComponent<Transform>() }
+		, m_alpha{ 1.0f }
+	{
+		ADD_PROPERTY(m_alpha);
+	};
+}	// namespace REngine

@@ -14,43 +14,46 @@
 
 #include "System/ResourceManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-bool IResourceReader::LoadResource()
+namespace REngine
 {
-	void** target = GetMyResource();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	switch (GetType())
+	bool IResourceReader::LoadResource()
 	{
-		// Modelの場合
-	case IResourceReader::Type::Model:
-		*target = ResourceManager::Instance().GetModel(GetKeyName());
-		break;
+		void** target = GetMyResource();
 
-		// Textureの場合
-	case IResourceReader::Type::Texture:
-		*target = ResourceManager::Instance().GetTexture(GetKeyName());
-		break;
+		switch (GetType())
+		{
+			// Modelの場合
+		case IResourceReader::Type::Model:
+			*target = ResourceManager::Instance().GetModel(GetKeyName());
+			break;
 
-		// Soundの場合
-	case IResourceReader::Type::Sound:
-		*target = ResourceManager::Instance().GetSound(GetKeyName());
-		break;
+			// Textureの場合
+		case IResourceReader::Type::Texture:
+			*target = ResourceManager::Instance().GetTexture(GetKeyName());
+			break;
 
-		// Fontの場合
-	case IResourceReader::Type::Font:
-		*target = ResourceManager::Instance().GetSpriteFont(GetKeyName());
-		break;
+			// Soundの場合
+		case IResourceReader::Type::Sound:
+			*target = ResourceManager::Instance().GetSound(GetKeyName());
+			break;
 
-		// Objectの場合
-	case IResourceReader::Type::Object:
-		break;
+			// Fontの場合
+		case IResourceReader::Type::Font:
+			*target = ResourceManager::Instance().GetSpriteFont(GetKeyName());
+			break;
 
-	default:
-		break;
+			// Objectの場合
+		case IResourceReader::Type::Object:
+			break;
+
+		default:
+			break;
+		}
+
+		return target;
 	}
-
-	return target;
-}
+}	// namespace REngine

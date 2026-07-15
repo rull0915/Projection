@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class CatmullRomComponent : public WorldComponentBase, public IDebugRenderable
+class CatmullRomComponent : public REngine::WorldComponentBase, public REngine::IDebugRenderable
 {
 private:
 
@@ -59,14 +59,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	CatmullRomComponent(IComponentOwner* own);
+	CatmullRomComponent(REngine::IComponentOwner* own);
 	~CatmullRomComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+	void DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color);
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -75,7 +75,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<CatmullRomComponent>();
+		return REngine::TypeIDGenerator::GetID<CatmullRomComponent>();
 	}
 
 	// 値を取得する関数

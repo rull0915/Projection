@@ -26,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ToSelectComponent : public ButtonListenerBase
+class ToSelectComponent : public REngine::ButtonListenerBase
 {
 private:
 
@@ -45,7 +45,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ToSelectComponent(IComponentOwner* own);
+	ToSelectComponent(REngine::IComponentOwner* own);
 	~ToSelectComponent() = default;
 
 	//-----------------------------------------------------
@@ -62,7 +62,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<ToSelectComponent>();
+		return REngine::TypeIDGenerator::GetID<ToSelectComponent>();
 	}
 
 	//-----------------------------------------------------

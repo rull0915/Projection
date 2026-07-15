@@ -21,7 +21,7 @@
 //====================================================//
 
 // コンストラクタ
-DimentionManager::DimentionManager(IComponentOwner* owner)
+DimentionManager::DimentionManager(REngine::IComponentOwner* owner)
 	: WorldComponentBase(owner)
 	, m_pCamera{ nullptr }
 	, m_components{}
@@ -41,17 +41,17 @@ void DimentionManager::Awake()
 	m_removeReserves.clear();
 
 	// 現状存在する全てのChangeColliderを取得
-	auto& components = static_cast<GameObject*>(GetOwn())->GetScene()->GetComponentRegister()->GetAllComponents<ChangeColliderComponent>();
+	auto& components = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetComponentRegister()->GetAllComponents<ChangeColliderComponent>();
 
 	// 予約リストに追加
 	for (auto c : components) m_addReserves.push_back(static_cast<ChangeColliderComponent*>(c));
 
 	// ProjectionSmoothCameraを取得
-	ComponentBase* comp = static_cast<GameObject*>(GetOwn())->GetScene()->GetComponentRegister()->GetComponent<ProjectionSmoothCamera>();
+	ComponentBase* comp = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetComponentRegister()->GetComponent<ProjectionSmoothCamera>();
 	if (comp) m_pCamera = static_cast<ProjectionSmoothCamera*>(comp);
 }
 
-void DimentionManager::Update(const GameTimer& timer)
+void DimentionManager::Update(const REngine::GameTimer& timer)
 {
 	timer;
 
@@ -120,7 +120,7 @@ void DimentionManager::ChangeDimention(float changeTime)
 void DimentionManager::WorldTo2D()
 {
 	// 2次元世界の軸方向をカメラ基準に変更
-	WorldSetting2D::Instance().SetAxis(m_pCamera->GetInverseView().Right(), m_pCamera->GetInverseView().Up());
+	REngine::WorldSetting2D::Instance().SetAxis(m_pCamera->GetInverseView().Right(), m_pCamera->GetInverseView().Up());
 
 	// 管理しているコンポーネントの切り替え関数を呼び出す
 	for (auto& component : m_components)

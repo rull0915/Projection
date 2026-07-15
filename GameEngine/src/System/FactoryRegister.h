@@ -11,13 +11,16 @@
 
 #pragma once
 
-//====================================================//
-// 宣言
-//====================================================//
-class FactoryRegister
+namespace REngine
 {
-public:
+	//====================================================//
+	// 宣言
+	//====================================================//
+	class FactoryRegister
+	{
+	public:
 
-	// 生成関数を登録する関数
-	static void RegistFactories();
-};
+		// 生成関数を登録する関数
+		static void RegistFactories();
+	};
+}	// namespace REngine

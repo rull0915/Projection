@@ -12,55 +12,57 @@
 #include "pch.h"
 #include "SoundManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
-SoundManager::SoundManager()
-	: m_reserves{}
-	, m_removeReserves{}
-	, m_sources{}
-	, m_listener{ nullptr }
+namespace REngine
 {
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-// 更新関数
-void SoundManager::Update()
-{
-	// リスナーがなければ何もしない
-	if (!m_listener) return;
+	// コンストラクタ
+	SoundManager::SoundManager()
+		: m_reserves{}
+		, m_removeReserves{}
+		, m_sources{}
+		, m_listener{ nullptr }
+	{}
 
-	// リスナーを取得
-	DirectX::AudioListener* listener = m_listener->GetListener();
-
-	// Emitterを生成
-	DirectX::AudioEmitter emitter;
-
-	// 全ソースをループ
-	for (auto& source : m_sources)
+	// 更新関数
+	void SoundManager::Update()
 	{
-		// 3Dソースなら
-		if (source->Is3D())
+		// リスナーがなければ何もしない
+		if (!m_listener) return;
+
+		// リスナーを取得
+		DirectX::AudioListener* listener = m_listener->GetListener();
+
+		// Emitterを生成
+		DirectX::AudioEmitter emitter;
+
+		// 全ソースをループ
+		for (auto& source : m_sources)
 		{
-			// Transformを取得
-			if (Transform* transform = source->GetComponent<Transform>())
+			// 3Dソースなら
+			if (source->Is3D())
 			{
-				// Emitterを設定
-				emitter.SetPosition(transform->GetWorldPosition());
-
-				emitter.SetOrientation(
-					transform->GetForward(), transform->GetUp()
-				);
-
-				// 3Dを適用
-				if (const auto& instance = source->GetSoundInstance())
+				// Transformを取得
+				if (Transform* transform = source->GetComponent<Transform>())
 				{
-					instance->Apply3D(
-						*listener, emitter
+					// Emitterを設定
+					emitter.SetPosition(transform->GetWorldPosition());
+
+					emitter.SetOrientation(
+						transform->GetForward(), transform->GetUp()
 					);
+
+					// 3Dを適用
+					if (const auto& instance = source->GetSoundInstance())
+					{
+						instance->Apply3D(
+							*listener, emitter
+						);
+					}
 				}
 			}
 		}
 	}
-}
+}	// namespace REngine

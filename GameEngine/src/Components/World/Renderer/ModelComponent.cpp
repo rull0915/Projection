@@ -14,30 +14,33 @@
 
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void ModelComponent::Start()
+namespace REngine
 {
-	LoadResource();
-	ReflectLoading();
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-void ModelComponent::Draw(Renderer& renderer)
-{
-	// モデルがnullなら描画しない
-	if (!m_model) return;
+	void ModelComponent::Start()
+	{
+		LoadResource();
+		ReflectLoading();
+	}
 
-	// 透明度を設定する
-	renderer.SetAlpha(GetAlpha());
+	void ModelComponent::Draw(Renderer& renderer)
+	{
+		// モデルがnullなら描画しない
+		if (!m_model) return;
 
-	// トランスフォームからworld行列を取得
-	const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
+		// 透明度を設定する
+		renderer.SetAlpha(GetAlpha());
 
-	// 行列を使用しモデルを描画
-	renderer.Draw().Model(m_model, world);
+		// トランスフォームからworld行列を取得
+		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
-	// 透明度をリセット
-	renderer.SetAlpha(1.0f);
-}
+		// 行列を使用しモデルを描画
+		renderer.Draw().Model(m_model, world);
+
+		// 透明度をリセット
+		renderer.SetAlpha(1.0f);
+	}
+}	// namespace REngine

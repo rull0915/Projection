@@ -15,68 +15,71 @@
 #include "Renderer/Renderer.h"
 #include "System/WindowManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-namespace Transition
+namespace REngine
 {
-	void Fade::Initialize()
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
+
+	namespace Transition
 	{
-		m_elapsedTime = 0.0f;
+		void Fade::Initialize()
+		{
+			m_elapsedTime = 0.0f;
+		}
+
+		bool Fade::InUpdate(const GameTimer& gameTimer)
+		{
+			// 経過時間の加算
+			m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
+
+			// 補正
+			if (m_elapsedTime >= m_transSec) m_elapsedTime = m_transSec;
+
+			// 遷移時間を超えたかどうか
+			return (m_elapsedTime >= m_transSec);
+		}
+
+		bool Fade::OutUpdate(const GameTimer& gameTimer)
+		{
+			// 経過時間の加算
+			m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
+
+			// 補正
+			if (m_elapsedTime >= m_transSec) m_elapsedTime = m_transSec;
+
+			// 遷移時間を超えたかどうか
+			return (m_elapsedTime >= m_transSec);
+		}
+
+		void Fade::InRender(Renderer& renderer)
+		{
+			// 透明度を計算
+			float alpha = 255 - 255 * (m_elapsedTime / m_transSec);
+
+			// 設定
+			renderer.SetAlpha(alpha / 255.0f);
+
+			// 描画
+			renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
+
+			// 透明度を戻す
+			renderer.SetAlpha(1.0f);
+		}
+
+		void Fade::OutRender(Renderer& renderer)
+		{
+			// 透明度を計算
+			float alpha = 255 * (m_elapsedTime / m_transSec);
+
+			// 設定
+			renderer.SetAlpha(alpha / 255.0f);
+
+			// 描画
+			renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
+
+			// 透明度を戻す
+			renderer.SetAlpha(1.0f);
+		}
 	}
-
-	bool Fade::InUpdate(const GameTimer& gameTimer)
-	{
-		// 経過時間の加算
-		m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
-
-		// 補正
-		if (m_elapsedTime >= m_transSec) m_elapsedTime = m_transSec;
-
-		// 遷移時間を超えたかどうか
-		return (m_elapsedTime >= m_transSec);
-	}
-
-	bool Fade::OutUpdate(const GameTimer& gameTimer)
-	{
-		// 経過時間の加算
-		m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
-
-		// 補正
-		if (m_elapsedTime >= m_transSec) m_elapsedTime = m_transSec;
-
-		// 遷移時間を超えたかどうか
-		return (m_elapsedTime >= m_transSec);
-	}
-
-	void Fade::InRender(Renderer& renderer)
-	{
-		// 透明度を計算
-		float alpha = 255 - 255 * (m_elapsedTime / m_transSec);
-
-		// 設定
-		renderer.SetAlpha(alpha / 255.0f);
-
-		// 描画
-		renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
-
-		// 透明度を戻す
-		renderer.SetAlpha(1.0f);
-	}
-
-	void Fade::OutRender(Renderer& renderer)
-	{
-		// 透明度を計算
-		float alpha = 255 * (m_elapsedTime / m_transSec);
-
-		// 設定
-		renderer.SetAlpha(alpha / 255.0f);
-
-		// 描画
-		renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
-
-		// 透明度を戻す
-		renderer.SetAlpha(1.0f);
-	}
-}
+}	// namespace REngine

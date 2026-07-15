@@ -19,270 +19,273 @@
 
 #include "System/WindowManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-Canvas::Canvas(UIManager* uiManager)
-	: m_isActive{ true }
-	, m_destroy{ false }
-	, m_canvasName{}
-	, m_drawOrder{ 0 }
-	, m_pUIManager{ uiManager }
-	, m_rootObject{}
-	, m_reservations{}
-	, m_uiObjects{}
-	, m_components{}
+namespace REngine
 {
-	ADD_PROPERTY(m_isActive);
-	ADD_PROPERTY(m_canvasName);
-	ADD_PROPERTY(m_drawOrder);
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// シーンを設定
-	m_pScene = m_pUIManager->GetScene();
-
-	// ルートオブジェクトを生成
-	m_rootObject = std::make_unique<GameObject>(GameObject::CreateToken{});
-	m_rootObject->SetScene(m_pScene);
-
-	// ルートRectTransformの初期設定
-	auto* rectTransform = m_rootObject->AddComponent<RectTransform>();
-
-	rectTransform->SetAnchor({ 0.5f, 0.5f });
-	rectTransform->SetSize({ WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() });
-
-	rectTransform->SetAnchoredPosition({ 0, 0 });
-	rectTransform->SetPivot({ 0.5f, 0.5f });
-}
-
-void Canvas::Update(const GameTimer& gameTimer, bool playing)
-{
-	// 生成予約されたオブジェクトを登録
-	AddReserves();
-
-	// 全オブジェクトのアクティブ反映
-	for (auto& object : m_uiObjects)
+	Canvas::Canvas(UIManager* uiManager)
+		: m_isActive{ true }
+		, m_destroy{ false }
+		, m_canvasName{}
+		, m_drawOrder{ 0 }
+		, m_pUIManager{ uiManager }
+		, m_rootObject{}
+		, m_reservations{}
+		, m_uiObjects{}
+		, m_components{}
 	{
-		object->Reserve();
+		ADD_PROPERTY(m_isActive);
+		ADD_PROPERTY(m_canvasName);
+		ADD_PROPERTY(m_drawOrder);
+
+		// シーンを設定
+		m_pScene = m_pUIManager->GetScene();
+
+		// ルートオブジェクトを生成
+		m_rootObject = std::make_unique<GameObject>(GameObject::CreateToken{});
+		m_rootObject->SetScene(m_pScene);
+
+		// ルートRectTransformの初期設定
+		auto* rectTransform = m_rootObject->AddComponent<RectTransform>();
+
+		rectTransform->SetAnchor({ 0.5f, 0.5f });
+		rectTransform->SetSize({ WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() });
+
+		rectTransform->SetAnchoredPosition({ 0, 0 });
+		rectTransform->SetPivot({ 0.5f, 0.5f });
 	}
 
-	// 全オブジェクトのコンポーネントを追加
-	for (auto& object : m_uiObjects)
+	void Canvas::Update(const GameTimer& gameTimer, bool playing)
 	{
-		// アクティブチェック
-		if (object->IsActive())
+		// 生成予約されたオブジェクトを登録
+		AddReserves();
+
+		// 全オブジェクトのアクティブ反映
+		for (auto& object : m_uiObjects)
 		{
+			object->Reserve();
+		}
+
+		// 全オブジェクトのコンポーネントを追加
+		for (auto& object : m_uiObjects)
+		{
+			// アクティブチェック
+			if (object->IsActive())
+			{
+				// 更新処理
+				if (playing || object->IsInvincible())
+				{
+					object->GetComponentContainer().AwakeComponets();
+				}
+			}
+
+			// 予約されたコンポーネントを追加
+			object->GetComponentContainer().RegisterComponents();
+		}
+
+		// 全オブジェクトの更新関数呼び出し
+		for (auto& object : m_uiObjects)
+		{
+			// アクティブチェック
+			if (!object->IsActive()) continue;
+
 			// 更新処理
 			if (playing || object->IsInvincible())
 			{
-				object->GetComponentContainer().AwakeComponets();
+				object->GetComponentContainer().UpdateComponents(gameTimer);
+			}
+		}
+	}
+
+	void Canvas::LateUpdate(const GameTimer& gameTimer, bool playing)
+	{
+		// 全オブジェクトの遅延更新を呼び出す
+		for (auto& object : m_uiObjects)
+		{
+			// アクティブチェック
+			if (!object->IsActive()) continue;
+
+			// 予約されたコンポーネントを追加
+			if (playing || object->IsInvincible())
+				object->GetComponentContainer().LateUpdateComponents(gameTimer);
+		}
+	}
+
+	void Canvas::Draw(Renderer& renderer)
+	{
+		// 全ての子に対して操作
+		for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
+		{
+			// 子を描画
+			DrawChild(child, renderer);
+		}
+	}
+
+	void Canvas::RemoveDeadComponent()
+	{
+		// 全オブジェクトの予約済みコンポーネントを削除
+		for (auto& object : m_uiObjects)
+		{
+			// 予約されたコンポーネントを追加
+			object->GetComponentContainer().RemoveRegistered();
+		}
+	}
+
+	void Canvas::Finalize()
+	{
+		// 全オブジェクトを削除する
+		AllDestroy();
+		RemoveReserves();
+	}
+
+	GameObject* Canvas::Generate()
+	{
+		// ポインタを作成
+		GameObject* pObj = new GameObject(GameObject::CreateToken{});
+
+		// オブジェクトのシーンを設定
+		pObj->SetScene(m_pScene);
+
+		// 配列に追加
+		m_reservations.push_back(std::unique_ptr<GameObject>(pObj));
+
+		// RectTransformを追加
+		pObj->AddComponent<RectTransform>();
+
+		// 親をルートに設定
+		pObj->GetComponent<RectTransform>()->SetParent(m_rootObject->GetComponent<RectTransform>());
+
+		// 作成したポインタを返す
+		return pObj;
+	}
+
+	void Canvas::Remove(GameObject* obj)
+	{
+		// 指定されたポインタがあれば削除する
+		std::erase_if(m_uiObjects, [obj](const std::unique_ptr<GameObject>& object) { return object.get() == obj; });
+	}
+
+	void Canvas::OnMouseDown()
+	{
+		// 全ての子に対して操作
+		for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
+		{
+			// 子を描画
+			MouseCheckChild(child, true);
+		}
+	}
+
+	void Canvas::OnMouseUp()
+	{
+		// 全ての子に対して操作
+		for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
+		{
+			// 子を描画
+			MouseCheckChild(child, false);
+		}
+	}
+
+	// 描画順のセッター
+	void Canvas::SetDrawOrder(int order)
+	{
+		m_drawOrder = order;
+
+		// UIManagerに順番の更新を通知
+		m_pUIManager->SetNeedSort(true);
+	}
+
+	void Canvas::DrawChild(RectTransform* child, Renderer& renderer)
+	{
+		GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
+
+		if (!childObj->IsActive()) return;
+
+		// 子のUIObjectがアクティブなら
+
+		// Graphicを継承しているコンポーネントを取得
+		std::vector<ComponentBase*> list;
+		childObj->GetComponentsWithCategory(Category::UIGraphic, list);
+
+		for (auto graphic : list)
+		{
+			// 描画
+			if (graphic->IsActive()) static_cast<UIGraphicBase*>(graphic)->Draw(renderer);
+		}
+
+		// 再帰的に描画
+		for (auto grandChild : child->GetChildren())
+		{
+			DrawChild(grandChild, renderer);
+		}
+	}
+
+	RectTransform* Canvas::HitTestChild(RectTransform* child, const DirectX::SimpleMath::Vector2& point)
+	{
+		GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
+
+		if (!childObj->IsActive()) return nullptr;
+
+		// 子のUIObjectがアクティブなら
+
+		// 逆順で再帰的にチェック
+		std::vector<RectTransform*>& children = child->GetChildren();
+		for (auto it = children.rbegin(); it != children.rend(); ++it)
+		{
+			if (auto* hit = HitTestChild(*it, point))
+			{
+				return hit;
 			}
 		}
 
-		// 予約されたコンポーネントを追加
-		object->GetComponentContainer().RegisterComponents();
+		// 子をチェックした後に自分をチェック
+
+		// 自分にImageがあるなら
+		if (auto* image = childObj->GetComponent<ImageUI>())
+		{
+			// raycastと当たる設定なら
+			if (!image->IsActive() || !image->IsRaycastTarget()) return nullptr;
+
+			// 点が自分の上にあれば
+			if (child->Contains(point))
+			{
+				// 自分を返す
+				return child;
+			}
+		}
+
+		return nullptr;
 	}
 
-	// 全オブジェクトの更新関数呼び出し
-	for (auto& object : m_uiObjects)
+	void Canvas::MouseCheckChild(RectTransform* child, bool down)
 	{
-		// アクティブチェック
-		if (!object->IsActive()) continue;
+		GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
 
-		// 更新処理
-		if (playing || object->IsInvincible())
+		if (!childObj->IsActive()) return;
+
+		// 子のUIObjectがアクティブなら
+
+		// 逆順で再帰的にチェック
+		std::vector<RectTransform*>& children = child->GetChildren();
+		for (auto it = children.rbegin(); it != children.rend(); ++it)
 		{
-			object->GetComponentContainer().UpdateComponents(gameTimer);
+			MouseCheckChild(*it, down);
+		}
+
+		// 子をチェックした後に自分をチェック
+		childObj->GetComponentsWithCategory(Category::UIBehavior, m_components);
+
+		// コンポーネントを走査
+		for (auto& behavior : m_components)
+		{
+			// アクティブなら
+			if (behavior->IsActive())
+			{
+				// クリック時処理
+				if (down) static_cast<UIBehaviorBase*>(behavior)->OnMouseDown();
+				else static_cast<UIBehaviorBase*>(behavior)->OnMouseUp();
+			}
 		}
 	}
-}
-
-void Canvas::LateUpdate(const GameTimer& gameTimer, bool playing)
-{
-	// 全オブジェクトの遅延更新を呼び出す
-	for (auto& object : m_uiObjects)
-	{
-		// アクティブチェック
-		if (!object->IsActive()) continue;
-
-		// 予約されたコンポーネントを追加
-		if (playing || object->IsInvincible())
-			object->GetComponentContainer().LateUpdateComponents(gameTimer);
-	}
-}
-
-void Canvas::Draw(Renderer& renderer)
-{
-	// 全ての子に対して操作
-	for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
-	{
-		// 子を描画
-		DrawChild(child, renderer);
-	}
-}
-
-void Canvas::RemoveDeadComponent()
-{
-	// 全オブジェクトの予約済みコンポーネントを削除
-	for (auto& object : m_uiObjects)
-	{
-		// 予約されたコンポーネントを追加
-		object->GetComponentContainer().RemoveRegistered();
-	}
-}
-
-void Canvas::Finalize()
-{
-	// 全オブジェクトを削除する
-	AllDestroy();
-	RemoveReserves();
-}
-
-GameObject* Canvas::Generate()
-{
-	// ポインタを作成
-	GameObject* pObj = new GameObject(GameObject::CreateToken{});
-
-	// オブジェクトのシーンを設定
-	pObj->SetScene(m_pScene);
-
-	// 配列に追加
-	m_reservations.push_back(std::unique_ptr<GameObject>(pObj));
-
-	// RectTransformを追加
-	pObj->AddComponent<RectTransform>();
-
-	// 親をルートに設定
-	pObj->GetComponent<RectTransform>()->SetParent(m_rootObject->GetComponent<RectTransform>());
-
-	// 作成したポインタを返す
-	return pObj;
-}
-
-void Canvas::Remove(GameObject* obj)
-{
-	// 指定されたポインタがあれば削除する
-	std::erase_if(m_uiObjects, [obj](const std::unique_ptr<GameObject>& object) { return object.get() == obj; });
-}
-
-void Canvas::OnMouseDown()
-{
-	// 全ての子に対して操作
-	for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
-	{
-		// 子を描画
-		MouseCheckChild(child, true);
-	}
-}
-
-void Canvas::OnMouseUp()
-{
-	// 全ての子に対して操作
-	for (auto& child : m_rootObject->GetComponent<RectTransform>()->GetChildren())
-	{
-		// 子を描画
-		MouseCheckChild(child, false);
-	}
-}
-
-// 描画順のセッター
-void Canvas::SetDrawOrder(int order)
-{
-	m_drawOrder = order;
-
-	// UIManagerに順番の更新を通知
-	m_pUIManager->SetNeedSort(true);
-}
-
-void Canvas::DrawChild(RectTransform* child, Renderer& renderer)
-{
-	GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
-
-	if (!childObj->IsActive()) return;
-
-	// 子のUIObjectがアクティブなら
-
-	// Graphicを継承しているコンポーネントを取得
-	std::vector<ComponentBase*> list;
-	childObj->GetComponentsWithCategory(Category::UIGraphic, list);
-
-	for (auto graphic : list)
-	{
-		// 描画
-		if (graphic->IsActive()) static_cast<UIGraphicBase*>(graphic)->Draw(renderer);
-	}
-
-	// 再帰的に描画
-	for (auto grandChild : child->GetChildren())
-	{
-		DrawChild(grandChild, renderer);
-	}
-}
-
-RectTransform* Canvas::HitTestChild(RectTransform* child, const DirectX::SimpleMath::Vector2& point)
-{
-	GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
-
-	if (!childObj->IsActive()) return nullptr;
-
-	// 子のUIObjectがアクティブなら
-
-	// 逆順で再帰的にチェック
-	std::vector<RectTransform*>& children = child->GetChildren();
-	for (auto it = children.rbegin(); it != children.rend(); ++it)
-	{
-		if (auto* hit = HitTestChild(*it, point))
-		{
-			return hit;
-		}
-	}
-
-	// 子をチェックした後に自分をチェック
-
-	// 自分にImageがあるなら
-	if (auto* image = childObj->GetComponent<ImageUI>())
-	{
-		// raycastと当たる設定なら
-		if (!image->IsActive() || !image->IsRaycastTarget()) return nullptr;
-
-		// 点が自分の上にあれば
-		if (child->Contains(point))
-		{
-			// 自分を返す
-			return child;
-		}
-	}
-
-	return nullptr;
-}
-
-void Canvas::MouseCheckChild(RectTransform* child, bool down)
-{
-	GameObject* childObj = static_cast<GameObject*>(child->GetOwn());
-
-	if (!childObj->IsActive()) return;
-
-	// 子のUIObjectがアクティブなら
-
-	// 逆順で再帰的にチェック
-	std::vector<RectTransform*>& children = child->GetChildren();
-	for (auto it = children.rbegin(); it != children.rend(); ++it)
-	{
-		MouseCheckChild(*it, down);
-	}
-
-	// 子をチェックした後に自分をチェック
-	childObj->GetComponentsWithCategory(Category::UIBehavior, m_components);
-
-	// コンポーネントを走査
-	for (auto& behavior : m_components)
-	{
-		// アクティブなら
-		if (behavior->IsActive())
-		{
-			// クリック時処理
-			if (down) static_cast<UIBehaviorBase*>(behavior)->OnMouseDown();
-			else static_cast<UIBehaviorBase*>(behavior)->OnMouseUp();
-		}
-	}
-}
+}	// namespace REngine

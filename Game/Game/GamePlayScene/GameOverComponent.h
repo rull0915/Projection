@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class GameOverComponent : public WorldComponentBase
+class GameOverComponent : public REngine::WorldComponentBase
 {
 private:
 
@@ -49,7 +49,7 @@ private:
 	std::string m_playerName;
 
 	// プレイヤー
-	GameObject* m_player;
+	REngine::GameObject* m_player;
 
 	// プレイヤーコンポーネント
 	Player* m_playerComponent;
@@ -63,7 +63,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	GameOverComponent(IComponentOwner* own);
+	GameOverComponent(REngine::IComponentOwner* own);
 	~GameOverComponent() = default;
 
 	//-----------------------------------------------------
@@ -72,7 +72,7 @@ public:
 
 	void Start() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -81,7 +81,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<GameOverComponent>();
+		return REngine::TypeIDGenerator::GetID<GameOverComponent>();
 	}
 
 	//-----------------------------------------------------

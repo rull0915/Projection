@@ -16,47 +16,48 @@
 //====================================================//
 #include "Components/World/Collider/2D/ColliderBase2D.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-class Cell2D;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class ObjectForTree2D
+namespace REngine
 {
-public:
-	Cell2D* m_pCell;			// 登録空間
-	ColliderBase2D* m_pObject;				// 判定対象オブジェクト
-	ObjectForTree2D* m_pPre;	// 前のObjectForTree2D構造体
-	ObjectForTree2D* m_pNext;	// 次のObjectForTree2D構造体
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+	class Cell2D;
 
-public:
-	ObjectForTree2D() 
-		: m_pCell{ nullptr }
-		, m_pObject{ nullptr }
-		, m_pPre{ nullptr }
-		, m_pNext{ nullptr }
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class ObjectForTree2D
 	{
-	}
+	public:
+		Cell2D* m_pCell;			// 登録空間
+		ColliderBase2D* m_pObject;				// 判定対象オブジェクト
+		ObjectForTree2D* m_pPre;	// 前のObjectForTree2D構造体
+		ObjectForTree2D* m_pNext;	// 次のObjectForTree2D構造体
 
-	virtual ~ObjectForTree2D()
-	{
-	}
+	public:
+		ObjectForTree2D()
+			: m_pCell{ nullptr }
+			, m_pObject{ nullptr }
+			, m_pPre{ nullptr }
+			, m_pNext{ nullptr }
+		{}
 
-public:
-	// 空間から削除する関数
-	bool Remove();
+		virtual ~ObjectForTree2D()
+		{}
 
-	// 空間を登録
-	void RegistCell(Cell2D* pCell)
-	{
-		m_pCell = pCell;
-	}
+	public:
+		// 空間から削除する関数
+		bool Remove();
 
-	// 次のオブジェクトへのポインタを取得
-	ObjectForTree2D* GetNextObj() const {
-		return m_pNext;
-	}
-};
+		// 空間を登録
+		void RegistCell(Cell2D* pCell)
+		{
+			m_pCell = pCell;
+		}
+
+		// 次のオブジェクトへのポインタを取得
+		ObjectForTree2D* GetNextObj() const {
+			return m_pNext;
+		}
+	};
+}	// namespace REngine

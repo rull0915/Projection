@@ -18,14 +18,17 @@
 #include "Physics/RaycastHit.h"
 #include "Components/World/Collider/3D/ColliderBase.h"
 
-namespace RayCollision
+namespace REngine
 {
-	// vs球
-	bool CheckHit_Ray_Sphere(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
+	namespace RayCollision
+	{
+		// vs球
+		bool CheckHit_Ray_Sphere(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
 
-	// vsカプセル
-	bool CheckHit_Ray_Capsule(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
+		// vsカプセル
+		bool CheckHit_Ray_Capsule(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
 
-	// vsボックス
-	bool CheckHit_Ray_Box(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
-}
+		// vsボックス
+		bool CheckHit_Ray_Box(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
+	}
+}	// namespace REngine

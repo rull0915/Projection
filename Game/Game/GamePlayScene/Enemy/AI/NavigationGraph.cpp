@@ -36,7 +36,7 @@ void NavigationGraph::Update()
 	UpdateGraph();
 }
 
-void NavigationGraph::DebugDraw(Renderer& renderer)
+void NavigationGraph::DebugDraw(REngine::Renderer& renderer)
 {
 	// 繋がっているコライダー同士を結ぶ線を描く
 	for (auto& edges : GetGraph())
@@ -45,7 +45,7 @@ void NavigationGraph::DebugDraw(Renderer& renderer)
 	}
 }
 
-void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, DirectX::SimpleMath::Color color)
+void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color)
 {
 	for (auto& edge : edges)
 	{

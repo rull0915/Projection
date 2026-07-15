@@ -26,7 +26,7 @@
 //====================================================//
 
 // コンストラクタ
-PlaySceneManager::PlaySceneManager(IComponentOwner* own)
+PlaySceneManager::PlaySceneManager(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_cameraName{ "Camera" }
 	, m_playerName{ "Player" }
@@ -44,7 +44,7 @@ void PlaySceneManager::Awake()
 {
 	// 開始イベントの追加
 	m_eventIds.push_back(
-	EventBus<GamePlayEvent>::Register(
+	REngine::EventBus<GamePlayEvent>::Register(
 		GamePlayEvent::Start,
 		[this]() {
 			// Playerをアクティブ化
@@ -57,7 +57,7 @@ void PlaySceneManager::Awake()
 
 	// ゴールイベントの追加
 	m_eventIds.push_back(
-		EventBus<GamePlayEvent>::Register(
+		REngine::EventBus<GamePlayEvent>::Register(
 			GamePlayEvent::Goal,
 			[this]()
 			{
@@ -75,7 +75,7 @@ void PlaySceneManager::OnDestroy()
 	// ゴールイベントの削除
 	for (auto& id : m_eventIds)
 	{
-		EventBus<GamePlayEvent>::Remove(id);
+		REngine::EventBus<GamePlayEvent>::Remove(id);
 	}
 }
 
@@ -83,7 +83,7 @@ void PlaySceneManager::OnDestroy()
 void PlaySceneManager::Start()
 {
 	// 各要素取得する
-	Scene* scene = static_cast<GameObject*>(GetOwn())->GetScene();
+	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// プレイヤー
 	m_player = scene->GetObjectFinder()->FindWithNameInWorld(m_playerName);
@@ -105,18 +105,18 @@ void PlaySceneManager::Start()
 }
 
 // 毎フレーム呼ばれます
-void PlaySceneManager::Update(const GameTimer& gameTimer)
+void PlaySceneManager::Update(const REngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
 	// Qキーで次元の変更
-	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Q))
+	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Q))
 	{
 		TryChangeDimention();
 	}
 
 	// Rキーでリトライ
-	if (Input::Key::Get(Input::State::Down, Input::Key::Code::R))
+	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::R))
 	{
 	}
 }
@@ -135,7 +135,7 @@ void PlaySceneManager::TryChangeDimention()
 		m_camera->GetComponent<CameraCorrection>()->SetActive(true);
 
 		// カメラの親子関係を解除
-		m_camera->GetComponent<Transform>()->SetParent(nullptr);
+		m_camera->GetComponent<REngine::Transform>()->SetParent(nullptr);
 	}
 	else
 	{
@@ -144,7 +144,7 @@ void PlaySceneManager::TryChangeDimention()
 		m_camera->GetComponent<CameraCorrection>()->SetActive(false);
 
 		// カメラをプレイヤーの子に設定
-		m_camera->GetComponent<Transform>()->SetParent(m_player->GetComponent<Transform>());
+		m_camera->GetComponent<REngine::Transform>()->SetParent(m_player->GetComponent<REngine::Transform>());
 	}
 
 	// 次元の切り替え

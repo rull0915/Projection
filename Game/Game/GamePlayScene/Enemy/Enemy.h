@@ -36,7 +36,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class Enemy : public WorldComponentBase
+class Enemy : public REngine::WorldComponentBase
 {
 public:
 	//-----------------------------------------------------
@@ -52,10 +52,10 @@ private:
 	//-----------------------------------------------------
 
 	// トランスフォームのポインタ
-	Transform* m_pTransform;   
+	REngine::Transform* m_pTransform;   
 
 	// ステートマシン本体
-	StateMachine<EnemyStateID> m_stateMachine;
+	REngine::StateMachine<EnemyStateID> m_stateMachine;
 	
 	// 最後に着地したポイント
 	LandingCandidatePoints* m_lastPoints;
@@ -65,7 +65,7 @@ private:
 	PathFollower m_pathFollower;
 
 	// 物理マテリアル
-	PhysicsMaterial m_physicsMaterial;
+	REngine::PhysicsMaterial m_physicsMaterial;
 
 	// 着地フラグ
 	bool m_isGround;
@@ -79,7 +79,7 @@ public:
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
 
-	Enemy(IComponentOwner* owner)
+	Enemy(REngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_pTransform{ nullptr }
 		, m_stateMachine{}
@@ -100,13 +100,13 @@ public:
 
 	void Start() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
-	void OnCollisionEnter(HitContact& hit) override;
-	void OnCollisionExit(HitContact& hit) override;
+	void OnCollisionEnter(REngine::HitContact& hit) override;
+	void OnCollisionExit(REngine::HitContact& hit) override;
 
-	void OnCollisionEnter2D(HitContact2D& hit) override;
-	void OnCollisionExit2D(HitContact2D& hit) override;
+	void OnCollisionEnter2D(REngine::HitContact2D& hit) override;
+	void OnCollisionExit2D(REngine::HitContact2D& hit) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -115,7 +115,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<Enemy>();
+		return REngine::TypeIDGenerator::GetID<Enemy>();
 	}
 
 	// 最後に触れた候補点
@@ -139,7 +139,7 @@ public:
 	bool Is2D() const { return m_is2D; }
 
 	// 物理マテリアル
-	PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial;
+	REngine::PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial;
 }
 
 	//-----------------------------------------------------

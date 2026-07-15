@@ -27,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class GoalComponent : public WorldComponentBase
+class GoalComponent : public REngine::WorldComponentBase
 {
 private:
 
@@ -45,14 +45,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	GoalComponent(IComponentOwner* own);
+	GoalComponent(REngine::IComponentOwner* own);
 	~GoalComponent() = default;
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void OnTriggerEnter(HitContact& contact) override;
+	void OnTriggerEnter(REngine::HitContact& contact) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -61,7 +61,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<GoalComponent>();
+		return REngine::TypeIDGenerator::GetID<GoalComponent>();
 	}
 
 	//-----------------------------------------------------

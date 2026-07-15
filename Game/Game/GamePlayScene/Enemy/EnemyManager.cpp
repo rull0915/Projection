@@ -34,7 +34,7 @@ void EnemyManager::Awake()
 	m_normalNavigation2D.Initialize();
 
 	// シーンを取得
-	Scene* pScene = static_cast<GameObject*>(GetOwn())->GetScene();
+	REngine::Scene* pScene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// 既に存在する全敵を取得
 	auto& enemies = pScene->GetComponentRegister()->GetAllComponents<Enemy>();
@@ -62,7 +62,7 @@ void EnemyManager::Awake()
 
 	// スタート時イベントを追加する
 	m_eventToken =
-	EventBus<GamePlayEvent>::Register(
+	REngine::EventBus<GamePlayEvent>::Register(
 		GamePlayEvent::Start,
 		[&]() {
 			m_isStarted = true;
@@ -78,18 +78,18 @@ void EnemyManager::Start()
 	m_is2D = false;
 
 	// プレイヤーを取得
-	GameObject* player = static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
+	REngine::GameObject* player = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
 
-	if (player) m_playerTransform = player->GetComponent<Transform>();
+	if (player) m_playerTransform = player->GetComponent<REngine::Transform>();
 }
 
 void EnemyManager::OnDestroy()
 {
 	// イベント削除
-	EventBus<GamePlayEvent>::Remove(m_eventToken);
+	REngine::EventBus<GamePlayEvent>::Remove(m_eventToken);
 }
 
-void EnemyManager::Update(const GameTimer& timer)
+void EnemyManager::Update(const REngine::GameTimer& timer)
 {
 	// 時間を加算
 	m_nowTime += timer.GetElapsedTime();
@@ -254,7 +254,7 @@ void EnemyManager::Update(const GameTimer& timer)
 	}
 }
 
-void EnemyManager::DebugRenderer(Renderer& renderer)
+void EnemyManager::DebugRenderer(REngine::Renderer& renderer)
 {
 	if (m_is2D) m_normalNavigation2D.DebugDraw(m_debugPath, renderer);
 	else m_normalNavigation.DebugDraw(m_debugPath, renderer);

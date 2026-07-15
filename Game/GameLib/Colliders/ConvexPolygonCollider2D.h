@@ -25,7 +25,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ConvexPolygonCollider2D : public ColliderBase2D, public IDebugRenderable
+class ConvexPolygonCollider2D : public REngine::ColliderBase2D, public REngine::IDebugRenderable
 {
 private:
 
@@ -52,7 +52,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ConvexPolygonCollider2D(IComponentOwner* owner);
+	ConvexPolygonCollider2D(REngine::IComponentOwner* owner);
 	~ConvexPolygonCollider2D() {};
 
 	//-----------------------------------------------------
@@ -66,7 +66,7 @@ public:
 	void UpdateCache() const override;
 
 	// デバッグ描画
-	void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+	void DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -75,7 +75,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<ConvexPolygonCollider2D>();
+		return REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>();
 	}
 	
 	const std::vector<DirectX::SimpleMath::Vector2>& GetWorldVertices() const

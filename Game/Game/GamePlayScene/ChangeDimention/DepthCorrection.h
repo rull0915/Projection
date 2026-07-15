@@ -26,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class DepthCorrection : public WorldComponentBase
+class DepthCorrection : public REngine::WorldComponentBase
 {
 private:
 	static constexpr float CORRECTION_BORDER = 1.0f / 1.1415926535f;
@@ -36,7 +36,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	DepthCorrection(IComponentOwner* owner)
+	DepthCorrection(REngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 	{
 	}
@@ -47,11 +47,11 @@ public:
 	// 公開関数
 	//-----------------------------------------------------
 
-	void OnCollisionEnter2D(HitContact2D& contact) override;
+	void OnCollisionEnter2D(REngine::HitContact2D& contact) override;
 
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<DepthCorrection>();
+		return REngine::TypeIDGenerator::GetID<DepthCorrection>();
 	}
 };

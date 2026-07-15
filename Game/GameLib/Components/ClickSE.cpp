@@ -19,7 +19,7 @@
 //====================================================//
 
 // コンストラクタ
-ClickSE::ClickSE(IComponentOwner* own)
+ClickSE::ClickSE(REngine::IComponentOwner* own)
 	: ButtonListenerBase(own)
 {
 }
@@ -27,7 +27,7 @@ ClickSE::ClickSE(IComponentOwner* own)
 void ClickSE::OnClicked()
 {
 	// AudioSourceがあれば
-	if (auto* audio = GetComponent<AudioSource>())
+	if (auto* audio = GetComponent<REngine::AudioSource>())
 	{
 		audio->Play();
 	}

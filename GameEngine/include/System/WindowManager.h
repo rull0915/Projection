@@ -68,7 +68,7 @@ namespace REngine
 		}
 
 		// フルスクリーンとウィンドウを切り替える関数
-		void SwitchScreenMode(HWND hWnd, Game* game);
+		void SwitchScreenMode(HWND hWnd);
 
 		// -1 ~ +1 の座標系からピクセル座標に変換する関数
 		DirectX::SimpleMath::Vector2 PixelToScreen(DirectX::SimpleMath::Vector2 pos)

@@ -22,232 +22,235 @@
 #include "Managers/UI/UIManager.h"
 #include "Managers/ObjectManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj)
+namespace REngine
 {
-	// 登録されているプロパティを全て調べる
-	for (auto& property : obj.GetPropaties())
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
+
+	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj)
 	{
-		// 存在チェック
-		if (!json.contains(property.name)) continue;	
-
-		// 型によって分岐
-		switch (property.type)
+		// 登録されているプロパティを全て調べる
+		for (auto& property : obj.GetPropaties())
 		{
-			// int
-		case PropertyType::Int:
-			*(static_cast<int*>(property.value)) = json[property.name];
-			break;
+			// 存在チェック
+			if (!json.contains(property.name)) continue;
 
-			// float
-		case PropertyType::Float:
-			*(static_cast<float*>(property.value)) = json[property.name];
-			break;
+			// 型によって分岐
+			switch (property.type)
+			{
+				// int
+			case PropertyType::Int:
+				*(static_cast<int*>(property.value)) = json[property.name];
+				break;
 
-			// bool
-		case PropertyType::Bool:
-			*(static_cast<bool*>(property.value)) = json[property.name];
-			break;
+				// float
+			case PropertyType::Float:
+				*(static_cast<float*>(property.value)) = json[property.name];
+				break;
 
-			// string
-		case PropertyType::String:
-			*(static_cast<std::string*>(property.value)) = json[property.name];
-			break;
+				// bool
+			case PropertyType::Bool:
+				*(static_cast<bool*>(property.value)) = json[property.name];
+				break;
 
-			// Vector2
-		case PropertyType::Vector2:
-			*(static_cast<DirectX::SimpleMath::Vector2*>(property.value)) = { json[property.name][0], json[property.name][1] };
-			break;
+				// string
+			case PropertyType::String:
+				*(static_cast<std::string*>(property.value)) = json[property.name];
+				break;
 
-			// Vector3
-		case PropertyType::Vector3:
-			*(static_cast<DirectX::SimpleMath::Vector3*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2] };
-			break;
+				// Vector2
+			case PropertyType::Vector2:
+				*(static_cast<DirectX::SimpleMath::Vector2*>(property.value)) = { json[property.name][0], json[property.name][1] };
+				break;
 
-			// Quaternion
-		case PropertyType::Quaternion:
-			*(static_cast<DirectX::SimpleMath::Quaternion*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
-			break;
+				// Vector3
+			case PropertyType::Vector3:
+				*(static_cast<DirectX::SimpleMath::Vector3*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2] };
+				break;
 
-			// Color
-		case PropertyType::Color:
-			*(static_cast<DirectX::SimpleMath::Color*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
-			break;
+				// Quaternion
+			case PropertyType::Quaternion:
+				*(static_cast<DirectX::SimpleMath::Quaternion*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
+				break;
 
-		default:
-			break;
+				// Color
+			case PropertyType::Color:
+				*(static_cast<DirectX::SimpleMath::Color*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
+				break;
+
+			default:
+				break;
+			}
 		}
 	}
-}
 
-void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene)
-{
-	// ゲームオブジェクト部分をロード
-	LoadProperty(json, *obj);
-
-	// コンポーネントをロード
-	for (auto& js : json["Components"])
+	void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene)
 	{
-		// 生成
-		ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
+		// ゲームオブジェクト部分をロード
+		LoadProperty(json, *obj);
 
-		// ロード
-		if (component) LoadProperty(js["Data"], *component);
+		// コンポーネントをロード
+		for (auto& js : json["Components"])
+		{
+			// 生成
+			ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
 
-		// 変更時処理の呼び出し
-		component->OnValidate();
+			// ロード
+			if (component) LoadProperty(js["Data"], *component);
+
+			// 変更時処理の呼び出し
+			component->OnValidate();
+		}
+
+		// 子供をロード
+		for (auto& child : json["Children"])
+		{
+			// 生成
+			GameObject* chObj = pScene->GetFactory()->Generate();
+
+			// 親を自分に
+			chObj->GetComponent<Transform>()->SetParent(obj->GetComponent<Transform>());
+
+			// 読み込み
+			LoadObject(child, chObj, pScene);
+		}
 	}
 
-	// 子供をロード
-	for (auto& child : json["Children"])
+	void ObjectLoader::LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas)
 	{
-		// 生成
-		GameObject* chObj = pScene->GetFactory()->Generate();
+		// ゲームオブジェクト部分をロード
+		LoadProperty(json, *obj);
 
-		// 親を自分に
-		chObj->GetComponent<Transform>()->SetParent(obj->GetComponent<Transform>());
+		// コンポーネントをロード
+		for (auto& js : json["Components"])
+		{
+			// 生成
+			ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
 
-		// 読み込み
-		LoadObject(child, chObj, pScene);
-	}
-}
+			// ロード
+			if (component) LoadProperty(js["Data"], *component);
 
-void ObjectLoader::LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas)
-{
-	// ゲームオブジェクト部分をロード
-	LoadProperty(json, *obj);
+			// 変更時処理の呼び出し
+			component->OnValidate();
+		}
 
-	// コンポーネントをロード
-	for (auto& js : json["Components"])
-	{
-		// 生成
-		ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
+		// 子供をロード
+		for (auto& child : json["Children"])
+		{
+			// 生成
+			GameObject* chObj = canvas->Generate();
 
-		// ロード
-		if (component) LoadProperty(js["Data"], *component);
+			// 親を自分に
+			chObj->GetComponent<RectTransform>()->SetParent(obj->GetComponent<RectTransform>());
 
-		// 変更時処理の呼び出し
-		component->OnValidate();
-	}
-
-	// 子供をロード
-	for (auto& child : json["Children"])
-	{
-		// 生成
-		GameObject* chObj = canvas->Generate();
-
-		// 親を自分に
-		chObj->GetComponent<RectTransform>()->SetParent(obj->GetComponent<RectTransform>());
-
-		// 読み込み
-		LoadUIObject(child, chObj, canvas);
-	}
-}
-
-void ObjectLoader::LoadCanvas(const nlohmann::json& json, Canvas* canvas)
-{
-	// プロパティ部分をロード
-	LoadProperty(json, *canvas);
-
-	// ゲームオブジェクトをロード
-	for (auto& object : json["GameObjects"])
-	{
-		// 読み込み
-		LoadUIObject(object, canvas->Generate(), canvas);
-	}
-}
-
-void ObjectLoader::LoadUIManager(const nlohmann::json& json, UIManager* manager)
-{
-	// キャンバスをループ
-	for (auto& canvas : json["Canvases"])
-	{
-		// 生成
-		Canvas* pCanvas = manager->CreateCanvas();
-
-		// ロード
-		LoadCanvas(canvas, pCanvas);
-	}
-}
-
-void ObjectLoader::LoadObjectManager(const nlohmann::json& json, Scene* pScene)
-{
-	// オブジェクトをループ
-	for (auto& obj : json["GameObjects"])
-	{
-		// 生成
-		GameObject* object = pScene->GetFactory()->Generate();
-
-		// ロード
-		LoadObject(obj, object, pScene);
-	}
-}
-
-void ObjectLoader::LoadScene(const nlohmann::json& json, Scene* pScene)
-{
-	// Worldのロード
-	LoadObjectManager(json["World"], pScene);
-
-	// UIのロード
-	LoadUIManager(json["UI"], pScene->GetUIManager());
-}
-
-void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)
-{
-	std::ifstream ifs(std::filesystem::path(filePath).c_str());
-
-	// 開けていたら
-	if (ifs.is_open())
-	{
-		// jsonから読み取り
-		nlohmann::json j;
-		ifs >> j;
-
-		// ロード
-		LoadObject(j, obj, obj->GetScene());
+			// 読み込み
+			LoadUIObject(child, chObj, canvas);
+		}
 	}
 
-	// 閉じる
-	ifs.close();
-}
-
-void ObjectLoader::LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas)
-{
-	std::ifstream ifs(std::filesystem::path(filePath).c_str());
-
-	// 開けていたら
-	if (ifs.is_open())
+	void ObjectLoader::LoadCanvas(const nlohmann::json& json, Canvas* canvas)
 	{
-		// jsonから読み取り
-		nlohmann::json j;
-		ifs >> j;
+		// プロパティ部分をロード
+		LoadProperty(json, *canvas);
 
-		// ロード
-		LoadUIObject(j, obj, canvas);
+		// ゲームオブジェクトをロード
+		for (auto& object : json["GameObjects"])
+		{
+			// 読み込み
+			LoadUIObject(object, canvas->Generate(), canvas);
+		}
 	}
 
-	// 閉じる
-	ifs.close();
-}
-
-void ObjectLoader::LoadSceneFromFile(const std::wstring& filePath, Scene* scene)
-{
-	std::ifstream ifs(std::filesystem::path(filePath).c_str());
-
-	// 開けていたら
-	if (ifs.is_open())
+	void ObjectLoader::LoadUIManager(const nlohmann::json& json, UIManager* manager)
 	{
-		// jsonから読み取り
-		nlohmann::json j;
-		ifs >> j;
+		// キャンバスをループ
+		for (auto& canvas : json["Canvases"])
+		{
+			// 生成
+			Canvas* pCanvas = manager->CreateCanvas();
 
-		// ロード
-		LoadScene(j, scene);
+			// ロード
+			LoadCanvas(canvas, pCanvas);
+		}
 	}
 
-	// 閉じる
-	ifs.close();
-}
+	void ObjectLoader::LoadObjectManager(const nlohmann::json& json, Scene* pScene)
+	{
+		// オブジェクトをループ
+		for (auto& obj : json["GameObjects"])
+		{
+			// 生成
+			GameObject* object = pScene->GetFactory()->Generate();
+
+			// ロード
+			LoadObject(obj, object, pScene);
+		}
+	}
+
+	void ObjectLoader::LoadScene(const nlohmann::json& json, Scene* pScene)
+	{
+		// Worldのロード
+		LoadObjectManager(json["World"], pScene);
+
+		// UIのロード
+		LoadUIManager(json["UI"], pScene->GetUIManager());
+	}
+
+	void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)
+	{
+		std::ifstream ifs(std::filesystem::path(filePath).c_str());
+
+		// 開けていたら
+		if (ifs.is_open())
+		{
+			// jsonから読み取り
+			nlohmann::json j;
+			ifs >> j;
+
+			// ロード
+			LoadObject(j, obj, obj->GetScene());
+		}
+
+		// 閉じる
+		ifs.close();
+	}
+
+	void ObjectLoader::LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas)
+	{
+		std::ifstream ifs(std::filesystem::path(filePath).c_str());
+
+		// 開けていたら
+		if (ifs.is_open())
+		{
+			// jsonから読み取り
+			nlohmann::json j;
+			ifs >> j;
+
+			// ロード
+			LoadUIObject(j, obj, canvas);
+		}
+
+		// 閉じる
+		ifs.close();
+	}
+
+	void ObjectLoader::LoadSceneFromFile(const std::wstring& filePath, Scene* scene)
+	{
+		std::ifstream ifs(std::filesystem::path(filePath).c_str());
+
+		// 開けていたら
+		if (ifs.is_open())
+		{
+			// jsonから読み取り
+			nlohmann::json j;
+			ifs >> j;
+
+			// ロード
+			LoadScene(j, scene);
+		}
+
+		// 閉じる
+		ifs.close();
+	}
+}	// namespace REngine

@@ -17,17 +17,20 @@
 // 関数の実体宣言
 //====================================================//
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
-UIGraphicBase::UIGraphicBase(IComponentOwner* owner)
-	: UIComponentBase(owner)
-	, m_pRectTransform{ owner->GetComponent<RectTransform>() }
-	, m_color{ 0xFFFFFF }
-	, m_mulColor{ 0xFFFFFF }
-	, m_alpha{ 1.0f }
+namespace REngine
 {
-	ADD_PROPERTY(m_color);
-	ADD_PROPERTY(m_mulColor);
-	ADD_PROPERTY(m_alpha);
-}
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	UIGraphicBase::UIGraphicBase(IComponentOwner* owner)
+		: UIComponentBase(owner)
+		, m_pRectTransform{ owner->GetComponent<RectTransform>() }
+		, m_color{ 0xFFFFFF }
+		, m_mulColor{ 0xFFFFFF }
+		, m_alpha{ 1.0f }
+	{
+		ADD_PROPERTY(m_color);
+		ADD_PROPERTY(m_mulColor);
+		ADD_PROPERTY(m_alpha);
+	}
+}	// namespace REngine

@@ -12,47 +12,50 @@
 #include "pch.h"
 #include "System/WindowManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void WindowManager::SwitchScreenMode(HWND hWnd, Game* game)
+namespace REngine
 {
-	static bool s_fullscreen = false;
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	if (s_fullscreen)
+	void WindowManager::SwitchScreenMode(HWND hWnd)
 	{
-		SetWindowLongPtr(hWnd, GWL_STYLE, WS_MYSTYLE);
-		SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
+		static bool s_fullscreen = false;
 
-		ShowWindow(hWnd, SW_SHOWNORMAL);
+		if (s_fullscreen)
+		{
+			SetWindowLongPtr(hWnd, GWL_STYLE, WS_MYSTYLE);
+			SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
 
-		RECT rc = { 0,0,m_width,m_height };
-		AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
+			ShowWindow(hWnd, SW_SHOWNORMAL);
 
-		SetWindowPos(
-			hWnd,
-			HWND_TOP,
-			0, 0,
-			rc.right - rc.left,
-			rc.bottom - rc.top,
-			SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED
-		);
+			RECT rc = { 0,0,m_width,m_height };
+			AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
+
+			SetWindowPos(
+				hWnd,
+				HWND_TOP,
+				0, 0,
+				rc.right - rc.left,
+				rc.bottom - rc.top,
+				SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED
+			);
+		}
+		else
+		{
+			SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP);
+			SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+
+			SetWindowPos(
+				hWnd,
+				HWND_TOP,
+				0, 0, 0, 0,
+				SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED
+			);
+
+			ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+		}
+
+		s_fullscreen = !s_fullscreen;
 	}
-	else
-	{
-		SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP);
-		SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
-
-		SetWindowPos(
-			hWnd,
-			HWND_TOP,
-			0, 0, 0, 0,
-			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED
-		);
-
-		ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-	}
-
-	s_fullscreen = !s_fullscreen;
-}
+}	// namespace REngine

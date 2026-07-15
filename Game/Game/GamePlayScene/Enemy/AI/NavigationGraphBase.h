@@ -14,12 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-
-
-//====================================================//
-// 前方宣言
-//====================================================//
-class Renderer;
+#include "Renderer/Renderer.h"
 
 //====================================================//
 // クラス宣言
@@ -86,9 +81,9 @@ public:
 	virtual void Update() = 0;
 
 	// デバッグ描画
-	virtual void DebugDraw(Renderer& renderer) = 0;
+	virtual void DebugDraw(REngine::Renderer& renderer) = 0;
 
-	virtual void DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, DirectX::SimpleMath::Color color = { 0, 1, 0, 0 }) = 0;
+	virtual void DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color = { 0, 1, 0, 0 }) = 0;
 
 	//-----------------------------------------------------
 	// ゲッター

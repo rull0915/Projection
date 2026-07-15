@@ -13,52 +13,53 @@
 #include "Renderer/EachRenderer/SpriteRenderer.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-/// <summary>
-/// コンストラクタ
-/// </summary>
-SpriteRenderer::SpriteRenderer(Renderer& renderer)
-	: m_renderer{ renderer }
-	, m_renderState{ renderer.GetRenderState() }
+namespace REngine
 {
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-SpriteRenderer::~SpriteRenderer()
-{
-}
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	SpriteRenderer::SpriteRenderer(Renderer& renderer)
+		: m_renderer{ renderer }
+		, m_renderState{ renderer.GetRenderState() }
+	{}
 
-/// <summary>
-/// 初期化関数
-/// </summary>
-void SpriteRenderer::Initialize()
-{
-	auto context = m_renderer.GetContext();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	SpriteRenderer::~SpriteRenderer()
+	{}
 
-	// スプライトバッチの初期化
-	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
-}
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	void SpriteRenderer::Initialize()
+	{
+		auto context = m_renderer.GetContext();
 
-/// <summary>
-/// 描画開始関数
-/// </summary>
-void SpriteRenderer::Start()
-{
-	m_spriteBatch->Begin(
-		DirectX::SpriteSortMode_Deferred,
-		m_renderer.GetStates()->NonPremultiplied()
-	);
-}
+		// スプライトバッチの初期化
+		m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
+	}
 
-/// <summary>
-/// 描画終了関数
-/// </summary>
-void SpriteRenderer::End()
-{
-	m_spriteBatch->End();
-}
+	/// <summary>
+	/// 描画開始関数
+	/// </summary>
+	void SpriteRenderer::Start()
+	{
+		m_spriteBatch->Begin(
+			DirectX::SpriteSortMode_Deferred,
+			m_renderer.GetStates()->NonPremultiplied()
+		);
+	}
+
+	/// <summary>
+	/// 描画終了関数
+	/// </summary>
+	void SpriteRenderer::End()
+	{
+		m_spriteBatch->End();
+	}
+}	// namespace REngine

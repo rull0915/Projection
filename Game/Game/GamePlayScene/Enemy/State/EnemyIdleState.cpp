@@ -21,7 +21,7 @@
 void EnemyIdleState::Enter()
 {}
 
-void EnemyIdleState::Update(const GameTimer& timer)
+void EnemyIdleState::Update(const REngine::GameTimer& timer)
 {
 	timer;
 

@@ -22,11 +22,11 @@
 // 関数の実体宣言
 //====================================================//
 
-ProjectionSmoothCamera::ProjectionSmoothCamera(IComponentOwner* owner)
+ProjectionSmoothCamera::ProjectionSmoothCamera(REngine::IComponentOwner* owner)
 	: CameraBase(owner)
-	, m_type{ ProjectionType::Perspective }
+	, m_type{ REngine::ProjectionType::Perspective }
 	, m_farZ{ 1000.0f }, m_nearZ{ 0.1f }
-	, m_aspect{ WindowManager::Instance().GetAspect() }
+	, m_aspect{ REngine::WindowManager::Instance().GetAspect() }
 	, m_fov{ PI_F / 4 }
 	, m_size{ 15.0f }
 	, m_changeTime{ 1.0f }
@@ -35,7 +35,7 @@ ProjectionSmoothCamera::ProjectionSmoothCamera(IComponentOwner* owner)
 {
 }
 
-void ProjectionSmoothCamera::Update(const GameTimer& gameTimer)
+void ProjectionSmoothCamera::Update(const REngine::GameTimer& gameTimer)
 {
 	// 変化中なら
 	if (m_isChanging)
@@ -54,7 +54,7 @@ void ProjectionSmoothCamera::Update(const GameTimer& gameTimer)
 			m_isChanging = false;
 
 			// タイムスケールをもどす
-			TimeSettings::Instance().SetTimeScale(1.0f);
+			REngine::TimeSettings::Instance().SetTimeScale(1.0f);
 		}
 	}
 }
@@ -68,12 +68,12 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 	m_oldProjecition = GetProj();
 
 	// タイプを変える
-	m_type = (m_type == ProjectionType::Perspective ? ProjectionType::Orthographic : ProjectionType::Perspective);
+	m_type = (m_type == REngine::ProjectionType::Perspective ? REngine::ProjectionType::Orthographic : REngine::ProjectionType::Perspective);
 
 	// ターゲットとなる行列を作成する
 	switch (m_type)
 	{
-	case ProjectionType::Perspective:
+	case REngine::ProjectionType::Perspective:
 
 		// Perspectiveから作成
 		m_targetProjection = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
@@ -81,7 +81,7 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 		);
 
 		break;
-	case ProjectionType::Orthographic:
+	case REngine::ProjectionType::Orthographic:
 
 		// Orthographicから作成
 		m_targetProjection = DirectX::SimpleMath::Matrix::CreateOrthographic(
@@ -100,14 +100,14 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 	m_nowTime = 0.0f;
 
 	// タイムスケールを0にする
-	TimeSettings::Instance().SetTimeScale(0.0f);
+	REngine::TimeSettings::Instance().SetTimeScale(0.0f);
 }
 
 void ProjectionSmoothCamera::UpdateView()
 {
 	// TransformをそのままViewに
 	SetView(
-		GetComponent<Transform>()->GetWorldMatrix().Invert()
+		GetComponent<REngine::Transform>()->GetWorldMatrix().Invert()
 	);
 }
 
@@ -123,12 +123,12 @@ void ProjectionSmoothCamera::UpdateProj()
 		// 現在の行列を求める
 		switch (m_type)
 		{
-		case ProjectionType::Perspective:
-			nowProjection = DirectX::SimpleMath::Matrix::Lerp(m_oldProjecition, m_targetProjection, Easing::EaseInCubic(r));
+		case REngine::ProjectionType::Perspective:
+			nowProjection = DirectX::SimpleMath::Matrix::Lerp(m_oldProjecition, m_targetProjection, REngine::Easing::EaseInCubic(r));
 			break;
 
-		case ProjectionType::Orthographic:
-			nowProjection = DirectX::SimpleMath::Matrix::Lerp(m_oldProjecition, m_targetProjection, Easing::EaseOutCubic(r));
+		case REngine::ProjectionType::Orthographic:
+			nowProjection = DirectX::SimpleMath::Matrix::Lerp(m_oldProjecition, m_targetProjection, REngine::Easing::EaseOutCubic(r));
 			break;
 
 		default:
@@ -143,7 +143,7 @@ void ProjectionSmoothCamera::UpdateProj()
 		// ターゲットとなる行列を作成する
 		switch (m_type)
 		{
-		case ProjectionType::Perspective:
+		case REngine::ProjectionType::Perspective:
 
 			// Perspectiveから作成
 			SetProj(DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
@@ -151,7 +151,7 @@ void ProjectionSmoothCamera::UpdateProj()
 			));
 
 			break;
-		case ProjectionType::Orthographic:
+		case REngine::ProjectionType::Orthographic:
 
 			// Orthographicから作成
 			SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(

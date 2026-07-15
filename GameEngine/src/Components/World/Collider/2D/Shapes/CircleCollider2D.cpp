@@ -15,41 +15,44 @@
 #include "Settings/WorldSetting2D.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void CircleCollider2D::UpdateCache() const
+namespace REngine
 {
-	Transform* pT = GetTransform();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// ----- 中心座標の更新 ----- //
-	DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
-	DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
-	
-	auto& world2D = WorldSetting2D::Instance();
+	void CircleCollider2D::UpdateCache() const
+	{
+		Transform* pT = GetTransform();
 
-	DirectX::SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
-	SetWorldPosition(center);
+		// ----- 中心座標の更新 ----- //
+		DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
+		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
 
-	// ----- AABBの更新 ----- //
-	DirectX::SimpleMath::Vector3 size = { m_radius, m_radius, m_radius };
-	SetBoundingBox(AABB2D(center - size, center + size));
+		auto& world2D = WorldSetting2D::Instance();
 
-	// フラグのリセット
-	ResetDirty();
-	SetChanged(true);
+		DirectX::SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
+		SetWorldPosition(center);
 
-	ApplyVersion();
-}
+		// ----- AABBの更新 ----- //
+		DirectX::SimpleMath::Vector3 size = { m_radius, m_radius, m_radius };
+		SetBoundingBox(AABB2D(center - size, center + size));
 
-void CircleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
-{
-	// ワールド行列の算出(Rot,Pos)
-	DirectX::SimpleMath::Vector2 pos = GetWorldCenterPos();
+		// フラグのリセット
+		ResetDirty();
+		SetChanged(true);
 
-	auto& world2D = WorldSetting2D::Instance();
+		ApplyVersion();
+	}
 
-	float rad = GetRadius();
-	renderer.Draw().Circle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
-}
+	void CircleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	{
+		// ワールド行列の算出(Rot,Pos)
+		DirectX::SimpleMath::Vector2 pos = GetWorldCenterPos();
+
+		auto& world2D = WorldSetting2D::Instance();
+
+		float rad = GetRadius();
+		renderer.Draw().Circle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
+	}
+}	// namespace REngine

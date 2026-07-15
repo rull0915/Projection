@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class SwingComponent : public UIComponentBase
+class SwingComponent : public REngine::UIComponentBase
 {
 private:
 
@@ -42,7 +42,7 @@ private:
 	//-----------------------------------------------------
 
 	// RectTransform
-	RectTransform* m_rectTransform;
+	REngine::RectTransform* m_rectTransform;
 
 	// 揺れの幅
 
@@ -51,7 +51,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	SwingComponent(IComponentOwner* own);
+	SwingComponent(REngine::IComponentOwner* own);
 	~SwingComponent() = default;
 
 	//-----------------------------------------------------
@@ -60,7 +60,7 @@ public:
 
 	void Awake() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -69,7 +69,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<SwingComponent>();
+		return REngine::TypeIDGenerator::GetID<SwingComponent>();
 	}
 
 	//-----------------------------------------------------

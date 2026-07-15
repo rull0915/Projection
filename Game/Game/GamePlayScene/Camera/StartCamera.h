@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class StartCamera : public WorldComponentBase
+class StartCamera : public REngine::WorldComponentBase
 {
 private:
 
@@ -43,7 +43,7 @@ private:
 	//-----------------------------------------------------
 
 	// トランスフォームポインタ
-	Transform* m_pTransform;
+	REngine::Transform* m_pTransform;
 
 	// ターゲット名
 	std::string m_targetName;
@@ -77,7 +77,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	StartCamera(IComponentOwner* own);
+	StartCamera(REngine::IComponentOwner* own);
 	~StartCamera() = default;
 
 	//-----------------------------------------------------
@@ -87,7 +87,7 @@ public:
 	void Awake() override;
 	void Start() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -96,7 +96,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<StartCamera>();
+		return REngine::TypeIDGenerator::GetID<StartCamera>();
 	}
 
 	//-----------------------------------------------------

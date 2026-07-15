@@ -23,44 +23,47 @@
 
 #define ADD_FACTORY(type) ComponentFactory::Register(#type, { ComponentProject::Engine, type::SPACE }, [](GameObject* o) { return o->AddComponent<type>(); });
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void FactoryRegister::RegistFactories()
+namespace REngine
 {
-	// Transform
-	ADD_FACTORY(Transform);
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// Collider
-	ADD_FACTORY(BoxCollider);
-	ADD_FACTORY(CapsuleCollider);
-	ADD_FACTORY(SphereCollider);
+	void FactoryRegister::RegistFactories()
+	{
+		// Transform
+		ADD_FACTORY(Transform);
 
-	// Collider2D
-	ADD_FACTORY(BoxCollider2D);
-	ADD_FACTORY(CapsuleCollider2D);
-	ADD_FACTORY(CircleCollider2D);
+		// Collider
+		ADD_FACTORY(BoxCollider);
+		ADD_FACTORY(CapsuleCollider);
+		ADD_FACTORY(SphereCollider);
 
-	// RigidBody
-	ADD_FACTORY(RigidBody);
-	ADD_FACTORY(RigidBody2D);
+		// Collider2D
+		ADD_FACTORY(BoxCollider2D);
+		ADD_FACTORY(CapsuleCollider2D);
+		ADD_FACTORY(CircleCollider2D);
 
-	// Renderer
-	ADD_FACTORY(ModelComponent);
-	ADD_FACTORY(SkyboxComponent);
+		// RigidBody
+		ADD_FACTORY(RigidBody);
+		ADD_FACTORY(RigidBody2D);
 
-	// Camera
-	ADD_FACTORY(StandardCamera);
-	ADD_FACTORY(TargetCamera);
+		// Renderer
+		ADD_FACTORY(ModelComponent);
+		ADD_FACTORY(SkyboxComponent);
 
-	// Audio
-	ADD_FACTORY(AudioSource);
-	ADD_FACTORY(AudioListener);
+		// Camera
+		ADD_FACTORY(StandardCamera);
+		ADD_FACTORY(TargetCamera);
 
-	// UI
-	ADD_FACTORY(RectTransform);
-	ADD_FACTORY(ImageUI);
-	ADD_FACTORY(TextUI);
-	ADD_FACTORY(ButtonUI);
-}
+		// Audio
+		ADD_FACTORY(AudioSource);
+		ADD_FACTORY(AudioListener);
+
+		// UI
+		ADD_FACTORY(RectTransform);
+		ADD_FACTORY(ImageUI);
+		ADD_FACTORY(TextUI);
+		ADD_FACTORY(ButtonUI);
+	}
+}	// namespace REngine

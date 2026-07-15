@@ -32,16 +32,16 @@
 void GameInitializer::Initialize()
 {
 	// 衝突判定関数の追加
-	CollisionMap2D::Register(
-		TypeIDGenerator::GetID<ConvexPolygonCollider2D>(), TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
+	REngine::CollisionMap2D::Register(
+		REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(), REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
 		Collision2D::CheckHit2D_Convex_Convex
 	);
-	CollisionMap2D::Register(
-		TypeIDGenerator::GetID<CircleCollider2D>(), TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
+	REngine::CollisionMap2D::Register(
+		REngine::TypeIDGenerator::GetID<REngine::CircleCollider2D>(), REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
 		Collision2D::CheckHit2D_Circle_Convex
 	);
-	CollisionMap2D::Register(
-		TypeIDGenerator::GetID<CapsuleCollider2D>(), TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
+	REngine::CollisionMap2D::Register(
+		REngine::TypeIDGenerator::GetID<REngine::CapsuleCollider2D>(), REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
 		Collision2D::CheckHit2D_Capsule_Convex
 	);
 
@@ -55,7 +55,7 @@ void GameInitializer::Initialize()
 void GameInitializer::AddKey()
 {
 	// Qボタンで次元変更
-	Input::Custom::AddButton(
-		"ChangeDimention", { Input::Type::Key, Input::State::Down, Input::Key::Code::Q }
+	REngine::Input::Custom::AddButton(
+		"ChangeDimention", { REngine::Input::Type::Key, REngine::Input::State::Down, REngine::Input::Key::Code::Q }
 	);
 }

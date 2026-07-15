@@ -37,7 +37,7 @@ void NavigationGraph2D::Update()
 	UpdateGraph();
 }
 
-void NavigationGraph2D::DebugDraw(Renderer& renderer)
+void NavigationGraph2D::DebugDraw(REngine::Renderer& renderer)
 {
 	// 繋がっているコライダー同士を結ぶ線を描く
 	for (auto& edges : GetGraph())
@@ -46,7 +46,7 @@ void NavigationGraph2D::DebugDraw(Renderer& renderer)
 	}
 }
 
-void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, Renderer& renderer, DirectX::SimpleMath::Color color)
+void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color)
 {
 	for (auto& edge : edges)
 	{
@@ -62,7 +62,7 @@ void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, Renderer& rend
 		};
 
 		// 繋ぐ線を描画
-		auto& w = WorldSetting2D::Instance();
+		auto& w = REngine::WorldSetting2D::Instance();
 		renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
 	}
 }

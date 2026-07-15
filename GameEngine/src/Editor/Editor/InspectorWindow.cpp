@@ -20,303 +20,306 @@
 #include "imgui/imgui_stdlib.h"
 #include "Managers/UI/Canvas.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-bool InspectorWindow::DrawInspector(PropertyObject* selected)
+namespace REngine
 {
-	// 描画開始
-	bool clicked = StartInspector();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// 選択されていたら
-	if (selected)
+	bool InspectorWindow::DrawInspector(PropertyObject* selected)
 	{
-		DrawPropertyObjectOnInspector(selected);
-	}
-	
-	// 描画終了
-	ImGui::End();
+		// 描画開始
+		bool clicked = StartInspector();
 
-	return clicked;
-}
-
-bool InspectorWindow::StartInspector()
-{
-	// 位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (3.0f / 4), WindowManager::Instance().GetHeightF() / 12));
-	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 4), WindowManager::Instance().GetHeightF() * (11.0f / 12)));
-
-	ImGui::Begin("Inspector", nullptr,
-		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-			
-	// ウィンドウへのクリックを検知
-	return (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-		&& ImGui::IsMouseClicked(0));
-}
-
-void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)
-{
-	// nullなら何もしない
-	if (!object) return;
-
-	ImGui::Text("Object");
-	ImGui::Separator();
-
-	bool changed = false;
-
-	// 全プロパティを取得
-	for (auto& property : object->GetPropaties())
-	{
-		// 表示
-		if (DrawProperty(&property)) changed = true;
-	}
-
-	// 区切り
-	ImGui::NewLine();
-
-	// GameObjectの特殊処理
-	GameObject* gameObject = dynamic_cast<GameObject*>(object);
-
-	if (gameObject)
-	{
-		if (changed) gameObject->OnValidate();
-	}
-	else
-	{
-		// Canvasの特殊処理
-		Canvas* canvas = dynamic_cast<Canvas*>(object);
-
-		if (changed) canvas->SetDrawOrder(canvas->GetDrawOrder());
-
-		return;
-	}
-
-	ImGui::Text("ComponentList");
-	ImGui::BeginChild("ComponentList", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), true);
-
-	// 全コンポーネントを取得
-	for (auto& component : gameObject->GetAllComponents())
-	{
-		// コンポーネント名を取得
-		std::string componentName = ClassNameGetter::Get(*component);
-
-		// ID衝突防止
-		ImGui::PushID(component);
-
-		bool open = ImGui::TreeNode(componentName.c_str());
-
-		// 右クリック時のメニュー
-		if (ImGui::BeginPopupContextItem())
+		// 選択されていたら
+		if (selected)
 		{
-			// Deleteを表示
-			if (ImGui::MenuItem("Delete"))
-			{
-				// 削除
-				gameObject->RemoveComponent(component);
-			}
-			ImGui::EndPopup();
+			DrawPropertyObjectOnInspector(selected);
 		}
 
-		// ツリーの開始
-		if (open)
+		// 描画終了
+		ImGui::End();
+
+		return clicked;
+	}
+
+	bool InspectorWindow::StartInspector()
+	{
+		// 位置とサイズを固定
+		ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (3.0f / 4), WindowManager::Instance().GetHeightF() / 12));
+		ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 4), WindowManager::Instance().GetHeightF() * (11.0f / 12)));
+
+		ImGui::Begin("Inspector", nullptr,
+			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+
+		// ウィンドウへのクリックを検知
+		return (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
+			&& ImGui::IsMouseClicked(0));
+	}
+
+	void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)
+	{
+		// nullなら何もしない
+		if (!object) return;
+
+		ImGui::Text("Object");
+		ImGui::Separator();
+
+		bool changed = false;
+
+		// 全プロパティを取得
+		for (auto& property : object->GetPropaties())
 		{
-			// 全プロパティを取得
-			for (auto& property : component->GetPropaties())
+			// 表示
+			if (DrawProperty(&property)) changed = true;
+		}
+
+		// 区切り
+		ImGui::NewLine();
+
+		// GameObjectの特殊処理
+		GameObject* gameObject = dynamic_cast<GameObject*>(object);
+
+		if (gameObject)
+		{
+			if (changed) gameObject->OnValidate();
+		}
+		else
+		{
+			// Canvasの特殊処理
+			Canvas* canvas = dynamic_cast<Canvas*>(object);
+
+			if (changed) canvas->SetDrawOrder(canvas->GetDrawOrder());
+
+			return;
+		}
+
+		ImGui::Text("ComponentList");
+		ImGui::BeginChild("ComponentList", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), true);
+
+		// 全コンポーネントを取得
+		for (auto& component : gameObject->GetAllComponents())
+		{
+			// コンポーネント名を取得
+			std::string componentName = ClassNameGetter::Get(*component);
+
+			// ID衝突防止
+			ImGui::PushID(component);
+
+			bool open = ImGui::TreeNode(componentName.c_str());
+
+			// 右クリック時のメニュー
+			if (ImGui::BeginPopupContextItem())
 			{
-				// 表示
-				// 値が変わっていたら
-				if (DrawProperty(&property))
+				// Deleteを表示
+				if (ImGui::MenuItem("Delete"))
 				{
-					component->OnValidate();
+					// 削除
+					gameObject->RemoveComponent(component);
 				}
+				ImGui::EndPopup();
 			}
 
-			// 区切り
-			ImGui::Separator();
+			// ツリーの開始
+			if (open)
+			{
+				// 全プロパティを取得
+				for (auto& property : component->GetPropaties())
+				{
+					// 表示
+					// 値が変わっていたら
+					if (DrawProperty(&property))
+					{
+						component->OnValidate();
+					}
+				}
 
-			// ツリーの終了
-			ImGui::TreePop();
+				// 区切り
+				ImGui::Separator();
+
+				// ツリーの終了
+				ImGui::TreePop();
+			}
+
+			ImGui::PopID();
 		}
 
-		ImGui::PopID();
+		ImGui::EndChild();
+
+		// AddComponentボタンを追加
+		DrawAddComponent(gameObject);
 	}
 
-	ImGui::EndChild();
-
-	// AddComponentボタンを追加
-	DrawAddComponent(gameObject);
-}
-
-bool InspectorWindow::DrawProperty(const Property* property)
-{
-	// nullなら何もしない
-	if (!property) return false;
-
-	// 名前を取得
-	std::string name = property->name;
-
-	// 空時の例外処理
-	if (name.empty()) name = "Property";
-
-	// タイプによって分岐
-	switch (property->type)
+	bool InspectorWindow::DrawProperty(const Property* property)
 	{
-		// int
-	case PropertyType::Int:
-		return ImGui::DragInt(name.c_str(),
-			static_cast<int*>(property->value));
+		// nullなら何もしない
+		if (!property) return false;
 
-		// float
-	case PropertyType::Float:
-		return ImGui::DragFloat(name.c_str(),
-			static_cast<float*>(property->value), 0.1f);
+		// 名前を取得
+		std::string name = property->name;
 
-		// bool
-	case PropertyType::Bool:
-		return ImGui::Checkbox(name.c_str(),
-			static_cast<bool*>(property->value));
+		// 空時の例外処理
+		if (name.empty()) name = "Property";
 
-		// std::string
-	case PropertyType::String:
-		return ImGui::InputText(name.c_str(),
-			static_cast<std::string*>(property->value)
-		);
-		
-		// Vector2
-	case PropertyType::Vector2: 
-		return ImGui::DragFloat2(name.c_str(),
-			&static_cast<DirectX::SimpleMath::Vector2*>(property->value)->x, 0.1f);
-
-		// Vector3
-	case PropertyType::Vector3:
-		return ImGui::DragFloat3(name.c_str(),
-			&static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
-
-		// Quaternion
-	case PropertyType::Quaternion: {
-		// 変換
-		DirectX::SimpleMath::Quaternion* q = static_cast<DirectX::SimpleMath::Quaternion*>(property->value);
-		// オイラー角へ
-		DirectX::SimpleMath::Vector3 euler = q->ToEuler();
-		// 表示
-		if (ImGui::DragFloat3(name.c_str(), &euler.x, DirectX::XM_PI / 128))
+		// タイプによって分岐
+		switch (property->type)
 		{
-			// 変更
-			*q = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler.y, euler.x, euler.z);
+			// int
+		case PropertyType::Int:
+			return ImGui::DragInt(name.c_str(),
+				static_cast<int*>(property->value));
 
-			return true;
+			// float
+		case PropertyType::Float:
+			return ImGui::DragFloat(name.c_str(),
+				static_cast<float*>(property->value), 0.1f);
+
+			// bool
+		case PropertyType::Bool:
+			return ImGui::Checkbox(name.c_str(),
+				static_cast<bool*>(property->value));
+
+			// std::string
+		case PropertyType::String:
+			return ImGui::InputText(name.c_str(),
+				static_cast<std::string*>(property->value)
+			);
+
+			// Vector2
+		case PropertyType::Vector2:
+			return ImGui::DragFloat2(name.c_str(),
+				&static_cast<DirectX::SimpleMath::Vector2*>(property->value)->x, 0.1f);
+
+			// Vector3
+		case PropertyType::Vector3:
+			return ImGui::DragFloat3(name.c_str(),
+				&static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
+
+			// Quaternion
+		case PropertyType::Quaternion: {
+			// 変換
+			DirectX::SimpleMath::Quaternion* q = static_cast<DirectX::SimpleMath::Quaternion*>(property->value);
+			// オイラー角へ
+			DirectX::SimpleMath::Vector3 euler = q->ToEuler();
+			// 表示
+			if (ImGui::DragFloat3(name.c_str(), &euler.x, DirectX::XM_PI / 128))
+			{
+				// 変更
+				*q = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler.y, euler.x, euler.z);
+
+				return true;
+			}
+			return false;
 		}
+
+									 // Color
+		case PropertyType::Color:
+			return ImGui::ColorEdit4(name.c_str(),
+				&static_cast<DirectX::SimpleMath::Color*>(property->value)->x
+			);
+
+		default:
+			break;
+		}
+
 		return false;
 	}
 
-		// Color
-	case PropertyType::Color:
-		return ImGui::ColorEdit4(name.c_str(),
-			&static_cast<DirectX::SimpleMath::Color*>(property->value)->x
-		);
-
-	default:
-		break;
-	}
-
-	return false;
-}
-
-void InspectorWindow::DrawAddComponent(GameObject* object)
-{
-	// nullなら何もしない
-	if (!object) return;
-
-	// ボタンを表示
-
-	// 押されたら
-	if (ImGui::Button("Add Component"))
+	void InspectorWindow::DrawAddComponent(GameObject* object)
 	{
-		// AddComponentのポップアップを開く
-		ImGui::OpenPopup("AddComponent");
-	}
+		// nullなら何もしない
+		if (!object) return;
 
-	// AddCompnentが開かれていたら
-	if (ImGui::BeginPopup("AddComponent"))
-	{
-		// Engine側が開かれていれば
-		if (ImGui::BeginMenu("Standard"))
+		// ボタンを表示
+
+		// 押されたら
+		if (ImGui::Button("Add Component"))
 		{
-			// Bothが開かれていれば
-			if (ImGui::BeginMenu("Both"))
-			{
-				// コンポーネントリストを表示
-				DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::Both });
-
-				//終了
-				ImGui::EndMenu();
-			}
-			// Worldが開かれていれば
-			if (ImGui::BeginMenu("World"))
-			{
-				// コンポーネントリストを表示
-				DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::World });
-
-				//終了
-				ImGui::EndMenu();
-			}
-			// UIが開かれていれば
-			if (ImGui::BeginMenu("UI"))
-			{
-				DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::UI });
-
-				ImGui::EndMenu();
-			}
-
-			ImGui::EndMenu();
+			// AddComponentのポップアップを開く
+			ImGui::OpenPopup("AddComponent");
 		}
 
-		// オリジナルが開かれていれば
-		if (ImGui::BeginMenu("Original"))
+		// AddCompnentが開かれていたら
+		if (ImGui::BeginPopup("AddComponent"))
 		{
-			// Bothが開かれていれば
-			if (ImGui::BeginMenu("Both"))
+			// Engine側が開かれていれば
+			if (ImGui::BeginMenu("Standard"))
 			{
-				// コンポーネントリストを表示
-				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::Both });
+				// Bothが開かれていれば
+				if (ImGui::BeginMenu("Both"))
+				{
+					// コンポーネントリストを表示
+					DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::Both });
 
-				//終了
+					//終了
+					ImGui::EndMenu();
+				}
+				// Worldが開かれていれば
+				if (ImGui::BeginMenu("World"))
+				{
+					// コンポーネントリストを表示
+					DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::World });
+
+					//終了
+					ImGui::EndMenu();
+				}
+				// UIが開かれていれば
+				if (ImGui::BeginMenu("UI"))
+				{
+					DrawComponentList(object, { ComponentProject::Engine, ComponentSpace::UI });
+
+					ImGui::EndMenu();
+				}
+
 				ImGui::EndMenu();
 			}
-			if (ImGui::BeginMenu("World"))
+
+			// オリジナルが開かれていれば
+			if (ImGui::BeginMenu("Original"))
 			{
-				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::World });
+				// Bothが開かれていれば
+				if (ImGui::BeginMenu("Both"))
+				{
+					// コンポーネントリストを表示
+					DrawComponentList(object, { ComponentProject::Game, ComponentSpace::Both });
+
+					//終了
+					ImGui::EndMenu();
+				}
+				if (ImGui::BeginMenu("World"))
+				{
+					DrawComponentList(object, { ComponentProject::Game, ComponentSpace::World });
+
+					ImGui::EndMenu();
+				}
+				if (ImGui::BeginMenu("UI"))
+				{
+					DrawComponentList(object, { ComponentProject::Game, ComponentSpace::UI });
+
+					ImGui::EndMenu();
+				}
 
 				ImGui::EndMenu();
 			}
-			if (ImGui::BeginMenu("UI"))
-			{
-				DrawComponentList(object, { ComponentProject::Game, ComponentSpace::UI });
-
-				ImGui::EndMenu();
-			}
-
-			ImGui::EndMenu();
+			ImGui::EndPopup();
 		}
-		ImGui::EndPopup();
 	}
-}
 
-void InspectorWindow::DrawComponentList(GameObject* object, ComponentInfo info)
-{
-	// ファクトリから候補を取得
-	for (auto& factory : ComponentFactory::m_creatorMap)
+	void InspectorWindow::DrawComponentList(GameObject* object, ComponentInfo info)
 	{
-		// 一致したら
-		if (factory.second.first.project == info.project && factory.second.first.space == info.space)
+		// ファクトリから候補を取得
+		for (auto& factory : ComponentFactory::m_creatorMap)
 		{
-			// 表示
-			if (ImGui::Selectable(factory.first.c_str()))
+			// 一致したら
+			if (factory.second.first.project == info.project && factory.second.first.space == info.space)
 			{
-				// 押されたら追加
-				factory.second.second(object);
+				// 表示
+				if (ImGui::Selectable(factory.first.c_str()))
+				{
+					// 押されたら追加
+					factory.second.second(object);
+				}
 			}
 		}
 	}
-}
+}	// namespace REngine

@@ -123,7 +123,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 // Windows procedure
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
+	if (REngine::ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
 	{
 		return true;
 	}
@@ -269,7 +269,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SYSKEYDOWN:
 		if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
 		{
-			WindowManager::Instance().SwitchScreenMode(hWnd, game);
+			REngine::WindowManager::Instance().SwitchScreenMode(hWnd);
 		}
 
 		Keyboard::ProcessMessage(message, wParam, lParam);

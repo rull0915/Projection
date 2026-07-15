@@ -12,24 +12,26 @@
 #include "pch.h"
 #include "Input/KeyInput.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-namespace Input
+namespace REngine
 {
-	// コンストラクタ
-	Key::Key()
-	{
-	}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// 更新関数
-	void Key::Update()
+	namespace Input
 	{
-		// 前フレームの情報を保持
-		m_oldState = m_nowState;
+		// コンストラクタ
+		Key::Key()
+		{}
 
-		// 最死因の情報を取得
-		m_nowState = DirectX::Keyboard::Get().GetState();
+		// 更新関数
+		void Key::Update()
+		{
+			// 前フレームの情報を保持
+			m_oldState = m_nowState;
+
+			// 最死因の情報を取得
+			m_nowState = DirectX::Keyboard::Get().GetState();
+		}
 	}
-}
+}	// namespace REngine

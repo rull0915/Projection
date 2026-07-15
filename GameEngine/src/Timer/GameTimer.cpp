@@ -14,12 +14,15 @@
 
 #include "Settings/TimeSettings.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void GameTimer::Update(float elapsedTime)
+namespace REngine
 {
-	m_elapsedTime = elapsedTime * TimeSettings::Instance().GetTimeScale();
-	m_unscaledElapsedTime = elapsedTime;
-}
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
+
+	void GameTimer::Update(float elapsedTime)
+	{
+		m_elapsedTime = elapsedTime * TimeSettings::Instance().GetTimeScale();
+		m_unscaledElapsedTime = elapsedTime;
+	}
+}	// namespace REngine

@@ -20,15 +20,15 @@
 //====================================================//
 
 // コンストラクタ
-ToSelectComponent::ToSelectComponent(IComponentOwner* own)
+ToSelectComponent::ToSelectComponent(REngine::IComponentOwner* own)
 	: ButtonListenerBase(own)
 {
 }
 
 void ToSelectComponent::OnClicked()
 {
-	SceneManager::Instance().RequestSceneChange("Select",
-		std::make_unique<Transition::Fade>(0.3f),
-		std::make_unique<Transition::Fade>(0.3f)
+	REngine::SceneManager::Instance().RequestSceneChange("Select",
+		std::make_unique<REngine::Transition::Fade>(0.3f),
+		std::make_unique<REngine::Transition::Fade>(0.3f)
 	);
 }

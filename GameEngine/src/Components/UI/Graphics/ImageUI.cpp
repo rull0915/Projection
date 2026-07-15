@@ -14,37 +14,40 @@
 
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-/// <summary>
-/// 描画関数
-/// </summary>
-/// <param name="renderer"></param>
-void ImageUI::Draw(Renderer& renderer)
+namespace REngine
 {
-	RectTransform* transform = GetRectTransform();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	// ピボットのピクセル座標
-	DirectX::SimpleMath::Vector2 pivotPixelPos = transform->GetPivotPixelPos();
+	/// <summary>
+	/// 描画関数
+	/// </summary>
+	/// <param name="renderer"></param>
+	void ImageUI::Draw(Renderer& renderer)
+	{
+		RectTransform* transform = GetRectTransform();
 
-	DirectX::SimpleMath::Vector2 pivot = transform->GetPivot();
-	DirectX::SimpleMath::Vector2 disPivot = DirectX::SimpleMath::Vector2{ 1 - pivot.x, 1 - pivot.y };
+		// ピボットのピクセル座標
+		DirectX::SimpleMath::Vector2 pivotPixelPos = transform->GetPivotPixelPos();
 
-	DirectX::SimpleMath::Vector2 size = transform->GetSize();
+		DirectX::SimpleMath::Vector2 pivot = transform->GetPivot();
+		DirectX::SimpleMath::Vector2 disPivot = DirectX::SimpleMath::Vector2{ 1 - pivot.x, 1 - pivot.y };
 
-	// 透明度を指定
-	renderer.SetAlpha(GetAlpha());
+		DirectX::SimpleMath::Vector2 size = transform->GetSize();
 
-	// 描画
-	renderer.Draw().Sprite().
-		Rect(pivotPixelPos - size * pivot, pivotPixelPos + size * disPivot).	// 矩形指定
-		Rotate(transform->GetWorldRotation()).									// 回転
-		Extend(transform->GetWorldScale()).						// 拡大縮小
-		Origin(pivot).
-		Execute(m_pTexture, GetColor() * GetMulColor());							// 描画呼び出し
+		// 透明度を指定
+		renderer.SetAlpha(GetAlpha());
 
-	// 描画後はアルファを元に戻す
-	renderer.SetAlpha(1.0f);
-}
+		// 描画
+		renderer.Draw().Sprite().
+			Rect(pivotPixelPos - size * pivot, pivotPixelPos + size * disPivot).	// 矩形指定
+			Rotate(transform->GetWorldRotation()).									// 回転
+			Extend(transform->GetWorldScale()).						// 拡大縮小
+			Origin(pivot).
+			Execute(m_pTexture, GetColor() * GetMulColor());							// 描画呼び出し
+
+		// 描画後はアルファを元に戻す
+		renderer.SetAlpha(1.0f);
+	}
+}	// namespace REngine

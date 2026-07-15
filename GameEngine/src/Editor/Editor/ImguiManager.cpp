@@ -16,61 +16,64 @@
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_dx11.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// imguiの初期化
-void ImguiManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* context)
+namespace REngine
 {
-	//  バージョンの確認
-	IMGUI_CHECKVERSION();
+	//====================================================//
+	// 関数の実体宣言
+	//====================================================//
 
-	//  コンテキストの作成
-	ImGui::CreateContext();
+	// imguiの初期化
+	void ImguiManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* context)
+	{
+		//  バージョンの確認
+		IMGUI_CHECKVERSION();
 
-	ImGuiIO& io = ImGui::GetIO();
+		//  コンテキストの作成
+		ImGui::CreateContext();
 
-	// 日本語
-	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+		ImGuiIO& io = ImGui::GetIO();
 
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
+		// 日本語
+		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 
-	//  Win32用の初期化
-	ImGui_ImplWin32_Init(hwnd);
-	//  DirectX11用の初期化
-	ImGui_ImplDX11_Init(device, context);
-}
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
 
-// フレーム開始時処理
-void ImguiManager::Update()
-{
-	// 新フレームの開始
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-}
+		//  Win32用の初期化
+		ImGui_ImplWin32_Init(hwnd);
+		//  DirectX11用の初期化
+		ImGui_ImplDX11_Init(device, context);
+	}
 
-// フレーム終了時処理
-void ImguiManager::Render()
-{
-	//  ImGuiの描画処理
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-}
+	// フレーム開始時処理
+	void ImguiManager::Update()
+	{
+		// 新フレームの開始
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
 
-// 終了処理
-void ImguiManager::Finalize()
-{
-	ImGui_ImplDX11_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
-}
+	// フレーム終了時処理
+	void ImguiManager::Render()
+	{
+		//  ImGuiの描画処理
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
 
-// メッセージ
-bool ImguiManager::ProcessMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
-{
-	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	return (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wp, lp));
-}
+	// 終了処理
+	void ImguiManager::Finalize()
+	{
+		ImGui_ImplDX11_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		ImGui::DestroyContext();
+	}
+
+	// メッセージ
+	bool ImguiManager::ProcessMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+	{
+		extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		return (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wp, lp));
+	}
+}	// namespace REngine

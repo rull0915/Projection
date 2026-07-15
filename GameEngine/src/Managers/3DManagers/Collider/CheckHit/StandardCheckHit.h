@@ -18,39 +18,42 @@
 #include "Components/World/Collider/3D/Shapes/Colliders.h"
 #include "Physics/HitInfomation.h"
 
-//====================================================//
-// 関数宣言
-//====================================================//
-
-namespace Collision
+namespace REngine
 {
-	/// <summary>
-	/// 球同士の衝突判定
-	/// </summary>
-	bool CheckHit_Sphere_Sphere(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+	//====================================================//
+	// 関数宣言
+	//====================================================//
 
-	/// <summary>
-	/// 球とカプセル
-	/// </summary>
-	bool CheckHit_Sphere_Capsule(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+	namespace Collision
+	{
+		/// <summary>
+		/// 球同士の衝突判定
+		/// </summary>
+		bool CheckHit_Sphere_Sphere(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-	/// <summary>
-	/// 球とボックス
-	/// </summary>
-	bool CheckHit_Sphere_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+		/// <summary>
+		/// 球とカプセル
+		/// </summary>
+		bool CheckHit_Sphere_Capsule(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-	/// <summary>
-	/// カプセル同士
-	/// </summary>
-	bool CheckHit_Capsule_Capsule(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+		/// <summary>
+		/// 球とボックス
+		/// </summary>
+		bool CheckHit_Sphere_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-	/// <summary>
-	/// カプセルとボックス
-	/// </summary>
-	bool CheckHit_Capsule_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+		/// <summary>
+		/// カプセル同士
+		/// </summary>
+		bool CheckHit_Capsule_Capsule(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-	/// <summary>
-	/// ボックス同士
-	/// </summary>
-	bool CheckHit_Box_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
-}
+		/// <summary>
+		/// カプセルとボックス
+		/// </summary>
+		bool CheckHit_Capsule_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+
+		/// <summary>
+		/// ボックス同士
+		/// </summary>
+		bool CheckHit_Box_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
+	}
+}	// namespace REngine

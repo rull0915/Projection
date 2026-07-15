@@ -16,91 +16,88 @@
 //====================================================//
 #include "ObjectForTree2D.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-class Cell2D
+namespace REngine
 {
-private:
+	//====================================================//
+	// クラス宣言
+	//====================================================//
+	class Cell2D
+	{
+	private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
 
-	ObjectForTree2D* m_pLatest; // 最新のオブジェクトへのポインタ
+		ObjectForTree2D* m_pLatest; // 最新のオブジェクトへのポインタ
 
-public:
+	public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
-	Cell2D() 
-		: m_pLatest{ nullptr }
-	 {
+		//-----------------------------------------------------
+		// コンストラクタ / デストラクタ
+		//-----------------------------------------------------
+		Cell2D()
+			: m_pLatest{ nullptr }
+		{};
+		~Cell2D() = default;
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
+		bool AddObject(ObjectForTree2D* obj)
+		{
+			// nullをスキップ
+			if (!obj) return false;
+
+			// 登録済みをスキップ
+			if (obj->m_pCell == this) return false;
+
+			// オブジェクトが未登録なら
+			if (!m_pLatest)
+			{
+				m_pLatest = obj;
+			}
+			// オブジェクトが登録済みなら
+			else
+			{
+				// リストへ追加
+				m_pLatest->m_pNext = obj;   // 最新の次を追加
+				obj->m_pPre = m_pLatest;    // 追加されるポインタの前を登録
+				m_pLatest = obj;            // 最新を更新
+			}
+
+			// オブジェクトを自身に所属させる
+			m_pLatest->m_pCell = this;
+			return true;
+		}
+
+		bool OnRemove(ObjectForTree2D* obj)
+		{
+			if (m_pLatest == obj) {
+				// 前のオブジェクトに挿げ替え
+				m_pLatest = m_pLatest->m_pPre;
+			}
+			return true;
+		}
+
+		void ResetLink(ObjectForTree2D*& obj)
+		{
+			// 次が存在するとき
+			if (obj->m_pNext)
+			{
+				ResetLink(obj->m_pNext);
+			}
+			obj = nullptr;
+		}
+
+		ObjectForTree2D* GetFirstObject() { return m_pLatest; }
+
+	private:
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+
 	};
-	~Cell2D() = default;
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	bool AddObject(ObjectForTree2D* obj)
-	{
-		// nullをスキップ
-		if (!obj) return false;
-
-		// 登録済みをスキップ
-		if (obj->m_pCell == this) return false;
-
-		// オブジェクトが未登録なら
-		if (!m_pLatest)
-		{
-			m_pLatest = obj;
-		}
-		// オブジェクトが登録済みなら
-		else
-		{
-			// リストへ追加
-			m_pLatest->m_pNext = obj;   // 最新の次を追加
-			obj->m_pPre = m_pLatest;    // 追加されるポインタの前を登録
-			m_pLatest = obj;            // 最新を更新
-		}
-
-		// オブジェクトを自身に所属させる
-		m_pLatest->m_pCell = this;
-		return true;
-	}
-
-	bool OnRemove(ObjectForTree2D* obj)
-	{
-		if (m_pLatest == obj) {
-			// 前のオブジェクトに挿げ替え
-			m_pLatest = m_pLatest->m_pPre;
-		}
-		return true;
-	}
-
-	void ResetLink(ObjectForTree2D* & obj)
-	{
-		// 次が存在するとき
-		if (obj->m_pNext)
-		{
-			ResetLink(obj->m_pNext);
-		}
-		obj = nullptr;
-	}
-
-	ObjectForTree2D* GetFirstObject() { return m_pLatest; }
-
-private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
-
-};
+}	// namespace REngine

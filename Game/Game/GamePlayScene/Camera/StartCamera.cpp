@@ -25,7 +25,7 @@
 //====================================================//
 
 // コンストラクタ
-StartCamera::StartCamera(IComponentOwner* own)
+StartCamera::StartCamera(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_pTransform{ nullptr }
 	, m_targetName{ "Player" }
@@ -51,23 +51,23 @@ StartCamera::StartCamera(IComponentOwner* own)
 void StartCamera::Awake()
 {
 	// トランスフォームポインタを取得
-	m_pTransform = GetComponent<Transform>();
+	m_pTransform = GetComponent<REngine::Transform>();
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます
 void StartCamera::Start()
 {
 	// シーンポインタを取得
-	Scene* pScene = static_cast<GameObject*>(GetOwn())->GetScene();
+	REngine::Scene* pScene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// ターゲットを取得
-	GameObject* target = pScene->GetObjectFinder()->FindWithNameInWorld(m_targetName);
+	REngine::GameObject* target = pScene->GetObjectFinder()->FindWithNameInWorld(m_targetName);
 
 	// 取得できなければ何もしない
 	if (!target) return;
 
 	// 保存
-	m_target = target->GetComponent<Transform>()->GetWorldPosition() + m_offset;
+	m_target = target->GetComponent<REngine::Transform>()->GetWorldPosition() + m_offset;
 
 	//----- 初期位置をセットする -----//
 
@@ -93,7 +93,7 @@ void StartCamera::Start()
 }
 
 // 毎フレーム呼ばれます
-void StartCamera::Update(const GameTimer & gameTimer)
+void StartCamera::Update(const REngine::GameTimer & gameTimer)
 {
 	// 経過時間を取得
 	float elapsedTime = gameTimer.GetElapsedTime();
@@ -134,6 +134,6 @@ void StartCamera::Update(const GameTimer & gameTimer)
 		}
 
 		// 開始イベントを呼ぶ
-		EventBus<GamePlayEvent>::Publish(GamePlayEvent::Start);
+		REngine::EventBus<GamePlayEvent>::Publish(GamePlayEvent::Start);
 	}
 }

@@ -27,7 +27,7 @@
 
 namespace Transition
 {
-	class Slide : public Base
+	class Slide : public REngine::Transition::Base
 	{
 	private:
 		//-----------------------------------------------------
@@ -74,11 +74,11 @@ namespace Transition
 
 		// 更新関数
 		// 遷移終了時にtrue
-		bool InUpdate(const GameTimer& gameTimer) override;	    // Inの場合	
-		bool OutUpdate(const GameTimer& gameTimer) override;	// Outの場合	
+		bool InUpdate(const REngine::GameTimer& gameTimer) override;	    // Inの場合	
+		bool OutUpdate(const REngine::GameTimer& gameTimer) override;	// Outの場合	
 
 		// 描画関数
-		void InRender(Renderer& renderer) override;	    // Inの場合
-		void OutRender(Renderer& renderer) override;	// Outの場合	
+		void InRender(REngine::Renderer& renderer) override;	    // Inの場合
+		void OutRender(REngine::Renderer& renderer) override;	// Outの場合	
 	};
 }

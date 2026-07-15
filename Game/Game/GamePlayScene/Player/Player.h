@@ -32,7 +32,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class Player : public WorldComponentBase
+class Player : public REngine::WorldComponentBase
 {
 private:
 
@@ -46,9 +46,9 @@ private:
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
-	Transform* m_pTransform;
+	REngine::Transform* m_pTransform;
 
-	PhysicsMaterial m_material;
+	REngine::PhysicsMaterial m_material;
 
 	// 現在の次元が2次元かどうか
 	bool m_is2D;
@@ -66,7 +66,7 @@ public:
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
 
-	Player(IComponentOwner* owner);
+	Player(REngine::IComponentOwner* owner);
 	~Player();
 
 	//-----------------------------------------------------
@@ -74,13 +74,13 @@ public:
 	//-----------------------------------------------------
 
 	void Start() override;
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
-	void OnCollisionEnter(HitContact& contact) override;
-	void OnCollisionEnter2D(HitContact2D& contact) override;
+	void OnCollisionEnter(REngine::HitContact& contact) override;
+	void OnCollisionEnter2D(REngine::HitContact2D& contact) override;
 
-	void OnTriggerStay(HitContact& contact) override;
-	void OnTriggerExit(HitContact& contact) override;
+	void OnTriggerStay(REngine::HitContact& contact) override;
+	void OnTriggerExit(REngine::HitContact& contact) override;
 
 	// ジャンプ可能かどうか
 	bool CanJump() const { return m_canJump; }
@@ -98,7 +98,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<Player>();
+		return REngine::TypeIDGenerator::GetID<Player>();
 	}
 
 private:
@@ -108,8 +108,8 @@ private:
 	//-----------------------------------------------------
 
 	// 2D時の更新関数
-	void Update2D(const GameTimer& timer);
+	void Update2D(const REngine::GameTimer& timer);
 
 	// 3D時の更新関数
-	void Update3D(const GameTimer& timer);
+	void Update3D(const REngine::GameTimer& timer);
 };

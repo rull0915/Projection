@@ -24,7 +24,7 @@ using namespace DirectX;
 // 関数の実体宣言
 //====================================================//
 
-ConvexPolygonCollider2D::ConvexPolygonCollider2D(IComponentOwner* owner)
+ConvexPolygonCollider2D::ConvexPolygonCollider2D(REngine::IComponentOwner* owner)
 	: ColliderBase2D(owner)
 	, m_localVertices{}
 	, m_worldVertices{}
@@ -56,13 +56,13 @@ void ConvexPolygonCollider2D::CorrectionClockWise()
 
 void ConvexPolygonCollider2D::UpdateCache() const
 {
-	Transform* pT = GetTransform();
+	REngine::Transform* pT = GetTransform();
 
 	// ----- 中心座標の更新 ----- //
 	SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
 	SimpleMath::Vector3 center3D = SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
 
-	auto& world2D = WorldSetting2D::Instance();
+	auto& world2D = REngine::WorldSetting2D::Instance();
 
 	SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
 	SetWorldPosition(center);
@@ -105,7 +105,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
 			if (p.y > max.y) max.y = p.y;
 		}
 
-		AABB2D boundingBox(min, max);
+		REngine::AABB2D boundingBox(min, max);
 
 		SetBoundingBox(boundingBox);
 	}
@@ -117,7 +117,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
 	ApplyVersion();
 }
 
-void ConvexPolygonCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+void ConvexPolygonCollider2D::DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color)
 {
 	auto& vertices = GetWorldVertices();
 	auto& vertices3D = GetWorldVertices3D();

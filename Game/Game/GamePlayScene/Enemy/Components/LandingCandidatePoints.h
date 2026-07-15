@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class LandingCandidatePoints : public WorldComponentBase
+class LandingCandidatePoints : public REngine::WorldComponentBase
 {
 private:
 
@@ -48,7 +48,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_centerPoint;
 
 	// 自身と対応するコライダー
-	ColliderBase* m_ownCollider;
+	REngine::ColliderBase* m_ownCollider;
 
 	// バージョン
 	uint32_t m_latestVersion;
@@ -61,7 +61,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	LandingCandidatePoints(IComponentOwner* owner)
+	LandingCandidatePoints(REngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_candidatePoints(0)
 		, m_centerPoint{}
@@ -81,9 +81,9 @@ public:
 
 	void Start() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
-	ColliderBase* GetOwnCollider() const { return m_ownCollider; }
+	REngine::ColliderBase* GetOwnCollider() const { return m_ownCollider; }
 
 	// 候補点をすべて取得する関数
 	const std::vector<DirectX::SimpleMath::Vector3>& GetPoints() const { return m_candidatePoints; }
@@ -100,7 +100,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<LandingCandidatePoints>();
+		return REngine::TypeIDGenerator::GetID<LandingCandidatePoints>();
 	}
 
 private:

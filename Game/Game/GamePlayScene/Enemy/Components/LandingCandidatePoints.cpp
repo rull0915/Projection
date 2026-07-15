@@ -25,7 +25,7 @@ void LandingCandidatePoints::Start()
 {
 	// コライダーを取得
 	// 1つ目のみに対応
-	m_ownCollider = static_cast<ColliderBase*>(GetOwn()->GetComponentWithCategory(Category::Collider));
+	m_ownCollider = static_cast<REngine::ColliderBase*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider));
 
 	// 取得できなかったら何もしない
 	if (!m_ownCollider) return;
@@ -37,12 +37,12 @@ void LandingCandidatePoints::Start()
 	m_latestVersion = m_ownCollider->GetVersion();
 }
 
-void LandingCandidatePoints::Update(const GameTimer& gameTimer)
+void LandingCandidatePoints::Update(const REngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
 	// 再取得
-	m_ownCollider = static_cast<ColliderBase*>(GetOwn()->GetComponentWithCategory(Category::Collider));
+	m_ownCollider = static_cast<REngine::ColliderBase*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider));
 
 	// 再取得も失敗したら何もしない
 	if (!m_ownCollider) return;
@@ -57,7 +57,7 @@ void LandingCandidatePoints::Update(const GameTimer& gameTimer)
 		UpdateCandidatePoints();
 
 		// 中心点の更新
-		m_centerPoint = GetComponent<Transform>()->GetWorldPosition();
+		m_centerPoint = GetComponent<REngine::Transform>()->GetWorldPosition();
 	}
 }
 
@@ -69,12 +69,12 @@ void LandingCandidatePoints::UpdateCandidatePoints()
 	// コライダーのタイプごとに処理を分ける
 	switch (m_ownCollider->GetType())
 	{
-	case ColliderType::Box:
+	case REngine::ColliderType::Box:
 		UpdateCandidatePointsOnBox();
 		break;
-	case ColliderType::Capsule:
+	case REngine::ColliderType::Capsule:
 		break;
-	case ColliderType::Sphere:
+	case REngine::ColliderType::Sphere:
 		break;
 	default:
 		break;
@@ -88,7 +88,7 @@ void LandingCandidatePoints::UpdateCandidatePointsOnBox()
 	using namespace DirectX;
 
 	// ボックスコライダーに変換
-	BoxCollider* collider = static_cast<BoxCollider*>(m_ownCollider);
+	REngine::BoxCollider* collider = static_cast<REngine::BoxCollider*>(m_ownCollider);
 
 	// 変換に失敗したら何もしない
 	if (!collider) return;

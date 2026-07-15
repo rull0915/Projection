@@ -26,25 +26,24 @@
 #include "ObjectFinder.h"
 #include "MainScreen.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-class Renderer;
-class CameraBase;
-class Canvas;
-
-class SceneRenderer;
-class UpdatePipeline;
-class ObjectManager;
-class UIManager;
-
-//====================================================//
-// クラス宣言
-//====================================================//
-
 namespace REngine
 {
+	//====================================================//
+	// 前方宣言
+	//====================================================//
+
+	class Renderer;
+	class CameraBase;
+	class Canvas;
+
+	class SceneRenderer;
+	class UpdatePipeline;
+	class ObjectManager;
+	class UIManager;
+
+	//====================================================//
+	// クラス宣言
+	//====================================================//
 	class Scene final
 	{
 	private:

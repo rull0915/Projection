@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class DimentionManager : public WorldComponentBase, public IComponentListener
+class DimentionManager : public REngine::WorldComponentBase, public REngine::IComponentListener
 {
 private:
 	// 状態
@@ -71,7 +71,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	DimentionManager(IComponentOwner* owner);
+	DimentionManager(REngine::IComponentOwner* owner);
 	~DimentionManager() = default;
 
 	//-----------------------------------------------------
@@ -82,7 +82,7 @@ public:
 	void Awake() override;
 
 	// 更新関数
-	void Update(const GameTimer& timer) override;
+	void Update(const REngine::GameTimer& timer) override;
 
 	// 次元を切り替える関数
 	void ChangeDimention(float changeTime = 1.0f);
@@ -93,13 +93,13 @@ public:
 	void OnComponentAdded(ComponentBase* component) override
 	{
 		// ChangeColliderの場合
-		if (component->GetID() == TypeIDGenerator::GetID<ChangeColliderComponent>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<ChangeColliderComponent>())
 		{
 			m_addReserves.push_back(static_cast<ChangeColliderComponent*>(component));
 		}
 
 		// カメラの場合
-		if (component->GetID() == TypeIDGenerator::GetID<ProjectionSmoothCamera>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<ProjectionSmoothCamera>())
 		{
 			m_pCamera = static_cast<ProjectionSmoothCamera*>(component);
 		}
@@ -109,13 +109,13 @@ public:
 	void OnComponentRemoved(ComponentBase* component) override
 	{
 		// ChangeColliderの場合
-		if (component->GetID() == TypeIDGenerator::GetID<ChangeColliderComponent>()) 
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<ChangeColliderComponent>()) 
 		{
 			m_removeReserves.push_back(static_cast<ChangeColliderComponent*>(component));
 		}
 
 		// カメラの場合
-		if (component->GetID() == TypeIDGenerator::GetID<ProjectionSmoothCamera>())
+		if (component->GetID() == REngine::TypeIDGenerator::GetID<ProjectionSmoothCamera>())
 		{
 			if (m_pCamera == static_cast<ProjectionSmoothCamera*>(component)) m_pCamera = nullptr;
 		}
@@ -140,7 +140,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<DimentionManager>();
+		return REngine::TypeIDGenerator::GetID<DimentionManager>();
 	}
 
 private:

@@ -23,7 +23,7 @@
 //====================================================//
 
 // コンストラクタ
-SelectBlock::SelectBlock(IComponentOwner* own)
+SelectBlock::SelectBlock(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_targetScene{}
 	, m_uiName{}
@@ -37,26 +37,26 @@ void SelectBlock::Start()
 {
 	// UIオブジェクトを取得
 	m_uiObject =
-		static_cast<GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInUI(m_uiName);
+		static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInUI(m_uiName);
 }
 
-void SelectBlock::OnTriggerStay(HitContact & contact)
+void SelectBlock::OnTriggerStay(REngine::HitContact & contact)
 {
 	// プレイヤーが当たっているとき
 	if (contact.other->GetTag() == "Player")
 	{
 		// スペースキーでシーン移動
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::Space))
+		if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Space))
 		{
-			SceneManager::Instance().RequestSceneChange(m_targetScene,
-				std::make_unique<Transition::Fade>(),
-				std::make_unique<Transition::Fade>()
+			REngine::SceneManager::Instance().RequestSceneChange(m_targetScene,
+				std::make_unique<REngine::Transition::Fade>(),
+				std::make_unique<REngine::Transition::Fade>()
 				);
 		}
 	}
 }
 
-void SelectBlock::OnTriggerEnter(HitContact& contact)
+void SelectBlock::OnTriggerEnter(REngine::HitContact& contact)
 {
 	contact;
 
@@ -64,7 +64,7 @@ void SelectBlock::OnTriggerEnter(HitContact& contact)
 	if (m_uiObject) m_uiObject->SetActive(true);
 }
 
-void SelectBlock::OnTriggerExit(HitContact & contact)
+void SelectBlock::OnTriggerExit(REngine::HitContact & contact)
 {
 	contact;
 

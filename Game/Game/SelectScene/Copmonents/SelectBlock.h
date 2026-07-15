@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class SelectBlock : public WorldComponentBase
+class SelectBlock : public REngine::WorldComponentBase
 {
 private:
 
@@ -48,14 +48,14 @@ private:
 	std::string m_uiName;
 
 	// UIオブジェクト
-	GameObject* m_uiObject;
+	REngine::GameObject* m_uiObject;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	SelectBlock(IComponentOwner* own);
+	SelectBlock(REngine::IComponentOwner* own);
 	~SelectBlock() = default;
 
 	//-----------------------------------------------------
@@ -64,9 +64,9 @@ public:
 
 	void Start() override;
 
-	void OnTriggerStay(HitContact& contact) override;
-	void OnTriggerEnter(HitContact& contact) override;
-	void OnTriggerExit(HitContact& contact) override;
+	void OnTriggerStay(REngine::HitContact& contact) override;
+	void OnTriggerEnter(REngine::HitContact& contact) override;
+	void OnTriggerExit(REngine::HitContact& contact) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -75,7 +75,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<SelectBlock>();
+		return REngine::TypeIDGenerator::GetID<SelectBlock>();
 	}
 
 private:

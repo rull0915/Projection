@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ClearEffect : public WorldComponentBase
+class ClearEffect : public REngine::WorldComponentBase
 {
 private:
 
@@ -45,7 +45,7 @@ private:
 	std::string m_clearUIName;
 
 	// クリアUI
-	GameObject* m_clearUI;
+	REngine::GameObject* m_clearUI;
 
 	// クリアシーンへ移行するまでの時間
 	float m_toClearTime;
@@ -61,7 +61,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ClearEffect(IComponentOwner* own);
+	ClearEffect(REngine::IComponentOwner* own);
 	~ClearEffect() = default;
 
 	//-----------------------------------------------------
@@ -73,7 +73,7 @@ public:
 
 	void OnDestroy() override;
 
-	void Update(const GameTimer& gameTimer) override;
+	void Update(const REngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -82,7 +82,7 @@ public:
 	// ID取得
 	unsigned int GetID() override
 	{
-		return TypeIDGenerator::GetID<ClearEffect>();
+		return REngine::TypeIDGenerator::GetID<ClearEffect>();
 	}
 
 	//-----------------------------------------------------

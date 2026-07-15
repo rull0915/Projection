@@ -52,10 +52,10 @@ Game::Game() noexcept(false)
 Game::~Game()
 {
 	// シーンの終了
-	SceneManager::Instance().Finalize();
+	REngine::SceneManager::Instance().Finalize();
 
 	// Imguiの終了
-	ImguiManager::Finalize();
+	REngine::ImguiManager::Finalize();
 }
 
 // Initialize the Direct3D resources required to run.
@@ -70,38 +70,38 @@ void Game::Initialize(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
-	auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
-	auto* context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+	auto* device = REngine::ResourceManager::Instance().GetResources()->GetD3DDevice();
+	auto* context = REngine::ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
 
 	// ゲームエンジンの初期化
-	EngineInitializer::EngineInitialize();
+	REngine::EngineInitializer::EngineInitialize();
 
 	// ゲームの初期化
 	GameInitializer::Initialize();
 
 	// 乱数の初期化
-	Random::Init();
+	REngine::Random::Init();
 
 	// 背景色の設定
-	WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
+	REngine::WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
 	
 	// imguiの初期化
-	ImguiManager::Initialize(window, device, context);
+	REngine::ImguiManager::Initialize(window, device, context);
 
 	// エディターの生成
-	m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene());
+	m_editor = std::make_unique<REngine::SceneEditor>(REngine::SceneManager::Instance().GetCurrentScene());
 
 	// ====== シーンの登録 ====== //
-	SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
-	SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");
-	SceneManager::Instance().RegisterScene("Stage2", L"Resources/Scenes/Stage2.scene");
-	SceneManager::Instance().RegisterScene("Stage3", L"Resources/Scenes/Stage3.scene");
-	SceneManager::Instance().RegisterScene("Select", L"Resources/Scenes/SelectScene.scene");
-	SceneManager::Instance().RegisterScene("Clear", L"Resources/Scenes/ClearScene.scene");
-	SceneManager::Instance().RegisterScene("GameOver", L"Resources/Scenes/GameOverScene.scene");
+	REngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
+	REngine::SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");
+	REngine::SceneManager::Instance().RegisterScene("Stage2", L"Resources/Scenes/Stage2.scene");
+	REngine::SceneManager::Instance().RegisterScene("Stage3", L"Resources/Scenes/Stage3.scene");
+	REngine::SceneManager::Instance().RegisterScene("Select", L"Resources/Scenes/SelectScene.scene");
+	REngine::SceneManager::Instance().RegisterScene("Clear", L"Resources/Scenes/ClearScene.scene");
+	REngine::SceneManager::Instance().RegisterScene("GameOver", L"Resources/Scenes/GameOverScene.scene");
 
 	// 開始時のシーンを設定
-	SceneManager::Instance().SetStartScene("Title");
+	REngine::SceneManager::Instance().SetStartScene("Title");
 
 	// ====== リソースの追加 ====== //
 
@@ -130,7 +130,7 @@ void Game::Initialize(HWND window, int width, int height)
 void Game::Tick()
 {
 	// Imguiの更新
-	ImguiManager::Update();
+	REngine::ImguiManager::Update();
 
 	m_timer.Tick([&]()
 	{
@@ -150,8 +150,8 @@ void Game::Update(DX::StepTimer const& timer)
 	TitleNameUpdate(elapsedTime);
 
 	// 入力情報の更新
-	Input::Key::Update();
-	Input::Mouse::Update();
+	REngine::Input::Key::Update();
+	REngine::Input::Mouse::Update();
 
 	// 終了チェック
     if (m_exitTrans)
@@ -160,34 +160,34 @@ void Game::Update(DX::StepTimer const& timer)
     }
 
 	// エスケープキーで終了
-	if (Input::Key::Get(Input::State::Down, Input::Key::Code::Escape))
+	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Escape))
 	{
 		RequestExit();
 	}
 
 	// デバッグマネージャーの更新
-	DebugManager::Instance().Update(elapsedTime);
+	REngine::DebugManager::Instance().Update(elapsedTime);
 
 	// リソースマネージャーの更新
-	ResourceManager::Instance().Update();
+	REngine::ResourceManager::Instance().Update();
 
 	// タイマーの更新
 	m_gameTimer.Update(elapsedTime);
 
 	// 各シーンの更新
 	if (
-		!DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
-		DebugManager::Instance().IsStepUpdate()      // ステップ実行フレーム
+		!REngine::DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
+		REngine::DebugManager::Instance().IsStepUpdate()      // ステップ実行フレーム
 		)
-		SceneManager::Instance().Update(m_gameTimer);
+		REngine::SceneManager::Instance().Update(m_gameTimer);
 
 #ifdef _DEBUG
 	// エディターの更新
 	m_editor->Update(m_gameTimer);
 
 	// Ctrl + Eキーでエディット
-	if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
-		Input::Key::Get(Input::State::Down, Input::Key::Code::E))
+	if (REngine::Input::Key::Get(REngine::Input::State::Press, REngine::Input::Key::Code::LeftControl) &&
+		REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::E))
 	{
 		m_editor->Initialize();
 	}
@@ -215,7 +215,7 @@ void Game::Render()
 	// 描画の開始 ----------------------------------------
 
 	// 現在のシーンの描画
-	SceneManager::Instance().Render(m_renderer);
+	REngine::SceneManager::Instance().Render(m_renderer);
 
 #ifdef _DEBUG
 
@@ -238,7 +238,7 @@ void Game::Render()
 #ifdef _DEBUG
 
 	// Imguiの描画
-	ImguiManager::Render();
+	REngine::ImguiManager::Render();
 
 #endif
 
@@ -256,7 +256,7 @@ void Game::Clear()
 	auto renderTarget = m_deviceResources->GetRenderTargetView();
 	auto depthStencil = m_deviceResources->GetDepthStencilView();
 
-	auto color = WindowManager::Instance().GetBackGroundColor();
+	auto color = REngine::WindowManager::Instance().GetBackGroundColor();
 	
 	context->ClearRenderTargetView(renderTarget, color);
 	context->ClearDepthStencilView(depthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -319,8 +319,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 void Game::GetDefaultSize(int& width, int& height) const noexcept
 {
 	// TODO: Change to desired default window size (note minimum size is 320x200).
-	width = WindowManager::Instance().GetWidth();
-	height = WindowManager::Instance().GetHeight();
+	width = REngine::WindowManager::Instance().GetWidth();
+	height = REngine::WindowManager::Instance().GetHeight();
 }
 #pragma endregion
 
@@ -338,7 +338,7 @@ void Game::CreateDeviceDependentResources()
 	m_renderer.Initialize(device, context, states);
 
 	// リソースマネージャの初期化
-	ResourceManager::Instance().Initialize(m_deviceResources.get());
+	REngine::ResourceManager::Instance().Initialize(m_deviceResources.get());
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.
