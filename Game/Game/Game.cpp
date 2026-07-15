@@ -121,6 +121,8 @@ void Game::Initialize(HWND window, int width, int height)
 	ResourceReader::ReadObjects(L"Resources/Objects");
 
 	// ========================== //
+
+//	m_editor->Initialize();
 }
 
 #pragma region Frame Update
@@ -347,6 +349,8 @@ void Game::CreateWindowSizeDependentResources()
 
 void Game::TitleNameUpdate(float elapsedTime)
 {
+	elapsedTime;
+
 	// デバッグなら
 #ifdef _DEBUG
 
