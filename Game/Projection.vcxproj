@@ -110,7 +110,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir);
 $(ProjectDir)
-%(AdditionalIncludeDirectories);$(SolutionDir)/GameEngine/include/;$(SolutionDir)/GameEditor/include/;</AdditionalIncludeDirectories>
+%(AdditionalIncludeDirectories);$(SolutionDir)/GameEngine/include/;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -139,6 +139,9 @@ $(ProjectDir)
     <PreBuildEvent>
       <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /E /Y /I "$(SolutionDir)GameEngine\Resources" "$(ProjectDir)Resources"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -170,7 +173,7 @@ $(ProjectDir)
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir);
 $(ProjectDir)
-%(AdditionalIncludeDirectories);$(SolutionDir)/GameEngine/include/;$(SolutionDir)/GameEditor/include/;</AdditionalIncludeDirectories>
+%(AdditionalIncludeDirectories);$(SolutionDir)/GameEngine/include/;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -198,6 +201,9 @@ $(ProjectDir)
     <PreBuildEvent>
       <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /E /Y /I "$(SolutionDir)GameEngine\Resources" "$(ProjectDir)Resources"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameLib\Colliders\CheckHit.h">
@@ -209,7 +215,6 @@ $(ProjectDir)
       </SubType>
     </ClInclude>
     <ClInclude Include="GameLib\Colliders\ConvexPolygonCollider2D.h" />
-    <ClInclude Include="GameLib\Common\ResourceReader.h" />
     <ClInclude Include="GameLib\Components\CatmullRomComponent.h" />
     <ClInclude Include="GameLib\Components\ClickSE.h" />
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
@@ -270,7 +275,6 @@ $(ProjectDir)
       </SubType>
     </ClCompile>
     <ClCompile Include="GameLib\Colliders\ConvexPolygonCollider2D.cpp" />
-    <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
     <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp" />
     <ClCompile Include="GameLib\Components\ClickSE.cpp" />
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
@@ -332,32 +336,14 @@ $(ProjectDir)
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
       <Project>{92af323a-9cde-4d83-ac9a-a51566f408ed}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shaders\SkyboxEffect_PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources/Shaders/%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-    <FxCompile Include="Shaders\SkyboxEffect_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources/Shaders/%(Filename).cso</ObjectFileOutput>
-    </FxCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\directxtk_desktop_win10.2026.4.1.1\build\native\directxtk_desktop_win10.targets" Condition="Exists('packages\directxtk_desktop_win10.2026.4.1.1\build\native\directxtk_desktop_win10.targets')" />
     <Import Project="..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets" Condition="Exists('..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" />
     <Import Project="..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" />
   </ImportGroup>
@@ -365,7 +351,6 @@ $(ProjectDir)
     <PropertyGroup>
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\directxtk_desktop_win10.2026.4.1.1\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_desktop_win10.2026.4.1.1\build\native\directxtk_desktop_win10.targets'))" />
     <Error Condition="!Exists('..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets'))" />
     <Error Condition="!Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
   </Target>

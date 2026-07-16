@@ -5,5 +5,4 @@
   </Configurations>
   <Project Path="Game/Projection.vcxproj" Id="d522513f-cf95-46e3-9768-9d55ae35739c" />
   <Project Path="GameEngine/GameEngine.vcxproj" Id="92af323a-9cde-4d83-ac9a-a51566f408ed" />
-  <Project Path="ResourceBuild/ResourceBuild.vcxproj" Id="2165b15f-a117-4bd7-87b7-89e9cb2f92b2" />
 </Solution>

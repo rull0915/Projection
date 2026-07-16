@@ -6,23 +6,17 @@
 #include "Game.h"
 
 // 各システム管理クラス
-#include "Debug/DebugManager.h"			// デバッグ	
-#include "System/WindowManager.h"		// ウィンドウ	
-#include "System/ResourceManager.h"		// リソース
-#include "Editor/Editor/ImguiManager.h"	// imgui
-#include "Scene/SceneManager.h"			// シーン
+#include "System/WindowManager.h"	// ウィンドウ	
+#include "Scene/SceneManager.h"		// シーン
 
 // 各プロジェクト初期化
-#include "System/EngineInitializer.h"			// エンジン部分	
-#include "GameInitializer.h"					// ゲーム部分	
+#include "GameInitializer.h"		// ゲーム部分	
 
 // 入力
-#include "Input/KeyInput.h"				// キー	
-#include "Input/MouseInput.h"			// マウス
+#include "Input/KeyInput.h"			// キー	
 
 // その他
-#include "Common/Random.h"
-#include "GameLib/Common/ResourceReader.h"
+#include "Common/ResourceReader.h"
 #include "GameLib/Transition/SlideTransition.h"
 
 extern void ExitGame() noexcept;
@@ -35,9 +29,7 @@ Game::Game() noexcept(false)
 	: m_fps{}
 	, m_timeAccumulator{}
 	, m_frameCount{}
-	, m_renderer{}
-	, m_editor{}
-	, m_gameTimer{}
+	, m_gameEngine{ std::make_unique<REngine::GameEngine>() }
 {
 	m_deviceResources = std::make_unique<DX::DeviceResources>();
 	// TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -51,11 +43,8 @@ Game::Game() noexcept(false)
 /// </summary>
 Game::~Game()
 {
-	// シーンの終了
-	REngine::SceneManager::Instance().Finalize();
-
-	// Imguiの終了
-	REngine::ImguiManager::Finalize();
+	// ゲームエンジンの終了処理
+	m_gameEngine->Finalize();
 }
 
 // Initialize the Direct3D resources required to run.
@@ -70,26 +59,11 @@ void Game::Initialize(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
-	auto* device = REngine::ResourceManager::Instance().GetResources()->GetD3DDevice();
-	auto* context = REngine::ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
-
 	// ゲームエンジンの初期化
-	REngine::EngineInitializer::EngineInitialize();
+	m_gameEngine->Initialize(m_deviceResources.get(), window);
 
 	// ゲームの初期化
 	GameInitializer::Initialize();
-
-	// 乱数の初期化
-	REngine::Random::Init();
-
-	// 背景色の設定
-	REngine::WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
-	
-	// imguiの初期化
-	REngine::ImguiManager::Initialize(window, device, context);
-
-	// エディターの生成
-	m_editor = std::make_unique<REngine::SceneEditor>(REngine::SceneManager::Instance().GetCurrentScene());
 
 	// ====== シーンの登録 ====== //
 	REngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
@@ -106,31 +80,22 @@ void Game::Initialize(HWND window, int width, int height)
 	// ====== リソースの追加 ====== //
 
 	// テクスチャ
-	ResourceReader::ReadTextures(L"Resources/Textures");
-
+	REngine::ResourceReader::ReadTextures(L"Resources/Textures");
 	// 音
-	ResourceReader::ReadSounds(L"Resources/Sounds");
-
+	REngine::ResourceReader::ReadSounds(L"Resources/Sounds");
 	// フォント
-	ResourceReader::ReadFonts(L"Resources/Fonts");
-
+	REngine::ResourceReader::ReadFonts(L"Resources/Fonts");
 	// モデル
-	ResourceReader::ReadModels(L"Resources/Models");
-
+	REngine::ResourceReader::ReadModels(L"Resources/Models");
 	// オブジェクト
-	ResourceReader::ReadObjects(L"Resources/Objects");
-
-	// ========================== //
-
-//	m_editor->Initialize();
+	REngine::ResourceReader::ReadObjects(L"Resources/Objects");
 }
 
 #pragma region Frame Update
 // Executes the basic game loop.
 void Game::Tick()
 {
-	// Imguiの更新
-	REngine::ImguiManager::Update();
+	m_gameEngine->BeginFrame();
 
 	m_timer.Tick([&]()
 	{
@@ -149,49 +114,19 @@ void Game::Update(DX::StepTimer const& timer)
 
 	TitleNameUpdate(elapsedTime);
 
-	// 入力情報の更新
-	REngine::Input::Key::Update();
-	REngine::Input::Mouse::Update();
-
 	// 終了チェック
 	if (m_exitTrans)
 	{
-		if (m_exitTrans->OutUpdate(m_gameTimer)) ExitGame();
+		if (m_exitTrans->OutUpdate(m_gameEngine->GetTimer())) ExitGame();
 	}
-
 	// エスケープキーで終了
 	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Escape))
 	{
 		RequestExit();
 	}
 
-	// デバッグマネージャーの更新
-	REngine::DebugManager::Instance().Update(elapsedTime);
-
-	// リソースマネージャーの更新
-	REngine::ResourceManager::Instance().Update();
-
-	// タイマーの更新
-	m_gameTimer.Update(elapsedTime);
-
-	// 各シーンの更新
-	if (
-		!REngine::DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
-		REngine::DebugManager::Instance().IsStepUpdate()      // ステップ実行フレーム
-		)
-		REngine::SceneManager::Instance().Update(m_gameTimer);
-
-#ifdef _DEBUG
-	// エディターの更新
-	m_editor->Update(m_gameTimer);
-
-	// Ctrl + Eキーでエディット
-	if (REngine::Input::Key::Get(REngine::Input::State::Press, REngine::Input::Key::Code::LeftControl) &&
-		REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::E))
-	{
-		m_editor->Initialize();
-	}
-#endif
+	// ゲームエンジンの更新
+	m_gameEngine->Update(elapsedTime);
 }
 #pragma endregion
 
@@ -214,33 +149,20 @@ void Game::Render()
 
 	// 描画の開始 ----------------------------------------
 
-	// 現在のシーンの描画
-	REngine::SceneManager::Instance().Render(m_renderer);
-
-#ifdef _DEBUG
-
-	// エディターの描画
-	m_editor->Render(m_renderer);
-
-#endif
+	// ゲームエンジンの描画
+	m_gameEngine->Render();
 
 	if (m_exitTrans)
 	{
-		m_renderer.Start(context);
-		m_exitTrans->OutRender(m_renderer);
-		m_renderer.End();
+		auto& renderer = m_gameEngine->GetRenderer();
+		renderer.Start(context);
+		m_exitTrans->OutRender(renderer);
+		renderer.End();
 	}
 
 	// 描画の終了 ----------------------------------------
 
 	m_deviceResources->PIXEndEvent();
-
-#ifdef _DEBUG
-
-	// Imguiの描画
-	REngine::ImguiManager::Render();
-
-#endif
 
 	// Show the new frame.
 	m_deviceResources->Present();
@@ -328,17 +250,7 @@ void Game::GetDefaultSize(int& width, int& height) const noexcept
 // These are the resources that depend on the device.
 void Game::CreateDeviceDependentResources()
 {
-	auto device = m_deviceResources->GetD3DDevice();
-	auto context = m_deviceResources->GetD3DDeviceContext();
-	auto states = m_deviceResources->GetCommonStates();
-
 	// TODO: Initialize device dependent objects here (independent of window size).
-
-	// 描画クラスの初期化
-	m_renderer.Initialize(device, context, states);
-
-	// リソースマネージャの初期化
-	REngine::ResourceManager::Instance().Initialize(m_deviceResources.get());
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

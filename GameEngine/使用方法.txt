@@ -1,0 +1,5 @@
+プロジェクト / 追加 / 参照 からGameEngineプロジェクトを参照に追加
+
+プロパティ-> C/C++ / 全般 / 追加のインクルードディレクトリ に追加
+
+$(SolutionDir)/GameEngine/include/;

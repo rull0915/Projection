@@ -6,12 +6,10 @@
 
 #include "System/DeviceResources.h"
 #include "Timer/StepTimer.h"
-#include "Timer/GameTimer.h"
 
 #include <memory>
 
-#include "Renderer/Renderer.h"
-#include "Editor/SceneEditor.h"
+#include "GameEngine.h"
 #include "Scene/Transition/TransitionBase.h"
 
 // A basic game implementation that creates a D3D11 device and
@@ -80,14 +78,9 @@ public:
 	static constexpr const wchar_t TITLE_STRING[]{ L"Projection" };
 
 private:
-	// ゲームタイマー
-	REngine::GameTimer m_gameTimer;
 
-	// 描画担当
-	REngine::Renderer m_renderer;
-
-	// エディター
-	std::unique_ptr<REngine::SceneEditor> m_editor;
+	// ゲームエンジン本体
+	std::unique_ptr<REngine::GameEngine> m_gameEngine;
 
 	// 終了演出
 	std::unique_ptr<REngine::Transition::Base> m_exitTrans;
@@ -95,6 +88,5 @@ private:
 private:
 	void TitleNameUpdate(float elapsedTime);
 
-public:
 	void RequestExit();
 };

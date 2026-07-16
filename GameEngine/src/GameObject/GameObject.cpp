@@ -16,8 +16,6 @@
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
-struct HitContact;
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//

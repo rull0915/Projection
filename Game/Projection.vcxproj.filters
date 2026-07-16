@@ -154,7 +154,6 @@
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
     <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h" />
-    <ClInclude Include="GameLib\Common\ResourceReader.h" />
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\StartCamera.h" />
     <ClInclude Include="GameLib\Components\CatmullRomComponent.h" />
@@ -199,7 +198,6 @@
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
-    <ClCompile Include="GameLib\Common\ResourceReader.cpp" />
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\StartCamera.cpp" />
     <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp" />
@@ -229,10 +227,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Shaders\SkyboxEffect_Common.hlsli" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shaders\SkyboxEffect_VS.hlsl" />
-    <FxCompile Include="Shaders\SkyboxEffect_PS.hlsl" />
   </ItemGroup>
 </Project>
