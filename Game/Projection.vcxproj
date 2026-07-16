@@ -137,7 +137,7 @@ $(ProjectDir)
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <PreBuildEvent>
-      <Command>python "$(ProjectDir)Tools\GenerateEverything.py"</Command>
+      <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -196,7 +196,7 @@ $(ProjectDir)
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
     <PreBuildEvent>
-      <Command>python "$(ProjectDir)Tools\GenerateEverything.py"</Command>
+      <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

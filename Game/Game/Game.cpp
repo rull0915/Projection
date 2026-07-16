@@ -154,10 +154,10 @@ void Game::Update(DX::StepTimer const& timer)
 	REngine::Input::Mouse::Update();
 
 	// 終了チェック
-    if (m_exitTrans)
-    {
+	if (m_exitTrans)
+	{
 		if (m_exitTrans->OutUpdate(m_gameTimer)) ExitGame();
-    }
+	}
 
 	// エスケープキーで終了
 	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Escape))

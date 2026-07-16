@@ -1,5 +1,6 @@
 from pathlib import Path
 import re
+import sys
 
 # content(...) の文字列が含まれるか調べる関数
 def contains_str_function(text, content):
@@ -17,8 +18,12 @@ def contains_str_function(text, content):
 
 def generate_component_register():
 
-    # ルートディレクトリ
-    script_dir = Path(__file__).parent
+    if getattr(sys, "frozen", False):
+        # exeとして実行されている
+        script_dir = Path(sys.executable).parent
+    else:
+        # Pythonスクリプトとして実行されている
+        script_dir = Path(__file__).parent
     game_dir = script_dir.parent
 
     # 指定したディレクトリ内のすべての .h ファイルをリストアップ
