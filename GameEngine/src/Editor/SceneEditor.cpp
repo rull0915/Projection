@@ -96,7 +96,7 @@ namespace REngine
 		m_gui.DrawWindows();
 
 		// 2つのビューを描画
-		m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetMainScreen()->GetRenderTarget()->GetShaderResourceView());
+		m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetMainScreen()->GetRenderTarget()->GetShaderResourceView(), m_sceneViewCamera);
 
 		// シーンビューカメラ
 		m_sceneViewCamera->SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);

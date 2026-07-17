@@ -23,6 +23,7 @@
 #include "InspectorWindow.h"
 #include "ProjectWindow.h"
 #include "InfoWindow.h"
+#include "GuizmoManager.h"
 
 namespace REngine
 {
@@ -64,56 +65,18 @@ namespace REngine
 		if (m_inspector->DrawInspector(m_hierarchy->GetSelected())) m_nowType = WindowType::Inspector;
 	}
 
-	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView)
+	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera)
 	{
+		// キー入力を取得し描画するギズモを変える
+		if (Input::Key::Get(Input::State::Down, Input::Key::Code::W)) GuizmoManager::SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
+		if (Input::Key::Get(Input::State::Down, Input::Key::Code::E)) GuizmoManager::SetDrawFlag(GuizmoManager::DRAW_ROTATION);
+		if (Input::Key::Get(Input::State::Down, Input::Key::Code::R)) GuizmoManager::SetDrawFlag(GuizmoManager::DRAW_SCALE);
+
 		// Sceneビューの開始
 		StartSceneView();
 
 		// 描画
-		ImGui::Text("SceneView");
-
-		// 同ライン
-		ImGui::SameLine();
-		ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical, 3.0f);
-
-		ImGui::SameLine();
-
-		// 右側に並べる要素の合計幅を計算
-		const ImGuiStyle& style = ImGui::GetStyle();
-
-		float totalWidth = 0.0f;
-
-		totalWidth += ImGui::CalcTextSize("World").x + ImGui::GetFrameHeight();
-		totalWidth += style.ItemInnerSpacing.x;
-
-		totalWidth += ImGui::CalcTextSize("UI").x + ImGui::GetFrameHeight();
-		totalWidth += style.ItemInnerSpacing.x;
-
-		totalWidth += ImGui::CalcTextSize("Debug").x + ImGui::GetFrameHeight();
-		totalWidth += style.ItemInnerSpacing.x;
-
-		// 右寄せ
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth - 30);
-
-		bool drawWorld = m_sceneDrawSetting & DrawFlag::World;
-		bool drawUI = m_sceneDrawSetting & DrawFlag::UI;
-		bool drawDebug = m_sceneDrawSetting & DrawFlag::WorldDebug;
-
-		// 描画
-		ImGui::Checkbox("World", &drawWorld);
-
-		ImGui::SameLine();
-		ImGui::Checkbox("UI", &drawUI);
-
-		ImGui::SameLine();
-		ImGui::Checkbox("Debug", &drawDebug);
-
-		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::World) | (drawWorld ? DrawFlag::World : 0);
-		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::UI) | (drawUI ? DrawFlag::UI : 0);
-		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::WorldDebug) | (drawDebug ? DrawFlag::WorldDebug : 0);
-
-		// 描画
-		DrawImage(sceneView);
+		DrawSceneView(sceneView, sceneViewCamera);
 
 		// 終了
 		ImGui::End();
@@ -185,6 +148,68 @@ namespace REngine
 			&& ImGui::IsMouseClicked(0))
 		{
 			m_nowType = WindowType::GameView;
+		}
+	}
+
+	void EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera)
+	{
+		// 描画
+		ImGui::Text("SceneView");
+
+		// 同ライン
+		ImGui::SameLine();
+		ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical, 3.0f);
+
+		ImGui::SameLine();
+
+		// 右側に並べる要素の合計幅を計算
+		const ImGuiStyle& style = ImGui::GetStyle();
+
+		float totalWidth = 0.0f;
+
+		totalWidth += ImGui::CalcTextSize("World").x + ImGui::GetFrameHeight();
+		totalWidth += style.ItemInnerSpacing.x;
+
+		totalWidth += ImGui::CalcTextSize("UI").x + ImGui::GetFrameHeight();
+		totalWidth += style.ItemInnerSpacing.x;
+
+		totalWidth += ImGui::CalcTextSize("Debug").x + ImGui::GetFrameHeight();
+		totalWidth += style.ItemInnerSpacing.x;
+
+		// 右寄せ
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth - 30);
+
+		bool drawWorld = m_sceneDrawSetting & DrawFlag::World;
+		bool drawUI = m_sceneDrawSetting & DrawFlag::UI;
+		bool drawDebug = m_sceneDrawSetting & DrawFlag::WorldDebug;
+
+		// 描画
+		ImGui::Checkbox("World", &drawWorld);
+
+		ImGui::SameLine();
+		ImGui::Checkbox("UI", &drawUI);
+
+		ImGui::SameLine();
+		ImGui::Checkbox("Debug", &drawDebug);
+
+		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::World) | (drawWorld ? DrawFlag::World : 0);
+		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::UI) | (drawUI ? DrawFlag::UI : 0);
+		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::WorldDebug) | (drawDebug ? DrawFlag::WorldDebug : 0);
+
+		// 描画
+		DrawImage(sceneView);
+
+		if (auto* g = dynamic_cast<GameObject*>(m_hierarchy->GetSelected()))
+		{
+			// ギズモ描画
+			if (auto* t = g->GetComponent<Transform>())
+			{
+				// スクリーンサイズを取得
+				ImVec2 pos = ImGui::GetWindowPos();
+				ImVec2 size = ImGui::GetWindowSize();
+
+				GuizmoManager::DrawTransformGuizmo(sceneViewCamera, t, { pos.x, pos.y }, { size.x, size.y });
+			}
 		}
 	}
 }	// namespace REngine

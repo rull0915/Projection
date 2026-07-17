@@ -17,7 +17,6 @@
 #include "Editor/Loader/ComponentFactory.h"
 
 #include "imgui/imgui.h"
-#include "imgui/imgui_stdlib.h"
 #include "Managers/UI/Canvas.h"
 
 namespace REngine
@@ -39,6 +38,7 @@ namespace REngine
 
 		// 描画終了
 		ImGui::End();
+		m_propertyOnInspector.End();
 
 		return clicked;
 	}
@@ -71,7 +71,7 @@ namespace REngine
 		for (auto& property : object->GetPropaties())
 		{
 			// 表示
-			if (DrawProperty(&property)) changed = true;
+			if (m_propertyOnInspector.DrawProperty(&property)) changed = true;
 		}
 
 		// 区切り
@@ -128,7 +128,7 @@ namespace REngine
 				{
 					// 表示
 					// 値が変わっていたら
-					if (DrawProperty(&property))
+					if (m_propertyOnInspector.DrawProperty(&property))
 					{
 						component->OnValidate();
 					}
@@ -148,81 +148,6 @@ namespace REngine
 
 		// AddComponentボタンを追加
 		DrawAddComponent(gameObject);
-	}
-
-	bool InspectorWindow::DrawProperty(const Property* property)
-	{
-		// nullなら何もしない
-		if (!property) return false;
-
-		// 名前を取得
-		std::string name = property->name;
-
-		// 空時の例外処理
-		if (name.empty()) name = "Property";
-
-		// タイプによって分岐
-		switch (property->type)
-		{
-			// int
-		case PropertyType::Int:
-			return ImGui::DragInt(name.c_str(),
-				static_cast<int*>(property->value));
-
-			// float
-		case PropertyType::Float:
-			return ImGui::DragFloat(name.c_str(),
-				static_cast<float*>(property->value), 0.1f);
-
-			// bool
-		case PropertyType::Bool:
-			return ImGui::Checkbox(name.c_str(),
-				static_cast<bool*>(property->value));
-
-			// std::string
-		case PropertyType::String:
-			return ImGui::InputText(name.c_str(),
-				static_cast<std::string*>(property->value)
-			);
-
-			// Vector2
-		case PropertyType::Vector2:
-			return ImGui::DragFloat2(name.c_str(),
-				&static_cast<DirectX::SimpleMath::Vector2*>(property->value)->x, 0.1f);
-
-			// Vector3
-		case PropertyType::Vector3:
-			return ImGui::DragFloat3(name.c_str(),
-				&static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
-
-			// Quaternion
-		case PropertyType::Quaternion: {
-			// 変換
-			DirectX::SimpleMath::Quaternion* q = static_cast<DirectX::SimpleMath::Quaternion*>(property->value);
-			// オイラー角へ
-			DirectX::SimpleMath::Vector3 euler = q->ToEuler();
-			// 表示
-			if (ImGui::DragFloat3(name.c_str(), &euler.x, DirectX::XM_PI / 128))
-			{
-				// 変更
-				*q = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler.y, euler.x, euler.z);
-
-				return true;
-			}
-			return false;
-		}
-
-									 // Color
-		case PropertyType::Color:
-			return ImGui::ColorEdit4(name.c_str(),
-				&static_cast<DirectX::SimpleMath::Color*>(property->value)->x
-			);
-
-		default:
-			break;
-		}
-
-		return false;
 	}
 
 	void InspectorWindow::DrawAddComponent(GameObject* object)

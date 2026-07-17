@@ -245,7 +245,8 @@ namespace REngine
 			SetDirty();
 		}
 
-		void SetWorldPosition(const DirectX::SimpleMath::Vector3 pos);
+		void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos);
+		void SetWorldMatrix(const DirectX::SimpleMath::Matrix& mat);
 
 		//-----------------------------------------------------
 		// 補助関数

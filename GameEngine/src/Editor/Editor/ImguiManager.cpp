@@ -13,6 +13,7 @@
 #include "Editor/Editor/ImguiManager.h"
 
 #include "imgui/imgui.h"
+#include "imgui/ImGuizmo.h"
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_dx11.h"
 
@@ -52,6 +53,7 @@ namespace REngine
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	// フレーム終了時処理

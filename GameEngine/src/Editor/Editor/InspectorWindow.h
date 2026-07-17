@@ -14,6 +14,9 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <unordered_map>
+
+#include "PropertyOnInspector.h"
 #include "Common/PropertyObject.h"
 #include "GameObject/GameObject.h"
 
@@ -26,12 +29,18 @@ namespace REngine
 	//====================================================//
 	class InspectorWindow
 	{
+	private:
+		// プロパティの表示を担当するクラス
+		PropertyOnInspector m_propertyOnInspector;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InspectorWindow() = default;
+		InspectorWindow()
+			: m_propertyOnInspector{}
+		{};
 		~InspectorWindow() = default;
 
 		//-----------------------------------------------------
@@ -52,9 +61,6 @@ namespace REngine
 
 		// GameObjectの情報をInspectorに表示する関数
 		void DrawPropertyObjectOnInspector(PropertyObject* object);
-
-		// プロパティを一つ表示する関数
-		bool DrawProperty(const Property* property);
 
 		// コンポーネントの追加を表示する関数
 		void DrawAddComponent(GameObject* object);

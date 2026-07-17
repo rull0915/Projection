@@ -132,7 +132,7 @@ namespace REngine
 		m_isDirty = false;
 	}
 
-	void Transform::SetWorldPosition(const DirectX::SimpleMath::Vector3 pos)
+	void Transform::SetWorldPosition(const DirectX::SimpleMath::Vector3& pos)
 	{
 		if (m_pParent == nullptr) {
 			// 親がいなければワールド＝ローカル
@@ -144,6 +144,40 @@ namespace REngine
 			m_localPosition = SimpleMath::Vector3::Transform(pos, invParentWorld);
 		}
 		// 行列の再計算フラグを立てる
+		SetDirty();
+	}
+
+	void Transform::SetWorldMatrix(const DirectX::SimpleMath::Matrix& mat)
+	{
+		// 親がいる場合
+		if (m_pParent)
+		{
+			// 親の逆行列を取得
+			auto invParent = m_pParent->GetWorldMatrix().Invert();
+
+			// 自身のローカルに変換
+			auto local = mat * invParent;
+
+			// 分解し変数に代入
+			local.Decompose(
+				m_localScale,
+				m_localRotation,
+				m_localPosition
+			);
+		}
+		// 親がいない場合
+		else
+		{
+			auto world = mat;
+
+			// 分解し変数に代入
+			world.Decompose(
+				m_localScale,
+				m_localRotation,
+				m_localPosition
+			);
+		}
+
 		SetDirty();
 	}
 

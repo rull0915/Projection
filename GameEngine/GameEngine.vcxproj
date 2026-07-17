@@ -155,6 +155,8 @@ $(ProjectDir)ThirdParty;
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Common\ResourceReader.cpp" />
+    <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp" />
+    <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp" />
     <ClCompile Include="src\Editor\SceneEditor.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\Scene\MainScreen.cpp" />
@@ -258,6 +260,9 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="ThirdParty\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\ImGuizmo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -351,6 +356,8 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Components\Both\BothComponentBase.h" />
     <ClInclude Include="include\GameEngine.h" />
+    <ClInclude Include="src\Editor\Editor\GuizmoManager.h" />
+    <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
     <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">
@@ -482,6 +489,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Scene\UpdatePipeline.h" />
     <ClInclude Include="ThirdParty\imgui\imconfig.h" />
     <ClInclude Include="ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="ThirdParty\imgui\ImGuizmo.h" />
     <ClInclude Include="ThirdParty\imgui\imgui_impl_dx11.h" />
     <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h" />
     <ClInclude Include="ThirdParty\imgui\imgui_internal.h" />

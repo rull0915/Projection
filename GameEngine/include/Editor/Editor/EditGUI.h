@@ -10,6 +10,7 @@
 //====================================================//
 
 #pragma once
+#include "Components/World/Camera/CameraBase.h"
 
 //====================================================//
 // インクルードファイル
@@ -80,7 +81,7 @@ namespace REngine
 		void DrawWindows();
 
 		// ビューの描画をする関数
-		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView);
+		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera);
 
 		// ウィンドウをセットする関数
 		void SetWindowType(WindowType type) { m_nowType = type; }
@@ -105,5 +106,8 @@ namespace REngine
 
 		// ゲームビュー描画の開始
 		void StartGameView();
+
+		// シーンビューの描画
+		void DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera);
 	};
 } // namespace REngine
