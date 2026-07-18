@@ -6,6 +6,7 @@
 #include "Game.h"
 
 // 各システム管理クラス
+#include "System/GraphicsManager.h"	// グラフィック
 #include "System/WindowManager.h"	// ウィンドウ	
 #include "Scene/SceneManager.h"		// シーン
 
@@ -30,8 +31,10 @@ Game::Game() noexcept(false)
 	, m_timeAccumulator{}
 	, m_frameCount{}
 	, m_gameEngine{ std::make_unique<REngine::GameEngine>() }
+	, m_deviceResources{ nullptr }
 {
-	m_deviceResources = std::make_unique<DX::DeviceResources>();
+	// デバイスリソースの取得
+	m_deviceResources = GraphicsManager::Instance().GetDeviceResources();
 	// TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
 	//   Add DX::DeviceResources::c_AllowTearing to opt-in to variable rate displays.
 	//   Add DX::DeviceResources::c_EnableHDR for HDR10 display.
@@ -60,7 +63,7 @@ void Game::Initialize(HWND window, int width, int height)
 	CreateWindowSizeDependentResources();
 
 	// ゲームエンジンの初期化
-	m_gameEngine->Initialize(m_deviceResources.get(), window);
+	m_gameEngine->Initialize(m_deviceResources, window);
 
 	// ゲームの初期化
 	GameInitializer::Initialize();
@@ -143,9 +146,6 @@ void Game::Render()
 	Clear();
 
 	m_deviceResources->PIXBeginEvent(L"Render");
-	auto context = m_deviceResources->GetD3DDeviceContext();
-
-	context;
 
 	// 描画の開始 ----------------------------------------
 
@@ -155,7 +155,6 @@ void Game::Render()
 	if (m_exitTrans)
 	{
 		auto& renderer = m_gameEngine->GetRenderer();
-		renderer.Start(context);
 		m_exitTrans->OutRender(renderer);
 		renderer.End();
 	}

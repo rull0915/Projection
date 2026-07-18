@@ -12,12 +12,11 @@
 #include "pch.h"
 #include "System/FactoryRegister.h"
 
-// 生成
-#include "Editor/Loader/ComponentFactory.h"
-
 #include "Components/World/Components.h"
 #include "Components/UI/UIComponents.h"
 #include "Components/Both/BothComponents.h"
+
+#include "Editor/Loader/ComponentFactory.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentCategory.h"
 

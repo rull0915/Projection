@@ -37,9 +37,6 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// デバイスリソース
-		DX::DeviceResources* m_deviceResources;
-
 		// デバイス
 		ID3D11Device1* m_device;
 
@@ -84,7 +81,7 @@ namespace REngine
 		}
 
 		// 初期化
-		void Initialize(DX::DeviceResources* deviceResource);
+		void Initialize();
 
 		// 更新
 		void Update();
@@ -119,9 +116,6 @@ namespace REngine
 		// 音の取得
 		DirectX::SoundEffect* GetSound(const std::string& key) const;
 
-		// デバイスリソースの取得
-		DX::DeviceResources* GetResources() const { return m_deviceResources; }
-
 		//--------- 全リソースの取得関数 --------//
 
 		// 画像リソース
@@ -135,17 +129,6 @@ namespace REngine
 
 		// 音
 		const std::unordered_map<std::string, std::unique_ptr<DirectX::SoundEffect>>& GetAllSounds() { return m_sounds; }
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	};
 
 } // namespace REngine

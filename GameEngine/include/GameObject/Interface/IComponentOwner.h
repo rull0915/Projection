@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <vector>
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 #include "Components/ComponentCategory.h"
 
 namespace REngine

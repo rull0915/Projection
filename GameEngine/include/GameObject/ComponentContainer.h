@@ -17,7 +17,7 @@
 #include <memory>
 #include <vector>
 
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 

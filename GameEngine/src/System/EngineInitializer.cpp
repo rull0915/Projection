@@ -13,7 +13,7 @@
 #include "pch.h"
 
 #include "System/EngineInitializer.h"
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 #include "FactoryRegister.h"
 
 // 衝突システム

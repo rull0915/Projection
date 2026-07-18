@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Input/MouseInput.h"
 #include "System/ResourceManager.h"
-#include "System/DeviceResources.h"
+#include "System/GraphicsManager.h"
 #include "System/WindowManager.h"
 
 namespace REngine
@@ -85,7 +85,7 @@ namespace REngine
 		{
 			// 今の画面サイズを取得
 			RECT rc;
-			GetClientRect(ResourceManager::Instance().GetResources()->GetWindow(), &rc);
+			GetClientRect(GraphicsManager::Instance().GetDeviceResources()->GetWindow(), &rc);
 
 			int width = rc.right - rc.left;
 			int height = rc.bottom - rc.top;
@@ -138,7 +138,7 @@ namespace REngine
 		void Mouse::SetMousePoint(int x, int y)
 		{
 			POINT pt = { x, y };
-			HWND hwnd = ResourceManager::Instance().GetResources()->GetWindow();
+			HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
 
 			ClientToScreen(hwnd, &pt);
 			SetCursorPos(pt.x, pt.y);

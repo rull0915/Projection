@@ -11,7 +11,8 @@
 //====================================================//
 #include "pch.h"
 #include "System/ResourceManager.h"
-#include "System/GetExtension.h"
+#include "System/GraphicsManager.h"
+#include "Common/GetExtension.h"
 
 #include <WICTextureLoader.h>
 #include <DDSTextureLoader.h>
@@ -28,18 +29,17 @@ namespace REngine
 		: m_device{ nullptr }
 		, m_effect{}
 		, m_textures{}
-		, m_deviceResources{ nullptr }
 		, m_audioEngine{}
 	{}
 
 	ResourceManager::~ResourceManager()
 	{}
 
-	void ResourceManager::Initialize(DX::DeviceResources* deviceResource)
+	void ResourceManager::Initialize()
 	{
-		m_deviceResources = deviceResource;
+		auto* deviceResources = GraphicsManager::Instance().GetDeviceResources();
 
-		m_device = deviceResource->GetD3DDevice();
+		m_device = deviceResources->GetD3DDevice();
 
 		m_effect = std::make_unique<EffectFactory>(m_device);
 		m_effect->SetDirectory(L"Resources/Models");

@@ -18,7 +18,7 @@
 #include "GameObject/Interface/IComponentOwner.h"
 #include "ComponentCategory.h"
 
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 #include "Common/PropertyObject.h"
 
 namespace REngine

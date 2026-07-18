@@ -21,7 +21,7 @@
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 
 // 入力関連
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
 
