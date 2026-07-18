@@ -75,8 +75,6 @@ namespace REngine
 			DirectX::SimpleMath::Color color
 		)
 		{
-			color.w = m_renderState.GetAlpha();
-
 			if (texture) m_spriteBatch->Draw(texture, pos, srcRect, color, angle, origin, scale);
 		}
 

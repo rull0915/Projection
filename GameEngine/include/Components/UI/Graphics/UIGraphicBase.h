@@ -38,9 +38,6 @@ namespace REngine
 		DirectX::SimpleMath::Color m_color;
 		DirectX::SimpleMath::Color m_mulColor;
 
-		// 透明度
-		float m_alpha;
-
 	public:
 
 		//-----------------------------------------------------
@@ -61,7 +58,6 @@ namespace REngine
 
 		void SetColor(DirectX::SimpleMath::Color color) { m_color = color; }
 		void SetMulColor(DirectX::SimpleMath::Color color) { m_mulColor = color; }
-		void SetAlpha(float alpha) { m_alpha = alpha; }
 
 		// カテゴリをUIグラフィックに指定
 		ComponentCategory GetCategory() const override
@@ -73,6 +69,5 @@ namespace REngine
 
 		DirectX::SimpleMath::Color GetColor() const { return m_color; }
 		DirectX::SimpleMath::Color GetMulColor() const { return m_mulColor; }
-		float GetAlpha() const { return m_alpha; }
 	};
 } // namespace REngine

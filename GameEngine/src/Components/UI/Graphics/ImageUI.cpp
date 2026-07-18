@@ -36,18 +36,12 @@ namespace REngine
 
 		DirectX::SimpleMath::Vector2 size = transform->GetSize();
 
-		// 透明度を指定
-		renderer.SetAlpha(GetAlpha());
-
 		// 描画
 		renderer.Draw().Sprite().
 			Rect(pivotPixelPos - size * pivot, pivotPixelPos + size * disPivot).	// 矩形指定
 			Rotate(transform->GetWorldRotation()).									// 回転
-			Extend(transform->GetWorldScale()).						// 拡大縮小
+			Extend(transform->GetWorldScale()).										// 拡大縮小
 			Origin(pivot).
-			Execute(m_pTexture, GetColor() * GetMulColor());							// 描画呼び出し
-
-		// 描画後はアルファを元に戻す
-		renderer.SetAlpha(1.0f);
+			Execute(m_pTexture, GetColor() * GetMulColor());						// 描画呼び出し
 	}
 }	// namespace REngine

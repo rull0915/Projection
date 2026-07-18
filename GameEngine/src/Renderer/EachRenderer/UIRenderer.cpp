@@ -125,8 +125,6 @@ namespace REngine
 
 	void UIRenderer::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), color);
 		DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), color);
 		DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), color);
@@ -149,8 +147,6 @@ namespace REngine
 
 	void UIRenderer::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(p1), color);
 		DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(p2), color);
 		DirectX::VertexPositionColor v3(WindowManager::Instance().ScreenToPixel(p3), color);
@@ -173,8 +169,6 @@ namespace REngine
 
 	void UIRenderer::DrawLine(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, DirectX::SimpleMath::Color color)
 	{
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::VertexPositionColor v1(WindowManager::Instance().ScreenToPixel(start), color);
 		DirectX::VertexPositionColor v2(WindowManager::Instance().ScreenToPixel(end), color);
 
@@ -184,9 +178,6 @@ namespace REngine
 	void UIRenderer::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
 		if (division < 3) return;
-
-		// --- 色の展開 ---
-		color.w = m_renderState.GetAlpha();
 
 		// 角度の間隔を算出
 		float step = 2.0f * PI_F / static_cast<float>(division);
@@ -243,8 +234,6 @@ namespace REngine
 
 	void UIRenderer::DrawBox(DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::SimpleMath::Vector2 p1{ min.x, min.y };
 		DirectX::SimpleMath::Vector2 p2{ min.x, max.y };
 		DirectX::SimpleMath::Vector2 p3{ max.x, max.y };

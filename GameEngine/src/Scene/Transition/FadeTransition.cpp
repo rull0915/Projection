@@ -58,13 +58,10 @@ namespace REngine
 			float alpha = 255 - 255 * (m_elapsedTime / m_transSec);
 
 			// 設定
-			renderer.SetAlpha(alpha / 255.0f);
+			m_fadeColor.w = (alpha / 255.0f);
 
 			// 描画
 			renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
-
-			// 透明度を戻す
-			renderer.SetAlpha(1.0f);
 		}
 
 		void Fade::OutRender(Renderer& renderer)
@@ -73,13 +70,10 @@ namespace REngine
 			float alpha = 255 * (m_elapsedTime / m_transSec);
 
 			// 設定
-			renderer.SetAlpha(alpha / 255.0f);
+			m_fadeColor.w = (alpha / 255.0f);
 
 			// 描画
 			renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
-
-			// 透明度を戻す
-			renderer.SetAlpha(1.0f);
 		}
 	}
 }	// namespace REngine

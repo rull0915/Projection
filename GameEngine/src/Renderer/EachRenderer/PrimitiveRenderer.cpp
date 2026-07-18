@@ -185,9 +185,6 @@ namespace REngine
 		// ステート変更のチェック
 		CheckChangeState();
 
-		// 色変換
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::VertexPositionColor v1(p1, color);
 		DirectX::VertexPositionColor v2(p2, color);
 		DirectX::VertexPositionColor v3(p3, color);
@@ -248,9 +245,6 @@ namespace REngine
 	{
 		CheckChangeState();
 
-		// 色変換
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::VertexPositionColor v1(p1, color);
 		DirectX::VertexPositionColor v2(p2, color);
 		DirectX::VertexPositionColor v3(p3, color);
@@ -294,9 +288,6 @@ namespace REngine
 	{
 		CheckChangeState();
 
-		// 色変換
-		color.w = m_renderState.GetAlpha();
-
 		DirectX::VertexPositionColor v1(start, color);
 		DirectX::VertexPositionColor v2(end, color);
 
@@ -316,9 +307,6 @@ namespace REngine
 		CheckChangeState();
 
 		if (division < 3) return;
-
-		// 色変換
-		color.w = m_renderState.GetAlpha();
 
 		// --- 基底ベクトルの計算 ---
 		normal.Normalize();
@@ -418,9 +406,6 @@ namespace REngine
 
 		// 終了角を求める
 		float endRadian = std::atan2(vV.Dot(vEnd), vU.Dot(vEnd));
-
-		// 色変換
-		color.w = m_renderState.GetAlpha();
 
 		// 描画
 		float step = endRadian / static_cast<float>(division);

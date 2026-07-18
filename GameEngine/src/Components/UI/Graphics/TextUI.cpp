@@ -41,9 +41,6 @@ namespace REngine
 
 		float fontScale = m_fontSize / defaultFontSize;
 
-		// 透明度を指定
-		renderer.SetAlpha(GetAlpha());
-
 		// 描画位置を算出
 		DirectX::SimpleMath::Vector2 drawPos =
 			transform->GetLUPixelPos() +
@@ -59,8 +56,5 @@ namespace REngine
 			Origin(m_origin).
 			Execute(m_pFont, s.c_str(), drawPos,
 				GetColor() * GetMulColor());		// 描画呼び出し
-
-		// 描画後はアルファを元に戻す
-		renderer.SetAlpha(1.0f);
 	}
 }	// namespace REngine

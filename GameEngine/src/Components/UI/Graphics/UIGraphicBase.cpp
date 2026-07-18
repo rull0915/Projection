@@ -25,12 +25,10 @@ namespace REngine
 	UIGraphicBase::UIGraphicBase(IComponentOwner* owner)
 		: UIComponentBase(owner)
 		, m_pRectTransform{ owner->GetComponent<RectTransform>() }
-		, m_color{ 0xFFFFFF }
-		, m_mulColor{ 0xFFFFFF }
-		, m_alpha{ 1.0f }
+		, m_color{ 1, 1, 1, 1 }
+		, m_mulColor{ 1, 1, 1, 1 }
 	{
 		ADD_PROPERTY(m_color);
 		ADD_PROPERTY(m_mulColor);
-		ADD_PROPERTY(m_alpha);
 	}
 }	// namespace REngine

@@ -82,8 +82,6 @@ namespace REngine
 			DirectX::SimpleMath::Color color
 		)
 		{
-			color.w = m_renderState.GetAlpha();
-
 			if (spriteFont) spriteFont->DrawString(
 				m_spriteBatch.get(),
 				text,

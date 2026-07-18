@@ -97,10 +97,13 @@ namespace REngine
 			ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
 
 			// ロード
-			if (component) LoadProperty(js["Data"], *component);
+			if (component)
+			{
+				LoadProperty(js["Data"], *component);
 
-			// 変更時処理の呼び出し
-			component->OnValidate();
+				// 変更時処理の呼び出し
+				component->OnValidate();
+			}
 		}
 
 		// 子供をロード
@@ -129,10 +132,13 @@ namespace REngine
 			ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
 
 			// ロード
-			if (component) LoadProperty(js["Data"], *component);
+			if (component)
+			{
+				LoadProperty(js["Data"], *component);
 
-			// 変更時処理の呼び出し
-			component->OnValidate();
+				// 変更時処理の呼び出し
+				component->OnValidate();
+			}
 		}
 
 		// 子供をロード

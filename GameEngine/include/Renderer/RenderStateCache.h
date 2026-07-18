@@ -58,9 +58,6 @@ namespace REngine
 		DirectX::SimpleMath::Matrix m_view;
 		DirectX::SimpleMath::Matrix m_projection;
 
-		// α値
-		float m_alphaValue;
-
 		// 変更フラグ
 		// 描画タイプがキー 行列タイプがbit毎に管理されています。
 		uint16_t m_isDirty[RenderType::RENDER_TYPE_COUNT];
@@ -74,7 +71,6 @@ namespace REngine
 			: m_world{ DirectX::SimpleMath::Matrix::Identity }
 			, m_view{ DirectX::SimpleMath::Matrix::Identity }
 			, m_projection{ DirectX::SimpleMath::Matrix::Identity }
-			, m_alphaValue{ 1.0f }
 			, m_isDirty{ 0 }
 		{
 			for (auto& flags : m_isDirty)
@@ -104,7 +100,6 @@ namespace REngine
 		const DirectX::SimpleMath::Matrix& GetWorld() const { return m_world; }
 		const DirectX::SimpleMath::Matrix& GetView() const { return m_view; }
 		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_projection; }
-		float GetAlpha() const { return m_alphaValue; }
 
 		//-----------------------------------------------------
 		// セッター
@@ -142,6 +137,5 @@ namespace REngine
 				m_projection = projection;
 			}
 		}
-		void SetAlpha(float alpha) { m_alphaValue = std::clamp(alpha, 0.0f, 1.0f); }
 	};
 }	// namespace REngine
