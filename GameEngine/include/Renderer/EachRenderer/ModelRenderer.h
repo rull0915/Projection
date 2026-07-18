@@ -15,61 +15,44 @@
 // インクルードファイル
 //====================================================//
 #include "Model.h"
-#include "Renderer/RenderStateCache.h"
-#include "IRenderer.h"
+#include "Renderer/Command/DrawCommandContainer.h"
 
 namespace REngine
 {
 	//====================================================//
-	// 前方宣言
-	//====================================================//
-	class Renderer;
-
-	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ModelRenderer : public IRenderer
+	class ModelRenderer
 	{
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
 
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 所有者のRenderer
-		Renderer& m_renderer;
-
 		// 描画の状態
-		RenderStateCache& m_renderState;
+		DrawCommandContainer& m_commandContainer;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ModelRenderer(Renderer& renderer);
+		ModelRenderer(DrawCommandContainer& container)
+			: m_commandContainer{ container }
+		{}
 		~ModelRenderer() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
+		void DrawModel(DirectX::Model* model, DirectX::SimpleMath::Matrix world)
+		{
+			// コマンドの生成
+			auto& command = m_commandContainer.AddModel();
 
-		void Initialize() override;
-		void Start() override;
-		void End() override;
-
-		void DrawModel(DirectX::Model* model, DirectX::SimpleMath::Matrix world);
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+			command.pModel = model;
+			command.world = world;
+		}
 	};
 }	// namespace REngine

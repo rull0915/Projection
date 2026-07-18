@@ -14,22 +14,14 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <SpriteFont.h>
-
-#include "Renderer/RenderStateCache.h"
-#include "IRenderer.h"
+#include "Renderer/Command/DrawCommandContainer.h"
 
 namespace REngine
 {
 	//====================================================//
-	// 前方宣言
-	//====================================================//
-	class Renderer;
-
-	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class TextRenderer : public IRenderer
+	class TextRenderer
 	{
 	private:
 
@@ -37,29 +29,20 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 所有者のRenderer
-		Renderer& m_renderer;
-
-		// 描画の状態
-		RenderStateCache& m_renderState;
-
-		std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+		// コマンドコンテナ
+		DrawCommandContainer& m_container;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		TextRenderer(Renderer& renderer);
+		TextRenderer(DrawCommandContainer& container);
 		~TextRenderer();
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
-
-		void Initialize() override;
-		void Start() override;
-		void End() override;
 
 		/// <summary>
 		/// 描画関数
@@ -82,14 +65,16 @@ namespace REngine
 			DirectX::SimpleMath::Color color
 		)
 		{
-			if (spriteFont) spriteFont->DrawString(
-				m_spriteBatch.get(),
-				text,
-				pos,
-				color,
-				angle,
-				origin,
-				scale);
+			// コマンドの追加
+			auto& command = m_container.AddText();
+
+			command.spriteFont = spriteFont;
+			command.text = text;
+			command.pos = pos;
+			command.scale = scale;
+			command.angle = angle;
+			command.origin = origin;
+			command.color = color;
 		}
 
 		static DirectX::SimpleMath::Vector2 GetTextureSize(DirectX::SpriteFont* font, const wchar_t* text)

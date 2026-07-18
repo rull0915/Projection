@@ -14,67 +14,29 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <PrimitiveBatch.h>
-#include <Effects.h>
-
-#include "Renderer/RenderStateCache.h"
-#include "IRenderer.h"
+#include "Renderer/Command/DrawCommandContainer.h"
 
 namespace REngine
 {
 	//====================================================//
-	// 前方宣言
-	//====================================================//
-	class Renderer;
-
-	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class UIRenderer : public IRenderer
+	class UIRenderer
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 所有者のRenderer
-		Renderer& m_renderer;
-
-		// 描画の状態
-		RenderStateCache& m_renderState;
-
-		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_primitiveBatch;	// プリミティブバッチ
-
-		std::unique_ptr<DirectX::BasicEffect> m_basicEffect;	// ベーシックエフェクト
-
-		// 入力レイアウト
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
-
-
-		// 開始済みフラグ
-		bool m_isStarted;
+		DrawCommandContainer& m_container;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		UIRenderer(Renderer& renderer);
+		UIRenderer(DrawCommandContainer& container);
 		~UIRenderer() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
-		//-----------------------------------------------------
-
-		void Initialize() override;
-		void Start() override;
-		void End() override;
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
 		//-----------------------------------------------------
 	public:
 

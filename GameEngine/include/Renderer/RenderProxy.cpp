@@ -1,0 +1,27 @@
+﻿//====================================================//
+// ファイル名  : RenderProxy.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/07/18
+//
+// 概要       : 
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "RenderProxy.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+void REngine::RenderProxy::Initialize(DrawCommandContainer& container)
+{
+	// 各レンダーの作成
+	m_primitiveRenderer = std::make_unique<PrimitiveRenderer>(container);
+	m_spriteRenderer = std::make_unique<SpriteRenderer>(container);
+	m_modelRenderer = std::make_unique<ModelRenderer>(container);
+	m_textRenderer = std::make_unique<TextRenderer>(container);
+	m_uiRenderer = std::make_unique<UIRenderer>(container);
+}
