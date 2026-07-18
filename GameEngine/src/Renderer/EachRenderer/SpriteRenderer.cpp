@@ -11,7 +11,6 @@
 //====================================================//
 #include "pch.h"
 #include "Renderer/EachRenderer/SpriteRenderer.h"
-#include "Renderer/Renderer.h"
 
 namespace REngine
 {
@@ -22,9 +21,8 @@ namespace REngine
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SpriteRenderer::SpriteRenderer(Renderer& renderer)
-		: m_renderer{ renderer }
-		, m_renderState{ renderer.GetRenderState() }
+	SpriteRenderer::SpriteRenderer(DrawCommandContainer& container)
+		: m_container{ container }
 	{}
 
 	/// <summary>
@@ -33,33 +31,32 @@ namespace REngine
 	SpriteRenderer::~SpriteRenderer()
 	{}
 
-	/// <summary>
-	/// 初期化関数
-	/// </summary>
-	void SpriteRenderer::Initialize()
+	// 画像サイズの取得関数
+	DirectX::SimpleMath::Vector2 SpriteRenderer::GetTextureSize(ID3D11ShaderResourceView* srv)
 	{
-		auto context = m_renderer.GetContext();
+		if (!srv) return DirectX::SimpleMath::Vector2(0, 0);
 
-		// スプライトバッチの初期化
-		m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
-	}
+		// ShaderResourceViewからリソースを取得
+		Microsoft::WRL::ComPtr<ID3D11Resource> resource;
+		srv->GetResource(resource.GetAddressOf());
 
-	/// <summary>
-	/// 描画開始関数
-	/// </summary>
-	void SpriteRenderer::Start()
-	{
-		m_spriteBatch->Begin(
-			DirectX::SpriteSortMode_Deferred,
-			m_renderer.GetStates()->NonPremultiplied()
-		);
-	}
+		// リソースをTexture2Dに変換
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
+		HRESULT hr = resource.As(&texture2D);
 
-	/// <summary>
-	/// 描画終了関数
-	/// </summary>
-	void SpriteRenderer::End()
-	{
-		m_spriteBatch->End();
+		if (SUCCEEDED(hr))
+		{
+			// テクスチャの詳細情報を取得
+			D3D11_TEXTURE2D_DESC desc;
+			texture2D->GetDesc(&desc);
+
+			// 幅と高さを float にして返す
+			return DirectX::SimpleMath::Vector2(
+				static_cast<float>(desc.Width),
+				static_cast<float>(desc.Height)
+			);
+		}
+
+		return DirectX::SimpleMath::Vector2(0, 0);
 	}
 }	// namespace REngine

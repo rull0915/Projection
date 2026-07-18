@@ -11,7 +11,6 @@
 //====================================================//
 #include "pch.h"
 #include "Renderer/EachRenderer/PrimitiveRenderer.h"
-#include "Renderer/Renderer.h"
 
 namespace REngine
 {
@@ -19,159 +18,12 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-#pragma region Setting
-
-/// <summary>
-/// コンストラクタ
-/// </summary>
-	PrimitiveRenderer::PrimitiveRenderer(Renderer& renderer)
-		: m_renderer{ renderer }
-		, m_primitiveBatch{}
-		, m_basicEffect{}
-		, m_inputLayout{}
-		, m_renderState{ renderer.GetRenderState() }
-		, m_isStarted{ false }
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	PrimitiveRenderer::PrimitiveRenderer(DrawCommandContainer& container)
+		: m_container{ container }
 	{}
-
-	/// <summary>
-	/// 初期化関数
-	/// </summary>
-	void PrimitiveRenderer::Initialize()
-	{
-		ID3D11Device* device = m_renderer.GetDevice();
-		ID3D11DeviceContext* context = m_renderer.GetContext();
-
-		// プリミティブバッチの初期化
-		m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(context);
-
-		// ベーシックエフェクトの初期化
-		m_basicEffect = std::make_unique<DirectX::BasicEffect>(device);
-
-		// 設定
-		m_basicEffect->SetVertexColorEnabled(true);	// 頂点カラーの使用をオン
-		m_basicEffect->SetLightingEnabled(false);	// ライトの使用をオフ
-		m_basicEffect->SetTextureEnabled(false);	// テクスチャの使用をオフ
-
-		// インプットレイアウトの作成
-		// 例外処理
-		DX::ThrowIfFailed(
-			DirectX::CreateInputLayoutFromEffect<DirectX::VertexPositionColor>(
-				device,
-				m_basicEffect.get(),
-				m_inputLayout.ReleaseAndGetAddressOf()));
-
-		// WVP行列の初期化
-		m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);			// ワールド
-		m_basicEffect->SetView(DirectX::SimpleMath::Matrix::Identity);			// ビュー
-		m_basicEffect->SetProjection(DirectX::SimpleMath::Matrix::Identity);	// プロジェクション
-	}
-
-	/// <summary>
-	/// 描画を開始する関数
-	/// </summary>
-	/// <param name="context"></param>
-	/// <param name="states"></param>
-	void PrimitiveRenderer::Start()
-	{
-		// 描画開始済みならスキップ
-		if (m_isStarted) return;
-
-		// フラグをセット
-		m_isStarted = true;
-
-		// 各項目の設定
-		ID3D11DeviceContext* context = m_renderer.GetContext();
-		DirectX::CommonStates* states = m_renderer.GetStates();
-
-		// 透明度を使用
-		context->OMSetBlendState(states->NonPremultiplied(), nullptr, 0xFFFFFFFF);
-
-		// デプスソートを使用
-		context->OMSetDepthStencilState(states->DepthDefault(), 0);
-
-		// カリング不使用
-		context->RSSetState(states->CullNone());
-
-		// インプットレイアウトをセット
-		context->IASetInputLayout(m_inputLayout.Get());
-
-		// サンプラーをリセット
-		ID3D11SamplerState* samplers[] = { nullptr };
-		context->PSSetSamplers(0, 1, samplers);
-
-		// エフェクトを適用
-		m_basicEffect->Apply(context);
-
-		// 描画の開始
-		m_primitiveBatch->Begin();
-	}
-
-	void PrimitiveRenderer::End()
-	{
-		// 開始済みでなければスキップ
-		if (!m_isStarted) return;
-
-		// 描画終了
-		m_primitiveBatch->End();
-
-		// 描画開始フラグをオフに
-		m_isStarted = false;
-	}
-
-	/// <summary>
-	/// ステートの変更を調べる関数
-	/// </summary>
-	void PrimitiveRenderer::CheckChangeState()
-	{
-		// 値が変更されていたら
-		if (m_renderState.IsDirty(RenderType::PRIMITIVE, MatrixType::ALL))
-		{
-			// 描画を一旦終了
-			End();
-
-			// 各行列のセット
-			if (m_renderState.IsDirty(RenderType::PRIMITIVE, MatrixType::WORLD)) m_basicEffect->SetWorld(m_renderState.GetWorld());
-			if (m_renderState.IsDirty(RenderType::PRIMITIVE, MatrixType::VIEW))  m_basicEffect->SetView(m_renderState.GetView());
-			if (m_renderState.IsDirty(RenderType::PRIMITIVE, MatrixType::PROJECTION)) m_basicEffect->SetProjection(m_renderState.GetProjection());
-
-			// フラグリセット
-			m_renderState.ResetFlag(RenderType::PRIMITIVE, MatrixType::ALL);
-
-			// 描画の再開
-			Start();
-		}
-	}
-
-#pragma endregion
-
-#pragma region Draw
-
-	/// <summary>
-	/// 三角形描画関数
-	/// </summary>
-	/// <param name="v1">頂点1</param>
-	/// <param name="v2">頂点2</param>
-	/// <param name="v3">頂点3</param>
-	void PrimitiveRenderer::DrawTriangle(DirectX::VertexPositionColor v1, DirectX::VertexPositionColor v2, DirectX::VertexPositionColor v3, bool fillFlag)
-	{
-		// ステート変更のチェック
-		CheckChangeState();
-
-		DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
-
-		// 描画
-
-		// 塗りつぶすなら
-		if (fillFlag)
-		{
-			m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertices, 3);
-		}
-		else
-		{
-			uint16_t indices[] = { 0, 1, 1, 2, 2, 0 };
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 6, vertices, 3);
-		}
-	}
 
 	/// <summary>
 	/// 三角形描画関数
@@ -180,56 +32,18 @@ namespace REngine
 	/// <param name="p2">頂点座標2</param>
 	/// <param name="p3">頂点座標3</param>
 	/// <param name="color">色</param>
-	void PrimitiveRenderer::DrawTriangle(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Color color, bool fillFlag)
+	void PrimitiveRenderer::DrawTriangle(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		// ステート変更のチェック
-		CheckChangeState();
-
 		DirectX::VertexPositionColor v1(p1, color);
 		DirectX::VertexPositionColor v2(p2, color);
 		DirectX::VertexPositionColor v3(p3, color);
 
-		DirectX::VertexPositionColor vertices[3] = { v1, v2, v3 };
-
-		// 描画
-
-		// 塗りつぶすなら
-		if (fillFlag)
+		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
-			m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, vertices, 3);
-		}
-		else
-		{
-			uint16_t indices[] = { 0, 1, 1, 2, 2, 0 };
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 6, vertices, 3);
-		}
-	}
+			// 頂点を追加
+			if (fillFlag) cmd->triangles.insert(cmd->triangles.end(), { {v1, v2, v3} });
 
-	/// <summary>
-	/// 矩形描画関数
-	/// </summary>
-	/// <param name="v1">頂点情報1</param>
-	/// <param name="v2">頂点情報2</param>
-	/// <param name="v3">頂点情報3</param>
-	/// <param name="v4">頂点情報4</param>
-	void PrimitiveRenderer::DrawRect(DirectX::VertexPositionColor v1, DirectX::VertexPositionColor v2, DirectX::VertexPositionColor v3, DirectX::VertexPositionColor v4, bool fillFlag)
-	{
-		CheckChangeState();
-
-		DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
-
-		// 描画
-
-		// 塗りつぶすなら
-		if (fillFlag)
-		{
-			uint16_t indices[] = { 0, 1, 2, 2, 3, 0 };
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices, 6, vertices, 4);
-		}
-		else
-		{
-			uint16_t indices[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 8, vertices, 4);
+			else cmd->lines.insert(cmd->lines.end(), { { v1, v2 }, { v2, v3 }, { v3, v1 } });
 		}
 	}
 
@@ -241,57 +55,32 @@ namespace REngine
 	/// <param name="p3">頂点座標3</param>
 	/// <param name="p4">頂点座標4</param>
 	/// <param name="color">色</param>
-	void PrimitiveRenderer::DrawRect(DirectX::SimpleMath::Vector3 p1, DirectX::SimpleMath::Vector3 p2, DirectX::SimpleMath::Vector3 p3, DirectX::SimpleMath::Vector3 p4, DirectX::SimpleMath::Color color, bool fillFlag)
+	void PrimitiveRenderer::DrawRect(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p3, const DirectX::SimpleMath::Vector3& p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		CheckChangeState();
-
 		DirectX::VertexPositionColor v1(p1, color);
 		DirectX::VertexPositionColor v2(p2, color);
 		DirectX::VertexPositionColor v3(p3, color);
 		DirectX::VertexPositionColor v4(p4, color);
 
-		DirectX::VertexPositionColor vertices[4] = { v1, v2, v3, v4 };
-
-		// 塗りつぶすなら
-		if (fillFlag)
+		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
-			uint16_t indices[] = { 0, 1, 2, 2, 3, 0 };
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices, 6, vertices, 4);
-		}
-		else
-		{
-			uint16_t indices[] = { 0, 1, 1, 2, 2, 3, 3, 0 };
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices, 8, vertices, 4);
-		}
+			// 頂点を追加
+			if (fillFlag) cmd->triangles.insert(cmd->triangles.end(), { {v1, v2, v3}, { v1, v3, v4 } });
 
+			else cmd->lines.insert(cmd->lines.end(), { { v1, v2 }, { v2, v3 }, { v3, v4 }, { v4, v1 } });
+		}
 	}
 
-	/// <summary>
-	/// 線描画関数
-	/// </summary>
-	/// <param name="v1">頂点1</param>
-	/// <param name="v2">頂点2</param>
-	void PrimitiveRenderer::DrawLine(DirectX::VertexPositionColor v1, DirectX::VertexPositionColor v2)
+	void PrimitiveRenderer::DrawLine(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, DirectX::SimpleMath::Color color)
 	{
-		CheckChangeState();
+		DirectX::VertexPositionColor v1(p1, color);
+		DirectX::VertexPositionColor v2(p2, color);
 
-		m_primitiveBatch->DrawLine(v1, v2);
-	}
-
-	/// <summary>
-	/// 線描画関数
-	/// </summary>
-	/// <param name="start">頂点座標1</param>
-	/// <param name="end">頂点座標2</param>
-	/// <param name="color">色</param>
-	void PrimitiveRenderer::DrawLine(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 end, DirectX::SimpleMath::Color color)
-	{
-		CheckChangeState();
-
-		DirectX::VertexPositionColor v1(start, color);
-		DirectX::VertexPositionColor v2(end, color);
-
-		m_primitiveBatch->DrawLine(v1, v2);
+		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		{
+			// 頂点を追加
+			cmd->lines.emplace_back(v1, v2);
+		}
 	}
 
 	/// <summary>
@@ -302,14 +91,11 @@ namespace REngine
 	/// <param name="radius">半径</param>
 	/// <param name="division">分割数</param>
 	/// <param name="color">色</param>
-	void PrimitiveRenderer::DrawCircle(DirectX::SimpleMath::Vector3 centerPos, DirectX::SimpleMath::Vector3 normal, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
+	void PrimitiveRenderer::DrawCircle(const DirectX::SimpleMath::Vector3& centerPos, const DirectX::SimpleMath::Vector3& normal, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		CheckChangeState();
-
 		if (division < 3) return;
 
 		// --- 基底ベクトルの計算 ---
-		normal.Normalize();
 		DirectX::SimpleMath::Vector3 up = (std::abs(normal.y) > 0.9f) ? DirectX::SimpleMath::Vector3::UnitX : DirectX::SimpleMath::Vector3::UnitY;
 		DirectX::SimpleMath::Vector3 vU = normal.Cross(up);
 		vU.Normalize();
@@ -319,53 +105,32 @@ namespace REngine
 		// 角度の間隔を算出
 		float step = 2.0f * PI_F / static_cast<float>(division);
 
-		// 頂点座標を格納する配列を用意
-		std::vector<DirectX::VertexPositionColor> vertices;
-		vertices.resize(division + 1);
+		// 中心
+		DirectX::VertexPositionColor c = DirectX::VertexPositionColor(centerPos, color);
+
+		// 最初の点
+		DirectX::VertexPositionColor prev(centerPos + vU * radius, color);
+
+		// コマンドコンテナを取得
+		auto* cmd = m_container.GetLatestPrimitiveCommand();
+		if (!cmd) return;
 
 		// 分割数分ループ
-		for (int i = 0; i < division; ++i)
+		for (int i = 1; i <= division; ++i)
 		{
+			// 角度
 			float theta = step * i;
 
 			// 頂点情報を計算
 			DirectX::VertexPositionColor v(centerPos + (vU * cosf(theta) + vV * sinf(theta)) * radius, color);
 
-			vertices[i] = v;
-		}
+			// 頂点を追加
+			if (fillFlag) cmd->triangles.emplace_back(prev, v, c);
 
-		std::vector<uint16_t> indices;
+			else cmd->lines.emplace_back(prev, v);
 
-		// 塗りつぶすとき
-		if (fillFlag)
-		{
-			vertices[division] = DirectX::VertexPositionColor(centerPos, color);
-
-			indices.resize(division * 3);
-
-			for (uint16_t i = 0; i < division; i++)
-			{
-				indices[i * 3 + 0] = i;
-				indices[i * 3 + 1] = (i + 1) % division;
-				indices[i * 3 + 2] = division;
-			}
-
-			// 三角形を構築して渡す
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices.data(), division * 3, vertices.data(), division + 1);
-		}
-		// ワイヤーフレームの時
-		else
-		{
-			indices.resize(division * 2);
-
-			for (uint16_t i = 0; i < division; i++)
-			{
-				indices[i * 2] = i;
-				indices[i * 2 + 1] = (i + 1) % division;
-			}
-
-			// 線を構築して渡す
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices.data(), division * 2, vertices.data(), division);
+			// 更新
+			prev = v;
 		}
 	}
 
@@ -378,15 +143,9 @@ namespace REngine
 	/// <param name="division">分割数</param>
 	/// <param name="radius">半径</param>
 	/// <param name="color">色</param>
-	void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, DirectX::SimpleMath::Vector3 vStart, DirectX::SimpleMath::Vector3 vEnd, uint16_t division, float radius, DirectX::SimpleMath::Color color, bool fillFlag)
+	void PrimitiveRenderer::DrawArc(const DirectX::SimpleMath::Vector3& center, const DirectX::SimpleMath::Vector3& vStart, const DirectX::SimpleMath::Vector3& vEnd, uint16_t division, float radius, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		CheckChangeState();
-
 		if (radius <= 0.0f || division <= 0) return;
-
-		// ベクトルの正規化（中心からの方向ベクトルとして扱う）
-		vStart.Normalize();
-		vEnd.Normalize();
 
 		// 平面の法線を求める
 		DirectX::SimpleMath::Vector3 normal = vStart.Cross(vEnd);
@@ -402,6 +161,7 @@ namespace REngine
 		DirectX::SimpleMath::Vector3 vU = vStart;
 		// U と法線に垂直なベクトルを V とする
 		DirectX::SimpleMath::Vector3 vV = normal.Cross(vU);
+		vU.Normalize();
 		vV.Normalize();
 
 		// 終了角を求める
@@ -410,71 +170,30 @@ namespace REngine
 		// 描画
 		float step = endRadian / static_cast<float>(division);
 
-		// 頂点座標を格納する配列を用意
-		std::vector<DirectX::VertexPositionColor> vertices;
-		vertices.resize(division + 2);
+		// 中心
+		DirectX::VertexPositionColor c(center, color);
 
-		for (int i = 0; i <= division; ++i)
+		// 最初の点
+		DirectX::VertexPositionColor prev(center + vU * radius, color);
+
+		// コマンドコンテナを取得
+		auto* cmd = m_container.GetLatestPrimitiveCommand();
+		if (!cmd) return;
+
+		for (int i = 1; i <= division; ++i)
 		{
 			float theta = step * i;
 
 			// 円周上の座標を算出
-			DirectX::SimpleMath::Vector3 currentPoint = center + (vU * cosf(theta) + vV * sinf(theta)) * radius;
+			DirectX::VertexPositionColor v(center + (vU * cosf(theta) + vV * sinf(theta)) * radius, color);
 
-			DirectX::VertexPositionColor v(currentPoint, color);
+			// 頂点を追加
+			if (fillFlag) cmd->triangles.emplace_back(prev, v, c);
 
-			vertices[i] = v;
-		}
+			else cmd->lines.emplace_back(prev, v);
 
-		std::vector<uint16_t> indices;
-
-		// 塗りつぶすとき
-		if (fillFlag)
-		{
-			vertices[division + 1] = DirectX::VertexPositionColor(center, color);
-
-			indices.resize((division + 1) * 3);
-
-			for (uint16_t i = 0; i <= division; i++)
-			{
-				indices[i * 3 + 0] = i;
-				indices[i * 3 + 1] = (i + 1);
-				indices[i * 3 + 2] = division + 1;
-			}
-
-			// 三角形を構築して渡す
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices.data(), division * 3 + 3, vertices.data(), division + 2);
-		}
-		// ワイヤーフレームの時
-		else
-		{
-			indices.resize((division) * 2);
-
-			for (uint16_t i = 0; i < division; i++)
-			{
-				indices[i * 2] = i;
-				indices[i * 2 + 1] = (i + 1);
-			}
-
-			// 線を構築して渡す
-			m_primitiveBatch->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_LINELIST, indices.data(), division * 2 + 2, vertices.data(), division + 1);
+			// 更新
+			prev = v;
 		}
 	}
-
-	/// <summary>
-	/// 頂点情報を渡して描画する関数
-	/// </summary>
-	/// <param name="topology">トポロジータイプ</param>
-	/// <param name="indices">インデックスの配列</param>
-	/// <param name="indexCount">インデックスの数</param>
-	/// <param name="vertices">頂点配列</param>
-	/// <param name="vertexCount">頂点の数</param>
-	void PrimitiveRenderer::DrawIndex(D3D11_PRIMITIVE_TOPOLOGY topology, uint16_t* indices, uint16_t indexCount, DirectX::VertexPositionColor* vertices, uint16_t vertexCount)
-	{
-		CheckChangeState();
-
-		m_primitiveBatch->DrawIndexed(topology, indices, indexCount, vertices, vertexCount);
-	}
-
-#pragma endregion
 }	// namespace REngine
