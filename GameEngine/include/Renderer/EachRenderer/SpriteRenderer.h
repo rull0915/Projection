@@ -45,6 +45,45 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
+		// デフォルト
+		void Draw(
+			ID3D11ShaderResourceView* texture,
+			DirectX::SimpleMath::Vector2 pos,
+			DirectX::SimpleMath::Vector2 scale,
+			float angle,
+			DirectX::SimpleMath::Color color
+		);
+
+		// 描画領域指定
+		void Draw(
+			ID3D11ShaderResourceView* texture,
+			DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max,
+			DirectX::SimpleMath::Vector2 scale,
+			float angle,
+			DirectX::SimpleMath::Color color
+		);
+
+		// 原点指定
+		void Draw(
+			ID3D11ShaderResourceView* texture,
+			DirectX::SimpleMath::Vector2 pos,
+			DirectX::SimpleMath::Vector2 scale,
+			float angle,
+			DirectX::SimpleMath::Vector2 origin,
+			DirectX::SimpleMath::Color color
+		);
+
+		// 描画領域 原点指定
+		void Draw(
+			ID3D11ShaderResourceView* texture,
+			DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max,
+			DirectX::SimpleMath::Vector2 scale,
+			float angle,
+			DirectX::SimpleMath::Vector2 origin,
+			DirectX::SimpleMath::Color color
+		);
+
+		// 全指定
 		void Draw(
 			ID3D11ShaderResourceView* texture,
 			DirectX::SimpleMath::Vector2 pos,
@@ -53,19 +92,7 @@ namespace REngine
 			float angle,
 			DirectX::SimpleMath::Vector2 origin,
 			DirectX::SimpleMath::Color color
-		)
-		{
-			// コマンドの追加
-			auto& command = m_container.AddSprite();
-
-			command.pTexture = texture;
-			command.pos = pos;
-			command.srcRect = srcRect ? std::make_optional(*srcRect) : std::nullopt;
-			command.scale = scale;
-			command.angle = angle;
-			command.origin = origin;
-			command.color = color;
-		}
+		);
 
 		static DirectX::SimpleMath::Vector2 GetTextureSize(ID3D11ShaderResourceView* srv);
 	};

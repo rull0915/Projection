@@ -14,7 +14,7 @@
 
 #include "Components/World/Collider/2D/Shapes/2DColliders.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 
 #include "Settings/WorldSetting2D.h"
 

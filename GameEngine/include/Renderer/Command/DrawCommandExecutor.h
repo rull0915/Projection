@@ -16,8 +16,6 @@
 //====================================================//
 #include <PrimitiveBatch.h>
 #include <SpriteBatch.h>
-#include <SpriteFont.h>
-#include <Model.h>
 #include <Effects.h>
 #include <VertexTypes.h>
 
