@@ -66,7 +66,11 @@ namespace REngine
 		// プリミティブ描画コマンドの登録関数
 		DrawPrimitiveCommand& AddPrimitive()
 		{
-			return m_drawPrimitiveCommands.emplace_back();
+			auto& cmd = m_drawPrimitiveCommands.emplace_back();
+			cmd.lines.reserve(1024);
+			cmd.triangles.reserve(512);
+
+			return cmd;
 		}
 
 		// モデル描画コマンドの登録関数
@@ -93,8 +97,20 @@ namespace REngine
 			// なければnullをかえす
 			if (m_drawPrimitiveCommands.empty()) return nullptr;
 
-			// あれば最後尾を返す
-			return &m_drawPrimitiveCommands.back();
+			// どちらかの配列が最大値を超えるなら
+			auto& latest = m_drawPrimitiveCommands.back();
+			if (latest.lines.size() > 750 || latest.triangles.size() > 500)
+			{
+				// 追加
+				auto& newCommand = AddPrimitive();
+
+				// ワールドを引き継ぐ
+				newCommand.world = latest.world;
+
+				return &newCommand;
+			}
+
+			return &latest;
 		}
 
 		//============= 全コマンドの取得関数 =============//

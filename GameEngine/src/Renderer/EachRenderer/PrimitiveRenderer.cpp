@@ -41,9 +41,16 @@ namespace REngine
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
 			// 頂点を追加
-			if (fillFlag) cmd->triangles.insert(cmd->triangles.end(), { {v1, v2, v3} });
-
-			else cmd->lines.insert(cmd->lines.end(), { { v1, v2 }, { v2, v3 }, { v3, v1 } });
+			if (fillFlag)
+			{
+				cmd->triangles.emplace_back(v1, v2, v3);
+			}
+			else
+			{
+				cmd->lines.emplace_back(v1, v2);
+				cmd->lines.emplace_back(v2, v3);
+				cmd->lines.emplace_back(v3, v1);
+			}
 		}
 	}
 
@@ -65,9 +72,18 @@ namespace REngine
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
 			// 頂点を追加
-			if (fillFlag) cmd->triangles.insert(cmd->triangles.end(), { {v1, v2, v3}, { v1, v3, v4 } });
-
-			else cmd->lines.insert(cmd->lines.end(), { { v1, v2 }, { v2, v3 }, { v3, v4 }, { v4, v1 } });
+			if (fillFlag)
+			{
+				cmd->triangles.emplace_back(v1, v2, v3);
+				cmd->triangles.emplace_back(v1, v3, v4);
+			}
+			else
+			{
+				cmd->lines.emplace_back(v1, v2);
+				cmd->lines.emplace_back(v2, v3);
+				cmd->lines.emplace_back(v3, v4);
+				cmd->lines.emplace_back(v4, v1);
+			}
 		}
 	}
 

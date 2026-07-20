@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Renderer/Command/DrawCommandContainer.h"
+#include "System/WindowManager.h"
 
 namespace REngine
 {
@@ -25,7 +26,11 @@ namespace REngine
 	{
 	private:
 
+		// コマンドコンテナ
 		DrawCommandContainer& m_container;
+
+		// ウィンドウマネージャー
+		WindowManager& m_windowManager;
 
 	public:
 
