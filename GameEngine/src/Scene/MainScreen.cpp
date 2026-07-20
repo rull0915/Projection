@@ -15,7 +15,7 @@
 #include "Renderer/Renderer.h"
 #include "Input/MouseInput.h"
 
-#include "System/ResourceManager.h"
+#include "System/GraphicsManager.h"
 #include "System/WindowManager.h"
 
 namespace REngine
@@ -32,7 +32,7 @@ namespace REngine
 	{
 		// レンダーターゲットの初期化
 		m_defaultRenderTarget->Create(
-			ResourceManager::Instance().GetResources()->GetD3DDevice(),
+			GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice(),
 			WindowManager::Instance().GetWidth(),
 			WindowManager::Instance().GetHeight()
 		);
@@ -42,10 +42,10 @@ namespace REngine
 	{
 		if (m_draw)
 		{
-			// 描画
-			renderer.Draw().Sprite()
-				.Extend(m_scale)
-				.Execute(m_defaultRenderTarget->GetShaderResourceView(), m_startPoint);
+			//// 描画
+			//renderer.Draw().Sprite()
+			//	.Extend(m_scale)
+			//	.Execute(m_defaultRenderTarget->GetShaderResourceView(), m_startPoint);
 		}
 	}
 

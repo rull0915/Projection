@@ -15,7 +15,7 @@
 #include "Scene/Scene.h"
 #include "Renderer/Renderer.h"
 
-#include "System/ResourceManager.h"
+#include "System/GraphicsManager.h"
 #include "Debug/DebugManager.h"
 
 #include "Components/ComponentBase.h"
@@ -33,7 +33,7 @@ namespace REngine
 
 	void SceneRenderer::RenderWithContext(const RenderContext& context, Renderer& renderer)
 	{
-		auto* deviceContext = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+		auto* deviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// 描画を開始
 		context.target->Begin(deviceContext);
@@ -41,14 +41,10 @@ namespace REngine
 		// クリア
 		context.target->Clear(deviceContext, context.back);
 
-		// Renderの開始
-		renderer.Start(deviceContext);
-
 		// 各行列の設定
 		if (context.camera)
 		{
-			renderer.SetView(context.camera->GetView());
-			renderer.SetProjection(context.camera->GetProj());
+			renderer.SetVPMatrix(context.camera->GetView(), context.camera->GetProj());
 		}
 
 		// Worldの描画
@@ -77,8 +73,7 @@ namespace REngine
 		}
 
 		// 行列のリセット
-		renderer.SetView(DirectX::SimpleMath::Matrix::Identity);
-		renderer.SetProjection(DirectX::SimpleMath::Matrix::Identity);
+		renderer.SetVPMatrix(DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity);
 
 		// UIの描画
 		if (context.flags & DrawFlag::UI)

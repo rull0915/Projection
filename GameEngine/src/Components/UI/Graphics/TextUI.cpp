@@ -49,12 +49,9 @@ namespace REngine
 
 		std::wstring s = CastString::Utf8ToWide(m_text);
 
-		// 描画
-		renderer.Draw().Text().
-			Rotate(transform->GetWorldRotation()).						// 回転
-			Extend(scale * fontScale).									// 拡大縮小
-			Origin(m_origin).
-			Execute(m_pFont, s.c_str(), drawPos,
-				GetColor() * GetMulColor());		// 描画呼び出し
+		renderer.Draw().Text().Draw(
+			m_pFont, s,
+			drawPos, scale * fontScale, transform->GetWorldRotation(), m_origin, GetColor() * GetMulColor()
+		);
 	}
 }	// namespace REngine

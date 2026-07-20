@@ -31,6 +31,100 @@ namespace REngine
 	SpriteRenderer::~SpriteRenderer()
 	{}
 
+	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Color color)
+	{
+		// コマンドの追加
+		auto& command = m_container.AddSprite();
+
+		command.pTexture = texture;
+		command.pos = pos;
+		command.scale = scale;
+		command.angle = angle;
+		command.color = color;
+	}
+
+	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Color color)
+	{
+		// テクスチャサイズを取得
+		DirectX::SimpleMath::Vector2 texSize = GetTextureSize(texture);
+
+		// スケールの計算
+		DirectX::SimpleMath::Vector2 finalScale = (max - min) / texSize;
+
+		// 指定の拡大率を乗算する
+		finalScale *= scale;
+
+		// コマンドの追加
+		auto& command = m_container.AddSprite();
+
+		command.pTexture = texture;
+		command.pos = min;
+		command.scale = finalScale;
+		command.angle = angle;
+		command.color = color;
+	}
+
+	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
+	{
+		// テクスチャサイズを取得
+		DirectX::SimpleMath::Vector2 texSize = GetTextureSize(texture);
+
+		// 原点を算出
+		DirectX::SimpleMath::Vector2 finalOrigin = origin * texSize;
+
+		// コマンドの追加
+		auto& command = m_container.AddSprite();
+
+		command.pTexture = texture;
+		command.pos = pos;
+		command.scale = scale;
+		command.angle = angle;
+		command.origin = finalOrigin;
+		command.color = color;
+	}
+
+	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
+	{
+		// テクスチャサイズを取得
+		DirectX::SimpleMath::Vector2 texSize = GetTextureSize(texture);
+
+		// Originを考慮して中心を計算
+		DirectX::SimpleMath::Vector2 center = min + (max - min) * origin;
+
+		// 原点を算出
+		DirectX::SimpleMath::Vector2 finalOrigin = origin * texSize;
+		
+		// スケールの計算
+		DirectX::SimpleMath::Vector2 finalScale = (max - min) / texSize;
+
+		// 指定の拡大率を乗算する
+		finalScale *= scale;
+
+		// コマンドの追加
+		auto& command = m_container.AddSprite();
+
+		command.pTexture = texture;
+		command.pos = center;
+		command.scale = finalScale;
+		command.angle = angle;
+		command.origin = finalOrigin;
+		command.color = color;
+	}
+
+	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, RECT* srcRect, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
+	{
+		// コマンドの追加
+		auto& command = m_container.AddSprite();
+
+		command.pTexture = texture;
+		command.pos = pos;
+		command.srcRect = srcRect ? std::make_optional(*srcRect) : std::nullopt;
+		command.scale = scale;
+		command.angle = angle;
+		command.origin = origin;
+		command.color = color;
+	}
+
 	// 画像サイズの取得関数
 	DirectX::SimpleMath::Vector2 SpriteRenderer::GetTextureSize(ID3D11ShaderResourceView* srv)
 	{

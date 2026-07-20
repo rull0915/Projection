@@ -55,10 +55,10 @@ namespace REngine
 		ImguiManager::Initialize(window, device, context);
 
 		// 描画クラスの初期化
-		m_renderer->Initialize(device, context, states);
+		m_renderer->Initialize();
 
 		// リソースマネージャの初期化
-		ResourceManager::Instance().Initialize(deviceResources);
+		ResourceManager::Instance().Initialize();
 
 		// エディターの生成
 		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene());

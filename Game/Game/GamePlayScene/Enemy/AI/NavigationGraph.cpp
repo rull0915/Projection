@@ -60,8 +60,8 @@ void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, REngine::Rendere
 			m_nodes[edge.goalIndex]->GetPoints()[edge.goalPoint]
 		};
 
-		// 繋ぐ線を描画
-		renderer.Draw().Line(points[0], points[1], color);
+		//// 繋ぐ線を描画
+		//renderer.Draw().Line(points[0], points[1], color);
 	}
 }
 

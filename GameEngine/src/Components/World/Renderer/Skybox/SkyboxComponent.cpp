@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Components/World/Renderer/Skybox/SkyboxComponent.h"
 
-#include "System/ResourceManager.h"
+#include "System/GraphicsManager.h"
 #include "Renderer/Renderer.h"
 #include "SkyboxEffect.h"
 
@@ -34,10 +34,10 @@ namespace REngine
 		ADD_PROPERTY(m_keyName);
 
 		// デバイスを取得
-		auto* device = ResourceManager::Instance().GetResources()->GetD3DDevice();
+		auto* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
 
 		// コンテキストを取得
-		auto context = ResourceManager::Instance().GetResources()->GetD3DDeviceContext();
+		auto context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// 球体を作成
 		m_sky = DirectX::GeometricPrimitive::CreateGeoSphere(context, 2.f, 3, false);
@@ -62,9 +62,9 @@ namespace REngine
 		if (m_effect)
 		{
 			// プロジェクション行列を設定
-			m_effect->SetProjection(renderer.GetRenderState().GetProjection());
+			m_effect->SetProjection(renderer.GetProjection());
 			// ビュー行列を設定
-			m_effect->SetView(renderer.GetRenderState().GetView());
+			m_effect->SetView(renderer.GetView());
 
 			// 描画
 			m_sky->Draw(m_effect.get(), m_skyInputLayout.Get());

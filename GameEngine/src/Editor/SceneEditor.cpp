@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Editor/SceneEditor.h"
 
-#include "System/ResourceManager.h"
+#include "System/GraphicsManager.h"
 #include "System/WindowManager.h"
 #include "Scene/SceneManager.h"
 #include "Scene/SceneRenderer.h"
@@ -39,7 +39,7 @@ namespace REngine
 	{
 		// ゲームビューの作成
 		m_sceneView->Create(
-			ResourceManager::Instance().GetResources()->GetD3DDevice(),
+			GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice(),
 			WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight()
 		);
 

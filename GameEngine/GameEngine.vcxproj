@@ -154,6 +154,11 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
+    <ClCompile Include="src\Renderer\RenderProxy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Common\ResourceReader.cpp" />
     <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp" />
     <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp" />
@@ -224,7 +229,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EachRenderer\ModelRenderer.cpp" />
     <ClCompile Include="src\Renderer\EachRenderer\PrimitiveRenderer.cpp" />
     <ClCompile Include="src\Renderer\EachRenderer\SpriteRenderer.cpp" />
     <ClCompile Include="src\Renderer\EachRenderer\TextRenderer.cpp" />
@@ -347,6 +351,19 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
     <ClInclude Include="include\Editor\SceneEditor.h" />
+    <ClInclude Include="include\Renderer\Command\DrawCommand.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Command\DrawCommandContainer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Command\DrawCommandExecutor.h" />
+    <ClInclude Include="include\Renderer\RenderProxy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
     <ClInclude Include="include\Scene\SceneRenderer.h" />
@@ -356,6 +373,10 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Components\Both\BothComponentBase.h" />
     <ClInclude Include="include\GameEngine.h" />
+    <ClInclude Include="include\System\GraphicsManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Editor\Editor\GuizmoManager.h" />
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
@@ -389,7 +410,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\System\GetExtension.h">
+    <ClInclude Include="include\Common\GetExtension.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -407,7 +428,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\Common\ClassNameGetter.h" />
     <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\Editor\HierarchyWindow.h" />
     <ClInclude Include="src\Editor\Editor\InfoWindow.h" />
@@ -441,21 +461,17 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Managers\Sounds\SoundManager.h" />
     <ClInclude Include="src\Managers\System\CollideEventSystem.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="include\Renderer\EachRenderer\IRenderer.h" />
     <ClInclude Include="include\Renderer\EachRenderer\ModelRenderer.h" />
     <ClInclude Include="include\Renderer\EachRenderer\PrimitiveRenderer.h" />
     <ClInclude Include="include\Renderer\EachRenderer\SpriteRenderer.h" />
     <ClInclude Include="include\Renderer\EachRenderer\TextRenderer.h" />
     <ClInclude Include="include\Renderer\EachRenderer\UIRenderer.h" />
-    <ClInclude Include="include\Renderer\Proxy\RenderProxy.h" />
-    <ClInclude Include="include\Renderer\Proxy\SpriteProxy.h" />
-    <ClInclude Include="include\Renderer\Proxy\TextProxy.h" />
     <ClInclude Include="include\Renderer\Renderer.h" />
     <ClInclude Include="include\Renderer\RendererType.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Renderer\RenderStateCache.h" />
+    <ClInclude Include="include\Renderer\GraphicsSystem.h" />
     <ClInclude Include="include\Scene\ComponentRegister.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
@@ -467,7 +483,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\System\DeviceResources.h" />
     <ClInclude Include="include\System\EngineInitializer.h" />
     <ClInclude Include="include\System\ResourceManager.h" />
-    <ClInclude Include="include\System\TypeIdGenerator.h" />
+    <ClInclude Include="include\Common\TypeIdGenerator.h" />
     <ClInclude Include="include\System\WindowManager.h" />
     <ClInclude Include="include\Timer\GameTimer.h" />
     <ClInclude Include="include\Timer\StepTimer.h" />
@@ -497,6 +513,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h" />
     <ClInclude Include="ThirdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="ThirdParty\imgui\imstb_truetype.h" />
+    <ClInclude Include="ThirdParty\nameof\nameof.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\SkyboxEffect_PS.hlsl">

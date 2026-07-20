@@ -11,12 +11,10 @@
 //====================================================//
 #include "pch.h"
 #include "Scene/ComponentRegister.h"
-
-#include "Scene/Scene.h"
 #include "Components/ComponentBase.h"
 
 #include "Scene/UpdatePipeline.h"
-#include "System/TypeIdGenerator.h"
+#include "Common/TypeIdGenerator.h"
 
 namespace REngine
 {

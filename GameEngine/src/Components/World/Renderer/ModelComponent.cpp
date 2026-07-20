@@ -35,6 +35,6 @@ namespace REngine
 		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
 		// 行列を使用しモデルを描画
-		renderer.Draw().Model(m_model, world);
+		renderer.Draw().Model().DrawModel(m_model, world);
 	}
 }	// namespace REngine

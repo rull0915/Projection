@@ -129,13 +129,13 @@ namespace Transition
 		endLeft = m_points[0] + (DirectX::SimpleMath::Vector2(m_points[2] - m_points[0])) * REngine::Easing::EaseInQuad(1 - m_elapsedTime / m_transSec);
 		endRight = m_points[1] + (DirectX::SimpleMath::Vector2(m_points[3] - m_points[1])) * REngine::Easing::EaseInQuad(1 - m_elapsedTime / m_transSec);
 
-		renderer.Draw().UI().Rect(
-			m_points[0],
-			m_points[1],
-			endRight,
-			endLeft,
-			m_slideColor, true
-		);
+		//renderer.Draw().UI().Rect(
+		//	m_points[0],
+		//	m_points[1],
+		//	endRight,
+		//	endLeft,
+		//	m_slideColor, true
+		//);
 	}
 
 	void Slide::OutRender(REngine::Renderer& renderer)
@@ -147,12 +147,12 @@ namespace Transition
 		endLeft = m_points[0] + (DirectX::SimpleMath::Vector2(m_points[2] - m_points[0])) * REngine::Easing::EaseOutQuad(m_elapsedTime / m_transSec);
 		endRight = m_points[1] + (DirectX::SimpleMath::Vector2(m_points[3] - m_points[1])) * REngine::Easing::EaseOutQuad(m_elapsedTime / m_transSec);
 
-		renderer.Draw().UI().Rect(
-			m_points[0],
-			m_points[1],
-			endRight,
-			endLeft,
-			m_slideColor, true
-		);
+		//renderer.Draw().UI().Rect(
+		//	m_points[0],
+		//	m_points[1],
+		//	endRight,
+		//	endLeft,
+		//	m_slideColor, true
+		//);
 	}
 }

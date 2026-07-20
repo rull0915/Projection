@@ -12,10 +12,10 @@
 #include "pch.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
-#include "System/ResourceManager.h"
 #include "Renderer/Renderer.h"
 
 #include "Editor/Loader/ObjectLoader.h"
+#include "System/ResourceManager.h"
 
 namespace REngine
 {
@@ -59,11 +59,27 @@ namespace REngine
 		// シーンの描画処理
 		if (m_currentScene) m_currentScene->Render(renderer);
 
-		// 描画開始
-		renderer.Start(ResourceManager::Instance().GetResources()->GetD3DDeviceContext());
-
 		// シーンのスクリーンへの描画処理
 		if (m_currentScene) m_currentScene->RenderOnScreen(renderer);
+
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 9; j++)
+			{
+				renderer.Draw().UI().DrawBox({ i * 80.0f, j * 80.0f }, { (i + 1) * 80.0f, (j + 1) * 80.0f }, { 1, 1, 1, 1 }, false);
+			}
+		}
+
+		// テスト
+		renderer.Draw().Sprite().Draw(
+			ResourceManager::Instance().GetTexture("tilemap_packed"),
+			DirectX::SimpleMath::Vector2{ 100, 100 },
+			DirectX::SimpleMath::Vector2{ 300, 300 },
+			DirectX::SimpleMath::Vector2{ 1.5f, 1.5f },
+			0,
+			DirectX::SimpleMath::Vector2{ 1, 1 },
+			DirectX::SimpleMath::Color{ 1, 1, 1, 1 }
+		);
 
 		// 遷移演出の描画
 		m_transitionManager.Render(renderer);

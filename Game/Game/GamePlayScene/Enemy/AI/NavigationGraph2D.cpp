@@ -63,7 +63,7 @@ void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, REngine::Rende
 
 		// 繋ぐ線を描画
 		auto& w = REngine::WorldSetting2D::Instance();
-		renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
+		// renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
 	}
 }
 

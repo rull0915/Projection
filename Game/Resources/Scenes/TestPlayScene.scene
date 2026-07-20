@@ -31,11 +31,10 @@
                                         500.0
                                     ]
                                 },
-                                "Type": "RectTransform"
+                                "Type": "REngine::RectTransform"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 0.10000000149011612,
                                     "m_color": [
                                         1.0,
                                         1.0,
@@ -51,7 +50,7 @@
                                     ],
                                     "m_textureName": "Default"
                                 },
-                                "Type": "ImageUI"
+                                "Type": "REngine::ImageUI"
                             }
                         ],
                         "m_isActive": true,
@@ -93,11 +92,10 @@
                                         900.0
                                     ]
                                 },
-                                "Type": "RectTransform"
+                                "Type": "REngine::RectTransform"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         1.0,
                                         1.0,
@@ -113,7 +111,7 @@
                                     ],
                                     "m_textureName": "Projection_Logo"
                                 },
-                                "Type": "ImageUI"
+                                "Type": "REngine::ImageUI"
                             }
                         ],
                         "m_isActive": true,
@@ -148,11 +146,10 @@
                                         63.79999923706055
                                     ]
                                 },
-                                "Type": "RectTransform"
+                                "Type": "REngine::RectTransform"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         0.7763713002204895,
                                         0.7763713002204895,
@@ -168,11 +165,10 @@
                                     ],
                                     "m_textureName": "Default"
                                 },
-                                "Type": "ImageUI"
+                                "Type": "REngine::ImageUI"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         0.0,
                                         0.0,
@@ -194,7 +190,7 @@
                                     ],
                                     "m_text": "Start"
                                 },
-                                "Type": "TextUI"
+                                "Type": "REngine::TextUI"
                             },
                             {
                                 "Data": {
@@ -218,7 +214,7 @@
                                         1.0
                                     ]
                                 },
-                                "Type": "ButtonUI"
+                                "Type": "REngine::ButtonUI"
                             },
                             {
                                 "Data": {
@@ -243,7 +239,7 @@
                                     "m_use3DAudio": false,
                                     "m_volume": 1.0
                                 },
-                                "Type": "AudioSource"
+                                "Type": "REngine::AudioSource"
                             }
                         ],
                         "m_isActive": true,
@@ -282,7 +278,7 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "REngine::Transform"
                     },
                     {
                         "Data": {
@@ -292,13 +288,13 @@
                             "m_isActive": true,
                             "m_nearZ": 0.10000000149011612
                         },
-                        "Type": "StandardCamera"
+                        "Type": "REngine::StandardCamera"
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "AudioListener"
+                        "Type": "REngine::AudioListener"
                     },
                     {
                         "Data": {
@@ -306,7 +302,7 @@
                             "m_isActive": true,
                             "m_keyName": "Skybox"
                         },
-                        "Type": "SkyboxComponent"
+                        "Type": "REngine::SkyboxComponent"
                     },
                     {
                         "Data": {
@@ -377,7 +373,7 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "REngine::Transform"
                     },
                     {
                         "Data": {
@@ -385,7 +381,7 @@
                             "m_isActive": true,
                             "m_modelName": "Platform_2x2"
                         },
-                        "Type": "ModelComponent"
+                        "Type": "REngine::ModelComponent"
                     }
                 ],
                 "m_isActive": true,
@@ -415,7 +411,7 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "REngine::Transform"
                     },
                     {
                         "Data": {
@@ -428,7 +424,7 @@
                             "m_use3DAudio": false,
                             "m_volume": 1.0
                         },
-                        "Type": "AudioSource"
+                        "Type": "REngine::AudioSource"
                     }
                 ],
                 "m_isActive": true,
@@ -460,7 +456,7 @@
                                         0.30000001192092896
                                     ]
                                 },
-                                "Type": "Transform"
+                                "Type": "REngine::Transform"
                             },
                             {
                                 "Data": {
@@ -468,7 +464,7 @@
                                     "m_isActive": true,
                                     "m_modelName": "Key"
                                 },
-                                "Type": "ModelComponent"
+                                "Type": "REngine::ModelComponent"
                             }
                         ],
                         "m_isActive": true,
@@ -497,7 +493,7 @@
                                 1.7000000476837158
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "REngine::Transform"
                     },
                     {
                         "Data": {
@@ -505,7 +501,7 @@
                             "m_isActive": true,
                             "m_modelName": "Platform_4x2"
                         },
-                        "Type": "ModelComponent"
+                        "Type": "REngine::ModelComponent"
                     }
                 ],
                 "m_isActive": true,
@@ -537,7 +533,7 @@
                                         0.25
                                     ]
                                 },
-                                "Type": "Transform"
+                                "Type": "REngine::Transform"
                             },
                             {
                                 "Data": {
@@ -545,7 +541,7 @@
                                     "m_isActive": true,
                                     "m_modelName": "Coin"
                                 },
-                                "Type": "ModelComponent"
+                                "Type": "REngine::ModelComponent"
                             }
                         ],
                         "m_isActive": true,
@@ -574,7 +570,7 @@
                                 1.7999999523162842
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "REngine::Transform"
                     },
                     {
                         "Data": {
@@ -582,7 +578,7 @@
                             "m_isActive": true,
                             "m_modelName": "Platform_4x1"
                         },
-                        "Type": "ModelComponent"
+                        "Type": "REngine::ModelComponent"
                     }
                 ],
                 "m_isActive": true,

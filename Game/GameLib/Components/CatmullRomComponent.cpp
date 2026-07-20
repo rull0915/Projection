@@ -69,7 +69,7 @@ void CatmullRomComponent::DebugRender(REngine::Renderer & renderer, const Direct
 			) + m_offset;
 
 			// 描画
-			renderer.Draw().Line(prev, now, color);
+			// renderer.Draw().Line(prev, now, color);
 		}
 	}
 }

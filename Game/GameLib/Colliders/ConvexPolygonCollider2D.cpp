@@ -125,7 +125,7 @@ void ConvexPolygonCollider2D::DebugRender(REngine::Renderer& renderer, const Dir
 	for (int i = 0; i < vertices.size(); ++i)
 	{
 		// 描画
-		renderer.Draw().Line(vertices3D[i], vertices3D[(i + 1) % vertices.size()], color);
+		// renderer.Draw().Line(vertices3D[i], vertices3D[(i + 1) % vertices.size()], color);
 	}
 }
 
