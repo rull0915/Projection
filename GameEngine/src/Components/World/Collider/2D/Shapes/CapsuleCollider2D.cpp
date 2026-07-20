@@ -108,7 +108,7 @@ namespace REngine
 
 		if (nV.LengthSquared() < 0.001f)
 		{
-			renderer.Draw().Circle(world2D.Local2DToWorld3D({ p1.x, p1.y }), world2D.GetNormal(), rad, 16, color, false);
+			//renderer.Draw().Circle(world2D.Local2DToWorld3D({ p1.x, p1.y }), world2D.GetNormal(), rad, 16, color, false);
 		}
 		else
 		{
@@ -120,11 +120,11 @@ namespace REngine
 			p5 = { p2 + nV * rad };
 			p6 = { p2 - nV * rad + v * 0.01f };
 
-			renderer.Draw().Arc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, color, false);
-			renderer.Draw().Arc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, color, false);
+			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, color, false);
+			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, color, false);
 
-			renderer.Draw().Line(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), color);
-			renderer.Draw().Line(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
+			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), color);
+			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
 		}
 	}
 }	// namespace REngine

@@ -57,8 +57,8 @@ namespace REngine
 		float rad = GetRadius();
 
 		// 描画
-		renderer.Draw().Circle(pos, pT->GetUp(), rad, 16, color, false);
-		renderer.Draw().Circle(pos, pT->GetRight(), rad, 16, color, false);
-		renderer.Draw().Circle(pos, pT->GetForward(), rad, 16, color, false);
+		renderer.Draw().Primitive().DrawCircle(pos, pT->GetUp(), rad, 16, color, false);
+		renderer.Draw().Primitive().DrawCircle(pos, pT->GetRight(), rad, 16, color, false);
+		renderer.Draw().Primitive().DrawCircle(pos, pT->GetForward(), rad, 16, color, false);
 	}
 }	// namespace REngine

@@ -97,7 +97,7 @@ namespace REngine
 
 		for (int i = 0; i < 12; i++)
 		{
-			renderer.Draw().Line(points[edges[i * 2]], points[edges[i * 2 + 1]], color);
+			renderer.Draw().Primitive().DrawLine(points[edges[i * 2]], points[edges[i * 2 + 1]], color);
 		}
 	}
 }	// namespace REngine

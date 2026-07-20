@@ -53,6 +53,6 @@ namespace REngine
 		auto& world2D = WorldSetting2D::Instance();
 
 		float rad = GetRadius();
-		renderer.Draw().Circle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
+		renderer.Draw().Primitive().DrawCircle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
 	}
 }	// namespace REngine

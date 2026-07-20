@@ -187,18 +187,18 @@ namespace REngine
 
 		v1.Normalize(); v2.Normalize(); v3.Normalize(); v4.Normalize();
 
-		renderer.Draw().Arc(p1, v5, v6, 16, rad, color, false);
-		renderer.Draw().Arc(p1, v7, v8, 16, rad, color, false);
-		renderer.Draw().Circle(p1, v, rad, 16, color, false);
+		renderer.Draw().Primitive().DrawArc(p1, v5, v6, 16, rad, color, false);
+		renderer.Draw().Primitive().DrawArc(p1, v7, v8, 16, rad, color, false);
+		renderer.Draw().Primitive().DrawCircle(p1, v, rad, 16, color, false);
 
-		renderer.Draw().Arc(p2, v1, v2, 16, rad, color, false);
-		renderer.Draw().Arc(p2, v3, v4, 16, rad, color, false);
-		renderer.Draw().Circle(p2, v, rad, 16, color, false);
+		renderer.Draw().Primitive().DrawArc(p2, v1, v2, 16, rad, color, false);
+		renderer.Draw().Primitive().DrawArc(p2, v3, v4, 16, rad, color, false);
+		renderer.Draw().Primitive().DrawCircle(p2, v, rad, 16, color, false);
 
-		renderer.Draw().Line(p1 + v1 * rad, p2 + v1 * rad, color);
-		renderer.Draw().Line(p1 + v2 * rad, p2 + v2 * rad, color);
-		renderer.Draw().Line(p1 + v3 * rad, p2 + v3 * rad, color);
-		renderer.Draw().Line(p1 + v4 * rad, p2 + v4 * rad, color);
+		renderer.Draw().Primitive().DrawLine(p1 + v1 * rad, p2 + v1 * rad, color);
+		renderer.Draw().Primitive().DrawLine(p1 + v2 * rad, p2 + v2 * rad, color);
+		renderer.Draw().Primitive().DrawLine(p1 + v3 * rad, p2 + v3 * rad, color);
+		renderer.Draw().Primitive().DrawLine(p1 + v4 * rad, p2 + v4 * rad, color);
 
 		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 	}

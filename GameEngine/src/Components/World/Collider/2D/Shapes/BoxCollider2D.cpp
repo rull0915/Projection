@@ -101,7 +101,7 @@ namespace REngine
 		// 描画
 		for (int i = 0; i < 4; i++)
 		{
-			renderer.Draw().Line(
+			renderer.Draw().Primitive().DrawLine(
 				DirectX::SimpleMath::Vector3{ worldPoints[i] },
 				DirectX::SimpleMath::Vector3{ worldPoints[(i + 1) % 4] },
 				color);
