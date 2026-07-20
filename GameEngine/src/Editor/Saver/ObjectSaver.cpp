@@ -10,14 +10,14 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
+#include <string_view>
 #include <filesystem>
 #include <fstream>
 
 #include "Editor/Saver/ObjectSaver.h"
+#include "nameof/nameof.hpp"
 
 #include "GameObject/GameObject.h"
-#include "Common/ClassNameGetter.h"
-
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"
 
@@ -67,19 +67,19 @@ namespace REngine
 				js[property.name] = { v->x, v->y };
 				break;
 			}
-									  // Vector3
+				// Vector3
 			case PropertyType::Vector3: {
 				auto v = (static_cast<DirectX::SimpleMath::Vector3*>(property.value));
 				js[property.name] = { v->x, v->y, v->z };
 				break;
 			}
-									  // Quaternion
+				// Quaternion
 			case PropertyType::Quaternion: {
 				auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(property.value));
 				js[property.name] = { v->x, v->y, v->z, v->w };
 				break;
 			}
-										 // Color
+				// Color
 			case PropertyType::Color: {
 				auto v = (static_cast<DirectX::SimpleMath::Color*>(property.value));
 				js[property.name] = { v->x, v->y, v->z, v->w };
@@ -106,11 +106,11 @@ namespace REngine
 			json compJson = SaveProperty(*component);
 
 			// コンポーネント名を取得
-			std::string componentName = ClassNameGetter::Get(*component);
+			auto componentName = NAMEOF_SHORT_TYPE_RTTI(*component);
 
 			j["Components"].push_back(
 				{
-					{ "Type", componentName},
+					{ "Type", componentName.data()},
 					{ "Data", compJson },
 				}
 				);

@@ -15,7 +15,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "System/WindowManager.h"
-#include "System/ResourceManager.h"
+#include "System/GraphicsManager.h"
 
 #include "Input/MouseInput.h"
 
@@ -77,7 +77,7 @@ namespace REngine
 		ImGui::SameLine();
 		if (ImGui::Button("Load")) {
 
-			HWND hwnd = ResourceManager::Instance().GetResources()->GetWindow();
+			HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
 
 			int result = MessageBox(
 				hwnd,

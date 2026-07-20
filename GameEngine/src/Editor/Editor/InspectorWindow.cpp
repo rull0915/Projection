@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "InspectorWindow.h"
 
-#include "Common/ClassNameGetter.h"
+#include "nameof/nameof.hpp"
 #include "System/WindowManager.h"
 #include "Editor/Loader/ComponentFactory.h"
 
@@ -101,12 +101,12 @@ namespace REngine
 		for (auto& component : gameObject->GetAllComponents())
 		{
 			// コンポーネント名を取得
-			std::string componentName = ClassNameGetter::Get(*component);
+			auto name = NAMEOF_SHORT_TYPE_RTTI(*component);
 
 			// ID衝突防止
 			ImGui::PushID(component);
 
-			bool open = ImGui::TreeNode(componentName.c_str());
+			bool open = ImGui::TreeNode(name.data());
 
 			// 右クリック時のメニュー
 			if (ImGui::BeginPopupContextItem())
