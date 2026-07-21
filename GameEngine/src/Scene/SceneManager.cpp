@@ -62,24 +62,8 @@ namespace REngine
 		// シーンのスクリーンへの描画処理
 		if (m_currentScene) m_currentScene->RenderOnScreen(renderer);
 
-		for (int i = 0; i < 16; i++)
-		{
-			for (int j = 0; j < 9; j++)
-			{
-				renderer.Draw().UI().DrawBox({ i * 80.0f, j * 80.0f }, { (i + 1) * 80.0f, (j + 1) * 80.0f }, { 1, 1, 1, 1 }, false);
-			}
-		}
-
-		// テスト
-		renderer.Draw().Sprite().Draw(
-			ResourceManager::Instance().GetTexture("tilemap_packed"),
-			DirectX::SimpleMath::Vector2{ 100, 100 },
-			DirectX::SimpleMath::Vector2{ 300, 300 },
-			DirectX::SimpleMath::Vector2{ 1.5f, 1.5f },
-			0,
-			DirectX::SimpleMath::Vector2{ 1, 1 },
-			DirectX::SimpleMath::Color{ 1, 1, 1, 1 }
-		);
+		// 描画終了
+		renderer.End();
 
 		// 遷移演出の描画
 		m_transitionManager.Render(renderer);

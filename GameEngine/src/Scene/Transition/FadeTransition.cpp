@@ -61,7 +61,7 @@ namespace REngine
 			m_fadeColor.w = (alpha / 255.0f);
 
 			// 描画
-			// renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
+			renderer.Draw().UI().DrawBox({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor, true);
 		}
 
 		void Fade::OutRender(Renderer& renderer)
@@ -73,7 +73,7 @@ namespace REngine
 			m_fadeColor.w = (alpha / 255.0f);
 
 			// 描画
-			// renderer.Draw().UI().Box({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor);
+			renderer.Draw().UI().DrawBox({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor, true);
 		}
 	}
 }	// namespace REngine

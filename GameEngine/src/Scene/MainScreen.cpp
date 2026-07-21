@@ -42,10 +42,11 @@ namespace REngine
 	{
 		if (m_draw)
 		{
-			//// 描画
-			//renderer.Draw().Sprite()
-			//	.Extend(m_scale)
-			//	.Execute(m_defaultRenderTarget->GetShaderResourceView(), m_startPoint);
+			// 描画
+			renderer.Draw().Sprite()
+				.Draw(
+					m_defaultRenderTarget->GetShaderResourceView(), m_startPoint, m_scale, 0, { 1, 1, 1, 1 }
+				);
 		}
 	}
 

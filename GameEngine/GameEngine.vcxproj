@@ -154,6 +154,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\AssetBase.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
@@ -377,6 +378,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="src\Assets\AssetBase.h" />
     <ClInclude Include="src\Editor\Editor\GuizmoManager.h" />
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />

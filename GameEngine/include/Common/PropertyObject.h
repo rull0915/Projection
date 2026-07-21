@@ -39,6 +39,7 @@ namespace REngine
 		Vector3,
 		Quaternion,
 		Color,
+		Object,
 	};
 
 	// プロパティ
@@ -54,18 +55,23 @@ namespace REngine
 	{
 	private:
 		// プロパティ一覧
-		std::vector<Property> m_propaties;
+		std::vector<Property> m_properties;
 
 	protected:
 		// コンストラクタ
 		PropertyObject()
-			: m_propaties{}
+			: m_properties{}
 		{}
+		// コピー禁止
+		PropertyObject(const PropertyObject&) = delete;
+		PropertyObject& operator=(const PropertyObject&) = delete;
+
+		// デストラクタ
 		virtual ~PropertyObject() = default;
 
 	public:
 		// プロパティを取得する関数
-		const std::vector<Property>& GetPropaties() const { return m_propaties; }
+		const std::vector<Property>& GetPropaties() const { return m_properties; }
 
 	protected:
 		// プロパティの追加関数
@@ -73,7 +79,7 @@ namespace REngine
 		void AddProperty(std::string name, T* value)
 		{
 			// 追加
-			m_propaties.push_back({ name, GetPropertyType<T>(), value });
+			m_properties.push_back({ name, GetPropertyType<T>(), value });
 		}
 
 	private:
@@ -97,6 +103,8 @@ namespace REngine
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
 			// Color
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Color>) return PropertyType::Color;
+			// PropertyObject派生
+			else if constexpr (std::is_base_of_v<PropertyObject, T>) return PropertyType::Object;
 
 			// その他
 			else return PropertyType::None;
