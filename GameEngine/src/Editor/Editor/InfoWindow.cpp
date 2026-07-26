@@ -12,8 +12,8 @@
 #include "pch.h"
 #include "InfoWindow.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
+#include "ThirdParty/imgui/imgui.h"
+#include "ThirdParty/imgui/imgui_internal.h"
 #include "System/WindowManager.h"
 #include "System/GraphicsManager.h"
 

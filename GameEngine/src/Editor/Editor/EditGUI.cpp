@@ -11,9 +11,9 @@
 //====================================================//
 #include "pch.h"
 #include "Editor/Editor/EditGUI.h"
-#include "imgui/imgui_internal.h"
+#include "ThirdParty/imgui/imgui_internal.h"
 
-#include "imgui/imgui.h"
+#include "ThirdParty/imgui/imgui.h"
 #include "Input/KeyInput.h"
 
 #include "System/WindowManager.h"

@@ -12,8 +12,8 @@
 #include "pch.h"
 #include "ProjectWindow.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_stdlib.h"
+#include "ThirdParty/imgui/imgui.h"
+#include "ThirdParty/imgui/imgui_stdlib.h"
 
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
@@ -58,137 +58,44 @@ namespace REngine
 
 	void ProjectWindow::DrawResources()
 	{
-		ImGui::Text("Resources");
+		// ファイル構造を再帰的に表示する
 
-		ImGui::BeginChild("Resources", ImVec2(0, 0), ImGuiChildFlags_Borders);
+		// ルートフォルダを設定
+		std::wstring root = L"Resources";
 
-		if (ImGui::TreeNodeEx("Models", ImGuiTreeNodeFlags_DefaultOpen))
+		DrawFileStructure(root);
+	}
+
+	void ProjectWindow::DrawFileStructure(const std::filesystem::path& path)
+	{
+		// filesystemを省略
+		namespace fs = std::filesystem;
+
+		// フォルダ名でツリーを開始
+		if (ImGui::TreeNode(path.stem().string().c_str()))
 		{
-			// モデル
-			for (auto& model : ResourceManager::Instance().GetAllModels())
+			// ディレクトリ直下に含まれるファイルを走査
+			for (const auto& file : fs::directory_iterator(path))
 			{
-				ImGui::InputText(
-					("##" + model.first).c_str(),
-					const_cast<std::string*>(&model.first),
-					ImGuiInputTextFlags_ReadOnly
-				);
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNodeEx("Textures", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			// テクスチャ
-			for (auto& texture : ResourceManager::Instance().GetAllTextures())
-			{
-				ImGui::InputText(
-					("##" + texture.first).c_str(),
-					const_cast<std::string*>(&texture.first),
-					ImGuiInputTextFlags_ReadOnly
-				);
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNodeEx("Sounds", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			// サウンド
-			for (auto& sound : ResourceManager::Instance().GetAllSounds())
-			{
-				ImGui::InputText(
-					("##" + sound.first).c_str(),
-					const_cast<std::string*>(&sound.first),
-					ImGuiInputTextFlags_ReadOnly
-				);
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNodeEx("Fonts", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			// フォント
-			for (auto& font : ResourceManager::Instance().GetAllFonts())
-			{
-				ImGui::InputText(
-					("##" + font.first).c_str(),
-					const_cast<std::string*>(&font.first),
-					ImGuiInputTextFlags_ReadOnly
-				);
-			}
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNodeEx("Objects", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			// オブジェクト
-			for (auto& object : PrefabManager::Instance().GetAllObjects())
-			{
-				ImGui::Text(object.first.c_str());	// ドラッグの開始
-
-				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+				// フォルダなら
+				if (file.is_directory())
 				{
-					// 渡したいデータを設定
-					ImGui::SetDragDropPayload("PREFAB", &object.second, sizeof(object.second));
+					// 再帰的に表示
+					DrawFileStructure(file.path());
+				}
+				// 通常のファイルなら
+				else
+				{
+					// ファイル名を取得
+					std::string fileName = file.path().stem().string();
 
-					// ドラッグ中に表示される内容
-					ImGui::Text(object.first.c_str());
-
-					ImGui::EndDragDropSource();
+					// 出力
+					ImGui::Text(fileName.c_str());
 				}
 			}
 
+			// ツリーの終了
 			ImGui::TreePop();
-		}
-
-		ImGui::EndChild();
-
-
-		if (ImGui::BeginDragDropTarget())
-		{
-			// WORLDオブジェクトを受け取ったら
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("WORLD_OBJECT"))
-			{
-				auto data = (GameObject*)payload->Data;
-
-				// ファイルを開き保存
-				auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Objects/", L".gameobject");
-
-				// セーブ
-				if (!path.empty())
-				{
-					ObjectSaver::SaveObjectToFile(
-						path,
-						data
-					);
-
-					// マネージャーに追加
-					PrefabManager::Instance().AddPrefab(std::filesystem::path(path).stem().string(), path);
-				}
-			}
-			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("UI_OBJECT"))
-			{
-				auto data = (GameObject*)payload->Data;
-
-				// ファイルを開き保存
-				auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Objects/", L".gameobject");
-
-				// セーブ
-				if (!path.empty())
-				{
-					ObjectSaver::SaveObjectToFile(
-						path,
-						data
-					);
-
-					// マネージャーに追加
-					PrefabManager::Instance().AddPrefab(std::filesystem::path(path).stem().string(), path);
-				}
-			}
-			ImGui::EndDragDropTarget();
 		}
 	}
 }	// namespace REngine

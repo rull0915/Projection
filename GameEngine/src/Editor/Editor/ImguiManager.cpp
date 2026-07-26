@@ -12,10 +12,10 @@
 #include "pch.h"
 #include "Editor/Editor/ImguiManager.h"
 
-#include "imgui/imgui.h"
-#include "imgui/ImGuizmo.h"
-#include "imgui/imgui_impl_win32.h"
-#include "imgui/imgui_impl_dx11.h"
+#include "ThirdParty/imgui/imgui.h"
+#include "ThirdParty/imgui/ImGuizmo.h"
+#include "ThirdParty/imgui/imgui_impl_win32.h"
+#include "ThirdParty/imgui/imgui_impl_dx11.h"
 
 namespace REngine
 {

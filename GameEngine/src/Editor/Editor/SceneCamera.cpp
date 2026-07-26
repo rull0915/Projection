@@ -126,7 +126,7 @@ namespace REngine
 		// ホイールの移動量
 		int wheel = Input::Mouse::GetWheelMoveValue();
 
-		m_radius += wheel * m_scaleRatio;
+		m_radius -= wheel * m_scaleRatio;
 
 		m_radius = std::clamp(m_radius, 0.1f, 100.0f);
 

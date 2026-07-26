@@ -12,11 +12,11 @@
 #include "pch.h"
 #include "InspectorWindow.h"
 
-#include "nameof/nameof.hpp"
+#include "ThirdParty/nameof/nameof.hpp"
 #include "System/WindowManager.h"
 #include "Editor/Loader/ComponentFactory.h"
 
-#include "imgui/imgui.h"
+#include "ThirdParty/imgui/imgui.h"
 #include "Managers/UI/Canvas.h"
 
 namespace REngine
@@ -38,7 +38,6 @@ namespace REngine
 
 		// 描画終了
 		ImGui::End();
-		m_propertyOnInspector.End();
 
 		return clicked;
 	}
@@ -65,40 +64,35 @@ namespace REngine
 		ImGui::Text("Object");
 		ImGui::Separator();
 
-		bool changed = false;
-
-		// 全プロパティを取得
-		for (auto& property : object->GetPropaties())
-		{
-			// 表示
-			if (m_propertyOnInspector.DrawProperty(&property)) changed = true;
-		}
+		// 表示
+		bool changed = m_propertyOnInspector.DrawPropertyObject(object);
 
 		// 区切り
 		ImGui::NewLine();
 
 		// GameObjectの特殊処理
-		GameObject* gameObject = dynamic_cast<GameObject*>(object);
-
-		if (gameObject)
+		if (GameObject* gameObject = dynamic_cast<GameObject*>(object))
 		{
+			// 変更時関数の呼び出し
 			if (changed) gameObject->OnValidate();
-		}
-		else
-		{
-			// Canvasの特殊処理
-			Canvas* canvas = dynamic_cast<Canvas*>(object);
 
+			// 表示
+			DrawGameObject(gameObject);
+		}
+		else if(Canvas* canvas = dynamic_cast<Canvas*>(object))
+		{			
+			// 描画順変更の適用
 			if (changed) canvas->SetDrawOrder(canvas->GetDrawOrder());
-
-			return;
 		}
+	}
 
+	void InspectorWindow::DrawGameObject(GameObject* object)
+	{
 		ImGui::Text("ComponentList");
 		ImGui::BeginChild("ComponentList", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), true);
 
 		// 全コンポーネントを取得
-		for (auto& component : gameObject->GetAllComponents())
+		for (auto& component : object->GetAllComponents())
 		{
 			// コンポーネント名を取得
 			auto name = NAMEOF_SHORT_TYPE_RTTI(*component);
@@ -114,8 +108,8 @@ namespace REngine
 				// Deleteを表示
 				if (ImGui::MenuItem("Delete"))
 				{
-					// 削除
-					gameObject->RemoveComponent(component);
+					// 押されたら削除
+					object->RemoveComponent(component);
 				}
 				ImGui::EndPopup();
 			}
@@ -123,15 +117,11 @@ namespace REngine
 			// ツリーの開始
 			if (open)
 			{
-				// 全プロパティを取得
-				for (auto& property : component->GetPropaties())
+				// インスペクターに表示
+				if (m_propertyOnInspector.DrawPropertyObject(component))
 				{
-					// 表示
-					// 値が変わっていたら
-					if (m_propertyOnInspector.DrawProperty(&property))
-					{
-						component->OnValidate();
-					}
+					// 変更時関数の呼び出し
+					component->OnValidate();
 				}
 
 				// 区切り
@@ -147,7 +137,7 @@ namespace REngine
 		ImGui::EndChild();
 
 		// AddComponentボタンを追加
-		DrawAddComponent(gameObject);
+		DrawAddComponent(object);
 	}
 
 	void InspectorWindow::DrawAddComponent(GameObject* object)

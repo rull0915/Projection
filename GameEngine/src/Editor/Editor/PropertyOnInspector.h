@@ -14,7 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 
 namespace REngine
 {
@@ -39,17 +39,22 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		PropertyOnInspector() = default;
+		PropertyOnInspector()
+			: m_quaternionCache{ DirectX::SimpleMath::Vector3::Zero }
+			, m_quaternionEditing{ false }
+		{
+		}
+
 		~PropertyOnInspector() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 		
+		// プロパティオブジェクトを表示する関数
+		bool DrawPropertyObject(const PropertyObject* object);
+
 		// プロパティを一つ表示する関数
 		bool DrawProperty(const Property* property);
-
-		// 終了時関数
-		void End();
 	};
 }

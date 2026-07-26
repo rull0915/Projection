@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "HierarchyWindow.h"
 
-#include "imgui/imgui.h"
+#include "ThirdParty/imgui/imgui.h"
 
 #include "System/WindowManager.h"
 #include "Managers/ObjectManager.h"

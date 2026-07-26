@@ -18,6 +18,11 @@
 #include <string>
 #include <vector>
 
+#include "Property.h"
+#include "Assets/Objects/Handle.h"
+#include "EnumRegistry.h"
+#include "AssetPropertyRegistry.h"
+
 // マクロ
 #define ADD_PROPERTY(property) (AddProperty(#property, &property))
 
@@ -27,29 +32,6 @@
 
 namespace REngine
 {
-	// 型の列挙型
-	enum class PropertyType
-	{
-		None,
-		Int,
-		Float,
-		Bool,
-		String,
-		Vector2,
-		Vector3,
-		Quaternion,
-		Color,
-		Object,
-	};
-
-	// プロパティ
-	struct Property
-	{
-		std::string name;
-		PropertyType type;
-		void* value;
-	};
-
 	// プロパティを扱うオブジェクトの基底クラス
 	class PropertyObject
 	{
@@ -78,8 +60,29 @@ namespace REngine
 		template<typename T>
 		void AddProperty(std::string name, T* value)
 		{
-			// 追加
-			m_properties.push_back({ name, GetPropertyType<T>(), value });
+			Property prop{ name, GetPropertyType<T>(), value };
+
+			// 列挙型なら
+			if constexpr (std::is_enum_v<T>)
+			{
+				// 登録
+				EnumRegistry::Instance().Register<T>();
+
+				// タイプインデックスを保存
+				prop.typeIndex = std::type_index(typeid(T));
+			}
+			// AssetHandleなら
+			else if constexpr (IsHandle_v<T>)
+			{
+				// 登録
+				AssetPropertyRegistry::Instance().Register<T>();
+
+				// タイプインデックスを保存
+				prop.typeIndex = std::type_index(typeid(T));
+			}
+
+			// 配列に追加
+			m_properties.push_back(prop);
 		}
 
 	private:
@@ -105,6 +108,10 @@ namespace REngine
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Color>) return PropertyType::Color;
 			// PropertyObject派生
 			else if constexpr (std::is_base_of_v<PropertyObject, T>) return PropertyType::Object;
+			// 列挙型
+			else if constexpr (std::is_enum_v<T>) return PropertyType::Enum;
+			// Handle
+			else if constexpr (IsHandle_v<T>) return PropertyType::AssetHandle;
 
 			// その他
 			else return PropertyType::None;

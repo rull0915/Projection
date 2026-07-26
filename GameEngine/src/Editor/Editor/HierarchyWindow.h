@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 
 namespace REngine
 {

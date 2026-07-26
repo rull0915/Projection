@@ -17,7 +17,7 @@
 #include <unordered_map>
 
 #include "PropertyOnInspector.h"
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/ComponentCategory.h"
@@ -59,8 +59,11 @@ namespace REngine
 		// インスペクター描画の開始
 		bool StartInspector();
 
-		// GameObjectの情報をInspectorに表示する関数
+		// PropertyObjectの情報をInspectorに表示する関数
 		void DrawPropertyObjectOnInspector(PropertyObject* object);
+
+		// GameObjectを表示する関数
+		void DrawGameObject(GameObject* object);
 
 		// コンポーネントの追加を表示する関数
 		void DrawAddComponent(GameObject* object);
