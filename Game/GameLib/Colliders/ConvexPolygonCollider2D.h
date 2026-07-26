@@ -102,12 +102,6 @@ public:
 
 		m_localVertices.push_back(vertex);
 
-		// もし追加されることで凸でなくなる場合削除する
-		//if (!IsConvex())
-		//{
-		//	m_localVertices.pop_back();
-		//}
-
 		SetDirty();
 	}
 	void PopVertex()

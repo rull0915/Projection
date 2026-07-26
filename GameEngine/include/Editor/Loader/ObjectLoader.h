@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <nlohmann/json.hpp>
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 
 namespace REngine
 {

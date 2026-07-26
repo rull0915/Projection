@@ -16,7 +16,7 @@
 #include "Editor/Editor/ImguiManager.h"
 
 #include "System/EngineInitializer.h"
-#include "Common/Random.h"
+#include "System/AssetInitializer.h"
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
 #include "Debug/DebugManager.h"
@@ -32,14 +32,12 @@ namespace REngine
 	GameEngine::GameEngine()
 		: m_gameTimer{ std::make_unique<GameTimer>() }
 		, m_renderer{ std::make_unique<Renderer>() }
+		, m_assetManager{ std::make_unique<AssetManager>() }
 		, m_editor{}
 	{}
 
 	void GameEngine::Initialize(DX::DeviceResources* deviceResources, HWND window)
 	{
-		// 乱数の初期化
-		Random::Init();
-
 		// デバイス コンテキストの取得
 		auto* device = deviceResources->GetD3DDevice();
 		auto* context = deviceResources->GetD3DDeviceContext();
@@ -59,6 +57,12 @@ namespace REngine
 
 		// リソースマネージャの初期化
 		ResourceManager::Instance().Initialize();
+
+		// アセットの初期化
+		AssetInitializer::AssetInitialize(*m_assetManager);
+
+		// アセット管理クラスの初期化
+		m_assetManager->Initialize(L"Resources");
 
 		// エディターの生成
 		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene());
@@ -131,5 +135,10 @@ namespace REngine
 
 		// Imguiの終了
 		ImguiManager::Finalize();
+	}
+
+	void GameEngine::RegistryAssets()
+	{
+		// m_assetManager->Registry<>();
 	}
 }	// namespace REngine

@@ -19,7 +19,7 @@
 #include "ComponentCategory.h"
 
 #include "Common/TypeIdGenerator.h"
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 
 namespace REngine
 {
@@ -102,8 +102,8 @@ namespace REngine
 		virtual void Awake() {}    // 作成直後
 		virtual void Start() {}    // 初回更新の直前
 
-		virtual void Update([[maybe_unused]] const GameTimer& gameTimer) {}  // 更新関数
-		virtual void LateUpdate([[maybe_unused]] const GameTimer& gameTimer) {}  // 遅延更新関数
+		virtual void Update(const GameTimer&) {}  // 更新関数
+		virtual void LateUpdate(const GameTimer&) {}  // 遅延更新関数
 
 		virtual void OnDestroy() {} // 削除時
 		virtual void OnValidate() {} // GUIでの値変更時
@@ -115,23 +115,23 @@ namespace REngine
 
 		// 3D
 		// 衝突
-		virtual void OnCollisionEnter([[maybe_unused]] HitContact& other) {};
-		virtual void OnCollisionStay([[maybe_unused]] HitContact& other) {};
-		virtual void OnCollisionExit([[maybe_unused]] HitContact& other) {};
+		virtual void OnCollisionEnter(HitContact&) {};
+		virtual void OnCollisionStay(HitContact&) {};
+		virtual void OnCollisionExit(HitContact&) {};
 		// トリガー
-		virtual void OnTriggerEnter([[maybe_unused]] HitContact& other) {};
-		virtual void OnTriggerStay([[maybe_unused]] HitContact& other) {};
-		virtual void OnTriggerExit([[maybe_unused]] HitContact& other) {};
+		virtual void OnTriggerEnter(HitContact&) {};
+		virtual void OnTriggerStay(HitContact&) {};
+		virtual void OnTriggerExit(HitContact&) {};
 
 		// 2D
 		// 衝突
-		virtual void OnCollisionEnter2D([[maybe_unused]] HitContact2D& other) {};
-		virtual void OnCollisionStay2D([[maybe_unused]] HitContact2D& other) {};
-		virtual void OnCollisionExit2D([[maybe_unused]] HitContact2D& other) {};
+		virtual void OnCollisionEnter2D(HitContact2D&) {};
+		virtual void OnCollisionStay2D(HitContact2D&) {};
+		virtual void OnCollisionExit2D(HitContact2D&) {};
 		// トリガー
-		virtual void OnTriggerEnter2D([[maybe_unused]] HitContact2D& other) {};
-		virtual void OnTriggerStay2D([[maybe_unused]] HitContact2D& other) {};
-		virtual void OnTriggerExit2D([[maybe_unused]] HitContact2D& other) {};
+		virtual void OnTriggerEnter2D(HitContact2D&) {};
+		virtual void OnTriggerStay2D(HitContact2D&) {};
+		virtual void OnTriggerExit2D(HitContact2D&) {};
 
 		// ----- ラップ関数 ----- //
 		template<typename T>

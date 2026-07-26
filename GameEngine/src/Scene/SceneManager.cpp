@@ -15,7 +15,6 @@
 #include "Renderer/Renderer.h"
 
 #include "Editor/Loader/ObjectLoader.h"
-#include "System/ResourceManager.h"
 
 namespace REngine
 {

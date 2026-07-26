@@ -58,7 +58,7 @@ namespace REngine
 			, m_removeReserves{}
 			, m_colliders{}
 			, m_treeObjects{}
-			, m_tree{ { 256, 256, 256 }, 5, {0, 0, 0} }
+			, m_tree{ { 1024, 1024, 1024 }, 5, {0, 0, 0} }
 		{};
 
 		~CollideManager() = default;

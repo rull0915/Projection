@@ -268,28 +268,28 @@
     <ClCompile Include="src\System\PrefabManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_demo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_draw.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_impl_dx11.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_impl_dx11.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_impl_win32.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_stdlib.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_stdlib.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_tables.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_tables.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene\MainScreen.cpp">
@@ -316,7 +316,7 @@
     <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\ImGuizmo.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\ImGuizmo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp">
@@ -325,7 +325,22 @@
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assets\AssetBase.cpp">
+    <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Managers\AuxFileRepository.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Managers\AssetManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Assets\Types\Texture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\AssetInitializer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -645,7 +660,7 @@
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\PropertyObject.h">
+    <ClInclude Include="include\Common\Property\PropertyObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h">
@@ -726,31 +741,31 @@
     <ClInclude Include="src\Editor\Editor\ProjectWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imconfig.h">
+    <ClInclude Include="src\ThirdParty\imgui\imconfig.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui.h">
+    <ClInclude Include="src\ThirdParty\imgui\imgui.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_impl_dx11.h">
+    <ClInclude Include="src\ThirdParty\imgui\imgui_impl_dx11.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h">
+    <ClInclude Include="src\ThirdParty\imgui\imgui_impl_win32.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_internal.h">
+    <ClInclude Include="src\ThirdParty\imgui\imgui_internal.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_stdlib.h">
+    <ClInclude Include="src\ThirdParty\imgui\imgui_stdlib.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h">
+    <ClInclude Include="src\ThirdParty\imgui\imstb_rectpack.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imstb_textedit.h">
+    <ClInclude Include="src\ThirdParty\imgui\imstb_textedit.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imstb_truetype.h">
+    <ClInclude Include="src\ThirdParty\imgui\imstb_truetype.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\CastString.h">
@@ -792,7 +807,7 @@
     <ClInclude Include="src\Editor\Editor\GuizmoManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\ImGuizmo.h">
+    <ClInclude Include="src\ThirdParty\imgui\ImGuizmo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\Command\DrawCommand.h">
@@ -810,10 +825,58 @@
     <ClInclude Include="include\Renderer\RenderProxy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\nameof\nameof.hpp">
+    <ClInclude Include="src\ThirdParty\nameof\nameof.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Assets\AssetBase.h">
+    <ClInclude Include="include\Assets\Objects\AssetBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ThirdParty\magic_enum\magic_enum.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\EnumRegistry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\Property.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\UUID.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\LoadStatus.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\Handle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetRegistry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetTypeManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\AssetAux.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AuxFileRepository.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetDataBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Interface\IAssetDependent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Texture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\AssetInitializer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\AssetPropertyRegistry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -140,6 +140,8 @@ $(ProjectDir)ThirdParty;
 $(ProjectDir)ThirdParty;
 %(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <GuardEHContMetadata>true</GuardEHContMetadata>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +156,11 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Assets\AssetBase.cpp" />
+    <ClCompile Include="include\Assets\Types\Texture.cpp" />
+    <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
+    <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
+    <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
+    <ClCompile Include="src\Assets\Managers\AuxFileRepository.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
@@ -201,6 +207,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
     <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp" />
+    <ClCompile Include="src\System\AssetInitializer.cpp" />
     <ClCompile Include="src\System\FactoryRegister.cpp" />
     <ClCompile Include="src\System\PrefabManager.cpp" />
     <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
@@ -262,35 +269,36 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\UI\Graphics\ImageUI.cpp" />
     <ClCompile Include="src\Components\UI\Graphics\TextUI.cpp" />
     <ClCompile Include="src\Components\UI\RectTransform\RectTransform.cpp" />
-    <ClCompile Include="ThirdParty\imgui\imgui.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\ImGuizmo.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_demo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_draw.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_impl_dx11.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_impl_dx11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_impl_win32.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_stdlib.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_stdlib.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_tables.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_tables.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp">
+    <ClCompile Include="src\ThirdParty\imgui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Assets\Types\Texture.h" />
     <ClInclude Include="include\Common\CastString.h">
       <SubType>
       </SubType>
@@ -300,12 +308,28 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Common\PropertyObject.h" />
+    <ClInclude Include="include\Common\Property\AssetPropertyRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\EnumRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\Property.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\PropertyObject.h" />
     <ClInclude Include="include\Common\Random.h" />
     <ClInclude Include="include\Common\ResourceReader.h" />
     <ClInclude Include="include\Common\State\StateBase.h" />
     <ClInclude Include="include\Common\State\StateMachine.h" />
     <ClInclude Include="include\Components\Both\BothComponents.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Components\Interface\IAssetDependent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -378,9 +402,35 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\Assets\AssetBase.h" />
+    <ClInclude Include="include\ThirdParty\magic_enum\magic_enum.hpp" />
+    <ClInclude Include="include\Assets\Managers\AssetDataBase.h" />
+    <ClInclude Include="include\Assets\Managers\AssetManager.h" />
+    <ClInclude Include="include\Assets\Objects\AssetAux.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\AssetBase.h" />
+    <ClInclude Include="include\Assets\Managers\AssetRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetTypeManager.h" />
+    <ClInclude Include="include\Assets\Managers\AuxFileRepository.h" />
+    <ClInclude Include="include\Assets\Objects\Handle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\LoadStatus.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Objects\UUID.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Editor\Editor\GuizmoManager.h" />
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
+    <ClInclude Include="src\System\AssetInitializer.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
     <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">
@@ -505,17 +555,17 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\System\Render\RenderTarget.h" />
     <ClInclude Include="include\Scene\ObjectFinder.h" />
     <ClInclude Include="src\Scene\UpdatePipeline.h" />
-    <ClInclude Include="ThirdParty\imgui\imconfig.h" />
-    <ClInclude Include="ThirdParty\imgui\imgui.h" />
-    <ClInclude Include="ThirdParty\imgui\ImGuizmo.h" />
-    <ClInclude Include="ThirdParty\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h" />
-    <ClInclude Include="ThirdParty\imgui\imgui_internal.h" />
-    <ClInclude Include="ThirdParty\imgui\imgui_stdlib.h" />
-    <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h" />
-    <ClInclude Include="ThirdParty\imgui\imstb_textedit.h" />
-    <ClInclude Include="ThirdParty\imgui\imstb_truetype.h" />
-    <ClInclude Include="ThirdParty\nameof\nameof.hpp" />
+    <ClInclude Include="src\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="src\ThirdParty\imgui\ImGuizmo.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imgui_stdlib.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\ThirdParty\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\ThirdParty\nameof\nameof.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\SkyboxEffect_PS.hlsl">

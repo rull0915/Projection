@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "Renderer/Renderer.h"
+#include "Assets/Managers/AssetManager.h"
 #include "Timer/GameTimer.h"
 #include "Editor/SceneEditor.h"
 #include "System/DeviceResources.h"
@@ -39,6 +40,9 @@ namespace REngine
 
 		// 描画担当
 		std::unique_ptr<Renderer> m_renderer;
+
+		// アセット管理
+		std::unique_ptr<AssetManager> m_assetManager;
 
 		// エディター
 		std::unique_ptr<SceneEditor> m_editor;
@@ -76,5 +80,10 @@ namespace REngine
 
 		GameTimer& GetTimer() { return *m_gameTimer; }
 		Renderer& GetRenderer() { return *m_renderer; }
+
+	private:
+
+		// アセットの登録関数
+		void RegistryAssets();
 	};
 }	// namespace REngine

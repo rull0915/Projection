@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "GameObject/GameObject.h"
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
 namespace REngine

@@ -79,6 +79,17 @@ namespace REngine
 				*(static_cast<DirectX::SimpleMath::Color*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
 				break;
 
+				// PropertyObject
+			case PropertyType::Object:
+				LoadProperty(json[property.name], *(static_cast<PropertyObject*>(property.value)));
+				break;
+
+				// Enum
+			case PropertyType::Enum: {
+				auto& registry = EnumRegistry::Instance();
+				registry.SetByName(property.typeIndex, property.value, json[property.name]);
+				break;
+			}
 			default:
 				break;
 			}

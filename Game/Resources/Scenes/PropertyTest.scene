@@ -1,0 +1,51 @@
+{
+    "UI": {
+        "Canvases": []
+    },
+    "World": {
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform"
+                    },
+                    {
+                        "Data": {
+                            "m_id": 12.300000190734863,
+                            "m_isActive": true,
+                            "m_status": {
+                                "m_attack": 512,
+                                "m_name": "Valhalla"
+                            },
+                            "m_type": "Player"
+                        },
+                        "Type": "PropertyTest"
+                    }
+                ],
+                "m_isActive": true,
+                "m_name": "",
+                "m_tag": ""
+            }
+        ]
+    }
+}

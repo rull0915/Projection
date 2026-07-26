@@ -187,6 +187,7 @@ $(ProjectDir)
       <GuardEHContMetadata>true</GuardEHContMetadata>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -206,6 +207,14 @@ $(ProjectDir)
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EngineTester\EasingConfig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EngineTester\EasingTestComponent.h" />
+    <ClInclude Include="EngineTester\MyComponent.h" />
+    <ClInclude Include="EngineTester\PropertyTest.h" />
+    <ClInclude Include="EngineTester\Status.h" />
     <ClInclude Include="GameLib\Colliders\CheckHit.h">
       <SubType>
       </SubType>
@@ -270,6 +279,10 @@ $(ProjectDir)
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
+    <ClCompile Include="EngineTester\MyComponent.cpp" />
+    <ClCompile Include="EngineTester\PropertyTest.cpp" />
+    <ClCompile Include="EngineTester\Status.cpp" />
     <ClCompile Include="GameLib\Colliders\CheckHit.cpp">
       <SubType>
       </SubType>

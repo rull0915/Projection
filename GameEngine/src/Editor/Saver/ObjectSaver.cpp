@@ -15,7 +15,7 @@
 #include <fstream>
 
 #include "Editor/Saver/ObjectSaver.h"
-#include "nameof/nameof.hpp"
+#include "ThirdParty/nameof/nameof.hpp"
 
 #include "GameObject/GameObject.h"
 #include "Managers/ObjectManager.h"
@@ -79,13 +79,24 @@ namespace REngine
 				js[property.name] = { v->x, v->y, v->z, v->w };
 				break;
 			}
-				// Color
+				 // Color
 			case PropertyType::Color: {
 				auto v = (static_cast<DirectX::SimpleMath::Color*>(property.value));
 				js[property.name] = { v->x, v->y, v->z, v->w };
 				break;
 			}
-
+				// PropertyObject
+			case PropertyType::Object: {
+				auto v = (static_cast<PropertyObject*>(property.value));
+				js[property.name] = SaveProperty(*v);
+				break;
+			}
+				// Enum
+			case PropertyType::Enum: {
+				auto& registry = EnumRegistry::Instance();
+				js[property.name] = registry.GetCurrentName(property.typeIndex, property.value);
+				break;
+			}
 			default:
 				break;
 			}

@@ -19,7 +19,7 @@
 //====================================================//
 #include <type_traits>
 
-#include "Common/PropertyObject.h"
+#include "Common/Property/PropertyObject.h"
 #include "Interface/IColliderReceiver.h"
 #include "Interface/IComponentOwner.h"
 
