@@ -275,6 +275,7 @@ $(ProjectDir)
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
     <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h" />
     <ClInclude Include="Game\SelectScene\Copmonents\SelectBlock.h" />
+    <ClInclude Include="Game\Test\HandleTester.h" />
     <ClInclude Include="Game\TitleScene\TitleToPlayEvent.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -329,6 +330,7 @@ $(ProjectDir)
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
     <ClCompile Include="Game\SelectScene\Copmonents\SelectBlock.cpp" />
+    <ClCompile Include="Game\Test\HandleTester.cpp" />
     <ClCompile Include="Game\TitleScene\TitleToPlayEvent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">

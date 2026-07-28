@@ -172,6 +172,7 @@
     <ClInclude Include="EngineTester\EasingConfig.h" />
     <ClInclude Include="EngineTester\EasingTestComponent.h" />
     <ClInclude Include="EngineTester\MyComponent.h" />
+    <ClInclude Include="Game\Test\HandleTester.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="EngineTester\Status.cpp" />
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
     <ClCompile Include="EngineTester\MyComponent.cpp" />
+    <ClCompile Include="Game\Test\HandleTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

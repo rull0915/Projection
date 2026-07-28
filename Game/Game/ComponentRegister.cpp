@@ -14,6 +14,7 @@
 #include "Game/ClearScene/ToSelectComponent.h"
 #include "Game/GamePlayScene/GameOverComponent.h"
 #include "Game/GamePlayScene/PlaySceneManager.h"
+#include "Game/Test/HandleTester.h"
 #include "Game/TitleScene/TitleToPlayEvent.h"
 #include "Game/SelectScene/Copmonents/SelectBlock.h"
 #include "Game/GamePlayScene/Camera/CameraCorrection.h"
@@ -44,6 +45,7 @@ void ComponentRegister::RegistComponents()
     REGIST_TO_FACTORY(ToSelectComponent);
     REGIST_TO_FACTORY(GameOverComponent);
     REGIST_TO_FACTORY(PlaySceneManager);
+    REGIST_TO_FACTORY(HandleTester);
     REGIST_TO_FACTORY(TitleToPlayEvent);
     REGIST_TO_FACTORY(SelectBlock);
     REGIST_TO_FACTORY(CameraCorrection);

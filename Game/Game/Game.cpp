@@ -17,7 +17,6 @@
 #include "Input/KeyInput.h"			// キー	
 
 // その他
-#include "Common/ResourceReader.h"
 #include "GameLib/Transition/SlideTransition.h"
 
 extern void ExitGame() noexcept;
@@ -79,19 +78,6 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// 開始時のシーンを設定
 	REngine::SceneManager::Instance().SetStartScene("Title");
-
-	// ====== リソースの追加 ====== //
-
-	// テクスチャ
-	REngine::ResourceReader::ReadTextures(L"Resources/Textures");
-	// 音
-	REngine::ResourceReader::ReadSounds(L"Resources/Sounds");
-	// フォント
-	REngine::ResourceReader::ReadFonts(L"Resources/Fonts");
-	// モデル
-	REngine::ResourceReader::ReadModels(L"Resources/Models");
-	// オブジェクト
-	REngine::ResourceReader::ReadObjects(L"Resources/Objects");
 }
 
 #pragma region Frame Update
