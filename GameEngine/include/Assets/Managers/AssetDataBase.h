@@ -59,11 +59,11 @@ namespace REngine
 		void ScanFile(const std::filesystem::path& root, const AssetTypeManager& typeManager);
 
 		// 相互変換を行う関数
-		UUID GetUUID(const std::wstring& path)
+		UUID GetUUID(const std::wstring& path) const
 		{
 			return m_pathToUuid.at(path);
 		}
-		const std::wstring& GetPath(UUID uuid)
+		const std::wstring& GetPath(UUID uuid) const
 		{
 			return m_uuidToPath.at(uuid);
 		}

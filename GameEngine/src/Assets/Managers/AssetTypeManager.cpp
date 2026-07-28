@@ -45,4 +45,23 @@ namespace REngine
 		// 存在しないキーなら空文字列を返す
 		return "";
 	}
+
+	std::type_index AssetTypeManager::GetAssetClass(const std::filesystem::path& path) const
+	{
+		// 拡張子を取得
+		auto ext = path.extension().wstring();
+
+		// 大文字小文字を無視する
+		std::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
+
+		// 存在するキーなら
+		if (auto it = m_assetClassMap.find(ext); it != m_assetClassMap.end())
+		{
+			// 対応するタイプ文字列を返す
+			return it->second;
+		}
+
+		// 存在しないキーならvoidとしておく
+		return std::type_index(typeid(void));
+	}
 }	// namespace REngine

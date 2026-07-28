@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : AssetBase.h
+// ファイル名   : Prefab.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
+// 作成日       : 2026/07/27
 //
-// 概要 : アセット基底クラス
+// 概要 : プレハブ
 //
 // 更新履歴 :
-// 2026/07/21 新規作成
+// 2026/07/27 新規作成
 //====================================================//
 
 #pragma once
@@ -14,17 +14,18 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <string>
-
-#include "UUID.h"
-#include "LoadStatus.h"
+#include <memory>
+#include <filesystem>
+#include "Assets/Objects/AssetBase.h"
 
 namespace REngine
 {
+	class PrefabImpl;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetBase
+	class Prefab : public AssetBase
 	{
 	private:
 
@@ -32,44 +33,22 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		LoadStatus m_status;
-
-		// 参照しているファイルへのパス
-		std::wstring m_path;
-
-		// 自身のUUID
-		UUID m_uuid;
+		// Impl
+		std::unique_ptr<PrefabImpl> m_impl;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetBase() = default;
-		virtual ~AssetBase() = default;
+		Prefab(std::filesystem::path path);
+		~Prefab() = default;
 
 		//-----------------------------------------------------
-		// セッター
+		// 公開関数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		void SetStatus(LoadStatus status) { m_status = status; }
-
-		// パス
-		void SetPath(const std::wstring& path) { m_path = path; }
-
-		// UUID
-		void SetUUID(UUID uuid) { m_uuid = uuid; }
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// 読み込み状態
-		LoadStatus GetStatus() { return m_status; }
-
-		// UUID
-		UUID GetUUID() { return m_uuid; }
+		// Implのゲッター
+		PrefabImpl* GetImpl() const { return m_impl.get(); }
 	};
 }	// namespace REngine

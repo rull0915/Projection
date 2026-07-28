@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : Texture.h
+// ファイル名   : Model.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
+// 作成日       : 2026/07/27
 //
-// 概要 : 画像アセット
+// 概要 : 
 //
 // 更新履歴 :
-// 2026/07/26 新規作成
+// 2026/07/27 新規作成
 //====================================================//
 
 #pragma once
@@ -14,6 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <memory>
+#include <model.h>
 #include "Assets/Objects/AssetBase.h"
 
 namespace REngine
@@ -21,7 +23,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class Texture : public AssetBase
+	class Model : public AssetBase
 	{
 	private:
 
@@ -30,20 +32,19 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// ShaderResourceView
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;
+		std::unique_ptr<DirectX::Model> m_model;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		Texture(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv)
-			: m_srv{ srv }
-		{
-		}
-		~Texture() = default;
+		Model(std::unique_ptr<DirectX::Model> model)
+			: m_model{ std::move(model) }
+		{}
+		~Model() = default;
 
-		// SRVを取得する関数
-		ID3D11ShaderResourceView* Get() const { return m_srv.Get(); }
+		// モデルを取得する関数
+		DirectX::Model* Get() const { return m_model.get(); }
 	};
-}	// namespace REngine
+}

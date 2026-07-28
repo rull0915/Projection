@@ -28,6 +28,9 @@ namespace REngine
 			// auxファイルは調べない
 			if (file.path().extension() == ".aux") continue;
 
+			// フォルダは調べない
+			if (file.is_directory()) continue;
+
 			// 同名のauxファイルが存在するかを調べる
 			auto auxPath = file.path().wstring() + L".aux";
 
@@ -41,7 +44,7 @@ namespace REngine
 				};
 
 				// .auxファイルへ書き込む
-				m_auxFileRepository.SaveAux(aux, file.path());
+				m_auxFileRepository.SaveAux(aux, auxPath);
 
 				// 変換表へ登録
 				Register(aux.uuid, file.path());
@@ -53,7 +56,7 @@ namespace REngine
 				AssetAux aux{};
 
 				// .auxファイルから読み取る
-				m_auxFileRepository.LoadAux(aux, file.path());
+				m_auxFileRepository.LoadAux(aux, auxPath);
 
 				// 変換表へ登録
 				Register(aux.uuid, file.path());

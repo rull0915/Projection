@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : AssetBase.h
+// ファイル名   : PrefabImpl.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
+// 作成日       : 2026/07/28
 //
-// 概要 : アセット基底クラス
+// 概要 : 
 //
 // 更新履歴 :
-// 2026/07/21 新規作成
+// 2026/07/28 新規作成
 //====================================================//
 
 #pragma once
@@ -14,17 +14,15 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <string>
-
-#include "UUID.h"
-#include "LoadStatus.h"
+#include <fstream>
+#include "nlohmann/json.hpp"
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetBase
+	class PrefabImpl
 	{
 	private:
 
@@ -32,44 +30,35 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		LoadStatus m_status;
-
-		// 参照しているファイルへのパス
-		std::wstring m_path;
-
-		// 自身のUUID
-		UUID m_uuid;
+		// json本体
+		nlohmann::json m_json;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetBase() = default;
-		virtual ~AssetBase() = default;
+		PrefabImpl(const std::filesystem::path& path)
+		{
+			std::ifstream ifs(path);
+
+			// 開けていたら
+			if (ifs.is_open())
+			{
+				// jsonへ
+				ifs >> m_json;
+			}
+
+			// 閉じる
+			ifs.close();
+		}
+		~PrefabImpl() = default;
 
 		//-----------------------------------------------------
-		// セッター
+		// 公開関数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		void SetStatus(LoadStatus status) { m_status = status; }
-
-		// パス
-		void SetPath(const std::wstring& path) { m_path = path; }
-
-		// UUID
-		void SetUUID(UUID uuid) { m_uuid = uuid; }
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// 読み込み状態
-		LoadStatus GetStatus() { return m_status; }
-
-		// UUID
-		UUID GetUUID() { return m_uuid; }
+		// jsonのゲッター
+		const nlohmann::json& GetJson() const { return m_json; }
 	};
 }	// namespace REngine

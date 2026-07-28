@@ -33,7 +33,7 @@ namespace REngine
 		uint32_t generation;
 
 		template<typename T>
-		Handle<T> As();
+		Handle<T> As() const;
 	};
 
 	// Assetに対応するハンドル
@@ -55,7 +55,7 @@ namespace REngine
 	//------------------------------
 
 	template<typename T>
-	Handle<T> UnTypeHandle::As()
+	Handle<T> UnTypeHandle::As() const
 	{
 		return { index, generation };
 	}

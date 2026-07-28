@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : AssetBase.h
+// ファイル名   : AudioClip.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
+// 作成日       : 2026/07/27
 //
-// 概要 : アセット基底クラス
+// 概要 : 音のアセット
 //
 // 更新履歴 :
-// 2026/07/21 新規作成
+// 2026/07/27 新規作成
 //====================================================//
 
 #pragma once
@@ -14,17 +14,17 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <string>
+#include <memory>
+#include <Audio.h>
 
-#include "UUID.h"
-#include "LoadStatus.h"
+#include "Assets/Objects/AssetBase.h"
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetBase
+	class AudioClip : public AssetBase
 	{
 	private:
 
@@ -32,44 +32,24 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		LoadStatus m_status;
-
-		// 参照しているファイルへのパス
-		std::wstring m_path;
-
-		// 自身のUUID
-		UUID m_uuid;
+		// 音ファイル
+		std::unique_ptr<DirectX::SoundEffect> m_soundEffect;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetBase() = default;
-		virtual ~AssetBase() = default;
+		AudioClip(std::unique_ptr<DirectX::SoundEffect> soundEffect)
+			: m_soundEffect{ std::move(soundEffect) }
+		{
+		}
+		~AudioClip() = default;
 
 		//-----------------------------------------------------
-		// セッター
+		// 公開関数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		void SetStatus(LoadStatus status) { m_status = status; }
-
-		// パス
-		void SetPath(const std::wstring& path) { m_path = path; }
-
-		// UUID
-		void SetUUID(UUID uuid) { m_uuid = uuid; }
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// 読み込み状態
-		LoadStatus GetStatus() { return m_status; }
-
-		// UUID
-		UUID GetUUID() { return m_uuid; }
+		DirectX::SoundEffect* Get() const { return m_soundEffect.get(); }
 	};
 }	// namespace REngine

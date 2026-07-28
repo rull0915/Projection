@@ -17,12 +17,12 @@
 #include <string>
 #include <functional>
 #include <memory>
-#include <any>
 #include <future>
 #include <typeindex>
 
 #include "Assets/Objects/AssetBase.h"
 #include "Assets/Objects/Handle.h"
+#include "IAssetResolver.h"
 #include "AssetDataBase.h"
 #include "AssetRegistry.h"
 #include "AssetTypeManager.h"
@@ -32,7 +32,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetManager
+	class AssetManager : public IAssetResolver
 	{
 	private:
 
@@ -65,7 +65,7 @@ namespace REngine
 		AssetTypeManager m_typeManager;
 
 		// UUIDとHandleの対応マップ
-		std::unordered_map<UUID, std::any> m_uuidToHandle;
+		std::unordered_map<UUID, UnTypeHandle> m_uuidToHandle;
 
 		// 読み込み関数マップ
 		std::unordered_map<std::type_index, Loader> m_loaders;
@@ -92,8 +92,7 @@ namespace REngine
 		void Update();
 
 		// UUIDから読み込む関数
-		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
-		Handle<T> LoadFromUUID(UUID uuid);
+		UnTypeHandle LoadFromUUID(UUID uuid);
 
 		/// <summary>
 		/// Assetの登録を行う関数
@@ -103,6 +102,12 @@ namespace REngine
 		/// <param name="extentions">対応拡張子の一覧</param>
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
 		void Registry(const std::string& assetName, Loader loader, const std::vector<std::wstring>& extentions);
+
+		// データベースの取得関数
+		const AssetDataBase& GetDataBase() const { return m_dataBase; }
+
+		// タイプ管理者の取得関数
+		const AssetTypeManager& GetTypeManager() const { return m_typeManager; }
 
 		//-----------------------------------------------------
 		// ゲッター
@@ -139,11 +144,17 @@ namespace REngine
 		UUID GetUuidFromHandle(Handle<T> h)
 		{
 			// Handleに対応するAssetがあればそのUUIDを返す
-			if (T* asset = m_registry.Get(h)) return asset->uuid;
+			if (T* asset = m_registry.Get(h)) return asset->GetUUID();
 
 			// なければエラー値として0を返す
 			return 0;
 		}
+
+		// UUIDからUnTypeHandleを取得する関数
+		UnTypeHandle GetHandle(UUID uuid) const override;
+
+		// HandelからUUIDを取得する関数
+		UUID GetUUID(const UnTypeHandle& handle) const override;
 
 	private:
 
@@ -152,38 +163,8 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// パスから読み込む関数
-		template<typename T>
-		Handle<T> LoadFromPath(const std::wstring& path);
+		UnTypeHandle LoadFromPath(const std::wstring& path);
 	};
-
-	template<typename T, typename>
-	inline Handle<T> AssetManager::LoadFromUUID(UUID uuid)
-	{
-		// 既に読み込まれているUUIDなら
-		if (auto it = m_uuidToHandle.find(uuid); it != m_uuidToHandle.end())
-		{
-			// 変換し返す
-			return std::any_cast<Handle<T>>(it->second);
-		}
-
-		// 新規のUUIDならパスを取得
-		const std::wstring& path = m_dataBase.GetPath(uuid);
-
-		// パスから読み込む
-		Handle<T> handle = LoadFromPath(path);
-
-		// ハンドルに対応したAssetのUUIDを設定する
-		if (AssetBase* asset = m_registry.Get<T>(handle))
-		{
-			asset->SetUUID(uuid);
-		}
-
-		// マップに追加
-		m_uuidToHandle[uuid] = handle;
-
-		// 返す
-		return handle;
-	}
 
 	template<typename T, typename>
 	inline void AssetManager::Registry(const std::string& assetName, Loader loader, const std::vector<std::wstring>& extentions)
@@ -194,28 +175,9 @@ namespace REngine
 		// 拡張子の登録
 		for (auto& ext : extentions)
 		{
+			m_typeManager.RegisterAssetClass<T>(ext);
+
 			m_typeManager.RegisterAssetType(ext, assetName);
 		}
-	}
-
-	template<typename T>
-	inline Handle<T> AssetManager::LoadFromPath(const std::wstring& path)
-	{
-		// ローダー関数を取得
-		auto& loader = m_loaders.at(std::type_index(typeid(T)));
-
-		// asyncで非同期ロード
-		auto future = std::async(
-			std::launch::async, &loader, path
-		);
-
-		// Handleを生成
-		Handle<T> handle = m_registry.Register<T>();
-
-		// futureを配列に追加
-		m_asyncJobs.push_back(AsyncJob{ handle.index, future });
-
-		// 生成したHandleを返す
-		return handle;
 	}
 }	// namespace REngine
