@@ -28,10 +28,8 @@ namespace REngine
 		, m_sky{}
 		, m_effect{}
 		, m_skyInputLayout{ nullptr }
-		, m_keyName{}
-		, m_texture{ nullptr }
 	{
-		ADD_PROPERTY(m_keyName);
+		ADD_PROPERTY(m_textureHandle);
 
 		// デバイスを取得
 		auto* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -52,9 +50,6 @@ namespace REngine
 
 	void SkyboxComponent::Start()
 	{
-		LoadResource();
-
-		ReflectLoading();
 	}
 
 	void SkyboxComponent::Draw(Renderer& renderer)
@@ -72,21 +67,21 @@ namespace REngine
 	}
 
 	// 読み込み
-	void SkyboxComponent::SetTexture(const std::string& key)
+	void SkyboxComponent::SetTexture(Handle<Texture> handle)
 	{
-		m_keyName = key;
-
-		// テクスチャの読み込み
-		if (m_effect)
+		if (m_assetManager)
 		{
-			LoadResource();
+			m_textureHandle = handle;
 
-			ReflectLoading();
+			// Textureを取得
+			Texture* texture = m_assetManager->Get<Texture>(handle);
+
+			// 取得できれば
+			if (texture)
+			{
+				m_effect->SetTexture(texture->Get());
+			}
 		}
 	}
 
-	void SkyboxComponent::ReflectLoading()
-	{
-		if (m_texture && m_effect) m_effect->SetTexture(m_texture);
-	}
 }	// namespace REngine

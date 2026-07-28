@@ -16,14 +16,18 @@
 //====================================================//
 #include <SpriteFont.h>
 #include "UIGraphicBase.h"
-#include "Components/Interface/IResourceReader.h"
+#include "Components/Interface/IAssetDependent.h"
+
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Font.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class TextUI : public UIGraphicBase, public IResourceReader
+	class TextUI : public UIGraphicBase, public IAssetDependent
 	{
 	private:
 
@@ -34,17 +38,17 @@ namespace REngine
 		 // 表示文字列
 		std::string m_text;
 
-		// フォント
-		DirectX::SpriteFont* m_pFont;
-
-		// フォント名
-		std::string m_fontName;
-
 		// フォントサイズ
 		float m_fontSize;
 
 		// 描画設定
 		DirectX::SimpleMath::Vector2 m_origin;
+
+		// フォントハンドル
+		Handle<Font> m_fontHandle;
+
+		// AssetManager
+		AssetManager* m_assetManager;
 
 	public:
 
@@ -54,15 +58,14 @@ namespace REngine
 		TextUI(IComponentOwner* owner)
 			: UIGraphicBase(owner)
 			, m_text{}
-			, m_pFont{ nullptr }
-			, m_fontName{}
+			, m_fontHandle{}
 			, m_fontSize{ 64 }
 			, m_origin{ 0, 0 }
 		{
 			ADD_PROPERTY(m_text);
 			ADD_PROPERTY(m_fontSize);
 			ADD_PROPERTY(m_origin);
-			ADD_PROPERTY(m_fontName);
+			ADD_PROPERTY(m_fontHandle);
 		}
 
 		~TextUI() = default;
@@ -71,19 +74,11 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Start() override
-		{
-			LoadResource();
-			ReflectLoading();
-		}
-
 		void Draw(Renderer& renderer) override;
 
-		// GUI変更時
-		void OnValidate() override
+		void ReceiveAssetManager(AssetManager& manager) override
 		{
-			LoadResource();
-			ReflectLoading();
+			m_assetManager = &manager;
 		}
 
 		//-----------------------------------------------------
@@ -100,30 +95,9 @@ namespace REngine
 		// セッター
 		//-----------------------------------------------------
 
-		void SetFont(const std::string& key)
-		{
-			m_fontName = key;
-
-			LoadResource();
-			ReflectLoading();
-		}
+		void SetFont(Handle<Font> font) { m_fontHandle = font; }
 		void SetText(const std::string& text) { m_text = text; }
 		void SetOrigin(DirectX::SimpleMath::Vector2 origin) { m_origin = origin; }
 		void SetFontSize(float size) { m_fontSize = size; }
-
-		// ---------- リソース関連 ---------- //
-
-		// 読み込みを反映する
-		void ReflectLoading() override {};
-
-	private:
-		// リソースタイプ
-		Type GetType() const override { return Type::Font; }
-
-		// キー名
-		const std::string& GetKeyName() const override { return m_fontName; }
-
-		// リソースポインタポインタ
-		void** GetMyResource() const override { return (void**)&m_pFont; }
 	};
 } // namespace REngine

@@ -26,6 +26,15 @@ namespace REngine
 	/// <param name="renderer"></param>
 	void ImageUI::Draw(Renderer& renderer)
 	{
+		// AssetManagerがなければ何もしない
+		if (!m_assetManager) return;
+
+		// ハンドルからTextureを取得
+		Texture* texture = m_assetManager->Get<Texture>(m_textureHandle);
+
+		// なければ何もしない
+		if (!texture) return;
+
 		RectTransform* transform = GetRectTransform();
 
 		// ピボットのピクセル座標
@@ -37,7 +46,7 @@ namespace REngine
 		DirectX::SimpleMath::Vector2 size = transform->GetSize();
 
 		renderer.Draw().Sprite().Draw(
-			m_pTexture,
+			texture->Get(),
 			pivotPixelPos - size * pivot,
 			pivotPixelPos + size * disPivot,
 			transform->GetWorldScale(), 

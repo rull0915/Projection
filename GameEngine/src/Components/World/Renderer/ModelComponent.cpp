@@ -22,19 +22,23 @@ namespace REngine
 
 	void ModelComponent::Start()
 	{
-		LoadResource();
-		ReflectLoading();
 	}
 
 	void ModelComponent::Draw(Renderer& renderer)
 	{
+		// AssetManagerがなければ何もしない
+		if (!m_assetManager) return;
+
+		// モデルアセットを取得
+		Model* model = m_assetManager->Get<Model>(m_modelHandle);
+
 		// モデルがnullなら描画しない
-		if (!m_model) return;
+		if (!model) return;
 
 		// トランスフォームからworld行列を取得
 		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
 		// 行列を使用しモデルを描画
-		renderer.Draw().Model().DrawModel(m_model, world);
+		renderer.Draw().Model().DrawModel(model->Get(), world);
 	}
 }	// namespace REngine

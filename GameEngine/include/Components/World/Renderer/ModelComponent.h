@@ -14,23 +14,29 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <Model.h>
 #include "RendererBase.h"
-#include "Components/Interface/IResourceReader.h"
+#include "Components/Interface/IAssetDependent.h"
+
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Model.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ModelComponent : public RendererBase, public IResourceReader
+	class ModelComponent : public RendererBase, public IAssetDependent
 	{
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
-		DirectX::Model* m_model;
 
-		std::string m_modelName;
+		// モデルハンドル
+		Handle<Model> m_modelHandle;
+
+		// AssetManager
+		AssetManager* m_assetManager;
 
 	public:
 
@@ -39,9 +45,9 @@ namespace REngine
 		//-----------------------------------------------------
 		ModelComponent(IComponentOwner* own)
 			: RendererBase(own)
-			, m_model{ nullptr }
+			, m_modelHandle{}
 		{
-			ADD_PROPERTY(m_modelName);
+			ADD_PROPERTY(m_modelHandle);
 		};
 		~ModelComponent() = default;
 
@@ -54,13 +60,16 @@ namespace REngine
 		// 描画関数
 		void Draw(Renderer& renderer) override;
 
-		// モデルをセットする関数
-		void SetModel(const std::string& keyName)
+		// AssetManagerを受け取る関数
+		void ReceiveAssetManager(AssetManager& a) override
 		{
-			m_modelName = keyName;
+			m_assetManager = &a;
+		}
 
-			LoadResource();
-			ReflectLoading();
+		// モデルをセットする関数
+		void SetModel(Handle<Model> handle)
+		{
+			m_modelHandle = handle;
 		}
 
 		// ID取得
@@ -68,27 +77,5 @@ namespace REngine
 		{
 			return TypeIDGenerator::GetID<ModelComponent>();
 		}
-
-		// GUI変更時
-		void OnValidate() override
-		{
-			LoadResource();
-			ReflectLoading();
-		}
-
-		// ---------- リソース関連 ---------- //
-
-		// 読み込みを反映する
-		void ReflectLoading() override {};
-
-	private:
-		// リソースタイプ
-		Type GetType() const override { return Type::Model; }
-
-		// キー名
-		const std::string& GetKeyName() const override { return m_modelName; }
-
-		// リソースポインタポインタ
-		void** GetMyResource() const override { return (void**)&m_model; }
 	};
 } // namespace REngine

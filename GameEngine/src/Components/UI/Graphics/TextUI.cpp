@@ -24,7 +24,14 @@ namespace REngine
 
 	void TextUI::Draw(Renderer& renderer)
 	{
-		if (!m_pFont) return;
+		// AssetManagerがなければ何もしない
+		if (!m_assetManager) return;
+
+		// フォントを取得
+		Font* font = m_assetManager->Get<Font>(m_fontHandle);
+
+		// 出来なければ何もしない
+		if (!font) return;
 
 		RectTransform* transform = GetRectTransform();
 
@@ -37,7 +44,7 @@ namespace REngine
 		DirectX::SimpleMath::Vector2 size = transform->GetSize();
 		DirectX::SimpleMath::Vector2 scale = transform->GetWorldScale();
 
-		float defaultFontSize = ResourceManager::Instance().GetFontSize(m_pFont);
+		float defaultFontSize = font->GetFontSize();
 
 		float fontScale = m_fontSize / defaultFontSize;
 
@@ -50,7 +57,7 @@ namespace REngine
 		std::wstring s = CastString::Utf8ToWide(m_text);
 
 		renderer.Draw().Text().Draw(
-			m_pFont, s,
+			font->Get(), s,
 			drawPos, scale * fontScale, transform->GetWorldRotation(), m_origin, GetColor() * GetMulColor()
 		);
 	}

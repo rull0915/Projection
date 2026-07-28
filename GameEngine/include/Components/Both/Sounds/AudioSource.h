@@ -18,13 +18,10 @@
 #include <Audio.h>
 
 #include "Components/Both/BothComponentBase.h"
-#include "GameObject/Interface/IComponentOwner.h"
-#include "Components/Interface/IResourceReader.h"
-
-//====================================================//
-// 前方宣言
-//====================================================//
-class Gam;
+#include "Components/Interface/IAssetDependent.h"
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/AudioClip.h"
+#include "Assets/Managers/AssetManager.h"
 
 //====================================================//
 // クラス宣言
@@ -32,7 +29,7 @@ class Gam;
 
 namespace REngine
 {
-	class AudioSource : public BothComponentBase, public IResourceReader
+	class AudioSource : public BothComponentBase, public IAssetDependent
 	{
 	private:
 
@@ -40,14 +37,14 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// サウンドエフェクト
-		DirectX::SoundEffect* m_soundEffect;
+		// オーディオハンドル
+		Handle<AudioClip> m_audioClip;
 
 		// インスタンス
 		std::unique_ptr<DirectX::SoundEffectInstance> m_soundInstance;
 
-		// 音声名
-		std::string m_soundName;
+		// アセットマネージャー
+		AssetManager* m_assetManager;
 
 		// 音量
 		float m_volume;
@@ -80,16 +77,14 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// オーディオ読み込み関数
-		void Load(const std::string& key, bool use3D = false)
-		{
-			m_soundName = key;
-			m_use3DAudio = use3D;
-
-			LoadResource();
-			ReflectLoading();
-		}
+		void Load(Handle<AudioClip> handle);
 
 		void Start() override;
+
+		void ReceiveAssetManager(AssetManager& assetManager) override
+		{
+			m_assetManager = &assetManager;
+		}
 
 		// 再生
 		void Play() const;
@@ -98,12 +93,7 @@ namespace REngine
 		void Stop() const;
 
 		// GUI変更時
-		void OnValidate() override
-		{
-			ReflectSetting();
-			LoadResource();
-			ReflectLoading();
-		}
+		void OnValidate() override;
 
 		//-----------------------------------------------------
 		// ゲッター
@@ -117,9 +107,6 @@ namespace REngine
 
 		// インスタンス
 		DirectX::SoundEffectInstance* GetSoundInstance() const { return m_soundInstance.get(); }
-
-		// 音声名
-		const std::string& GetSoundName() const { return m_soundName; }
 
 		// 3Dかどうか
 		bool Is3D() const { return m_use3DAudio; }
@@ -181,20 +168,5 @@ namespace REngine
 
 		// 設定の反映
 		void ReflectSetting();
-
-		// ---------- リソース関連 ---------- //
-
-		// 読み込みを反映する
-		void ReflectLoading() override;
-
-	private:
-		// リソースタイプ
-		Type GetType() const override { return Type::Sound; }
-
-		// キー名
-		const std::string& GetKeyName() const override { return m_soundName; }
-
-		// リソースポインタポインタ
-		void** GetMyResource() const override { return (void**)&m_soundEffect; }
 	};
 } // namespace REngine

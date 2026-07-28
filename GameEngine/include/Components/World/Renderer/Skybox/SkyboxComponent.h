@@ -16,7 +16,11 @@
 //====================================================//
 #include <GeometricPrimitive.h>
 #include "Components/World/Renderer/RendererBase.h"
-#include "Components/Interface/IResourceReader.h"
+
+#include "Components/Interface/IAssetDependent.h"
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Texture.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
@@ -28,7 +32,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class SkyboxComponent : public RendererBase, public IResourceReader
+	class SkyboxComponent : public RendererBase, public IAssetDependent
 	{
 	private:
 
@@ -41,10 +45,11 @@ namespace REngine
 
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_skyInputLayout;
 
-		std::string m_keyName;
+		// テクスチャハンドル
+		Handle<Texture> m_textureHandle;
 
-		// テクスチャポインタ
-		ID3D11ShaderResourceView* m_texture;
+		// AssetManager
+		AssetManager* m_assetManager;
 
 	public:
 
@@ -62,13 +67,16 @@ namespace REngine
 
 		void Draw(Renderer& renderer) override;
 
-		void SetTexture(const std::string& key);
+		void SetTexture(Handle<Texture> handle);
 
-		// GUI変更時
+		void ReceiveAssetManager(AssetManager& manager) override
+		{
+			m_assetManager = &manager;
+		}
+
 		void OnValidate() override
 		{
-			LoadResource();
-			ReflectLoading();
+			SetTexture(m_textureHandle);
 		}
 
 		//-----------------------------------------------------
@@ -80,20 +88,5 @@ namespace REngine
 		{
 			return TypeIDGenerator::GetID<SkyboxComponent>();
 		}
-
-		// ---------- リソース関連 ---------- //
-
-		// 読み込みを反映する
-		void ReflectLoading() override;
-
-	private:
-		// リソースタイプ
-		Type GetType() const override { return Type::Texture; }
-
-		// キー名
-		const std::string& GetKeyName() const override { return m_keyName; }
-
-		// リソースポインタポインタ
-		void** GetMyResource() const override { return (void**)&m_texture; }
 	};
 } // namespace REngine

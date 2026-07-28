@@ -15,14 +15,17 @@
 // インクルードファイル
 //====================================================//
 #include "Components/UI/Graphics/UIGraphicBase.h"
-#include "Components/Interface/IResourceReader.h"
+#include "Components/Interface/IAssetDependent.h"
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Texture.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ImageUI : public UIGraphicBase, public IResourceReader
+	class ImageUI : public UIGraphicBase, public IAssetDependent
 	{
 	private:
 
@@ -30,14 +33,14 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// テクスチャ
-		ID3D11ShaderResourceView* m_pTexture;
-
-		// テクスチャ名
-		std::string m_textureName;
+		// テクスチャハンドル
+		Handle<Texture> m_textureHandle;
 
 		// Rayと衝突するかどうか
 		bool m_raycastTarget;
+
+		// AssetManager
+		AssetManager* m_assetManager;
 
 	public:
 
@@ -46,11 +49,10 @@ namespace REngine
 		//-----------------------------------------------------
 		ImageUI(IComponentOwner* owner)
 			: UIGraphicBase(owner)
-			, m_pTexture{ nullptr }
-			, m_textureName{}
+			, m_textureHandle{}
 			, m_raycastTarget{ true }
 		{
-			ADD_PROPERTY(m_textureName);
+			ADD_PROPERTY(m_textureHandle);
 		}
 
 		~ImageUI() = default;
@@ -59,19 +61,11 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Start() override
-		{
-			LoadResource();
-			ReflectLoading();
-		}
-
 		void Draw(Renderer& renderer) override;
 
-		// GUI変更時
-		void OnValidate() override
+		void ReceiveAssetManager(AssetManager& manager) override
 		{
-			LoadResource();
-			ReflectLoading();
+			m_assetManager = &manager;
 		}
 
 		//-----------------------------------------------------
@@ -90,28 +84,10 @@ namespace REngine
 		// セッター
 		//-----------------------------------------------------
 
-		void SetTexture(const std::string& key)
+		void SetTexture(Handle<Texture> handle)
 		{
-			m_textureName = key;
-
-			LoadResource();
-			ReflectLoading();
+			m_textureHandle = handle;
 		}
 		void SetRaycastTarget(bool f) { m_raycastTarget = f; }
-
-		// ---------- リソース関連 ---------- //
-
-		// 読み込みを反映する
-		void ReflectLoading() override {};
-
-	private:
-		// リソースタイプ
-		Type GetType() const override { return Type::Texture; }
-
-		// キー名
-		const std::string& GetKeyName() const override { return m_textureName; }
-
-		// リソースポインタポインタ
-		void** GetMyResource() const override { return (void**)&m_pTexture; }
 	};
 } // namespace REngine
