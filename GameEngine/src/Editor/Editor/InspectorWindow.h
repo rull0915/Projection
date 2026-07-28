@@ -38,8 +38,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InspectorWindow()
-			: m_propertyOnInspector{}
+		InspectorWindow(AssetManager& am)
+			: m_propertyOnInspector{ am }
 		{};
 		~InspectorWindow() = default;
 

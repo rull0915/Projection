@@ -18,6 +18,8 @@
 
 namespace REngine
 {
+	class AssetManager;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -29,6 +31,9 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
+		// アセット管理クラス
+		AssetManager& m_assetManager;
+
 		// 編集中クォータニオンのキャッシュ
 		DirectX::SimpleMath::Vector3 m_quaternionCache;
 		// 編集中フラグ
@@ -39,8 +44,9 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		PropertyOnInspector()
-			: m_quaternionCache{ DirectX::SimpleMath::Vector3::Zero }
+		PropertyOnInspector(AssetManager& am)
+			: m_assetManager{ am }
+			, m_quaternionCache{ DirectX::SimpleMath::Vector3::Zero }
 			, m_quaternionEditing{ false }
 		{
 		}

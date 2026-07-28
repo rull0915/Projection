@@ -75,10 +75,10 @@ namespace REngine
 			else if constexpr (IsHandle_v<T>)
 			{
 				// 登録
-				AssetPropertyRegistry::Instance().Register<T>();
+				AssetPropertyRegistry::Instance().Register<typename T::value_type>();
 
 				// タイプインデックスを保存
-				prop.typeIndex = std::type_index(typeid(T));
+				prop.typeIndex = std::type_index(typeid(typename T::value_type));
 			}
 
 			// 配列に追加

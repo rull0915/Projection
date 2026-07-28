@@ -156,17 +156,19 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Assets\Types\Texture.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AuxFileRepository.cpp" />
+    <ClCompile Include="src\Assets\Types\Prefab.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\Common\ResourceReader.cpp" />
     <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp" />
     <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp" />
     <ClCompile Include="src\Editor\SceneEditor.cpp" />
@@ -174,7 +176,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Scene\MainScreen.cpp" />
     <ClCompile Include="src\Scene\ObjectFactory.cpp" />
     <ClCompile Include="src\Scene\SceneRenderer.cpp" />
-    <ClCompile Include="src\Components\Interface\IResourceReader.cpp" />
     <ClCompile Include="src\Components\World\Camera\CameraBase.cpp" />
     <ClCompile Include="src\Components\World\Camera\Derived\StandardCamera.cpp" />
     <ClCompile Include="src\Components\World\Camera\Derived\TargetCamera.cpp" />
@@ -298,6 +299,26 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Assets\Managers\IAssetResolver.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Font.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Model.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Prefab.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\AudioClip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Types\Texture.h" />
     <ClInclude Include="include\Common\CastString.h">
       <SubType>
@@ -322,7 +343,6 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Common\Property\PropertyObject.h" />
     <ClInclude Include="include\Common\Random.h" />
-    <ClInclude Include="include\Common\ResourceReader.h" />
     <ClInclude Include="include\Common\State\StateBase.h" />
     <ClInclude Include="include\Common\State\StateMachine.h" />
     <ClInclude Include="include\Components\Both\BothComponents.h">
@@ -428,7 +448,15 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="src\Assets\Types\PrefabImpl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Editor\Editor\GuizmoManager.h" />
+    <ClInclude Include="src\Editor\Editor\HandlePayload.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
     <ClInclude Include="src\System\AssetInitializer.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
@@ -467,7 +495,6 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
-    <ClInclude Include="include\Components\Interface\IResourceReader.h" />
     <ClInclude Include="include\Components\UI\Behaviour\ButtonListenerBase.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
     <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />

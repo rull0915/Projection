@@ -21,11 +21,11 @@
 // 各コンポーネント
 #include "Components/ComponentBase.h"
 #include "Components/World/Camera/CameraBase.h"
+#include "Components/Interface/IAssetDependent.h"
 
 #include "Renderer/Renderer.h"
 #include "Timer/GameTimer.h"
 #include "Scene/SceneRenderer.h"
-#include "Input/MouseInput.h"
 
 namespace REngine
 {
@@ -34,7 +34,7 @@ namespace REngine
 	//====================================================//
 
 	// コンストラクタ
-	Scene::Scene()
+	Scene::Scene(AssetManager& assetManager)
 		: m_updatePipeline{ std::make_unique<UpdatePipeline>(this) }
 		, m_componentRegister{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
 		, m_objectFinder{ std::make_unique<ObjectFinder>(this) }
@@ -42,6 +42,7 @@ namespace REngine
 		, m_objectFactory{ std::make_unique<ObjectFactory>(this) }
 		, m_mainScreen{ std::make_unique<MainScreen>() }
 		, m_updateMode{ UpdateMode::Play }
+		, m_assetManager{ assetManager }
 	{
 		// 初期化
 		m_updatePipeline->Initialize();
@@ -98,6 +99,13 @@ namespace REngine
 	{
 		// 各マネージャーへ通知
 		m_componentRegister->RegisterComponent(component);
+
+		// コンポーネントがアセットに依存するなら
+		if (auto c = dynamic_cast<IAssetDependent*>(component))
+		{
+			// AssetManagerを渡す
+			c->ReceiveAssetManager(m_assetManager);
+		}
 	}
 
 	void Scene::UnRegsisterComponent(ComponentBase* component)

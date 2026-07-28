@@ -31,15 +31,15 @@ namespace REngine
 
 	private:
 		// 描画フラグ
-		static inline int m_drawFlag = DRAW_TRANSLATION;
+		int m_drawFlag = DRAW_TRANSLATION;
 
 	public:
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
-		static void DrawTransformGuizmo(CameraBase* camera, Transform* transform, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 size);
+		void DrawTransformGuizmo(CameraBase* camera, Transform* transform, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 size);
 
-		static void SetDrawFlag(int flag) { m_drawFlag = flag; }
+		void SetDrawFlag(int flag) { m_drawFlag = flag; }
 	};
 }	// namespace REngine

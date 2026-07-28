@@ -23,7 +23,6 @@
 #include "InspectorWindow.h"
 #include "ProjectWindow.h"
 #include "InfoWindow.h"
-#include "GuizmoManager.h"
 
 namespace REngine
 {
@@ -31,14 +30,16 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	EditGUI::EditGUI(Scene* pScene, std::function<void()> playFunc)
+	EditGUI::EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc)
 		: m_pScene{ pScene }
+		, m_assetmanager{ assetManager }
 		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene) }
-		, m_inspector{ std::make_unique<InspectorWindow>() }
-		, m_project{ std::make_unique<ProjectWindow>() }
+		, m_inspector{ std::make_unique<InspectorWindow>(assetManager) }
+		, m_project{ std::make_unique<ProjectWindow>(assetManager) }
 		, m_info{ std::make_unique<InfoWindow>(pScene, this, playFunc) }
 		, m_nowType{ WindowType::None }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
+		, m_guizmoManager{}
 	{}
 
 	EditGUI::~EditGUI()
@@ -68,9 +69,9 @@ namespace REngine
 	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera)
 	{
 		// キー入力を取得し描画するギズモを変える
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::W)) GuizmoManager::SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::E)) GuizmoManager::SetDrawFlag(GuizmoManager::DRAW_ROTATION);
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::R)) GuizmoManager::SetDrawFlag(GuizmoManager::DRAW_SCALE);
+		if (Input::Key::Get(Input::State::Down, Input::Key::Code::W)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
+		if (Input::Key::Get(Input::State::Down, Input::Key::Code::E)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_ROTATION);
+		if (Input::Key::Get(Input::State::Down, Input::Key::Code::R)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_SCALE);
 
 		// Sceneビューの開始
 		StartSceneView();
@@ -208,7 +209,7 @@ namespace REngine
 				ImVec2 pos = ImGui::GetWindowPos();
 				ImVec2 size = ImGui::GetWindowSize();
 
-				GuizmoManager::DrawTransformGuizmo(sceneViewCamera, t, { pos.x, pos.y }, { size.x, size.y });
+				m_guizmoManager.DrawTransformGuizmo(sceneViewCamera, t, { pos.x, pos.y }, { size.x, size.y });
 			}
 		}
 	}

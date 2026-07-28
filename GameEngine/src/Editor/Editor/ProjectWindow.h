@@ -12,6 +12,7 @@
 #pragma once
 
 #include <filesystem>
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
@@ -25,7 +26,9 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ProjectWindow() = default;
+		ProjectWindow(AssetManager& am)
+			: m_assetManager{ am }
+		{}
 		~ProjectWindow() = default;
 
 		//-----------------------------------------------------
@@ -34,6 +37,9 @@ namespace REngine
 
 		// 描画
 		bool DrawProject();
+
+		// アセットマネージャー
+		AssetManager& m_assetManager;
 
 	private:
 

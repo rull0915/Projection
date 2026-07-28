@@ -14,6 +14,7 @@ namespace REngine
 {
 	// 前方参照
 	class Scene;
+	class AssetManager;
 
 	// シーンマネージャークラス
 	class SceneManager
@@ -31,6 +32,9 @@ namespace REngine
 
 		// 演出管理クラス
 		TransitionManager m_transitionManager;
+
+		// アセットマネージャー
+		AssetManager* m_assetManager;
 
 	private:
 
@@ -52,6 +56,9 @@ namespace REngine
 
 		// シーンの登録
 		void RegisterScene(const std::string& sceneName, const std::wstring& sceneFile);
+
+		// 初期化関数
+		void Initialize(AssetManager& assetManager);
 
 		// 更新処理
 		void Update(const GameTimer& gameTimer);

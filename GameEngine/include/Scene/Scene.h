@@ -25,6 +25,7 @@
 #include "ComponentRegister.h"
 #include "ObjectFinder.h"
 #include "MainScreen.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
@@ -69,10 +70,13 @@ namespace REngine
 		// 更新状態
 		UpdateMode m_updateMode;
 
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
 	public:
 
 		// コンストラクタ
-		Scene();
+		Scene(AssetManager& assetManager);
 
 		// デストラクタ
 		virtual ~Scene();

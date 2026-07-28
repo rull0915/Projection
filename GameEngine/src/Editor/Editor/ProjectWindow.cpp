@@ -13,14 +13,8 @@
 #include "ProjectWindow.h"
 
 #include "ThirdParty/imgui/imgui.h"
-#include "ThirdParty/imgui/imgui_stdlib.h"
-
 #include "System/WindowManager.h"
-#include "System/ResourceManager.h"
-#include "System/PrefabManager.h"
-
-#include "Common/OpenFileDialog.h"
-#include "Editor/Saver/ObjectSaver.h"
+#include "HandlePayload.h"
 
 namespace REngine
 {
@@ -77,6 +71,9 @@ namespace REngine
 			// ディレクトリ直下に含まれるファイルを走査
 			for (const auto& file : fs::directory_iterator(path))
 			{
+				// .auxファイルなら何もしない
+				if (file.path().extension() == ".aux") continue;
+
 				// フォルダなら
 				if (file.is_directory())
 				{
@@ -90,7 +87,35 @@ namespace REngine
 					std::string fileName = file.path().stem().string();
 
 					// 出力
-					ImGui::Text(fileName.c_str());
+					if (ImGui::Selectable(fileName.c_str(), false, 
+						ImGuiSelectableFlags_AllowDoubleClick))	// ダブルクリック時に判定
+					{
+						// 左ボタンがダブルクリックされていれば
+						if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+						{
+							// 選択
+							bool a = true;
+						}
+					}
+
+					// ドラッグ可能に
+					if (ImGui::BeginDragDropSource())
+					{
+						// パスからUUIDを取得
+						UnTypeHandle handle = m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(file.path().wstring()));
+
+						// 受け渡し構造体を生成
+						HandlePayload payload = { m_assetManager.GetTypeManager().GetAssetClass(file.path().wstring()), handle };
+
+						// データを設定
+						ImGui::SetDragDropPayload("ASSET", &payload, sizeof(payload));
+
+						// ドラッグ中に表示される内容
+						ImGui::Text(file.path().stem().string().c_str());
+
+						// ドラッグの終了
+						ImGui::EndDragDropSource();
+					}
 				}
 			}
 

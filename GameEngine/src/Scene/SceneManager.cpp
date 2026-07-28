@@ -23,7 +23,7 @@ namespace REngine
 	//====================================================//
 	// コンストラクタ
 	SceneManager::SceneManager()
-		: m_currentScene{ std::make_unique<Scene>() }
+		: m_currentScene{}
 		, m_pRequestedScene{ "" }
 		, m_transitionManager{}
 	{}
@@ -40,6 +40,15 @@ namespace REngine
 	{
 		// シーンの名前でシーンを登録
 		m_sceneMap.insert({ sceneName, sceneFile });
+	}
+
+	void SceneManager::Initialize(AssetManager& assetManager)
+	{
+		// アセットマネージャーを渡す
+		m_assetManager = &assetManager;
+
+		// シーンの生成
+		m_currentScene = std::make_unique<Scene>(assetManager);
 	}
 
 	// 更新処理

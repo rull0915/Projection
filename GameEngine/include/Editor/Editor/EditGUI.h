@@ -11,6 +11,7 @@
 
 #pragma once
 #include "Components/World/Camera/CameraBase.h"
+#include "GuizmoManager.h"
 
 //====================================================//
 // インクルードファイル
@@ -24,6 +25,7 @@ namespace REngine
 	class InspectorWindow;
 	class ProjectWindow;
 	class InfoWindow;
+	class AssetManager;
 
 	//====================================================//
 	// クラス宣言
@@ -63,12 +65,18 @@ namespace REngine
 		// シーンビューの描画設定
 		unsigned char m_sceneDrawSetting;
 
+		// アセットマネージャー
+		AssetManager& m_assetmanager;
+
+		// ギズモ管理クラス
+		GuizmoManager m_guizmoManager;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		EditGUI(Scene* pScene, std::function<void()> playFunc);
+		EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc);
 		~EditGUI();
 
 		//-----------------------------------------------------

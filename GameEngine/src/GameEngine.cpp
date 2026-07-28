@@ -43,6 +43,9 @@ namespace REngine
 		auto* context = deviceResources->GetD3DDeviceContext();
 		auto* states = deviceResources->GetCommonStates();
 
+		// シーンマネージャーの初期化
+		SceneManager::Instance().Initialize(*m_assetManager);
+
 		// ゲームエンジンの初期化
 		EngineInitializer::EngineInitialize();
 
@@ -65,7 +68,7 @@ namespace REngine
 		m_assetManager->Initialize(L"Resources");
 
 		// エディターの生成
-		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene());
+		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), *m_assetManager);
 
 		// 初期化
 	//	m_editor->Initialize();
@@ -84,6 +87,9 @@ namespace REngine
 		// 入力情報の更新
 		Input::Key::Update();
 		Input::Mouse::Update();
+
+		// アセットマネージャーの更新
+		m_assetManager->Update();
 
 		// デバッグマネージャーの更新
 		DebugManager::Instance().Update(elapsedTime);

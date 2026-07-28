@@ -16,9 +16,14 @@
 //====================================================//
 #include <string>
 #include <memory>
+#include <Effects.h>
 
 #include "Assets/Managers/AssetManager.h"
 #include "Assets/Types/Texture.h"
+#include "Assets/Types/Model.h"
+#include "Assets/Types/Font.h"
+#include "Assets/Types/Prefab.h"
+#include "Assets/Types/AudioClip.h"
 
 namespace REngine
 {
@@ -49,6 +54,18 @@ namespace REngine
 
 		// Texture
 		std::unique_ptr<Texture> TextureLoader(const std::wstring& path);
+
+		// Model
+		std::unique_ptr<Model> ModelLoader(const std::wstring& path);
+
+		// Font
+		std::unique_ptr<Font> FontLoader(const std::wstring& path);
+
+		// Prefab
+		std::unique_ptr<Prefab> PrefabLoader(const std::wstring& path);
+
+		// AudioClip
+		std::unique_ptr<AudioClip> AudioClipLoader(const std::wstring& path);
 	}
 
 }	// namespace REngine

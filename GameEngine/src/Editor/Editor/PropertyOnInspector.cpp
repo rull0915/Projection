@@ -11,9 +11,12 @@
 //====================================================//
 #include "pch.h"
 #include "PropertyOnInspector.h"
+#include "Assets/Managers/AssetManager.h"
 
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_stdlib.h"
+
+#include "HandlePayload.h"
 
 namespace REngine
 {
@@ -183,6 +186,64 @@ namespace REngine
 
 			return changed;
 		}
+
+			// AssetHandle
+		case PropertyType::AssetHandle: {
+
+			// UUIDを取得
+			UUID uuid = AssetPropertyRegistry::Instance().GetUUID(property->typeIndex, property->value, m_assetManager );
+
+			// UUIDから名前を取得
+			std::string name = uuid == 0 ? "" : std::filesystem::path(m_assetManager.GetDataBase().GetPath(uuid)).stem().string();
+
+			// 変数名を表示
+			ImGui::Text(property->name.c_str());
+
+			// 同じライン
+			ImGui::SameLine();
+
+			ImGui::PushID(property);
+
+			// 表示
+			ImGui::Selectable(name.c_str(), false);
+
+			// 描画リストを取得
+			ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+			// Rectを追加
+			drawList->AddRect(
+				ImGui::GetItemRectMin(),
+				ImGui::GetItemRectMax(),
+				IM_COL32(255, 255, 255, 64)
+			);
+
+			ImGui::PopID();
+
+			// ドラッグを受け取る
+			if (ImGui::BeginDragDropTarget())
+			{
+				// ASSETがドロップされたら
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET"))
+				{
+					// HandlePayloadに変換
+					HandlePayload* pay = static_cast<HandlePayload*>(payload->Data);
+
+					// type_indexが一致しなければ何もしない
+					if (pay->type != property->typeIndex) return false;
+
+					// ハンドルを変更する
+					AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, pay->handle);
+
+					// Trueを返す
+					return true;
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+
+			return false;
+		}
+			break;
 
 		default:
 			break;

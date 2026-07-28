@@ -29,11 +29,11 @@ namespace REngine
 	//====================================================//
 
 	// コンストラクタ
-	SceneEditor::SceneEditor(Scene* pScene)
+	SceneEditor::SceneEditor(Scene* pScene, AssetManager& am)
 		: m_pScene{ pScene }
 		, m_isActive{ false }
 		, m_isPlaying{ false }
-	, m_gui{ m_pScene, [this]() { TestPlay(); } }
+		, m_gui{ m_pScene, am, [this]() { TestPlay(); } }
 		, m_sceneView{ std::make_unique<RenderTarget>() }
 		, m_sceneViewCamera{ nullptr }
 	{

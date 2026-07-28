@@ -223,9 +223,6 @@
     <ClCompile Include="src\Scene\UpdatePipeline.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Interface\IResourceReader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scene\ObjectFinder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -307,9 +304,6 @@
     <ClCompile Include="src\GameEngine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Common\ResourceReader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -337,10 +331,10 @@
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="include\Assets\Types\Texture.cpp">
+    <ClCompile Include="src\System\AssetInitializer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\AssetInitializer.cpp">
+    <ClCompile Include="src\Assets\Types\Prefab.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -687,9 +681,6 @@
     <ClInclude Include="src\Scene\UpdatePipeline.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Interface\IResourceReader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Scene\ObjectFinder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -798,9 +789,6 @@
     <ClInclude Include="include\GameEngine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\ResourceReader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -877,6 +865,27 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\Property\AssetPropertyRegistry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\IAssetResolver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Editor\Editor\HandlePayload.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Model.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Font.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Prefab.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\AudioClip.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\Types\PrefabImpl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

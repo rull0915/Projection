@@ -20,7 +20,6 @@
 
 #include "Managers/UI/Canvas.h"
 #include "Managers/UI/UIManager.h"
-#include "Managers/ObjectManager.h"
 
 namespace REngine
 {
@@ -89,6 +88,10 @@ namespace REngine
 				auto& registry = EnumRegistry::Instance();
 				registry.SetByName(property.typeIndex, property.value, json[property.name]);
 				break;
+			}
+				// AssetHandle
+			case PropertyType::AssetHandle: {
+
 			}
 			default:
 				break;
