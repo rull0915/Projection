@@ -63,7 +63,7 @@ namespace REngine
 			if (m_freeIndexList.empty())
 			{
 				// インデックスを末尾に
-				index = m_slots.size();
+				index = static_cast<uint32_t>(m_slots.size());
 
 				// 空のスロットを生成
 				m_slots.push_back({});

@@ -262,9 +262,6 @@
     <ClCompile Include="src\System\FactoryRegister.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\PrefabManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\ThirdParty\imgui\imgui.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -714,9 +711,6 @@
     <ClInclude Include="src\System\FactoryRegister.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\System\PrefabManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Common\OpenFileDialog.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -792,7 +786,7 @@
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\GuizmoManager.h">
+    <ClInclude Include="include\Editor\Editor\GuizmoManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\ThirdParty\imgui\ImGuizmo.h">
@@ -886,6 +880,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\Types\PrefabImpl.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Editor\Editor\SelectedOnGUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

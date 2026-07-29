@@ -40,7 +40,7 @@ namespace REngine
 		struct AsyncJob
 		{
 			// Assetが存在しているindex
-			size_t index;
+			uint32_t index;
 
 			// Asyncから受け取るfuture
 			std::future<std::unique_ptr<AssetBase>> future;
@@ -119,6 +119,13 @@ namespace REngine
 		{
 			// Registryを経由して返す
 			return m_registry.Get<T>(handle);
+		}
+
+		// タイプ識別なしで本体を取得する関数
+		AssetBase* GetFromUnTypeHandle(UnTypeHandle handle)
+		{
+			// Registryを経由して返す
+			return m_registry.GetFromUnTypeHandle(handle);
 		}
 
 		// Handleが対応するAssetを解放する関数

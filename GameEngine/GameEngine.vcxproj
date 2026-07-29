@@ -210,7 +210,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp" />
     <ClCompile Include="src\System\AssetInitializer.cpp" />
     <ClCompile Include="src\System\FactoryRegister.cpp" />
-    <ClCompile Include="src\System\PrefabManager.cpp" />
     <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
     <ClCompile Include="src\GameObject\GameObject.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp">
@@ -452,15 +451,18 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\GuizmoManager.h" />
+    <ClInclude Include="include\Editor\Editor\GuizmoManager.h" />
     <ClInclude Include="src\Editor\Editor\HandlePayload.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
+    <ClInclude Include="include\Editor\Editor\SelectedOnGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\System\AssetInitializer.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
-    <ClInclude Include="include\System\PrefabManager.h" />
     <ClInclude Include="include\Input\InputInfo.h">
       <SubType>
       </SubType>
