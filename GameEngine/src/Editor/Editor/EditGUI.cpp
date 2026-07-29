@@ -33,13 +33,14 @@ namespace REngine
 	EditGUI::EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc)
 		: m_pScene{ pScene }
 		, m_assetmanager{ assetManager }
-		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene) }
-		, m_inspector{ std::make_unique<InspectorWindow>(assetManager) }
-		, m_project{ std::make_unique<ProjectWindow>(assetManager) }
+		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene, m_selected) }
+		, m_inspector{ std::make_unique<InspectorWindow>(assetManager, m_selected) }
+		, m_project{ std::make_unique<ProjectWindow>(assetManager, m_selected) }
 		, m_info{ std::make_unique<InfoWindow>(pScene, this, playFunc) }
 		, m_nowType{ WindowType::None }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 		, m_guizmoManager{}
+		, m_selected{}
 	{}
 
 	EditGUI::~EditGUI()
@@ -47,8 +48,8 @@ namespace REngine
 
 	void EditGUI::Reset()
 	{
-		// Hierarchyのリセット
-		m_hierarchy->Reset();
+		// 選択状態のリセット
+		m_selected.SetSelected(nullptr);
 	}
 
 	void EditGUI::DrawWindows()
@@ -63,7 +64,7 @@ namespace REngine
 		if (m_project->DrawProject()) m_nowType = WindowType::Project;
 
 		// Inspectorの描画
-		if (m_inspector->DrawInspector(m_hierarchy->GetSelected())) m_nowType = WindowType::Inspector;
+		if (m_inspector->DrawInspector()) m_nowType = WindowType::Inspector;
 	}
 
 	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera)
@@ -200,7 +201,7 @@ namespace REngine
 		// 描画
 		DrawImage(sceneView);
 
-		if (auto* g = dynamic_cast<GameObject*>(m_hierarchy->GetSelected()))
+		if (auto* g = dynamic_cast<GameObject*>(m_selected.GetSelected()))
 		{
 			// ギズモ描画
 			if (auto* t = g->GetComponent<Transform>())

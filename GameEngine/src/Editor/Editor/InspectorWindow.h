@@ -3,7 +3,7 @@
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/07/06
 //
-// 概要 : 
+// 概要 : インスペクターウィンドウ
 //
 // 更新履歴 :
 // 2026/07/06 新規作成
@@ -14,13 +14,13 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <unordered_map>
-
 #include "PropertyOnInspector.h"
 #include "Common/Property/PropertyObject.h"
 #include "GameObject/GameObject.h"
+#include "Assets/Objects/AssetBase.h"
 
 #include "Components/ComponentCategory.h"
+#include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine
 {
@@ -33,13 +33,21 @@ namespace REngine
 		// プロパティの表示を担当するクラス
 		PropertyOnInspector m_propertyOnInspector;
 
+		// 選択中オブジェクト
+		SelectedOnGUI& m_selected;
+
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InspectorWindow(AssetManager& am)
-			: m_propertyOnInspector{ am }
+		InspectorWindow(AssetManager& am, SelectedOnGUI& selected)
+			: m_propertyOnInspector(am)
+			, m_selected{ selected }
+			, m_assetManager{ am }
 		{};
 		~InspectorWindow() = default;
 
@@ -48,7 +56,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// インスペクターの描画
-		bool DrawInspector(PropertyObject* selected);
+		bool DrawInspector();
 
 	private:
 
@@ -70,5 +78,8 @@ namespace REngine
 
 		// コンポーネントリストを表示する関数
 		void DrawComponentList(GameObject* object, ComponentInfo info);
+
+		// Assetを表示する関数
+		void DrawAsset(AssetBase* asset);
 	};
 }	// namespace REngine

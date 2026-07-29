@@ -12,6 +12,7 @@
 #pragma once
 #include "Components/World/Camera/CameraBase.h"
 #include "GuizmoManager.h"
+#include "SelectedOnGUI.h"
 
 //====================================================//
 // インクルードファイル
@@ -70,6 +71,9 @@ namespace REngine
 
 		// ギズモ管理クラス
 		GuizmoManager m_guizmoManager;
+
+		// 選択中オブジェクト
+		SelectedOnGUI m_selected;
 
 	public:
 

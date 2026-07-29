@@ -14,12 +14,11 @@
 
 #include "ThirdParty/imgui/imgui.h"
 
+#include "Common/Property/PropertyObject.h"
 #include "System/WindowManager.h"
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"
 #include "Scene/Scene.h"
-
-#include "Editor/Loader/ObjectLoader.h"
 
 namespace REngine
 {
@@ -112,16 +111,6 @@ namespace REngine
 					t->SetParent(nullptr);
 				}
 			}
-			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB"))
-			{
-				auto data = (std::wstring*)payload->Data;
-
-				// 追加
-				GameObject* obj = m_pScene->GetFactory()->Generate();
-
-				// 読み込み
-				ObjectLoader::LoadFromFile(*data, obj);
-			}
 
 			ImGui::EndDragDropTarget();
 		}
@@ -194,8 +183,11 @@ namespace REngine
 		// 初期状態のフラグ
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
+		// 選択中オブジェクトを取得
+		PropertyObject* selected = m_selected.GetSelected();
+
 		// 選択されていれば
-		if (m_selected == object)
+		if (selected == object)
 		{
 			// 選択状態に
 			flags |= ImGuiTreeNodeFlags_Selected;
@@ -211,7 +203,7 @@ namespace REngine
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 		{
 			// 選択されているオブジェクトを自分に
-			m_selected = object;
+			m_selected.SetSelected(object);
 		}
 
 		// 右クリック時のメニュー
@@ -224,9 +216,9 @@ namespace REngine
 				object->Destroy();
 
 				// 選択中ならnullにする
-				if (m_selected == object)
+				if (selected == object)
 				{
-					m_selected = nullptr;
+					m_selected.SetSelected(nullptr);
 				}
 			}
 			ImGui::EndPopup();
@@ -319,8 +311,11 @@ namespace REngine
 		// 初期状態のフラグ
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
+		// 選択中オブジェクトを取得
+		PropertyObject* selected = m_selected.GetSelected();
+
 		// 選択されていれば
-		if (m_selected == canvas)
+		if (selected == canvas)
 		{
 			// 選択状態に
 			flags |= ImGuiTreeNodeFlags_Selected;
@@ -339,7 +334,7 @@ namespace REngine
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 		{
 			// 選択されているオブジェクトを自分に
-			m_selected = canvas;
+			m_selected.SetSelected(canvas);
 		}
 
 		// 右クリック時のメニュー
@@ -351,9 +346,9 @@ namespace REngine
 				canvas->Destroy();
 
 				// 選択中ならnullにする
-				if (m_selected == canvas)
+				if (selected == canvas)
 				{
-					m_selected = nullptr;
+					m_selected.SetSelected(nullptr);
 				}
 			}
 			// Generate表示
@@ -376,16 +371,6 @@ namespace REngine
 				{
 					t->SetParent(root->GetComponent<RectTransform>());
 				}
-			}
-			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB"))
-			{
-				auto data = (std::wstring*)payload->Data;
-
-				// 追加
-				GameObject* obj = canvas->Generate();
-
-				// 読み込み
-				ObjectLoader::LoadUIFromFile(*data, obj, canvas);
 			}
 
 			ImGui::EndDragDropTarget();

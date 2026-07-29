@@ -3,7 +3,7 @@
 // 作成者      : Hoshino Ryunosuke
 // 作成日       : 2026/07/06
 //
-// 概要       : 
+// 概要       : インスペクターウィンドウ
 //====================================================//
 
 //====================================================//
@@ -25,10 +25,13 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool InspectorWindow::DrawInspector(PropertyObject* selected)
+	bool InspectorWindow::DrawInspector()
 	{
 		// 描画開始
 		bool clicked = StartInspector();
+
+		// 選択中オブジェクトを取得
+		PropertyObject* selected = m_selected.GetSelected();
 
 		// 選択されていたら
 		if (selected)
@@ -236,5 +239,10 @@ namespace REngine
 				}
 			}
 		}
+	}
+
+	void InspectorWindow::DrawAsset(AssetBase* asset)
+	{
+
 	}
 }	// namespace REngine

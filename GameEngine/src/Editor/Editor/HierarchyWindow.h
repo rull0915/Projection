@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Common/Property/PropertyObject.h"
+#include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine
 {
@@ -37,17 +37,17 @@ namespace REngine
 		// 所属先のシーン
 		Scene* m_pScene;
 
-		// 選択中のプロパティオブジェクト
-		PropertyObject* m_selected;
+		// 選択中オブジェクト
+		SelectedOnGUI& m_selected;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		HierarchyWindow(Scene* pScene)
+		HierarchyWindow(Scene* pScene, SelectedOnGUI& selected)
 			: m_pScene{ pScene }
-			, m_selected{ nullptr }
+			, m_selected{ selected }
 		{}
 		~HierarchyWindow() = default;
 
@@ -55,16 +55,8 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Reset()
-		{
-			m_selected = nullptr;
-		}
-
 		// ヒエラルキーの描画
 		bool DrawHierarchy();
-
-		// 選択中オブジェクトのゲッター
-		PropertyObject* GetSelected() const { return m_selected; }
 
 	private:
 

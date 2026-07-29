@@ -93,8 +93,14 @@ namespace REngine
 						// 左ボタンがダブルクリックされていれば
 						if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 						{
-							// 選択
-							bool a = true;
+							// パスからハンドルを取得
+							UnTypeHandle handle = m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(file.path().wstring()));
+
+							// ハンドルから本体を取得
+							AssetBase* asset = m_assetManager.GetFromUnTypeHandle(handle);
+
+							// 選択状態にする
+							m_selected.SetSelected(asset);
 						}
 					}
 

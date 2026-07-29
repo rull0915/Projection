@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : AssetBase.h
+// ファイル名   : SelectedOnGUI.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
+// 作成日       : 2026/07/29
 //
-// 概要 : アセット基底クラス
+// 概要 : GUI上で選択されているオブジェクトを持つクラス
 //
 // 更新履歴 :
-// 2026/07/21 新規作成
+// 2026/07/29 新規作成
 //====================================================//
 
 #pragma once
@@ -14,10 +14,6 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <string>
-
-#include "UUID.h"
-#include "LoadStatus.h"
 #include "Common/Property/PropertyObject.h"
 
 namespace REngine
@@ -25,7 +21,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetBase : public PropertyObject
+	class SelectedOnGUI
 	{
 	private:
 
@@ -33,44 +29,35 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		LoadStatus m_status;
-
-		// 参照しているファイルへのパス
-		std::wstring m_path;
-
-		// 自身のUUID
-		UUID m_uuid;
+		// 選択中のオブジェクト
+		PropertyObject* m_propertyObject;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetBase() = default;
-		virtual ~AssetBase() = default;
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-		// 読み込み状態
-		void SetStatus(LoadStatus status) { m_status = status; }
-
-		// パス
-		void SetPath(const std::wstring& path) { m_path = path; }
-
-		// UUID
-		void SetUUID(UUID uuid) { m_uuid = uuid; }
+		SelectedOnGUI()
+			: m_propertyObject{ nullptr } 
+		{};
+		~SelectedOnGUI() = default;
 
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
 
-		// 読み込み状態
-		LoadStatus GetStatus() { return m_status; }
+		PropertyObject* GetSelected() const 
+		{
+			return m_propertyObject; 
+		}
 
-		// UUID
-		UUID GetUUID() { return m_uuid; }
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		void SetSelected(PropertyObject* obj) 
+		{
+			m_propertyObject = obj; 
+		}
 	};
-}	// namespace REngine
+}

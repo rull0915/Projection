@@ -13,6 +13,7 @@
 
 #include <filesystem>
 #include "Assets/Managers/AssetManager.h"
+#include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine
 {
@@ -21,13 +22,22 @@ namespace REngine
 	//====================================================//
 	class ProjectWindow
 	{
+	private:
+
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
+		// 選択中オブジェクト
+		SelectedOnGUI& m_selected;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ProjectWindow(AssetManager& am)
+		ProjectWindow(AssetManager& am, SelectedOnGUI& selected)
 			: m_assetManager{ am }
+			, m_selected{ selected }
 		{}
 		~ProjectWindow() = default;
 
@@ -37,9 +47,6 @@ namespace REngine
 
 		// 描画
 		bool DrawProject();
-
-		// アセットマネージャー
-		AssetManager& m_assetManager;
 
 	private:
 

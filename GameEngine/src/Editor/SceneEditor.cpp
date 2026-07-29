@@ -18,8 +18,6 @@
 #include "Scene/SceneRenderer.h"
 
 #include "Input/MouseInput.h"
-
-// セーブロード
 #include "Editor/Saver/ObjectSaver.h"
 
 namespace REngine
@@ -36,6 +34,7 @@ namespace REngine
 		, m_gui{ m_pScene, am, [this]() { TestPlay(); } }
 		, m_sceneView{ std::make_unique<RenderTarget>() }
 		, m_sceneViewCamera{ nullptr }
+		, m_assetManager{ am }
 	{
 		// ゲームビューの作成
 		m_sceneView->Create(
@@ -127,7 +126,9 @@ namespace REngine
 		m_gui.Reset();
 
 		// 保存
-		ObjectSaver::SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", m_pScene);
+		ObjectSaver saver(m_assetManager);
+
+		saver.SaveSceneToFile(L"Resources/Scenes/TestPlayScene.scene", m_pScene);
 
 		// シーンを読み込みなおす
 		SceneManager::Instance().RequestSceneChange("Edit__");
