@@ -56,15 +56,15 @@
                                 0.0
                             ],
                             "m_localRotation": [
+                                -0.0,
                                 0.0,
-                                0.0,
-                                0.0,
+                                -0.0,
                                 1.0
                             ],
                             "m_localScale": [
-                                0.9999964237213135,
-                                0.9999999403953552,
-                                1.0
+                                0.9575965404510498,
+                                0.9575998783111572,
+                                0.9575999975204468
                             ]
                         },
                         "Type": "Transform"
@@ -73,7 +73,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelHandle": 7357398224225983858
                         },
                         "Type": "ModelComponent"
                     },
@@ -134,7 +134,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Cube"
+                            "m_modelHandle": 0
                         },
                         "Type": "ModelComponent"
                     },
