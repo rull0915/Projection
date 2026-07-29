@@ -20,6 +20,10 @@
 
 #include "Managers/UI/Canvas.h"
 #include "Managers/UI/UIManager.h"
+#include <filesystem>
+#include <string>
+#include "Common/Property/AssetPropertyRegistry.h"
+#include "Common/Property/EnumRegistry.h"
 
 namespace REngine
 {
@@ -91,7 +95,10 @@ namespace REngine
 			}
 				// AssetHandle
 			case PropertyType::AssetHandle: {
-
+				auto& registry = AssetPropertyRegistry::Instance();
+				UnTypeHandle handle = m_assetManager.GetHandle(json[property.name]);	// UUIDからHandleを取得
+				registry.Assign(property.typeIndex, property.value, handle);	// 変更
+				break;
 			}
 			default:
 				break;

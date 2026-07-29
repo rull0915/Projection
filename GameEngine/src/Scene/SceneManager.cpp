@@ -124,8 +124,11 @@ namespace REngine
 		// 未登録なら読み込まない
 		if (it != m_sceneMap.end())
 		{
+			// ローダーをインスタンス化
+			ObjectLoader loader(*m_assetManager);
+
 			// リクエスト要求のシーンへ移行
-			ObjectLoader::LoadSceneFromFile(it->second, m_currentScene.get());
+			loader.LoadSceneFromFile(it->second, m_currentScene.get());
 		}
 
 		// シーンの初期化処理

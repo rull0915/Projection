@@ -50,6 +50,9 @@ namespace REngine
 		// シーンビューカメラ
 		SceneCamera* m_sceneViewCamera;
 
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
 	public:
 
 		//-----------------------------------------------------

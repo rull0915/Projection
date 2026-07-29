@@ -10,7 +10,6 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include <string_view>
 #include <filesystem>
 #include <fstream>
 
@@ -20,8 +19,10 @@
 #include "GameObject/GameObject.h"
 #include "Managers/ObjectManager.h"
 #include "Managers/UI/UIManager.h"
-
 #include "Scene/Scene.h"
+
+#include "Common/Property/EnumRegistry.h"
+#include "Common/Property/AssetPropertyRegistry.h"
 
 namespace REngine
 {
@@ -95,6 +96,12 @@ namespace REngine
 			case PropertyType::Enum: {
 				auto& registry = EnumRegistry::Instance();
 				js[property.name] = registry.GetCurrentName(property.typeIndex, property.value);
+				break;
+			}
+				// AssetHandle
+			case PropertyType::AssetHandle: {
+				auto& registry = AssetPropertyRegistry::Instance();
+				js[property.name] = registry.GetUUID(property.typeIndex, property.value, m_assetManager);	// UUIDを保存
 				break;
 			}
 			default:
