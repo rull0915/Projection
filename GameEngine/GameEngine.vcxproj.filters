@@ -885,6 +885,9 @@
     <ClInclude Include="include\Editor\Editor\SelectedOnGUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\SkyboxEffect_VS.hlsl" />

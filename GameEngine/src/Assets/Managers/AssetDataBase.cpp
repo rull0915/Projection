@@ -31,36 +31,42 @@ namespace REngine
 			// フォルダは調べない
 			if (file.is_directory()) continue;
 
-			// 同名のauxファイルが存在するかを調べる
-			auto auxPath = file.path().wstring() + L".aux";
+			// auxの調査
+			ScanOnceFile(file, typeManager);
+		}
+	}
 
-			// 存在しなければ
-			if (!std::filesystem::exists(auxPath))
-			{
-				// 新しくAuxを生成する
-				AssetAux aux{
-					GenerateUUID(),
-					typeManager.GetAssetType(file.path())
-				};
+	void AssetDataBase::ScanOnceFile(const std::filesystem::path& path, const AssetTypeManager& typeManager)
+	{
+		// 同名のauxファイルが存在するかを調べる
+		auto auxPath = path.wstring() + L".aux";
 
-				// .auxファイルへ書き込む
-				m_auxFileRepository.SaveAux(aux, auxPath);
+		// 存在しなければ
+		if (!std::filesystem::exists(auxPath))
+		{
+			// 新しくAuxを生成する
+			AssetAux aux{
+				GenerateUUID(),
+				typeManager.GetAssetType(path)
+			};
 
-				// 変換表へ登録
-				Register(aux.uuid, file.path());
-			}
-			// 存在していれば
-			else
-			{
-				// auxを用意
-				AssetAux aux{};
+			// .auxファイルへ書き込む
+			m_auxFileRepository.SaveAux(aux, auxPath);
 
-				// .auxファイルから読み取る
-				m_auxFileRepository.LoadAux(aux, auxPath);
+			// 変換表へ登録
+			Register(aux.uuid, path);
+		}
+		// 存在していれば
+		else
+		{
+			// auxを用意
+			AssetAux aux{};
 
-				// 変換表へ登録
-				Register(aux.uuid, file.path());
-			}
+			// .auxファイルから読み取る
+			m_auxFileRepository.LoadAux(aux, auxPath);
+
+			// 変換表へ登録
+			Register(aux.uuid, path);
 		}
 	}
 

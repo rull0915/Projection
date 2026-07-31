@@ -302,6 +302,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Types\Font.h">
       <SubType>
       </SubType>

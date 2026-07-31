@@ -16,6 +16,9 @@
 #include "System/WindowManager.h"
 #include "HandlePayload.h"
 
+#include "GameObject/GameObject.h"
+#include "Editor/Saver/ObjectSaver.h"
+
 namespace REngine
 {
 	//====================================================//
@@ -62,14 +65,35 @@ namespace REngine
 
 	void ProjectWindow::DrawFileStructure(const std::filesystem::path& path)
 	{
-		// filesystemを省略
-		namespace fs = std::filesystem;
-
 		// フォルダ名でツリーを開始
 		if (ImGui::TreeNode(path.stem().string().c_str()))
 		{
+			// ドラッグの受け取り
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("WORLD_OBJECT"))
+				{
+					// GameObjectに変換
+					auto data = (GameObject*)payload->Data;
+
+					// Object名を取得
+					std::string name = data->GetName();
+
+					// ファイル名を生成
+					std::filesystem::path file = std::filesystem::path(path.string() + "\\" + (name.empty() ? "GameObject" : name) + ".gameobject");
+
+					// セーバーの生成
+					ObjectSaver saver(m_assetManager);
+
+					// 保存
+					saver.SaveObjectToFile(file, data);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+
 			// ディレクトリ直下に含まれるファイルを走査
-			for (const auto& file : fs::directory_iterator(path))
+			for (const auto& file : std::filesystem::directory_iterator(path))
 			{
 				// .auxファイルなら何もしない
 				if (file.path().extension() == ".aux") continue;
@@ -77,6 +101,8 @@ namespace REngine
 				// フォルダなら
 				if (file.is_directory())
 				{
+					// 右クリック時にメニューを表示
+
 					// 再帰的に表示
 					DrawFileStructure(file.path());
 				}
@@ -87,7 +113,7 @@ namespace REngine
 					std::string fileName = file.path().stem().string();
 
 					// 出力
-					if (ImGui::Selectable(fileName.c_str(), false, 
+					if (ImGui::Selectable(fileName.c_str(), false,
 						ImGuiSelectableFlags_AllowDoubleClick))	// ダブルクリック時に判定
 					{
 						// 左ボタンがダブルクリックされていれば
@@ -96,11 +122,8 @@ namespace REngine
 							// パスからハンドルを取得
 							UnTypeHandle handle = m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(file.path().wstring()));
 
-							// ハンドルから本体を取得
-							AssetBase* asset = m_assetManager.GetFromUnTypeHandle(handle);
-
 							// 選択状態にする
-							m_selected.SetSelected(asset);
+							m_selected.SetSelectedHandle(handle);
 						}
 					}
 

@@ -88,6 +88,9 @@ namespace REngine
 		// 初期化関数
 		void Initialize(const std::wstring& root);
 
+		// 特定のファイルのスキャンをする関数
+		void ScanOnceFile(const std::wstring& path);
+
 		// 更新関数
 		void Update();
 

@@ -40,7 +40,7 @@ namespace REngine
 		, m_nowType{ WindowType::None }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 		, m_guizmoManager{}
-		, m_selected{}
+		, m_selected{ m_assetmanager }
 	{}
 
 	EditGUI::~EditGUI()

@@ -24,6 +24,12 @@ namespace REngine
 		m_dataBase.ScanFile(root, m_typeManager);
 	}
 
+	void AssetManager::ScanOnceFile(const std::wstring& path)
+	{
+		// スキャン
+		m_dataBase.ScanOnceFile(path, m_typeManager);
+	}
+
 	void AssetManager::Update()
 	{
 		// Jobがなければ何もしない

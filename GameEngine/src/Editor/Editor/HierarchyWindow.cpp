@@ -277,7 +277,7 @@ namespace REngine
 				}
 			}
 			// RectTransformを取得
-			if (RectTransform* t = object->GetComponent<RectTransform>())
+			else if (RectTransform* t = object->GetComponent<RectTransform>())
 			{
 				// 全子供を調べる
 				for (auto* child : t->GetChildren())

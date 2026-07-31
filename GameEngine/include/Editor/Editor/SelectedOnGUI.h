@@ -14,7 +14,9 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <optional>
 #include "Common/Property/PropertyObject.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
@@ -32,13 +34,20 @@ namespace REngine
 		// 選択中のオブジェクト
 		PropertyObject* m_propertyObject;
 
+		// 選択されたハンドル
+		std::optional<UnTypeHandle> m_selectedHandle;
+
+		// AssetManager
+		AssetManager& m_assetManager;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		SelectedOnGUI()
+		SelectedOnGUI(AssetManager& assetManager)
 			: m_propertyObject{ nullptr } 
+			, m_assetManager{ assetManager }
 		{};
 		~SelectedOnGUI() = default;
 
@@ -46,9 +55,30 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		PropertyObject* GetSelected() const 
+		PropertyObject* GetSelected()
 		{
-			return m_propertyObject; 
+			// Handleが設定されていてpropertyObjectがない場合
+			if (!m_propertyObject && m_selectedHandle != std::nullopt)
+			{
+				// ロード完了チェック
+				AssetBase* asset = m_assetManager.GetFromUnTypeHandle(m_selectedHandle.value());
+
+				// 読み込まれていれば
+				if (asset)
+				{
+					// 選択
+					m_propertyObject = asset;
+				}
+			}
+
+			return m_propertyObject;
+		}
+
+		UnTypeHandle* GetSelectedHandle()
+		{
+			if (m_selectedHandle.has_value()) return &m_selectedHandle.value();
+
+			return nullptr;
 		}
 
 		//-----------------------------------------------------
@@ -58,6 +88,15 @@ namespace REngine
 		void SetSelected(PropertyObject* obj) 
 		{
 			m_propertyObject = obj; 
+
+			m_selectedHandle.reset();
+		}
+
+		void SetSelectedHandle(UnTypeHandle handle) 
+		{
+			m_selectedHandle = handle;
+
+			m_propertyObject = nullptr;
 		}
 	};
 }

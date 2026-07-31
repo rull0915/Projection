@@ -58,6 +58,9 @@ namespace REngine
 		// ファイルを走査しauxの生成を行う関数
 		void ScanFile(const std::filesystem::path& root, const AssetTypeManager& typeManager);
 
+		// 特定のファイルに対してauxの生成を行う関数
+		void ScanOnceFile(const std::filesystem::path& path, const AssetTypeManager& typeManager);
+
 		// 相互変換を行う関数
 		UUID GetUUID(const std::wstring& path) const
 		{
