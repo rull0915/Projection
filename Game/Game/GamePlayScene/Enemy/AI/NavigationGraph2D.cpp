@@ -12,9 +12,6 @@
 #include "pch.h"
 #include "NavigationGraph2D.h"
 
-#include "Renderer/Renderer.h"
-#include "Settings/WorldSetting2D.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -35,36 +32,6 @@ void NavigationGraph2D::Update()
 
 	// グラフの更新をする
 	UpdateGraph();
-}
-
-void NavigationGraph2D::DebugDraw(REngine::Renderer& renderer)
-{
-	// 繋がっているコライダー同士を結ぶ線を描く
-	for (auto& edges : GetGraph())
-	{
-		DebugDraw(edges, renderer);
-	}
-}
-
-void NavigationGraph2D::DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color)
-{
-	for (auto& edge : edges)
-	{
-		// 存在していないnodeを指していたらスキップ
-		if (edge.ownIndex >= m_nodes.size() || edge.goalIndex >= m_nodes.size()) continue;
-
-		if (edge.startPoint >= m_nodes[edge.ownIndex]->GetPoints().size() || edge.goalPoint >= m_nodes[edge.goalIndex]->GetPoints().size()) continue;
-
-		DirectX::SimpleMath::Vector2 points[2] =
-		{
-			m_nodes[edge.ownIndex]->GetPoints()[edge.startPoint],
-			m_nodes[edge.goalIndex]->GetPoints()[edge.goalPoint]
-		};
-
-		// 繋ぐ線を描画
-		auto& w = REngine::WorldSetting2D::Instance();
-		// renderer.Draw().Line(w.Local2DToWorld3D(points[0]), w.Local2DToWorld3D(points[1]), color);
-	}
 }
 
 bool NavigationGraph2D::CanJump(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 target, float& time)

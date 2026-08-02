@@ -19,8 +19,6 @@
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
-#include "Components/World/Collider/PhysicsMaterial.h"
-
 #include "../Enemy/Components/LandingCandidatePoints.h"
 #include "../Enemy/Components/LandingCandidatePoints2D.h"
 
@@ -48,7 +46,7 @@ private:
 	//-----------------------------------------------------
 	REngine::Transform* m_pTransform;
 
-	REngine::PhysicsMaterial m_material;
+	// REngine::PhysicsMaterial m_material;
 
 	// 現在の次元が2次元かどうか
 	bool m_is2D;

@@ -61,15 +61,15 @@ void EnemyMoveState::Enter()
 	// Colliderを取得
 	if (auto col = GetOwner()->GetComponent<ColliderBase>())
 	{
-		// 摩擦をなくす
-		auto* mt = col->GetMutablePhysicsMaterial();
+		//// 摩擦をなくす
+		//auto* mt = col->GetMutablePhysicsMaterial();
 
-		if (mt)
-		{
-			mt->SetFrictionCombine(CombineMode::Minimum);
-			mt->SetDynamicFriction(0);
-			mt->SetStaticFriction(0);
-		}
+		//if (mt)
+		//{
+		//	mt->SetFrictionCombine(CombineMode::Minimum);
+		//	mt->SetDynamicFriction(0);
+		//	mt->SetStaticFriction(0);
+		//}
 	}
 
 	// 前方向と上から右方向を計算
@@ -130,12 +130,12 @@ void EnemyMoveState::Exit()
 	// Colliderを取得
 	if (auto col = GetOwner()->GetComponent<ColliderBase>())
 	{
-		// 摩擦を戻す
-		auto* mt = col->GetMutablePhysicsMaterial();
+		//// 摩擦を戻す
+		//auto* mt = col->GetMutablePhysicsMaterial();
 
-		mt->SetFrictionCombine(CombineMode::Average);
-		mt->SetDynamicFriction(0.6f);
-		mt->SetStaticFriction(0.6f);
+		//mt->SetFrictionCombine(CombineMode::Average);
+		//mt->SetDynamicFriction(0.6f);
+		//mt->SetStaticFriction(0.6f);
 	}
 
 	// 速度をリセット

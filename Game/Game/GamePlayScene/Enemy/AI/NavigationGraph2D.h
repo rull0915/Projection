@@ -68,11 +68,6 @@ public:
 	// 更新
 	void Update() override;
 
-	// デバッグ描画
-	void DebugDraw(REngine::Renderer& renderer) override;
-
-	void DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color = { 0, 1, 0, 1 }) override;
-
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------

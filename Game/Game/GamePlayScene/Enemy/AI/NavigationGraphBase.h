@@ -80,11 +80,6 @@ public:
 	// 更新
 	virtual void Update() = 0;
 
-	// デバッグ描画
-	virtual void DebugDraw(REngine::Renderer& renderer) = 0;
-
-	virtual void DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color = { 0, 1, 0, 0 }) = 0;
-
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------

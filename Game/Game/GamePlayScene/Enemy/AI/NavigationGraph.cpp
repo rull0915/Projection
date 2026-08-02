@@ -12,8 +12,6 @@
 #include "pch.h"
 #include "NavigationGraph.h"
 
-#include "Renderer/Renderer.h"
-
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -34,35 +32,6 @@ void NavigationGraph::Update()
 
 	// グラフの更新をする
 	UpdateGraph();
-}
-
-void NavigationGraph::DebugDraw(REngine::Renderer& renderer)
-{
-	// 繋がっているコライダー同士を結ぶ線を描く
-	for (auto& edges : GetGraph())
-	{
-		DebugDraw(edges, renderer);
-	}
-}
-
-void NavigationGraph::DebugDraw(const std::vector<Edge>& edges, REngine::Renderer& renderer, DirectX::SimpleMath::Color color)
-{
-	for (auto& edge : edges)
-	{
-		// 存在していないnodeを指していたらスキップ
-		if (edge.ownIndex >= m_nodes.size() || edge.goalIndex >= m_nodes.size()) continue;
-
-		if (edge.startPoint >= m_nodes[edge.ownIndex]->GetPoints().size() || edge.goalPoint >= m_nodes[edge.goalIndex]->GetPoints().size()) continue;
-
-		DirectX::SimpleMath::Vector3 points[2] =
-		{
-			m_nodes[edge.ownIndex]->GetPoints()[edge.startPoint],
-			m_nodes[edge.goalIndex]->GetPoints()[edge.goalPoint]
-		};
-
-		//// 繋ぐ線を描画
-		//renderer.Draw().Line(points[0], points[1], color);
-	}
 }
 
 bool NavigationGraph::CanJump(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 target, float& time)

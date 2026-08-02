@@ -26,7 +26,6 @@
 
 #include "Common/State/StateMachine.h"
 #include "State/EnemyStateBase.h"
-#include "Components/World/Collider/PhysicsMaterial.h"
 
 //====================================================//
 // 前方宣言
@@ -65,7 +64,7 @@ private:
 	PathFollower m_pathFollower;
 
 	// 物理マテリアル
-	REngine::PhysicsMaterial m_physicsMaterial;
+	// REngine::PhysicsMaterial m_physicsMaterial;
 
 	// 着地フラグ
 	bool m_isGround;
@@ -139,8 +138,7 @@ public:
 	bool Is2D() const { return m_is2D; }
 
 	// 物理マテリアル
-	REngine::PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial;
-}
+	// REngine::PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial; }
 
 	//-----------------------------------------------------
 	// セッター

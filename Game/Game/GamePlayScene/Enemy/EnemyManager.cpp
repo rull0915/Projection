@@ -254,12 +254,6 @@ void EnemyManager::Update(const REngine::GameTimer& timer)
 	}
 }
 
-void EnemyManager::DebugRenderer(REngine::Renderer& renderer)
-{
-	if (m_is2D) m_normalNavigation2D.DebugDraw(m_debugPath, renderer);
-	else m_normalNavigation.DebugDraw(m_debugPath, renderer);
-}
-
 void EnemyManager::ChangeDimantion()
 {
 	// 自身のフラグを変更

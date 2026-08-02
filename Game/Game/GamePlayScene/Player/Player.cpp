@@ -34,7 +34,7 @@ using namespace REngine;
 Player::Player(IComponentOwner* owner)
 	: WorldComponentBase(owner)
 	, m_pTransform{ GetComponent<Transform>() }
-	, m_material{ 0.2f, 0.1f, 0.0f, CombineMode::Minimum, CombineMode::Minimum }
+	// , m_material{ 0.2f, 0.1f, 0.0f, CombineMode::Minimum, CombineMode::Minimum }
 	, m_is2D{ false }
 	, m_canJump{ false }
 	, m_lastPoints{ nullptr }
@@ -57,7 +57,7 @@ void Player::Start()
 	{
 		for (auto collider : colliders)
 		{
-			static_cast<ColliderBase*>(collider)->SetPhysicsMaterial(&m_material);
+			// static_cast<ColliderBase*>(collider)->SetPhysicsMaterial(&m_material);
 		}
 	}
 
@@ -136,7 +136,7 @@ void Player::Update2D(const GameTimer& timer)
 
 	if (auto* col = GetComponent<ColliderBase2D>())
 	{
-		col->SetPhysicsMaterial(&m_material);
+		// col->SetPhysicsMaterial(&m_material);
 	}
 
 	// 入力があれば

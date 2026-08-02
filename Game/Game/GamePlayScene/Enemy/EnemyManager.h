@@ -115,8 +115,6 @@ public:
 
 	void Update(const REngine::GameTimer& timer) override;
 
-	void DebugRenderer(REngine::Renderer& renderer);
-
 	// 敵を追加する関数
 	void OnComponentAdded(ComponentBase* component) override
 	{

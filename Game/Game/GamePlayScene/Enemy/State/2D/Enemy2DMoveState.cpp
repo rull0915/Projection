@@ -67,16 +67,16 @@ void Enemy2DMoveState::Enter()
 	// Colliderを取得
 	if (auto col = GetOwner()->GetComponent<ColliderBase2D>())
 	{
-		// 摩擦をなくす
-		auto* mt = col->GetMutablePhysicsMaterial();
+		//// 摩擦をなくす
+		//auto* mt = col->GetMutablePhysicsMaterial();
 
-		// なければ設定
-		if (mt)
-		{
-			mt->SetFrictionCombine(CombineMode::Minimum);
-			mt->SetDynamicFriction(0);
-			mt->SetStaticFriction(0);
-		}
+		//// なければ設定
+		//if (mt)
+		//{
+		//	mt->SetFrictionCombine(CombineMode::Minimum);
+		//	mt->SetDynamicFriction(0);
+		//	mt->SetStaticFriction(0);
+		//}
 	}
 }
 
@@ -126,15 +126,15 @@ void Enemy2DMoveState::Exit()
 	// Colliderを取得
 	if (auto col = GetOwner()->GetComponent<ColliderBase2D>())
 	{
-		// 摩擦を戻す
-		auto* mt = col->GetMutablePhysicsMaterial();
+		//// 摩擦を戻す
+		//auto* mt = col->GetMutablePhysicsMaterial();
 
-		if (mt)
-		{
-			mt->SetFrictionCombine(CombineMode::Average);
-			mt->SetDynamicFriction(0.6f);
-			mt->SetStaticFriction(0.6f);
-		}
+		//if (mt)
+		//{
+		//	mt->SetFrictionCombine(CombineMode::Average);
+		//	mt->SetDynamicFriction(0.6f);
+		//	mt->SetStaticFriction(0.6f);
+		//}
 	}
 
 	// 速度をリセット

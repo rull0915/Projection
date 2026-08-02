@@ -47,14 +47,14 @@ void Enemy::Awake()
 	// 初期状態をアイドルに設定
 	m_stateMachine.RequsetChangeState(EnemyStateID::Idle);
 
-	// 物理マテリアルの設定
-	m_physicsMaterial.SetBounciness(0.0f);
-	m_physicsMaterial.SetBounceCombine(CombineMode::Minimum);
+	//// 物理マテリアルの設定
+	//m_physicsMaterial.SetBounciness(0.0f);
+	//m_physicsMaterial.SetBounceCombine(CombineMode::Minimum);
 
-	if (auto cl = GetOwn()->GetComponentWithCategory(Category::Collider))
-	{
-		static_cast<ColliderBase*>(cl)->SetPhysicsMaterial(&m_physicsMaterial);
-	}
+	//if (auto cl = GetOwn()->GetComponentWithCategory(Category::Collider))
+	//{
+	//	static_cast<ColliderBase*>(cl)->SetPhysicsMaterial(&m_physicsMaterial);
+	//}
 }
 
 void Enemy::Start()
