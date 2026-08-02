@@ -35,20 +35,26 @@ namespace REngine
 		// ファイルへの読み書きをするインスタンス
 		AuxFileRepository m_auxFileRepository;
 
+		// タイプ管理クラス
+		const AssetTypeManager& m_assetTypeManager;
+
 		// 相互変換のための対応表
 
 		// uuidからファイルパス
-		std::unordered_map<UUID, std::wstring> m_uuidToPath;
+		std::unordered_map<UUID, std::filesystem::path> m_uuidToPath;
 
 		// ファイルパスからuuid
-		std::unordered_map<std::wstring, UUID> m_pathToUuid;
+		std::unordered_map<std::filesystem::path, UUID> m_pathToUuid;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetDataBase() = default;
+		AssetDataBase(const AssetTypeManager& assetTypeManager)
+			: m_assetTypeManager{ assetTypeManager }
+		{
+		}
 		~AssetDataBase() = default;
 
 		//-----------------------------------------------------
@@ -56,20 +62,31 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// ファイルを走査しauxの生成を行う関数
-		void ScanFile(const std::filesystem::path& root, const AssetTypeManager& typeManager);
+		void ScanFile(const std::filesystem::path& root);
 
 		// 特定のファイルに対してauxの生成を行う関数
-		void ScanOnceFile(const std::filesystem::path& path, const AssetTypeManager& typeManager);
+		void ScanOnceFile(const std::filesystem::path& path);
 
 		// 相互変換を行う関数
-		UUID GetUUID(const std::wstring& path) const
+		UUID GetUUID(const std::filesystem::path& path) const
 		{
 			return m_pathToUuid.at(path);
 		}
-		const std::wstring& GetPath(UUID uuid) const
+		const std::filesystem::path& GetPath(UUID uuid) const
 		{
 			return m_uuidToPath.at(uuid);
 		}
+
+		//------- ファイル操作関数 -------//
+
+		// 名前変更
+		void ReName(const std::filesystem::path& old, const std::filesystem::path& next);
+
+		// 移動
+		void Move(const std::filesystem::path& old, const std::filesystem::path& next);
+
+		// 削除
+		void Delete(const std::filesystem::path& path);
 
 	private:
 
@@ -81,7 +98,7 @@ namespace REngine
 		UUID GenerateUUID();
 
 		// UUIDとパスの登録をする関数
-		void Register(UUID uuid, const std::wstring& path)
+		void Register(UUID uuid, const std::filesystem::path& path)
 		{
 			// uuid->pathの変換表に追加
 			m_uuidToPath[uuid] = path;

@@ -18,4 +18,7 @@ namespace REngine
 {
 	// UUIDの型を宣言
 	using UUID = std::uint64_t;
+
+	// エラー値
+	static constexpr UUID UUID_NONE = 0;
 }	// namespace REngine

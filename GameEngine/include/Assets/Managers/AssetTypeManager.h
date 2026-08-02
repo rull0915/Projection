@@ -53,6 +53,9 @@ namespace REngine
 
 		// 特定のファイルに対応するtype_indexを取得する関数
 		std::type_index GetAssetClass(const std::filesystem::path& path) const;
+
+		// 特定のタイプに対応する拡張子を取得する関数
+		std::wstring GetExtention(const std::string& type) const;
 	};
 
 	template<typename T>

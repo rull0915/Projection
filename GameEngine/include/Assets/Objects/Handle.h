@@ -32,8 +32,13 @@ namespace REngine
 		uint32_t index;
 		uint32_t generation;
 
-		template<typename T>
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
 		Handle<T> As() const;
+
+		bool operator==(const UnTypeHandle& handle) const
+		{
+			return index == handle.index && generation == handle.generation;
+		}
 	};
 
 	// Assetに対応するハンドル
@@ -47,21 +52,32 @@ namespace REngine
 		uint32_t index;
 		uint32_t generation;
 
-		UnTypeHandle GetUnTypeHandle();
+		UnTypeHandle GetUnTypeHandle() const;
+
+		bool operator==(const Handle<T>& handle) const
+		{
+			return index == handle.index && generation == handle.generation;
+		}
 	};
+
+	// エラーハンドル
+	static constexpr UnTypeHandle ERROR_UNTYPE_HANDLE = { 0, 0 };
+
+	template<typename T>
+	static constexpr Handle<T> ERROR_HANDLE = { 0, 0 };
 
 	//------------------------------
 	// 実装
 	//------------------------------
 
-	template<typename T>
+	template<typename T, typename>
 	Handle<T> UnTypeHandle::As() const
 	{
 		return { index, generation };
 	}
 
 	template<typename T, typename E>
-	UnTypeHandle Handle<T, E>::GetUnTypeHandle()
+	UnTypeHandle Handle<T, E>::GetUnTypeHandle() const
 	{
 		return { index, generation };
 	}

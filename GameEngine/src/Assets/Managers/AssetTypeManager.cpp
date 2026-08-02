@@ -64,4 +64,17 @@ namespace REngine
 		// 存在しないキーならvoidとしておく
 		return std::type_index(typeid(void));
 	}
+
+	std::wstring AssetTypeManager::GetExtention(const std::string& type) const
+	{
+		// ループ
+		for (auto& map : m_assetTypeMap)
+		{
+			// 一致すれば返す
+			if (map.second == type) return map.first;
+		}
+
+		// なければ空文字を返す
+		return L"";
+	}
 }	// namespace REngine

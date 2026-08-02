@@ -16,7 +16,7 @@
 #include "Editor/Editor/ImguiManager.h"
 
 #include "System/EngineInitializer.h"
-#include "System/AssetInitializer.h"
+#include "System/Asset/AssetInitializer.h"
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
 #include "Debug/DebugManager.h"

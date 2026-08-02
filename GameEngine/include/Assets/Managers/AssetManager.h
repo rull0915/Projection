@@ -16,6 +16,7 @@
 //====================================================//
 #include <string>
 #include <functional>
+#include <fstream>
 #include <memory>
 #include <future>
 #include <typeindex>
@@ -49,6 +50,12 @@ namespace REngine
 		// パスを引数にしてAssetを生成するローダー関数
 		using Loader = std::function<std::unique_ptr<AssetBase>(const std::wstring&)>;
 
+		// Assetからパスに保存するセーバー関数
+		using Saver = std::function<void(AssetBase*, const std::wstring&)>;
+
+		// パスから新規ファイルを作成してデフォルトのアセットを生成する関数
+		using Creator = std::function<std::unique_ptr<AssetBase>(std::filesystem::path)>;
+
 	private:
 
 		//-----------------------------------------------------
@@ -70,6 +77,15 @@ namespace REngine
 		// 読み込み関数マップ
 		std::unordered_map<std::type_index, Loader> m_loaders;
 
+		// 保存関数マップ
+		std::unordered_map<std::type_index, Saver> m_savers;
+
+		// 生成関数マップ
+		std::unordered_map<std::type_index, Creator> m_creators;
+
+		// 生成可能なAssetTypeをまとめた配列
+		std::vector<std::string> m_creatableAssets;
+
 		// 非同期実行中のローダーを管理する配列
 		std::vector<AsyncJob> m_asyncJobs;
 
@@ -78,7 +94,7 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetManager() = default;
+		AssetManager();
 		~AssetManager() = default;
 
 		//-----------------------------------------------------
@@ -98,19 +114,33 @@ namespace REngine
 		UnTypeHandle LoadFromUUID(UUID uuid);
 
 		/// <summary>
-		/// Assetの登録を行う関数
+		/// Assetの登録をする関数
 		/// </summary>
-		/// <typeparam name="T">Assetの型</typeparam>
-		/// <param name="loader">読み込み関数</param>
-		/// <param name="extentions">対応拡張子の一覧</param>
+		/// <typeparam name="T">アセットの型</typeparam>
+		/// <param name="assetName">アセット名</param>
+		/// <param name="loader">ロード関数</param>
+		/// <param name="saver">保存関数</param>
+		/// <param name="canCreate">実行中に新規作成可能にするかどうか</param>
+		/// <param name="extentions">対応する拡張子の一覧</param>
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
-		void Registry(const std::string& assetName, Loader loader, const std::vector<std::wstring>& extentions);
+		void Registry(
+			const std::string& assetName, 
+			Loader loader, 
+			Saver saver,
+			bool canCreate,
+			const std::vector<std::wstring>& extentions);
 
 		// データベースの取得関数
-		const AssetDataBase& GetDataBase() const { return m_dataBase; }
+		AssetDataBase& GetDataBase() { return m_dataBase; }
 
 		// タイプ管理者の取得関数
 		const AssetTypeManager& GetTypeManager() const { return m_typeManager; }
+
+		// 生成可能なタイプを全て取得する関数
+		const std::vector<std::string>& GetCreatableAssets() const { return m_creatableAssets; }
+
+		// アセットを新規作成する関数
+		void Create(const std::filesystem::path& directory, const std::string& fileName, const std::string& assetType);
 
 		//-----------------------------------------------------
 		// ゲッター
@@ -177,10 +207,36 @@ namespace REngine
 	};
 
 	template<typename T, typename>
-	inline void AssetManager::Registry(const std::string& assetName, Loader loader, const std::vector<std::wstring>& extentions)
+	inline void AssetManager::Registry(const std::string& assetName, Loader loader, Saver saver, bool canCreate, const std::vector<std::wstring>& extentions)
 	{
+		std::type_index idx = std::type_index(typeid(T));
+
 		// 読み込み関数の登録
-		m_loaders[std::type_index(typeid(T))] = loader;
+		if (loader) m_loaders[idx] = loader;
+
+		// 保存関数の登録
+		if (saver) m_savers[idx] = saver;
+		
+		// デフォルトコンストラクタがあれば
+		if constexpr (std::is_default_constructible_v<T>)
+		{
+			// 生成関数の登録
+			if (canCreate)
+			{
+				m_creators[idx] =
+					[](const std::filesystem::path& path)
+					{
+						// 新規作成
+						std::ofstream(path).close();
+
+						// デフォルトコンストラクタで作成（なければエラー）
+						return std::make_unique<T>();
+					};
+
+				// 生成可能に追加
+				m_creatableAssets.push_back(assetName);
+			}
+		}
 
 		// 拡張子の登録
 		for (auto& ext : extentions)

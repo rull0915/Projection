@@ -30,6 +30,25 @@ namespace REngine
 		// 選択中オブジェクト
 		SelectedOnGUI& m_selected;
 
+		// 選択中パス
+		std::filesystem::path m_selectedPath;
+
+		// 出現フラグ
+		bool m_openRenamePopup;
+		bool m_openCreatePopup;
+
+		// ポップアップに使用する文字列
+		std::string m_popupStr;
+
+		// リネーム対象のパス
+		std::filesystem::path m_targetPath;
+
+		// 作成対象のディレクトリ
+		std::filesystem::path m_createDirectory;
+
+		// 作成するアセットタイプ
+		std::string m_createType;
+
 	public:
 
 		//-----------------------------------------------------
@@ -38,6 +57,12 @@ namespace REngine
 		ProjectWindow(AssetManager& am, SelectedOnGUI& selected)
 			: m_assetManager{ am }
 			, m_selected{ selected }
+			, m_selectedPath{}
+			, m_openRenamePopup{ false }
+			, m_openCreatePopup{ false }
+			, m_popupStr{ "" }
+			, m_targetPath{}
+			, m_createDirectory{}
 		{}
 		~ProjectWindow() = default;
 
@@ -61,5 +86,18 @@ namespace REngine
 
 		// ファイル構造の描画
 		void DrawFileStructure(const std::filesystem::path& path);
+	
+		/// <summary>
+		/// ファイル操作ポップアップの表示
+		/// </summary>
+		/// <param name="path">操作するファイルパス</param>
+		/// <param name="isDirectory">ディレクトリかどうか</param>
+		void DrawFileOperation(const std::filesystem::path& path, bool isDirectory);
+
+		// 名前入力ポップアップの表示
+		void DrawRenamePopup();
+
+		// 新規作成ポップアップの表示
+		void DrawCreatePopup();
 	};
 }	// namespace REngine

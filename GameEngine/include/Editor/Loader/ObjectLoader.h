@@ -74,6 +74,7 @@ namespace REngine
 		void LoadScene(const nlohmann::json& json, Scene* pScene);
 
 		// ロード関数
+		void LoadPropertyFromFile(const std::wstring& filePath, PropertyObject* obj);
 		void LoadFromFile(const std::wstring& filePath, GameObject* obj);
 		void LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas);
 

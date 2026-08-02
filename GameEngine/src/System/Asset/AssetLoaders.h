@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : AssetInitializer.h
+// ファイル名   : AssetLoaders.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
+// 作成日       : 2026/08/02
 //
-// 概要 : エンジンにデフォルトで存在するアセットの初期化を行うクラス
+// 概要 : アセットのロード関数をまとめたヘッダ
 //
 // 更新履歴 :
-// 2026/07/26 新規作成
+// 2026/08/02 新規作成
 //====================================================//
 
 #pragma once
@@ -14,40 +14,17 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <string>
-#include <memory>
-#include <Effects.h>
 
-#include "Assets/Managers/AssetManager.h"
 #include "Assets/Types/Texture.h"
 #include "Assets/Types/Model.h"
 #include "Assets/Types/Font.h"
 #include "Assets/Types/Prefab.h"
 #include "Assets/Types/AudioClip.h"
 
+#include "Editor/Loader/ObjectLoader.h"
+
 namespace REngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-	class AssetInitializer
-	{
-	public:
-
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		AssetInitializer() = default;
-		~AssetInitializer() = default;
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// 初期化
-		static void AssetInitialize(AssetManager& assetManager);
-	};
-
 	namespace Loader
 	{		
 		// 各ロード関数
@@ -66,6 +43,22 @@ namespace REngine
 
 		// AudioClip
 		std::unique_ptr<AudioClip> AudioClipLoader(const std::wstring& path);
-	}
 
+		// Propertyとして扱う場合
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
+		std::unique_ptr<T> AssetLoaderAsProperty(const std::wstring& path, AssetManager& assetManager)
+		{
+			// ローダーを生成
+			ObjectLoader loader(assetManager);
+
+			// アセットを生成
+			std::unique_ptr<T> asset = std::make_unique<T>();
+
+			// ファイルからロード
+			loader.LoadPropertyFromFile(path, asset.get());
+
+			// 返す
+			return std::move(asset);
+		}
+	}
 }	// namespace REngine

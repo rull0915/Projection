@@ -208,7 +208,9 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
     <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp" />
-    <ClCompile Include="src\System\AssetInitializer.cpp" />
+    <ClCompile Include="src\System\Asset\AssetInitializer.cpp" />
+    <ClCompile Include="src\System\Asset\AssetLoaders.cpp" />
+    <ClCompile Include="src\System\Asset\AssetSaver.cpp" />
     <ClCompile Include="src\System\FactoryRegister.cpp" />
     <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
     <ClCompile Include="src\GameObject\GameObject.cpp" />
@@ -378,7 +380,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\World\Collider\3D\Shapes\Colliders.h" />
     <ClInclude Include="include\Components\World\Collider\3D\Shapes\SphereCollider.h" />
     <ClInclude Include="include\Components\World\Collider\ColliderCommon.h" />
-    <ClInclude Include="include\Components\World\Collider\PhysicsMaterial.h" />
+    <ClInclude Include="include\Assets\Types\PhysicsMaterial.h" />
     <ClInclude Include="include\Components\ComponentBase.h" />
     <ClInclude Include="include\Components\ComponentCategory.h" />
     <ClInclude Include="include\Components\World\Components.h" />
@@ -465,7 +467,9 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\System\AssetInitializer.h" />
+    <ClInclude Include="src\System\Asset\AssetInitializer.h" />
+    <ClInclude Include="src\System\Asset\AssetLoaders.h" />
+    <ClInclude Include="src\System\Asset\AssetSaver.h" />
     <ClInclude Include="src\System\FactoryRegister.h" />
     <ClInclude Include="include\Input\InputInfo.h">
       <SubType>

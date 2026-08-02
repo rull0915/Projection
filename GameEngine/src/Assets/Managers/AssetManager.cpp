@@ -12,22 +12,36 @@
 #include "pch.h"
 #include "Assets/Managers/AssetManager.h"
 
+#include <algorithm>
+
 namespace REngine
 {
 	//====================================================//
 	// 関数の実体宣言
 	//====================================================//
 
+	AssetManager::AssetManager()
+		: m_dataBase{ m_typeManager }
+		, m_registry{}
+		, m_typeManager{}
+		, m_uuidToHandle{}
+		, m_loaders{}
+		, m_savers{}
+		, m_creators{}
+		, m_creatableAssets{}
+		, m_asyncJobs{}
+	{}
+
 	void AssetManager::Initialize(const std::wstring& root)
 	{
 		// スキャン
-		m_dataBase.ScanFile(root, m_typeManager);
+		m_dataBase.ScanFile(root);
 	}
 
 	void AssetManager::ScanOnceFile(const std::wstring& path)
 	{
 		// スキャン
-		m_dataBase.ScanOnceFile(path, m_typeManager);
+		m_dataBase.ScanOnceFile(path);
 	}
 
 	void AssetManager::Update()
@@ -69,6 +83,9 @@ namespace REngine
 			return it->second;
 		}
 
+		// 無効値ならエラーハンドルを返す
+		if (uuid == UUID_NONE) return ERROR_UNTYPE_HANDLE;
+
 		// 新規のUUIDならパスを取得
 		const std::wstring& path = m_dataBase.GetPath(uuid);
 
@@ -80,6 +97,45 @@ namespace REngine
 
 		// 返す
 		return handle;
+	}
+
+	void AssetManager::Create(const std::filesystem::path& directory, const std::string& fileName, const std::string& assetType)
+	{
+		// 対応していないタイプなら何もしない
+		if (std::find(m_creatableAssets.begin(), m_creatableAssets.end(), assetType) == m_creatableAssets.end()) return;
+
+		// 拡張子を取得
+		std::wstring ext = m_typeManager.GetExtention(assetType);
+
+		// パスを作成
+		std::filesystem::path path = directory / (fileName);
+		path += ext;
+
+		// タイプインデックスを取得
+		std::type_index idx = m_typeManager.GetAssetClass(path);
+
+		// 生成関数を取得
+		const auto& creator = m_creators.find(idx);
+
+		// あれば
+		if (creator->second)
+		{
+			// 生成
+			std::unique_ptr<AssetBase> asset = std::move(creator->second(path));
+
+			// 保存関数を取得
+			const auto& saver = m_savers.find(idx);
+
+			// あれば
+			if (saver->second)
+			{
+				// 保存
+				saver->second(asset.get(), path);
+			}
+
+			// スキャンさせる
+			m_dataBase.ScanOnceFile(path);
+		}
 	}
 
 	UnTypeHandle AssetManager::GetHandle(UUID uuid) const

@@ -12,6 +12,7 @@
 #include "pch.h"
 #include "Assets/Managers/AssetDataBase.h"
 
+#include <fstream>
 #include "Common/Random.h"
 
 namespace REngine
@@ -20,7 +21,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	void AssetDataBase::ScanFile(const std::filesystem::path& root, const AssetTypeManager& typeManager)
+	void AssetDataBase::ScanFile(const std::filesystem::path& root)
 	{
 		// rootディレクトリに含まれる全ファイル・ディレクトリを再帰的に調べる
 		for (auto& file : std::filesystem::recursive_directory_iterator(root))
@@ -32,47 +33,82 @@ namespace REngine
 			if (file.is_directory()) continue;
 
 			// auxの調査
-			ScanOnceFile(file, typeManager);
+			ScanOnceFile(file);
 		}
 	}
 
-	void AssetDataBase::ScanOnceFile(const std::filesystem::path& path, const AssetTypeManager& typeManager)
+	void AssetDataBase::ScanOnceFile(const std::filesystem::path& path)
 	{
 		// 同名のauxファイルが存在するかを調べる
 		auto auxPath = path.wstring() + L".aux";
 
+		// 対応するaux
+		AssetAux aux;
+
 		// 存在しなければ
 		if (!std::filesystem::exists(auxPath))
 		{
-			// 新しくAuxを生成する
-			AssetAux aux{
-				GenerateUUID(),
-				typeManager.GetAssetType(path)
-			};
+			// UUIDを生成
+			aux.uuid = GenerateUUID();
+
+			// タイプを取得
+			aux.assetType = m_assetTypeManager.GetAssetType(path);
 
 			// .auxファイルへ書き込む
 			m_auxFileRepository.SaveAux(aux, auxPath);
-
-			// 変換表へ登録
-			Register(aux.uuid, path);
 		}
 		// 存在していれば
 		else
 		{
-			// auxを用意
-			AssetAux aux{};
-
 			// .auxファイルから読み取る
 			m_auxFileRepository.LoadAux(aux, auxPath);
-
-			// 変換表へ登録
-			Register(aux.uuid, path);
 		}
+
+		// 変換表へ登録
+		Register(aux.uuid, path);
+	}
+
+	void AssetDataBase::ReName(const std::filesystem::path& old, const std::filesystem::path& next)
+	{
+		// 名前変更処理
+		namespace fs = std::filesystem;
+		
+		// 本体ファイルとauxファイルの両方を変更することでUUIDが変更されないようにします
+		std::filesystem::rename(old, next);
+		std::filesystem::rename(fs::path(old.string() + ".aux"), fs::path(next.string() + ".aux"));
+
+		// 以前のファイルのUUIDを取得
+		UUID uuid = GetUUID(old);
+
+		// 古い対応表を削除
+		m_pathToUuid.erase(old);
+		m_uuidToPath.erase(uuid);
+
+		// 新しい対応表を作成
+		Register(uuid, next);
+	}
+
+	void AssetDataBase::Move(const std::filesystem::path & old, const std::filesystem::path & next)
+	{}
+
+	void AssetDataBase::Delete(const std::filesystem::path & path)
+	{
+		std::filesystem::remove(path);
+		std::filesystem::remove(std::filesystem::path(path.string() + ".aux"));
 	}
 
 	UUID AssetDataBase::GenerateUUID()
 	{
-		// ランダムで生成する（衝突する確率は1 / 2^64のため考慮しない）
-		return Random::Get<UUID>(0, static_cast<uint64_t>(-1));
+		UUID uuid;
+
+		// リストにないUUIDが生成されるまでループ
+		while(m_uuidToPath.contains(uuid))
+		{
+			// ランダム生成
+			uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
+		}
+
+		// UUIDを返す
+		return uuid;
 	}
 }	// namespace REngine

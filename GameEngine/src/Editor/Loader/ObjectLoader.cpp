@@ -96,7 +96,7 @@ namespace REngine
 				// AssetHandle
 			case PropertyType::AssetHandle: {
 				auto& registry = AssetPropertyRegistry::Instance();
-				UnTypeHandle handle = m_assetManager.GetHandle(json[property.name]);	// UUIDからHandleを取得
+				UnTypeHandle handle = m_assetManager.LoadFromUUID(json[property.name]);	// UUIDからHandleを取得
 				registry.Assign(property.typeIndex, property.value, handle);	// 変更
 				break;
 			}
@@ -222,6 +222,25 @@ namespace REngine
 
 		// UIのロード
 		LoadUIManager(json["UI"], pScene->GetUIManager());
+	}
+
+	void ObjectLoader::LoadPropertyFromFile(const std::wstring& filePath, PropertyObject* obj)
+	{
+		std::ifstream ifs(std::filesystem::path(filePath).c_str());
+
+		// 開けていたら
+		if (ifs.is_open())
+		{
+			// jsonから読み取り
+			nlohmann::json j;
+			ifs >> j;
+
+			// ロード
+			LoadProperty(j, *obj);
+		}
+
+		// 閉じる
+		ifs.close();
 	}
 
 	void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)

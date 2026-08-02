@@ -72,5 +72,6 @@ namespace REngine
 		// 保存関数
 		void SaveObjectToFile(const std::wstring& filePath, GameObject* obj);
 		void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
+		void SavePropertyToFile(const std::wstring& filePath, PropertyObject* scene);
 	};
 } // namespace REngine

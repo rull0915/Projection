@@ -186,7 +186,8 @@ namespace REngine
 		if (hitDirVel < 0)
 		{
 			// 双方の物理マテリアルを取得
-			PhysicsMaterial aMat = contact.ownCol->GetPhysicsMaterial(), bMat = contact.otherCol->GetPhysicsMaterial();
+			const PhysicsMaterial& aMat = contact.ownCol->GetPhysicsMaterial() ? *contact.ownCol->GetPhysicsMaterial() : PhysicsMaterial::GetDefault();
+			const PhysicsMaterial& bMat = contact.otherCol->GetPhysicsMaterial() ? *contact.otherCol->GetPhysicsMaterial() : PhysicsMaterial::GetDefault();
 
 			// 反発係数の小さいほうを適用
 			float aBounce = (!contact.ownIsStatic ? aMat.GetBounciness() : 1), bBounce = (!contact.otherIsStatic ? bMat.GetBounciness() : 1);

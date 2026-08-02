@@ -1,7 +1,7 @@
 ﻿//====================================================//
-// ファイル名  : AssetInitializer.cpp
+// ファイル名  : AssetLoaders.cpp
 // 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
+// 作成日       : 2026/08/02
 //
 // 概要       : 
 //====================================================//
@@ -10,42 +10,21 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "AssetInitializer.h"
+#include "AssetLoaders.h"
 
-#include "Common/GetExtension.h"
 #include "System/GraphicsManager.h"
 #include "System/ResourceManager.h"
+#include "Common/GetExtension.h"
 
-#include <WICTextureLoader.h>
-#include <DDSTextureLoader.h>
+#include "WICTextureLoader.h"
+#include "DDSTextureLoader.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
 
 namespace REngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	void REngine::AssetInitializer::AssetInitialize(AssetManager& assetManager)
-	{
-		// デバイスを取得
-		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
-
-		// Textureの登録
-		assetManager.Registry<Texture>("Texture", Loader::TextureLoader, { L".png", L".jpeg", L".bmp", L".tiff", L".gif", L".dds" });
-
-		// Modelの登録
-		assetManager.Registry<Model>("Model", Loader::ModelLoader, { L".cmo", L".sdkmesh" });
-
-		// Fontの登録
-		assetManager.Registry<Font>("Font", Loader::FontLoader, { L".spritefont" });
-		
-		// Prefabの登録
-		assetManager.Registry<Prefab>("Prefab", Loader::PrefabLoader, { L".gameobject" });
-
-		// AudioClipの登録
-		assetManager.Registry<AudioClip>("AudioClip", Loader::AudioClipLoader, { L".wav" });
-	}
-
 	std::unique_ptr<Texture> REngine::Loader::TextureLoader(const std::wstring& path)
 	{
 		// デバイスを取得

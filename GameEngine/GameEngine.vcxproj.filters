@@ -328,10 +328,16 @@
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\AssetInitializer.cpp">
+    <ClCompile Include="src\System\Asset\AssetInitializer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Types\Prefab.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Asset\AssetLoaders.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Asset\AssetSaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -378,7 +384,7 @@
     <ClInclude Include="include\Components\World\Collider\ColliderCommon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\World\Collider\PhysicsMaterial.h">
+    <ClInclude Include="include\Assets\Types\PhysicsMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\World\Renderer\ModelComponent.h">
@@ -855,7 +861,7 @@
     <ClInclude Include="include\Assets\Types\Texture.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\AssetInitializer.h">
+    <ClInclude Include="src\System\Asset\AssetInitializer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\Property\AssetPropertyRegistry.h">
@@ -886,6 +892,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Asset\AssetLoaders.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Asset\AssetSaver.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

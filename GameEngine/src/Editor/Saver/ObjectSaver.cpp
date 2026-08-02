@@ -259,4 +259,19 @@ namespace REngine
 		// 閉じる
 		ofs.close();
 	}
+
+	void ObjectSaver::SavePropertyToFile(const std::wstring& filePath, PropertyObject* property)
+	{
+		std::ofstream ofs(std::filesystem::path(filePath).c_str());
+
+		// 開けていたら
+		if (ofs.is_open())
+		{
+			// パス
+			ofs << SaveProperty(*property).dump(4);
+		}
+
+		// 閉じる
+		ofs.close();
+	}
 }	// namespace REngine
