@@ -14,13 +14,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <SpriteFont.h>
 #include "UIGraphicBase.h"
 #include "Components/Interface/IAssetDependent.h"
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Font.h"
-#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {

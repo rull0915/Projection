@@ -11,9 +11,9 @@
 //====================================================//
 #include "pch.h"
 #include "Components/UI/Graphics/TextUI.h"
-#include "System/ResourceManager.h"
 
 #include "Renderer/Renderer.h"
+#include "Assets/Managers/AssetManager.h"
 #include "Common/CastString.h"
 
 namespace REngine

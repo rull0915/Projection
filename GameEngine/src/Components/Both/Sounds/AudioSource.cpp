@@ -11,6 +11,7 @@
 //====================================================//
 #include "pch.h"
 #include "Components/Both/Sounds/AudioSource.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {

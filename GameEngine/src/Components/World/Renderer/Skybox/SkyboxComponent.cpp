@@ -14,6 +14,7 @@
 
 #include "System/GraphicsManager.h"
 #include "Renderer/Renderer.h"
+#include "Assets/Managers/AssetManager.h"
 #include "SkyboxEffect.h"
 
 namespace REngine

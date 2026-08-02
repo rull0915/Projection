@@ -13,6 +13,7 @@
 #include "Components/UI/Graphics/ImageUI.h"
 
 #include "Renderer/Renderer.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {

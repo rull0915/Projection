@@ -16,10 +16,13 @@
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
-#include "PhysicsMaterial.h"
 
 #include "GameObject/Interface/IComponentOwner.h"
 #include "GameObject/Interface/IColliderReceiver.h"
+#include "Components/Interface/IAssetDependent.h"
+
+#include "Assets/Types/PhysicsMaterial.h"
+#include "Assets/Objects/Handle.h"
 
 namespace REngine
 {
@@ -27,18 +30,14 @@ namespace REngine
 	// 前方宣言
 	//====================================================//
 	class Renderer;
+	class AssetManager;
 
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ColliderCommon : public WorldComponentBase
+	class ColliderCommon : public WorldComponentBase, public IAssetDependent
 	{
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
 
 		//-----------------------------------------------------
 		// メンバ変数
@@ -65,11 +64,14 @@ namespace REngine
 		// 最新のバージョン
 		mutable uint32_t m_latestVersion;
 
-		// 物理マテリアル
-		PhysicsMaterial* m_physicsMaterial;
-
 		// 応答仲介インターフェース
 		IColliderReceiver* m_colliderReceiver;
+
+		// 物理マテリアル
+		Handle<PhysicsMaterial> m_physicsMaterial;
+
+		// AssetManager
+		AssetManager* m_assetManager;
 
 	public:
 
@@ -78,6 +80,9 @@ namespace REngine
 		//-----------------------------------------------------
 		ColliderCommon(IComponentOwner* own);
 		virtual ~ColliderCommon() = default;
+
+		// AssetManagerを受け取る関数
+		void ReceiveAssetManager(AssetManager& asset) override { m_assetManager = &asset; }
 
 		//-----------------------------------------------------
 		// ゲッター
@@ -91,14 +96,7 @@ namespace REngine
 
 		inline Transform* GetTransform() const { return m_pTransform; }
 
-		inline const PhysicsMaterial& GetPhysicsMaterial() const    // 取得用
-		{
-			return (m_physicsMaterial ? *m_physicsMaterial : Physics::DEFAULT_MATERIAL);
-		}
-		inline PhysicsMaterial* GetMutablePhysicsMaterial()        // 変更用
-		{
-			return m_physicsMaterial;
-		}
+		const PhysicsMaterial* GetPhysicsMaterial() const;
 
 		inline IColliderReceiver* GetReceiver() const { return m_colliderReceiver; }
 		uint32_t GetVersion() const { return m_latestVersion; }
@@ -112,7 +110,7 @@ namespace REngine
 		void SetTrigger(bool flag) { m_isTrigger = flag; }
 		void SetNeedInfo(bool flag) { m_needInfo = flag; }
 		void ResetChangeFrag() { m_isChanged = false; }
-		void SetPhysicsMaterial(PhysicsMaterial* mat) { m_physicsMaterial = mat; }
+		void SetPhysicsMaterial(Handle<PhysicsMaterial> mat) { m_physicsMaterial = mat; }
 
 	protected:
 

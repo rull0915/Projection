@@ -19,7 +19,6 @@
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Model.h"
-#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {

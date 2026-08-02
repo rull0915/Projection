@@ -13,6 +13,7 @@
 #include "Components/World/Renderer/ModelComponent.h"
 
 #include "Renderer/Renderer.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {

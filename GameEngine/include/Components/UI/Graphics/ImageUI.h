@@ -18,7 +18,6 @@
 #include "Components/Interface/IAssetDependent.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Texture.h"
-#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {

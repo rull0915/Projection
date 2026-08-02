@@ -12,6 +12,7 @@
 
 #include "pch.h"
 #include "Components/World/Collider/ColliderCommon.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
@@ -23,12 +24,19 @@ namespace REngine
 		, m_isChanged{ false }
 		, m_layerNum{ 0 }
 		, m_latestVersion{ 1 }
-		, m_physicsMaterial{ nullptr }
+		, m_physicsMaterial{}
 		, m_colliderReceiver{ dynamic_cast<IColliderReceiver*>(own) }
 		, m_needInfo{ false }
+		, m_assetManager{ nullptr }
 	{
 		ADD_PROPERTY(m_isTrigger);
 		ADD_PROPERTY(m_needInfo);
+		ADD_PROPERTY(m_physicsMaterial);
 		ADD_PROPERTY(m_layerNum);
+	}
+
+	const PhysicsMaterial* ColliderCommon::GetPhysicsMaterial() const
+	{
+		return m_assetManager->Get<PhysicsMaterial>(m_physicsMaterial);
 	}
 }	// namespace REngine
