@@ -165,7 +165,7 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		capsule2D->SetRadius(radius);
 		capsule2D->SetHeight(height);
 		capsule2D->SetRotation(angle);
-		capsule2D->SetLineDir(AxisType2D::Horizontal);
+		capsule2D->SetLineDir(CapsuleCollider2D::AxisType2D::Horizontal);
 
 		// offset
 		DirectX::SimpleMath::Vector3 offset = capsule3D->GetLocalCenterPos();

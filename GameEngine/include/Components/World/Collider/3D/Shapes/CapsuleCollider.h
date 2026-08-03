@@ -23,15 +23,16 @@ namespace REngine
 	// クラス宣言
 	//====================================================//
 
-	namespace AxisType
-	{
-		static constexpr size_t X = 0;
-		static constexpr size_t Y = 1;
-		static constexpr size_t Z = 2;
-	}
-
 	class CapsuleCollider : public ColliderBase, public IDebugRenderable
 	{
+	public:
+		enum class AxisType
+		{
+			X,
+			Y,
+			Z,
+		};
+
 	private:
 
 		//-----------------------------------------------------
@@ -39,9 +40,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 使用する軸
-
-		// 0: x, 1: y, 2: z
-		size_t m_lineDir;
+		AxisType m_lineDir;
 
 		// ラインの長さ
 		float m_capsuleHeight;
@@ -106,7 +105,7 @@ namespace REngine
 		}
 
 		// ラインの基準軸を返す関数
-		size_t GetLineAxis() const
+		AxisType GetLineAxis() const
 		{
 			return m_lineDir;
 		}
@@ -166,7 +165,7 @@ namespace REngine
 			SetDirty();
 		}
 
-		void SetLineAxis(size_t type)
+		void SetLineAxis(AxisType type)
 		{
 			m_lineDir = type;
 			SetDirty();

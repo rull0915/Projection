@@ -23,22 +23,23 @@ namespace REngine
 	// クラス宣言
 	//====================================================//
 
-	namespace AxisType2D
-	{
-		static constexpr size_t Horizontal = 0;
-		static constexpr size_t Vertical = 1;
-	}
-
 	class CapsuleCollider2D : public ColliderBase2D, public IDebugRenderable
 	{
+	public:
+		enum class AxisType2D
+		{
+			Horizontal,
+			Vertical,
+		};
+
 	private:
 
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 使用する軸 0: x, 1: y
-		size_t m_lineDir;
+		// 使用する軸
+		AxisType2D m_lineDir;
 
 		// ラインの長さ
 		float m_capsuleHeight;
@@ -113,7 +114,7 @@ namespace REngine
 		}
 
 		// カプセルの軸を返す関数
-		size_t GetAxis() const
+		AxisType2D GetAxis() const
 		{
 			return m_lineDir;
 		}
@@ -147,7 +148,7 @@ namespace REngine
 			SetDirty();
 		}
 
-		void SetLineDir(size_t type)
+		void SetLineDir(AxisType2D type)
 		{
 			m_lineDir = type;
 			SetDirty();
