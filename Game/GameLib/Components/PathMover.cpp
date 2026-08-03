@@ -76,7 +76,7 @@ void PathMover::LateUpdate(const REngine::GameTimer & gameTimer)
 		switch (m_rotateType)
 		{
 			// 進行方向への補正の場合
-		case 1: {
+		case RotType::Forward: {
 
 			// 進行方向ベクトルを算出
 			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);
@@ -88,7 +88,7 @@ void PathMover::LateUpdate(const REngine::GameTimer & gameTimer)
 			m_pTransform->SetLocalRotation(q);
 		}
 			  break;
-		case 2:{
+		case RotType::Rigit:{
 
 			// 進行方向ベクトルを算出
 			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);
@@ -103,7 +103,7 @@ void PathMover::LateUpdate(const REngine::GameTimer & gameTimer)
 			m_pTransform->SetLocalRotation(q);
 		}
 			break;
-		case 3:{
+		case RotType::Left:{
 
 			// 進行方向ベクトルを算出
 			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);

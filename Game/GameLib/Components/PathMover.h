@@ -32,6 +32,15 @@
 //====================================================//
 class PathMover : public REngine::WorldComponentBase
 {
+public:
+	enum class RotType
+	{
+		None,
+		Forward,
+		Rigit,
+		Left
+	};
+
 private:
 	//-----------------------------------------------------
 	// メンバ変数
@@ -55,8 +64,8 @@ private:
 	// 補間コンポーネント
 	CatmullRomComponent* m_pCatmull;
 
-	// 回転の補正方法 0: なし 1: 進行方向 2: 右向き 3: 左向き
-	int m_rotateType;
+	// 回転の補正方法
+	RotType m_rotateType;
 
 public:
 
