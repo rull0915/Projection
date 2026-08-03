@@ -62,8 +62,6 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Start() override;
-
 		void Draw(Renderer& renderer) override;
 
 		void SetTexture(Handle<Texture> handle);

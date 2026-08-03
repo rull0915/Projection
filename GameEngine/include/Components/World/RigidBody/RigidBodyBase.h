@@ -138,6 +138,12 @@ namespace REngine
 
 		inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
 
+		void OnValidate() override
+		{
+			// 逆数の再計算
+			m_invMass = 1.0f / m_mass;
+		}
+
 		// protected関数群
 	protected:
 		Transform* GetTransform() const { return m_pTransform; }

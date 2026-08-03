@@ -45,6 +45,8 @@ namespace REngine
 		void XM_CALLCONV SetProjection(DirectX::FXMMATRIX value) override;
 		void XM_CALLCONV SetMatrices(DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection) override;
 
+		bool HaveTexture() const { return m_texture.Get(); }
+
 	private:
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vs;
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> m_ps;

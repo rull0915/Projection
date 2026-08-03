@@ -49,10 +49,6 @@ namespace REngine
 			m_skyInputLayout.ReleaseAndGetAddressOf());
 	}
 
-	void SkyboxComponent::Start()
-	{
-	}
-
 	void SkyboxComponent::Draw(Renderer& renderer)
 	{
 		if (m_effect)
@@ -64,6 +60,11 @@ namespace REngine
 
 			// 描画
 			m_sky->Draw(m_effect.get(), m_skyInputLayout.Get());
+		}
+		// 設定されておらずHandleがあるなら取得を試みる
+		if (!m_effect->HaveTexture() && m_textureHandle != ERROR_HANDLE<Texture>)
+		{
+			SetTexture(m_textureHandle);
 		}
 	}
 
