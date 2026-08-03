@@ -43,8 +43,10 @@ namespace REngine
 			// アクティブチェック
 			if (!body->IsActive()) continue;
 
+			// スタティックまたは重力を使わないなら何もしない
 			if (body->IsStatic() || !body->IsUseGravity()) continue;
 
+			// スリープでなければ重力を加算
 			if (!body->IsSleep()) body->AddForce(PhysicsSettings::Instance().GetGravityDirection() * PhysicsSettings::Instance().GetGravityScale(), ForceMode::Acceleration, false);
 		}
 
