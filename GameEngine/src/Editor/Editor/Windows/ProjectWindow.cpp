@@ -15,7 +15,7 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_stdlib.h"
 #include "System/WindowManager.h"
-#include "HandlePayload.h"
+#include "../HandlePayload.h"
 
 #include "GameObject/GameObject.h"
 #include "Editor/Saver/ObjectSaver.h"
@@ -138,7 +138,7 @@ namespace REngine
 				else
 				{
 					// ファイル名を取得
-					std::string fileName = file.path().stem().string();
+					std::string fileName = file.path().filename().string();
 
 					// 初期状態のフラグ
 					ImGuiTreeNodeFlags flags = ImGuiSelectableFlags_AllowDoubleClick;
@@ -158,8 +158,15 @@ namespace REngine
 						// 左ボタンがダブルクリックされていれば
 						if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 						{
-							// 選択状態にする
-							m_selected.SetSelectedHandle(handle);
+							// シーン以外なら
+							if (file.path().extension() != L".scene")
+								// 選択状態にする
+								m_selected.SetSelectedHandle(handle);
+
+							// シーンなら
+							else
+								// Todo: ロードする
+								int a;
 						}
 					}
 

@@ -20,17 +20,14 @@ namespace REngine
 {
 	class Scene;
 	class EditGUI;
+	class AssetManager;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
 	class InfoWindow
 	{
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
 
 		//-----------------------------------------------------
 		// メンバ変数
@@ -45,15 +42,19 @@ namespace REngine
 		// 再生関数
 		std::function<void()> m_playFunc;
 
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InfoWindow(Scene* pScene, EditGUI* pGUI, std::function<void()> playFunc)
+		InfoWindow(AssetManager& as, Scene* pScene, EditGUI* pGUI, std::function<void()> playFunc)
 			: m_pScene{ pScene }
 			, m_pGUI{ pGUI }
 			, m_playFunc{ playFunc }
+			, m_assetManager{ as }
 		{}
 		~InfoWindow() = default;
 
@@ -74,5 +75,11 @@ namespace REngine
 
 		// 描画
 		void Draw();
+
+		// 保存
+		void Save();
+
+		// ロード
+		void Load();
 	};
 }	// namespace REngine

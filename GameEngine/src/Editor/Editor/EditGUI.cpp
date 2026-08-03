@@ -19,10 +19,10 @@
 #include "System/WindowManager.h"
 #include "System/Render/RenderContext.h"
 
-#include "HierarchyWindow.h"
-#include "InspectorWindow.h"
-#include "ProjectWindow.h"
-#include "InfoWindow.h"
+#include "Windows/HierarchyWindow.h"
+#include "Windows/InspectorWindow.h"
+#include "Windows/ProjectWindow.h"
+#include "Windows/InfoWindow.h"
 
 namespace REngine
 {
@@ -36,7 +36,7 @@ namespace REngine
 		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene, m_selected) }
 		, m_inspector{ std::make_unique<InspectorWindow>(assetManager, m_selected) }
 		, m_project{ std::make_unique<ProjectWindow>(assetManager, m_selected) }
-		, m_info{ std::make_unique<InfoWindow>(pScene, this, playFunc) }
+		, m_info{ std::make_unique<InfoWindow>(assetManager, pScene, this, playFunc) }
 		, m_nowType{ WindowType::None }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 		, m_guizmoManager{}
