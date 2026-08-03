@@ -48,7 +48,7 @@
                                         1.0,
                                         0.16470588743686676
                                     ],
-                                    "m_textureName": "Default"
+                                    "m_textureHandle": 16832540059583752122
                                 },
                                 "Type": "ImageUI"
                             }
@@ -109,7 +109,7 @@
                                         1.0,
                                         0.9960784316062927
                                     ],
-                                    "m_textureName": "Projection_Logo"
+                                    "m_textureHandle": 17647856136256602545
                                 },
                                 "Type": "ImageUI"
                             }
@@ -163,7 +163,7 @@
                                         1.0,
                                         1.0
                                     ],
-                                    "m_textureName": "Default"
+                                    "m_textureHandle": 16832540059583752122
                                 },
                                 "Type": "ImageUI"
                             },
@@ -175,7 +175,7 @@
                                         0.0,
                                         1.0
                                     ],
-                                    "m_fontName": "Makinas",
+                                    "m_fontHandle": 16520189307898809988,
                                     "m_fontSize": 30.600000381469727,
                                     "m_isActive": true,
                                     "m_mulColor": [
@@ -230,12 +230,12 @@
                             },
                             {
                                 "Data": {
+                                    "m_audioClip": 2616257601906755947,
                                     "m_isActive": true,
                                     "m_loop": false,
                                     "m_pan": 0.0,
                                     "m_pitch": 0.0,
                                     "m_playOnStart": false,
-                                    "m_soundName": "Decide",
                                     "m_use3DAudio": false,
                                     "m_volume": 1.0
                                 },
@@ -300,7 +300,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_keyName": "Skybox"
+                            "m_textureHandle": 10350532250775094671
                         },
                         "Type": "SkyboxComponent"
                     },
@@ -341,7 +341,7 @@
                             "m_isActive": true,
                             "m_magnification": 0.10000000149011612,
                             "m_playOnStart": true,
-                            "m_rotateType": 3
+                            "m_rotateType": "Left"
                         },
                         "Type": "PathMover"
                     }
@@ -379,7 +379,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x2"
+                            "m_modelHandle": 6180276126187633230
                         },
                         "Type": "ModelComponent"
                     }
@@ -415,12 +415,12 @@
                     },
                     {
                         "Data": {
+                            "m_audioClip": 0,
                             "m_isActive": true,
                             "m_loop": true,
                             "m_pan": 0.0,
                             "m_pitch": 0.0,
                             "m_playOnStart": true,
-                            "m_soundName": "",
                             "m_use3DAudio": false,
                             "m_volume": 1.0
                         },
@@ -462,7 +462,7 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_isActive": true,
-                                    "m_modelName": "Key"
+                                    "m_modelHandle": 955517710624667869
                                 },
                                 "Type": "ModelComponent"
                             }
@@ -499,7 +499,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x2"
+                            "m_modelHandle": 13218050046269099945
                         },
                         "Type": "ModelComponent"
                     }
@@ -517,8 +517,8 @@
                                 "Data": {
                                     "m_isActive": true,
                                     "m_localPosition": [
-                                        -1.2000000476837158,
-                                        0.30000001192092896,
+                                        -1.2000012397766113,
+                                        0.30000007152557373,
                                         0.0
                                     ],
                                     "m_localRotation": [
@@ -528,9 +528,9 @@
                                         1.0
                                     ],
                                     "m_localScale": [
-                                        0.25,
-                                        0.25,
-                                        0.25
+                                        0.45499998331069946,
+                                        0.45499998331069946,
+                                        0.45499998331069946
                                     ]
                                 },
                                 "Type": "Transform"
@@ -539,7 +539,7 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_isActive": true,
-                                    "m_modelName": "Coin"
+                                    "m_modelHandle": 4505701795155793671
                                 },
                                 "Type": "ModelComponent"
                             }
@@ -576,7 +576,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x1"
+                            "m_modelHandle": 10267307003664980907
                         },
                         "Type": "ModelComponent"
                     }
