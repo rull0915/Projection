@@ -164,6 +164,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Assets\Types\ShaderAsset.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
@@ -199,11 +203,11 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Debug\RectDebugRenderer.cpp" />
     <ClCompile Include="src\Common\OpenFileDialog.cpp" />
     <ClCompile Include="src\Editor\Editor\EditGUI.cpp" />
-    <ClCompile Include="src\Editor\Editor\HierarchyWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
-    <ClCompile Include="src\Editor\Editor\InfoWindow.cpp" />
-    <ClCompile Include="src\Editor\Editor\InspectorWindow.cpp" />
-    <ClCompile Include="src\Editor\Editor\ProjectWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\InspectorWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\SceneCamera.cpp" />
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
@@ -211,6 +215,18 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\System\Asset\AssetInitializer.cpp" />
     <ClCompile Include="src\System\Asset\AssetLoaders.cpp" />
     <ClCompile Include="src\System\Asset\AssetSaver.cpp" />
+    <ClCompile Include="src\System\Asset\Shader\FormatGetter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\System\Asset\Shader\ShaderLoader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\System\Asset\Shader\ShaderReflection.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\System\FactoryRegister.cpp" />
     <ClCompile Include="src\GameObject\ComponentContainer.cpp" />
     <ClCompile Include="src\GameObject\GameObject.cpp" />
@@ -321,6 +337,14 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\AudioClip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\ShaderAsset.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\ShaderParam.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -470,6 +494,18 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\System\Asset\AssetInitializer.h" />
     <ClInclude Include="src\System\Asset\AssetLoaders.h" />
     <ClInclude Include="src\System\Asset\AssetSaver.h" />
+    <ClInclude Include="include\Assets\Types\Shader\ShaderLoader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="src\System\Asset\Shader\FormatGetter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="src\System\Asset\Shader\ShaderReflection.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\System\FactoryRegister.h" />
     <ClInclude Include="include\Input\InputInfo.h">
       <SubType>
@@ -518,10 +554,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="src\Common\OpenFileDialog.h" />
-    <ClInclude Include="src\Editor\Editor\HierarchyWindow.h" />
-    <ClInclude Include="src\Editor\Editor\InfoWindow.h" />
-    <ClInclude Include="src\Editor\Editor\InspectorWindow.h" />
-    <ClInclude Include="src\Editor\Editor\ProjectWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\InspectorWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\ProjectWindow.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\StandardCheckHit2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CollideManager2D.h" />
