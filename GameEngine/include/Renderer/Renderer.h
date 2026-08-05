@@ -16,8 +16,6 @@
 //====================================================//
 
 // DirectXTK
-#include <CommonStates.h>
-
 #include "GraphicsSystem.h"
 #include "RenderProxy.h"
 

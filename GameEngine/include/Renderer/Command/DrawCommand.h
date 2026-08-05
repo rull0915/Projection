@@ -25,9 +25,12 @@
 #include <VertexTypes.h>
 // User
 #include "../RendererType.h"
+#include "Assets/Objects/Handle.h"
 
 namespace REngine
 {
+	class MaterialAsset;
+
 	//====================================================//
 	// 構造体宣言
 	//====================================================//
@@ -60,6 +63,9 @@ namespace REngine
 		// モデル
 		DirectX::Model* pModel = nullptr;
 
+		// マテリアル
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
+
 		// ワールド行列
 		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
 
@@ -76,6 +82,9 @@ namespace REngine
 	{
 		// テクスチャ
 		ID3D11ShaderResourceView* pTexture = nullptr;
+
+		// マテリアル
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
 
 		// 座標
 		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;
@@ -111,6 +120,9 @@ namespace REngine
 
 		// 文字列
 		std::wstring text = std::wstring();
+
+		// マテリアル
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
 
 		// 座標
 		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;
@@ -155,6 +167,9 @@ namespace REngine
 
 		// ワールド行列
 		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+
+		// マテリアル
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
 
 		// 線の配列
 		std::vector<Line> lines{};

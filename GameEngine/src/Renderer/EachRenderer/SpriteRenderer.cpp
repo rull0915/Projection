@@ -21,8 +21,9 @@ namespace REngine
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SpriteRenderer::SpriteRenderer(DrawCommandContainer& container)
+	SpriteRenderer::SpriteRenderer(DrawCommandContainer& container, GraphicsSystem& system)
 		: m_container{ container }
+		, m_graphicSystem{ system }
 	{}
 
 	/// <summary>
@@ -41,6 +42,7 @@ namespace REngine
 		command.scale = scale;
 		command.angle = angle;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Color color)
@@ -62,6 +64,7 @@ namespace REngine
 		command.scale = finalScale;
 		command.angle = angle;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
@@ -81,6 +84,7 @@ namespace REngine
 		command.angle = angle;
 		command.origin = finalOrigin;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
@@ -93,7 +97,7 @@ namespace REngine
 
 		// 原点を算出
 		DirectX::SimpleMath::Vector2 finalOrigin = origin * texSize;
-		
+
 		// スケールの計算
 		DirectX::SimpleMath::Vector2 finalScale = (max - min) / texSize;
 
@@ -109,6 +113,7 @@ namespace REngine
 		command.angle = angle;
 		command.origin = finalOrigin;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void SpriteRenderer::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, RECT* srcRect, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
@@ -123,6 +128,7 @@ namespace REngine
 		command.angle = angle;
 		command.origin = origin;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	// 画像サイズの取得関数

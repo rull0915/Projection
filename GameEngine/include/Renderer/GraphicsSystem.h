@@ -14,6 +14,10 @@
 #include "Command/DrawCommandContainer.h"
 #include "Command/DrawCommandExecutor.h"
 
+// Material
+#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Objects/Handle.h"
+
 namespace REngine
 {
 	//====================================================//
@@ -32,6 +36,9 @@ namespace REngine
 		DirectX::SimpleMath::Matrix m_view;
 		DirectX::SimpleMath::Matrix m_projection;
 
+		// マテリアルハンドル
+		Handle<MaterialAsset> m_material;
+
 		// 描画コマンドを管理するクラス
 		DrawCommandContainer m_drawCommandContainer;
 
@@ -47,6 +54,7 @@ namespace REngine
 			: m_world		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_view		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_projection	{ DirectX::SimpleMath::Matrix::Identity }
+			, m_material	{ ERROR_HANDLE<MaterialAsset> }
 			, m_drawCommandContainer{}
 		{
 		};
@@ -75,6 +83,8 @@ namespace REngine
 		const DirectX::SimpleMath::Matrix& GetView() const { return m_view; }
 		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_projection; }
 
+		Handle<MaterialAsset> GetMaterial() const { return m_material; }
+
 		DrawCommandContainer& GetCommandContainer() { return m_drawCommandContainer; }
 
 		//-----------------------------------------------------
@@ -90,6 +100,7 @@ namespace REngine
 				// PrimitiveCommandを更新
 				auto& p = m_drawCommandContainer.AddPrimitive();
 				p.world = world;
+				p.material = m_material;
 			}
 		}
 		void SetVPMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
@@ -102,6 +113,19 @@ namespace REngine
 				// 行列の更新
 				m_view = view;
 				m_projection = proj;
+			}
+		}
+		void SetMaterial(Handle<MaterialAsset> handle)
+		{
+			// 違うマテリアルを設定するとき
+			if (handle != m_material)
+			{
+				m_material = handle;
+
+				// PrimitiveCommandを更新
+				auto& p = m_drawCommandContainer.AddPrimitive();
+				p.world = m_world;
+				p.material = handle;
 			}
 		}
 
@@ -117,6 +141,7 @@ namespace REngine
 			// PrimitiveCommandを初期化
 			auto& p = m_drawCommandContainer.AddPrimitive();
 			p.world = m_world;
+			p.material = m_material;
 		}
 	};
 }	// namespace REngine

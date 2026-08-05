@@ -86,13 +86,13 @@ namespace REngine
 					std::vector<uint8_t> buf(cBuffer.size, 0);	// 1byteで1つの領域とするため8bit整数型を使用
 
 					// 全パラメータを調べる
-					for (auto& [key, value] : m_params)
+					for (auto& [paramKey, value] : m_params)
 					{
 						// ステージが一致しなければ何もしない
-						if (key.stage != type) continue;
+						if (paramKey.stage != type) continue;
 
 						// 対応するパラメータをShaderから取得
-						const ShaderParam* p = asset->FindParam(key.name);
+						const ShaderParam* p = asset->FindParam(paramKey.name);
 
 						if (!p ||									// 取得できなかった場合	
 							p->cbSlot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	

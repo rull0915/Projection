@@ -21,8 +21,9 @@ namespace REngine
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	TextRenderer::TextRenderer(DrawCommandContainer& container)
+	TextRenderer::TextRenderer(DrawCommandContainer& container, GraphicsSystem& graphicSystem)
 		: m_container{ container }
+		, m_graphicSystem{ graphicSystem }
 	{}
 
 	/// <summary>
@@ -42,6 +43,7 @@ namespace REngine
 		command.scale = scale;
 		command.angle = angle;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void TextRenderer::Draw(DirectX::SpriteFont* font, const std::wstring& text, DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Color color)
@@ -63,6 +65,7 @@ namespace REngine
 		command.scale = finalScale;
 		command.angle = angle;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void TextRenderer::Draw(DirectX::SpriteFont* font, const std::wstring& text, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
@@ -83,6 +86,7 @@ namespace REngine
 		command.angle = angle;
 		command.origin = finalOrigin;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 	void TextRenderer::Draw(DirectX::SpriteFont* font, const std::wstring& text, DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
@@ -112,6 +116,7 @@ namespace REngine
 		command.angle = angle;
 		command.origin = finalOrigin;
 		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
 	}
 
 }	// namespace REngine

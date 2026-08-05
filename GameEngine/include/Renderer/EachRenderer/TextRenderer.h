@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Renderer/Command/DrawCommandContainer.h"
+#include "Renderer/GraphicsSystem.h"
 
 namespace REngine
 {
@@ -32,12 +33,15 @@ namespace REngine
 		// コマンドコンテナ
 		DrawCommandContainer& m_container;
 
+		// システム
+		GraphicsSystem& m_graphicSystem;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		TextRenderer(DrawCommandContainer& container);
+		TextRenderer(DrawCommandContainer& container, GraphicsSystem& graphicSystem);
 		~TextRenderer();
 
 		//-----------------------------------------------------

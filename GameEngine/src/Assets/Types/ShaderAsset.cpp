@@ -41,7 +41,11 @@ namespace REngine
 				// 型によって分岐
 
 				// 頂点シェーダ
-				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11VertexShader>>) { context->VSSetShader(obj.Get(), nullptr, 0); }
+				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11VertexShader>>) 
+				{
+					context->VSSetShader(obj.Get(), nullptr, 0); 
+					context->IASetInputLayout(m_inputLayout.Get());
+				}
 				// ピクセルシェーダ
 				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11PixelShader>>) { context->PSSetShader(obj.Get(), nullptr, 0); }
 				// ジオメトリシェーダ

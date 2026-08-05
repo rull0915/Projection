@@ -16,6 +16,7 @@
 //====================================================//
 #include "Model.h"
 #include "Renderer/Command/DrawCommandContainer.h"
+#include "Renderer/GraphicsSystem.h"
 
 namespace REngine
 {
@@ -33,13 +34,17 @@ namespace REngine
 		// 描画の状態
 		DrawCommandContainer& m_commandContainer;
 
+		// システム
+		GraphicsSystem& m_graphicSystem;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ModelRenderer(DrawCommandContainer& container)
+		ModelRenderer(DrawCommandContainer& container, GraphicsSystem& graphicSystem)
 			: m_commandContainer{ container }
+			, m_graphicSystem{ graphicSystem }
 		{}
 		~ModelRenderer() = default;
 
@@ -53,6 +58,7 @@ namespace REngine
 
 			command.pModel = model;
 			command.world = world;
+			command.material = m_graphicSystem.GetMaterial();
 		}
 	};
 }	// namespace REngine

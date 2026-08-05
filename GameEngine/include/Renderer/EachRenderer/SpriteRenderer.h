@@ -16,6 +16,7 @@
 //====================================================//
 #include <optional>
 #include "Renderer/Command/DrawCommandContainer.h"
+#include "Renderer/GraphicsSystem.h"
 
 namespace REngine
 {
@@ -33,12 +34,15 @@ namespace REngine
 		// 描画の状態
 		DrawCommandContainer& m_container;
 
+		// システム
+		GraphicsSystem& m_graphicSystem;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		SpriteRenderer(DrawCommandContainer& container);
+		SpriteRenderer(DrawCommandContainer& container, GraphicsSystem& system);
 		~SpriteRenderer();
 
 		//-----------------------------------------------------
