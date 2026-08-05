@@ -34,13 +34,13 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 読み込み状態
-		LoadStatus m_status;
+		LoadStatus m_status = LoadStatus::Unloaded;
 
 		// 参照しているファイルへのパス
-		std::wstring m_path;
+		std::wstring m_path = L"";
 
 		// 自身のUUID
-		UUID m_uuid;
+		UUID m_uuid = 0;
 
 	public:
 

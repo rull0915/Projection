@@ -45,5 +45,6 @@ namespace REngine
 
 		// SRVを取得する関数
 		ID3D11ShaderResourceView* Get() const { return m_srv.Get(); }
+		ID3D11ShaderResourceView* const* GetAddressOf() const { return m_srv.GetAddressOf(); }
 	};
 }	// namespace REngine

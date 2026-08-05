@@ -211,6 +211,7 @@ namespace REngine
 					case 4: return ShaderParamType::Float4;
 					default: break;
 					}
+					break;
 				default: break;
 				}
 
@@ -226,8 +227,9 @@ namespace REngine
 
 					// 4*4なら
 					if (desc.Rows == 4 && desc.Columns == 4)
-						return ShaderParamType::Float4×4;
+						return ShaderParamType::Float4x4;
 
+					break;
 				default: break;
 				}
 

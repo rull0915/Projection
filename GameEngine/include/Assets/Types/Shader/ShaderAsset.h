@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <variant>
+#include "Assets/Objects/AssetBase.h"
 #include "ShaderParam.h"
 #include "ShaderLoader.h"
 
@@ -23,12 +24,20 @@ namespace REngine
 	/// <summary>
 	/// シェーダーのタイプ
 	/// </summary>
-	enum class ShaderType { Vertex, Geomerty, Pixel, Hull, Compute, Domain };
+	enum class ShaderType 
+	{
+		Vertex, 
+		Hull, 
+		Domain,
+		Geometry,
+		Pixel, 
+		Compute, 
+	};
 
 	/// <summary>
 	/// シェーダーアセット
 	/// </summary>
-	class ShaderAsset
+	class ShaderAsset : public AssetBase
 	{
 	public:
 		// あらゆるShaderのComPtrを持つことが出来る型
@@ -70,7 +79,7 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ShaderAsset() = default;
+		ShaderAsset();
 		~ShaderAsset() = default;
 
 		//-----------------------------------------------------
@@ -80,12 +89,33 @@ namespace REngine
 		// コンテキストに自信を紐づける関数
 		void Bind(ID3D11DeviceContext* context);
 
+		// パラメータを名前検索する関数
+		ShaderParam* FindParam(const std::string& name)
+		{
+			// 名前が一致するパラメータを探して取得
+			auto it = std::find_if(m_params.begin(), m_params.end(), 
+				[&](const ShaderParam& param)->bool { return param.name == name; });
+
+			// あれば返す
+			if (it != m_params.end()) return &(*it);
+			else return nullptr;
+		}
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
 
 		// タイプ
 		ShaderType GetType() const { return m_type; }
+
+		// InputLayout
+		ID3D11InputLayout* GetInputLayout() const { return m_inputLayout.Get(); }
+
+		// パラメータ一覧
+		const std::vector<ShaderParam>& GetParams() const { return m_params; }
+
+		// 定数バッファ一覧
+		const std::vector<ConstantBufferInfo>& GetBuffers() const { return m_cBuffers; };
 
 		//-----------------------------------------------------
 		// セッター

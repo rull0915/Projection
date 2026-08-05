@@ -160,6 +160,10 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AuxFileRepository.cpp" />
+    <ClCompile Include="src\Assets\Types\MaterialAsset.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Assets\Types\Prefab.cpp">
       <SubType>
       </SubType>
@@ -325,6 +329,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\Font.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\MaterialAsset.h">
       <SubType>
       </SubType>
     </ClInclude>

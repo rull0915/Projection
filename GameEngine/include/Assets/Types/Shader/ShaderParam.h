@@ -25,7 +25,7 @@ namespace REngine
 		Float2,
 		Float3,
 		Float4,
-		Float4×4,
+		Float4x4,
 		Texture2D,
 	};
 
@@ -40,6 +40,7 @@ namespace REngine
 
 		uint32_t cbSlot;	// 定数バッファのスロット番号	register(bN)
 		uint32_t tSlot;		// テクスチャのスロット番号		register(tN)
+		uint32_t uSlot;		// register(uN) 現在は未使用
 	};
 
 	// 定数バッファ全体の情報

@@ -14,6 +14,10 @@
 
 #include "System/GraphicsManager.h"
 #include "Assets/Types/PhysicsMaterial.h"
+#include "Assets/Types/Shader/ShaderAsset.h"
+#include "Assets/Types/MaterialAsset.h"
+
+#include "Assets/Types/Shader/ShaderLoader.h"
 
 #include "AssetLoaders.h"
 #include "AssetSaver.h"
@@ -76,5 +80,21 @@ namespace REngine
 			[&assetManager](AssetBase* base, const std::wstring& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
 			true,
 			{ L".physicsmaterial" });
+
+		// Shaderの登録
+		assetManager.Registry<ShaderAsset>(
+			"Shader",
+			Loader::ShaderLoader,
+			nullptr,
+			false,
+			{ L".cso" });
+
+		// Materialの登録
+		assetManager.Registry<MaterialAsset>(
+			"Material",
+			[&assetManager](const std::wstring& path) { return Loader::AssetLoaderAsProperty<MaterialAsset>(path, assetManager); },
+			[&assetManager](AssetBase* base, const std::wstring& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
+			true,
+			{ L".mat" });
 	}
 }

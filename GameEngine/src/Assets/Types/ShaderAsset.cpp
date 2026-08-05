@@ -18,6 +18,16 @@
 
 namespace REngine
 {
+	ShaderAsset::ShaderAsset()
+		: m_type{ ShaderType::Vertex }
+		, m_shader{}
+		, m_byteCode{ nullptr }
+		, m_params{}
+		, m_cBuffers{}
+		, m_inputLayout{ nullptr }
+	{
+	}
+
 	void ShaderAsset::Bind(ID3D11DeviceContext* context)
 	{
 		// visitを使用してどのShaderでも対応可能に
