@@ -156,14 +156,11 @@ namespace REngine
 		// 頂点シェーダー本体を取得
 		auto* vs = assetManager.Get<ShaderAsset>(m_vertexShader);
 
-		// 頂点シェーダがなかった場合描画不可のためリターン
-		if (!vs) return;
-		if (vs) vs->Bind(context);
-
 		// ピクセルシェーダ本体を取得
 		auto* ps = assetManager.Get<ShaderAsset>(m_pixelShader);
 
 		// シェーダー本体をバインド
+		if (vs) vs->Bind(context);
 		if (ps) ps->Bind(context);
 		else context->PSSetShader(nullptr, nullptr, 0);	// なかった場合リセットする
 

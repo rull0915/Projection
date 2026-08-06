@@ -107,15 +107,6 @@ void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& cont
 
 void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands)
 {
-	// View
-	m_basicEffect->SetView(m_view);
-
-	// Projection
-	m_basicEffect->SetProjection(m_projection);
-
-	// バインド
-	BindVPBuffer();
-
 	// コマンド分ループ
 	for (auto& c : commands)
 	{
@@ -131,6 +122,9 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 			// バインド
 			material->Bind(m_pContext, m_assetManager);
 		
+			// VP行列をバインド
+			BindVPBuffer();
+
 			// ワールド行列をバインド
 			BindWorldBuffer(c.world);
 
@@ -142,6 +136,12 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 		{
 			// ワールド行列のセット
 			m_basicEffect->SetWorld(c.world);
+
+			// View
+			m_basicEffect->SetView(m_view);
+
+			// Projection
+			m_basicEffect->SetProjection(m_projection);
 
 			// インプットレイアウトをセット
 			m_pContext->IASetInputLayout(m_inputLayout.Get());
