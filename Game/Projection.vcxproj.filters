@@ -173,6 +173,7 @@
     <ClInclude Include="EngineTester\EasingTestComponent.h" />
     <ClInclude Include="EngineTester\MyComponent.h" />
     <ClInclude Include="Game\Test\HandleTester.h" />
+    <ClInclude Include="EngineTester\MaterialTester.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -222,6 +223,7 @@
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
     <ClCompile Include="EngineTester\MyComponent.cpp" />
     <ClCompile Include="Game\Test\HandleTester.cpp" />
+    <ClCompile Include="EngineTester\MaterialTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -238,5 +240,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Materials\Test.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\Materials\Test.ps.hlsl" />
+    <FxCompile Include="Resources\Materials\Test.vs.hlsl" />
   </ItemGroup>
 </Project>

@@ -97,7 +97,7 @@ namespace REngine
 
 	UUID AssetDataBase::GenerateUUID()
 	{
-		UUID uuid;
+		UUID uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
 
 		// リストにないUUIDが生成されるまでループ
 		while(m_uuidToPath.contains(uuid))

@@ -16,7 +16,7 @@
 //====================================================//
 
 #include <memory>
-#include <string>
+#include <filesystem>
 
 namespace REngine
 {
@@ -26,6 +26,6 @@ namespace REngine
 	namespace Loader
 	{
 		// ロード関数
-		std::unique_ptr<ShaderAsset> ShaderLoader(const std::wstring& path);
+		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path);
 	}
 }

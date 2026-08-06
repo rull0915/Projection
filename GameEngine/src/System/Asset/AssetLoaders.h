@@ -30,23 +30,24 @@ namespace REngine
 		// 各ロード関数
 
 		// Texture
-		std::unique_ptr<Texture> TextureLoader(const std::wstring& path);
+		std::unique_ptr<Texture> TextureLoader(const std::filesystem::path& path);
 
 		// Model
-		std::unique_ptr<Model> ModelLoader(const std::wstring& path);
+		std::unique_ptr<Model> ModelLoader(const std::filesystem::path& path);
 
 		// Font
-		std::unique_ptr<Font> FontLoader(const std::wstring& path);
+		std::unique_ptr<Font> FontLoader(const std::filesystem::path& path);
 
 		// Prefab
-		std::unique_ptr<Prefab> PrefabLoader(const std::wstring& path);
+		std::unique_ptr<Prefab> PrefabLoader(const std::filesystem::path& path);
 
 		// AudioClip
-		std::unique_ptr<AudioClip> AudioClipLoader(const std::wstring& path);
+		std::unique_ptr<AudioClip> AudioClipLoader(const std::filesystem::path& path);
 
 		// Propertyとして扱う場合
-		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
-		std::unique_ptr<T> AssetLoaderAsProperty(const std::wstring& path, AssetManager& assetManager)
+		template<typename T>
+		requires std::derived_from<T, AssetBase>
+		std::unique_ptr<T> AssetLoaderAsProperty(const std::filesystem::path& path, AssetManager& assetManager)
 		{
 			// ローダーを生成
 			ObjectLoader loader(assetManager);

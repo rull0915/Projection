@@ -28,9 +28,9 @@ namespace REngine
 		// 各ロード関数
 
 		// Prefab
-		void PrefabSaver(AssetBase* prefab, const std::wstring& path);
+		void PrefabSaver(AssetBase* prefab, const std::filesystem::path& path);
 
 		// Propertyとして扱う場合
-		void AssetSaverAsProperty(AssetBase* asset, const std::wstring& path, AssetManager& assetManager);
+		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, AssetManager& assetManager);
 	}
 }	// namespace REngine

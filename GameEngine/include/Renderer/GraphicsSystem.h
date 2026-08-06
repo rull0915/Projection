@@ -50,12 +50,13 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		GraphicsSystem()
+		GraphicsSystem(AssetManager& am)
 			: m_world		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_view		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_projection	{ DirectX::SimpleMath::Matrix::Identity }
 			, m_material	{ ERROR_HANDLE<MaterialAsset> }
 			, m_drawCommandContainer{}
+			, m_drawCommandExecutor{ am }
 		{
 		};
 		~GraphicsSystem() = default;

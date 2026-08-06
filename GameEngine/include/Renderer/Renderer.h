@@ -46,7 +46,7 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		Renderer();
+		Renderer(AssetManager& am);
 		~Renderer() = default;
 
 		//-----------------------------------------------------
@@ -84,5 +84,7 @@ namespace REngine
 		void SetWorld(const DirectX::SimpleMath::Matrix& world) { m_graphicSystem.SetWorld(world); }
 
 		void SetVPMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj) { m_graphicSystem.SetVPMatrix(view, proj); }
+
+		void SetMaterial(Handle<MaterialAsset> handle) { m_graphicSystem.SetMaterial(handle); };
 	};
 }	// namespace REngine

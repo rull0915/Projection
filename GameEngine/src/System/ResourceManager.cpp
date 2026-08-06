@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "System/ResourceManager.h"
 #include "System/GraphicsManager.h"
-#include "Common/GetExtension.h"
 
 #include <WICTextureLoader.h>
 #include <DDSTextureLoader.h>

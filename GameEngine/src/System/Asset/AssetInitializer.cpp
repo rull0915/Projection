@@ -76,8 +76,8 @@ namespace REngine
 		// PhysicsMaterialの登録
 		assetManager.Registry<PhysicsMaterial>(
 			"PhysicsMaterial",
-			[&assetManager](const std::wstring& path) { return Loader::AssetLoaderAsProperty<PhysicsMaterial>(path, assetManager); },
-			[&assetManager](AssetBase* base, const std::wstring& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
+			[&assetManager](const std::filesystem::path& path) { return Loader::AssetLoaderAsProperty<PhysicsMaterial>(path, assetManager); },
+			[&assetManager](AssetBase* base, const std::filesystem::path& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
 			true,
 			{ L".physicsmaterial" });
 
@@ -92,8 +92,8 @@ namespace REngine
 		// Materialの登録
 		assetManager.Registry<MaterialAsset>(
 			"Material",
-			[&assetManager](const std::wstring& path) { return Loader::AssetLoaderAsProperty<MaterialAsset>(path, assetManager); },
-			[&assetManager](AssetBase* base, const std::wstring& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
+			[&assetManager](const std::filesystem::path& path) { return Loader::AssetLoaderAsProperty<MaterialAsset>(path, assetManager); },
+			[&assetManager](AssetBase* base, const std::filesystem::path& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
 			true,
 			{ L".mat" });
 	}

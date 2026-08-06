@@ -27,11 +27,8 @@ namespace REngine
 {
 	namespace Loader
 	{
-		std::unique_ptr<ShaderAsset> ShaderLoader(const std::wstring& path)
+		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path)
 		{
-			// パスに変換
-			std::filesystem::path p(path);
-
 			// シェーダーアセットを生成
 			std::unique_ptr<ShaderAsset> shader = std::make_unique<ShaderAsset>();
 
@@ -40,13 +37,13 @@ namespace REngine
 			// このとき、.psの部分によってどのステージのシェーダーであるかを判別します。
 			// ピクセルシェーダであれば.ps.cso
 			// 頂点シェーダであれば.vs.cso	とします。
-			std::string ext = p.stem().extension().string();
+			std::string ext = path.stem().extension().string();
 
 			// Blobを生成
 			Microsoft::WRL::ComPtr<ID3DBlob> blob;
 
 			// コンパイル済みシェーダーからバイナリ文字列を取得
-			HRESULT hr = D3DReadFileToBlob(p.c_str(), &blob);
+			HRESULT hr = D3DReadFileToBlob(path.c_str(), &blob);
 
 			// 失敗したら早期リターン
 			if (FAILED(hr)) return nullptr;

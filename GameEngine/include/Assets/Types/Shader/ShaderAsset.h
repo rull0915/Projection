@@ -18,6 +18,7 @@
 #include "Assets/Objects/AssetBase.h"
 #include "ShaderParam.h"
 #include "ShaderLoader.h"
+#include <filesystem>
 
 namespace REngine
 {
@@ -127,6 +128,6 @@ namespace REngine
 		// 内部実装
 		//-----------------------------------------------------
 
-		friend std::unique_ptr<ShaderAsset> Loader::ShaderLoader(const std::wstring& path);
+		friend std::unique_ptr<ShaderAsset> Loader::ShaderLoader(const std::filesystem::path& path);
 	};
 }

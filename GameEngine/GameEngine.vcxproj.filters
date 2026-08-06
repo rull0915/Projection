@@ -684,9 +684,6 @@
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\GetExtension.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -931,6 +928,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\MaterialAsset.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CBufferSlot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

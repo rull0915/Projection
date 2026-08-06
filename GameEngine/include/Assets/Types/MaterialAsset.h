@@ -21,6 +21,7 @@
 #include "Shader/ShaderAsset.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Texture.h"
+#include "Assets/Objects/AssetBase.h"
 
 namespace REngine
 {
@@ -117,20 +118,7 @@ namespace REngine
 		// シェーダーをcontextにバインドする関数
 		void Bind(ID3D11DeviceContext* context, AssetManager& assetManager);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		// 有効かどうか
+		bool IsValid() { return m_vertexShader != ERROR_HANDLE<ShaderAsset>; }
 	};
 }	// namespace REngine

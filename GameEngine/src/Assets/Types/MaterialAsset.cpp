@@ -13,6 +13,8 @@
 #include "Assets/Types/MaterialAsset.h"
 #include "Assets/Managers/AssetManager.h"
 
+#include "Renderer/CBufferSlot.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -24,7 +26,10 @@ namespace REngine
 		, m_vertexShader{}
 		, m_constantBuffers{}
 		, m_isDirty{ true }
-	{}
+	{
+		ADD_PROPERTY(m_vertexShader);
+		ADD_PROPERTY(m_pixelShader);
+	}
 
 	ShaderParam* MaterialAsset::FindParam(ShaderType stage, const std::string& name, AssetManager& assetManager)
 	{
@@ -33,11 +38,11 @@ namespace REngine
 		{
 			// 頂点シェーダ
 		case REngine::ShaderType::Vertex:
-			if (ShaderAsset* vs = assetManager.Get<ShaderAsset>(m_pixelShader)) { return vs->FindParam(name); }
+			if (ShaderAsset* vs = assetManager.Get<ShaderAsset>(m_vertexShader)) { return vs->FindParam(name); }
 			break;
 			// ピクセルシェーダ
 		case REngine::ShaderType::Pixel:
-			if (ShaderAsset* ps = assetManager.Get<ShaderAsset>(m_vertexShader)) { return ps->FindParam(name); }
+			if (ShaderAsset* ps = assetManager.Get<ShaderAsset>(m_pixelShader)) { return ps->FindParam(name); }
 			break;
 		default:
 			break;
@@ -59,6 +64,9 @@ namespace REngine
 				// 定数バッファをループ
 				for (auto& cBuffer : asset->GetBuffers())
 				{
+					// マテリアル管轄のスロットでなければスキップ
+					if (!IsMaterialManagedSlot(cBuffer.slot)) continue;
+
 					// マップのキーを生成
 					auto key = std::make_pair(type, cBuffer.slot);
 

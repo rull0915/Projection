@@ -23,6 +23,20 @@
 
 namespace REngine
 {
+	class AssetManager;
+
+	// 16バイトアライメントに合わせた構造体定義
+	struct alignas(16) VPBuffer
+	{
+		DirectX::SimpleMath::Matrix view;
+		DirectX::SimpleMath::Matrix proj;
+	};
+
+	struct alignas(16) WorldBuffer
+	{
+		DirectX::SimpleMath::Matrix world;
+	};
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -44,7 +58,7 @@ namespace REngine
 
 		// スプライトバッチ
 		std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
-		
+
 		// インプットレイアウト
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
@@ -58,18 +72,34 @@ namespace REngine
 
 		//----- デバイス -----//
 
+		// デバイス
+		ID3D11Device* m_pDevice;
+
 		// デバイスコンテキスト
 		ID3D11DeviceContext* m_pContext;
 
 		// コモンステート
 		DirectX::CommonStates* m_pStates;
 
+		//----- 固定のバッファ -----//
+
+		// VP行列
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_vpConstantBuffer;
+
+		// World行列
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_worldConstantBuffer;
+
+		//----- その他 -----//
+
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		DrawCommandExecutor();
+		DrawCommandExecutor(AssetManager& assetManager);
 		~DrawCommandExecutor() = default;
 
 		//-----------------------------------------------------
@@ -83,7 +113,7 @@ namespace REngine
 		void DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj);
 
 	private:
-		
+
 		// プリミティブコマンド
 		void DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands);
 
@@ -95,5 +125,11 @@ namespace REngine
 
 		// プリミティブの描画を開始する関数
 		void PreparePrimitiveRendering();
+
+		// VP行列のバッファをバインドする関数
+		void BindVPBuffer();
+
+		// World行列をバインドする関数
+		void BindWorldBuffer(const DirectX::SimpleMath::Matrix& world);
 	};
 }	// namespace REngine

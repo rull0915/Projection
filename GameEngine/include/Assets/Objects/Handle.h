@@ -23,16 +23,16 @@ namespace REngine
 
 	struct UnTypeHandle;
 
-	template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
+	template<typename T>
 	struct Handle;
 
 	// タイプ識別なしのハンドル
 	struct UnTypeHandle
 	{
-		uint32_t index;
-		uint32_t generation;
+		uint32_t index = 0;
+		uint32_t generation = 0;
 
-		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
+		template<typename T>
 		Handle<T> As() const;
 
 		bool operator==(const UnTypeHandle& handle) const
@@ -42,15 +42,15 @@ namespace REngine
 	};
 
 	// Assetに対応するハンドル
-	template<typename T, typename E>
+	template<typename T>
 	struct Handle
 	{
 	public:
 		// 型識別用
 		using value_type = T;
 
-		uint32_t index;
-		uint32_t generation;
+		uint32_t index = 0;
+		uint32_t generation = 0;
 
 		UnTypeHandle GetUnTypeHandle() const;
 
@@ -70,14 +70,14 @@ namespace REngine
 	// 実装
 	//------------------------------
 
-	template<typename T, typename>
+	template<typename T>
 	Handle<T> UnTypeHandle::As() const
 	{
 		return { index, generation };
 	}
 
-	template<typename T, typename E>
-	UnTypeHandle Handle<T, E>::GetUnTypeHandle() const
+	template<typename T>
+	UnTypeHandle Handle<T>::GetUnTypeHandle() const
 	{
 		return { index, generation };
 	}

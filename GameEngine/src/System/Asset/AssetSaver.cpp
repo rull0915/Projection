@@ -23,7 +23,7 @@ namespace REngine
 {
 	namespace Saver
 	{
-		void PrefabSaver(AssetBase* base, const std::wstring& path)
+		void PrefabSaver(AssetBase* base, const std::filesystem::path& path)
 		{
 			Prefab* prefab = static_cast<Prefab*>(base);
 
@@ -44,7 +44,7 @@ namespace REngine
 			ofs.close();
 		}
 
-		void AssetSaverAsProperty(AssetBase* asset, const std::wstring& path, AssetManager& assetManager)
+		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, AssetManager& assetManager)
 		{
 			// セーバーを生成
 			ObjectSaver saver(assetManager);

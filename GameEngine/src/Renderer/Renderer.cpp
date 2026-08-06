@@ -23,9 +23,9 @@ namespace REngine
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Renderer::Renderer()
+	Renderer::Renderer(AssetManager& am)
 		: m_renderProxy{}
-		, m_graphicSystem{}
+		, m_graphicSystem{ am }
 		, m_isInitialized{ false }
 	{
 	}
@@ -42,7 +42,7 @@ namespace REngine
 		auto* dr = GraphicsManager::Instance().GetDeviceResources();
 
 		// 仲介クラスの初期化
-		m_renderProxy.Initialize(m_graphicSystem.GetCommandContainer());
+		m_renderProxy.Initialize(m_graphicSystem, m_graphicSystem.GetCommandContainer());
 
 		// 描画システムの初期化
 		m_graphicSystem.Initialize();

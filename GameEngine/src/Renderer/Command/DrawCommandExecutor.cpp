@@ -14,19 +14,26 @@
 
 #include "System/GraphicsManager.h"
 
+#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Managers/AssetManager.h"
+
+#include "Renderer/CBufferSlot.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-REngine::DrawCommandExecutor::DrawCommandExecutor()
+REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager)
 	: m_primitiveBatch{}
 	, m_basicEffect{}
 	, m_spriteBatch{}
 	, m_inputLayout{}
 	, m_view{}
 	, m_projection{}
+	, m_pDevice{ nullptr }
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
+	, m_assetManager{ assetManager }
 {}
 
 void REngine::DrawCommandExecutor::Initialize()
@@ -34,7 +41,7 @@ void REngine::DrawCommandExecutor::Initialize()
 	// デバイスリソースの取得
 	DX::DeviceResources* dr = GraphicsManager::Instance().GetDeviceResources();
 
-	auto* device = dr->GetD3DDevice();
+	m_pDevice = dr->GetD3DDevice();
 
 	m_pContext = dr->GetD3DDeviceContext();
 
@@ -47,7 +54,7 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_pContext);
 
 	// ベーシックエフェクトの初期化
-	m_basicEffect = std::make_unique<DirectX::BasicEffect>(device);
+	m_basicEffect = std::make_unique<DirectX::BasicEffect>(m_pDevice);
 
 	// 設定
 	m_basicEffect->SetVertexColorEnabled(true);	// 頂点カラーの使用をオン
@@ -58,7 +65,7 @@ void REngine::DrawCommandExecutor::Initialize()
 	// 例外処理
 	DX::ThrowIfFailed(
 		DirectX::CreateInputLayoutFromEffect<DirectX::VertexPositionColor>(
-			device,
+			m_pDevice,
 			m_basicEffect.get(),
 			m_inputLayout.ReleaseAndGetAddressOf()));
 
@@ -66,6 +73,22 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);			// ワールド
 	m_basicEffect->SetView(DirectX::SimpleMath::Matrix::Identity);			// ビュー
 	m_basicEffect->SetProjection(DirectX::SimpleMath::Matrix::Identity);	// プロジェクション
+
+	// VP定数バッファの作成
+	D3D11_BUFFER_DESC desc0 = {};
+	desc0.ByteWidth = sizeof(VPBuffer);
+	desc0.Usage = D3D11_USAGE_DYNAMIC;
+	desc0.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	desc0.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	m_pDevice->CreateBuffer(&desc0, nullptr, m_vpConstantBuffer.ReleaseAndGetAddressOf());
+
+	// World定数バッファの作成
+	D3D11_BUFFER_DESC desc1 = {};
+	desc1.ByteWidth = sizeof(WorldBuffer);
+	desc1.Usage = D3D11_USAGE_DYNAMIC;
+	desc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	desc1.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	m_pDevice->CreateBuffer(&desc1, nullptr, m_worldConstantBuffer.ReleaseAndGetAddressOf());
 }
 
 void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
@@ -90,14 +113,42 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 	// Projection
 	m_basicEffect->SetProjection(m_projection);
 
+	// バインド
+	BindVPBuffer();
+
 	// コマンド分ループ
 	for (auto& c : commands)
 	{
-		// 行列のセット
-		m_basicEffect->SetWorld(c.world);
+		// マテリアルを調べる
+		MaterialAsset* material = m_assetManager.Get<MaterialAsset>(c.material);
 
 		// 描画準備
 		PreparePrimitiveRendering();
+
+		// 存在しており有効ハンドルなら
+		if (material && material->IsValid())
+		{
+			// バインド
+			material->Bind(m_pContext, m_assetManager);
+		
+			// ワールド行列をバインド
+			BindWorldBuffer(c.world);
+
+			// 定数バッファを更新
+			material->UpdateConstantBuffers(m_pDevice, m_pContext, m_assetManager);
+		}
+		// なければ
+		else
+		{
+			// ワールド行列のセット
+			m_basicEffect->SetWorld(c.world);
+
+			// インプットレイアウトをセット
+			m_pContext->IASetInputLayout(m_inputLayout.Get());
+
+			// エフェクトを適用
+			m_basicEffect->Apply(m_pContext);
+		}
 
 		// 描画開始
 		m_primitiveBatch->Begin();
@@ -157,13 +208,48 @@ void REngine::DrawCommandExecutor::PreparePrimitiveRendering()
 	// カリング不使用
 	m_pContext->RSSetState(m_pStates->CullNone());
 
-	// インプットレイアウトをセット
-	m_pContext->IASetInputLayout(m_inputLayout.Get());
-
 	// サンプラーをリセット
 	ID3D11SamplerState* samplers[] = { nullptr };
 	m_pContext->PSSetSamplers(0, 1, samplers);
+}
 
-	// エフェクトを適用
-	m_basicEffect->Apply(m_pContext);
+void REngine::DrawCommandExecutor::BindVPBuffer()
+{
+	// 定数バッファを用意
+	VPBuffer vpData;
+
+	// 行列を掛けて渡す (転置が必要かも)
+	vpData.view = m_view.Transpose();
+	vpData.proj = m_projection.Transpose();
+
+	// マップを使用しCPU側から変更
+	D3D11_MAPPED_SUBRESOURCE mapped;
+	if (SUCCEEDED(m_pContext->Map(m_vpConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+	{
+		std::memcpy(mapped.pData, &vpData, sizeof(VPBuffer));
+		m_pContext->Unmap(m_vpConstantBuffer.Get(), 0);
+	}
+
+	// VP用スロットにバインド
+	m_pContext->VSSetConstantBuffers(CBufferSlot::PerFrame, 1, m_vpConstantBuffer.GetAddressOf());
+}
+
+void REngine::DrawCommandExecutor::BindWorldBuffer(const DirectX::SimpleMath::Matrix& world)
+{
+	// 定数バッファを用意
+	WorldBuffer worldData;
+
+	// 行列を掛けて渡す (転置が必要かも)
+	worldData.world = world.Transpose();
+
+	// マップを使用しCPU側から変更
+	D3D11_MAPPED_SUBRESOURCE mapped;
+	if (SUCCEEDED(m_pContext->Map(m_worldConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+	{
+		std::memcpy(mapped.pData, &worldData, sizeof(WorldBuffer));
+		m_pContext->Unmap(m_worldConstantBuffer.Get(), 0);
+	}
+
+	// World用スロットにバインド
+	m_pContext->VSSetConstantBuffers(CBufferSlot::PerObject, 1, m_worldConstantBuffer.GetAddressOf());
 }

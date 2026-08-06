@@ -30,6 +30,10 @@
 
 namespace REngine
 {
+	// アセットであることを制限するconcept
+	template<typename T>
+	concept AssetType = std::derived_from<T, AssetBase>;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -48,10 +52,10 @@ namespace REngine
 		};
 
 		// パスを引数にしてAssetを生成するローダー関数
-		using Loader = std::function<std::unique_ptr<AssetBase>(const std::wstring&)>;
+		using Loader = std::function<std::unique_ptr<AssetBase>(const std::filesystem::path&)>;
 
 		// Assetからパスに保存するセーバー関数
-		using Saver = std::function<void(AssetBase*, const std::wstring&)>;
+		using Saver = std::function<void(AssetBase*, const std::filesystem::path&)>;
 
 		// パスから新規ファイルを作成してデフォルトのアセットを生成する関数
 		using Creator = std::function<std::unique_ptr<AssetBase>(std::filesystem::path)>;
@@ -122,7 +126,7 @@ namespace REngine
 		/// <param name="saver">保存関数</param>
 		/// <param name="canCreate">実行中に新規作成可能にするかどうか</param>
 		/// <param name="extentions">対応する拡張子の一覧</param>
-		template<typename T, typename = std::enable_if_t<std::is_base_of_v<AssetBase, T>>>
+		template<AssetType T>
 		void Registry(
 			const std::string& assetName, 
 			Loader loader, 
@@ -147,7 +151,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// Handle経由で本体の取得をする関数
-		template<typename T>
+		template<AssetType T>
 		T* Get(Handle<T> handle)
 		{
 			// Registryを経由して返す
@@ -162,7 +166,7 @@ namespace REngine
 		}
 
 		// Handleが対応するAssetを解放する関数
-		template<typename T>
+		template<AssetType T>
 		void Release(Handle<T> handle)
 		{
 			// ハンドルに対応するAssetがあれば
@@ -180,7 +184,7 @@ namespace REngine
 		}
 
 		// HandleからUUIDを取得する関数
-		template<typename T>
+		template<AssetType T>
 		UUID GetUuidFromHandle(Handle<T> h)
 		{
 			// Handleに対応するAssetがあればそのUUIDを返す
@@ -206,7 +210,7 @@ namespace REngine
 		UnTypeHandle LoadFromPath(const std::wstring& path);
 	};
 
-	template<typename T, typename>
+	template<AssetType T>
 	inline void AssetManager::Registry(const std::string& assetName, Loader loader, Saver saver, bool canCreate, const std::vector<std::wstring>& extentions)
 	{
 		std::type_index idx = std::type_index(typeid(T));

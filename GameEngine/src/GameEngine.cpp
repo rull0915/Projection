@@ -31,10 +31,12 @@ namespace REngine
 
 	GameEngine::GameEngine()
 		: m_gameTimer{ std::make_unique<GameTimer>() }
-		, m_renderer{ std::make_unique<Renderer>() }
+		, m_renderer{ nullptr }
 		, m_assetManager{ std::make_unique<AssetManager>() }
 		, m_editor{}
-	{}
+	{
+		m_renderer = std::make_unique<Renderer>(*m_assetManager);
+	}
 
 	void GameEngine::Initialize(DX::DeviceResources* deviceResources, HWND window)
 	{

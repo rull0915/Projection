@@ -433,6 +433,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
     <ClInclude Include="include\Editor\SceneEditor.h" />
+    <ClInclude Include="include\Renderer\CBufferSlot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Renderer\Command\DrawCommand.h">
       <SubType>
       </SubType>
@@ -541,10 +545,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\World\Sounds\AudioListener.h" />
     <ClInclude Include="include\Components\Both\Sounds\AudioSource.h" />
     <ClInclude Include="include\Settings\SoundSettings.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="include\Common\GetExtension.h">
       <SubType>
       </SubType>
     </ClInclude>

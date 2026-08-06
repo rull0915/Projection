@@ -21,10 +21,12 @@
 #include "EachRenderer/ModelRenderer.h"
 #include "EachRenderer/TextRenderer.h"
 #include "EachRenderer/UIRenderer.h"
-#include "Command/DrawCommandContainer.h"
 
 namespace REngine
 {
+	class DrawCommandContainer;
+	class GraphicsSystem;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -64,7 +66,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 初期化関数
-		void Initialize(DrawCommandContainer& container);
+		void Initialize(GraphicsSystem& system, DrawCommandContainer& container);
 
 		//-----------------------------------------------------
 		// ゲッター

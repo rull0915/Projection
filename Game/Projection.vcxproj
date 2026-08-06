@@ -135,6 +135,8 @@ $(ProjectDir)
     </Manifest>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </FxCompile>
     <PreBuildEvent>
       <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
@@ -205,6 +207,10 @@ $(ProjectDir)
     <PostBuildEvent>
       <Command>xcopy /E /Y /I "$(SolutionDir)GameEngine\Resources" "$(ProjectDir)Resources"</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EngineTester\EasingConfig.h">
@@ -212,6 +218,7 @@ $(ProjectDir)
       </SubType>
     </ClInclude>
     <ClInclude Include="EngineTester\EasingTestComponent.h" />
+    <ClInclude Include="EngineTester\MaterialTester.h" />
     <ClInclude Include="EngineTester\MyComponent.h" />
     <ClInclude Include="EngineTester\PropertyTest.h" />
     <ClInclude Include="EngineTester\Status.h" />
@@ -281,6 +288,7 @@ $(ProjectDir)
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
+    <ClCompile Include="EngineTester\MaterialTester.cpp" />
     <ClCompile Include="EngineTester\MyComponent.cpp" />
     <ClCompile Include="EngineTester\PropertyTest.cpp" />
     <ClCompile Include="EngineTester\Status.cpp" />
@@ -351,11 +359,28 @@ $(ProjectDir)
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Materials\Test.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
       <Project>{92af323a-9cde-4d83-ac9a-a51566f408ed}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\Materials\Test.ps.hlsl">
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources/Materials/Shaders/%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Resources/Materials/Shaders/%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Materials\Test.vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources/Materials/Shaders/%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Resources/Materials/Shaders/%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

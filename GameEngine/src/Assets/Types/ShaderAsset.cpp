@@ -47,7 +47,10 @@ namespace REngine
 					context->IASetInputLayout(m_inputLayout.Get());
 				}
 				// ピクセルシェーダ
-				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11PixelShader>>) { context->PSSetShader(obj.Get(), nullptr, 0); }
+				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11PixelShader>>) 
+				{
+					context->PSSetShader(obj.Get(), nullptr, 0); 
+				}
 				// ジオメトリシェーダ
 				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11GeometryShader>>) { context->GSSetShader(obj.Get(), nullptr, 0); }
 				// ハルシェーダ

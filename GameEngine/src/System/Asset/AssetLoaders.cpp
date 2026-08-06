@@ -14,7 +14,6 @@
 
 #include "System/GraphicsManager.h"
 #include "System/ResourceManager.h"
-#include "Common/GetExtension.h"
 
 #include "WICTextureLoader.h"
 #include "DDSTextureLoader.h"
@@ -25,7 +24,7 @@
 
 namespace REngine
 {
-	std::unique_ptr<Texture> REngine::Loader::TextureLoader(const std::wstring& path)
+	std::unique_ptr<Texture> REngine::Loader::TextureLoader(const std::filesystem::path& path)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -36,14 +35,14 @@ namespace REngine
 		HRESULT hr;
 
 		// キーの拡張子を取得
-		std::string extension = GetExtension::Get(path);
+		std::string extension = path.extension().string();
 
 		// ddsなら
 		if (extension == ".dds")
 		{
 			hr = DirectX::CreateDDSTextureFromFile(
 				device,                 // ID3D11Device*
-				path.data(),          // ファイルパス
+				path.wstring().data(),          // ファイルパス
 				nullptr,
 				texture.GetAddressOf()
 			);
@@ -53,7 +52,7 @@ namespace REngine
 		{
 			hr = DirectX::CreateWICTextureFromFile(
 				device,                 // ID3D11Device*
-				path.data(),          // ファイルパス
+				path.wstring().data(),          // ファイルパス
 				nullptr,
 				texture.GetAddressOf()
 			);
@@ -70,7 +69,7 @@ namespace REngine
 		return std::make_unique<Texture>(std::move(texture));
 	}
 
-	std::unique_ptr<Model> Loader::ModelLoader(const std::wstring& path)
+	std::unique_ptr<Model> Loader::ModelLoader(const std::filesystem::path& path)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -79,7 +78,7 @@ namespace REngine
 		auto fx = ResourceManager::Instance().GetEffectFactory();
 
 		// キーの拡張子を取得
-		std::string extension = GetExtension::Get(path);
+		std::string extension = path.extension().string();
 
 		std::unique_ptr<DirectX::Model> model;
 
@@ -98,7 +97,7 @@ namespace REngine
 		return std::make_unique<Model>(std::move(model));
 	}
 
-	std::unique_ptr<Font> Loader::FontLoader(const std::wstring& path)
+	std::unique_ptr<Font> Loader::FontLoader(const std::filesystem::path& path)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -118,13 +117,13 @@ namespace REngine
 		return std::make_unique<Font>(std::move(font), height);
 	}
 
-	std::unique_ptr<Prefab> Loader::PrefabLoader(const std::wstring& path)
+	std::unique_ptr<Prefab> Loader::PrefabLoader(const std::filesystem::path& path)
 	{
 		// 返す
 		return std::make_unique<Prefab>(std::filesystem::path(path));
 	}
 
-	std::unique_ptr<AudioClip> Loader::AudioClipLoader(const std::wstring& path)
+	std::unique_ptr<AudioClip> Loader::AudioClipLoader(const std::filesystem::path& path)
 	{
 		// AudioEngineを取得
 		auto ae = ResourceManager::Instance().GetAudioEngine();
