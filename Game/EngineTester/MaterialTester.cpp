@@ -60,4 +60,7 @@ void MaterialTester::Draw(REngine::Renderer & renderer)
 
 	// マテリアルのリセット
 	renderer.SetMaterial(REngine::ERROR_HANDLE<REngine::MaterialAsset>);
+
+	// ワールド行列のリセット
+	renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 }

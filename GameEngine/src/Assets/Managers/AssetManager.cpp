@@ -138,6 +138,37 @@ namespace REngine
 		}
 	}
 
+	bool AssetManager::CanSave(const std::filesystem::path& path)
+	{
+		auto it = m_savers.find(m_typeManager.GetAssetClass(path));
+
+		return it != m_savers.end();
+	}
+
+	void AssetManager::SaveAsset(const std::filesystem::path& path)
+	{
+		// 保存関数を取得
+		auto it = m_savers.find(m_typeManager.GetAssetClass(path));
+
+		if (it == m_savers.end()) return;
+
+		// UUIDを取得
+		UUID uuid = m_dataBase.GetUUID(path);
+
+		// ハンドルを取得
+		auto handle = m_uuidToHandle.find(uuid);
+
+		if (handle == m_uuidToHandle.end()) return;
+
+		// アセット本体を取得
+		AssetBase* asset = m_registry.GetFromUnTypeHandle(handle->second);
+
+		if (!asset) return;
+
+		// 保存
+		it->second(asset, path);
+	}
+
 	UnTypeHandle AssetManager::GetHandle(UUID uuid) const
 	{
 		// マップにあれば

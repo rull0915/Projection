@@ -146,6 +146,12 @@ namespace REngine
 		// アセットを新規作成する関数
 		void Create(const std::filesystem::path& directory, const std::string& fileName, const std::string& assetType);
 
+		// アセットをセーブ可能か調べる関数
+		bool CanSave(const std::filesystem::path& path);
+
+		// 保存する関数
+		void SaveAsset(const std::filesystem::path& path);
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------

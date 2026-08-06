@@ -199,13 +199,16 @@ namespace REngine
 			// 変数名を表示
 			ImGui::Text(property->name.c_str());
 
+			ImGui::PushID(property);
+
 			// 同じライン
 			ImGui::SameLine();
 
-			ImGui::PushID(property);
-
 			// 表示
 			ImGui::Selectable(name.c_str(), false);
+
+			// 変更フラグ
+			bool changed = false;
 
 			// 描画リストを取得
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
@@ -217,8 +220,6 @@ namespace REngine
 				IM_COL32(255, 255, 255, 64)
 			);
 
-			ImGui::PopID();
-
 			// ドラッグを受け取る
 			if (ImGui::BeginDragDropTarget())
 			{
@@ -229,22 +230,33 @@ namespace REngine
 					HandlePayload* pay = static_cast<HandlePayload*>(payload->Data);
 
 					// type_indexが一致しなければ何もしない
-					if (pay->type != property->typeIndex) return false;
+					if (pay->type == property->typeIndex)
+					{
+						// ハンドルを変更する
+						AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, pay->handle);
 
-					// ハンドルを変更する
-					AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, pay->handle);
-
-					// Trueを返す
-					return true;
+						// Trueを返す
+						changed = true;
+					}
 				}
 
 				ImGui::EndDragDropTarget();
 			}
 
-			return false;
-		}
-			break;
+			// リセットボタン
+			if (ImGui::Button("Reset"))
+			{
+				// ハンドルを変更する
+				AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, ERROR_UNTYPE_HANDLE);
 
+				// Trueを返す
+				changed = true;
+			}
+
+			ImGui::PopID();		
+
+			return changed;
+		}
 		default:
 			break;
 		}

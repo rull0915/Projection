@@ -235,5 +235,16 @@ namespace REngine
 
 		// 本体を表示
 		m_propertyOnInspector.DrawPropertyObject(asset);
+
+		// セーブ可能かどうか
+		if (m_assetManager.CanSave(path))
+		{
+			// ボタンを表示
+			if (ImGui::Button("Save"))
+			{
+				// 保存
+				m_assetManager.SaveAsset(path);
+			}
+		}
 	}
 }	// namespace REngine
