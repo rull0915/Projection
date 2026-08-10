@@ -21,16 +21,18 @@
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/MaterialAsset.h"
 #include "Components/World/Transform/Transform.h"
+#include "Components/Interface/IAssetDependent.h"
+#include "Assets/Types/Shader/SamplerType.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-
+class REngine::AssetManager;
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class MaterialTester : public REngine::RendererBase
+class MaterialTester : public REngine::RendererBase, public REngine::IAssetDependent
 {
 private:
 
@@ -43,6 +45,21 @@ private:
 
 	// マテリアル
 	REngine::Handle<REngine::MaterialAsset> m_material;
+
+	// AssetManager
+	REngine::AssetManager* m_assetManager;
+
+	// テクスチャハンドル
+	REngine::Handle<REngine::Texture> m_texture;
+
+	// サンプラータイプ
+	REngine::SamplerType m_samplerType;
+
+	// 経過時間
+	float m_sumTime;
+
+	// 乗算カラー
+	DirectX::SimpleMath::Color m_mulColor;
 
 public:
 
@@ -64,6 +81,13 @@ public:
 
 	void Draw(REngine::Renderer& renderer) override;
 
+	void OnValidate() override;
+
+	void ReceiveAssetManager(REngine::AssetManager& am) override
+	{
+		m_assetManager = &am;
+	}
+
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
@@ -83,5 +107,7 @@ private:
 	//-----------------------------------------------------
 	// 内部実装
 	//-----------------------------------------------------
-
+	
+	// バッファの設定を行う関数
+	void SetBuffer();
 };

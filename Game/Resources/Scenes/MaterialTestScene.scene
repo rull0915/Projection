@@ -109,9 +109,9 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                -3.661029577255249,
-                                -1.623443365097046,
-                                3.0517578125e-05
+                                0.0,
+                                0.0,
+                                7.0
                             ],
                             "m_localRotation": [
                                 -0.0,
@@ -131,7 +131,15 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_material": 12042790881036434586
+                            "m_material": 12042790881036434586,
+                            "m_mulColor": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_samplerType": "Linear",
+                            "m_texture": 10394123568118308425
                         },
                         "Type": "MaterialTester"
                     }

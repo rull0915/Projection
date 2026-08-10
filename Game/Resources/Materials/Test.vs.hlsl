@@ -23,6 +23,7 @@ PS_INPUT main(VS_INPUT input)
     
     // 頂点カラーをそのままピクセルシェーダーへ送る
     output.Color = input.Color;
+    output.Tex = input.Tex;
     
     return output;
 }
