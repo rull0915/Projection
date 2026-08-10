@@ -140,7 +140,7 @@ namespace REngine
 					ShaderParam param{};
 
 					param.name = vaDesc.Name;
-					param.cbSlot = slotNum;
+					param.slot = slotNum;
 					param.offset = vaDesc.StartOffset;
 					param.size = vaDesc.Size;
 					param.type = GetTypeFromInterface(v);
@@ -158,14 +158,15 @@ namespace REngine
 				if (FAILED(reflection->GetResourceBindingDesc(i, &bindDesc))) continue;
 
 				// テクスチャなら
-				if (bindDesc.Type == D3D_SIT_TEXTURE)
+				if (bindDesc.Type == D3D_SIT_TEXTURE || bindDesc.Type == D3D_SIT_SAMPLER)
 				{
 					// パラメータを作成
 					ShaderParam param{};
 
 					param.name = bindDesc.Name;
-					param.tSlot = bindDesc.BindPoint;
-					param.type = ShaderParamType::Texture2D;
+					param.slot = bindDesc.BindPoint;
+					param.type = bindDesc.Type == D3D_SIT_TEXTURE ? 
+						ShaderParamType::Texture2D : ShaderParamType::Sampler;
 
 					// 配列に追加
 					params.push_back(param);

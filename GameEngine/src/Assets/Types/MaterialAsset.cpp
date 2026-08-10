@@ -61,7 +61,7 @@ namespace REngine
 				// nullptrなら何もしない
 				if (!asset) return;
 
-				// 定数バッファをループ
+				// バッファをループ
 				for (auto& cBuffer : asset->GetBuffers())
 				{
 					// マテリアル管轄のスロットでなければスキップ
@@ -103,7 +103,7 @@ namespace REngine
 						const ShaderParam* p = asset->FindParam(paramKey.name);
 
 						if (!p ||									// 取得できなかった場合	
-							p->cbSlot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
+							p->slot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
 							p->type == ShaderParamType::Texture2D	// 定数バッファでなかった場合
 							) continue;	// 何もしない
 
@@ -113,8 +113,8 @@ namespace REngine
 							// decay_tを使用して参照を外した素の型を取得
 							using V = std::decay_t<decltype(v)>;
 
-							// Texture以外なら
-							if constexpr (!std::is_same_v<V, Handle<Texture>>)
+							// 定数バッファなら
+							if constexpr (!std::is_same_v<V, Handle<Texture>> && !std::is_same_v<V, SamplerType>)
 							{
 								// データを配列内のメモリにコピーする
 								// vのアドレスからサイズまでの領域を
@@ -151,7 +151,7 @@ namespace REngine
 		m_isDirty = false;
 	}
 
-	void MaterialAsset::Bind(ID3D11DeviceContext* context, AssetManager& assetManager)
+	void MaterialAsset::Bind(ID3D11DeviceContext* context, AssetManager& assetManager, const SamplerList& samplerList)
 	{
 		// 頂点シェーダー本体を取得
 		auto* vs = assetManager.Get<ShaderAsset>(m_vertexShader);
@@ -187,45 +187,98 @@ namespace REngine
 		// リソースのバインド
 		for (auto& [key, value] : m_params)
 		{
+			// 対応するシェーダーを取得
+			auto* shader = [&]() -> ShaderAsset* {
+				switch (key.stage) 
+				{
+				case ShaderType::Vertex:  return vs;
+				case ShaderType::Pixel:  return ps;
+				default: return nullptr;
+				}
+			}();
+
+			// なければ次へ
+			if (!shader) continue;
+
 			// Handle<Texture>として取得
-			auto* t = std::get_if<Handle<Texture>>(&value);
-
-			// 取得できなかったら次へ
-			if (!t) continue;
-
-			// テクスチャを取得
-			auto* tex = assetManager.Get<Texture>(*t);
-
-			// 取得できなかったら次へ
-			if (!tex) continue;
-
-			// Todo シェーダー管理をmap<Type, Handle<Shander>>にしてタイプから引けるように
-
-			// 取得できたら対応するステージを調べる
-			switch (key.stage)
+			if (auto* t = std::get_if<Handle<Texture>>(&value))
 			{
-				// PS
-			case ShaderType::Pixel:
+				// テクスチャを取得
+				auto* tex = assetManager.Get<Texture>(*t);
+
+				// バインド
+				BindTexture(context, shader, tex, key);
+			}
+			// SamplerTypeとして取得
+			else if (auto* s = std::get_if<SamplerType>(&value))
 			{
-				if (!ps) break;	// 対応するステージがなければ処理しない
-				auto* p = ps->FindParam(key.name);
-				if (p && p->type == ShaderParamType::Texture2D)
-					context->PSSetShaderResources(p->tSlot, 1, tex->GetAddressOf());
-				break;
+				// サンプラーを取得
+				auto& sampler = samplerList.GetSampler(*s);
+
+				// バインド
+				BindSampler(context, shader, sampler, key);
 			}
-				// VS
-			case ShaderType::Vertex:
-			{
-				if (!vs) break;	// 対応するステージがなければ処理しない
-				auto* p = vs->FindParam(key.name);
-				if (p && p->type == ShaderParamType::Texture2D)
-					context->VSSetShaderResources(p->tSlot, 1, tex->GetAddressOf());
-				break;
-			}
-				// 
-			default:
-				break;
-			}
+		}
+	}
+	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const MaterialParamKey& key)
+	{
+		// テクスチャがなければ何もしない
+		if (!texture) return;
+
+		// パラメータを取得
+		auto* param = shader->FindParam(key.name);
+
+		// 対応していなければ何もしない
+		if (!param || param->type != ShaderParamType::Texture2D) return;
+
+		// 取得できたら対応するステージを調べる
+		switch (key.stage)
+		{
+			// PS
+		case ShaderType::Pixel:
+		{
+			context->PSSetShaderResources(param->slot, 1, texture->GetAddressOf());
+			break;
+		}
+			// VS
+		case ShaderType::Vertex:
+		{
+			context->VSSetShaderResources(param->slot, 1, texture->GetAddressOf());
+			break;
+		} 
+		default:
+			break;
+		}
+	}
+
+	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const MaterialParamKey& key)
+	{
+		// サンプラーがなければ何もしない
+		if (!sampler) return;
+
+		// パラメータを取得
+		auto* param = shader->FindParam(key.name);
+
+		// 対応していなければ何もしない
+		if (!param || param->type != ShaderParamType::Sampler) return;
+
+		// 取得できたら対応するステージを調べる
+		switch (key.stage)
+		{
+			// PS
+		case ShaderType::Pixel:
+		{
+			context->PSSetSamplers(param->slot, 1, sampler.GetAddressOf());
+			break;
+		}
+			// VS
+		case ShaderType::Vertex:
+		{
+			context->VSSetSamplers(param->slot, 1, sampler.GetAddressOf());
+			break;
+		}
+		default:
+			break;
 		}
 	}
 }
