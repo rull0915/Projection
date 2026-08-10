@@ -18,10 +18,13 @@
 #include <utility>
 #include <variant>
 
-#include "Shader/ShaderAsset.h"
 #include "Assets/Objects/Handle.h"
+#include "Shader/ShaderAsset.h"
 #include "Assets/Types/Texture.h"
+
 #include "Assets/Objects/AssetBase.h"
+#include "Assets/Types/Shader/SamplerType.h"
+#include "Assets/Types/Shader/SamplerList.h"
 
 namespace REngine
 {
@@ -32,7 +35,10 @@ namespace REngine
 		std::string name;			// 名前
 
 		// 等価演算子
-		bool operator==(const MaterialParamKey& other) { return stage == other.stage && name == other.name; }
+		bool operator==(const MaterialParamKey& other) const noexcept
+		{
+			return stage == other.stage && name == other.name; 
+		}
 	};
 }
 
@@ -59,8 +65,10 @@ namespace REngine
 		DirectX::SimpleMath::Vector2,
 		DirectX::SimpleMath::Vector3,
 		DirectX::SimpleMath::Vector4,
+		DirectX::SimpleMath::Color,
 		DirectX::SimpleMath::Matrix,
-		Handle<Texture>
+		Handle<Texture>,
+		SamplerType
 	>;
 
 	class AssetManager;
@@ -116,9 +124,20 @@ namespace REngine
 		void UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context, AssetManager& assetManager);
 
 		// シェーダーをcontextにバインドする関数
-		void Bind(ID3D11DeviceContext* context, AssetManager& assetManager);
+		void Bind(ID3D11DeviceContext* context, AssetManager& assetManager, const SamplerList& samplerList);
 
 		// 有効かどうか
-		bool IsValid() { return m_vertexShader != ERROR_HANDLE<ShaderAsset>; }
+		bool IsValid() 
+		{
+			return m_vertexShader != ERROR_HANDLE<ShaderAsset> || m_pixelShader != ERROR_HANDLE<ShaderAsset>; 
+		}
+
+	private:
+
+		// テクスチャをバインドする関数
+		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const MaterialParamKey& key);
+
+		// サンプラーをバインドする関数
+		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const MaterialParamKey& key);
 	};
 }	// namespace REngine

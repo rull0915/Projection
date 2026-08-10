@@ -27,6 +27,7 @@ namespace REngine
 		Float4,
 		Float4x4,
 		Texture2D,
+		Sampler,
 	};
 
 	// 1つのパラメータ
@@ -38,9 +39,7 @@ namespace REngine
 		uint32_t size;		// サイズ
 		uint32_t offset;	// オフセット
 
-		uint32_t cbSlot;	// 定数バッファのスロット番号	register(bN)
-		uint32_t tSlot;		// テクスチャのスロット番号		register(tN)
-		uint32_t uSlot;		// register(uN) 現在は未使用
+		uint32_t slot;	// スロット番号
 	};
 
 	// 定数バッファ全体の情報

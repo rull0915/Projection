@@ -20,6 +20,7 @@
 #include <VertexTypes.h>
 
 #include "DrawCommandContainer.h"
+#include "Assets/Types/Shader/SamplerList.h"
 
 namespace REngine
 {
@@ -51,7 +52,7 @@ namespace REngine
 		//----- 各描画システム -----//
 
 		// プリミティブバッチ
-		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_primitiveBatch;
+		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_primitiveBatch;
 
 		// ベーシックエフェクト
 		std::unique_ptr<DirectX::BasicEffect> m_basicEffect;
@@ -93,6 +94,9 @@ namespace REngine
 
 		// アセットマネージャー
 		AssetManager& m_assetManager;
+
+		// サンプラーリスト
+		SamplerList m_samplerList;
 
 	public:
 

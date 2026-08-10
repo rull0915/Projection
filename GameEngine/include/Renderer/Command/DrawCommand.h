@@ -153,16 +153,16 @@ namespace REngine
 		// 線の構造体
 		struct Line
 		{
-			DirectX::VertexPositionColor s;
-			DirectX::VertexPositionColor e;
+			DirectX::VertexPositionColorTexture s;
+			DirectX::VertexPositionColorTexture e;
 		};
 
 		// 三角形の構造体
 		struct Triangle
 		{
-			DirectX::VertexPositionColor a;
-			DirectX::VertexPositionColor b;
-			DirectX::VertexPositionColor c;
+			DirectX::VertexPositionColorTexture a;
+			DirectX::VertexPositionColorTexture b;
+			DirectX::VertexPositionColorTexture c;
 		};
 
 		// ワールド行列
