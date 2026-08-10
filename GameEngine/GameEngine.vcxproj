@@ -172,6 +172,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Assets\Types\Shader\SamplerList.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
@@ -216,18 +220,18 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
     <ClCompile Include="src\Editor\Saver\ObjectSaver.cpp" />
-    <ClCompile Include="src\System\Asset\AssetInitializer.cpp" />
-    <ClCompile Include="src\System\Asset\AssetLoaders.cpp" />
-    <ClCompile Include="src\System\Asset\AssetSaver.cpp" />
-    <ClCompile Include="src\System\Asset\Shader\FormatGetter.cpp">
+    <ClCompile Include="src\Assets\System\AssetInitializer.cpp" />
+    <ClCompile Include="src\Assets\System\AssetLoaders.cpp" />
+    <ClCompile Include="src\Assets\System\AssetSaver.cpp" />
+    <ClCompile Include="src\Assets\System\Shader\FormatGetter.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\Shader\ShaderLoader.cpp">
+    <ClCompile Include="src\Assets\System\Shader\ShaderLoader.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\Shader\ShaderReflection.cpp">
+    <ClCompile Include="src\Assets\System\Shader\ShaderReflection.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -345,6 +349,14 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\AudioClip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\SamplerList.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\SamplerType.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -503,18 +515,18 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\AssetInitializer.h" />
-    <ClInclude Include="src\System\Asset\AssetLoaders.h" />
-    <ClInclude Include="src\System\Asset\AssetSaver.h" />
+    <ClInclude Include="src\Assets\System\AssetInitializer.h" />
+    <ClInclude Include="src\Assets\System\AssetLoaders.h" />
+    <ClInclude Include="src\Assets\System\AssetSaver.h" />
     <ClInclude Include="include\Assets\Types\Shader\ShaderLoader.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\Shader\FormatGetter.h">
+    <ClInclude Include="src\Assets\System\Shader\FormatGetter.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\Shader\ShaderReflection.h">
+    <ClInclude Include="src\Assets\System\Shader\ShaderReflection.h">
       <SubType>
       </SubType>
     </ClInclude>

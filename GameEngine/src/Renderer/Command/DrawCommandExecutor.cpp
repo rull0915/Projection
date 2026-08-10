@@ -34,6 +34,7 @@ REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager)
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
 	, m_assetManager{ assetManager }
+	, m_samplerList{}
 {}
 
 void REngine::DrawCommandExecutor::Initialize()
@@ -48,7 +49,7 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_pStates = dr->GetCommonStates();
 
 	// プリミティブバッチの初期化
-	m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(m_pContext);
+	m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(m_pContext);
 
 	// スプライトバッチの初期化
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_pContext);
@@ -89,6 +90,9 @@ void REngine::DrawCommandExecutor::Initialize()
 	desc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc1.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	m_pDevice->CreateBuffer(&desc1, nullptr, m_worldConstantBuffer.ReleaseAndGetAddressOf());
+
+	// サンプラーリストの初期化
+	m_samplerList.Initialize(m_pDevice);
 }
 
 void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
@@ -100,8 +104,8 @@ void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& cont
 	m_projection = proj;
 
 	// 各コマンドの実行
-	DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
 	DrawModelCommandExecute(container.GetDrawModelCommands());
+	DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
 	DrawSpriteAndFontCommandExecute(container.GetDrawSpriteCommands(), container.GetDrawTextCommands());
 }
 
@@ -120,7 +124,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 		if (material && material->IsValid())
 		{
 			// バインド
-			material->Bind(m_pContext, m_assetManager);
+			material->Bind(m_pContext, m_assetManager, m_samplerList);
 		
 			// VP行列をバインド
 			BindVPBuffer();

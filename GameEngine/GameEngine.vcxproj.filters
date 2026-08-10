@@ -328,31 +328,34 @@
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\AssetInitializer.cpp">
+    <ClCompile Include="src\Assets\System\AssetInitializer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Types\Prefab.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\AssetLoaders.cpp">
+    <ClCompile Include="src\Assets\System\AssetLoaders.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\AssetSaver.cpp">
+    <ClCompile Include="src\Assets\System\AssetSaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Types\ShaderAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\Shader\ShaderLoader.cpp">
+    <ClCompile Include="src\Assets\System\Shader\ShaderLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\Shader\FormatGetter.cpp">
+    <ClCompile Include="src\Assets\System\Shader\FormatGetter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Asset\Shader\ShaderReflection.cpp">
+    <ClCompile Include="src\Assets\System\Shader\ShaderReflection.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Types\MaterialAsset.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Types\Shader\SamplerList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -873,7 +876,7 @@
     <ClInclude Include="include\Assets\Types\Texture.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\AssetInitializer.h">
+    <ClInclude Include="src\Assets\System\AssetInitializer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\Property\AssetPropertyRegistry.h">
@@ -906,10 +909,10 @@
     <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\AssetLoaders.h">
+    <ClInclude Include="src\Assets\System\AssetLoaders.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\AssetSaver.h">
+    <ClInclude Include="src\Assets\System\AssetSaver.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\Shader\ShaderAsset.h">
@@ -921,16 +924,22 @@
     <ClInclude Include="include\Assets\Types\Shader\ShaderLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\Shader\ShaderReflection.h">
+    <ClInclude Include="src\Assets\System\Shader\ShaderReflection.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\Asset\Shader\FormatGetter.h">
+    <ClInclude Include="src\Assets\System\Shader\FormatGetter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\MaterialAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\CBufferSlot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\SamplerList.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\SamplerType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -54,6 +54,16 @@ namespace REngine
 			const DirectX::SimpleMath::Vector3& p3,
 			DirectX::SimpleMath::Color color, bool fillFlag
 		);
+		void DrawTriangle	
+		(
+			const DirectX::SimpleMath::Vector3& p1,
+			const DirectX::SimpleMath::Vector2& uv1,
+			const DirectX::SimpleMath::Vector3& p2,
+			const DirectX::SimpleMath::Vector2& uv2,
+			const DirectX::SimpleMath::Vector3& p3,
+			const DirectX::SimpleMath::Vector2& uv3,
+			DirectX::SimpleMath::Color color, bool fillFlag
+		);
 
 		// Rect
 		void DrawRect
@@ -62,6 +72,18 @@ namespace REngine
 			const DirectX::SimpleMath::Vector3& p2,
 			const DirectX::SimpleMath::Vector3& p3,
 			const DirectX::SimpleMath::Vector3& p4,
+			DirectX::SimpleMath::Color color, bool fillFlag
+		);
+		void DrawRect
+		(
+			const DirectX::SimpleMath::Vector3& p1,
+			const DirectX::SimpleMath::Vector2& uv1,
+			const DirectX::SimpleMath::Vector3& p2,
+			const DirectX::SimpleMath::Vector2& uv2,
+			const DirectX::SimpleMath::Vector3& p3,
+			const DirectX::SimpleMath::Vector2& uv3,
+			const DirectX::SimpleMath::Vector3& p4,
+			const DirectX::SimpleMath::Vector2& uv4,
 			DirectX::SimpleMath::Color color, bool fillFlag
 		);
 

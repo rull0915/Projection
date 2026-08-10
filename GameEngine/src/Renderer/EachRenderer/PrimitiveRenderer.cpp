@@ -34,9 +34,31 @@ namespace REngine
 	/// <param name="color">色</param>
 	void PrimitiveRenderer::DrawTriangle(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		DirectX::VertexPositionColor v1(p1, color);
-		DirectX::VertexPositionColor v2(p2, color);
-		DirectX::VertexPositionColor v3(p3, color);
+		DirectX::VertexPositionColorTexture v1(p1, color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(p2, color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v3(p3, color, DirectX::SimpleMath::Vector2::Zero);
+
+		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		{
+			// 頂点を追加
+			if (fillFlag)
+			{
+				cmd->triangles.emplace_back(v1, v2, v3);
+			}
+			else
+			{
+				cmd->lines.emplace_back(v1, v2);
+				cmd->lines.emplace_back(v2, v3);
+				cmd->lines.emplace_back(v3, v1);
+			}
+		}
+	}
+
+	void PrimitiveRenderer::DrawTriangle(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector2& uv1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector2& uv2, const DirectX::SimpleMath::Vector3& p3, const DirectX::SimpleMath::Vector2& uv3, DirectX::SimpleMath::Color color, bool fillFlag)
+	{
+		DirectX::VertexPositionColorTexture v1(p1, color, uv1);
+		DirectX::VertexPositionColorTexture v2(p2, color, uv2);
+		DirectX::VertexPositionColorTexture v3(p3, color, uv3);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
@@ -64,10 +86,35 @@ namespace REngine
 	/// <param name="color">色</param>
 	void PrimitiveRenderer::DrawRect(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p3, const DirectX::SimpleMath::Vector3& p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		DirectX::VertexPositionColor v1(p1, color);
-		DirectX::VertexPositionColor v2(p2, color);
-		DirectX::VertexPositionColor v3(p3, color);
-		DirectX::VertexPositionColor v4(p4, color);
+		DirectX::VertexPositionColorTexture v1(p1, color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(p2, color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v3(p3, color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v4(p4, color, DirectX::SimpleMath::Vector2::Zero);
+
+		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		{
+			// 頂点を追加
+			if (fillFlag)
+			{
+				cmd->triangles.emplace_back(v1, v2, v3);
+				cmd->triangles.emplace_back(v1, v3, v4);
+			}
+			else
+			{
+				cmd->lines.emplace_back(v1, v2);
+				cmd->lines.emplace_back(v2, v3);
+				cmd->lines.emplace_back(v3, v4);
+				cmd->lines.emplace_back(v4, v1);
+			}
+		}
+	}
+
+	void PrimitiveRenderer::DrawRect(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector2& uv1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector2& uv2, const DirectX::SimpleMath::Vector3& p3, const DirectX::SimpleMath::Vector2& uv3, const DirectX::SimpleMath::Vector3& p4, const DirectX::SimpleMath::Vector2& uv4, DirectX::SimpleMath::Color color, bool fillFlag)
+	{
+		DirectX::VertexPositionColorTexture v1(p1, color, uv1);
+		DirectX::VertexPositionColorTexture v2(p2, color, uv2);
+		DirectX::VertexPositionColorTexture v3(p3, color, uv3);
+		DirectX::VertexPositionColorTexture v4(p4, color, uv4);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
@@ -89,8 +136,8 @@ namespace REngine
 
 	void PrimitiveRenderer::DrawLine(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, DirectX::SimpleMath::Color color)
 	{
-		DirectX::VertexPositionColor v1(p1, color);
-		DirectX::VertexPositionColor v2(p2, color);
+		DirectX::VertexPositionColorTexture v1(p1, color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(p2, color, DirectX::SimpleMath::Vector2::Zero);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
@@ -122,10 +169,10 @@ namespace REngine
 		float step = 2.0f * PI_F / static_cast<float>(division);
 
 		// 中心
-		DirectX::VertexPositionColor c = DirectX::VertexPositionColor(centerPos, color);
+		DirectX::VertexPositionColorTexture c = DirectX::VertexPositionColorTexture(centerPos, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 最初の点
-		DirectX::VertexPositionColor prev(centerPos + vU * radius, color);
+		DirectX::VertexPositionColorTexture prev(centerPos + vU * radius, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// コマンドコンテナを取得
 		auto* cmd = m_container.GetLatestPrimitiveCommand();
@@ -138,7 +185,7 @@ namespace REngine
 			float theta = step * i;
 
 			// 頂点情報を計算
-			DirectX::VertexPositionColor v(centerPos + (vU * cosf(theta) + vV * sinf(theta)) * radius, color);
+			DirectX::VertexPositionColorTexture v(centerPos + (vU * cosf(theta) + vV * sinf(theta)) * radius, color, DirectX::SimpleMath::Vector2::Zero);
 
 			// 頂点を追加
 			if (fillFlag) cmd->triangles.emplace_back(prev, v, c);
@@ -187,10 +234,10 @@ namespace REngine
 		float step = endRadian / static_cast<float>(division);
 
 		// 中心
-		DirectX::VertexPositionColor c(center, color);
+		DirectX::VertexPositionColorTexture c(center, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 最初の点
-		DirectX::VertexPositionColor prev(center + vU * radius, color);
+		DirectX::VertexPositionColorTexture prev(center + vU * radius, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// コマンドコンテナを取得
 		auto* cmd = m_container.GetLatestPrimitiveCommand();
@@ -201,7 +248,7 @@ namespace REngine
 			float theta = step * i;
 
 			// 円周上の座標を算出
-			DirectX::VertexPositionColor v(center + (vU * cosf(theta) + vV * sinf(theta)) * radius, color);
+			DirectX::VertexPositionColorTexture v(center + (vU * cosf(theta) + vV * sinf(theta)) * radius, color, DirectX::SimpleMath::Vector2::Zero);
 
 			// 頂点を追加
 			if (fillFlag) cmd->triangles.emplace_back(prev, v, c);
