@@ -15,6 +15,7 @@
 
 // 入力
 #include "Input/KeyInput.h"			// キー	
+#include "Input/PadInput.h"			// キー	
 
 // その他
 #include "GameLib/Transition/SlideTransition.h"
@@ -142,6 +143,14 @@ void Game::Render()
 	{
 		auto& renderer = m_gameEngine->GetRenderer();
 		m_exitTrans->OutRender(renderer);
+		renderer.End();
+	}
+
+	// 接続テスト
+	if (REngine::Input::Pad::IsConnected())
+	{
+		auto& renderer = m_gameEngine->GetRenderer();
+		renderer.Draw().UI().DrawBox({ 0, 0 }, { 100,100 }, { 1, 1, 1, 1 }, true);
 		renderer.End();
 	}
 

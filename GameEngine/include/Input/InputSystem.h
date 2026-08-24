@@ -31,6 +31,7 @@ namespace REngine
 		{
 			Key,
 			Mouse,
+			GamePad,
 		};
 
 		struct Bind

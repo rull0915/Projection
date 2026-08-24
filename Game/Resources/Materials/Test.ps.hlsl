@@ -19,6 +19,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     float4 texColor = tex.Sample(sam, t);
     
     // 乗算色を計算
+    float4 mul = mulColor;
     
     // 中心からの距離を計算
     float2 p = input.Tex - 0.5;
@@ -29,5 +30,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     
     float co = abs(cos(len * 20));
     
-    return texColor * mulColor * ex * co;
+    mul.rgb *= (ex * co);
+    
+    return texColor * mul;
 }

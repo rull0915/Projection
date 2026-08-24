@@ -176,6 +176,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Input\PadInput.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
@@ -445,6 +449,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
     <ClInclude Include="include\Editor\SceneEditor.h" />
+    <ClInclude Include="include\Input\PadInput.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Renderer\CBufferSlot.h">
       <SubType>
       </SubType>

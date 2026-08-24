@@ -19,6 +19,7 @@
 #include "Components/World/Collider/2D/ColliderBase2D.h"
 
 #include "Input/InputSystem.h"
+#include "Input/PadInput.h"
 
 #include "Physics/HitContact.h"
 
@@ -179,7 +180,7 @@ void Player::Update3D(const GameTimer& timer)
 	// ----- ジャンプ ----- //
 
 	// 入力があれば
-	if (m_canJump && Input::Custom::GetButton("Jump"))
+	if (m_canJump && (Input::Custom::GetButton("Jump") || Input::Pad::Get(Input::State::Down, Input::Pad::Button::A)))
 	{
 		// 力を加える
 		if (auto* rb = GetComponent<RigidBody>())

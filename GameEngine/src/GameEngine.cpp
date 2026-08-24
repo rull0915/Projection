@@ -22,6 +22,7 @@
 #include "Debug/DebugManager.h"
 #include "Input/KeyInput.h"
 #include "Input/MouseInput.h"
+#include "Input/PadInput.h"
 
 namespace REngine
 {
@@ -89,6 +90,7 @@ namespace REngine
 		// 入力情報の更新
 		Input::Key::Update();
 		Input::Mouse::Update();
+		Input::Pad::Update();
 
 		// アセットマネージャーの更新
 		m_assetManager->Update();

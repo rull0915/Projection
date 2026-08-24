@@ -88,8 +88,6 @@ namespace DX
 #include <VertexTypes.h>
 #include <DirectXHelpers.h>
 #include <SimpleMath.h>
-#include <Keyboard.h>
-#include <Mouse.h>
 #include <Audio.h>
 
 #include <string>

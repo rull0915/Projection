@@ -8,6 +8,10 @@
 #include "System/WindowManager.h"
 #include "Editor/Editor/ImguiManager.h"
 
+#include <Keyboard.h>
+#include <Mouse.h>
+#include <GamePad.h>
+
 using namespace DirectX;
 
 #ifdef __clang__
@@ -52,6 +56,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	// マウスの作成
 	std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>();
+
+	// パッドの作成
+	std::unique_ptr<GamePad> gamePad = std::make_unique<GamePad>();
 
 	g_game = std::make_unique<Game>();
 

@@ -37,14 +37,13 @@
                                     },
                                     {
                                         "Data": {
-                                            "m_alpha": 1.0,
                                             "m_color": [
                                                 1.0,
                                                 1.0,
                                                 1.0,
                                                 0.0
                                             ],
-                                            "m_fontName": "Makinas",
+                                            "m_fontHandle": 0,
                                             "m_fontSize": 32.0,
                                             "m_isActive": true,
                                             "m_mulColor": [
@@ -97,7 +96,6 @@
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 0.550000011920929,
                                     "m_color": [
                                         0.7932489514350891,
                                         0.7932489514350891,
@@ -111,20 +109,19 @@
                                         1.0,
                                         1.0
                                     ],
-                                    "m_textureName": "Default"
+                                    "m_textureHandle": 0
                                 },
                                 "Type": "ImageUI"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         1.0,
                                         1.0,
                                         1.0,
                                         0.0
                                     ],
-                                    "m_fontName": "Makinas",
+                                    "m_fontHandle": 0,
                                     "m_fontSize": 48.0,
                                     "m_isActive": true,
                                     "m_mulColor": [
@@ -180,14 +177,13 @@
                                     },
                                     {
                                         "Data": {
-                                            "m_alpha": 1.0,
                                             "m_color": [
                                                 1.0,
                                                 1.0,
                                                 1.0,
                                                 0.0
                                             ],
-                                            "m_fontName": "Makinas",
+                                            "m_fontHandle": 0,
                                             "m_fontSize": 32.0,
                                             "m_isActive": true,
                                             "m_mulColor": [
@@ -240,7 +236,6 @@
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 0.550000011920929,
                                     "m_color": [
                                         0.7932489514350891,
                                         0.7932489514350891,
@@ -254,20 +249,19 @@
                                         1.0,
                                         1.0
                                     ],
-                                    "m_textureName": "Default"
+                                    "m_textureHandle": 0
                                 },
                                 "Type": "ImageUI"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         1.0,
                                         1.0,
                                         1.0,
                                         0.0
                                     ],
-                                    "m_fontName": "Makinas",
+                                    "m_fontHandle": 0,
                                     "m_fontSize": 48.0,
                                     "m_isActive": true,
                                     "m_mulColor": [
@@ -323,14 +317,13 @@
                                     },
                                     {
                                         "Data": {
-                                            "m_alpha": 1.0,
                                             "m_color": [
                                                 1.0,
                                                 1.0,
                                                 1.0,
                                                 0.0
                                             ],
-                                            "m_fontName": "Makinas",
+                                            "m_fontHandle": 0,
                                             "m_fontSize": 32.0,
                                             "m_isActive": true,
                                             "m_mulColor": [
@@ -383,7 +376,6 @@
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 0.550000011920929,
                                     "m_color": [
                                         0.7932489514350891,
                                         0.7932489514350891,
@@ -397,20 +389,19 @@
                                         1.0,
                                         1.0
                                     ],
-                                    "m_textureName": "Default"
+                                    "m_textureHandle": 0
                                 },
                                 "Type": "ImageUI"
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         1.0,
                                         1.0,
                                         1.0,
                                         0.0
                                     ],
-                                    "m_fontName": "Makinas",
+                                    "m_fontHandle": 0,
                                     "m_fontSize": 48.0,
                                     "m_isActive": true,
                                     "m_mulColor": [
@@ -470,7 +461,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x4"
+                            "m_modelHandle": 10267307003664980907
                         },
                         "Type": "ModelComponent"
                     },
@@ -489,7 +480,8 @@
                                 1.7000000476837158,
                                 3.799999952316284
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -529,7 +521,7 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_isActive": true,
-                                    "m_modelName": "Gem_Blue"
+                                    "m_modelHandle": 12207060979620954629
                                 },
                                 "Type": "ModelComponent"
                             },
@@ -547,12 +539,14 @@
                                     "m_isActive": true,
                                     "m_isTrigger": false,
                                     "m_layerNum": 0,
+                                    "m_lineDir": "Y",
                                     "m_localCenterPos": [
                                         0.0,
                                         0.0,
                                         0.0
                                     ],
                                     "m_needInfo": false,
+                                    "m_physicsMaterial": 0,
                                     "m_radius": 0.5
                                 },
                                 "Type": "CapsuleCollider"
@@ -568,6 +562,7 @@
                                         0.0
                                     ],
                                     "m_needInfo": false,
+                                    "m_physicsMaterial": 0,
                                     "m_radius": 2.200000047683716
                                 },
                                 "Type": "SphereCollider"
@@ -605,7 +600,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x2"
+                            "m_modelHandle": 6180276126187633230
                         },
                         "Type": "ModelComponent"
                     },
@@ -624,7 +619,8 @@
                                 1.0,
                                 2.0999999046325684
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -668,7 +664,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Player"
+                            "m_modelHandle": 2509680242320578614
                         },
                         "Type": "ModelComponent"
                     },
@@ -697,7 +693,8 @@
                                 0.10000000149011612,
                                 1.5
                             ],
-                            "m_needInfo": true
+                            "m_needInfo": true,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -707,12 +704,14 @@
                             "m_isActive": true,
                             "m_isTrigger": false,
                             "m_layerNum": 1,
+                            "m_lineDir": "Y",
                             "m_localCenterPos": [
                                 0.0,
                                 0.800000011920929,
                                 0.0
                             ],
                             "m_needInfo": false,
+                            "m_physicsMaterial": 0,
                             "m_radius": 1.100000023841858
                         },
                         "Type": "CapsuleCollider"
@@ -767,7 +766,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_keyName": "Skybox"
+                            "m_textureHandle": 10350532250775094671
                         },
                         "Type": "SkyboxComponent"
                     },
@@ -810,19 +809,19 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                3.0999999046325684,
-                                1.0,
-                                -2.0999999046325684
+                                2.516204595565796,
+                                0.9732742309570313,
+                                -1.9043132066726685
                             ],
                             "m_localRotation": [
                                 0.18862679600715637,
                                 0.6815581321716309,
-                                0.1885884404182434,
+                                0.18858839571475983,
                                 0.6814197301864624
                             ],
                             "m_localScale": [
                                 1.7999998331069946,
-                                1.799999713897705,
+                                1.7999998331069946,
                                 1.7999998331069946
                             ]
                         },
@@ -832,7 +831,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x1_Empty"
+                            "m_modelHandle": 7590379487695017161
                         },
                         "Type": "ModelComponent"
                     },
@@ -851,7 +850,8 @@
                                 0.20000000298023224,
                                 0.800000011920929
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -889,7 +889,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x1_Empty"
+                            "m_modelHandle": 6427335673920909305
                         },
                         "Type": "ModelComponent"
                     },
@@ -908,7 +908,8 @@
                                 0.20999999344348907,
                                 1.0
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -959,7 +960,8 @@
                                         1.0,
                                         1.0
                                     ],
-                                    "m_needInfo": false
+                                    "m_needInfo": false,
+                                    "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider"
                             }
@@ -996,7 +998,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x2"
+                            "m_modelHandle": 9333390461007467492
                         },
                         "Type": "ModelComponent"
                     },
@@ -1015,7 +1017,8 @@
                                 1.2000000476837158,
                                 2.0999999046325684
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -1055,7 +1058,7 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_isActive": true,
-                                    "m_modelName": "Platform_2x2_Empty"
+                                    "m_modelHandle": 10911042900965025499
                                 },
                                 "Type": "ModelComponent"
                             },
@@ -1074,7 +1077,8 @@
                                         0.10999999940395355,
                                         2.4000000953674316
                                     ],
-                                    "m_needInfo": false
+                                    "m_needInfo": false,
+                                    "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider"
                             },
@@ -1093,7 +1097,8 @@
                                         0.10999999940395355,
                                         2.6500000953674316
                                     ],
-                                    "m_needInfo": false
+                                    "m_needInfo": false,
+                                    "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider"
                             }
@@ -1133,7 +1138,7 @@
                                         "Data": {
                                             "m_alpha": 1.0,
                                             "m_isActive": true,
-                                            "m_modelName": "Gem_Blue"
+                                            "m_modelHandle": 12207060979620954629
                                         },
                                         "Type": "ModelComponent"
                                     },
@@ -1151,12 +1156,14 @@
                                             "m_isActive": true,
                                             "m_isTrigger": false,
                                             "m_layerNum": 0,
+                                            "m_lineDir": "Y",
                                             "m_localCenterPos": [
                                                 0.0,
                                                 0.0,
                                                 0.0
                                             ],
                                             "m_needInfo": false,
+                                            "m_physicsMaterial": 0,
                                             "m_radius": 0.5
                                         },
                                         "Type": "CapsuleCollider"
@@ -1172,6 +1179,7 @@
                                                 0.0
                                             ],
                                             "m_needInfo": false,
+                                            "m_physicsMaterial": 0,
                                             "m_radius": 2.200000047683716
                                         },
                                         "Type": "SphereCollider"
@@ -1209,7 +1217,7 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_isActive": true,
-                                    "m_modelName": "Platform_2x2_Empty"
+                                    "m_modelHandle": 10911042900965025499
                                 },
                                 "Type": "ModelComponent"
                             },
@@ -1228,7 +1236,8 @@
                                         0.10999999940395355,
                                         1.7000000476837158
                                     ],
-                                    "m_needInfo": false
+                                    "m_needInfo": false,
+                                    "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider"
                             },
@@ -1247,7 +1256,8 @@
                                         0.10999999940395355,
                                         1.4500000476837158
                                     ],
-                                    "m_needInfo": false
+                                    "m_needInfo": false,
+                                    "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider"
                             }
@@ -1316,7 +1326,7 @@
                                 "Data": {
                                     "m_alpha": 1.0,
                                     "m_isActive": true,
-                                    "m_modelName": "Gem_Blue"
+                                    "m_modelHandle": 12207060979620954629
                                 },
                                 "Type": "ModelComponent"
                             },
@@ -1334,12 +1344,14 @@
                                     "m_isActive": true,
                                     "m_isTrigger": false,
                                     "m_layerNum": 0,
+                                    "m_lineDir": "Y",
                                     "m_localCenterPos": [
                                         0.0,
                                         0.0,
                                         0.0
                                     ],
                                     "m_needInfo": false,
+                                    "m_physicsMaterial": 0,
                                     "m_radius": 0.5
                                 },
                                 "Type": "CapsuleCollider"
@@ -1355,6 +1367,7 @@
                                         0.0
                                     ],
                                     "m_needInfo": false,
+                                    "m_physicsMaterial": 0,
                                     "m_radius": 3.0999999046325684
                                 },
                                 "Type": "SphereCollider"
@@ -1392,7 +1405,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x2"
+                            "m_modelHandle": 6180276126187633230
                         },
                         "Type": "ModelComponent"
                     },
@@ -1411,7 +1424,8 @@
                                 1.0,
                                 2.0999999046325684
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -1449,7 +1463,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x1_Empty"
+                            "m_modelHandle": 7590379487695017161
                         },
                         "Type": "ModelComponent"
                     },
@@ -1468,7 +1482,8 @@
                                 0.20000000298023224,
                                 0.800000011920929
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }

@@ -30,7 +30,7 @@ namespace REngine
 			// 前フレームの情報を保持
 			m_oldState = m_nowState;
 
-			// 最死因の情報を取得
+			// 最新の情報を取得
 			m_nowState = DirectX::Keyboard::Get().GetState();
 		}
 	}

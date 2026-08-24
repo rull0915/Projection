@@ -35,14 +35,13 @@
                             },
                             {
                                 "Data": {
-                                    "m_alpha": 1.0,
                                     "m_color": [
                                         1.0,
                                         1.0,
                                         1.0,
                                         0.0
                                     ],
-                                    "m_fontName": "Makinas",
+                                    "m_fontHandle": 0,
                                     "m_fontSize": 94.0,
                                     "m_isActive": true,
                                     "m_mulColor": [
@@ -117,7 +116,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_keyName": "Skybox"
+                            "m_textureHandle": 10350532250775094671
                         },
                         "Type": "SkyboxComponent"
                     },
@@ -203,7 +202,8 @@
                                 3.200000047683716,
                                 1.2999999523162842
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -222,7 +222,8 @@
                                 0.10000000149011612,
                                 1.0
                             ],
-                            "m_needInfo": true
+                            "m_needInfo": true,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -230,7 +231,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Player"
+                            "m_modelHandle": 2509680242320578614
                         },
                         "Type": "ModelComponent"
                     },
@@ -290,7 +291,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "flag"
+                            "m_modelHandle": 6409026790604341907
                         },
                         "Type": "ModelComponent"
                     },
@@ -309,7 +310,8 @@
                                 0.8999999761581421,
                                 0.10000000149011612
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -334,7 +336,8 @@
                                 0.33000001311302185,
                                 0.10000000149011612
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     }
@@ -383,7 +386,8 @@
                                 0.2199999988079071,
                                 1.899999976158142
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -391,7 +395,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x2_Empty"
+                            "m_modelHandle": 10911042900965025499
                         },
                         "Type": "ModelComponent"
                     },
@@ -458,7 +462,8 @@
                                 0.23000000417232513,
                                 0.800000011920929
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -466,7 +471,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_1x1_Empty"
+                            "m_modelHandle": 710819452532585730
                         },
                         "Type": "ModelComponent"
                     },
@@ -533,7 +538,8 @@
                                 1.2999999523162842,
                                 2.0999999046325684
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -541,7 +547,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_2x2"
+                            "m_modelHandle": 6180276126187633230
                         },
                         "Type": "ModelComponent"
                     },
@@ -608,7 +614,8 @@
                                 0.2199999988079071,
                                 0.800000011920929
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -616,7 +623,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_1x1_Empty"
+                            "m_modelHandle": 710819452532585730
                         },
                         "Type": "ModelComponent"
                     },
@@ -683,7 +690,8 @@
                                 2.299999952316284,
                                 3.5999999046325684
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -691,7 +699,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x4"
+                            "m_modelHandle": 10267307003664980907
                         },
                         "Type": "ModelComponent"
                     },
@@ -758,7 +766,8 @@
                                 0.2199999988079071,
                                 0.800000011920929
                             ],
-                            "m_needInfo": false
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider"
                     },
@@ -766,7 +775,7 @@
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_1x1_Empty"
+                            "m_modelHandle": 710819452532585730
                         },
                         "Type": "ModelComponent"
                     },
@@ -840,12 +849,12 @@
                     },
                     {
                         "Data": {
+                            "m_audioClip": 0,
                             "m_isActive": true,
                             "m_loop": true,
                             "m_pan": -0.10000000149011612,
                             "m_pitch": 0.0,
                             "m_playOnStart": true,
-                            "m_soundName": "Dark_blue_night",
                             "m_use3DAudio": false,
                             "m_volume": 1.0
                         },
