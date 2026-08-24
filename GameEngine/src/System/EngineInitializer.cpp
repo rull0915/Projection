@@ -175,33 +175,30 @@ namespace REngine
 		//============== カスタム入力 ======================//
 
 		Input::Custom::AddAxis(
-			"Horizontal", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::Left), Input::Axis::Side::Negative
+			"Horizontal", Input::Key::Code::Right, Input::Key::Code::Left
 		);
 		Input::Custom::AddAxis(
-			"Horizontal", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::Right), Input::Axis::Side::Positive
+			"Horizontal", Input::Key::Code::D, Input::Key::Code::A
 		);
 		Input::Custom::AddAxis(
-			"Horizontal", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::A), Input::Axis::Side::Negative
-		);
-		Input::Custom::AddAxis(
-			"Horizontal", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::D), Input::Axis::Side::Positive
+			"Horizontal", Input::Pad::Axis::LeftStickX
 		);
 
 		Input::Custom::AddAxis(
-			"Vertical", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::Down), Input::Axis::Side::Negative
+			"Vertical", Input::Key::Code::Up, Input::Key::Code::Down
 		);
 		Input::Custom::AddAxis(
-			"Vertical", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::Up), Input::Axis::Side::Positive
+			"Vertical", Input::Key::Code::W, Input::Key::Code::S
 		);
 		Input::Custom::AddAxis(
-			"Vertical", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::S), Input::Axis::Side::Negative
-		);
-		Input::Custom::AddAxis(
-			"Vertical", Input::Bind(Input::Type::Key, Input::State::Press, Input::Key::Code::W), Input::Axis::Side::Positive
+			"Vertical", Input::Pad::Axis::LeftStickY
 		);
 
 		Input::Custom::AddButton(
-			"Jump", Input::Bind(Input::Type::Key, Input::State::Down, Input::Key::Code::Space)
+			"Jump", Input::Key::Code::Space
+		);
+		Input::Custom::AddButton(
+			"Jump", Input::Pad::Button::A
 		);
 	}
 } // namespace REngine

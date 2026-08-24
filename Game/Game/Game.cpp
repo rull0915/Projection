@@ -110,7 +110,7 @@ void Game::Update(DX::StepTimer const& timer)
 		if (m_exitTrans->OutUpdate(m_gameEngine->GetTimer())) ExitGame();
 	}
 	// エスケープキーで終了
-	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Escape))
+	if (REngine::Input::Key::GetDown(REngine::Input::Key::Code::Escape))
 	{
 		RequestExit();
 	}

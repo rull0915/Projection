@@ -34,32 +34,14 @@ namespace REngine
 		// 更新関数
 		void Mouse::Update()
 		{
+			// 前フレームの移動量を取得
+			m_oldMouseMove = GetMouseMoveValue();
+
 			// 前フレームの状態を保持
 			m_oldMouseState = m_nowMouseState;
 
 			// 最新の状態を取得
 			m_nowMouseState = DirectX::Mouse::Get().GetState();
-		}
-
-		bool Mouse::Get(State state, Button button)
-		{
-			switch (state)
-			{
-				// 押された場合
-			case Input::State::Down:
-				return !GetOldButtonState(button) && GetButtonState(button);
-
-				// 押されている場合	
-			case Input::State::Press:
-				return GetButtonState(button);
-
-				// 離された場合
-			case Input::State::Up:
-				return GetOldButtonState(button) && !GetButtonState(button);
-
-			default:
-				return false;
-			}
 		}
 
 		// マウスの位置を取得

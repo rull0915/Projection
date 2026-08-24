@@ -86,10 +86,10 @@ namespace REngine
 		DirectX::SimpleMath::Vector2 moveValue = Input::Mouse::GetMouseMoveValue();
 
 		// LeftAltが押されているとき
-		if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftAlt))
+		if (Input::Key::Get(Input::Key::Code::LeftAlt))
 		{
 			// 左クリックされていたら
-			if (Input::Mouse::Get(Input::State::Press, Input::Mouse::Button::Left))
+			if (Input::Mouse::Get(Input::Mouse::Button::Left))
 			{
 				// X軸回転
 				m_yaw -= moveValue.x * m_rotateRatio;
@@ -117,7 +117,7 @@ namespace REngine
 		DirectX::SimpleMath::Vector3 up = right.Cross(forward);
 
 		// ホイールがクリックされていたら
-		if (Input::Mouse::Get(Input::State::Press, Input::Mouse::Button::Middle))
+		if (Input::Mouse::Get(Input::Mouse::Button::Middle))
 		{
 			// マウスの移動量分動かす
 			m_targetPoint += (right * moveValue.x + up * -moveValue.y) * m_moveRatio;

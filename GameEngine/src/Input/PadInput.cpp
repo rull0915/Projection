@@ -75,19 +75,24 @@ namespace REngine
 			}
 		}
 
-		bool Pad::Get(State state, Button key)
+		float Pad::GetAxis(const DirectX::GamePad::State& state, Axis stick)
 		{
-			// 状態によって分岐
-			switch (state)
+			switch (stick)
 			{
-			case REngine::Input::State::Down:
-				return !GetPressed(m_oldState, key) && GetPressed(m_nowState, key);
-			case REngine::Input::State::Press:
-				return GetPressed(m_nowState, key);
-			case REngine::Input::State::Up:
-				return GetPressed(m_oldState, key) && !GetPressed(m_nowState, key);
+			case REngine::Input::Pad::Axis::LeftStickX:
+				return state.thumbSticks.leftX;
+			case REngine::Input::Pad::Axis::LeftStickY:
+				return state.thumbSticks.leftY;
+			case REngine::Input::Pad::Axis::RightStickX:
+				return state.thumbSticks.rightX;
+			case REngine::Input::Pad::Axis::RightStickY:
+				return state.thumbSticks.rightY;
+			case REngine::Input::Pad::Axis::LeftTrigger:
+				return state.triggers.left;
+			case REngine::Input::Pad::Axis::RightTrigger:
+				return state.triggers.right;
 			default:
-				return false;
+				return 0;
 			}
 		}
 	}

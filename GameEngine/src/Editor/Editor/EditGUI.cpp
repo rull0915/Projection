@@ -70,9 +70,9 @@ namespace REngine
 	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera)
 	{
 		// キー入力を取得し描画するギズモを変える
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::W)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::E)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_ROTATION);
-		if (Input::Key::Get(Input::State::Down, Input::Key::Code::R)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_SCALE);
+		if (Input::Key::GetDown(Input::Key::Code::W)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
+		if (Input::Key::GetDown(Input::Key::Code::E)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_ROTATION);
+		if (Input::Key::GetDown(Input::Key::Code::R)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_SCALE);
 
 		// Sceneビューの開始
 		StartSceneView();
@@ -98,7 +98,7 @@ namespace REngine
 		// 有効サイズ
 		ImVec2 avail = ImGui::GetContentRegionAvail();
 
-		if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftShift))
+		if (Input::Key::Get(Input::Key::Code::LeftShift))
 		{
 			// アスペクト比
 			float aspect = WindowManager::Instance().GetAspect();

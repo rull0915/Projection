@@ -55,13 +55,13 @@ namespace REngine
 			if (canvas->IsActive())
 			{
 				// クリックされていれば
-				if (Input::Mouse::Get(Input::State::Down, Input::Mouse::Button::Left))
+				if (Input::Mouse::GetDown(Input::Mouse::Button::Left))
 				{
 					canvas->OnMouseDown();
 				}
 
 				// 離されていれば
-				if (Input::Mouse::Get(Input::State::Up, Input::Mouse::Button::Left))
+				if (Input::Mouse::GetUp(Input::Mouse::Button::Left))
 				{
 					canvas->OnMouseUp();
 				}

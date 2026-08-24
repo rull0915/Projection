@@ -15,6 +15,12 @@
 // インクルードファイル
 //====================================================//
 
+#include <variant>
+
+#include "Input/KeyInput.h"
+#include "Input/MouseInput.h"
+#include "Input/PadInput.h"
+
 namespace REngine
 {
 	namespace Input
@@ -29,5 +35,17 @@ namespace REngine
 			Press,
 			Up,
 		};
+
+		// ボタン対応variant
+		using InputButton = std::variant<
+			Key::Code,
+			Mouse::Button,
+			Pad::Button>;
+
+		// Axis対応
+		using InputAxis = std::variant<
+			Mouse::Axis,
+			Pad::Axis
+		>;
 	}
 }	// namespace REngine

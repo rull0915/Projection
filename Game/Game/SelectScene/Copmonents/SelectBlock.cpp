@@ -46,7 +46,7 @@ void SelectBlock::OnTriggerStay(REngine::HitContact & contact)
 	if (contact.other->GetTag() == "Player")
 	{
 		// スペースキーでシーン移動
-		if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Space))
+		if (REngine::Input::Key::GetDown(REngine::Input::Key::Code::Space))
 		{
 			REngine::SceneManager::Instance().RequestSceneChange(m_targetScene,
 				std::make_unique<REngine::Transition::Fade>(),

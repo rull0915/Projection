@@ -180,7 +180,7 @@ void Player::Update3D(const GameTimer& timer)
 	// ----- ジャンプ ----- //
 
 	// 入力があれば
-	if (m_canJump && (Input::Custom::GetButton("Jump") || Input::Pad::Get(Input::State::Down, Input::Pad::Button::A)))
+	if (m_canJump && (Input::Custom::GetButtonDown("Jump")))
 	{
 		// 力を加える
 		if (auto* rb = GetComponent<RigidBody>())

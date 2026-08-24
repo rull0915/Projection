@@ -110,13 +110,13 @@ void PlaySceneManager::Update(const REngine::GameTimer& gameTimer)
 	gameTimer;
 
 	// Qキーで次元の変更
-	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::Q))
+	if (REngine::Input::Key::GetDown(REngine::Input::Key::Code::Q))
 	{
 		TryChangeDimention();
 	}
 
 	// Rキーでリトライ
-	if (REngine::Input::Key::Get(REngine::Input::State::Down, REngine::Input::Key::Code::R))
+	if (REngine::Input::Key::GetDown(REngine::Input::Key::Code::R))
 	{
 	}
 }

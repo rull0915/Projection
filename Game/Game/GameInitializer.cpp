@@ -56,6 +56,6 @@ void GameInitializer::AddKey()
 {
 	// Qボタンで次元変更
 	REngine::Input::Custom::AddButton(
-		"ChangeDimention", { REngine::Input::Type::Key, REngine::Input::State::Down, REngine::Input::Key::Code::Q }
+		"ChangeDimention", REngine::Input::Key::Code::Q
 	);
 }

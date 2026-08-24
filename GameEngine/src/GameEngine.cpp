@@ -116,8 +116,8 @@ namespace REngine
 		m_editor->Update(*m_gameTimer);
 
 		// Ctrl + Eキーでエディット
-		if (Input::Key::Get(Input::State::Press, Input::Key::Code::LeftControl) &&
-			Input::Key::Get(Input::State::Down, Input::Key::Code::E))
+		if (Input::Key::Get(Input::Key::Code::LeftControl) &&
+			Input::Key::GetDown(Input::Key::Code::E))
 		{
 			m_editor->Initialize();
 		}
