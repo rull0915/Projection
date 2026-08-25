@@ -49,6 +49,9 @@ namespace REngine
 			// Button
 			std::optional<InputButton> negative{};
 			std::optional<InputButton> positive{};
+
+			// スケール
+			float scale = 1.0f;
 		};
 
 		class Custom
@@ -71,8 +74,8 @@ namespace REngine
 			static void AddButton(const std::string& key, const InputButton& button);
 			static void AddButton(const std::string& key, const InputAxis& axis, float threshold);
 
-			static void AddAxis(const std::string& key, const InputAxis& axis);
-			static void AddAxis(const std::string& key, const std::optional<InputButton>& positive, const std::optional<InputButton>& negative);
+			static void AddAxis(const std::string& key, const InputAxis& axis, float scale = 1.0f);
+			static void AddAxis(const std::string& key, const std::optional<InputButton>& positive, const std::optional<InputButton>& negative, float scale = 1.0f);
 
 		private:
 			// 各Bindingの追加をする関数

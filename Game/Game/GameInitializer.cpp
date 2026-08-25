@@ -58,4 +58,7 @@ void GameInitializer::AddKey()
 	REngine::Input::Custom::AddButton(
 		"ChangeDimention", REngine::Input::Key::Code::Q
 	);
+	REngine::Input::Custom::AddButton(
+		"ChangeDimention", REngine::Input::Pad::Button::RShoulder
+	);
 }

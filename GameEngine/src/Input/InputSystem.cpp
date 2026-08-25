@@ -89,16 +89,17 @@ namespace REngine
 			AddButtonBinding(key, bind);
 		}
 
-		void Custom::AddAxis(const std::string& key, const InputAxis& axis)
+		void Custom::AddAxis(const std::string& key, const InputAxis& axis, float scale)
 		{
 			// バインド構造体を作成
 			AxisBinding bind{};
 			bind.axis = axis;
+			bind.scale = scale;
 
 			AddAxisBinding(key, bind);
 		}
 
-		void Custom::AddAxis(const std::string& key, const std::optional<InputButton>& positive, const std::optional<InputButton>& negative)
+		void Custom::AddAxis(const std::string& key, const std::optional<InputButton>& positive, const std::optional<InputButton>& negative, float scale)
 		{
 			// 両方設定されていないなら追加しない
 			if (!positive.has_value() && !negative.has_value()) return;
@@ -107,6 +108,7 @@ namespace REngine
 			AxisBinding bind{};
 			bind.positive = positive;
 			bind.negative = negative;
+			bind.scale = scale;
 
 			AddAxisBinding(key, bind);
 		}
@@ -273,6 +275,8 @@ namespace REngine
 			// 最終的な値
 			float result = 0;
 
+			float scale = 1.0f;
+
 			// 全入力を調べる
 			for (auto& bind : bindings)
 			{
@@ -283,7 +287,11 @@ namespace REngine
 					float i = GetAxisInput(bind.axis.value());
 
 					// 絶対値が上回っていれば更新
-					if (std::abs(i) > std::abs(result)) result = i;
+					if (std::abs(i) > std::abs(result))
+					{
+						result = i;
+						scale = bind.scale;
+					}
 				}
 
 				// 2つのButtonの場合
@@ -299,11 +307,15 @@ namespace REngine
 					float i = (p ? 1 : 0) + (n ? -1 : 0);
 
 					// 絶対値が上回っていれば更新
-					if (std::abs(i) > std::abs(result)) result = i;
+					if (std::abs(i) > std::abs(result))
+					{
+						result = i;
+						scale = bind.scale;
+					}
 				}
 			}
 
-			return result;
+			return result * scale;
 		}
 	}
 }	// namespace REngine
