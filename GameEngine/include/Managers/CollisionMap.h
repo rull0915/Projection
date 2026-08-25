@@ -20,6 +20,7 @@
 
 #include "Physics/HitInfomation.h"
 #include "Physics/HitInfomation2D.h"
+#include "Components/ComponentBase.h"
 
 namespace REngine
 {
@@ -32,6 +33,27 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
+
+	// 2つのIDを持ったキー
+	struct CollisionKey
+	{
+		ComponentBase::TypeId type1;
+		ComponentBase::TypeId type2;
+
+		bool operator==(const CollisionKey&) const = default;
+	};
+
+	// ハッシュ
+	struct CollisionKeyHash
+	{
+		size_t operator()(const CollisionKey& key) const
+		{
+			const size_t h1 = std::hash<ComponentBase::TypeId>{}(key.type1);
+			const size_t h2 = std::hash<ComponentBase::TypeId>{}(key.type2);
+
+			return h1 ^ (h2 << 1);
+		}
+	};
 
 	// 3次元コライダー衝突マップ
 	class CollisionMap
@@ -46,7 +68,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 型IDをキーとした衝突判定関数の2次元マップ
-		inline static std::unordered_map<uint32_t, CollisionFunc> m_collisionMap;
+		inline static std::unordered_map<CollisionKey, CollisionFunc, CollisionKeyHash> m_collisionMap;
 
 	public:
 
@@ -58,7 +80,7 @@ namespace REngine
 
 
 		// 関数登録
-		static bool Register(uint16_t id1, uint16_t id2, CollisionFunc func);
+		static bool Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func);
 
 		// 関数実行
 		static bool CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info);
@@ -77,7 +99,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 型IDをキーとした衝突判定関数の2次元マップ
-		inline static std::unordered_map<uint32_t, CollisionFunc> m_collisionMap;
+		inline static std::unordered_map<CollisionKey, CollisionFunc, CollisionKeyHash> m_collisionMap;
 
 	public:
 
@@ -89,7 +111,7 @@ namespace REngine
 
 
 		// 関数登録
-		static bool Register(unsigned int id1, unsigned int id2, CollisionFunc func);
+		static bool Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func);
 
 		// 関数実行
 		static bool CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info);

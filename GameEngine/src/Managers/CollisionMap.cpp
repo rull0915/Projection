@@ -22,19 +22,16 @@ namespace REngine
 	//====================================================//
 
 	// 衝突関数の登録関数
-	bool CollisionMap::Register(uint16_t id1, uint16_t id2, CollisionFunc func)
+	bool CollisionMap::Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func)
 	{
-		// 合成IDを生成
-		uint32_t sumID = ((uint32_t)id1 << 16) | id2;
-
 		// 既にマップにあるかを調べる
-		auto it = m_collisionMap.find(sumID);
+		auto it = m_collisionMap.find({ id1, id2 });
 
 		// 登録失敗
 		if (it != m_collisionMap.end()) return false;
 
 		// 未登録の組み合わせなら追加
-		m_collisionMap.insert({ sumID, func });
+		m_collisionMap.insert({ { id1, id2 }, func });
 
 		// IDが異なるの衝突判定関数の場合
 		if (id1 != id2)
@@ -52,11 +49,8 @@ namespace REngine
 					return result;
 				};
 
-			// 逆のIDを生成
-			uint32_t reverseSumID = ((uint32_t)id2 << 16) | id1;
-
 			// マップに追加
-			m_collisionMap.insert({ reverseSumID, reverseFunc });
+			m_collisionMap.insert({ { id2, id1 }, reverseFunc});
 		}
 
 		// 登録成功
@@ -66,14 +60,11 @@ namespace REngine
 	bool CollisionMap::CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info)
 	{
 		// IDを取得
-		uint16_t id1 = col1->GetID();
-		uint16_t id2 = col2->GetID();
-
-		// 合成IDを生成
-		uint32_t sumID = ((uint32_t)id1 << 16) | id2;
+		ComponentBase::TypeId id1 = col1->StaticTypeId();
+		ComponentBase::TypeId id2 = col2->StaticTypeId();
 
 		// マップに登録されているか調べる
-		auto func = m_collisionMap.find(sumID);
+		auto func = m_collisionMap.find({ id1, id2 });
 
 		// あれば実行
 		if (func != m_collisionMap.end())
@@ -85,19 +76,16 @@ namespace REngine
 	}
 
 	// 衝突関数の登録関数
-	bool CollisionMap2D::Register(unsigned int id1, unsigned int id2, CollisionFunc func)
+	bool CollisionMap2D::Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func)
 	{
-		// 合成IDを生成
-		uint32_t sumID = ((uint32_t)id1 << 16) | (uint16_t)id2;
-
 		// 既にマップにあるかを調べる
-		auto it = m_collisionMap.find(sumID);
+		auto it = m_collisionMap.find({ id1, id2 });
 
 		// 登録失敗
 		if (it != m_collisionMap.end()) return false;
 
 		// 未登録の組み合わせなら追加
-		m_collisionMap.insert({ sumID, func });
+		m_collisionMap.insert({ { id1, id2 }, func });
 
 		// IDが異なるの衝突判定関数の場合
 		if (id1 != id2)
@@ -115,11 +103,8 @@ namespace REngine
 					return result;
 				};
 
-			// 逆のIDを生成
-			uint32_t reverseSumID = ((uint32_t)id2 << 16) | id1;
-
 			// マップに追加
-			m_collisionMap.insert({ reverseSumID, reverseFunc });
+			m_collisionMap.insert({ { id2, id1 }, reverseFunc});
 		}
 
 		// 登録成功
@@ -129,14 +114,11 @@ namespace REngine
 	bool CollisionMap2D::CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info)
 	{
 		// IDを取得
-		uint16_t id1 = col1->GetID();
-		uint16_t id2 = col2->GetID();
-
-		// 合成IDを生成
-		uint32_t sumID = ((uint32_t)id1 << 16) | id2;
+		ComponentBase::TypeId id1 = col1->StaticTypeId();
+		ComponentBase::TypeId id2 = col2->StaticTypeId();
 
 		// マップに登録されているか調べる
-		auto func = m_collisionMap.find(sumID);
+		auto func = m_collisionMap.find({ id1, id2 });
 
 		// あれば実行
 		if (func != m_collisionMap.end())

@@ -54,6 +54,9 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
+		// コンポーネントのタイプを作成
+		COMPONENT_TYPE(RigidBody, ComponentBase);
+
 		void Integrate(float elapsedTime) override;
 
 		void AddForce(DirectX::SimpleMath::Vector3 vec, ForceMode mode = ForceMode::Force, bool wakeUp = true)
@@ -87,12 +90,6 @@ namespace REngine
 		DirectX::SimpleMath::Vector3 GetVelocity() const { return m_velocity; }
 		DirectX::SimpleMath::Vector3 GetAcceleration() const { return m_acceleration; }
 
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<RigidBody>();
-		}
-
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
@@ -112,12 +109,5 @@ namespace REngine
 			m_acceleration = a;
 			WakeUp();
 		}
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	};
 } // namespace REngine
