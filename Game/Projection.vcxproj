@@ -236,6 +236,7 @@ $(ProjectDir)
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
     <ClInclude Include="GameLib\Components\PathMover.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
+    <ClInclude Include="GameLib\UI\Dialog.h" />
     <ClInclude Include="Game\ClearScene\SwingComponent.h" />
     <ClInclude Include="Game\ClearScene\ToSelectComponent.h" />
     <ClInclude Include="Game\ComponentRegister.h" />
@@ -302,6 +303,7 @@ $(ProjectDir)
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
     <ClCompile Include="GameLib\Components\PathMover.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
+    <ClCompile Include="GameLib\UI\Dialog.cpp" />
     <ClCompile Include="Game\ClearScene\SwingComponent.cpp" />
     <ClCompile Include="Game\ClearScene\ToSelectComponent.cpp" />
     <ClCompile Include="Game\ComponentRegister.cpp" />
