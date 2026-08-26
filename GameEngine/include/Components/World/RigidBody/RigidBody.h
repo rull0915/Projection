@@ -51,11 +51,14 @@ namespace REngine
 		~RigidBody() = default;
 
 		//-----------------------------------------------------
-		// 公開関数
+		// Type
 		//-----------------------------------------------------
 
-		// コンポーネントのタイプを作成
-		COMPONENT_TYPE(RigidBody, ComponentBase);
+		COMPONENT_TYPE(RigidBody, RigidBodyBase)
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
 		void Integrate(float elapsedTime) override;
 

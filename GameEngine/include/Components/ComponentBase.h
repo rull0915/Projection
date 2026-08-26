@@ -16,6 +16,7 @@
 // インクルードファイル
 //====================================================//
 #include "GameObject/Interface/IComponentOwner.h"
+#include "ComponentTypeId.h"
 
 #include "Common/Property/PropertyObject.h"
 
@@ -146,47 +147,55 @@ namespace REngine
 		// 基底クラスのIsTypeOfを満たしているか、この2点を調べることで継承関係の判定も行えるようにします。
 
 	public:
-		// アドレスをIdとして扱う
-		using TypeId = const void*;
 
 		// 全コンポーネントで一意な静的IDを取得する関数
-		static TypeId StaticTypeId()
+		static Component::TypeId StaticTypeId()
 		{
 			static char id;
 			return &id;
 		}
 
+		// 仮想メンバ関数版
+		virtual Component::TypeId TypeId()
+		{
+			return StaticTypeId();
+		}
+
 		// タイプの一致を判別する関数
-		virtual bool IsTypeOf(TypeId id) const
+		virtual bool IsTypeOf(Component::TypeId id) const
 		{
 			return id == StaticTypeId();
 		}
 
 		// 自身が対応するTypeIdをまとめる関数
-		virtual void CollectTypeIds(std::vector<ComponentBase::TypeId>& out) const
+		virtual void CollectTypeIds(std::vector<Component::TypeId>& out) const
 		{
 			out.push_back(StaticTypeId());
 		}
 	};
 
 	// コンポーネントのTypeを作成するマクロ
-#define COMPONENT_TYPE(Type, Base)												\
-public:																			\
-	static TypeId StaticTypeId()												\
-	{																			\
-		static char id;															\
-		return &id;																\
-	}																			\
-																				\
-	bool IsTypeOf(TypeId id) const override										\
-	{																			\
-		return id == StaticTypeId() || Base::IsTypeOf(id);						\
-	}																			\
-																				\
-	void CollectTypeIds(std::vector<ComponentBase::TypeId>& out) const override	\
-	{																			\
-		out.push_back(StaticTypeId());											\
-		Base::CollectTypeIds(out);												\
+#define COMPONENT_TYPE(Type, Base)														\
+	static REngine::Component::TypeId StaticTypeId()									\
+	{																					\
+		static char id;																	\
+		return &id;																		\
+	}																					\
+																						\
+	virtual REngine::Component::TypeId TypeId()											\
+	{																					\
+		return StaticTypeId();															\
+	}																					\
+																						\
+	bool IsTypeOf(REngine::Component::TypeId id) const override							\
+	{																					\
+		return id == StaticTypeId() || Base::IsTypeOf(id);								\
+	}																					\
+																						\
+	void CollectTypeIds(std::vector<REngine::Component::TypeId>& out) const override	\
+	{																					\
+		out.push_back(StaticTypeId());													\
+		Base::CollectTypeIds(out);														\
 	}
 
 } // namespace REngine

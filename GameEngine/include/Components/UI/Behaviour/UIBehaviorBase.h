@@ -43,6 +43,12 @@ namespace REngine
 		~UIBehaviorBase() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(UIBehaviorBase, UIComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -59,12 +65,6 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		// カテゴリをUIビヘイビアに指定
-		ComponentCategory GetCategory() const override
-		{
-			return Category::UIBehavior;
-		}
-
-		bool IsHovered() { return m_isHovered; }
+		bool IsHovered() const { return m_isHovered; }
 	};
 } // namespace REngine

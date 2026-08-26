@@ -1,5 +1,5 @@
 ﻿//====================================================//
-// ファイル名   : ComponentCategory.h
+// ファイル名   : ComponentInfo.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/06/26
 //
@@ -39,24 +39,5 @@ namespace REngine
 	{
 		ComponentProject project;
 		ComponentSpace space;
-	};
-
-	using ComponentCategory = unsigned char;
-
-	// コンポーネントのカテゴリ
-	namespace Category
-	{
-		// WorldComponent
-		static constexpr ComponentCategory Original = 0;
-		static constexpr ComponentCategory Camera = 1;
-		static constexpr ComponentCategory Collider = 2;
-		static constexpr ComponentCategory Collider2D = 3;
-		static constexpr ComponentCategory Renderer = 4;
-
-		// UIComponent
-		static constexpr ComponentCategory UIOriginal = 5;
-		static constexpr ComponentCategory UIGraphic = 6;
-		static constexpr ComponentCategory UIBehavior = 7;
-		static constexpr ComponentCategory UIListener = 8;
 	};
 } // namespace REngine

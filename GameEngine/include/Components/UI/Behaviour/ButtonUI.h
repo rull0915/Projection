@@ -60,14 +60,10 @@ namespace REngine
 		void OnMouseUp() override;
 
 		//-----------------------------------------------------
-		// ゲッター
+		// Type
 		//-----------------------------------------------------
 
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<ButtonUI>();
-		}
+		COMPONENT_TYPE(ButtonUI, UIBehaviorBase)
 
 		//-----------------------------------------------------
 		// セッター

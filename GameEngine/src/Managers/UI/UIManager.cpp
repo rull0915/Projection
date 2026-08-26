@@ -107,12 +107,8 @@ namespace REngine
 		// 衝突していれば
 		if (hitRect)
 		{
-			static std::vector<ComponentBase*> base{};
-
 			// ビヘイビアコンポーネントを取得
-			hitRect->GetOwn()->GetComponentsWithCategory(Category::UIBehavior, base);
-
-			for (auto& behavior : base)
+			for (auto& behavior : hitRect->GetOwn()->GetComponents<UIBehaviorBase>())
 			{
 				// Hover状態にする
 				static_cast<UIBehaviorBase*>(behavior)->SetHovered(true);

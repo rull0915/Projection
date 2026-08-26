@@ -72,6 +72,12 @@ public:
 	~PlaySceneManager() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+
+	COMPONENT_TYPE(PlaySceneManager, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -82,20 +88,6 @@ public:
 	void Start() override;
 
 	void Update(const REngine::GameTimer& gameTimer) override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<PlaySceneManager>();
-	}
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
 
 private:
 

@@ -205,10 +205,7 @@ namespace REngine
 		// 子のUIObjectがアクティブなら
 
 		// Graphicを継承しているコンポーネントを取得
-		std::vector<ComponentBase*> list;
-		childObj->GetComponentsWithCategory(Category::UIGraphic, list);
-
-		for (auto graphic : list)
+		for (auto graphic : childObj->GetComponents<UIGraphicBase>())
 		{
 			// 描画
 			if (graphic->IsActive()) static_cast<UIGraphicBase*>(graphic)->Draw(renderer);
@@ -274,10 +271,9 @@ namespace REngine
 		}
 
 		// 子をチェックした後に自分をチェック
-		childObj->GetComponentsWithCategory(Category::UIBehavior, m_components);
-
+		
 		// コンポーネントを走査
-		for (auto& behavior : m_components)
+		for (auto& behavior : childObj->GetComponents<UIBehaviorBase>())
 		{
 			// アクティブなら
 			if (behavior->IsActive())

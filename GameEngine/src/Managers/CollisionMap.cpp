@@ -22,7 +22,7 @@ namespace REngine
 	//====================================================//
 
 	// 衝突関数の登録関数
-	bool CollisionMap::Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func)
+	bool CollisionMap::Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func)
 	{
 		// 既にマップにあるかを調べる
 		auto it = m_collisionMap.find({ id1, id2 });
@@ -60,8 +60,8 @@ namespace REngine
 	bool CollisionMap::CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info)
 	{
 		// IDを取得
-		ComponentBase::TypeId id1 = col1->StaticTypeId();
-		ComponentBase::TypeId id2 = col2->StaticTypeId();
+		Component::TypeId id1 = col1->TypeId();
+		Component::TypeId id2 = col2->TypeId();
 
 		// マップに登録されているか調べる
 		auto func = m_collisionMap.find({ id1, id2 });
@@ -76,7 +76,7 @@ namespace REngine
 	}
 
 	// 衝突関数の登録関数
-	bool CollisionMap2D::Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func)
+	bool CollisionMap2D::Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func)
 	{
 		// 既にマップにあるかを調べる
 		auto it = m_collisionMap.find({ id1, id2 });
@@ -87,7 +87,7 @@ namespace REngine
 		// 未登録の組み合わせなら追加
 		m_collisionMap.insert({ { id1, id2 }, func });
 
-		// IDが異なるの衝突判定関数の場合
+		// IDが異なる衝突判定関数の場合
 		if (id1 != id2)
 		{
 			// 順序逆の関数を生成
@@ -114,8 +114,8 @@ namespace REngine
 	bool CollisionMap2D::CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info)
 	{
 		// IDを取得
-		ComponentBase::TypeId id1 = col1->StaticTypeId();
-		ComponentBase::TypeId id2 = col2->StaticTypeId();
+		Component::TypeId id1 = col1->TypeId();
+		Component::TypeId id2 = col2->TypeId();
 
 		// マップに登録されているか調べる
 		auto func = m_collisionMap.find({ id1, id2 });

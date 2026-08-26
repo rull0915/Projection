@@ -37,8 +37,8 @@ namespace REngine
 	// 2つのIDを持ったキー
 	struct CollisionKey
 	{
-		ComponentBase::TypeId type1;
-		ComponentBase::TypeId type2;
+		Component::TypeId type1;
+		Component::TypeId type2;
 
 		bool operator==(const CollisionKey&) const = default;
 	};
@@ -48,8 +48,8 @@ namespace REngine
 	{
 		size_t operator()(const CollisionKey& key) const
 		{
-			const size_t h1 = std::hash<ComponentBase::TypeId>{}(key.type1);
-			const size_t h2 = std::hash<ComponentBase::TypeId>{}(key.type2);
+			const size_t h1 = std::hash<Component::TypeId>{}(key.type1);
+			const size_t h2 = std::hash<Component::TypeId>{}(key.type2);
 
 			return h1 ^ (h2 << 1);
 		}
@@ -80,7 +80,7 @@ namespace REngine
 
 
 		// 関数登録
-		static bool Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func);
+		static bool Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func);
 
 		// 関数実行
 		static bool CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info);
@@ -111,7 +111,7 @@ namespace REngine
 
 
 		// 関数登録
-		static bool Register(ComponentBase::TypeId id1, ComponentBase::TypeId id2, CollisionFunc func);
+		static bool Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func);
 
 		// 関数実行
 		static bool CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info);

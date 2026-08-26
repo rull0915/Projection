@@ -50,11 +50,18 @@ namespace REngine
 			: UIGraphicBase(owner)
 			, m_textureHandle{}
 			, m_raycastTarget{ true }
+			, m_assetManager{ nullptr }
 		{
 			ADD_PROPERTY(m_textureHandle);
 		}
 
 		~ImageUI() = default;
+
+		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(ImageUI, UIGraphicBase)
 
 		//-----------------------------------------------------
 		// 公開関数
@@ -70,12 +77,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<ImageUI>();
-		}
 
 		bool IsRaycastTarget() const { return m_raycastTarget; }
 

@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Components/ComponentBase.h"
+#include "Components/ComponentInfo.h"
 
 namespace REngine
 {
@@ -39,13 +40,9 @@ namespace REngine
 		virtual ~UIComponentBase() = default;
 
 		//-----------------------------------------------------
-		// 公開関数
+		// Type
 		//-----------------------------------------------------
 
-		// カテゴリをUIに指定
-		ComponentCategory GetCategory() const override
-		{
-			return Category::UIOriginal;
-		}
+		COMPONENT_TYPE(UIComponentBase, ComponentBase)
 	};
 } // namespace REngine

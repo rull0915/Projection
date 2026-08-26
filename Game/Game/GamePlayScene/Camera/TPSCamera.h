@@ -79,6 +79,12 @@ public:
 	~TPSCamera() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(TPSCamera, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -93,22 +99,9 @@ public:
 
 	void SetTarget(const std::string& name);
 
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<TPSCamera>();
-	}
-
 	// 理想位置
 	DirectX::SimpleMath::Vector3 GetIdealPosition() const { return m_position; }
 
 	// 回転
 	DirectX::SimpleMath::Vector2 GetRotation() const { return m_angle; }
-
-private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
-
 };

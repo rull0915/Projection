@@ -85,11 +85,7 @@ namespace REngine
 		if (m_isPressed && IsHovered())
 		{
 			// リスナーを取得
-			std::vector<ComponentBase*> listeners{};
-			GetOwn()->GetComponentsWithCategory(Category::UIListener, listeners);
-
-			// ループ
-			for (auto& listener : listeners)
+			for (auto& listener : GetOwn()->GetComponents<ButtonListenerBase>())
 			{
 				// 呼び出し
 				static_cast<ButtonListenerBase*>(listener)->OnClicked();

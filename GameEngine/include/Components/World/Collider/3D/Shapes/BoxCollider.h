@@ -64,6 +64,12 @@ namespace REngine
 		~BoxCollider() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(BoxCollider, ColliderBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -76,12 +82,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<BoxCollider>();
-		}
 
 		DirectX::SimpleMath::Vector3 GetLocalSize() const
 		{

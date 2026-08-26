@@ -65,6 +65,12 @@ namespace REngine
 		~Transform();
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(Transform, WorldComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -87,12 +93,6 @@ namespace REngine
 		{
 			// Dirtyに
 			SetDirty();
-		}
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<Transform>();
 		}
 
 		//-----------------------------------------------------

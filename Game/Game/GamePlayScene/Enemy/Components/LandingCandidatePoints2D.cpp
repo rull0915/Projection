@@ -29,7 +29,7 @@ void LandingCandidatePoints2D::Start()
 {
 	// コライダーを取得
 	// 1つ目のみに対応
-	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider2D));
+	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponent<REngine::ColliderBase2D>());
 
 	// 取得できなかったら何もしない
 	if (!m_ownCollider) return;
@@ -46,7 +46,7 @@ void LandingCandidatePoints2D::Update(const REngine::GameTimer& gameTimer)
 	gameTimer;
 
 	// 再取得
-	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider2D));
+	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponent<REngine::ColliderBase2D>());
 
 	// 再取得も失敗したら何もしない
 	if (!m_ownCollider) return;
@@ -74,25 +74,24 @@ void LandingCandidatePoints2D::UpdateCandidatePoints()
 	if (!m_ownCollider) return;
 
 	// コライダーのタイプごとに処理を分ける
-	unsigned int id = m_ownCollider->GetID();
 
 	// ボックスの場合
-	if (id == REngine::TypeIDGenerator::GetID<REngine::BoxCollider2D>())
+	if (m_ownCollider->IsTypeOf(REngine::BoxCollider2D::StaticTypeId))
 	{
 		UpdateCandidatePointsOnBox();
 	}
 	// カプセル
-	else if (id == REngine::TypeIDGenerator::GetID<REngine::CapsuleCollider2D>())
+	else if (m_ownCollider->IsTypeOf(REngine::CapsuleCollider2D::StaticTypeId))
 	{
 
 	}
 	// 円
-	else if (id == REngine::TypeIDGenerator::GetID<REngine::CircleCollider2D>())
+	else if (m_ownCollider->IsTypeOf(REngine::CircleCollider2D::StaticTypeId))
 	{
 
 	}
 	// 凸ポリゴン
-	else if (id == REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>())
+	else if (m_ownCollider->IsTypeOf(ConvexPolygonCollider2D::StaticTypeId))
 	{
 		UpdateCandidatePointsOnConvexPolygon();
 	}

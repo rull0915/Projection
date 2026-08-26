@@ -178,7 +178,7 @@ namespace REngine
 		}
 
 		// 所属空間を調べる
-		std::string space = (object->HasComponent<Transform>()) ? "WORLD_OBJECT" : "UI_OBJECT";
+		std::string space = (object->GetComponent<Transform>()) ? "WORLD_OBJECT" : "UI_OBJECT";
 
 		// 初期状態のフラグ
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;

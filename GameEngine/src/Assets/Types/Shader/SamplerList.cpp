@@ -35,8 +35,10 @@ const Microsoft::WRL::ComPtr<ID3D11SamplerState>& REngine::SamplerList::GetSampl
 		return it->second;
 	}
 
+	static Microsoft::WRL::ComPtr<ID3D11SamplerState> empty = nullptr;
+
 	// 未作成ならnullptr
-	return nullptr;
+	return empty;
 }
 
 void REngine::SamplerList::CreateSampler(ID3D11Device* device, SamplerType type, D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE mode)

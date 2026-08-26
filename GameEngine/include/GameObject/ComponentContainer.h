@@ -18,7 +18,6 @@
 #include <vector>
 #include <unordered_map>
 
-#include "Common/TypeIdGenerator.h"
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
@@ -56,7 +55,7 @@ namespace REngine
 		std::vector<std::unique_ptr<ComponentBase>> m_pComponents;
 
 		// コンポーネントリストのキャッシュ
-		std::unordered_map<ComponentBase::TypeId, std::vector<ComponentBase*>> m_componentsCache;
+		std::unordered_map<Component::TypeId, std::vector<ComponentBase*>> m_componentsCache;
 
 		IComponentOwner* m_pOwner;
 
@@ -165,7 +164,7 @@ namespace REngine
 
 		// ---------- Get ---------- //
 
-		ComponentBase* Get(ComponentBase::TypeId id) const
+		ComponentBase* Get(Component::TypeId id) const
 		{
 			// Transformは専用ポインタから早期リターン
 			if (id == Transform::StaticTypeId())
@@ -200,7 +199,7 @@ namespace REngine
 
 		// ---------- Gets ---------- //
 
-		const std::vector<ComponentBase*>& Gets(ComponentBase::TypeId id) const
+		const std::vector<ComponentBase*>& Gets(Component::TypeId id) const
 		{
 			// 存在しなかったとき用の空配列
 			static const std::vector<ComponentBase*> empty{};
@@ -219,7 +218,7 @@ namespace REngine
 
 		// ---------- GetAll ---------- //
 
-		std::vector<ComponentBase*> GetAll() const
+		const std::vector<ComponentBase*>& GetAll() const
 		{
 			return Gets(ComponentBase::StaticTypeId());
 		}
@@ -301,7 +300,7 @@ namespace REngine
 			if (it != m_componentsCache.end() && it->second.size() > 0)
 			{
 				// 最初の要素を削除リストに追加
-				m_pDestroyReserves.push_back(it->second[0]);
+				m_pDestroyReserves.insert(it->second[0]);
 			}
 		}
 
@@ -317,12 +316,12 @@ namespace REngine
 				// 全て削除リストに追加
 				for (auto& comp : it->second)
 				{
-					m_pDestroyReserves.push_back(comp);
+					m_pDestroyReserves.insert(comp);
 				}
 			}
 		}
 
-		void Remove(ComponentBase::TypeId id)
+		void Remove(Component::TypeId id)
 		{
 			// リストを取得
 			auto it = m_componentsCache.find(id);
@@ -335,7 +334,7 @@ namespace REngine
 			}
 		}
 
-		void Removes(ComponentBase::TypeId id)
+		void Removes(Component::TypeId id)
 		{
 			// リストを取得
 			auto it = m_componentsCache.find(id);
@@ -378,7 +377,7 @@ namespace REngine
 		void RegistComponentToCache(ComponentBase* component)
 		{
 			// キャッシュリストを格納する配列を用意
-			std::vector<ComponentBase::TypeId> ids;
+			std::vector<Component::TypeId> ids;
 
 			// 対応するIDの一覧を取得
 			component->CollectTypeIds(ids);
@@ -394,7 +393,7 @@ namespace REngine
 		void UnRegistComponentToCache(ComponentBase* component)
 		{
 			// キャッシュリストを格納する配列を用意
-			std::vector<ComponentBase::TypeId> ids;
+			std::vector<Component::TypeId> ids;
 
 			// 対応するIDの一覧を取得
 			component->CollectTypeIds(ids);
