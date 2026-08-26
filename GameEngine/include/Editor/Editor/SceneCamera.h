@@ -84,10 +84,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<SceneCamera>();
-		}
+		COMPONENT_TYPE(SceneCamera, ComponentBase)
 
 		//-----------------------------------------------------
 		// セッター

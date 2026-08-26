@@ -25,7 +25,7 @@ void LandingCandidatePoints::Start()
 {
 	// コライダーを取得
 	// 1つ目のみに対応
-	m_ownCollider = static_cast<REngine::ColliderBase*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider));
+	m_ownCollider = static_cast<REngine::ColliderBase*>(GetOwn()->GetComponent<REngine::ColliderBase>());
 
 	// 取得できなかったら何もしない
 	if (!m_ownCollider) return;
@@ -42,7 +42,7 @@ void LandingCandidatePoints::Update(const REngine::GameTimer& gameTimer)
 	gameTimer;
 
 	// 再取得
-	m_ownCollider = static_cast<REngine::ColliderBase*>(GetOwn()->GetComponentWithCategory(REngine::Category::Collider));
+	m_ownCollider = static_cast<REngine::ColliderBase*>(GetOwn()->GetComponent<REngine::ColliderBase>());
 
 	// 再取得も失敗したら何もしない
 	if (!m_ownCollider) return;

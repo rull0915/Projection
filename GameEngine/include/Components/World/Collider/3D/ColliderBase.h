@@ -87,6 +87,12 @@ namespace REngine
 		virtual ~ColliderBase() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(ColliderBase, ColliderCommon)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -102,9 +108,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// カテゴリを3Dコライダーに指定
-		ComponentCategory GetCategory() const override { return Category::Collider; }
 
 		ColliderType GetType() const { return m_type; };
 

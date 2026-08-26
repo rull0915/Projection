@@ -72,6 +72,12 @@ namespace REngine
 		~AudioSource() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(AudioSource, BothComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -97,12 +103,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<AudioSource>();
-		}
 
 		// インスタンス
 		DirectX::SoundEffectInstance* GetSoundInstance() const { return m_soundInstance.get(); }

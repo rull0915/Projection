@@ -35,20 +35,16 @@ namespace REngine
 		~ButtonListenerBase() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(ButtonListenerBase, UIComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
 		// クリック時に呼ばれる関数
 		virtual void OnClicked() = 0;
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// カテゴリ指定
-		ComponentCategory GetCategory() const override
-		{
-			return Category::UIListener;
-		}
 	};
 } // namespace REngine

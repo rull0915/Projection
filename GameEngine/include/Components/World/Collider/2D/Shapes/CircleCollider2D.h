@@ -46,6 +46,12 @@ namespace REngine
 		~CircleCollider2D() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(CircleCollider2D, ColliderBase2D)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -58,12 +64,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<CircleCollider2D>();
-		}
 
 		float GetRadius() const
 		{

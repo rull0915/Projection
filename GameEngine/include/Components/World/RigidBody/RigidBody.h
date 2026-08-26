@@ -51,6 +51,12 @@ namespace REngine
 		~RigidBody() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(RigidBody, RigidBodyBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -87,12 +93,6 @@ namespace REngine
 		DirectX::SimpleMath::Vector3 GetVelocity() const { return m_velocity; }
 		DirectX::SimpleMath::Vector3 GetAcceleration() const { return m_acceleration; }
 
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<RigidBody>();
-		}
-
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
@@ -112,12 +112,5 @@ namespace REngine
 			m_acceleration = a;
 			WakeUp();
 		}
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	};
 } // namespace REngine

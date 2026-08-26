@@ -30,11 +30,6 @@ class ConvexPolygonCollider2D : public REngine::ColliderBase2D, public REngine::
 private:
 
 	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
@@ -56,6 +51,12 @@ public:
 	~ConvexPolygonCollider2D() {};
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(ConvexPolygonCollider2D, REngine::ColliderBase2D)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -71,13 +72,7 @@ public:
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
-	
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>();
-	}
-	
+
 	const std::vector<DirectX::SimpleMath::Vector2>& GetWorldVertices() const
 	{
 		if (IsDirty()) UpdateCache();

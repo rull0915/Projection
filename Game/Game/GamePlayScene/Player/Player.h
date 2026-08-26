@@ -68,6 +68,12 @@ public:
 	~Player();
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+
+	COMPONENT_TYPE(Player, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -92,12 +98,6 @@ public:
 
 	// 2Dかどうか
 	bool Is2D() const { return m_is2D; }
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<Player>();
-	}
 
 private:
 

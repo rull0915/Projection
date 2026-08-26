@@ -44,14 +44,14 @@ public:
 	~DepthCorrection() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(DepthCorrection, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void OnCollisionEnter2D(REngine::HitContact2D& contact) override;
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<DepthCorrection>();
-	}
 };

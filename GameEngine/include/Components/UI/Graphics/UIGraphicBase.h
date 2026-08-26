@@ -17,8 +17,6 @@
 #include "Components/UI/UIComponentBase.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
-#include "Common/Origin.h"
-
 namespace REngine
 {
 	//====================================================//
@@ -48,6 +46,12 @@ namespace REngine
 		virtual ~UIGraphicBase() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(UIGraphicBase, UIComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -59,11 +63,6 @@ namespace REngine
 		void SetColor(DirectX::SimpleMath::Color color) { m_color = color; }
 		void SetMulColor(DirectX::SimpleMath::Color color) { m_mulColor = color; }
 
-		// カテゴリをUIグラフィックに指定
-		ComponentCategory GetCategory() const override
-		{
-			return Category::UIGraphic;
-		}
 
 	protected:
 

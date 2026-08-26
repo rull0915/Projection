@@ -65,11 +65,14 @@ namespace REngine
 		virtual ~CameraBase() = default;
 
 		//-----------------------------------------------------
-		// 公開関数
+		// Type
 		//-----------------------------------------------------
 
-		// カテゴリをカメラに指定
-		ComponentCategory GetCategory() const override { return Category::Camera; }
+		COMPONENT_TYPE(CameraBase, WorldComponentBase)
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
 
 		const DirectX::SimpleMath::Matrix& GetView()
 		{

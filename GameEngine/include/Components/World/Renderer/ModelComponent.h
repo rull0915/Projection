@@ -51,6 +51,12 @@ namespace REngine
 		~ModelComponent() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(ModelComponent, RendererBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -69,12 +75,6 @@ namespace REngine
 		void SetModel(Handle<Model> handle)
 		{
 			m_modelHandle = handle;
-		}
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<ModelComponent>();
 		}
 	};
 } // namespace REngine
