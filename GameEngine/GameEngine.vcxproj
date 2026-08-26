@@ -402,6 +402,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\ComponentTypeId.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Components\Interface\IAssetDependent.h">
       <SubType>
       </SubType>
@@ -430,7 +434,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\World\Collider\ColliderCommon.h" />
     <ClInclude Include="include\Assets\Types\PhysicsMaterial.h" />
     <ClInclude Include="include\Components\ComponentBase.h" />
-    <ClInclude Include="include\Components\ComponentCategory.h" />
+    <ClInclude Include="include\Components\ComponentInfo.h" />
     <ClInclude Include="include\Components\World\Components.h" />
     <ClInclude Include="include\Components\World\Renderer\ModelComponent.h" />
     <ClInclude Include="include\Components\World\Renderer\RendererBase.h" />

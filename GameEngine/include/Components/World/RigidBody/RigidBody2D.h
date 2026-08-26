@@ -45,6 +45,12 @@ namespace REngine
 		~RigidBody2D() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(RigidBody2D, RigidBodyBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -73,7 +79,6 @@ namespace REngine
 			if (wakeUp) WakeUp();
 		}
 
-
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
@@ -82,12 +87,6 @@ namespace REngine
 		DirectX::SimpleMath::Vector2 GetVelocity() const { return m_velocity; }
 		DirectX::SimpleMath::Vector2 GetAcceleration() const { return m_acceleration; }
 
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<RigidBody2D>();
-		}
-
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
@@ -95,12 +94,5 @@ namespace REngine
 		void SetForce(DirectX::SimpleMath::Vector2 f) { m_force = f; }
 		void SetVelocity(DirectX::SimpleMath::Vector2 v) { m_velocity = v; }
 		void SetAcceleration(DirectX::SimpleMath::Vector2 a) { m_acceleration = a; }
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	};
 } // namespace REngine

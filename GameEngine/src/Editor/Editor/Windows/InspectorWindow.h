@@ -19,7 +19,7 @@
 #include "GameObject/GameObject.h"
 #include "Assets/Objects/AssetBase.h"
 
-#include "Components/ComponentCategory.h"
+#include "Components/ComponentInfo.h"
 #include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine

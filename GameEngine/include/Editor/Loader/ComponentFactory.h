@@ -19,6 +19,7 @@
 #include <string>
 
 #include "Components/ComponentBase.h"
+#include "Components/ComponentInfo.h"
 
 namespace REngine
 {

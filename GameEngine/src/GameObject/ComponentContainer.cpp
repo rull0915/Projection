@@ -39,7 +39,7 @@ namespace REngine
 		for (auto& component : m_addReserves)
 		{
 			// シーンに登録
-			m_pScene->RegisterComponent(component.get());
+			RegisterComponentToScene(component.get());
 
 			// リストに追加
 			m_pComponents.push_back(std::move(component));
@@ -64,6 +64,9 @@ namespace REngine
 
 			// コンポーネントをマネージャーから削除
 			if (m_pScene) UnRegisterComponentToScene(component);
+
+			// コンポーネントをキャッシュから削除
+			UnRegistComponentToCache(component);
 
 			// 目的のポインタと一致するイテレータを探索
 			auto it = std::find_if(

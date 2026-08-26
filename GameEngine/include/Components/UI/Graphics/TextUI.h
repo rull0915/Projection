@@ -69,6 +69,12 @@ namespace REngine
 		~TextUI() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(TextUI, UIGraphicBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -77,16 +83,6 @@ namespace REngine
 		void ReceiveAssetManager(AssetManager& manager) override
 		{
 			m_assetManager = &manager;
-		}
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<TextUI>();
 		}
 
 		//-----------------------------------------------------

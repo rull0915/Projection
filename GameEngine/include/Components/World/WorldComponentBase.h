@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Components/ComponentBase.h"
+#include "Components/ComponentInfo.h"
 
 namespace REngine
 {
@@ -39,13 +40,9 @@ namespace REngine
 		virtual ~WorldComponentBase() = default;
 
 		//-----------------------------------------------------
-		// 公開関数
+		// Type
 		//-----------------------------------------------------
 
-		// カテゴリをOriginalに指定
-		ComponentCategory GetCategory() const override
-		{
-			return Category::Original;
-		}
+		COMPONENT_TYPE(WorldComponentBase, ComponentBase)
 	};
 } // namespace REngine

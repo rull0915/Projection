@@ -205,7 +205,7 @@ namespace REngine
 		// コンポーネント関連
 #pragma region ComponentsFunc
 
-	// コンポーネントを追加する関数
+		// コンポーネントを追加する関数
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* AddComponent()
 		{
@@ -219,49 +219,17 @@ namespace REngine
 			return m_components.Get<T>();
 		}
 
-		// カテゴリからコンポーネントを1つ取得する関数
-		ComponentBase* GetComponentWithCategory(ComponentCategory category) const
-		{
-			return m_components.GetWithCategory(category);
-		}
-
 		// 指定したコンポーネントをすべて取得する関数
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		std::vector<T*> GetComponents() const
+		const std::vector<ComponentBase*>& GetComponents() const
 		{
 			return m_components.Gets<T>();
 		}
 
-		// カテゴリからコンポーネントを1つ取得する関数
-		std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category) const
-		{
-			return m_components.GetsWithCategory(category);
-		}
-
-		// 参照渡し版
-		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		void GetComponents(std::vector<T*>& array) const
-		{
-			m_components.Gets<T>(array);
-		}
-
-		// カテゴリからコンポーネントを1つ取得する関数
-		std::vector<ComponentBase*> GetsComponentWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array) const
-		{
-			m_components.GetsWithCategory(category, array);
-		}
-
 		// コンポーネントをすべて取得する関数
-		const std::vector<ComponentBase*> GetAllComponents() const
+		const std::vector<ComponentBase*>& GetAllComponents() const
 		{
 			return m_components.GetAll();
-		}
-
-		// コンポーネントがあるか調べる関数
-		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		bool HasComponent() const
-		{
-			return m_components.Has<T>();
 		}
 
 		// コンポーネントを削除する関数
@@ -278,12 +246,6 @@ namespace REngine
 			m_components.Remove<T>();
 		}
 
-		// カテゴリ指定版
-		void RemoveComponentWithCategory(ComponentCategory caterogy)
-		{
-			m_components.RemoveWithCategory(caterogy);
-		}
-
 		// 指定した型のコンポーネント全てを削除する関数
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void RemoveComponents()
@@ -295,12 +257,6 @@ namespace REngine
 		void RemoveComponents()
 		{
 			m_components.AllRemove();
-		}
-
-		// カテゴリ指定版
-		void RemoveComponentsWithCategory(ComponentCategory caterogy)
-		{
-			m_components.RemovesWithCategory(caterogy);
 		}
 
 		// コンテナを取得する関数
@@ -316,43 +272,18 @@ namespace REngine
 
 		// コンポーネントを取得するラップ関数
 		ComponentBase* GetComponentRaw(
-			unsigned int id
-		) override
+			Component::TypeId id
+		) const override
 		{
 			return m_components.Get(id);
 		}
 
-		// コンポーネントを取得するラップ関数
-		ComponentBase* GetComponentWithCategoryRaw(
-			ComponentCategory category
-		) override
-		{
-			return m_components.GetWithCategory(category);
-		}
-
 		// 全てのコンポーネントを取得するラップ関数
-		void GetComponentsRaw(
-			unsigned int id,
-			std::vector<ComponentBase*>& out) override
+		const std::vector<ComponentBase*>& GetComponentsRaw(
+			Component::TypeId id
+		) const override
 		{
-			m_components.Gets(id, out);
-		}
-
-		// 全てのコンポーネントを取得するラップ関数
-		void GetComponentsWithCategoryRaw(
-			ComponentCategory category,
-			std::vector<ComponentBase*>& out
-		) override
-		{
-			m_components.GetsWithCategory(category, out);
-		}
-
-		// コンポーネントがあるかを調べるラップ関数
-		bool HasComponentRaw(
-			unsigned int id
-		) override
-		{
-			return m_components.Has(id);
+			return m_components.Gets(id);
 		}
 	};
 } // namespace REngine

@@ -167,11 +167,8 @@
     <ClInclude Include="Game\GamePlayScene\GameOverComponent.h" />
     <ClInclude Include="Game\ClearScene\SwingComponent.h" />
     <ClInclude Include="GameLib\Components\ClickSE.h" />
-    <ClInclude Include="EngineTester\PropertyTest.h" />
-    <ClInclude Include="EngineTester\Status.h" />
     <ClInclude Include="EngineTester\EasingConfig.h" />
     <ClInclude Include="EngineTester\EasingTestComponent.h" />
-    <ClInclude Include="EngineTester\MyComponent.h" />
     <ClInclude Include="Game\Test\HandleTester.h" />
     <ClInclude Include="EngineTester\MaterialTester.h" />
   </ItemGroup>
@@ -218,10 +215,7 @@
     <ClCompile Include="Game\GamePlayScene\GameOverComponent.cpp" />
     <ClCompile Include="Game\ClearScene\SwingComponent.cpp" />
     <ClCompile Include="GameLib\Components\ClickSE.cpp" />
-    <ClCompile Include="EngineTester\PropertyTest.cpp" />
-    <ClCompile Include="EngineTester\Status.cpp" />
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
-    <ClCompile Include="EngineTester\MyComponent.cpp" />
     <ClCompile Include="Game\Test\HandleTester.cpp" />
     <ClCompile Include="EngineTester\MaterialTester.cpp" />
   </ItemGroup>

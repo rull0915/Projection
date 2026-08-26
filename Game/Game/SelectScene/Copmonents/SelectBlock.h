@@ -33,11 +33,6 @@ class SelectBlock : public REngine::WorldComponentBase
 private:
 
 	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
@@ -59,6 +54,12 @@ public:
 	~SelectBlock() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+
+	COMPONENT_TYPE(SelectBlock, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -67,21 +68,4 @@ public:
 	void OnTriggerStay(REngine::HitContact& contact) override;
 	void OnTriggerEnter(REngine::HitContact& contact) override;
 	void OnTriggerExit(REngine::HitContact& contact) override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<SelectBlock>();
-	}
-
-private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
-
 };

@@ -5,8 +5,6 @@
 #include "ComponentRegister.h"
 #include "EngineTester/EasingTestComponent.h"
 #include "EngineTester/MaterialTester.h"
-#include "EngineTester/MyComponent.h"
-#include "EngineTester/PropertyTest.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 #include "GameLib/Components/CatmullRomComponent.h"
 #include "GameLib/Components/ClickSE.h"
@@ -37,8 +35,6 @@ void ComponentRegister::RegistComponents()
 {
     REGIST_TO_FACTORY(EasingTestComponent);
     REGIST_TO_FACTORY(MaterialTester);
-    REGIST_TO_FACTORY(MyComponent);
-    REGIST_TO_FACTORY(PropertyTest);
     REGIST_TO_FACTORY(ConvexPolygonCollider2D);
     REGIST_TO_FACTORY(CatmullRomComponent);
     REGIST_TO_FACTORY(ClickSE);

@@ -105,6 +105,12 @@ public:
 	~EnemyManager() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(EnemyManager, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 	void Awake() override;
@@ -119,7 +125,7 @@ public:
 	void OnComponentAdded(ComponentBase* component) override
 	{
 		// 敵なら
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<Enemy>())
+		if (component->IsTypeOf(Enemy::StaticTypeId()))
 		{
 			Enemy* enemy = static_cast<Enemy*>(component);
 
@@ -130,12 +136,12 @@ public:
 		}
 
 		// 着地候補点なら
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints>())
+		if (component->IsTypeOf(LandingCandidatePoints::StaticTypeId()))
 			// キャストして追加
 			m_normalNavigation.AddNode(static_cast<LandingCandidatePoints*>(component));
 		
 		// 2D着地候補点なら
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints2D>())
+		if (component->IsTypeOf(LandingCandidatePoints2D::StaticTypeId()))
 			// キャストして追加
 			m_normalNavigation2D.AddNode(static_cast<LandingCandidatePoints2D*>(component));
 	}
@@ -143,33 +149,23 @@ public:
 	void OnComponentRemoved(ComponentBase* component) override
 	{
 		// 敵なら
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<Enemy>())
+		if (component->IsTypeOf(Enemy::StaticTypeId()))
 			// キャストして追加
 			m_removeReserves.push_back(static_cast<Enemy*>(component));	
 
 		// 着地候補点なら
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints>())
+		if (component->IsTypeOf(LandingCandidatePoints::StaticTypeId()))
 			// キャストして追加
 			m_normalNavigation.RemoveNode(static_cast<LandingCandidatePoints*>(component));
 
 		// 2D着地候補点なら
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<LandingCandidatePoints2D>())
+		if (component->IsTypeOf(LandingCandidatePoints2D::StaticTypeId()))
 			// キャストして追加
 			m_normalNavigation2D.RemoveNode(static_cast<LandingCandidatePoints2D*>(component));
 	}
 
 	// 敵の次元変更を行う関数
 	void ChangeDimantion();
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<EnemyManager>();
-	}
 
 private:
 

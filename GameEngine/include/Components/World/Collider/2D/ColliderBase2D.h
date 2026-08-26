@@ -77,6 +77,11 @@ namespace REngine
 
 		virtual ~ColliderBase2D() = default;
 
+		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(ColliderBase2D, ColliderCommon)
 
 		//-----------------------------------------------------
 		// 公開関数
@@ -94,9 +99,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// カテゴリを描画に指定
-		ComponentCategory GetCategory() const override { return Category::Collider2D; }
 
 		inline AABB2D& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うAABBを取得する関数
 

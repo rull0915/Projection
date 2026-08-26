@@ -48,10 +48,7 @@ namespace REngine
 		std::vector<IDebugRenderable*> m_debugRenders;
 
 		// 全コンポーネントのマップ
-		std::unordered_map<unsigned int, std::vector<ComponentBase*>> m_componentsMap;
-
-		// マップ(カテゴリ版)
-		std::unordered_map<ComponentCategory, std::vector<ComponentBase*>> m_categoriesMap;
+		std::unordered_map<Component::TypeId, std::vector<ComponentBase*>> m_componentsMap;
 
 	public:
 
@@ -83,7 +80,7 @@ namespace REngine
 		std::vector<ComponentBase*>& GetAllComponents()
 		{
 			// IDを取得し返す
-			return m_componentsMap[TypeIDGenerator::GetID<T>()];
+			return m_componentsMap[T::StaticTypeId()];
 		}
 
 		// 1コンポーネントの取得関数
@@ -91,25 +88,8 @@ namespace REngine
 		ComponentBase* GetComponent()
 		{
 			// IDを取得し返す
-			if (m_componentsMap[TypeIDGenerator::GetID<T>()].size() > 0)
-				return m_componentsMap[TypeIDGenerator::GetID<T>()][0];
-
-			return nullptr;
-		}
-
-		// カテゴリ指定
-		std::vector<ComponentBase*>& GetAllComponentsWithCategory(ComponentCategory category)
-		{
-			// 返す
-			return m_categoriesMap[category];
-		}
-
-		// カテゴリ指定
-		ComponentBase* GetComponentWithCategory(ComponentCategory category)
-		{
-			// 返す
-			if (m_componentsMap[category].size() > 0)
-				return m_componentsMap[category][0];
+			if (m_componentsMap[T::StaticTypeId()].size() > 0)
+				return m_componentsMap[T::StaticTypeId()][0];
 
 			return nullptr;
 		}

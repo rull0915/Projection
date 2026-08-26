@@ -50,6 +50,12 @@ namespace REngine
 		~SphereCollider() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(SphereCollider, ColliderBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -62,12 +68,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<SphereCollider>();
-		}
 
 		float GetRadius() const
 		{

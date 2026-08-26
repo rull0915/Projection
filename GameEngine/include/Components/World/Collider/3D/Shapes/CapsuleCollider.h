@@ -78,6 +78,12 @@ namespace REngine
 		~CapsuleCollider() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(CapsuleCollider, ColliderBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -90,12 +96,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<CapsuleCollider>();
-		}
 
 		// ラインの方向ベクトルを返す関数
 		DirectX::SimpleMath::Vector3 GetLineDir() const

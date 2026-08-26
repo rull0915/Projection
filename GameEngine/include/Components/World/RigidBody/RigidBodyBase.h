@@ -89,6 +89,12 @@ namespace REngine
 		virtual ~RigidBodyBase() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(RigidBodyBase, WorldComponentBase)
+
+		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
 		inline float GetMass() const { return m_mass; }

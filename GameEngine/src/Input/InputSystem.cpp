@@ -296,7 +296,7 @@ namespace REngine
 					bool n = bind.negative.has_value() ? GetButtonInput(bind.negative.value()) : false;
 
 					// 最終的な値を算出
-					float i = (p ? 1 : 0) + (n ? -1 : 0);
+					float i = (p ? 1.0f : 0) + (n ? -1.0f : 0);
 
 					// 絶対値が上回っていれば更新
 					if (std::abs(i) > std::abs(result)) result = i;

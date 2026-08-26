@@ -20,7 +20,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool RaySystem::Register(uint16_t id, CollisionFunc func)
+	bool RaySystem::Register(Component::TypeId id, CollisionFunc func)
 	{
 		// 既にマップにあるかを調べる
 		auto it = m_collisionMap.find(id);
@@ -37,7 +37,7 @@ namespace REngine
 	bool RaySystem::CheckHit(const Ray& ray, float max, ColliderBase* collider, RaycastHit* raycastHit)
 	{
 		// ID取得
-		uint16_t id = collider->GetID();
+		Component::TypeId id = collider->StaticTypeId();
 
 		// マップにあるかを調べる
 		auto it = m_collisionMap.find(id);

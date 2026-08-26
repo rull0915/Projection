@@ -48,6 +48,12 @@ namespace REngine
 		~RendererBase() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(RendererBase, WorldComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -62,9 +68,6 @@ namespace REngine
 		{
 			m_alpha = std::clamp(alpha, 0.0f, 1.0f);
 		}
-
-		// カテゴリを描画に指定
-		ComponentCategory GetCategory() const override { return Category::Renderer; }
 
 		//-----------------------------------------------------
 		// ゲッター
