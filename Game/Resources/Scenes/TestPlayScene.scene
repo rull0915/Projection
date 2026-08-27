@@ -6,28 +6,6 @@
                 "Components": [
                     {
                         "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.0,
-                                0.0,
-                                10.0
-                            ],
-                            "m_localRotation": [
-                                0.0,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
-                    {
-                        "Data": {
                             "m_aspect": 1.7777777910232544,
                             "m_farZ": 1000.0,
                             "m_fov": 0.7853981852531433,
@@ -45,28 +23,6 @@
             {
                 "Children": [],
                 "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_localRotation": [
-                                -1.4901161193847656e-08,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.0,
-                                1.0000001192092896,
-                                1.0
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
                     {
                         "Data": {
                             "m_isActive": true,
@@ -94,6 +50,16 @@
                             "m_modelHandle": 7357398224225983858
                         },
                         "Type": "ModelComponent"
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": false,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": true
+                        },
+                        "Type": "RigidBody"
                     }
                 ],
                 "IsWorld": true,
@@ -104,28 +70,6 @@
             {
                 "Children": [],
                 "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.0,
-                                0.0,
-                                7.0
-                            ],
-                            "m_localRotation": [
-                                -0.0,
-                                0.0,
-                                -0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ]
-                        },
-                        "Type": "Transform"
-                    },
                     {
                         "Data": {
                             "m_alpha": 1.0,

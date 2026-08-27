@@ -293,6 +293,12 @@ namespace REngine
 		// ---------- Remove ---------- //
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		void Remove(T* component)
+		{
+			m_pDestroyReserves.insert(component);
+		}
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Remove()
 		{
 			// リストを取得
