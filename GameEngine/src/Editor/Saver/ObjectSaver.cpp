@@ -18,7 +18,6 @@
 
 #include "GameObject/GameObject.h"
 #include "Managers/ObjectManager.h"
-#include "Managers/UI/UIManager.h"
 #include "Scene/Scene.h"
 
 #include "Common/Property/EnumRegistry.h"
@@ -144,6 +143,9 @@ namespace REngine
 			{
 				j["Children"].push_back(SaveObject(static_cast<GameObject*>(child->GetOwn())));
 			}
+
+			// WorldObject
+			j["IsWorld"] = true;
 		}
 		// RectTransformの場合も同様
 		if (auto* tr = obj->GetComponent<RectTransform>())
@@ -153,31 +155,9 @@ namespace REngine
 			{
 				j["Children"].push_back(SaveObject(static_cast<GameObject*>(child->GetOwn())));
 			}
-		}
 
-		return j;
-	}
-
-	nlohmann::json ObjectSaver::SaveCanvas(const Canvas* canvas)
-	{
-		// Property部分を保存
-		json j = SaveProperty(*canvas);
-
-		j["GameObjects"] = nlohmann::json::array();
-
-		// ゲームオブジェクトを全て調べる
-		for (auto& object : canvas->GetAllObjects())
-		{
-			if (!object->IsInvincible())
-			{
-				// 親がルートの場合
-				if (object->GetComponent<RectTransform>()->GetParent() ==
-					canvas->GetRootObject()->GetComponent<RectTransform>())
-				{
-					// 追加
-					j["GameObjects"].push_back(SaveObject(object.get()));
-				}
-			}
+			// UIObject
+			j["IsWorld"] = false;
 		}
 
 		return j;
@@ -194,27 +174,17 @@ namespace REngine
 			if (!object->IsInvincible())
 			{
 				// 親がnullの場合
-				if (object->GetComponent<Transform>()->GetParent() == nullptr)
+				if (auto* t = object->GetComponent<Transform>())
 				{
 					// jsonを追加
-					j["GameObjects"].push_back(SaveObject(object.get()));
+					if (!t->GetParent()) j["GameObjects"].push_back(SaveObject(object.get()));
+				}
+				else if (auto* t = object->GetComponent<RectTransform>())
+				{
+					// jsonを追加
+					if (!t->GetParent()) j["GameObjects"].push_back(SaveObject(object.get()));
 				}
 			}
-		}
-
-		return j;
-	}
-
-	nlohmann::json ObjectSaver::SaveUIManager(const UIManager* uiManager)
-	{
-		json j;
-		j["Canvases"] = nlohmann::json::array();
-
-		// 全キャンバスを取得
-		for (auto& canvas : uiManager->GetAllCanvas())
-		{
-			// 追加
-			j["Canvases"].push_back(SaveCanvas(canvas.get()));
 		}
 
 		return j;
@@ -225,7 +195,6 @@ namespace REngine
 		json j;
 
 		j["World"] = SaveObjectManager(scene->GetObjectManager());
-		j["UI"] = SaveUIManager(scene->GetUIManager());
 
 		return j;
 	}

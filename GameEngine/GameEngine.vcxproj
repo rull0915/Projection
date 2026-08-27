@@ -156,6 +156,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Components\UI\Canvas.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
@@ -292,7 +293,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\System\ResourceManager.cpp" />
     <ClCompile Include="src\System\WindowManager.cpp" />
     <ClCompile Include="src\Timer\GameTimer.cpp" />
-    <ClCompile Include="src\Managers\UI\Canvas.cpp" />
     <ClCompile Include="src\Managers\UI\UIManager.cpp" />
     <ClCompile Include="src\Components\UI\Behaviour\ButtonUI.cpp" />
     <ClCompile Include="src\Components\UI\Graphics\UIGraphicBase.cpp" />
@@ -418,6 +418,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\UI\Canvas.h" />
     <ClInclude Include="include\Components\World\Camera\CameraBase.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\TargetCamera.h" />
@@ -644,7 +645,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\System\WindowManager.h" />
     <ClInclude Include="include\Timer\GameTimer.h" />
     <ClInclude Include="include\Timer\StepTimer.h" />
-    <ClInclude Include="include\Managers\UI\Canvas.h" />
     <ClInclude Include="include\Managers\UI\UIManager.h" />
     <ClInclude Include="include\Components\UI\UIComponentBase.h" />
     <ClInclude Include="include\Components\UI\Behaviour\ButtonUI.h" />

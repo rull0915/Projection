@@ -51,6 +51,12 @@ namespace REngine
 
 		// IDで識別
 
+		// Canvasの場合
+		if (component->IsTypeOf(Canvas::StaticTypeId()))
+		{
+			m_pPipeline->m_uiManager->AddCanvas(static_cast<Canvas*>(component));
+		}
+
 		// RigidBodyの場合
 		if (component->IsTypeOf(RigidBody::StaticTypeId()))
 		{
@@ -126,6 +132,12 @@ namespace REngine
 
 		
 		// IDで識別
+
+		// Canvasの場合
+		if (component->IsTypeOf(Canvas::StaticTypeId()))
+		{
+			m_pPipeline->m_uiManager->RemoveCanvas(static_cast<Canvas*>(component));
+		}
 
 		// RigidBodyの場合
 		if (component->IsTypeOf(RigidBody::StaticTypeId()))

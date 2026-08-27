@@ -1,7 +1,4 @@
 {
-    "UI": {
-        "Canvases": []
-    },
     "World": {
         "GameObjects": [
             {
@@ -40,6 +37,7 @@
                         "Type": "StandardCamera"
                     }
                 ],
+                "IsWorld": true,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -98,6 +96,7 @@
                         "Type": "ModelComponent"
                     }
                 ],
+                "IsWorld": true,
                 "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
@@ -144,8 +143,108 @@
                         "Type": "MaterialTester"
                     }
                 ],
+                "IsWorld": true,
                 "m_isActive": true,
                 "m_name": "",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        100.0,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform"
+                            },
+                            {
+                                "Data": {
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_textureHandle": 16832540059583752122
+                                },
+                                "Type": "ImageUI"
+                            }
+                        ],
+                        "IsWorld": false,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform"
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 0,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas"
+                    }
+                ],
+                "IsWorld": false,
+                "m_isActive": true,
+                "m_name": "Canvas",
                 "m_tag": ""
             }
         ]

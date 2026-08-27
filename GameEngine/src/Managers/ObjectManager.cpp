@@ -119,7 +119,7 @@ namespace REngine
 		// 衝突判定後の値の更新
 		for (auto& object : m_objects)
 		{
-			object->GetComponent<Transform>()->ReflectCache();	// Transform
+			if (auto* t = object->GetComponent<Transform>()) t->ReflectCache();	// Transform
 		}
 	}
 

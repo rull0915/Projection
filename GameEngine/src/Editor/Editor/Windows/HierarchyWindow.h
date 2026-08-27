@@ -21,7 +21,6 @@ namespace REngine
 	class Canvas;
 
 	class ObjectManager;
-	class UIManager;
 
 	//====================================================//
 	// クラス宣言
@@ -66,13 +65,7 @@ namespace REngine
 		// GameObjectの表示関数
 		void DrawGameObject(GameObject* object);
 
-		// Canvasの表示関数
-		void DrawCanvas(Canvas* canvas);
-
 		// ObjectManagerから全Objectを描画する
 		void DrawObjects(ObjectManager* objectManager);
-
-		// UIManagerから全Objectを描画する
-		void DrawObjects(UIManager* UIManager);
 	};
 }	// namespace REngine
