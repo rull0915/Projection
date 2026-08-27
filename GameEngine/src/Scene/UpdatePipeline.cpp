@@ -97,11 +97,15 @@ namespace REngine
 
 	void UpdatePipeline::DrawUI(Renderer& renderer)
 	{
+		m_uiManager->ReflectReserves();
+
 		m_uiManager->Draw(renderer);
 	}
 
 	void UpdatePipeline::DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color)
 	{
+		m_uiManager->ReflectReserves();
+
 		m_uiManager->DebugDraw(renderer, color);
 	}
 
