@@ -15,10 +15,10 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <memory>
 #include <vector>
+#include <unordered_set>
 
-#include "Managers/UI/Canvas.h"
+#include "Components/UI/Canvas.h"
 
 namespace REngine
 {
@@ -36,22 +36,15 @@ namespace REngine
 	private:
 
 		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
-
-		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 保持するキャンバスのリスト
-		std::vector<std::unique_ptr<Canvas>> m_addReserves;
-		std::vector<std::unique_ptr<Canvas>> m_canvases;
+		// 予約中のキャンバス
+		std::vector<Canvas*> m_addReserves;
+		std::unordered_set<Canvas*> m_removeReserves;
 
-		bool m_needSort; // キャンバスの描画順を再ソートする必要があるか
-
-		// シーンへのポインタ
-		Scene* m_pScene;
+		// 登録されているキャンバス
+		std::vector<Canvas*> m_canvases;
 
 	public:
 
@@ -65,21 +58,12 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Update(const GameTimer& gameTimer, bool playing);
-		void LateUpdate(const GameTimer& gameTimer, bool playing);
+		void CheckEvent();
 
 		void Draw(Renderer& renderer);
 
-		void Finalize();
-
 		// マウスとの衝突を調べる関数
 		void CheckHitRay(DirectX::SimpleMath::Vector2 position);
-
-		// キャンバスを生成する関数
-		Canvas* CreateCanvas();
-
-		// キャンバスからオブジェクトの削除を行う関数
-		void RemoveObjects();
 
 		// デバッグ描画関数
 		void DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color);
@@ -89,26 +73,53 @@ namespace REngine
 		{
 			m_addReserves.clear();
 			m_canvases.clear();
-
-			m_needSort = true;
 		}
 
-		// 全キャンバスを取得する関数
-		const std::vector<std::unique_ptr<Canvas>>& GetAllCanvas() const { return m_canvases; }
-		const std::vector<std::unique_ptr<Canvas>>& GetAllReserves() const { return m_addReserves; }
-
 		//-----------------------------------------------------
-		// ゲッター
+		// 予約関連
 		//-----------------------------------------------------
 
-		// シーンポインタ
-		Scene* GetScene() const { return m_pScene; }
+		// 登録予約
+		void AddCanvas(Canvas* c) { m_addReserves.push_back(c); }
+		void RemoveCanvas(Canvas* c) { m_removeReserves.insert(c); }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		// 予約済みポインタの追加
+		void AddReserved()
+		{
+			for (auto p : m_addReserves)
+			{
+				m_canvases.push_back(p);
+			}
 
-		void SetNeedSort(bool f) { m_needSort = f; }
+			m_addReserves.clear();
+		}
+
+		// 予約済みポインタの削除
+		void RemoveReserved()
+		{
+			// 削除リストが空なら何もしない
+			if (m_removeReserves.empty()) return;
+
+			// 削除リストに含まれているかを調べるラムダ式
+			auto shouldRemove = [this](Canvas* base)
+				{
+					return m_removeReserves.contains(base);
+				};
+
+			// 削除
+			std::erase_if(m_canvases, shouldRemove);
+			std::erase_if(m_addReserves, shouldRemove);
+
+			// 削除リストをクリア
+			m_removeReserves.clear();
+		}
+
+		// 予約反映
+		void ReflectReserves()
+		{
+			AddReserved();
+			RemoveReserved();
+		}
 
 	private:
 
@@ -118,11 +129,5 @@ namespace REngine
 
 		// キャンバスの並び順をソートする関数
 		void SortCanvas();
-
-		// 予約済みキャンバスを登録する関数
-		void RegisterReserveCanvases();
-
-		// 削除済みキャンバスを削除する関数
-		void RemoveDestroyedCanvas();
 	};
 }	// namespace REngine

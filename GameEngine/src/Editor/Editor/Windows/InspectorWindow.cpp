@@ -17,7 +17,6 @@
 #include "Editor/Loader/ComponentFactory.h"
 
 #include "ThirdParty/imgui/imgui.h"
-#include "Managers/UI/Canvas.h"
 
 namespace REngine
 {
@@ -68,11 +67,6 @@ namespace REngine
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(object))
 		{
 			DrawGameObject(gameObject);
-		}
-		// Canvasの場合の表示
-		else if(Canvas* canvas = dynamic_cast<Canvas*>(object))
-		{			
-			DrawCanvas(canvas);
 		}
 		// Assetの場合の表示
 		else if (AssetBase* asset = dynamic_cast<AssetBase*>(object))
@@ -208,15 +202,6 @@ namespace REngine
 					factory.second.second(object);
 				}
 			}
-		}
-	}
-
-	void InspectorWindow::DrawCanvas(Canvas* canvas)
-	{
-		// 表示
-		if (m_propertyOnInspector.DrawPropertyObject(canvas))
-		{
-			canvas->SetDrawOrder(canvas->GetDrawOrder());
 		}
 	}
 

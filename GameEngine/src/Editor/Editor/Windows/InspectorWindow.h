@@ -79,9 +79,6 @@ namespace REngine
 		// コンポーネントリストを表示する関数
 		void DrawComponentList(GameObject* object, ComponentInfo info);
 
-		// Canvasを表示する関数
-		void DrawCanvas(Canvas* canvas);
-
 		// Assetを表示する関数
 		void DrawAsset(AssetBase* asset);
 	};

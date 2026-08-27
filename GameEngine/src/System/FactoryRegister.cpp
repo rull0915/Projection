@@ -60,6 +60,7 @@ namespace REngine
 		ADD_FACTORY(AudioListener);
 
 		// UI
+		ADD_FACTORY(Canvas);
 		ADD_FACTORY(RectTransform);
 		ADD_FACTORY(ImageUI);
 		ADD_FACTORY(TextUI);

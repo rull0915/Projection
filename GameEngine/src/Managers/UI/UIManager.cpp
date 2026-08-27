@@ -27,8 +27,6 @@ namespace REngine
 	//====================================================//
 
 	UIManager::UIManager(Scene* pScene)
-		: m_needSort{ true }
-		, m_pScene{ pScene }
 	{}
 
 	UIManager::~UIManager()
@@ -37,17 +35,8 @@ namespace REngine
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void UIManager::Update(const GameTimer& gameTimer, bool playing)
+	void UIManager::CheckEvent()
 	{
-		// 予約済みを登録
-		RegisterReserveCanvases();
-
-		// 予約済みを削除
-		RemoveDestroyedCanvas();
-
-		// ソートが必要な場合
-		if (m_needSort) SortCanvas();
-
 		// キャンバスを更新する
 		for (auto& canvas : m_canvases)
 		{
@@ -57,29 +46,14 @@ namespace REngine
 				// クリックされていれば
 				if (Input::Mouse::GetDown(Input::Mouse::Button::Left))
 				{
-					canvas->OnMouseDown();
+					canvas->NotifyMouseEvent(Canvas::MouseEvent::Down);
 				}
 
 				// 離されていれば
 				if (Input::Mouse::GetUp(Input::Mouse::Button::Left))
 				{
-					canvas->OnMouseUp();
+					canvas->NotifyMouseEvent(Canvas::MouseEvent::Up);
 				}
-
-				// 更新
-				canvas->Update(gameTimer, playing);
-			}
-		}
-	}
-
-	void UIManager::LateUpdate(const GameTimer& gameTimer, bool playing)
-	{
-		// キャンバスを更新する
-		for (auto& canvas : m_canvases)
-		{
-			if (canvas->IsActive())
-			{
-				canvas->LateUpdate(gameTimer, playing);
 			}
 		}
 	}
@@ -94,10 +68,10 @@ namespace REngine
 			it != m_canvases.rend();
 			++it)
 		{
-			if (!it->get()->IsActive()) continue;
+			if (!(*it)->IsActive()) continue;
 
 			// 衝突しているオブジェクトが見つかったら
-			if (auto* hit = it->get()->HitTest(position))
+			if (auto* hit = (*it)->CheckHit(position))
 			{
 				hitRect = hit;
 				break;
@@ -123,27 +97,11 @@ namespace REngine
 			m_canvases.begin(), // 最初から
 			m_canvases.end(),   // 最後まで 
 			// 描画順で入れ替え
-			[](const std::unique_ptr<Canvas>& a,
-				const std::unique_ptr<Canvas>& b)
+			[](const Canvas* a,
+				const Canvas* b)
 			{
 				return a->GetDrawOrder() < b->GetDrawOrder();
 			});
-
-		m_needSort = false;
-	}
-
-	void UIManager::RegisterReserveCanvases()
-	{
-		for (auto& reserve : m_addReserves)
-		{
-			m_canvases.push_back(std::move(reserve));
-		}
-		m_addReserves.clear();
-	}
-
-	void UIManager::RemoveDestroyedCanvas()
-	{
-		std::erase_if(m_canvases, [](const std::unique_ptr<Canvas>& canvas) { return canvas->IsDestroy(); });
 	}
 
 	void UIManager::Draw(Renderer& renderer)
@@ -158,50 +116,15 @@ namespace REngine
 		}
 	}
 
-	void UIManager::Finalize()
-	{
-		// 全キャンバスの終了処理を呼び出す
-		for (auto& canvas : m_canvases)
-		{
-			canvas->Finalize();
-		}
-	}
-
-	Canvas* UIManager::CreateCanvas()
-	{
-		// 生成
-		auto canvas = std::make_unique<Canvas>(this);
-		Canvas* ptr = canvas.get();
-		m_addReserves.push_back(std::move(canvas));
-
-		m_needSort = true;
-
-		return ptr;
-	}
-
-	void UIManager::RemoveObjects()
-	{
-		// 全キャンバスを調べる
-		for (auto& canvas : m_canvases)
-		{
-			canvas->RemoveDeadComponent();
-		}
-
-		for (auto& canvas : m_canvases)
-		{
-			canvas->RemoveReserves();
-		}
-	}
-
 	void UIManager::DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color)
 	{
 		// 全キャンバスをループ
-		for (auto& canvas : m_canvases)
-		{
-			// 描画
-			RectDebugRenderer::DebugDraw(
-				canvas->GetAllObjects(), renderer, color
-			);
-		}
+		//for (auto& canvas : m_canvases)
+		//{
+		//	// 描画
+		//	RectDebugRenderer::DebugDraw(
+		//		canvas->GetAllObjects(), renderer, color
+		//	);
+		//}
 	}
 }	// namespace REngine

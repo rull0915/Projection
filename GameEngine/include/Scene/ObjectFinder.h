@@ -60,11 +60,5 @@ namespace REngine
 
 		// ワールド空間にあるオブジェクトをタグ検索する関数
 		GameObject* FindWithTagInWorld(const std::string& tag) const;
-
-		// UI空間にあるオブジェクトを名前検索する関数
-		GameObject* FindWithNameInUI(const std::string& name) const;
-
-		// UI空間にあるオブジェクトをタグ検索する関数
-		GameObject* FindWithTagInUI(const std::string& tag) const;
 	};
 }	// namespace REngine

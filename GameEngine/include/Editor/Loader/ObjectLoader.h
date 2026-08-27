@@ -58,15 +58,6 @@ namespace REngine
 		// Worldオブジェクトのロード
 		void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
 
-		// UIオブジェクトのロード
-		void LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas);
-
-		// Canvasのロード
-		void LoadCanvas(const nlohmann::json& json, Canvas* canvas);
-
-		// UIManagerのロード
-		void LoadUIManager(const nlohmann::json& json, UIManager* manager);
-
 		// ObjectManagerのロード
 		void LoadObjectManager(const nlohmann::json& json, Scene* pScene);
 
@@ -76,7 +67,6 @@ namespace REngine
 		// ロード関数
 		void LoadPropertyFromFile(const std::wstring& filePath, PropertyObject* obj);
 		void LoadFromFile(const std::wstring& filePath, GameObject* obj);
-		void LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas);
 
 		void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
 	};

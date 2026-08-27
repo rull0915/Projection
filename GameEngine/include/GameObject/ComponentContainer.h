@@ -228,8 +228,6 @@ namespace REngine
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* Add()
 		{
-			T* add = nullptr;
-
 			// トランスフォームの場合
 			if constexpr (std::is_same_v<T, Transform>)
 			{
@@ -241,7 +239,11 @@ namespace REngine
 
 					// 初期化
 					m_pTransform.get()->UpdateCache();
+
+					// キャッシュに追加
+					RegistComponentToCache(m_pTransform.get());
 				}
+
 				// 既に確定していたら追加不可
 				return m_pTransform.get();
 			}
@@ -257,7 +259,11 @@ namespace REngine
 
 					// 初期化
 					m_pRectTransform.get()->UpdateCache();
+					
+					// キャッシュに追加
+					RegistComponentToCache(m_pRectTransform.get());
 				}
+
 				// 既に確定していたら追加不可
 				return m_pRectTransform.get();
 			}
@@ -274,18 +280,14 @@ namespace REngine
 					// 配列に追加
 					m_addReserves.push_back(std::move(comp));
 
-					add = ptr;
+					// キャッシュに追加
+					RegistComponentToCache(ptr);
+
+					return ptr;
 				}
-
-				// 違っていたら追加不可
-				else return nullptr;
 			}
-			
-			// キャッシュに追加
-			RegistComponentToCache(add);
 
-			// 追加したコンポーネントを返す
-			return add;
+			return nullptr;
 		}
 
 		// ---------- Remove ---------- //
