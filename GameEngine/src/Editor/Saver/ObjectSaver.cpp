@@ -116,6 +116,9 @@ namespace REngine
 		// GameObject部分を保存
 		json j = SaveProperty(*obj);
 
+		// UUIDを保存
+		j["UUID"] = obj->GetUUID();
+
 		// コンポーネントを全て調べる
 		for (auto& component : obj->GetAllComponents())
 		{
@@ -127,10 +130,11 @@ namespace REngine
 
 			j["Components"].push_back(
 				{
-					{ "Type", componentName.data()},
+					{ "Type", componentName.data() },
 					{ "Data", compJson },
+					{ "UUID", component->GetUUID() }
 				}
-				);
+			);
 		}
 
 		j["Children"] = nlohmann::json::array();

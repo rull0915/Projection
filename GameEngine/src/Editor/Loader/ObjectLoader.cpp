@@ -22,6 +22,7 @@
 #include <string>
 #include "Common/Property/AssetPropertyRegistry.h"
 #include "Common/Property/EnumRegistry.h"
+#include "Common/UUID.h"
 
 namespace REngine
 {
@@ -109,6 +110,14 @@ namespace REngine
 		// ゲームオブジェクト部分をロード
 		LoadProperty(json, *obj);
 
+		// UUIDをロード
+		UUID uuid = 0;
+		if (json.contains("UUID"))
+		{
+			uuid = json["UUID"];
+			obj->SetUUID(uuid);
+		}
+
 		// コンポーネントをロード
 		for (auto& js : json["Components"])
 		{
@@ -122,6 +131,13 @@ namespace REngine
 
 				// 変更時処理の呼び出し
 				component->OnValidate();
+
+				// UUIDをロード
+				if (js.contains("UUID"))
+				{
+					uuid = js["UUID"];
+					component->SetUUID(uuid);
+				}
 			}
 		}
 

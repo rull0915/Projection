@@ -25,7 +25,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 2957048179240667742
+                        "UUID": 15978767527739447493
                     },
                     {
                         "Data": {
@@ -36,11 +36,11 @@
                             "m_nearZ": 0.10000000149011612
                         },
                         "Type": "StandardCamera",
-                        "UUID": 6429542996015746110
+                        "UUID": 4781991248979565317
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 15507682288886897344,
+                "UUID": 8448751451123987257,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -69,7 +69,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 5206005941480499871
+                        "UUID": 3899232512699971767
                     },
                     {
                         "Data": {
@@ -90,7 +90,7 @@
                             "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider",
-                        "UUID": 17507666095898526229
+                        "UUID": 4852946326736596653
                     },
                     {
                         "Data": {
@@ -99,7 +99,7 @@
                             "m_modelHandle": 7357398224225983858
                         },
                         "Type": "ModelComponent",
-                        "UUID": 4892541935426082502
+                        "UUID": 11824700729951926142
                     },
                     {
                         "Data": {
@@ -110,11 +110,11 @@
                             "m_useGravity": true
                         },
                         "Type": "RigidBody",
-                        "UUID": 23285253524050191
+                        "UUID": 17845452251377512965
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 11482685846171570407,
+                "UUID": 14203417356585325524,
                 "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
@@ -143,7 +143,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 11362278716221426421
+                        "UUID": 13868947527224302321
                     },
                     {
                         "Data": {
@@ -160,11 +160,11 @@
                             "m_texture": 16832540059583752122
                         },
                         "Type": "MaterialTester",
-                        "UUID": 518144284352436764
+                        "UUID": 12561422349416524150
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 9794550463065062729,
+                "UUID": 17252803269610277038,
                 "m_isActive": true,
                 "m_name": "",
                 "m_tag": ""
@@ -200,7 +200,7 @@
                                     ]
                                 },
                                 "Type": "RectTransform",
-                                "UUID": 5181648347395135967
+                                "UUID": 402329731842610334
                             },
                             {
                                 "Data": {
@@ -220,11 +220,11 @@
                                     "m_textureHandle": 16832540059583752122
                                 },
                                 "Type": "ImageUI",
-                                "UUID": 6567218755562650029
+                                "UUID": 12161007092593359885
                             }
                         ],
                         "IsWorld": false,
-                        "UUID": 5108213331463002818,
+                        "UUID": 14276701024034675239,
                         "m_isActive": true,
                         "m_name": "",
                         "m_tag": ""
@@ -257,7 +257,7 @@
                             ]
                         },
                         "Type": "RectTransform",
-                        "UUID": 10144004017446821232
+                        "UUID": 4882276845284175253
                     },
                     {
                         "Data": {
@@ -265,11 +265,11 @@
                             "m_isActive": true
                         },
                         "Type": "Canvas",
-                        "UUID": 14556173956663102365
+                        "UUID": 17771143174700299607
                     }
                 ],
                 "IsWorld": false,
-                "UUID": 3559967032366448473,
+                "UUID": 5204118595259977089,
                 "m_isActive": true,
                 "m_name": "Canvas",
                 "m_tag": ""

@@ -61,12 +61,8 @@ namespace REngine
 		// IDの設定
 		ImGui::PushID(objectManager);
 
-		// タイトル
-		ImGui::Text("World");
-
 		// ウィンドウの半分をWorldに
-		ImVec2 size = ImGui::GetContentRegionAvail();
-		ImGui::BeginChild("ObjectManager", ImVec2(0, size.y / 2), ImGuiChildFlags_Borders);
+		ImGui::BeginChild("ObjectManager", ImVec2(0, 0), ImGuiChildFlags_Borders);
 
 		// 全オブジェクトをループ
 		for (auto& object : objectManager->GetAllObject())
