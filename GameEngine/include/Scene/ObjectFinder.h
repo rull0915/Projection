@@ -16,6 +16,7 @@
 //====================================================//
 
 #include "GameObject/GameObject.h"
+#include "Common/UUID.h"
 
 namespace REngine
 {
@@ -55,10 +56,13 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		// ワールド空間にあるオブジェクトを名前検索する関数
-		GameObject* FindWithNameInWorld(const std::string& name) const;
+		// オブジェクトを名前検索する関数
+		GameObject* FindWithName(const std::string& name) const;
 
-		// ワールド空間にあるオブジェクトをタグ検索する関数
-		GameObject* FindWithTagInWorld(const std::string& tag) const;
+		// オブジェクトをタグ検索する関数
+		GameObject* FindWithTag(const std::string& tag) const;
+
+		// オブジェクトをUUID検索する関数
+		GameObject* FindWithUUID(UUID uuid) const;
 	};
 }	// namespace REngine

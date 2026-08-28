@@ -20,6 +20,7 @@
 
 #include "Property.h"
 #include "Assets/Objects/Handle.h"
+#include "Common/ObjectReference.h"
 #include "EnumRegistry.h"
 #include "AssetPropertyRegistry.h"
 
@@ -80,6 +81,15 @@ namespace REngine
 				// タイプインデックスを保存
 				prop.typeIndex = std::type_index(typeid(typename T::value_type));
 			}
+			// ObjectRefなら
+			else if constexpr (IsRef_v<T>)
+			{
+				// 登録
+				AssetPropertyRegistry::Instance().Register<typename T::value_type>();
+
+				// タイプインデックスを保存
+				prop.typeIndex = std::type_index(typeid(typename T::value_type));
+			}
 
 			// 配列に追加
 			m_properties.push_back(prop);
@@ -112,6 +122,8 @@ namespace REngine
 			else if constexpr (std::is_enum_v<T>) return PropertyType::Enum;
 			// Handle
 			else if constexpr (IsHandle_v<T>) return PropertyType::AssetHandle;
+			// Ref
+			else if constexpr (IsRef_v<T>) return PropertyType::ObjectRef;
 
 			// その他
 			else return PropertyType::None;

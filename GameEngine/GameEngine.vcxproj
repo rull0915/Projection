@@ -391,6 +391,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Common\Property\ObjectRefRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Common\Property\Property.h">
       <SubType>
       </SubType>

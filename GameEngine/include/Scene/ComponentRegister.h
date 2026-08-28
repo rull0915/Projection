@@ -93,5 +93,33 @@ namespace REngine
 
 			return nullptr;
 		}
+
+		// コンポーネントをUUIDで検索する関数
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
+		T* GetComponentFromUUID(UUID uuid)
+		{
+			// TypeIdを取得
+			auto id = T::StaticTypeId();
+
+			// リストがあるか調べる
+			auto it = m_componentsMap.find(id);
+
+			// あれば
+			if (it != m_componentsMap.end())
+			{
+				// 探索
+				for (auto component : m_componentsMap[id])
+				{
+					// UUIDの一致チェック
+					if (uuid == component->GetUUID())
+					{
+						return static_cast<T*>(component);
+					}
+				}
+			}
+
+			// 見つからなければnullptr
+			return nullptr;
+		}
 	};
 }	// namespace REngine

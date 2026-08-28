@@ -63,6 +63,10 @@ namespace REngine
 	template<typename T>
 	class Ref : public RefBase
 	{
+	public:
+		// 型識別用
+		using value_type = T;
+
 	private:
 		// 参照先
 		T* m_obj = nullptr;
@@ -95,4 +99,18 @@ namespace REngine
 			m_obj = nullptr;
 		}
 	};
+
+	// 型がRefであるかを調べるための構造体
+
+	// Ref以外ならfalse
+	template<typename>
+	struct IsRef : std::false_type {};
+
+	// Refならtrue
+	template<typename U>
+	struct IsRef<Ref<U>> : std::true_type {};
+
+	// 結果を直接返すインスタンス
+	template<typename T>
+	inline constexpr bool IsRef_v = IsHandle<T>::value;
 }
