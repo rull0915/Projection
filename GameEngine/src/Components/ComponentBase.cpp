@@ -26,6 +26,7 @@ namespace REngine
 	/// </summary>
 	ComponentBase::ComponentBase(IComponentOwner* own)
 		: m_own{ own }
+		, m_uuid{ 0 }
 		, m_changedActive{ false }
 		, m_isActive{ true }
 		, m_ownerIsActive{ true }
