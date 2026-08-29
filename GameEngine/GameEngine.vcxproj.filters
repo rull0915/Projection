@@ -957,7 +957,7 @@
     <ClInclude Include="include\System\UUIDRegistry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\Property\ObjectRefRegistry.h">
+    <ClInclude Include="src\Scene\ReferenceRegistry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

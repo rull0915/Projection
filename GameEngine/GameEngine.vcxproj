@@ -391,10 +391,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Common\Property\ObjectRefRegistry.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\Common\Property\Property.h">
       <SubType>
       </SubType>
@@ -482,6 +478,10 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="src\Scene\ReferenceRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Scene\SceneRenderer.h" />
     <ClInclude Include="include\Scene\UpdateMode.h">
       <SubType>
