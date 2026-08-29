@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : ObjectFinder.h
+// ファイル名   : ReferenceRegistry.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/07
+// 作成日       : 2026/08/29
 //
-// 概要 : オブジェクトの探索をするクラス
+// 概要 : Refを使った参照関係の管理をするクラス
 //
 // 更新履歴 :
-// 2026/07/07 新規作成
+// 2026/08/29 新規作成
 //====================================================//
 
 #pragma once
@@ -14,18 +14,15 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-
-#include "GameObject/GameObject.h"
-#include "Common/UUID.h"
+#include <unordered_map>
+#include "Common/ObjectReference.h"
 
 namespace REngine
 {
-	class Scene;
-
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ObjectFinder
+	class ReferenceRegistry
 	{
 	private:
 
@@ -38,31 +35,58 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// シーンポインタ
-		Scene* m_pScene;
+		// 対応表
+		std::unordered_map<RefBase*, PropertyObject*> m_refs;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ObjectFinder(Scene* pScene)
-			: m_pScene{ pScene }
-		{}
-
-		~ObjectFinder() = default;
+		ReferenceRegistry() = default;
+		~ReferenceRegistry()
+		{
+			// 全無効化
+			for (auto& ref : m_refs)
+			{
+				ref.first->Invalidate();
+			}
+		}
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
-		// オブジェクトを名前検索する関数
-		GameObject* FindWithName(const std::string& name) const;
+		// 追加
+		void AddPair(RefBase* ref, PropertyObject* obj)
+		{
+			// リストに追加
+			m_refs[ref] = obj;
 
-		// オブジェクトをタグ検索する関数
-		GameObject* FindWithTag(const std::string& tag) const;
+			// 削除時コールバックを設定
+			ref->SetDestroyCallBack([this](RefBase* base) { this->RemoveRef(base); });
+		}
 
-		// オブジェクトをUUID検索する関数
-		GameObject* FindWithUUID(UUID uuid) const;
+		// 解除関数
+		void RemoveRef(RefBase* ref)
+		{
+			m_refs.erase(ref);
+		}
+		void RemoveObj(PropertyObject* obj)
+		{
+			// 検索
+			std::erase_if(m_refs, [obj](const auto& pair)
+				{
+					// 削除対象なら
+					if (pair.second == obj)
+					{
+						// 無効化
+						pair.first->Invalidate();
+
+						return true;
+					}
+					return false;
+				});
+		}
 	};
-}	// namespace REngine
+}

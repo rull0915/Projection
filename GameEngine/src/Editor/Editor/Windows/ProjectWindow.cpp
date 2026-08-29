@@ -75,7 +75,7 @@ namespace REngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("WORLD_OBJECT"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				// GameObjectに変換
 				auto data = (GameObject*)payload->Data;

@@ -38,9 +38,6 @@ namespace REngine
 		// その他コンポーネント
 		for (auto& component : m_addReserves)
 		{
-			// シーンに登録
-			RegisterComponentToScene(component.get());
-
 			// リストに追加
 			m_pComponents.push_back(std::move(component));
 		}

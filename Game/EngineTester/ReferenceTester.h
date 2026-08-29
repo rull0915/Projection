@@ -1,79 +1,63 @@
 ﻿//====================================================//
-// ファイル名   : MaterialTester.h
+// ファイル名   : ReferenceTester.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/06
+// 作成日       : 2026/08/30
 //
-// 概要 : マテリアルをテストするコンポーネント
+// 概要 : オブジェクトの参照をテストするコンポーネント
 //
 // 更新履歴 :
-// 2026/08/06 新規作成
+// 2026/08/30 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(MaterialTester)
+#define IS_COMPONENT(ReferenceTester)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/Renderer/RendererBase.h"
-
-#include "Assets/Objects/Handle.h"
-#include "Assets/Types/MaterialAsset.h"
+#include "Components/World/WorldComponentBase.h"
+#include "Common/ObjectReference.h"
 #include "Components/World/Transform/Transform.h"
-#include "Components/Interface/IAssetDependent.h"
-#include "Assets/Types/Shader/SamplerType.h"
 
 //====================================================//
 // 前方宣言
 //====================================================//
-class REngine::AssetManager;
+
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class MaterialTester : public REngine::RendererBase, public REngine::IAssetDependent
+class ReferenceTester : public REngine::WorldComponentBase
 {
 private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
 
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// トランスフォームコンポーネント
-	REngine::Transform* m_pTransform;
+	REngine::Ref<REngine::Transform> m_targetTransform;
 
-	// マテリアル
-	REngine::Handle<REngine::MaterialAsset> m_material;
-
-	// AssetManager
-	REngine::AssetManager* m_assetManager;
-
-	// テクスチャハンドル
-	REngine::Handle<REngine::Texture> m_texture;
-
-	// サンプラータイプ
-	REngine::SamplerType m_samplerType;
-
-	// 経過時間
-	float m_sumTime;
-
-	// 乗算カラー
-	DirectX::SimpleMath::Color m_mulColor;
+	DirectX::SimpleMath::Vector3 m_tarrgetSetPos;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	MaterialTester(REngine::IComponentOwner* own);
-	~MaterialTester() = default;
+	ReferenceTester(REngine::IComponentOwner* own);
+	~ReferenceTester() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(MaterialTester, REngine::RendererBase)
+	COMPONENT_TYPE(EasingTestComponent, REngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -85,14 +69,9 @@ public:
 	void Update(const REngine::GameTimer& gameTimer) override;
 	void LateUpdate(const REngine::GameTimer& gameTimer) override;
 
-	void Draw(REngine::Renderer& renderer) override;
-
-	void OnValidate() override;
-
-	void ReceiveAssetManager(REngine::AssetManager& am) override
-	{
-		m_assetManager = &am;
-	}
+	//-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
 
 	//-----------------------------------------------------
 	// セッター
@@ -103,7 +82,5 @@ private:
 	//-----------------------------------------------------
 	// 内部実装
 	//-----------------------------------------------------
-	
-	// バッファの設定を行う関数
-	void SetBuffer();
+
 };

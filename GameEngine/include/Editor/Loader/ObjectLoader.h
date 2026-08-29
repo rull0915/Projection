@@ -53,7 +53,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// プロパティのロード
-		void LoadProperty(const nlohmann::json& json, PropertyObject& obj);
+		void LoadProperty(const nlohmann::json& json, PropertyObject& obj, Scene* pScene);
 
 		// Worldオブジェクトのロード
 		void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);

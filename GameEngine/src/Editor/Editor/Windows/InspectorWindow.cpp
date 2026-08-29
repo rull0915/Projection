@@ -77,6 +77,9 @@ namespace REngine
 
 	void InspectorWindow::DrawGameObject(GameObject* object)
 	{
+		// UUIDを表示(テスト)
+		ImGui::Text("UUID : %d", object->GetUUID());
+
 		// 表示
 		if (m_propertyOnInspector.DrawPropertyObject(object))
 		{
@@ -106,9 +109,24 @@ namespace REngine
 				ImGui::EndPopup();
 			}
 
+			// ドラッグの開始
+			if (ImGui::BeginDragDropSource())
+			{
+				// 渡したいデータを設定
+				ImGui::SetDragDropPayload("COMPONENT", component, sizeof(*component));
+
+				// ドラッグ中に表示される内容
+				ImGui::Text(name.c_str());
+
+				ImGui::EndDragDropSource();
+			}
+
 			// ツリーの開始
 			if (open)
 			{
+				// UUIDを表示(テスト)
+				ImGui::Text("UUID : %d", component->GetUUID());
+
 				// インスペクターに表示
 				if (m_propertyOnInspector.DrawPropertyObject(component))
 				{

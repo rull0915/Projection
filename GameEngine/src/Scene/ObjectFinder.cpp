@@ -14,7 +14,6 @@
 
 #include "Scene/Scene.h"
 #include "Managers/ObjectManager.h"
-#include "Managers/UI/UIManager.h"
 
 namespace REngine
 {
@@ -22,7 +21,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	GameObject* ObjectFinder::FindWithNameInWorld(const std::string& name) const
+	GameObject* ObjectFinder::FindWithName(const std::string& name) const
 	{
 		// ObjectManagerを取得
 		ObjectManager* objManager = m_pScene->GetObjectManager();
@@ -50,7 +49,7 @@ namespace REngine
 		return nullptr;
 	}
 
-	GameObject* ObjectFinder::FindWithTagInWorld(const std::string& tag) const
+	GameObject* ObjectFinder::FindWithTag(const std::string& tag) const
 	{
 		// ObjectManagerを取得
 		ObjectManager* objManager = m_pScene->GetObjectManager();
@@ -69,6 +68,34 @@ namespace REngine
 		{
 			// 名前を比較
 			if (object->GetTag() == tag)
+			{
+				return object.get();
+			}
+		}
+
+		// 見つからなかった場合null
+		return nullptr;
+	}
+
+	GameObject* ObjectFinder::FindWithUUID(UUID uuid) const
+	{
+		// ObjectManagerを取得
+		ObjectManager* objManager = m_pScene->GetObjectManager();
+
+		// 全オブジェクトを調べる
+		for (auto& object : objManager->GetAllObject())
+		{
+			// タグを比較
+			if (object->GetUUID() == uuid)
+			{
+				return object.get();
+			}
+		}
+		// 予約リストも調べる
+		for (auto& object : objManager->GetAllReserves())
+		{
+			// 名前を比較
+			if (object->GetUUID() == uuid)
 			{
 				return object.get();
 			}

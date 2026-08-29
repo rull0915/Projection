@@ -42,7 +42,7 @@ void CameraCorrection::Start()
 	m_pScene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// 探索
-	m_player = m_pScene->GetObjectFinder()->FindWithNameInWorld(m_playerName);
+	m_player = m_pScene->GetObjectFinder()->FindWithName(m_playerName);
 }
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます

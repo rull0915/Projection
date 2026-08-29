@@ -843,7 +843,7 @@
     <ClInclude Include="include\Common\Property\Property.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Assets\Objects\UUID.h">
+    <ClInclude Include="include\Common\UUID.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Objects\LoadStatus.h">
@@ -949,6 +949,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Canvas.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\ObjectReference.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\System\UUIDRegistry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\ReferenceRegistry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

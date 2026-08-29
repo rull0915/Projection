@@ -20,6 +20,7 @@
 
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
+#include "System/UUIDRegistry.h"
 
 namespace REngine
 {
@@ -228,6 +229,8 @@ namespace REngine
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* Add()
 		{
+			ComponentBase* add = nullptr;
+
 			// トランスフォームの場合
 			if constexpr (std::is_same_v<T, Transform>)
 			{
@@ -240,12 +243,11 @@ namespace REngine
 					// 初期化
 					m_pTransform.get()->UpdateCache();
 
-					// キャッシュに追加
-					RegistComponentToCache(m_pTransform.get());
+					add = m_pTransform.get();
 				}
 
 				// 既に確定していたら追加不可
-				return m_pTransform.get();
+				else return m_pTransform.get();
 			}
 
 			// RectTransformの場合
@@ -260,12 +262,11 @@ namespace REngine
 					// 初期化
 					m_pRectTransform.get()->UpdateCache();
 					
-					// キャッシュに追加
-					RegistComponentToCache(m_pRectTransform.get());
+					add = m_pRectTransform.get();
 				}
 
 				// 既に確定していたら追加不可
-				return m_pRectTransform.get();
+				else return m_pRectTransform.get();
 			}
 
 			else
@@ -280,14 +281,23 @@ namespace REngine
 					// 配列に追加
 					m_addReserves.push_back(std::move(comp));
 
-					// キャッシュに追加
-					RegistComponentToCache(ptr);
-
-					return ptr;
+					add = ptr;
 				}
 			}
 
-			return nullptr;
+			if (add)
+			{
+				// UUIDを設定
+				add->SetUUID(UUIDRegistry::Instance().GenerateUUID());
+
+				// キャッシュに追加
+				RegistComponentToCache(add);
+
+				// シーンに登録
+				RegisterComponentToScene(add);
+			}
+
+			return static_cast<T*>(add);
 		}
 
 		// ---------- Remove ---------- //

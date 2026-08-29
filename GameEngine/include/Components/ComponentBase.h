@@ -8,6 +8,8 @@
 // 更新履歴 :
 // 2026/04/02 新規作成
 // 2026/06/25 IDからカテゴリに管理方法を変更
+// 2026/08/26 typeシステムをconst void*を使用する方法に変更
+// 2026/08/28 メンバにUUIDを追加
 //====================================================//
 
 #pragma once
@@ -15,6 +17,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include "Common/UUID.h"
 #include "GameObject/Interface/IComponentOwner.h"
 #include "ComponentTypeId.h"
 
@@ -37,6 +40,9 @@ namespace REngine
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
+
+		// UUID
+		UUID m_uuid;
 
 		// 自身の所有者のポインタ
 		IComponentOwner* m_own;
@@ -65,6 +71,9 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
+		// UUID
+		UUID GetUUID() const { return m_uuid; }
+
 		// 所有者
 		IComponentOwner* GetOwn() const { return m_own; }
 
@@ -78,7 +87,10 @@ namespace REngine
 		// セッター
 		//-----------------------------------------------------
 
+		void SetUUID(UUID uuid) { m_uuid = uuid; }
+
 		void SetOwnerActive(bool f);
+
 		void SetActive(bool f);
 
 		void SetStart() { m_isStarted = true; }

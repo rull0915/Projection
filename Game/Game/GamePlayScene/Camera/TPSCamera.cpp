@@ -86,7 +86,7 @@ void TPSCamera::SetTarget(const std::string& name)
 	m_targetName = name;
 
 	// 名前でオブジェクトを検索する
-	REngine::GameObject* obj = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
+	REngine::GameObject* obj = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithName("Player");
 
 	// 見つかれば
 	if (obj)

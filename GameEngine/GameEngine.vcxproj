@@ -378,6 +378,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Common\EventBus.h" />
+    <ClInclude Include="include\Common\ObjectReference.h" />
     <ClInclude Include="include\Common\Origin.h">
       <SubType>
       </SubType>
@@ -477,6 +478,10 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="src\Scene\ReferenceRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Scene\SceneRenderer.h" />
     <ClInclude Include="include\Scene\UpdateMode.h">
       <SubType>
@@ -485,6 +490,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\Both\BothComponentBase.h" />
     <ClInclude Include="include\GameEngine.h" />
     <ClInclude Include="include\System\GraphicsManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\System\UUIDRegistry.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -510,7 +519,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Assets\Objects\UUID.h">
+    <ClInclude Include="include\Common\UUID.h">
       <SubType>
       </SubType>
     </ClInclude>

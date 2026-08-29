@@ -37,7 +37,7 @@ void SelectBlock::Start()
 {
 	// UIオブジェクトを取得
 	m_uiObject =
-		static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld(m_uiName);
+		static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithName(m_uiName);
 }
 
 void SelectBlock::OnTriggerStay(REngine::HitContact & contact)

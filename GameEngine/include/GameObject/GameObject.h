@@ -10,6 +10,7 @@
 // 2026/05/28 final指定に変更し、コンポーネントを保持するだけの器という設計に変更
 // 2026/06/02 必要なインターフェースを継承する設計に変更
 // 2026/06/24 コンストラクタに引数を追加し特定のクラスからしか実体化できないように変更
+// 2026/08/28 メンバにUUIDを追加
 //====================================================//
 
 #pragma once
@@ -19,6 +20,7 @@
 //====================================================//
 #include <type_traits>
 
+#include "Common/UUID.h"
 #include "Common/Property/PropertyObject.h"
 #include "Interface/IColliderReceiver.h"
 #include "Interface/IComponentOwner.h"
@@ -60,6 +62,9 @@ namespace REngine
 	private:
 		// コンポーネント
 		ComponentContainer m_components;
+
+		// UUID
+		UUID m_uuid;
 
 		// 自身を持つシーンのポインタ
 		Scene* m_pScene;
@@ -109,6 +114,9 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
+
+		UUID GetUUID() const { return m_uuid; }
+
 		bool IsActive() const override { return m_isActive && m_parentIsActive; }
 
 		bool IsDead() const { return m_isDead; }
@@ -124,7 +132,11 @@ namespace REngine
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
+
+		void SetUUID(UUID uuid) { m_uuid = uuid; }
+
 		void SetParentActive(bool f);
+
 		void SetActive(bool f);
 
 		void SetInvincible(bool f) { m_isInvincible = f; }

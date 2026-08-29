@@ -13,7 +13,6 @@
 #include "Components/ComponentBase.h"
 
 #include "GameObject/Interface/IComponentOwner.h"
-#include "Components/World/Transform/Transform.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -26,6 +25,7 @@ namespace REngine
 	/// </summary>
 	ComponentBase::ComponentBase(IComponentOwner* own)
 		: m_own{ own }
+		, m_uuid{ 0 }
 		, m_changedActive{ false }
 		, m_isActive{ true }
 		, m_ownerIsActive{ true }

@@ -61,12 +61,8 @@ namespace REngine
 		// IDの設定
 		ImGui::PushID(objectManager);
 
-		// タイトル
-		ImGui::Text("World");
-
 		// ウィンドウの半分をWorldに
-		ImVec2 size = ImGui::GetContentRegionAvail();
-		ImGui::BeginChild("ObjectManager", ImVec2(0, size.y / 2), ImGuiChildFlags_Borders);
+		ImGui::BeginChild("ObjectManager", ImVec2(0, 0), ImGuiChildFlags_Borders);
 
 		// 全オブジェクトをループ
 		for (auto& object : objectManager->GetAllObject())
@@ -109,7 +105,7 @@ namespace REngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("WORLD_OBJECT"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				auto data = (GameObject*)payload->Data;
 
@@ -144,9 +140,6 @@ namespace REngine
 			name = "GameObject";
 		}
 
-		// 所属空間を調べる
-		std::string space = (object->GetComponent<Transform>()) ? "WORLD_OBJECT" : "UI_OBJECT";
-
 		// 初期状態のフラグ
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
@@ -167,7 +160,7 @@ namespace REngine
 		bool open = ImGui::TreeNodeEx(name.c_str(), flags);
 
 		// クリックされたら
-		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
 			// 選択されているオブジェクトを自分に
 			m_selected.SetSelected(object);
@@ -195,7 +188,7 @@ namespace REngine
 		if (ImGui::BeginDragDropSource())
 		{
 			// 渡したいデータを設定
-			ImGui::SetDragDropPayload(space.c_str(), object, sizeof(*object));
+			ImGui::SetDragDropPayload("GAMEOBJECT", object, sizeof(*object));
 
 			// ドラッグ中に表示される内容
 			ImGui::Text(name.c_str());
@@ -206,19 +199,21 @@ namespace REngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(space.c_str()))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				auto data = (GameObject*)payload->Data;
 
 				// 自分と一致していなければ
 				if (data != object)
 				{
+					// Transformの時
 					if (auto* other = data->GetComponent<Transform>())
 						if (auto* own = object->GetComponent<Transform>())
 						{
 							other->SetParent(own);
 						}
 
+					// RectTransformの時
 					if (auto* other = data->GetComponent<RectTransform>())
 						if (auto* own = object->GetComponent<RectTransform>())
 						{

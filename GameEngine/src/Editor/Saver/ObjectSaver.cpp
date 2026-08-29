@@ -22,6 +22,7 @@
 
 #include "Common/Property/EnumRegistry.h"
 #include "Common/Property/AssetPropertyRegistry.h"
+#include "Common/ObjectReference.h"
 
 namespace REngine
 {
@@ -103,6 +104,12 @@ namespace REngine
 				js[property.name] = registry.GetUUID(property.typeIndex, property.value, m_assetManager);	// UUIDを保存
 				break;
 			}
+				// ObjRef
+			case PropertyType::ObjectRef: {
+				auto v = (static_cast<RefBase*>(property.value));
+				js[property.name] = v->GetUUID();
+				break;
+			}
 			default:
 				break;
 			}
@@ -116,6 +123,9 @@ namespace REngine
 		// GameObject部分を保存
 		json j = SaveProperty(*obj);
 
+		// UUIDを保存
+		j["UUID"] = obj->GetUUID();
+
 		// コンポーネントを全て調べる
 		for (auto& component : obj->GetAllComponents())
 		{
@@ -127,10 +137,11 @@ namespace REngine
 
 			j["Components"].push_back(
 				{
-					{ "Type", componentName.data()},
+					{ "Type", componentName.data() },
 					{ "Data", compJson },
+					{ "UUID", component->GetUUID() }
 				}
-				);
+			);
 		}
 
 		j["Children"] = nlohmann::json::array();

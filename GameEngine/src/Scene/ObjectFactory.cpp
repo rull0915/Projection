@@ -14,7 +14,7 @@
 
 #include "Scene/Scene.h"
 #include "Managers/ObjectManager.h"
-#include "Managers/UI/UIManager.h"
+#include "System/UUIDRegistry.h"
 
 namespace REngine
 {
@@ -44,6 +44,9 @@ namespace REngine
 		// 位置を設定
 		pObj->GetComponent<Transform>()->SetLocalPosition(position);
 
+		// UUIDを生成
+		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
+
 		// 作成したポインタを返す
 		return pObj;
 	}
@@ -61,6 +64,9 @@ namespace REngine
 
 		// RectTransformを追加
 		pObj->AddComponent<RectTransform>();
+
+		// UUIDを生成
+		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
 
 		// 作成したポインタを返す
 		return pObj;
