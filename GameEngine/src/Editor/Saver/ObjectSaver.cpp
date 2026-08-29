@@ -22,6 +22,7 @@
 
 #include "Common/Property/EnumRegistry.h"
 #include "Common/Property/AssetPropertyRegistry.h"
+#include "Common/ObjectReference.h"
 
 namespace REngine
 {
@@ -101,6 +102,12 @@ namespace REngine
 			case PropertyType::AssetHandle: {
 				auto& registry = AssetPropertyRegistry::Instance();
 				js[property.name] = registry.GetUUID(property.typeIndex, property.value, m_assetManager);	// UUIDを保存
+				break;
+			}
+				// ObjRef
+			case PropertyType::ObjectRef: {
+				auto v = (static_cast<RefBase*>(property.value));
+				js[property.name] = v->GetUUID();
 				break;
 			}
 			default:

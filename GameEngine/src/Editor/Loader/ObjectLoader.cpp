@@ -22,6 +22,7 @@
 #include <string>
 #include "Common/Property/AssetPropertyRegistry.h"
 #include "Common/Property/EnumRegistry.h"
+#include "Common/ObjectReference.h"
 #include "Common/UUID.h"
 
 namespace REngine
@@ -30,7 +31,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj)
+	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj, Scene* pScene)
 	{
 		// 登録されているプロパティを全て調べる
 		for (auto& property : obj.GetPropaties())
@@ -83,7 +84,7 @@ namespace REngine
 
 				// PropertyObject
 			case PropertyType::Object:
-				LoadProperty(json[property.name], *(static_cast<PropertyObject*>(property.value)));
+				LoadProperty(json[property.name], *(static_cast<PropertyObject*>(property.value)), pScene);
 				break;
 
 				// Enum
@@ -99,6 +100,11 @@ namespace REngine
 				registry.Assign(property.typeIndex, property.value, handle);	// 変更
 				break;
 			}
+				// ObjRef
+			case PropertyType::ObjectRef:
+				(static_cast<RefBase*>(property.value))->SetUUID(json[property.name]);
+				if (pScene) pScene->RegisterLateResolve(static_cast<RefBase*>(property.value));
+				break;
 			default:
 				break;
 			}
@@ -108,7 +114,7 @@ namespace REngine
 	void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene)
 	{
 		// ゲームオブジェクト部分をロード
-		LoadProperty(json, *obj);
+		LoadProperty(json, *obj, pScene);
 
 		// UUIDをロード
 		UUID uuid = 0;
@@ -127,7 +133,7 @@ namespace REngine
 			// ロード
 			if (component)
 			{
-				LoadProperty(js["Data"], *component);
+				LoadProperty(js["Data"], *component, pScene);
 
 				// 変更時処理の呼び出し
 				component->OnValidate();
@@ -209,7 +215,7 @@ namespace REngine
 			ifs >> j;
 
 			// ロード
-			LoadProperty(j, *obj);
+			LoadProperty(j, *obj, nullptr);
 		}
 
 		// 閉じる
