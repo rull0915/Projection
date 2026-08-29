@@ -57,9 +57,9 @@
                                 0.0
                             ],
                             "m_localRotation": [
+                                -0.0,
                                 0.0,
-                                0.0,
-                                0.0,
+                                -0.0,
                                 1.0
                             ],
                             "m_localScale": [
@@ -161,6 +161,19 @@
                         },
                         "Type": "MaterialTester",
                         "UUID": 518144284352436764
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_targetTransform": 5206005941480499871,
+                            "m_tarrgetSetPos": [
+                                1.5,
+                                0.0,
+                                0.0
+                            ]
+                        },
+                        "Type": "ReferenceTester",
+                        "UUID": 7588448624588885049
                     }
                 ],
                 "IsWorld": true,
