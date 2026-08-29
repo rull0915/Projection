@@ -16,6 +16,7 @@
 // インクルードファイル
 //====================================================//
 #include <memory>
+#include <vector>
 
 #include "Physics/Ray.h"
 #include "Physics/RaycastHit.h"
@@ -26,6 +27,7 @@
 #include "ObjectFinder.h"
 #include "MainScreen.h"
 #include "Assets/Managers/AssetManager.h"
+#include "Common/ObjectReference.h"
 
 namespace REngine
 {
@@ -40,7 +42,7 @@ namespace REngine
 	class SceneRenderer;
 	class UpdatePipeline;
 	class ObjectManager;
-	class UIManager;
+	class ReferenceRegistry;
 
 	//====================================================//
 	// クラス宣言
@@ -67,11 +69,17 @@ namespace REngine
 		// メインスクリーン
 		std::unique_ptr<MainScreen> m_mainScreen;
 
+		// 参照レジストリ
+		std::unique_ptr<ReferenceRegistry> m_referenceRegistry;
+
 		// 更新状態
 		UpdateMode m_updateMode;
 
 		// アセットマネージャー
 		AssetManager& m_assetManager;
+
+		// 参照解決待ちリスト
+		std::vector<RefBase*> m_waitingRefBases;
 
 	public:
 
@@ -107,8 +115,17 @@ namespace REngine
 		// コンポーネントの登録を解除する関数
 		void UnRegsisterComponent(ComponentBase* component);
 
+		// オブジェクトの削除が通知される関数
+		void OnGameObjectDestroy(GameObject* obj);
+
 		// RayCast関数
 		bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
+
+		// RefBaseの参照を作成する関数
+		bool ResolveRef(RefBase* ref);
+
+		// RefBaseの遅延解決を予約する関数
+		void RegisterLateResolve(RefBase* ref);
 
 		//-----------------------------------------------------
 		// ゲッター
@@ -119,7 +136,6 @@ namespace REngine
 
 		// 管理クラス
 		ObjectManager* GetObjectManager() const;
-		UIManager* GetUIManager() const;
 
 		// コンポーネント管理者
 		ComponentRegister* GetComponentRegister() const { return m_componentRegister.get(); }

@@ -13,7 +13,6 @@
 #include "Components/ComponentBase.h"
 
 #include "GameObject/Interface/IComponentOwner.h"
-#include "Components/World/Transform/Transform.h"
 
 //====================================================//
 // 関数の実体宣言

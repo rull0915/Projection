@@ -35,6 +35,7 @@ namespace REngine
 		, m_tag{}
 		, m_name{}
 		, m_isInvincible{ false }
+		, m_uuid{ 0 }
 	{
 		ADD_PROPERTY(m_isActive);
 		ADD_PROPERTY(m_name);
@@ -43,6 +44,9 @@ namespace REngine
 
 	void GameObject::Finalize()
 	{
+		// シーンに通知
+		m_pScene->OnGameObjectDestroy(this);
+
 		// コンポーネント削除
 		RemoveComponents();
 

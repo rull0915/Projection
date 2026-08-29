@@ -292,6 +292,9 @@ namespace REngine
 
 				// キャッシュに追加
 				RegistComponentToCache(add);
+
+				// シーンに登録
+				RegisterComponentToScene(add);
 			}
 
 			return static_cast<T*>(add);
