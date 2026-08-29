@@ -16,7 +16,7 @@
 #include "Camera/TPSCamera.h"
 #include "Camera/CameraCorrection.h"
 
-#include "Input/KeyInput.h"
+#include "Input/InputSystem.h"
 #include "Scene/Scene.h"
 
 #include "Effect/ClearEffect.h"
@@ -110,7 +110,7 @@ void PlaySceneManager::Update(const REngine::GameTimer& gameTimer)
 	gameTimer;
 
 	// Qキーで次元の変更
-	if (REngine::Input::Key::GetDown(REngine::Input::Key::Code::Q))
+	if (REngine::Input::Custom::GetButtonDown("ChangeDimention"))
 	{
 		TryChangeDimention();
 	}

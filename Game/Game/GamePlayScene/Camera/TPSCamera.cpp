@@ -12,9 +12,9 @@
 #include "pch.h"
 #include "TPSCamera.h"
 
-#include "Input/MouseInput.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Input/InputSystem.h"
 #include <algorithm>
 
 //====================================================//
@@ -57,7 +57,7 @@ void TPSCamera::Update(const REngine::GameTimer& gameTimer)
 	if (!m_pTargetTransform) return;
 
 	// マウスの移動量を取得
-	DirectX::SimpleMath::Vector2 moveVal = REngine::Input::Mouse::GetMouseMoveValue();
+	DirectX::SimpleMath::Vector2 moveVal = { REngine::Input::Custom::GetAxis("CameraX"), REngine::Input::Custom::GetAxis("CameraY") };
 
 	// 角度に加算する
 	m_angle.x += moveVal.y * m_sensitivity * 0.01f;

@@ -26,6 +26,7 @@ namespace REngine
 		: m_currentScene{}
 		, m_pRequestedScene{ "" }
 		, m_transitionManager{}
+		, m_assetManager{}
 	{}
 
 	// デストラクタ

@@ -199,5 +199,19 @@ namespace REngine
 		Input::Custom::AddButton(
 			"Jump", Input::Pad::Button::A
 		);
+
+		Input::Custom::AddAxis(
+			"CameraX", Input::Pad::Axis::RightStickX, 2.0f
+		);
+		Input::Custom::AddAxis(
+			"CameraX", Input::Mouse::Axis::X
+		);
+
+		Input::Custom::AddAxis(
+			"CameraY", Input::Pad::Axis::RightStickY, -2.0f
+		);
+		Input::Custom::AddAxis(
+			"CameraY", Input::Mouse::Axis::Y
+		);
 	}
 } // namespace REngine

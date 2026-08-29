@@ -171,7 +171,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawSpriteCommand>& spriteCommands, const std::vector<DrawTextCommand>& textCommands)
 {
 	// スプライトバッチの開始
-	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
+	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied(), m_pStates->PointWrap());
 
 	// 全コマンドの描画
 	for (auto& c : spriteCommands)
