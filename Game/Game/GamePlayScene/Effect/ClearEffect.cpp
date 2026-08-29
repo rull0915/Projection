@@ -49,7 +49,7 @@ void ClearEffect::Start()
 	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// クリアUIを取得
-	m_clearUI = scene->GetObjectFinder()->FindWithNameInUI(m_clearUIName);
+	m_clearUI = scene->GetObjectFinder()->FindWithName(m_clearUIName);
 
 	// 時間の初期化
 	m_sumTime = 0;

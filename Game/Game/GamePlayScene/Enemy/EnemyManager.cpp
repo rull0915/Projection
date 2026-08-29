@@ -78,7 +78,7 @@ void EnemyManager::Start()
 	m_is2D = false;
 
 	// プレイヤーを取得
-	REngine::GameObject* player = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithNameInWorld("Player");
+	REngine::GameObject* player = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithName("Player");
 
 	if (player) m_playerTransform = player->GetComponent<REngine::Transform>();
 }

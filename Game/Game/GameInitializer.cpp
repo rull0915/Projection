@@ -33,15 +33,15 @@ void GameInitializer::Initialize()
 {
 	// 衝突判定関数の追加
 	REngine::CollisionMap2D::Register(
-		REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(), REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
+		ConvexPolygonCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
 		Collision2D::CheckHit2D_Convex_Convex
 	);
 	REngine::CollisionMap2D::Register(
-		REngine::TypeIDGenerator::GetID<REngine::CircleCollider2D>(), REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
+		REngine::CircleCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
 		Collision2D::CheckHit2D_Circle_Convex
 	);
 	REngine::CollisionMap2D::Register(
-		REngine::TypeIDGenerator::GetID<REngine::CapsuleCollider2D>(), REngine::TypeIDGenerator::GetID<ConvexPolygonCollider2D>(),
+		REngine::CapsuleCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
 		Collision2D::CheckHit2D_Capsule_Convex
 	);
 

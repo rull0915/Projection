@@ -219,9 +219,7 @@ $(ProjectDir)
     </ClInclude>
     <ClInclude Include="EngineTester\EasingTestComponent.h" />
     <ClInclude Include="EngineTester\MaterialTester.h" />
-    <ClInclude Include="EngineTester\MyComponent.h" />
-    <ClInclude Include="EngineTester\PropertyTest.h" />
-    <ClInclude Include="EngineTester\Status.h" />
+    <ClInclude Include="EngineTester\ReferenceTester.h" />
     <ClInclude Include="GameLib\Colliders\CheckHit.h">
       <SubType>
       </SubType>
@@ -289,9 +287,7 @@ $(ProjectDir)
   <ItemGroup>
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
     <ClCompile Include="EngineTester\MaterialTester.cpp" />
-    <ClCompile Include="EngineTester\MyComponent.cpp" />
-    <ClCompile Include="EngineTester\PropertyTest.cpp" />
-    <ClCompile Include="EngineTester\Status.cpp" />
+    <ClCompile Include="EngineTester\ReferenceTester.cpp" />
     <ClCompile Include="GameLib\Colliders\CheckHit.cpp">
       <SubType>
       </SubType>

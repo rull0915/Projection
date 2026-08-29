@@ -61,7 +61,7 @@ void StartCamera::Start()
 	REngine::Scene* pScene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// ターゲットを取得
-	REngine::GameObject* target = pScene->GetObjectFinder()->FindWithNameInWorld(m_targetName);
+	REngine::GameObject* target = pScene->GetObjectFinder()->FindWithName(m_targetName);
 
 	// 取得できなければ何もしない
 	if (!target) return;

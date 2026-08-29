@@ -15,7 +15,6 @@
 // インクルードファイル
 //====================================================//
 #include "GameObject/GameObject.h"
-#include "Managers/UI/Canvas.h"
 
 namespace REngine
 {
@@ -49,7 +48,7 @@ namespace REngine
 		// オブジェクトを生成する関数
 		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
-		// キャンバスを生成する関数
-		Canvas* GenerateCanvas();
+		// UIオブジェクトを生成する関数
+		GameObject* GenerateUI();
 	};
 }	// namespace REngine

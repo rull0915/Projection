@@ -52,6 +52,12 @@ public:
 	~ChangeColliderComponent() {};
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(ChangeColliderComponent, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -67,12 +73,6 @@ public:
 		// 再構築
 		Change2DTo3D();
 		Change3DTo2D(pCamera);
-	}
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<ChangeColliderComponent>();
 	}
 
 private:

@@ -14,7 +14,7 @@
 
 #include "Scene/Scene.h"
 #include "Managers/ObjectManager.h"
-#include "Managers/UI/UIManager.h"
+#include "System/UUIDRegistry.h"
 
 namespace REngine
 {
@@ -44,12 +44,31 @@ namespace REngine
 		// 位置を設定
 		pObj->GetComponent<Transform>()->SetLocalPosition(position);
 
+		// UUIDを生成
+		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
+
 		// 作成したポインタを返す
 		return pObj;
 	}
 
-	Canvas* ObjectFactory::GenerateCanvas()
+	GameObject* ObjectFactory::GenerateUI()
 	{
-		return m_pScene->GetUIManager()->CreateCanvas();
+		// ポインタを作成
+		GameObject* pObj = new GameObject(GameObject::CreateToken{});
+
+		// オブジェクトのシーンを設定
+		pObj->SetScene(m_pScene);
+
+		// オブジェクト管理クラスに追加
+		m_pScene->GetObjectManager()->AddObject(pObj);
+
+		// RectTransformを追加
+		pObj->AddComponent<RectTransform>();
+
+		// UUIDを生成
+		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
+
+		// 作成したポインタを返す
+		return pObj;
 	}
 }	// namespace REngine

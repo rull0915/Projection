@@ -57,14 +57,8 @@ namespace REngine
 		// GameObjectの保存
 		nlohmann::json SaveObject(const GameObject* obj);
 
-		// キャンバスの保存
-		nlohmann::json SaveCanvas(const Canvas* canvas);
-
 		// ObjectManagerの保存
 		nlohmann::json SaveObjectManager(const ObjectManager* objManager);
-
-		// UIManagerの保存
-		nlohmann::json SaveUIManager(const UIManager* uiManager);
 
 		// Sceneの保存
 		nlohmann::json SaveScene(const Scene* scene);

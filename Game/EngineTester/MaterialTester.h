@@ -70,6 +70,12 @@ public:
 	~MaterialTester() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(MaterialTester, REngine::RendererBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -86,16 +92,6 @@ public:
 	void ReceiveAssetManager(REngine::AssetManager& am) override
 	{
 		m_assetManager = &am;
-	}
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<MaterialTester>();
 	}
 
 	//-----------------------------------------------------

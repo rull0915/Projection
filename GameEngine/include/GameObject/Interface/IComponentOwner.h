@@ -15,8 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <vector>
-#include "Common/TypeIdGenerator.h"
-#include "Components/ComponentCategory.h"
+#include "Components/ComponentTypeId.h"
 
 namespace REngine
 {
@@ -55,42 +54,14 @@ namespace REngine
 		template<typename T>
 		T* GetComponent()
 		{
-			return static_cast<T*>(
-				GetComponentRaw(TypeIDGenerator::GetID<T>())
-				);
-		}
-
-		ComponentBase* GetComponentWithCategory(ComponentCategory category)
-		{
-			return GetComponentWithCategoryRaw(category);
+			return static_cast<T*>(GetComponentRaw(T::StaticTypeId()));
 		}
 
 		// 複数取得
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		void GetComponents(std::vector<T*>& out)
+		const std::vector<ComponentBase*>& GetComponents()
 		{
-			std::vector<ComponentBase*> components;
-			GetComponentsRaw(
-				TypeIDGenerator::GetID<T>(), components
-			);
-
-			out.clear();
-			for (auto& component : components)
-			{
-				out.push_back(static_cast<T*>(component));
-			}
-		}
-
-		void GetComponentsWithCategory(ComponentCategory category, std::vector<ComponentBase*>& out)
-		{
-			GetComponentsWithCategoryRaw(category, out);
-		}
-
-		// ------ Has ------ //
-		template<typename T>
-		bool HasComponent() const
-		{
-			return HasComponentRaw(TypeIDGenerator::GetID<T>());
+			return GetComponentsRaw(T::StaticTypeId());
 		}
 
 		// --------- 内部実装 ---------- //
@@ -100,27 +71,12 @@ namespace REngine
 
 		// 取得
 		virtual ComponentBase* GetComponentRaw(
-			unsigned int id
-		) = 0;
-
-		// カテゴリ取得
-		virtual ComponentBase* GetComponentWithCategoryRaw(
-			ComponentCategory category
-		) = 0;
-
-		// 所持チェック
-		virtual bool HasComponentRaw(
-			unsigned int id
-		) = 0;
+			Component::TypeId id
+		) const = 0;
 
 		// 複数取得
-		virtual void GetComponentsRaw(
-			unsigned int id,
-			std::vector<ComponentBase*>& out) = 0;
-
-		// 複数カテゴリ取得
-		virtual void GetComponentsWithCategoryRaw(
-			ComponentCategory category,
-			std::vector<ComponentBase*>& out) = 0;
+		virtual const std::vector<ComponentBase*>& GetComponentsRaw(
+			Component::TypeId id
+		) const = 0;
 	};
 } // namespace REngine

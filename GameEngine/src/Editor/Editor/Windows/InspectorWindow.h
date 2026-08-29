@@ -19,7 +19,7 @@
 #include "GameObject/GameObject.h"
 #include "Assets/Objects/AssetBase.h"
 
-#include "Components/ComponentCategory.h"
+#include "Components/ComponentInfo.h"
 #include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine
@@ -44,8 +44,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InspectorWindow(AssetManager& am, SelectedOnGUI& selected)
-			: m_propertyOnInspector(am)
+		InspectorWindow(Scene* pScene, AssetManager& am, SelectedOnGUI& selected)
+			: m_propertyOnInspector(pScene, am)
 			, m_selected{ selected }
 			, m_assetManager{ am }
 		{};
@@ -78,9 +78,6 @@ namespace REngine
 
 		// コンポーネントリストを表示する関数
 		void DrawComponentList(GameObject* object, ComponentInfo info);
-
-		// Canvasを表示する関数
-		void DrawCanvas(Canvas* canvas);
 
 		// Assetを表示する関数
 		void DrawAsset(AssetBase* asset);

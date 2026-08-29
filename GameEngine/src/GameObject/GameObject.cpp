@@ -35,6 +35,7 @@ namespace REngine
 		, m_tag{}
 		, m_name{}
 		, m_isInvincible{ false }
+		, m_uuid{ 0 }
 	{
 		ADD_PROPERTY(m_isActive);
 		ADD_PROPERTY(m_name);
@@ -43,6 +44,9 @@ namespace REngine
 
 	void GameObject::Finalize()
 	{
+		// シーンに通知
+		m_pScene->OnGameObjectDestroy(this);
+
 		// コンポーネント削除
 		RemoveComponents();
 
@@ -83,6 +87,36 @@ namespace REngine
 	GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
 	{
 		return m_pScene->GetFactory()->Generate(position);
+	}
+
+	GameObject* GameObject::GetParent() const
+	{
+		if (auto* t = GetComponent<Transform>())
+		{
+			// 親がいれば
+			if (auto* parent = t->GetParent())
+			{
+				return static_cast<GameObject*>(parent->GetOwn());
+			}
+		}
+		else if (auto* t = GetComponent<RectTransform>())
+		{
+			// 親がいれば
+			if (auto* parent = t->GetParent())
+			{
+				return static_cast<GameObject*>(parent->GetOwn());
+			}
+		}
+
+		return nullptr;
+	}
+
+	size_t GameObject::GetChildCount() const
+	{
+		if (auto* t = GetComponent<Transform>()) return t->GetChildren().size();
+		else if (auto* t = GetComponent<RectTransform>()) return t->GetChildren().size();
+
+		return 0;	
 	}
 
 	void GameObject::SetParentActive(bool value)

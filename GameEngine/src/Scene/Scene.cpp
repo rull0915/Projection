@@ -14,9 +14,9 @@
 
 // 各管理クラス
 #include "Scene/UpdatePipeline.h"
-#include "Managers/UI/UIManager.h"
 #include "Managers/3DManagers/Ray/RaySystem.h"
 #include "System/WindowManager.h"
+#include "ReferenceRegistry.h"
 
 // 各コンポーネント
 #include "Components/ComponentBase.h"
@@ -41,6 +41,7 @@ namespace REngine
 		, m_sceneRenderer{ std::make_unique<SceneRenderer>(this) }
 		, m_objectFactory{ std::make_unique<ObjectFactory>(this) }
 		, m_mainScreen{ std::make_unique<MainScreen>() }
+		, m_referenceRegistry{ std::make_unique<ReferenceRegistry>() }
 		, m_updateMode{ UpdateMode::Play }
 		, m_assetManager{ assetManager }
 	{
@@ -54,7 +55,15 @@ namespace REngine
 
 	// 初期化関数
 	void Scene::Initialize()
-	{}
+	{
+		// 待機中の参照を解決
+		for (auto& ref : m_waitingRefBases)
+		{
+			ResolveRef(ref);
+		}
+
+		m_waitingRefBases.clear();
+	}
 
 	// 更新関数
 	void Scene::Update(const GameTimer& gameTimer)
@@ -87,6 +96,8 @@ namespace REngine
 	void Scene::Finalize()
 	{
 		ResetObjects();
+
+		m_waitingRefBases.clear();
 	}
 
 	// オブジェクトのリセット関数
@@ -112,6 +123,15 @@ namespace REngine
 	{
 		// 各マネージャーへ通知
 		m_componentRegister->UnRegisterComponent(component);
+
+		// 参照レジストリに通知
+		m_referenceRegistry->RemoveObj(component);
+	}
+
+	void Scene::OnGameObjectDestroy(GameObject* obj)
+	{
+		// 参照レジストリに通知
+		m_referenceRegistry->RemoveObj(obj);
 	}
 
 	// メインカメラ設定関数
@@ -136,15 +156,41 @@ namespace REngine
 			);
 	}
 
+	bool Scene::ResolveRef(RefBase* ref)
+	{
+		// Componentを探索
+		PropertyObject* obj = m_componentRegister->GetComponentFromUUID<ComponentBase>(ref->GetUUID());
+
+		// 見つからなければGameObjectを探索
+		if (!obj) obj = m_objectFinder->FindWithUUID(ref->GetUUID());
+
+		// どちらかが見つかった場合
+		if (obj)
+		{
+			// オブジェクトをセット
+			if (!ref->SetObj(obj)) 
+			{
+				// 失敗したらfalse
+				return false;
+			}
+
+			// 成功したらレジストリに登録
+			m_referenceRegistry->AddPair(ref, obj);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	void Scene::RegisterLateResolve(RefBase* ref)
+	{
+		m_waitingRefBases.push_back(ref);
+	}
+
 	// オブジェクトマネージャーの取得関数
 	ObjectManager* Scene::GetObjectManager() const
 	{
 		return m_updatePipeline->GetObjectManager();
-	}
-
-	// UIマネージャーの取得関数
-	UIManager* Scene::GetUIManager() const
-	{
-		return m_updatePipeline->GetUIManager();
 	}
 }	// namespace REngine

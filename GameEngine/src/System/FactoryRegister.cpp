@@ -18,7 +18,7 @@
 
 #include "Editor/Loader/ComponentFactory.h"
 #include "GameObject/GameObject.h"
-#include "Components/ComponentCategory.h"
+#include "Components/ComponentInfo.h"
 
 #define ADD_FACTORY(type) ComponentFactory::Register(#type, { ComponentProject::Engine, type::SPACE }, [](GameObject* o) { return o->AddComponent<type>(); });
 
@@ -60,6 +60,7 @@ namespace REngine
 		ADD_FACTORY(AudioListener);
 
 		// UI
+		ADD_FACTORY(Canvas);
 		ADD_FACTORY(RectTransform);
 		ADD_FACTORY(ImageUI);
 		ADD_FACTORY(TextUI);

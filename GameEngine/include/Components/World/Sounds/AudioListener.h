@@ -52,6 +52,12 @@ namespace REngine
 		~AudioListener() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(AudioListener, WorldComponentBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -62,12 +68,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<AudioListener>();
-		}
 
 		// リスナー
 		DirectX::AudioListener* GetListener() const

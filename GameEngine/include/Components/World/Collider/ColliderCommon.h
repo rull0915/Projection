@@ -81,6 +81,16 @@ namespace REngine
 		ColliderCommon(IComponentOwner* own);
 		virtual ~ColliderCommon() = default;
 
+		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(ColliderCommon, WorldComponentBase)
+
+		//-----------------------------------------------------
+		// 公開関数
+		//-----------------------------------------------------
+
 		// AssetManagerを受け取る関数
 		void ReceiveAssetManager(AssetManager& asset) override { m_assetManager = &asset; }
 
