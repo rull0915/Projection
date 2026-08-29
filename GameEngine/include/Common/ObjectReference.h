@@ -16,6 +16,9 @@
 
 namespace REngine
 {
+	// 前方宣言
+	class PropertyObject;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -56,11 +59,17 @@ namespace REngine
 			m_destroyCallback = callback;
 		}
 
+		// ポインタセット関数
+		virtual bool SetObj(PropertyObject* obj) = 0;
+
+		// ポインタ取得関数
+		virtual PropertyObject* GetPropertyObject() const = 0;
+
 		// 無効化関数
 		virtual void Invalidate() = 0;
 	};
 
-	template<typename T>
+	template<typename T, typename = std::enable_if<std::is_base_of_v<PropertyObject, T>>>
 	class Ref : public RefBase
 	{
 	public:
@@ -75,6 +84,10 @@ namespace REngine
 
 		// 取得関数
 		T* Get() const
+		{
+			return m_obj;
+		}
+		PropertyObject* GetPropertyObject() const override
 		{
 			return m_obj;
 		}
@@ -93,10 +106,27 @@ namespace REngine
 			return m_obj != nullptr;
 		}
 
+		// ポインタセット関数
+		bool SetObj(PropertyObject* obj) override
+		{
+			// 型が一致すれば
+			if (T* ptr = dynamic_cast<T*>(obj))
+			{
+				// セット
+				m_obj = ptr;
+
+				return true;
+			}
+
+			return false;
+		}
+
 		// 無効化関数
 		void Invalidate() override
 		{
 			m_obj = nullptr;
+
+			SetDestroyCallBack(nullptr);
 		}
 	};
 
@@ -112,5 +142,5 @@ namespace REngine
 
 	// 結果を直接返すインスタンス
 	template<typename T>
-	inline constexpr bool IsRef_v = IsHandle<T>::value;
+	inline constexpr bool IsRef_v = IsRef<T>::value;
 }

@@ -81,15 +81,6 @@ namespace REngine
 				// タイプインデックスを保存
 				prop.typeIndex = std::type_index(typeid(typename T::value_type));
 			}
-			// ObjectRefなら
-			else if constexpr (IsRef_v<T>)
-			{
-				// 登録
-				AssetPropertyRegistry::Instance().Register<typename T::value_type>();
-
-				// タイプインデックスを保存
-				prop.typeIndex = std::type_index(typeid(typename T::value_type));
-			}
 
 			// 配列に追加
 			m_properties.push_back(prop);
