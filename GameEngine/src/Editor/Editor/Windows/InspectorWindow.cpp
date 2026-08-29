@@ -17,7 +17,6 @@
 #include "Editor/Loader/ComponentFactory.h"
 
 #include "ThirdParty/imgui/imgui.h"
-#include "Managers/UI/Canvas.h"
 
 namespace REngine
 {
@@ -69,11 +68,6 @@ namespace REngine
 		{
 			DrawGameObject(gameObject);
 		}
-		// Canvasの場合の表示
-		else if(Canvas* canvas = dynamic_cast<Canvas*>(object))
-		{			
-			DrawCanvas(canvas);
-		}
 		// Assetの場合の表示
 		else if (AssetBase* asset = dynamic_cast<AssetBase*>(object))
 		{
@@ -83,6 +77,9 @@ namespace REngine
 
 	void InspectorWindow::DrawGameObject(GameObject* object)
 	{
+		// UUIDを表示(テスト)
+		ImGui::Text("UUID : %d", object->GetUUID());
+
 		// 表示
 		if (m_propertyOnInspector.DrawPropertyObject(object))
 		{
@@ -112,9 +109,24 @@ namespace REngine
 				ImGui::EndPopup();
 			}
 
+			// ドラッグの開始
+			if (ImGui::BeginDragDropSource())
+			{
+				// 渡したいデータを設定
+				ImGui::SetDragDropPayload("COMPONENT", component, sizeof(*component));
+
+				// ドラッグ中に表示される内容
+				ImGui::Text(name.c_str());
+
+				ImGui::EndDragDropSource();
+			}
+
 			// ツリーの開始
 			if (open)
 			{
+				// UUIDを表示(テスト)
+				ImGui::Text("UUID : %d", component->GetUUID());
+
 				// インスペクターに表示
 				if (m_propertyOnInspector.DrawPropertyObject(component))
 				{
@@ -208,15 +220,6 @@ namespace REngine
 					factory.second.second(object);
 				}
 			}
-		}
-	}
-
-	void InspectorWindow::DrawCanvas(Canvas* canvas)
-	{
-		// 表示
-		if (m_propertyOnInspector.DrawPropertyObject(canvas))
-		{
-			canvas->SetDrawOrder(canvas->GetDrawOrder());
 		}
 	}
 

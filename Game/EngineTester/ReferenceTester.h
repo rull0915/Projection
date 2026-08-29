@@ -1,24 +1,24 @@
 ﻿//====================================================//
-// ファイル名   : PropertyTest.h
+// ファイル名   : ReferenceTester.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
+// 作成日       : 2026/08/30
 //
-// 概要 : 
+// 概要 : オブジェクトの参照をテストするコンポーネント
 //
 // 更新履歴 :
-// 2026/07/21 新規作成
+// 2026/08/30 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(PropertyTest)
+#define IS_COMPONENT(ReferenceTester)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
-
-#include "Status.h"
+#include "Common/ObjectReference.h"
+#include "Components/World/Transform/Transform.h"
 
 //====================================================//
 // 前方宣言
@@ -28,30 +28,36 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class PropertyTest : public REngine::WorldComponentBase
+class ReferenceTester : public REngine::WorldComponentBase
 {
 private:
+
+	//-----------------------------------------------------
+	// 定数
+	//-----------------------------------------------------
+
 
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// ステータス
-	Status m_status;
+	REngine::Ref<REngine::Transform> m_targetTransform;
 
-	// id
-	float m_id;
-
-	// タイプ
-	Type m_type;
+	DirectX::SimpleMath::Vector3 m_tarrgetSetPos;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PropertyTest(REngine::IComponentOwner* own);
-	~PropertyTest() = default;
+	ReferenceTester(REngine::IComponentOwner* own);
+	~ReferenceTester() = default;
+
+	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(EasingTestComponent, REngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -67,9 +73,14 @@ public:
 	// ゲッター
 	//-----------------------------------------------------
 
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<PropertyTest>();
-	}
+	//-----------------------------------------------------
+	// セッター
+	//-----------------------------------------------------
+
+private:
+
+	//-----------------------------------------------------
+	// 内部実装
+	//-----------------------------------------------------
+
 };

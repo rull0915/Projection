@@ -28,15 +28,10 @@ using namespace REngine;
 
 void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 {
-	static std::vector<ComponentBase*> components{};
-
-	// 3Dコライダーを取得
-	GetOwn()->GetComponentsWithCategory(Category::Collider, components);
-
 	m_3dColliders.clear();
 
 	// 変換
-	for (auto& component : components)
+	for (auto& component : GetOwn()->GetComponents<ColliderBase>())
 	{
 		m_3dColliders.push_back(static_cast<ColliderBase*>(component));
 	}
@@ -72,7 +67,7 @@ void ChangeColliderComponent::Change2DTo3D()
 	// 2Dコライダーを削除する
 	GameObject* owner = static_cast<GameObject*>(GetOwn());
 
-	owner->RemoveComponentsWithCategory(Category::Collider2D);
+	owner->RemoveComponents<ColliderBase2D>();
 
 	// 3Dコライダーを有効化する
 	for (auto& collider : m_3dColliders)

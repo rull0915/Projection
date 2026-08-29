@@ -14,6 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include "Canvas.h"
 #include "RectTransform/RectTransform.h"
 #include "Graphics/ImageUI.h"
 #include "Graphics/TextUI.h"

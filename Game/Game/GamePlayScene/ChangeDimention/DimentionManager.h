@@ -44,11 +44,6 @@ private:
 private:
 
 	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
 
@@ -75,6 +70,12 @@ public:
 	~DimentionManager() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(DimentionManager, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -93,13 +94,13 @@ public:
 	void OnComponentAdded(ComponentBase* component) override
 	{
 		// ChangeColliderの場合
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<ChangeColliderComponent>())
+		if (component->IsTypeOf(ChangeColliderComponent::StaticTypeId()))
 		{
 			m_addReserves.push_back(static_cast<ChangeColliderComponent*>(component));
 		}
 
 		// カメラの場合
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<ProjectionSmoothCamera>())
+		if (component->IsTypeOf(ProjectionSmoothCamera::StaticTypeId()))
 		{
 			m_pCamera = static_cast<ProjectionSmoothCamera*>(component);
 		}
@@ -109,13 +110,13 @@ public:
 	void OnComponentRemoved(ComponentBase* component) override
 	{
 		// ChangeColliderの場合
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<ChangeColliderComponent>()) 
+		if (component->IsTypeOf(ChangeColliderComponent::StaticTypeId())) 
 		{
 			m_removeReserves.push_back(static_cast<ChangeColliderComponent*>(component));
 		}
 
 		// カメラの場合
-		if (component->GetID() == REngine::TypeIDGenerator::GetID<ProjectionSmoothCamera>())
+		if (component->IsTypeOf(ProjectionSmoothCamera::StaticTypeId()))
 		{
 			if (m_pCamera == static_cast<ProjectionSmoothCamera*>(component)) m_pCamera = nullptr;
 		}
@@ -131,16 +132,6 @@ public:
 	bool IsChanging() const
 	{
 		return m_nowState == State::ChangeTo2D || m_nowState == State::ChangeTo3D;
-	}
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<DimentionManager>();
 	}
 
 private:

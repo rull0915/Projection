@@ -74,6 +74,12 @@ public:
 	~LandingCandidatePoints() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(LandingCandidatePoints, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -96,12 +102,6 @@ public:
 
 	// フラグを返す
 	bool IsChanged() const { return m_isChanged; }
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<LandingCandidatePoints>();
-	}
 
 private:
 

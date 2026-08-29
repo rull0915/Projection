@@ -92,6 +92,18 @@ public:
 	~Enemy() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	static REngine::Component::TypeId StaticTypeId() {
+		static char id; return &id;
+	} bool IsTypeOf(REngine::Component::TypeId id) const override {
+		return id == StaticTypeId() || REngine::WorldComponentBase::IsTypeOf(id);
+	} void CollectTypeIds(std::vector<REngine::Component::TypeId>& out) const override {
+		out.push_back(StaticTypeId()); REngine::WorldComponentBase::CollectTypeIds(out);
+	}
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -110,12 +122,6 @@ public:
 	//-----------------------------------------------------
 	// ゲッター
 	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<Enemy>();
-	}
 
 	// 最後に触れた候補点
 	LandingCandidatePoints* GetLandingPoints() const { return m_lastPoints; }

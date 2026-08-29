@@ -76,6 +76,12 @@ public:
 	~EasingTestComponent() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(EasingTestComponent, REngine::WorldComponentBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
@@ -86,16 +92,6 @@ public:
 
 	// デバッグ描画関数
 	void DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<EasingTestComponent>();
-	}
 
 	//-----------------------------------------------------
 	// セッター

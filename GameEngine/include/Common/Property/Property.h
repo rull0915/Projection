@@ -38,6 +38,7 @@ namespace REngine
 		Object,		// PropertyObject派生クラス
 		Enum,		// 列挙型
 		AssetHandle,// アセットハンドル
+		ObjectRef,	// オブジェクト参照
 	};
 
 	// プロパティ

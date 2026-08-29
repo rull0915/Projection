@@ -16,10 +16,11 @@
 //====================================================//
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
-#include "Common/TypeIdGenerator.h"
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
+#include "System/UUIDRegistry.h"
 
 namespace REngine
 {
@@ -51,8 +52,11 @@ namespace REngine
 
 		// その他コンポーネント
 		std::vector<std::unique_ptr<ComponentBase>> m_addReserves;
-		std::vector<ComponentBase*> m_pDestroyReserves;
+		std::unordered_set<ComponentBase*> m_pDestroyReserves;	// 重複を防止するためunordered_setを使用
 		std::vector<std::unique_ptr<ComponentBase>> m_pComponents;
+
+		// コンポーネントリストのキャッシュ
+		std::unordered_map<Component::TypeId, std::vector<ComponentBase*>> m_componentsCache;
 
 		IComponentOwner* m_pOwner;
 
@@ -161,226 +165,63 @@ namespace REngine
 
 		// ---------- Get ---------- //
 
-		ComponentBase* Get(unsigned int id) const
+		ComponentBase* Get(Component::TypeId id) const
 		{
 			// Transformは専用ポインタから早期リターン
-			if (id == TypeIDGenerator::GetID<Transform>())
+			if (id == Transform::StaticTypeId())
 			{
 				return m_pTransform.get();
 			}
 			// RectTransformも同様
-			else if (id == TypeIDGenerator::GetID<RectTransform>())
+			else if (id == RectTransform::StaticTypeId())
 			{
 				return m_pRectTransform.get();
 			}
-
-			else {
-
-				// それ以外は ID 比較でループ
-				for (auto& comp : m_pComponents)
-				{
-					// IDで比較する
-					if (comp->GetID() == id)
-					{
-						return comp.get();
-					}
-				}
-				// 予約リストをチェック
-				for (auto& comp : m_addReserves)
-				{
-					// IDで比較する
-					if (comp->GetID() == id)
-					{
-						return comp.get();
-					}
-				}
-
-				return nullptr;
-			}
-		}
-
-		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		T* Get() const
-		{
-			return static_cast<T*>(Get(TypeIDGenerator::GetID<T>()));
-		}
-
-		// ---------- Gets ---------- //
-
-		std::vector<ComponentBase*> Gets(unsigned int id) const
-		{
-			std::vector<ComponentBase*> components;
-			Gets(id, components);
-			return components;
-		}
-
-		void Gets(unsigned int id, std::vector<ComponentBase*>& array) const
-		{
-			// 配列の初期化
-			array.clear();
-
-			// Transformは専用ポインタから即追加
-			if (id == TypeIDGenerator::GetID<Transform>())
+			else 
 			{
-				if (m_pTransform) array.push_back(m_pTransform.get());
-			}
-			// RectTransformも同様
-			else if (id == TypeIDGenerator::GetID<RectTransform>())
-			{
-				if (m_pRectTransform) array.push_back(m_pRectTransform.get());
-			}
+				// それ以外はキャッシュから取得
+				auto it = m_componentsCache.find(id);
 
-			else
-			{
-				// それ以外は ID 比較でループ
-				for (auto& comp : m_pComponents)
+				// 指定されたidの配列があり1つ以上コンポーネントがあれば
+				if (it != m_componentsCache.end() && it->second.size() > 0)
 				{
-					// IDで比較する
-					if (comp->GetID() == id)
-					{
-						array.push_back(comp.get());
-					}
-				}
-				// 予約リストをチェック
-				for (auto& comp : m_addReserves)
-				{
-					// IDで比較する
-					if (comp->GetID() == id)
-					{
-						array.push_back(comp.get());
-					}
-				}
-			}
-
-			return;
-		}
-
-		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		std::vector<T*> Gets() const
-		{
-			std::vector<T*> array;
-
-			Gets<T>(array);
-
-			return array;
-		}
-
-		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		void Gets(std::vector<T*>& array) const
-		{
-			// 配列の初期化
-			array.clear();
-
-			// Transformは専用ポインタから即追加
-			if constexpr (std::is_same_v<T, Transform>)
-			{
-				if (m_pTransform) array.push_back(m_pTransform.get());
-			}
-			// RectTransformも同様に
-			else if constexpr (std::is_same_v<T, RectTransform>)
-			{
-				if (m_pRectTransform) array.push_back(m_pRectTransform.get());
-			}
-
-			else
-			{
-				// それ以外は ID 比較でループ
-				for (auto& comp : m_pComponents)
-				{
-					// IDで比較する
-					if (comp->GetID() == TypeIDGenerator::GetID<T>())
-					{
-						array.push_back(static_cast<T*>(comp.get()));
-					}
-				}
-				// 予約リストをチェック
-				for (auto& comp : m_addReserves)
-				{
-					// IDで比較する
-					if (comp->GetID() == TypeIDGenerator::GetID<T>())
-					{
-						array.push_back(static_cast<T*>(comp.get()));
-					}
-				}
-			}
-
-			return;
-		}
-
-		// ---------- GetWithCategory ---------- //
-
-		ComponentBase* GetWithCategory(ComponentCategory category) const
-		{
-			// それ以外は ID 比較でループ
-			for (auto& comp : m_pComponents)
-			{
-				// IDで比較する
-				if (comp->GetCategory() == category)
-				{
-					return comp.get();
-				}
-			}
-			// 予約リストをチェック
-			for (auto& comp : m_addReserves)
-			{
-				// IDで比較する
-				if (comp->GetCategory() == category)
-				{
-					return comp.get();
+					return it->second[0];
 				}
 			}
 
 			return nullptr;
 		}
 
-		// ---------- GetsWithCategory ---------- //
-
-		void GetsWithCategory(ComponentCategory category, std::vector<ComponentBase*>& array) const
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		T* Get() const
 		{
-			// 配列の初期化
-			array.clear();
-
-			// ID 比較でループ
-			for (auto& comp : m_pComponents)
-			{
-				// IDで比較する
-				if (comp->GetCategory() == category)
-				{
-					array.push_back(comp.get());
-				}
-			}
-			// 予約リストをチェック
-			for (auto& comp : m_addReserves)
-			{
-				// IDで比較する
-				if (comp->GetCategory() == category)
-				{
-					array.push_back(comp.get());
-				}
-			}
-
-			return;
+			return static_cast<T*>(Get(T::StaticTypeId()));
 		}
 
-		std::vector<ComponentBase*> GetsWithCategory(ComponentCategory category) const
+		// ---------- Gets ---------- //
+
+		const std::vector<ComponentBase*>& Gets(Component::TypeId id) const
 		{
-			std::vector<ComponentBase*> components;
-			GetsWithCategory(category, components);
-			return components;
+			// 存在しなかったとき用の空配列
+			static const std::vector<ComponentBase*> empty{};
+
+			// イテレータを取得
+			auto it = m_componentsCache.find(id);
+
+			return it != m_componentsCache.end() ? it->second : empty;
+		}
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
+		const std::vector<ComponentBase*>& Gets() const
+		{
+			return Gets(T::StaticTypeId());
 		}
 
 		// ---------- GetAll ---------- //
 
-		std::vector<ComponentBase*> GetAll() const
+		const std::vector<ComponentBase*>& GetAll() const
 		{
-			std::vector<ComponentBase*> all;
-
-			if (m_pTransform) all.push_back(m_pTransform.get());
-			if (m_pRectTransform) all.push_back(m_pRectTransform.get());
-			for (auto& comp : m_pComponents) all.push_back(comp.get());
-			for (auto& comp : m_addReserves) all.push_back(comp.get());
-
-			return all;
+			return Gets(ComponentBase::StaticTypeId());
 		}
 
 		// ----------- Add ----------- //
@@ -388,7 +229,7 @@ namespace REngine
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* Add()
 		{
-			T* add = nullptr;
+			ComponentBase* add = nullptr;
 
 			// トランスフォームの場合
 			if constexpr (std::is_same_v<T, Transform>)
@@ -401,9 +242,12 @@ namespace REngine
 
 					// 初期化
 					m_pTransform.get()->UpdateCache();
+
+					add = m_pTransform.get();
 				}
+
 				// 既に確定していたら追加不可
-				return m_pTransform.get();
+				else return m_pTransform.get();
 			}
 
 			// RectTransformの場合
@@ -417,9 +261,12 @@ namespace REngine
 
 					// 初期化
 					m_pRectTransform.get()->UpdateCache();
+					
+					add = m_pRectTransform.get();
 				}
+
 				// 既に確定していたら追加不可
-				return m_pRectTransform.get();
+				else return m_pRectTransform.get();
 			}
 
 			else
@@ -438,21 +285,19 @@ namespace REngine
 				}
 			}
 
-			// 追加したコンポーネントを返す
-			return add;
-		}
+			if (add)
+			{
+				// UUIDを設定
+				add->SetUUID(UUIDRegistry::Instance().GenerateUUID());
 
-		// ----------- Has ----------- //
+				// キャッシュに追加
+				RegistComponentToCache(add);
 
-		bool Has(unsigned int id) const
-		{
-			return Get(id) != nullptr;
-		}
+				// シーンに登録
+				RegisterComponentToScene(add);
+			}
 
-		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
-		bool Has() const
-		{
-			return Has(TypeIDGenerator::GetID<T>());
+			return static_cast<T*>(add);
 		}
 
 		// ---------- Remove ---------- //
@@ -460,85 +305,65 @@ namespace REngine
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Remove(T* component)
 		{
-			m_pDestroyReserves.push_back(component);
+			m_pDestroyReserves.insert(component);
 		}
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Remove()
 		{
-			for (auto& comp : m_pComponents)
+			// リストを取得
+			auto it = m_componentsCache.find(T::StaticTypeId());
+
+			// あれば
+			if (it != m_componentsCache.end() && it->second.size() > 0)
 			{
-				// IDで比較する
-				if (comp->GetID() == TypeIDGenerator::GetID<T>)
-				{
-					Remove(comp.get());
-
-					break;
-				}
-			}
-		}
-
-		void RemoveWithCategory(ComponentCategory category)
-		{
-			for (auto& comp : m_pComponents)
-			{
-				// IDで比較する
-				if (comp->GetCategory() == category)
-				{
-					Remove(comp.get());
-
-					break;
-				}
+				// 最初の要素を削除リストに追加
+				m_pDestroyReserves.insert(it->second[0]);
 			}
 		}
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Removes()
 		{
-			for (auto& comp : m_pComponents)
+			// リストを取得
+			auto it = m_componentsCache.find(T::StaticTypeId());
+
+			// あれば
+			if (it != m_componentsCache.end())
 			{
-				// IDで比較する
-				if (comp->GetID() == TypeIDGenerator::GetID<T>())
+				// 全て削除リストに追加
+				for (auto& comp : it->second)
 				{
-					Remove(comp.get());
+					m_pDestroyReserves.insert(comp);
 				}
 			}
 		}
 
-		void Remove(unsigned int id)
+		void Remove(Component::TypeId id)
 		{
-			for (auto& comp : m_pComponents)
-			{
-				// IDで比較する
-				if (comp->GetID() == id)
-				{
-					Remove(comp.get());
+			// リストを取得
+			auto it = m_componentsCache.find(id);
 
-					return;
-				}
+			// あれば
+			if (it != m_componentsCache.end() && it->second.size() > 0)
+			{
+				// 最初の要素を削除リストに追加
+				m_pDestroyReserves.insert(it->second[0]);
 			}
 		}
 
-		void Removes(unsigned int id)
+		void Removes(Component::TypeId id)
 		{
-			for (auto& comp : m_pComponents)
-			{
-				// IDで比較する
-				if (comp->GetID() == id)
-				{
-					Remove(comp.get());
-				}
-			}
-		}
+			// リストを取得
+			auto it = m_componentsCache.find(id);
 
-		void RemovesWithCategory(ComponentCategory category)
-		{
-			for (auto& comp : m_pComponents)
+			// あれば
+			if (it != m_componentsCache.end())
 			{
-				// IDで比較する
-				if (comp->GetCategory() == category)
+				// 全て削除リストに追加
+				for (auto& comp : it->second)
 				{
-					Remove(comp.get());
+					m_pDestroyReserves.insert(comp);
 				}
 			}
 		}
@@ -547,7 +372,8 @@ namespace REngine
 		{
 			for (auto& comp : m_pComponents)
 			{
-				Remove(comp.get());
+				// 削除リストに追加
+				m_pDestroyReserves.insert(comp.get());
 			}
 		}
 
@@ -564,5 +390,55 @@ namespace REngine
 
 		// シーンからコンポーネントを登録解除する関数
 		void UnRegisterComponentToScene(ComponentBase* component);
+
+		// キャッシュにコンポーネントを登録する関数
+		void RegistComponentToCache(ComponentBase* component)
+		{
+			// キャッシュリストを格納する配列を用意
+			std::vector<Component::TypeId> ids;
+
+			// 対応するIDの一覧を取得
+			component->CollectTypeIds(ids);
+
+			// 全要素に自身を追加
+			for (auto id : ids)
+			{
+				m_componentsCache[id].push_back(component);
+			}
+		}
+
+		// キャッシュからコンポーネントを削除する関数
+		void UnRegistComponentToCache(ComponentBase* component)
+		{
+			// キャッシュリストを格納する配列を用意
+			std::vector<Component::TypeId> ids;
+
+			// 対応するIDの一覧を取得
+			component->CollectTypeIds(ids);
+
+			// 全要素から自身を削除
+			for (auto id : ids)
+			{
+				// リストのイテレータを取得
+				auto listIt = m_componentsCache.find(id);
+
+				// 存在しないなら次のリストへ
+				if (listIt == m_componentsCache.end())
+					continue;
+
+				// イテレータから本体を取得
+				auto& list = listIt->second;
+
+				// 自身が格納されているイテレータを取得
+				auto it = std::find(list.begin(), list.end(), component);
+
+				// 見つかれば
+				if (it != list.end())
+				{
+					// 削除
+					list.erase(it);
+				}
+			}
+		}
 	};
 } // namespace REngine

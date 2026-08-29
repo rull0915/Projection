@@ -17,7 +17,6 @@
 #include "Common/Property/PropertyObject.h"
 #include "System/WindowManager.h"
 #include "Managers/ObjectManager.h"
-#include "Managers/UI/UIManager.h"
 #include "Scene/Scene.h"
 
 namespace REngine
@@ -33,9 +32,6 @@ namespace REngine
 
 		// World
 		DrawObjects(m_pScene->GetObjectManager());
-
-		// UI
-		DrawObjects(m_pScene->GetUIManager());
 
 		// 描画終了
 		ImGui::End();
@@ -65,32 +61,30 @@ namespace REngine
 		// IDの設定
 		ImGui::PushID(objectManager);
 
-		// タイトル
-		ImGui::Text("World");
-
 		// ウィンドウの半分をWorldに
-		ImVec2 size = ImGui::GetContentRegionAvail();
-		ImGui::BeginChild("ObjectManager", ImVec2(0, size.y / 2), ImGuiChildFlags_Borders);
+		ImGui::BeginChild("ObjectManager", ImVec2(0, 0), ImGuiChildFlags_Borders);
 
 		// 全オブジェクトをループ
 		for (auto& object : objectManager->GetAllObject())
 		{
-			// 親がnullなら
-			if (!object->GetComponent<Transform>()->GetParent())
-			{
-				// 表示
-				DrawGameObject(object.get());
-			}
+			// 親がいなければ表示
+			if (!object->GetParent()) DrawGameObject(object.get());
 		}
 
 		// 右クリック時のメニュー
 		if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_NoOpenOverItems))
 		{
 			// Generateを表示
-			if (ImGui::MenuItem("Generate"))
+			if (ImGui::MenuItem("GenerateObject"))
 			{
 				// Generate
 				m_pScene->GetFactory()->Generate();
+			}
+			// Generateを表示
+			if (ImGui::MenuItem("GenerateUI"))
+			{
+				// Generate
+				m_pScene->GetFactory()->GenerateUI();
 			}
 			ImGui::EndPopup();
 		}
@@ -101,12 +95,17 @@ namespace REngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("WORLD_OBJECT"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				auto data = (GameObject*)payload->Data;
 
-				// 自分と一致していなければ
+				// Transformを持っていれば
 				if (auto* t = data->GetComponent<Transform>())
+				{
+					t->SetParent(nullptr);
+				}
+				// RectTransformを持っていれば
+				if (auto* t = data->GetComponent<RectTransform>())
 				{
 					t->SetParent(nullptr);
 				}
@@ -118,47 +117,6 @@ namespace REngine
 		// IDをポップ
 		ImGui::PopID();
 	}
-
-	void HierarchyWindow::DrawObjects(UIManager* UIManager)
-	{
-		// nullなら何もしない
-		if (!UIManager) return;
-
-		// IDの設定
-		ImGui::PushID(UIManager);
-
-		// タイトル
-		ImGui::Text("UI");
-
-		// スクロール領域の開始
-		ImGui::BeginChild("UIManager", ImVec2(0, 0), ImGuiChildFlags_Borders);
-
-		// 全キャンバスをループ
-		for (auto& canvas : UIManager->GetAllCanvas())
-		{
-			// 表示
-			DrawCanvas(canvas.get());
-		}
-
-		// 右クリック時のメニュー
-		if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_NoOpenOverItems))
-		{
-			// Generateを表示
-			if (ImGui::MenuItem("Generate"))
-			{
-				// Generate
-				m_pScene->GetFactory()->GenerateCanvas();
-			}
-			ImGui::EndPopup();
-		}
-
-		// スクロール領域の終了
-		ImGui::EndChild();
-
-		// IDをポップ
-		ImGui::PopID();
-	}
-
 
 	void HierarchyWindow::DrawGameObject(GameObject* object)
 	{
@@ -177,9 +135,6 @@ namespace REngine
 			name = "GameObject";
 		}
 
-		// 所属空間を調べる
-		std::string space = (object->HasComponent<Transform>()) ? "WORLD_OBJECT" : "UI_OBJECT";
-
 		// 初期状態のフラグ
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
@@ -195,12 +150,18 @@ namespace REngine
 
 		// ID衝突防止
 		ImGui::PushID(object);
+		
+		// 子供がいなければ▼を表示しない
+		if (object->GetChildCount() == 0)
+		{
+			flags |= ImGuiTreeNodeFlags_Leaf;
+		}
 
 		// 拡張可能なツリーを展開
 		bool open = ImGui::TreeNodeEx(name.c_str(), flags);
 
 		// クリックされたら
-		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
 			// 選択されているオブジェクトを自分に
 			m_selected.SetSelected(object);
@@ -228,7 +189,7 @@ namespace REngine
 		if (ImGui::BeginDragDropSource())
 		{
 			// 渡したいデータを設定
-			ImGui::SetDragDropPayload(space.c_str(), object, sizeof(*object));
+			ImGui::SetDragDropPayload("GAMEOBJECT", object, sizeof(*object));
 
 			// ドラッグ中に表示される内容
 			ImGui::Text(name.c_str());
@@ -239,19 +200,21 @@ namespace REngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(space.c_str()))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				auto data = (GameObject*)payload->Data;
 
 				// 自分と一致していなければ
 				if (data != object)
 				{
+					// Transformの時
 					if (auto* other = data->GetComponent<Transform>())
 						if (auto* own = object->GetComponent<Transform>())
 						{
 							other->SetParent(own);
 						}
 
+					// RectTransformの時
 					if (auto* other = data->GetComponent<RectTransform>())
 						if (auto* own = object->GetComponent<RectTransform>())
 						{
@@ -288,107 +251,6 @@ namespace REngine
 			}
 
 			// ツリーを終了
-			ImGui::TreePop();
-		}
-
-		ImGui::PopID();
-	}
-
-	void HierarchyWindow::DrawCanvas(Canvas* canvas)
-	{
-		// nullなら何もしない
-		if (!canvas) return;
-
-		// 名前を取得
-		std::string name = canvas->GetName();
-
-		// 空なら別名を設定
-		if (name.empty())
-		{
-			name = "Canvas";
-		}
-
-		// 初期状態のフラグ
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-
-		// 選択中オブジェクトを取得
-		PropertyObject* selected = m_selected.GetSelected();
-
-		// 選択されていれば
-		if (selected == canvas)
-		{
-			// 選択状態に
-			flags |= ImGuiTreeNodeFlags_Selected;
-		}
-
-		// ID衝突防止
-		ImGui::PushID(canvas);
-
-		// 拡張可能なツリーを展開
-		bool open = ImGui::TreeNodeEx(name.c_str(), flags);
-
-		// ルートのトランスフォーム
-		RectTransform* root = canvas->GetRootObject()->GetComponent<RectTransform>();
-
-		// クリックされたら
-		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
-		{
-			// 選択されているオブジェクトを自分に
-			m_selected.SetSelected(canvas);
-		}
-
-		// 右クリック時のメニュー
-		if (ImGui::BeginPopupContextItem())
-		{
-			// Deleteを表示
-			if (ImGui::MenuItem("Delete"))
-			{
-				canvas->Destroy();
-
-				// 選択中ならnullにする
-				if (selected == canvas)
-				{
-					m_selected.SetSelected(nullptr);
-				}
-			}
-			// Generate表示
-			if (ImGui::MenuItem("Generate"))
-			{
-				canvas->Generate();
-			}
-			ImGui::EndPopup();
-		}
-
-		// ドラッグの受け取り
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("UI_OBJECT"))
-			{
-				auto data = (GameObject*)payload->Data;
-
-				// Rectを持っていれば
-				if (auto* t = data->GetComponent<RectTransform>())
-				{
-					t->SetParent(root->GetComponent<RectTransform>());
-				}
-			}
-
-			ImGui::EndDragDropTarget();
-		}
-
-		// ツリーが開いてたら
-		if (open)
-		{
-			for (auto& object : canvas->GetAllObjects())
-			{
-				// 直下なら
-				if (object->GetComponent<RectTransform>()->GetParent() == root)
-				{
-					// オブジェクトの描画
-					DrawGameObject(object.get());
-				}
-			}
-
 			ImGui::TreePop();
 		}
 

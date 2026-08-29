@@ -45,7 +45,7 @@ void GameOverComponent::Start()
 	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// プレイヤーを取得
-	m_player = scene->GetObjectFinder()->FindWithNameInWorld(m_playerName);
+	m_player = scene->GetObjectFinder()->FindWithName(m_playerName);
 
 	// プレイヤーコンポーネントを取得
 	m_playerComponent = m_player->GetComponent<Player>();

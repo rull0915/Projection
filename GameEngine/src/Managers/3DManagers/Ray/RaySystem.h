@@ -16,6 +16,7 @@
 //====================================================//
 #include "Physics/RaycastHit.h"
 #include "Physics/Ray.h"
+#include "Components/ComponentTypeId.h"
 
 namespace REngine
 {
@@ -41,7 +42,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 型IDをキーとした衝突判定関数の2次元マップ
-		inline static std::unordered_map<uint16_t, CollisionFunc> m_collisionMap;
+		inline static std::unordered_map<Component::TypeId, CollisionFunc> m_collisionMap;
 
 	public:
 
@@ -52,7 +53,7 @@ namespace REngine
 		~RaySystem() = default;
 
 		// 関数登録
-		static bool Register(uint16_t id, CollisionFunc func);
+		static bool Register(Component::TypeId id, CollisionFunc func);
 
 		// 関数実行
 		static bool CheckHit(const Ray&, float, ColliderBase*, RaycastHit*);

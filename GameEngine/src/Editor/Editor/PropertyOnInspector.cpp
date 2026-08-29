@@ -12,11 +12,14 @@
 #include "pch.h"
 #include "PropertyOnInspector.h"
 #include "Assets/Managers/AssetManager.h"
+#include "GameObject/GameObject.h"
+#include "Scene/Scene.h"
 
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_stdlib.h"
 
 #include "HandlePayload.h"
+#include "Common/ObjectReference.h"
 
 namespace REngine
 {
@@ -257,6 +260,109 @@ namespace REngine
 
 			return changed;
 		}
+
+		case PropertyType::ObjectRef: {
+			
+			// RefBaseに変換
+			RefBase* refBase = static_cast<RefBase*>(property->value);
+
+			// 変数名を表示
+			ImGui::Text(property->name.c_str());
+
+			ImGui::PushID(property);
+	
+			// 同じライン
+			ImGui::SameLine();
+
+			// 表示
+			
+			// ObjRefから名前を取得
+			PropertyObject* refObj = refBase->GetPropertyObject();
+
+			std::string name = "";
+
+			// 設定されているとき
+			if (refObj)
+			{
+				if (GameObject* gameObj = dynamic_cast<GameObject*>(refObj))
+				{
+					name = gameObj->GetName();
+				}
+				else if (ComponentBase* compObj = dynamic_cast<ComponentBase*>(refObj))
+				{
+					name = compObj->GetOwn()->GetName();
+				}
+			}
+
+			ImGui::Selectable(name.c_str(), false);
+
+			// 変更フラグ
+			bool changed = false;
+
+			// 描画リストを取得
+			ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+			// Rectを追加
+			drawList->AddRect(
+				ImGui::GetItemRectMin(),
+				ImGui::GetItemRectMax(),
+				IM_COL32(255, 255, 255, 64)
+			);
+
+			// ドラッグを受け取る
+			if (ImGui::BeginDragDropTarget())
+			{
+				// GAMEOBJECTがドロップされたら
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+				{
+					// GameObjectに変換
+					GameObject* obj = static_cast<GameObject*>(payload->Data);
+
+					// UUIDをセット
+					refBase->SetUUID(obj->GetUUID());
+
+					// シーン経由で参照解決
+					changed = m_pScene->ResolveRef(refBase);
+
+					// 解決失敗した場合
+					for (auto& component : obj->GetAllComponents())
+					{
+						// UUIDをセット
+						refBase->SetUUID(component->GetUUID());
+
+						// シーン経由で参照解決
+						if (m_pScene->ResolveRef(refBase))
+						{
+							// 成功したら
+							changed = true;
+
+							break;
+						}
+					}
+				}
+				// COMPONENTがドロップされたら
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("COMPONENT"))
+				{
+					// Componentに変換
+					ComponentBase* obj = static_cast<ComponentBase*>(payload->Data);
+
+					// UUIDをセット
+					refBase->SetUUID(obj->GetUUID());
+
+					// シーン経由で参照解決
+					m_pScene->ResolveRef(refBase);
+
+					changed = true;
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::PopID();
+
+			return changed;
+		}
+
 		default:
 			break;
 		}

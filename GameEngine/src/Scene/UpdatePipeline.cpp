@@ -48,6 +48,7 @@ namespace REngine
 		m_objectManager->Update(gameTimer, playing);
 
 		m_rendererManager->ReflectReserves();
+		m_uiManager->ReflectReserves();
 
 		if (playing)
 		{
@@ -81,15 +82,11 @@ namespace REngine
 		m_objectManager->RemoveDeadObject();
 
 		// UIの更新
-		m_uiManager->Update(gameTimer, playing);
-
 		if (playing)
 		{
 			m_uiManager->CheckHitRay(m_pScene->GetMainScreen()->GetMousePointOnMainScreen());
+			m_uiManager->CheckEvent();
 		}
-
-		m_uiManager->LateUpdate(gameTimer, playing);
-		m_uiManager->RemoveObjects();
 	}
 
 	void UpdatePipeline::DrawWorld(Renderer& renderer)
@@ -100,11 +97,15 @@ namespace REngine
 
 	void UpdatePipeline::DrawUI(Renderer& renderer)
 	{
+		m_uiManager->ReflectReserves();
+
 		m_uiManager->Draw(renderer);
 	}
 
 	void UpdatePipeline::DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color)
 	{
+		m_uiManager->ReflectReserves();
+
 		m_uiManager->DebugDraw(renderer, color);
 	}
 
@@ -113,7 +114,6 @@ namespace REngine
 		// オブジェクトのリセット
 		m_objectManager->Finalize();
 
-		m_uiManager->Finalize();
 		m_uiManager->Reset();
 
 		// 各マネージャーから全削除

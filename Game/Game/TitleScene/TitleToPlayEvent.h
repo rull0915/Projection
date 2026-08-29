@@ -37,18 +37,14 @@ public:
 	~TitleToPlayEvent() = default;
 
 	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+
+	COMPONENT_TYPE(TitleToPlayEvent, REngine::ButtonListenerBase)
+
+	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void OnClicked() override;
-
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
-	// ID取得
-	unsigned int GetID() override
-	{
-		return REngine::TypeIDGenerator::GetID<TitleToPlayEvent>();
-	}
 };

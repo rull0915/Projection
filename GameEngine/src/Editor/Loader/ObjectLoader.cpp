@@ -18,12 +18,12 @@
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
 
-#include "Managers/UI/Canvas.h"
-#include "Managers/UI/UIManager.h"
 #include <filesystem>
 #include <string>
 #include "Common/Property/AssetPropertyRegistry.h"
 #include "Common/Property/EnumRegistry.h"
+#include "Common/ObjectReference.h"
+#include "Common/UUID.h"
 
 namespace REngine
 {
@@ -31,7 +31,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj)
+	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj, Scene* pScene)
 	{
 		// 登録されているプロパティを全て調べる
 		for (auto& property : obj.GetPropaties())
@@ -84,7 +84,7 @@ namespace REngine
 
 				// PropertyObject
 			case PropertyType::Object:
-				LoadProperty(json[property.name], *(static_cast<PropertyObject*>(property.value)));
+				LoadProperty(json[property.name], *(static_cast<PropertyObject*>(property.value)), pScene);
 				break;
 
 				// Enum
@@ -100,6 +100,11 @@ namespace REngine
 				registry.Assign(property.typeIndex, property.value, handle);	// 変更
 				break;
 			}
+				// ObjRef
+			case PropertyType::ObjectRef:
+				(static_cast<RefBase*>(property.value))->SetUUID(json[property.name]);
+				if (pScene) pScene->RegisterLateResolve(static_cast<RefBase*>(property.value));
+				break;
 			default:
 				break;
 			}
@@ -109,7 +114,15 @@ namespace REngine
 	void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene)
 	{
 		// ゲームオブジェクト部分をロード
-		LoadProperty(json, *obj);
+		LoadProperty(json, *obj, pScene);
+
+		// UUIDをロード
+		UUID uuid = 0;
+		if (json.contains("UUID"))
+		{
+			uuid = json["UUID"];
+			obj->SetUUID(uuid);
+		}
 
 		// コンポーネントをロード
 		for (auto& js : json["Components"])
@@ -120,10 +133,17 @@ namespace REngine
 			// ロード
 			if (component)
 			{
-				LoadProperty(js["Data"], *component);
+				LoadProperty(js["Data"], *component, pScene);
 
 				// 変更時処理の呼び出し
 				component->OnValidate();
+
+				// UUIDをロード
+				if (js.contains("UUID"))
+				{
+					uuid = js["UUID"];
+					component->SetUUID(uuid);
+				}
 			}
 		}
 
@@ -131,74 +151,26 @@ namespace REngine
 		for (auto& child : json["Children"])
 		{
 			// 生成
-			GameObject* chObj = pScene->GetFactory()->Generate();
+			GameObject* chObj = nullptr;
 
-			// 親を自分に
-			chObj->GetComponent<Transform>()->SetParent(obj->GetComponent<Transform>());
+			// UIかWorldかを調べる
+			if (child.contains("IsWorld") && !child["IsWorld"])
+			{
+				chObj = pScene->GetFactory()->GenerateUI();
+
+				// 親を自分に
+				chObj->GetComponent<RectTransform>()->SetParent(obj->GetComponent<RectTransform>());
+			}
+			else
+			{
+				chObj = pScene->GetFactory()->Generate();
+
+				// 親を自分に
+				chObj->GetComponent<Transform>()->SetParent(obj->GetComponent<Transform>());
+			}
 
 			// 読み込み
 			LoadObject(child, chObj, pScene);
-		}
-	}
-
-	void ObjectLoader::LoadUIObject(const nlohmann::json& json, GameObject* obj, Canvas* canvas)
-	{
-		// ゲームオブジェクト部分をロード
-		LoadProperty(json, *obj);
-
-		// コンポーネントをロード
-		for (auto& js : json["Components"])
-		{
-			// 生成
-			ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
-
-			// ロード
-			if (component)
-			{
-				LoadProperty(js["Data"], *component);
-
-				// 変更時処理の呼び出し
-				component->OnValidate();
-			}
-		}
-
-		// 子供をロード
-		for (auto& child : json["Children"])
-		{
-			// 生成
-			GameObject* chObj = canvas->Generate();
-
-			// 親を自分に
-			chObj->GetComponent<RectTransform>()->SetParent(obj->GetComponent<RectTransform>());
-
-			// 読み込み
-			LoadUIObject(child, chObj, canvas);
-		}
-	}
-
-	void ObjectLoader::LoadCanvas(const nlohmann::json& json, Canvas* canvas)
-	{
-		// プロパティ部分をロード
-		LoadProperty(json, *canvas);
-
-		// ゲームオブジェクトをロード
-		for (auto& object : json["GameObjects"])
-		{
-			// 読み込み
-			LoadUIObject(object, canvas->Generate(), canvas);
-		}
-	}
-
-	void ObjectLoader::LoadUIManager(const nlohmann::json& json, UIManager* manager)
-	{
-		// キャンバスをループ
-		for (auto& canvas : json["Canvases"])
-		{
-			// 生成
-			Canvas* pCanvas = manager->CreateCanvas();
-
-			// ロード
-			LoadCanvas(canvas, pCanvas);
 		}
 	}
 
@@ -208,7 +180,17 @@ namespace REngine
 		for (auto& obj : json["GameObjects"])
 		{
 			// 生成
-			GameObject* object = pScene->GetFactory()->Generate();
+			GameObject* object = nullptr;
+
+			// UIかWorldかを調べる
+			if (obj.contains("IsWorld") && !obj["IsWorld"])
+			{
+				object = pScene->GetFactory()->GenerateUI();
+			}
+			else
+			{
+				object = pScene->GetFactory()->Generate();
+			}
 
 			// ロード
 			LoadObject(obj, object, pScene);
@@ -219,9 +201,6 @@ namespace REngine
 	{
 		// Worldのロード
 		LoadObjectManager(json["World"], pScene);
-
-		// UIのロード
-		LoadUIManager(json["UI"], pScene->GetUIManager());
 	}
 
 	void ObjectLoader::LoadPropertyFromFile(const std::wstring& filePath, PropertyObject* obj)
@@ -236,7 +215,7 @@ namespace REngine
 			ifs >> j;
 
 			// ロード
-			LoadProperty(j, *obj);
+			LoadProperty(j, *obj, nullptr);
 		}
 
 		// 閉じる
@@ -256,25 +235,6 @@ namespace REngine
 
 			// ロード
 			LoadObject(j, obj, obj->GetScene());
-		}
-
-		// 閉じる
-		ifs.close();
-	}
-
-	void ObjectLoader::LoadUIFromFile(const std::wstring& filePath, GameObject* obj, Canvas* canvas)
-	{
-		std::ifstream ifs(std::filesystem::path(filePath).c_str());
-
-		// 開けていたら
-		if (ifs.is_open())
-		{
-			// jsonから読み取り
-			nlohmann::json j;
-			ifs >> j;
-
-			// ロード
-			LoadUIObject(j, obj, canvas);
 		}
 
 		// 閉じる

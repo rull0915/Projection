@@ -20,6 +20,7 @@
 
 #include "Property.h"
 #include "Assets/Objects/Handle.h"
+#include "Common/ObjectReference.h"
 #include "EnumRegistry.h"
 #include "AssetPropertyRegistry.h"
 
@@ -112,6 +113,8 @@ namespace REngine
 			else if constexpr (std::is_enum_v<T>) return PropertyType::Enum;
 			// Handle
 			else if constexpr (IsHandle_v<T>) return PropertyType::AssetHandle;
+			// Ref
+			else if constexpr (IsRef_v<T>) return PropertyType::ObjectRef;
 
 			// その他
 			else return PropertyType::None;

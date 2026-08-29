@@ -51,7 +51,7 @@ void Player::Start()
 {
 	// 物理マテリアルを設定
 	std::vector<ComponentBase*> colliders;
-	GetOwn()->GetComponentsWithCategory(Category::Collider, colliders);
+	GetOwn()->GetComponents<REngine::ColliderBase>();
 
 	// 全てのコライダー
 	if (colliders.size() > 0)

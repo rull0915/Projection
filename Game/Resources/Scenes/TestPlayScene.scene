@@ -1,7 +1,4 @@
 {
-    "UI": {
-        "Canvases": []
-    },
     "World": {
         "GameObjects": [
             {
@@ -13,7 +10,7 @@
                             "m_localPosition": [
                                 0.0,
                                 0.0,
-                                10.0
+                                0.0
                             ],
                             "m_localRotation": [
                                 0.0,
@@ -27,7 +24,8 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 2957048179240667742
                     },
                     {
                         "Data": {
@@ -37,9 +35,12 @@
                             "m_isActive": true,
                             "m_nearZ": 0.10000000149011612
                         },
-                        "Type": "StandardCamera"
+                        "Type": "StandardCamera",
+                        "UUID": 6429542996015746110
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 15507682288886897344,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -56,18 +57,19 @@
                                 0.0
                             ],
                             "m_localRotation": [
-                                -1.4901161193847656e-08,
+                                -0.0,
                                 0.0,
-                                0.0,
+                                -0.0,
                                 1.0
                             ],
                             "m_localScale": [
                                 1.0,
-                                1.0000001192092896,
+                                1.0,
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 5206005941480499871
                     },
                     {
                         "Data": {
@@ -87,7 +89,8 @@
                             "m_needInfo": false,
                             "m_physicsMaterial": 0
                         },
-                        "Type": "BoxCollider"
+                        "Type": "BoxCollider",
+                        "UUID": 17507666095898526229
                     },
                     {
                         "Data": {
@@ -95,9 +98,23 @@
                             "m_isActive": true,
                             "m_modelHandle": 7357398224225983858
                         },
-                        "Type": "ModelComponent"
+                        "Type": "ModelComponent",
+                        "UUID": 4892541935426082502
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": false,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": true
+                        },
+                        "Type": "RigidBody",
+                        "UUID": 23285253524050191
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 11482685846171570407,
                 "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
@@ -111,12 +128,12 @@
                             "m_localPosition": [
                                 0.0,
                                 0.0,
-                                7.0
+                                0.0
                             ],
                             "m_localRotation": [
-                                -0.0,
                                 0.0,
-                                -0.0,
+                                0.0,
+                                0.0,
                                 1.0
                             ],
                             "m_localScale": [
@@ -125,7 +142,8 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 11362278716221426421
                     },
                     {
                         "Data": {
@@ -141,11 +159,132 @@
                             "m_samplerType": "Linear",
                             "m_texture": 16832540059583752122
                         },
-                        "Type": "MaterialTester"
+                        "Type": "MaterialTester",
+                        "UUID": 518144284352436764
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_targetTransform": 5206005941480499871,
+                            "m_tarrgetSetPos": [
+                                1.5,
+                                0.0,
+                                0.0
+                            ]
+                        },
+                        "Type": "ReferenceTester",
+                        "UUID": 7588448624588885049
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 9794550463065062729,
                 "m_isActive": true,
                 "m_name": "",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        100.0,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform",
+                                "UUID": 5181648347395135967
+                            },
+                            {
+                                "Data": {
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_textureHandle": 16832540059583752122
+                                },
+                                "Type": "ImageUI",
+                                "UUID": 6567218755562650029
+                            }
+                        ],
+                        "IsWorld": false,
+                        "UUID": 5108213331463002818,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform",
+                        "UUID": 10144004017446821232
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 0,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas",
+                        "UUID": 14556173956663102365
+                    }
+                ],
+                "IsWorld": false,
+                "UUID": 3559967032366448473,
+                "m_isActive": true,
+                "m_name": "Canvas",
                 "m_tag": ""
             }
         ]

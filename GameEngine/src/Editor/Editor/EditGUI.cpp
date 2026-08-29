@@ -34,7 +34,7 @@ namespace REngine
 		: m_pScene{ pScene }
 		, m_assetmanager{ assetManager }
 		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene, m_selected) }
-		, m_inspector{ std::make_unique<InspectorWindow>(assetManager, m_selected) }
+		, m_inspector{ std::make_unique<InspectorWindow>(pScene, assetManager, m_selected) }
 		, m_project{ std::make_unique<ProjectWindow>(assetManager, m_selected) }
 		, m_info{ std::make_unique<InfoWindow>(assetManager, pScene, this, playFunc) }
 		, m_nowType{ WindowType::None }

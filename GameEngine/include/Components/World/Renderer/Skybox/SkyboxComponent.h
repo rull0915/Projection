@@ -59,6 +59,12 @@ namespace REngine
 		~SkyboxComponent() = default;
 
 		//-----------------------------------------------------
+		// Type
+		//-----------------------------------------------------
+
+		COMPONENT_TYPE(SkyboxComponent, RendererBase)
+
+		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
@@ -74,16 +80,6 @@ namespace REngine
 		void OnValidate() override
 		{
 			SetTexture(m_textureHandle);
-		}
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// ID取得
-		unsigned int GetID() override
-		{
-			return TypeIDGenerator::GetID<SkyboxComponent>();
 		}
 	};
 } // namespace REngine

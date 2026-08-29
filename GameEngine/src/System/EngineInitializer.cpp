@@ -13,7 +13,6 @@
 #include "pch.h"
 
 #include "System/EngineInitializer.h"
-#include "Common/TypeIdGenerator.h"
 #include "FactoryRegister.h"
 
 // 衝突システム
@@ -63,43 +62,43 @@ namespace REngine
 	{
 		// 球vs球
 		CollisionMap::Register(
-			TypeIDGenerator::GetID<SphereCollider>(),
-			TypeIDGenerator::GetID<SphereCollider>(),
+			SphereCollider::StaticTypeId(),
+			SphereCollider::StaticTypeId(),
 			Collision::CheckHit_Sphere_Sphere
 		);
 
 		// 球vsカプセル
 		CollisionMap::Register(
-			TypeIDGenerator::GetID<SphereCollider>(),
-			TypeIDGenerator::GetID<CapsuleCollider>(),
+			SphereCollider::StaticTypeId(),
+			CapsuleCollider::StaticTypeId(),
 			Collision::CheckHit_Sphere_Capsule
 		);
 
 		// 球vsボックス
 		CollisionMap::Register(
-			TypeIDGenerator::GetID<SphereCollider>(),
-			TypeIDGenerator::GetID<BoxCollider>(),
+			SphereCollider::StaticTypeId(),
+			BoxCollider::StaticTypeId(),
 			Collision::CheckHit_Sphere_Box
 		);
 
 		// カプセルvsカプセル
 		CollisionMap::Register(
-			TypeIDGenerator::GetID<CapsuleCollider>(),
-			TypeIDGenerator::GetID<CapsuleCollider>(),
+			CapsuleCollider::StaticTypeId(),
+			CapsuleCollider::StaticTypeId(),
 			Collision::CheckHit_Capsule_Capsule
 		);
 
 		// カプセルvsボックス
 		CollisionMap::Register(
-			TypeIDGenerator::GetID<CapsuleCollider>(),
-			TypeIDGenerator::GetID<BoxCollider>(),
+			CapsuleCollider::StaticTypeId(),
+			BoxCollider::StaticTypeId(),
 			Collision::CheckHit_Capsule_Box
 		);
 
 		// ボックスvsボックス
 		CollisionMap::Register(
-			TypeIDGenerator::GetID<BoxCollider>(),
-			TypeIDGenerator::GetID<BoxCollider>(),
+			BoxCollider::StaticTypeId(),
+			BoxCollider::StaticTypeId(),
 			Collision::CheckHit_Box_Box
 		);
 	}
@@ -108,43 +107,43 @@ namespace REngine
 	{
 		// 円vs円
 		CollisionMap2D::Register(
-			TypeIDGenerator::GetID<CircleCollider2D>(),
-			TypeIDGenerator::GetID<CircleCollider2D>(),
+			CircleCollider2D::StaticTypeId(),
+			CircleCollider2D::StaticTypeId(),
 			Collision2D::CheckHit_Circle_Circle
 		);
 
 		// 円vsカプセル
 		CollisionMap2D::Register(
-			TypeIDGenerator::GetID<CircleCollider2D>(),
-			TypeIDGenerator::GetID<CapsuleCollider2D>(),
+			CircleCollider2D::StaticTypeId(),
+			CapsuleCollider2D::StaticTypeId(),
 			Collision2D::CheckHit_Circle_Capsule
 		);
 
 		// 円vsボックス
 		CollisionMap2D::Register(
-			TypeIDGenerator::GetID<CircleCollider2D>(),
-			TypeIDGenerator::GetID<BoxCollider2D>(),
+			CircleCollider2D::StaticTypeId(),
+			BoxCollider2D::StaticTypeId(),
 			Collision2D::CheckHit_Circle_Box
 		);
 
 		// カプセルvsカプセル
 		CollisionMap2D::Register(
-			TypeIDGenerator::GetID<CapsuleCollider2D>(),
-			TypeIDGenerator::GetID<CapsuleCollider2D>(),
+			CapsuleCollider2D::StaticTypeId(),
+			CapsuleCollider2D::StaticTypeId(),
 			Collision2D::CheckHit_Capsule_Capsule
 		);
 
 		// カプセルvsボックス
 		CollisionMap2D::Register(
-			TypeIDGenerator::GetID<CapsuleCollider2D>(),
-			TypeIDGenerator::GetID<BoxCollider2D>(),
+			CapsuleCollider2D::StaticTypeId(),
+			BoxCollider2D::StaticTypeId(),
 			Collision2D::CheckHit_Capsule_Box
 		);
 
 		// ボックスvsボックス
 		CollisionMap2D::Register(
-			TypeIDGenerator::GetID<BoxCollider2D>(),
-			TypeIDGenerator::GetID<BoxCollider2D>(),
+			BoxCollider2D::StaticTypeId(),
+			BoxCollider2D::StaticTypeId(),
 			Collision2D::CheckHit_Box_Box
 		);
 	}
@@ -153,19 +152,19 @@ namespace REngine
 	{
 		// Ray vs Sphere
 		RaySystem::Register(
-			TypeIDGenerator::GetID<SphereCollider>(),
+			SphereCollider::StaticTypeId(),
 			RayCollision::CheckHit_Ray_Sphere
 		);
 
 		// Ray vs Capsule
 		RaySystem::Register(
-			TypeIDGenerator::GetID<CapsuleCollider>(),
+			CapsuleCollider::StaticTypeId(),
 			RayCollision::CheckHit_Ray_Capsule
 		);
 
 		// Ray vs Box
 		RaySystem::Register(
-			TypeIDGenerator::GetID<BoxCollider>(),
+			BoxCollider::StaticTypeId(),
 			RayCollision::CheckHit_Ray_Box
 		);
 	}

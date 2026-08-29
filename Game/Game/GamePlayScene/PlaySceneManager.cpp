@@ -86,7 +86,7 @@ void PlaySceneManager::Start()
 	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
 	// プレイヤー
-	m_player = scene->GetObjectFinder()->FindWithNameInWorld(m_playerName);
+	m_player = scene->GetObjectFinder()->FindWithName(m_playerName);
 
 	// 非アクティブにしておく
 	if (auto* p = m_player->GetComponent<Player>())
@@ -95,7 +95,7 @@ void PlaySceneManager::Start()
 	}
 
 	// カメラ
-	m_camera = scene->GetObjectFinder()->FindWithNameInWorld(m_cameraName);
+	m_camera = scene->GetObjectFinder()->FindWithName(m_cameraName);
 
 	// 敵管理
 	m_enemyManager = static_cast<EnemyManager*>(scene->GetComponentRegister()->GetComponent<EnemyManager>());
