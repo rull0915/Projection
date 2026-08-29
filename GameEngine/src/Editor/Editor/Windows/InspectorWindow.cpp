@@ -109,6 +109,18 @@ namespace REngine
 				ImGui::EndPopup();
 			}
 
+			// ドラッグの開始
+			if (ImGui::BeginDragDropSource())
+			{
+				// 渡したいデータを設定
+				ImGui::SetDragDropPayload("COMPONENT", component, sizeof(*component));
+
+				// ドラッグ中に表示される内容
+				ImGui::Text(name.c_str());
+
+				ImGui::EndDragDropSource();
+			}
+
 			// ツリーの開始
 			if (open)
 			{

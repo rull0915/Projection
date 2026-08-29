@@ -44,8 +44,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InspectorWindow(AssetManager& am, SelectedOnGUI& selected)
-			: m_propertyOnInspector(am)
+		InspectorWindow(Scene* pScene, AssetManager& am, SelectedOnGUI& selected)
+			: m_propertyOnInspector(pScene, am)
 			, m_selected{ selected }
 			, m_assetManager{ am }
 		{};

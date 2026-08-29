@@ -19,6 +19,7 @@
 namespace REngine
 {
 	class AssetManager;
+	class Scene;
 
 	//====================================================//
 	// クラス宣言
@@ -39,15 +40,19 @@ namespace REngine
 		// 編集中フラグ
 		bool m_quaternionEditing;		
 
+		// シーンポインタ
+		Scene* m_pScene;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		PropertyOnInspector(AssetManager& am)
+		PropertyOnInspector(Scene* pScene, AssetManager& am)
 			: m_assetManager{ am }
 			, m_quaternionCache{ DirectX::SimpleMath::Vector3::Zero }
 			, m_quaternionEditing{ false }
+			, m_pScene{ pScene }
 		{
 		}
 
