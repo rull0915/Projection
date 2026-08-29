@@ -89,6 +89,36 @@ namespace REngine
 		return m_pScene->GetFactory()->Generate(position);
 	}
 
+	GameObject* GameObject::GetParent() const
+	{
+		if (auto* t = GetComponent<Transform>())
+		{
+			// 親がいれば
+			if (auto* parent = t->GetParent())
+			{
+				return static_cast<GameObject*>(parent->GetOwn());
+			}
+		}
+		else if (auto* t = GetComponent<RectTransform>())
+		{
+			// 親がいれば
+			if (auto* parent = t->GetParent())
+			{
+				return static_cast<GameObject*>(parent->GetOwn());
+			}
+		}
+
+		return nullptr;
+	}
+
+	size_t GameObject::GetChildCount() const
+	{
+		if (auto* t = GetComponent<Transform>()) return t->GetChildren().size();
+		else if (auto* t = GetComponent<RectTransform>()) return t->GetChildren().size();
+
+		return 0;	
+	}
+
 	void GameObject::SetParentActive(bool value)
 	{
 		// 値が変わっていなければ何もしない

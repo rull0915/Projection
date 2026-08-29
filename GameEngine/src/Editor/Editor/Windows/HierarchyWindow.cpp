@@ -67,18 +67,8 @@ namespace REngine
 		// 全オブジェクトをループ
 		for (auto& object : objectManager->GetAllObject())
 		{
-			// Transformを持っている
-			if (Transform* t = object->GetComponent<Transform>())
-			{
-				// 親がいなければ表示
-				if (!t->GetParent()) DrawGameObject(object.get());
-			}
-			// RectTransformを持っている
-			else if (RectTransform* t = object->GetComponent<RectTransform>())
-			{
-				// 親がいなければ表示
-				if (!t->GetParent()) DrawGameObject(object.get());
-			}
+			// 親がいなければ表示
+			if (!object->GetParent()) DrawGameObject(object.get());
 		}
 
 		// 右クリック時のメニュー
@@ -109,8 +99,13 @@ namespace REngine
 			{
 				auto data = (GameObject*)payload->Data;
 
-				// 自分と一致していなければ
+				// Transformを持っていれば
 				if (auto* t = data->GetComponent<Transform>())
+				{
+					t->SetParent(nullptr);
+				}
+				// RectTransformを持っていれば
+				if (auto* t = data->GetComponent<RectTransform>())
 				{
 					t->SetParent(nullptr);
 				}
@@ -155,6 +150,12 @@ namespace REngine
 
 		// ID衝突防止
 		ImGui::PushID(object);
+		
+		// 子供がいなければ▼を表示しない
+		if (object->GetChildCount() == 0)
+		{
+			flags |= ImGuiTreeNodeFlags_Leaf;
+		}
 
 		// 拡張可能なツリーを展開
 		bool open = ImGui::TreeNodeEx(name.c_str(), flags);

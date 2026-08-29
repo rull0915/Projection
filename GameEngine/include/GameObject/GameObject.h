@@ -111,6 +111,12 @@ namespace REngine
 
 		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
+		// 親を取得する関数
+		GameObject* GetParent() const;
+
+		// 子供の数を取得する関数
+		size_t GetChildCount() const;
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
