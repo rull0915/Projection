@@ -172,6 +172,9 @@
     <ClInclude Include="Game\Test\HandleTester.h" />
     <ClInclude Include="EngineTester\MaterialTester.h" />
     <ClInclude Include="EngineTester\ReferenceTester.h" />
+    <ClInclude Include="GameLib\UI\Dialog.h" />
+    <ClInclude Include="GameLib\UI\PauseDialog.h" />
+    <ClInclude Include="GameLib\UI\DialogController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -220,6 +223,9 @@
     <ClCompile Include="Game\Test\HandleTester.cpp" />
     <ClCompile Include="EngineTester\MaterialTester.cpp" />
     <ClCompile Include="EngineTester\ReferenceTester.cpp" />
+    <ClCompile Include="GameLib\UI\Dialog.cpp" />
+    <ClCompile Include="GameLib\UI\PauseDialog.cpp" />
+    <ClCompile Include="GameLib\UI\DialogController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

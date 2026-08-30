@@ -1,77 +1,66 @@
 ﻿//====================================================//
-// ファイル名   : Dialog.h
+// ファイル名   : DialogController.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/25
+// 作成日       : 2026/08/30
 //
-// 概要 : 
+// 概要 : ダイアログコンポーネントを操作するコンポーネント
 //
 // 更新履歴 :
-// 2026/08/25 新規作成
+// 2026/08/30 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(Dialog)
+#define IS_COMPONENT(DialogController)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/UI/UIComponentBase.h"
-
-//====================================================//
-// 前方宣言
-//====================================================//
-
+#include "Components/UI/Behaviour/ButtonListenerBase.h"
+#include "Dialog.h"
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class Dialog : public REngine::UIComponentBase
+class DialogController : public REngine::ButtonListenerBase
 {
+public:
+
+	// クリック時の操作
+	enum class ClickedOperation
+	{
+		Open, Close
+	};
+
 private:
 
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
-	 
-	// 開いているかどうか
-	bool m_isOpen;
+
+	// 操作対象のDialog
+	REngine::Ref<Dialog> m_targetDialog;
+
+	// クリック時の操作
+	ClickedOperation m_clickedOperation;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	Dialog(REngine::IComponentOwner* own);
-	~Dialog() = default;
+	DialogController(REngine::IComponentOwner* own);
+	~DialogController() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(Dialog, REngine::UIComponentBase);
-
+	COMPONENT_TYPE(MyComponent, REngine::ButtonListenerBase);
+	
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	// 開く関数
-	virtual void Show() {};
-
-	// 隠す関数
-	virtual void Hide() {};
-
-	// 開閉チェック
-	bool IsOpen() const
-	{
-		return m_isOpen;
-	}
-
-protected:
-
-	// 開閉フラグ変更
-	void SetOpen(bool open)
-	{
-		m_isOpen = open;
-	}
+	void OnClicked() override;
 };

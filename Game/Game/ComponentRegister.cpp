@@ -10,6 +10,9 @@
 #include "GameLib/Components/CatmullRomComponent.h"
 #include "GameLib/Components/ClickSE.h"
 #include "GameLib/Components/PathMover.h"
+#include "GameLib/UI/Dialog.h"
+#include "GameLib/UI/DialogController.h"
+#include "GameLib/UI/PauseDialog.h"
 #include "Game/ClearScene/SwingComponent.h"
 #include "Game/ClearScene/ToSelectComponent.h"
 #include "Game/GamePlayScene/GameOverComponent.h"
@@ -41,6 +44,9 @@ void ComponentRegister::RegistComponents()
     REGIST_TO_FACTORY(CatmullRomComponent);
     REGIST_TO_FACTORY(ClickSE);
     REGIST_TO_FACTORY(PathMover);
+    REGIST_TO_FACTORY(Dialog);
+    REGIST_TO_FACTORY(DialogController);
+    REGIST_TO_FACTORY(PauseDialog);
     REGIST_TO_FACTORY(SwingComponent);
     REGIST_TO_FACTORY(ToSelectComponent);
     REGIST_TO_FACTORY(GameOverComponent);

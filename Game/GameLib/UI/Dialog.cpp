@@ -19,21 +19,6 @@
 // コンストラクタ
 Dialog::Dialog(REngine::IComponentOwner* own)
 	: UIComponentBase(own)
+	, m_isOpen{ false }
 {
 }
-
-// 生成直後に一度呼ばれます
-void Dialog::Awake()
-{}
-
-// 最初のUpdate関数の直線に一度呼ばれます
-void Dialog::Start()
-{}
-
-// 毎フレーム呼ばれます
-void Dialog::Update(const REngine::GameTimer & gameTimer)
-{}
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void Dialog::LateUpdate(const REngine::GameTimer & gameTimer)
-{}
