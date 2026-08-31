@@ -276,15 +276,6 @@
                                         },
                                         "Type": "ButtonUI",
                                         "UUID": 5689931933515666969
-                                    },
-                                    {
-                                        "Data": {
-                                            "m_clickedOperation": "Close",
-                                            "m_isActive": true,
-                                            "m_targetDialog": 6276102133048920761
-                                        },
-                                        "Type": "DialogController",
-                                        "UUID": 12835450638075611508
                                     }
                                 ],
                                 "IsWorld": false,
@@ -468,15 +459,6 @@
                                 },
                                 "Type": "ButtonUI",
                                 "UUID": 14125431433717054952
-                            },
-                            {
-                                "Data": {
-                                    "m_clickedOperation": "Open",
-                                    "m_isActive": true,
-                                    "m_targetDialog": 6276102133048920761
-                                },
-                                "Type": "DialogController",
-                                "UUID": 11020707277513909569
                             }
                         ],
                         "IsWorld": false,
@@ -528,6 +510,49 @@
                 "UUID": 3559967032366448473,
                 "m_isActive": true,
                 "m_name": "Canvas",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 15494866725936907657
+                    },
+                    {
+                        "Data": {
+                            "m_closeButton": 5689931933515666969,
+                            "m_isActive": true,
+                            "m_openButton": 14125431433717054952,
+                            "m_targetDialog": 6276102133048920761
+                        },
+                        "Type": "DialogController",
+                        "UUID": 8926073709228967046
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 6059907942409340831,
+                "m_isActive": true,
+                "m_name": "DialogController",
                 "m_tag": ""
             }
         ]

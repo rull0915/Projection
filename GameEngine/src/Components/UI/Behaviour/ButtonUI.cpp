@@ -90,6 +90,12 @@ namespace REngine
 				// 呼び出し
 				static_cast<ButtonListenerBase*>(listener)->OnClicked();
 			}
+
+			// クリック時イベントを実行
+			for (auto& event : m_onClicked)
+			{
+				event.second();
+			}
 		}
 
 		// フラグリセット
@@ -100,5 +106,26 @@ namespace REngine
 		{
 			image->SetMulColor(m_normalColor);
 		}
+	}
+
+	int ButtonUI::AddOnClicked(OnClickEvent event)
+	{
+		// 全体で一つのトークンを共有
+		static EventToken token = 0;
+
+		// トークンをインクリメント
+		token++;
+
+		// イベントを追加
+		m_onClicked.insert({ token, event });
+
+		// トークンを返す
+		return token;
+	}
+
+	void ButtonUI::RemoveOnClicked(EventToken token)
+	{
+		// リストから削除
+		m_onClicked.erase(token);
 	}
 }	// namespace REngine

@@ -16,13 +16,14 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/UI/Behaviour/ButtonListenerBase.h"
+#include "Components/Both/BothComponentBase.h"
 #include "Dialog.h"
+#include "Components/UI/Behaviour/ButtonUI.h"
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class DialogController : public REngine::ButtonListenerBase
+class DialogController : public REngine::BothComponentBase
 {
 public:
 
@@ -44,6 +45,14 @@ private:
 	// クリック時の操作
 	ClickedOperation m_clickedOperation;
 
+	// 開くボタン
+	REngine::Ref<REngine::ButtonUI> m_openButton;
+	REngine::Ref<REngine::ButtonUI> m_closeButton;
+
+	// 削除用ID
+	int m_openId;
+	int m_closeId;
+
 public:
 
 	//-----------------------------------------------------
@@ -56,11 +65,13 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(MyComponent, REngine::ButtonListenerBase);
+	COMPONENT_TYPE(MyComponent, REngine::BothComponentBase);
 	
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void OnClicked() override;
+	void Start() override;
+
+	void OnDestroy() override;
 };

@@ -18,29 +18,39 @@
 
 // コンストラクタ
 DialogController::DialogController(REngine::IComponentOwner* own)
-	: REngine::ButtonListenerBase(own)
+	: REngine::BothComponentBase(own)
 	, m_targetDialog{}
 	, m_clickedOperation{ ClickedOperation::Close }
+	, m_openId{ 0 }
+	, m_closeId{ 0 }
 {
 	ADD_PROPERTY(m_targetDialog);
-	ADD_PROPERTY(m_clickedOperation);
+	ADD_PROPERTY(m_openButton);
+	ADD_PROPERTY(m_closeButton);
 }
 
-void DialogController::OnClicked()
+void DialogController::Start()
 {
-	switch (m_clickedOperation)
+	// ボタンクリック時の関数を追加
+	if (m_openButton)
 	{
-	case DialogController::ClickedOperation::Open:
+		m_openId = m_openButton->AddOnClicked([this]() { m_targetDialog->Show(); });
+	}
+	if (m_closeButton)
+	{
+		m_closeId = m_closeButton->AddOnClicked([this]() { m_targetDialog->Hide(); });
+	}
+}
 
-		if (m_targetDialog) m_targetDialog->Show();
-
-		break;
-	case DialogController::ClickedOperation::Close:
-
-		if (m_targetDialog) m_targetDialog->Hide();
-
-		break;
-	default:
-		break;
+void DialogController::OnDestroy()
+{
+	// イベントを削除
+	if (m_openButton)
+	{
+		m_openButton->RemoveOnClicked(m_openId);
+	}
+	if (m_closeButton)
+	{
+		m_closeButton->RemoveOnClicked(m_closeId);
 	}
 }
