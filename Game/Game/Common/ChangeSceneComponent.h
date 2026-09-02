@@ -18,6 +18,7 @@
 //====================================================//
 #include "Components/Both/BothComponentBase.h"
 #include "Components/UI/Behaviour/ButtonUI.h"
+#include "GameObject/GameObject.h"
 
 //====================================================//
 // クラス宣言
@@ -32,6 +33,9 @@ private:
 
 	// ボタン
 	REngine::Ref<REngine::ButtonUI> m_button;
+
+	// コントローラーの操作UI
+	REngine::Ref<REngine::GameObject> m_padUI;
 
 	// 遷移先のシーン名
 	std::string m_targetScene;
@@ -58,6 +62,8 @@ public:
 	//-----------------------------------------------------
 
 	void Start() override;
+
+	void Update(const REngine::GameTimer& timer) override;
 
 	void OnDestroy() override;
 };

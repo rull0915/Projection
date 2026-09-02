@@ -14,6 +14,7 @@
 #include "GameInitializer.h"		// ゲーム部分	
 
 #include "Input/KeyInput.h"
+#include "Input/PadInput.h"
 #include "Scene/Transition/FadeTransition.h"
 
 extern void ExitGame() noexcept;
@@ -106,6 +107,10 @@ void Game::Update(DX::StepTimer const& timer)
 	// タイトルへ戻る処理
 	// Todo : TGS用の特殊処理です 終わったら削除して下さい
 	if (REngine::Input::Key::Get(REngine::Input::Key::Code::LeftControl) && REngine::Input::Key::GetDown(REngine::Input::Key::Code::T))
+	{
+		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>());
+	}
+	if (REngine::Input::Pad::Get(REngine::Input::Pad::Button::LStick) && REngine::Input::Pad::GetDown(REngine::Input::Pad::Button::RStick))
 	{
 		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>());
 	}
