@@ -77,9 +77,6 @@ namespace REngine
 
 	void InspectorWindow::DrawGameObject(GameObject* object)
 	{
-		// UUIDを表示(テスト)
-		ImGui::Text("UUID : %d", object->GetUUID());
-
 		// 表示
 		if (m_propertyOnInspector.DrawPropertyObject(object))
 		{
@@ -124,9 +121,6 @@ namespace REngine
 			// ツリーの開始
 			if (open)
 			{
-				// UUIDを表示(テスト)
-				ImGui::Text("UUID : %d", component->GetUUID());
-
 				// インスペクターに表示
 				if (m_propertyOnInspector.DrawPropertyObject(component))
 				{

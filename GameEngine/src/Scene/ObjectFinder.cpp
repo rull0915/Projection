@@ -85,7 +85,7 @@ namespace REngine
 		// 全オブジェクトを調べる
 		for (auto& object : objManager->GetAllObject())
 		{
-			// タグを比較
+			// UUIDを比較
 			if (object->GetUUID() == uuid)
 			{
 				return object.get();

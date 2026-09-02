@@ -358,7 +358,10 @@
     <ClCompile Include="src\Input\PadInput.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="include\Components\UI\Canvas.cpp">
+    <ClCompile Include="src\Components\UI\Canvas.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameController.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -777,9 +780,6 @@
     <ClInclude Include="include\Common\CastString.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\UI\Behaviour\ButtonListenerBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Scene\UpdateMode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -958,6 +958,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameController.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -168,53 +168,53 @@ namespace REngine
 	// 3D
 		void BaseOnCollisionEnter(HitContact& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnCollisionEnter(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnCollisionEnter(contact);   // コンポーネントに通知
 		};
 		void BaseOnCollisionStay(HitContact& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnCollisionStay(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnCollisionStay(contact);   // コンポーネントに通知
 		};
 		void BaseOnCollisionExit(HitContact& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnCollisionExit(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnCollisionExit(contact);   // コンポーネントに通知
 		};
 		void BaseOnTriggerEnter(HitContact& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnTriggerEnter(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnTriggerEnter(contact);   // コンポーネントに通知
 		};
 		void BaseOnTriggerStay(HitContact& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnTriggerStay(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnTriggerStay(contact);   // コンポーネントに通知
 		};
 		void BaseOnTriggerExit(HitContact& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnTriggerExit(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnTriggerExit(contact);   // コンポーネントに通知
 		};
 
 		// 2D
 		void BaseOnCollisionEnter2D(HitContact2D& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnCollisionEnter2D(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnCollisionEnter2D(contact);   // コンポーネントに通知
 		};
 		void BaseOnCollisionStay2D(HitContact2D& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnCollisionStay2D(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnCollisionStay2D(contact);   // コンポーネントに通知
 		};
 		void BaseOnCollisionExit2D(HitContact2D& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnCollisionExit2D(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnCollisionExit2D(contact);   // コンポーネントに通知
 		};
 		void BaseOnTriggerEnter2D(HitContact2D& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnTriggerEnter2D(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnTriggerEnter2D(contact);   // コンポーネントに通知
 		};
 		void BaseOnTriggerStay2D(HitContact2D& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnTriggerStay2D(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnTriggerStay2D(contact);   // コンポーネントに通知
 		};
 		void BaseOnTriggerExit2D(HitContact2D& contact) override
 		{
-			for (auto& component : m_components.GetAll()) component->OnTriggerExit2D(contact);   // コンポーネントに通知
+			for (auto& component : GetAllComponents()) component->OnTriggerExit2D(contact);   // コンポーネントに通知
 		};
 
 #pragma endregion
@@ -247,7 +247,7 @@ namespace REngine
 		// コンポーネントをすべて取得する関数
 		const std::vector<ComponentBase*>& GetAllComponents() const
 		{
-			return m_components.GetAll();
+			return m_components.Gets<ComponentBase>();
 		}
 
 		// コンポーネントを削除する関数
@@ -271,14 +271,15 @@ namespace REngine
 			m_components.Removes<T>();
 		}
 
-		// コンポーネントを全て削除する関数(Transformは削除不可)
-		void RemoveComponents()
-		{
-			m_components.AllRemove();
-		}
-
 		// コンテナを取得する関数
 		ComponentContainer& GetComponentContainer() { return m_components; }
+
+	private:
+		// コンポーネントを全て削除する関数
+		void RemoveComponents()
+		{
+			m_components.Removes<ComponentBase>();
+		}
 
 #pragma endregion
 

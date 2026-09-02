@@ -325,18 +325,21 @@ namespace REngine
 					changed = m_pScene->ResolveRef(refBase);
 
 					// 解決失敗した場合
-					for (auto& component : obj->GetAllComponents())
+					if (!changed)
 					{
-						// UUIDをセット
-						refBase->SetUUID(component->GetUUID());
-
-						// シーン経由で参照解決
-						if (m_pScene->ResolveRef(refBase))
+						for (auto& component : obj->GetAllComponents())
 						{
-							// 成功したら
-							changed = true;
+							// UUIDをセット
+							refBase->SetUUID(component->GetUUID());
 
-							break;
+							// シーン経由で参照解決
+							if (m_pScene->ResolveRef(refBase))
+							{
+								// 成功したら
+								changed = true;
+
+								break;
+							}
 						}
 					}
 				}

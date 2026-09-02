@@ -8,18 +8,16 @@
 #include "EngineTester/ReferenceTester.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 #include "GameLib/Components/CatmullRomComponent.h"
-#include "GameLib/Components/ClickSE.h"
 #include "GameLib/Components/PathMover.h"
 #include "GameLib/UI/Dialog.h"
 #include "GameLib/UI/DialogController.h"
 #include "GameLib/UI/PauseDialog.h"
 #include "Game/ClearScene/SwingComponent.h"
-#include "Game/ClearScene/ToSelectComponent.h"
+#include "Game/Common/ChangeSceneComponent.h"
 #include "Game/GamePlayScene/GameOverComponent.h"
 #include "Game/GamePlayScene/PlaySceneManager.h"
-#include "Game/Test/HandleTester.h"
-#include "Game/TitleScene/TitleToPlayEvent.h"
-#include "Game/SelectScene/Copmonents/SelectBlock.h"
+#include "Game/SelectScene/SelectBlock.h"
+#include "Game/TitleScene/TitleManager.h"
 #include "Game/GamePlayScene/Camera/CameraCorrection.h"
 #include "Game/GamePlayScene/Camera/ProjectionSmoothCamera.h"
 #include "Game/GamePlayScene/Camera/StartCamera.h"
@@ -42,18 +40,16 @@ void ComponentRegister::RegistComponents()
     REGIST_TO_FACTORY(ReferenceTester);
     REGIST_TO_FACTORY(ConvexPolygonCollider2D);
     REGIST_TO_FACTORY(CatmullRomComponent);
-    REGIST_TO_FACTORY(ClickSE);
     REGIST_TO_FACTORY(PathMover);
     REGIST_TO_FACTORY(Dialog);
     REGIST_TO_FACTORY(DialogController);
     REGIST_TO_FACTORY(PauseDialog);
     REGIST_TO_FACTORY(SwingComponent);
-    REGIST_TO_FACTORY(ToSelectComponent);
+    REGIST_TO_FACTORY(ChangeSceneComponent);
     REGIST_TO_FACTORY(GameOverComponent);
     REGIST_TO_FACTORY(PlaySceneManager);
-    REGIST_TO_FACTORY(HandleTester);
-    REGIST_TO_FACTORY(TitleToPlayEvent);
     REGIST_TO_FACTORY(SelectBlock);
+    REGIST_TO_FACTORY(TitleManager);
     REGIST_TO_FACTORY(CameraCorrection);
     REGIST_TO_FACTORY(ProjectionSmoothCamera);
     REGIST_TO_FACTORY(StartCamera);

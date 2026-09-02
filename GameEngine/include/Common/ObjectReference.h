@@ -29,7 +29,7 @@ namespace REngine
 
 	private:
 		// UUID
-		UUID m_uuid;
+		UUID m_uuid = UUID_NONE;
 
 		// 削除時に呼ばれるコールバック関数
 		DestroyCallBack m_destroyCallback;

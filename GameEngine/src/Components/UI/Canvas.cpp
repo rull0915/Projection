@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Canvas.h"
+#include "Components/UI/Canvas.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/UI/Graphics/UIGraphicBase.h"

@@ -61,4 +61,15 @@ void GameInitializer::AddKey()
 	REngine::Input::Custom::AddButton(
 		"ChangeDimention", REngine::Input::Pad::Button::RShoulder
 	);
+
+	// 決定
+	REngine::Input::Custom::AddButton(
+		"Decide", REngine::Input::Key::Code::Space
+	);
+	REngine::Input::Custom::AddButton(
+		"Decide", REngine::Input::Key::Code::Z
+	);
+	REngine::Input::Custom::AddButton(
+		"Decide", REngine::Input::Pad::Button::B
+	);
 }

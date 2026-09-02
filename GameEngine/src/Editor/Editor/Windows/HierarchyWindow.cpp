@@ -182,6 +182,39 @@ namespace REngine
 					m_selected.SetSelected(nullptr);
 				}
 			}
+			// Generate
+			if (ImGui::MenuItem("Generate"))
+			{
+				// World空間オブジェクトの場合
+				if (Transform* parent = object->GetComponent<Transform>())
+				{
+					// 生成
+					GameObject* child = m_pScene->GetFactory()->Generate();
+
+					// 親を設定
+					child->GetComponent<Transform>()->SetParent(parent);
+
+					// ローカル情報をリセット
+					child->GetComponent<Transform>()->SetLocalPosition(DirectX::SimpleMath::Vector3::Zero);
+					child->GetComponent<Transform>()->SetLocalRotation(DirectX::SimpleMath::Quaternion::Identity);
+					child->GetComponent<Transform>()->SetLocalScale({ 1, 1, 1 });
+				}
+
+				// UI空間オブジェクトの場合
+				if (RectTransform* parent = object->GetComponent<RectTransform>())
+				{
+					// 生成
+					GameObject* child = m_pScene->GetFactory()->GenerateUI();
+
+					// 親を設定
+					child->GetComponent<RectTransform>()->SetParent(parent);
+
+					// ローカル情報をリセット
+					child->GetComponent<RectTransform>()->SetAnchoredPosition(DirectX::SimpleMath::Vector2::Zero);
+					child->GetComponent<RectTransform>()->SetRotation(0);
+					child->GetComponent<RectTransform>()->SetScale({ 1, 1 });
+				}
+			}
 			ImGui::EndPopup();
 		}
 

@@ -1,34 +1,30 @@
 ﻿//====================================================//
-// ファイル名   : HandleTester.h
+// ファイル名   : TitleManager.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/27
+// 作成日       : 2026/09/01
 //
-// 概要 : ハンドルのテストをするコンポーネント
+// 概要 : 
 //
 // 更新履歴 :
-// 2026/07/27 新規作成
+// 2026/09/01 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(HandleTester)
+#define IS_COMPONENT(TitleManager)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
-#include "Assets/Types/Texture.h"
-#include "Assets/Objects/Handle.h"
-
-//====================================================//
-// 前方宣言
-//====================================================//
-
+#include "Components/UI/Behaviour/ButtonUI.h"
+#include "GameObject/GameObject.h"
+#include "GameLib/UI/Dialog.h"
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class HandleTester : public REngine::WorldComponentBase
+class TitleManager : public REngine::WorldComponentBase
 {
 private:
 
@@ -36,30 +32,49 @@ private:
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// テクスチャハンドル
-	REngine::Handle<REngine::Texture> m_textureHandle;
+	// 遷移対象のシーン名
+	std::string m_targetScene;
+
+	// プレイボタン
+	REngine::Ref<REngine::ButtonUI> m_playButton;
+
+	// 終了ボタン
+	REngine::Ref<REngine::ButtonUI> m_exitButton;
+	REngine::Ref<REngine::ButtonUI> m_exitAcceptButton;
+	REngine::Ref<REngine::ButtonUI> m_exitCancelButton;
+
+	// 追加したイベント
+	REngine::ButtonUI::EventToken m_playEventToken;
+	REngine::ButtonUI::EventToken m_exitEventToken;
+
+	// コントローラーが接続されているときのみ表示されるUI
+	REngine::Ref<REngine::GameObject> m_padUI;
+	REngine::Ref<REngine::GameObject> m_padUIOnDialog;
+
+	// 終了ダイアログ
+	REngine::Ref<Dialog> m_quitDialog;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	HandleTester(REngine::IComponentOwner* own);
-	~HandleTester() = default;
+	TitleManager(REngine::IComponentOwner* own);
+	~TitleManager() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
-
-	COMPONENT_TYPE(HandleTester, REngine::WorldComponentBase)
-
+	
+	COMPONENT_TYPE(TitleManager, REngine::WorldComponentBase);
+	
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void Awake() override;
 	void Start() override;
 
 	void Update(const REngine::GameTimer& gameTimer) override;
-	void LateUpdate(const REngine::GameTimer& gameTimer) override;
+
+	void OnDestroy() override;
 };

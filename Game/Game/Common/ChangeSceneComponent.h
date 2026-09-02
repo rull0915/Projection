@@ -1,50 +1,63 @@
 ﻿//====================================================//
-// ファイル名   : ClickSE.h
+// ファイル名   : ChangeSceneComponent.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
+// 作成日       : 2026/09/02
 //
-// 概要 : ボタンクリック時にSEを鳴らすコンポーネント
+// 概要 : シーンを変更するコンポーネント
 //
 // 更新履歴 :
-// 2026/05/27 新規作成
+// 2026/09/02 新規作成
 //====================================================//
 
 #pragma once
 
-#define IS_COMPONENT(ClickSE)
+#define IS_COMPONENT(ChangeSceneComponent)
 
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/UI/Behaviour/ButtonListenerBase.h"
-
-//====================================================//
-// 前方宣言
-//====================================================//
-
+#include "Components/Both/BothComponentBase.h"
+#include "Components/UI/Behaviour/ButtonUI.h"
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class ClickSE : public REngine::ButtonListenerBase
+class ChangeSceneComponent : public REngine::BothComponentBase
 {
+private:
+
+	//-----------------------------------------------------
+	// メンバ変数
+	//-----------------------------------------------------
+
+	// ボタン
+	REngine::Ref<REngine::ButtonUI> m_button;
+
+	// 遷移先のシーン名
+	std::string m_targetScene;
+
+	// イベントトークン
+	int m_eventToken;
+
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ClickSE(REngine::IComponentOwner* own);
-	~ClickSE() = default;
+	ChangeSceneComponent(REngine::IComponentOwner* own);
+	~ChangeSceneComponent() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
-
-	COMPONENT_TYPE(ClickSE, REngine::ButtonListenerBase)
-
+	
+	COMPONENT_TYPE(ChangeSceneComponent, REngine::BothComponentBase);
+	
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void OnClicked() override;
+	void Start() override;
+
+	void OnDestroy() override;
 };

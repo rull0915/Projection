@@ -106,6 +106,9 @@ namespace REngine
 
 	void UIManager::Draw(Renderer& renderer)
 	{
+		// ソート
+		SortCanvas();
+
 		// キャンバスを描画する
 		for (auto& canvas : m_canvases)
 		{

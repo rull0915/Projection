@@ -13,12 +13,8 @@
 // 各プロジェクト初期化
 #include "GameInitializer.h"		// ゲーム部分	
 
-// 入力
-#include "Input/KeyInput.h"			// キー	
-#include "Input/PadInput.h"			// キー	
-
-// その他
-#include "GameLib/Transition/SlideTransition.h"
+#include "Input/KeyInput.h"
+#include "Scene/Transition/FadeTransition.h"
 
 extern void ExitGame() noexcept;
 
@@ -104,19 +100,15 @@ void Game::Update(DX::StepTimer const& timer)
 
 	TitleNameUpdate(elapsedTime);
 
-	// 終了チェック
-	if (m_exitTrans)
-	{
-		if (m_exitTrans->OutUpdate(m_gameEngine->GetTimer())) ExitGame();
-	}
-	// エスケープキーで終了
-	if (REngine::Input::Key::GetDown(REngine::Input::Key::Code::Escape))
-	{
-		RequestExit();
-	}
-
 	// ゲームエンジンの更新
 	m_gameEngine->Update(elapsedTime);
+
+	// タイトルへ戻る処理
+	// Todo : TGS用の特殊処理です 終わったら削除して下さい
+	if (REngine::Input::Key::Get(REngine::Input::Key::Code::LeftControl) && REngine::Input::Key::GetDown(REngine::Input::Key::Code::T))
+	{
+		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>());
+	}
 }
 #pragma endregion
 
@@ -138,21 +130,6 @@ void Game::Render()
 
 	// ゲームエンジンの描画
 	m_gameEngine->Render();
-
-	if (m_exitTrans)
-	{
-		auto& renderer = m_gameEngine->GetRenderer();
-		m_exitTrans->OutRender(renderer);
-		renderer.End();
-	}
-
-	// 接続テスト
-	if (REngine::Input::Pad::IsConnected())
-	{
-		auto& renderer = m_gameEngine->GetRenderer();
-		renderer.Draw().UI().DrawBox({ 0, 0 }, { 100,100 }, { 1, 1, 1, 1 }, true);
-		renderer.End();
-	}
 
 	// 描画の終了 ----------------------------------------
 
@@ -290,19 +267,6 @@ void Game::TitleNameUpdate(float elapsedTime)
 
 #endif
 }
-
-void Game::RequestExit()
-{
-	// 演出中でなければ
-	if (!m_exitTrans)
-	{
-		// 作成
-		m_exitTrans = std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0.2768f, 0.2679f, 0.4554f, 1 }, DirectX::XMConvertToRadians(30));
-
-		// 初期化
-		m_exitTrans->Initialize();
-	}
-};
 
 void Game::OnDeviceLost()
 {

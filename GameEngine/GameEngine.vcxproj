@@ -156,7 +156,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Components\UI\Canvas.cpp" />
+    <ClCompile Include="src\Components\UI\Canvas.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
@@ -177,6 +177,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\GameController.cpp" />
     <ClCompile Include="src\Input\PadInput.cpp">
       <SubType>
       </SubType>
@@ -455,6 +456,10 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
     <ClInclude Include="include\Editor\SceneEditor.h" />
+    <ClInclude Include="include\GameController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Input\PadInput.h">
       <SubType>
       </SubType>
@@ -583,7 +588,6 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
-    <ClInclude Include="include\Components\UI\Behaviour\ButtonListenerBase.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
     <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
     <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />

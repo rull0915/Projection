@@ -204,7 +204,7 @@ namespace REngine
 		{
 			// 存在しなかったとき用の空配列
 			static const std::vector<ComponentBase*> empty{};
-
+			
 			// イテレータを取得
 			auto it = m_componentsCache.find(id);
 
@@ -215,13 +215,6 @@ namespace REngine
 		const std::vector<ComponentBase*>& Gets() const
 		{
 			return Gets(T::StaticTypeId());
-		}
-
-		// ---------- GetAll ---------- //
-
-		const std::vector<ComponentBase*>& GetAll() const
-		{
-			return Gets(ComponentBase::StaticTypeId());
 		}
 
 		// ----------- Add ----------- //
@@ -365,15 +358,6 @@ namespace REngine
 				{
 					m_pDestroyReserves.insert(comp);
 				}
-			}
-		}
-
-		void AllRemove()
-		{
-			for (auto& comp : m_pComponents)
-			{
-				// 削除リストに追加
-				m_pDestroyReserves.insert(comp.get());
 			}
 		}
 

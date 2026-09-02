@@ -53,6 +53,7 @@ namespace REngine
 			, m_assetManager{ nullptr }
 		{
 			ADD_PROPERTY(m_textureHandle);
+			ADD_PROPERTY(m_raycastTarget);
 		}
 
 		~ImageUI() = default;

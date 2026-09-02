@@ -82,11 +82,6 @@ private:
 	// ゲームエンジン本体
 	std::unique_ptr<REngine::GameEngine> m_gameEngine;
 
-	// 終了演出
-	std::unique_ptr<REngine::Transition::Base> m_exitTrans;
-
 private:
 	void TitleNameUpdate(float elapsedTime);
-
-	void RequestExit();
 };
