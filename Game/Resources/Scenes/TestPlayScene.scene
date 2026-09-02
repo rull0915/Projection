@@ -8,15 +8,15 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                0.0,
-                                0.0
+                                -22.287242889404297,
+                                -2.4000000953674316,
+                                1.6110973358154297
                             ],
                             "m_localRotation": [
                                 0.0,
+                                -0.69284588098526,
                                 0.0,
-                                0.0,
-                                1.0
+                                0.7210856676101685
                             ],
                             "m_localScale": [
                                 1.0,
@@ -25,7 +25,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 2957048179240667742
+                        "UUID": 7051279578626564661
                     },
                     {
                         "Data": {
@@ -36,11 +36,70 @@
                             "m_nearZ": 0.10000000149011612
                         },
                         "Type": "StandardCamera",
-                        "UUID": 6429542996015746110
+                        "UUID": 10604943555290506362
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "AudioListener",
+                        "UUID": 2789827261482675194
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_textureHandle": 10350532250775094671
+                        },
+                        "Type": "SkyboxComponent",
+                        "UUID": 16148920133136293465
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isLoop": true,
+                            "m_offset": [
+                                -4.5,
+                                -2.4000000953674316,
+                                -4.800000190734863
+                            ],
+                            "m_p0": [
+                                17.200000762939453,
+                                0.0,
+                                18.399999618530273
+                            ],
+                            "m_p1": [
+                                30.899999618530273,
+                                0.0,
+                                -11.899999618530273
+                            ],
+                            "m_p2": [
+                                -11.300000190734863,
+                                0.0,
+                                -13.800000190734863
+                            ],
+                            "m_p3": [
+                                -14.800000190734863,
+                                0.0,
+                                17.299999237060547
+                            ]
+                        },
+                        "Type": "CatmullRomComponent",
+                        "UUID": 16167675308916231244
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_magnification": 0.10000000149011612,
+                            "m_playOnStart": true,
+                            "m_rotateType": "Left"
+                        },
+                        "Type": "PathMover",
+                        "UUID": 3743282583923982867
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 15507682288886897344,
+                "UUID": 1645363966580932235,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -52,15 +111,15 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                0.0,
-                                0.0
+                                -2.799999952316284,
+                                -1.5,
+                                3.0999999046325684
                             ],
                             "m_localRotation": [
-                                -0.0,
-                                0.0,
-                                -0.0,
-                                1.0
+                                2.665399012613534e-09,
+                                0.336784690618515,
+                                7.451914640910218e-09,
+                                0.941581666469574
                             ],
                             "m_localScale": [
                                 1.0,
@@ -69,54 +128,22 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 5206005941480499871
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                1.899999976158142,
-                                0.2199999988079071,
-                                1.899999976158142
-                            ],
-                            "m_needInfo": false,
-                            "m_physicsMaterial": 0
-                        },
-                        "Type": "BoxCollider",
-                        "UUID": 17507666095898526229
+                        "UUID": 12014607548255873946
                     },
                     {
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelHandle": 7357398224225983858
+                            "m_modelHandle": 6180276126187633230
                         },
                         "Type": "ModelComponent",
-                        "UUID": 4892541935426082502
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isStatic": false,
-                            "m_linearDamping": 0.0,
-                            "m_mass": 1.0,
-                            "m_useGravity": true
-                        },
-                        "Type": "RigidBody",
-                        "UUID": 23285253524050191
+                        "UUID": 12652629969196127642
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 11482685846171570407,
+                "UUID": 8922567705322840069,
                 "m_isActive": true,
-                "m_name": "Cube1",
+                "m_name": "Floor1",
                 "m_tag": "Floor"
             },
             {
@@ -143,49 +170,665 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 11362278716221426421
+                        "UUID": 183551678604790718
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
+                            "m_audioClip": 0,
                             "m_isActive": true,
-                            "m_material": 12042790881036434586,
-                            "m_mulColor": [
-                                1.0,
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "m_samplerType": "Linear",
-                            "m_texture": 16832540059583752122
+                            "m_loop": true,
+                            "m_pan": 0.0,
+                            "m_pitch": 0.0,
+                            "m_playOnStart": true,
+                            "m_use3DAudio": false,
+                            "m_volume": 1.0
                         },
-                        "Type": "MaterialTester",
-                        "UUID": 518144284352436764
+                        "Type": "AudioSource",
+                        "UUID": 12830094089929852614
                     },
                     {
                         "Data": {
+                            "m_exitAcceptButton": 16394497281606053557,
+                            "m_exitButton": 1143490978386297670,
+                            "m_exitCancelButton": 16135387645457378905,
                             "m_isActive": true,
-                            "m_targetTransform": 5206005941480499871,
-                            "m_tarrgetSetPos": [
-                                1.5,
-                                0.0,
-                                0.0
-                            ]
+                            "m_padUI": 7358433185221585371,
+                            "m_padUIOnDialog": 5364094117117561410,
+                            "m_playButton": 11583641026450988154,
+                            "m_quitDialog": 6016925122333443752,
+                            "m_targetScene": "Select"
                         },
-                        "Type": "ReferenceTester",
-                        "UUID": 7588448624588885049
+                        "Type": "TitleManager",
+                        "UUID": 8229401508748892941
+                    },
+                    {
+                        "Data": {
+                            "m_closeButton": 16135387645457378905,
+                            "m_isActive": true,
+                            "m_openButton": 1143490978386297670,
+                            "m_targetDialog": 6016925122333443752
+                        },
+                        "Type": "DialogController",
+                        "UUID": 14480316344142569886
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 9794550463065062729,
+                "UUID": 4513338464864192266,
                 "m_isActive": true,
-                "m_name": "",
+                "m_name": "TitleManager",
                 "m_tag": ""
             },
             {
                 "Children": [
                     {
                         "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.5,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        0.30000001192092896,
+                                        0.30000001192092896,
+                                        0.30000001192092896
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 14243362607553595313
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_isActive": true,
+                                    "m_modelHandle": 955517710624667869
+                                },
+                                "Type": "ModelComponent",
+                                "UUID": 5064790898356407229
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 4965462242270488256,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                4.300000190734863,
+                                -1.2999999523162842,
+                                -3.5
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                -0.4497630298137665,
+                                0.0,
+                                0.8931479454040527
+                            ],
+                            "m_localScale": [
+                                1.7999999523162842,
+                                1.7999999523162842,
+                                1.7000000476837158
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 16148831757359371069
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelHandle": 13218050046269099945
+                        },
+                        "Type": "ModelComponent",
+                        "UUID": 11592758063779009486
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 771422471338748783,
+                "m_isActive": true,
+                "m_name": "Floor2",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        -1.2000012397766113,
+                                        0.30000007152557373,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        0.45499998331069946,
+                                        0.45499998331069946,
+                                        0.45499998331069946
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 16034227398934913519
+                            },
+                            {
+                                "Data": {
+                                    "m_alpha": 1.0,
+                                    "m_isActive": true,
+                                    "m_modelHandle": 4505701795155793671
+                                },
+                                "Type": "ModelComponent",
+                                "UUID": 8697938799364996742
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 9559496236511697303,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -9.399999618530273,
+                                1.399999976158142,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.7999999523162842,
+                                1.7999999523162842,
+                                1.7999999523162842
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 18321798916422179295
+                    },
+                    {
+                        "Data": {
+                            "m_alpha": 1.0,
+                            "m_isActive": true,
+                            "m_modelHandle": 10267307003664980907
+                        },
+                        "Type": "ModelComponent",
+                        "UUID": 6016606716702603472
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 1285946774317695428,
+                "m_isActive": true,
+                "m_name": "Floor3",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.800000011920929
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                -70.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                310.0,
+                                                70.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 2057701182600941421
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_hoverdColor": [
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_normalColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                0.9686274528503418
+                                            ],
+                                            "m_pressedColor": [
+                                                0.75,
+                                                0.75,
+                                                0.75,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "ButtonUI",
+                                        "UUID": 11583641026450988154
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_raycastTarget": true,
+                                            "m_textureHandle": 16832540059583752122
+                                        },
+                                        "Type": "ImageUI",
+                                        "UUID": 12637620052290604450
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.0,
+                                                0.0,
+                                                0.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 35.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "Play"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 908467706772469086
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 13571048590819834310,
+                                "m_isActive": true,
+                                "m_name": "StartButton",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.4000000059604645
+                                            ],
+                                            "m_anchoredPosition": [
+                                                23.0,
+                                                -10.399999618530273
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                1200.0,
+                                                820.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 16656864294050125359
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_raycastTarget": false,
+                                            "m_textureHandle": 17647856136256602545
+                                        },
+                                        "Type": "ImageUI",
+                                        "UUID": 6263089558173464512
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 4405141473047172103,
+                                "m_isActive": true,
+                                "m_name": "TitleLogo",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.800000011920929
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                20.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                310.0,
+                                                70.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 3496427794865996182
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_raycastTarget": true,
+                                            "m_textureHandle": 16832540059583752122
+                                        },
+                                        "Type": "ImageUI",
+                                        "UUID": 1971846012166433314
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.0,
+                                                0.0,
+                                                0.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 35.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "Exit"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 3926575431579145899
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_hoverdColor": [
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_normalColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_pressedColor": [
+                                                0.75,
+                                                0.75,
+                                                0.75,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "ButtonUI",
+                                        "UUID": 1143490978386297670
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 10325292979773972233,
+                                "m_isActive": true,
+                                "m_name": "ExitButton",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [
+                                    {
+                                        "Children": [],
+                                        "Components": [
+                                            {
+                                                "Data": {
+                                                    "m_anchor": [
+                                                        1.0,
+                                                        0.5
+                                                    ],
+                                                    "m_anchoredPosition": [
+                                                        -5.0,
+                                                        -65.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_pivot": [
+                                                        1.0,
+                                                        0.5
+                                                    ],
+                                                    "m_rotation": 0.0,
+                                                    "m_scale": [
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_size": [
+                                                        50.0,
+                                                        50.0
+                                                    ]
+                                                },
+                                                "Type": "RectTransform",
+                                                "UUID": 735482752334217164
+                                            },
+                                            {
+                                                "Data": {
+                                                    "m_color": [
+                                                        0.502109706401825,
+                                                        0.502109706401825,
+                                                        0.502109706401825,
+                                                        1.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_mulColor": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_raycastTarget": true,
+                                                    "m_textureHandle": 7311255813900603347
+                                                },
+                                                "Type": "ImageUI",
+                                                "UUID": 1207105366604523367
+                                            }
+                                        ],
+                                        "IsWorld": false,
+                                        "UUID": 7151794579147186904,
+                                        "m_isActive": true,
+                                        "m_name": "BButton",
+                                        "m_tag": ""
+                                    },
+                                    {
+                                        "Children": [],
+                                        "Components": [
+                                            {
+                                                "Data": {
+                                                    "m_anchor": [
+                                                        1.0,
+                                                        0.5
+                                                    ],
+                                                    "m_anchoredPosition": [
+                                                        -5.0,
+                                                        25.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_pivot": [
+                                                        1.0,
+                                                        0.5
+                                                    ],
+                                                    "m_rotation": 0.0,
+                                                    "m_scale": [
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_size": [
+                                                        50.0,
+                                                        50.0
+                                                    ]
+                                                },
+                                                "Type": "RectTransform",
+                                                "UUID": 17812988678914533863
+                                            },
+                                            {
+                                                "Data": {
+                                                    "m_color": [
+                                                        0.502109706401825,
+                                                        0.502109706401825,
+                                                        0.502109706401825,
+                                                        1.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_mulColor": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_raycastTarget": true,
+                                                    "m_textureHandle": 10860615789972315378
+                                                },
+                                                "Type": "ImageUI",
+                                                "UUID": 7550204322883472951
+                                            }
+                                        ],
+                                        "IsWorld": false,
+                                        "UUID": 10226109368957246648,
+                                        "m_isActive": true,
+                                        "m_name": "AButton",
+                                        "m_tag": ""
+                                    }
+                                ],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.800000011920929
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                310.0,
+                                                150.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 16243715504806733182
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 7358433185221585371,
+                                "m_isActive": true,
+                                "m_name": "PadExp",
+                                "m_tag": ""
+                            }
+                        ],
                         "Components": [
                             {
                                 "Data": {
@@ -208,12 +851,12 @@
                                         1.0
                                     ],
                                     "m_size": [
-                                        100.0,
-                                        100.0
+                                        1080.0,
+                                        600.0
                                     ]
                                 },
                                 "Type": "RectTransform",
-                                "UUID": 5181648347395135967
+                                "UUID": 1889642874179786193
                             },
                             {
                                 "Data": {
@@ -221,7 +864,7 @@
                                         1.0,
                                         1.0,
                                         1.0,
-                                        1.0
+                                        0.47058823704719543
                                     ],
                                     "m_isActive": true,
                                     "m_mulColor": [
@@ -230,16 +873,17 @@
                                         1.0,
                                         1.0
                                     ],
+                                    "m_raycastTarget": true,
                                     "m_textureHandle": 16832540059583752122
                                 },
                                 "Type": "ImageUI",
-                                "UUID": 6567218755562650029
+                                "UUID": 7142204947497357432
                             }
                         ],
                         "IsWorld": false,
-                        "UUID": 5108213331463002818,
+                        "UUID": 10010763032059547300,
                         "m_isActive": true,
-                        "m_name": "",
+                        "m_name": "Back",
                         "m_tag": ""
                     }
                 ],
@@ -270,7 +914,7 @@
                             ]
                         },
                         "Type": "RectTransform",
-                        "UUID": 10144004017446821232
+                        "UUID": 14527710253718800492
                     },
                     {
                         "Data": {
@@ -278,13 +922,578 @@
                             "m_isActive": true
                         },
                         "Type": "Canvas",
-                        "UUID": 14556173956663102365
+                        "UUID": 5045768376471260649
                     }
                 ],
                 "IsWorld": false,
-                "UUID": 3559967032366448473,
+                "UUID": 2697299547541534790,
                 "m_isActive": true,
                 "m_name": "Canvas",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.30000001192092896
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                100.0,
+                                                100.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 6725970038118429586
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 80.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "Exit?"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 12310004044929000064
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 1131955185064948168,
+                                "m_isActive": true,
+                                "m_name": "Text",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.30000001192092896,
+                                                0.699999988079071
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                200.0,
+                                                80.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 14051199051398797344
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_hoverdColor": [
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_normalColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_pressedColor": [
+                                                0.75,
+                                                0.75,
+                                                0.75,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "ButtonUI",
+                                        "UUID": 16394497281606053557
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.9240506291389465,
+                                                0.9240506291389465,
+                                                0.9240506291389465,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_raycastTarget": true,
+                                            "m_textureHandle": 16832540059583752122
+                                        },
+                                        "Type": "ImageUI",
+                                        "UUID": 3344131479101261893
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.0,
+                                                0.0,
+                                                0.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 40.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "Yes"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 17591555980232998250
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 17606331842828036454,
+                                "m_isActive": true,
+                                "m_name": "AcceptButton",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.699999988079071,
+                                                0.699999988079071
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                200.0,
+                                                80.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 4453120991895195750
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.9240506291389465,
+                                                0.9240506291389465,
+                                                0.9240506291389465,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_raycastTarget": true,
+                                            "m_textureHandle": 16832540059583752122
+                                        },
+                                        "Type": "ImageUI",
+                                        "UUID": 8062562581668547182
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.0,
+                                                0.0,
+                                                0.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 40.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "No"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 9114943904664530962
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_hoverdColor": [
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_normalColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_pressedColor": [
+                                                0.75,
+                                                0.75,
+                                                0.75,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "ButtonUI",
+                                        "UUID": 16135387645457378905
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 12772735769952817771,
+                                "m_isActive": true,
+                                "m_name": "CancelButton",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [
+                                    {
+                                        "Children": [],
+                                        "Components": [
+                                            {
+                                                "Data": {
+                                                    "m_anchor": [
+                                                        0.30000001192092896,
+                                                        0.5
+                                                    ],
+                                                    "m_anchoredPosition": [
+                                                        90.0,
+                                                        27.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_pivot": [
+                                                        0.5,
+                                                        0.5
+                                                    ],
+                                                    "m_rotation": 0.0,
+                                                    "m_scale": [
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_size": [
+                                                        50.0,
+                                                        50.0
+                                                    ]
+                                                },
+                                                "Type": "RectTransform",
+                                                "UUID": 12841841620563372487
+                                            },
+                                            {
+                                                "Data": {
+                                                    "m_color": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_mulColor": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_raycastTarget": true,
+                                                    "m_textureHandle": 17840973401657329449
+                                                },
+                                                "Type": "ImageUI",
+                                                "UUID": 11634886065085872534
+                                            }
+                                        ],
+                                        "IsWorld": false,
+                                        "UUID": 375705055089040363,
+                                        "m_isActive": true,
+                                        "m_name": "BButton",
+                                        "m_tag": ""
+                                    },
+                                    {
+                                        "Children": [],
+                                        "Components": [
+                                            {
+                                                "Data": {
+                                                    "m_anchor": [
+                                                        0.699999988079071,
+                                                        0.5
+                                                    ],
+                                                    "m_anchoredPosition": [
+                                                        90.0,
+                                                        27.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_pivot": [
+                                                        0.5,
+                                                        0.5
+                                                    ],
+                                                    "m_rotation": 0.0,
+                                                    "m_scale": [
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_size": [
+                                                        50.0,
+                                                        50.0
+                                                    ]
+                                                },
+                                                "Type": "RectTransform",
+                                                "UUID": 3146898057654165157
+                                            },
+                                            {
+                                                "Data": {
+                                                    "m_color": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_isActive": true,
+                                                    "m_mulColor": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "m_raycastTarget": true,
+                                                    "m_textureHandle": 8061482807877828185
+                                                },
+                                                "Type": "ImageUI",
+                                                "UUID": 14305333402631460235
+                                            }
+                                        ],
+                                        "IsWorld": false,
+                                        "UUID": 8359544639233399414,
+                                        "m_isActive": true,
+                                        "m_name": "AButton",
+                                        "m_tag": ""
+                                    }
+                                ],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.699999988079071
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                720.0,
+                                                100.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 13349256067601831214
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 5364094117117561410,
+                                "m_isActive": true,
+                                "m_name": "PadExp",
+                                "m_tag": ""
+                            }
+                        ],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        720.0,
+                                        400.0
+                                    ]
+                                },
+                                "Type": "RectTransform",
+                                "UUID": 16386379429855605675
+                            },
+                            {
+                                "Data": {
+                                    "m_closeEasing": {
+                                        "m_kind": "Quart",
+                                        "m_type": "In"
+                                    },
+                                    "m_expType": "X",
+                                    "m_isActive": true,
+                                    "m_openEasing": {
+                                        "m_kind": "Quart",
+                                        "m_type": "Out"
+                                    },
+                                    "m_transTime": 0.30000001192092896
+                                },
+                                "Type": "PauseDialog",
+                                "UUID": 6016925122333443752
+                            },
+                            {
+                                "Data": {
+                                    "m_color": [
+                                        0.25738394260406494,
+                                        0.25738394260406494,
+                                        0.25738394260406494,
+                                        0.9490196108818054
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_raycastTarget": true,
+                                    "m_textureHandle": 16832540059583752122
+                                },
+                                "Type": "ImageUI",
+                                "UUID": 7726323183481341825
+                            }
+                        ],
+                        "IsWorld": false,
+                        "UUID": 1678209311739068632,
+                        "m_isActive": true,
+                        "m_name": "QuitDialog",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform",
+                        "UUID": 17107980270840054143
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 1,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas",
+                        "UUID": 9616200032364937731
+                    }
+                ],
+                "IsWorld": false,
+                "UUID": 17081109918150317176,
+                "m_isActive": true,
+                "m_name": "DialogCanvas",
                 "m_tag": ""
             }
         ]

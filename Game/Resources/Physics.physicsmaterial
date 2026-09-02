@@ -1,7 +1,0 @@
-{
-    "m_staticFriction": 0.6,
-    "m_dynamicFriction": 0.6,
-    "m_bounciness": 0,
-    "m_frictionCombine": "Average",
-    "m_bounceCombine": "Average"
-}

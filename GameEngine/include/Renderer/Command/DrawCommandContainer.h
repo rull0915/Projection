@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include <vector>
+#include <variant>
 #include "DrawCommand.h"
 
 namespace REngine
@@ -24,6 +25,10 @@ namespace REngine
 	//====================================================//
 	class DrawCommandContainer
 	{
+	public:
+		// テキストコマンドとスプライトコマンドを同時に扱うクラス
+		using DrawUICommand = std::variant<DrawSpriteCommand, DrawTextCommand>;
+
 	private:
 
 		//-----------------------------------------------------
@@ -36,11 +41,8 @@ namespace REngine
 		// モデル描画コマンド配列
 		std::vector<DrawModelCommand> m_drawModelCommands;
 
-		// スプライト描画コマンド配列
-		std::vector<DrawSpriteCommand> m_drawSpriteCommands;
-
-		// テキスト描画コマンド配列
-		std::vector<DrawTextCommand> m_drawTextCommands;
+		// UI描画コマンド配列
+		std::vector<DrawUICommand> m_drawUICommands;
 
 	public:
 
@@ -59,8 +61,7 @@ namespace REngine
 		{
 			m_drawPrimitiveCommands.clear();
 			m_drawModelCommands.clear();
-			m_drawSpriteCommands.clear();
-			m_drawTextCommands.clear();
+			m_drawUICommands.clear();
 		};
 
 		// プリミティブ描画コマンドの登録関数
@@ -82,13 +83,13 @@ namespace REngine
 		// スプライト描画コマンドの登録関数
 		DrawSpriteCommand& AddSprite()
 		{
-			return m_drawSpriteCommands.emplace_back();
+			return std::get<DrawSpriteCommand>(m_drawUICommands.emplace_back(DrawSpriteCommand()));
 		}
 
 		// テキスト描画コマンドの登録関数
 		DrawTextCommand& AddText()
 		{
-			return m_drawTextCommands.emplace_back();
+			return std::get<DrawTextCommand>(m_drawUICommands.emplace_back(DrawTextCommand()));
 		}
 
 		// 最新のプリミティブ描画コマンドを取得する関数
@@ -121,11 +122,8 @@ namespace REngine
 		// モデル描画コマンド配列
 		const std::vector<DrawModelCommand>& GetDrawModelCommands() const { return m_drawModelCommands; }
 
-		// スプライト描画コマンド配列
-		const std::vector<DrawSpriteCommand>& GetDrawSpriteCommands() const { return m_drawSpriteCommands; }
-
-		// テキスト描画コマンド配列
-		const std::vector<DrawTextCommand>& GetDrawTextCommands() const { return m_drawTextCommands; }
+		// UI描画コマンド配列
+		const std::vector<DrawUICommand>& GetDrawUICommands() const { return m_drawUICommands; }
 
 	};
 }	// namespace REngine

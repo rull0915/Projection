@@ -1,0 +1,110 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_anchor": [
+                    0.5,
+                    0.800000011920929
+                ],
+                "m_anchoredPosition": [
+                    0.0,
+                    -70.0
+                ],
+                "m_isActive": true,
+                "m_pivot": [
+                    0.5,
+                    0.5
+                ],
+                "m_rotation": 0.0,
+                "m_scale": [
+                    1.0,
+                    1.0
+                ],
+                "m_size": [
+                    210.0,
+                    70.0
+                ]
+            },
+            "Type": "RectTransform",
+            "UUID": 2057701182600941421
+        },
+        {
+            "Data": {
+                "m_hoverdColor": [
+                    0.9215686321258545,
+                    0.9215686321258545,
+                    0.9215686321258545,
+                    1.0
+                ],
+                "m_isActive": true,
+                "m_normalColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9686274528503418
+                ],
+                "m_pressedColor": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    1.0
+                ]
+            },
+            "Type": "ButtonUI",
+            "UUID": 11583641026450988154
+        },
+        {
+            "Data": {
+                "m_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "m_isActive": true,
+                "m_mulColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "m_raycastTarget": true,
+                "m_textureHandle": 16832540059583752122
+            },
+            "Type": "ImageUI",
+            "UUID": 12637620052290604450
+        },
+        {
+            "Data": {
+                "m_color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "m_fontHandle": 16520189307898809988,
+                "m_fontSize": 35.0,
+                "m_isActive": true,
+                "m_mulColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "m_origin": [
+                    0.5,
+                    0.5
+                ],
+                "m_text": "Play"
+            },
+            "Type": "TextUI",
+            "UUID": 908467706772469086
+        }
+    ],
+    "IsWorld": false,
+    "UUID": 13571048590819834310,
+    "m_isActive": true,
+    "m_name": "StartButton",
+    "m_tag": ""
+}

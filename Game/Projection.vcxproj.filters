@@ -157,21 +157,22 @@
     <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\StartCamera.h" />
     <ClInclude Include="GameLib\Components\CatmullRomComponent.h" />
-    <ClInclude Include="Game\TitleScene\TitleToPlayEvent.h" />
     <ClInclude Include="GameLib\Components\PathMover.h" />
     <ClInclude Include="Game\ComponentRegister.h" />
-    <ClInclude Include="Game\ClearScene\ToSelectComponent.h" />
-    <ClInclude Include="Game\SelectScene\Copmonents\SelectBlock.h" />
+    <ClInclude Include="Game\SelectScene\SelectBlock.h" />
     <ClInclude Include="Game\GamePlayScene\Effect\ClearEffect.h" />
     <ClInclude Include="Game\GamePlayScene\Camera\CameraCorrection.h" />
     <ClInclude Include="Game\GamePlayScene\GameOverComponent.h" />
     <ClInclude Include="Game\ClearScene\SwingComponent.h" />
-    <ClInclude Include="GameLib\Components\ClickSE.h" />
     <ClInclude Include="EngineTester\EasingConfig.h" />
     <ClInclude Include="EngineTester\EasingTestComponent.h" />
-    <ClInclude Include="Game\Test\HandleTester.h" />
     <ClInclude Include="EngineTester\MaterialTester.h" />
     <ClInclude Include="EngineTester\ReferenceTester.h" />
+    <ClInclude Include="GameLib\UI\Dialog.h" />
+    <ClInclude Include="GameLib\UI\PauseDialog.h" />
+    <ClInclude Include="GameLib\UI\DialogController.h" />
+    <ClInclude Include="Game\TitleScene\TitleManager.h" />
+    <ClInclude Include="Game\Common\ChangeSceneComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -206,20 +207,21 @@
     <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\StartCamera.cpp" />
     <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp" />
-    <ClCompile Include="Game\TitleScene\TitleToPlayEvent.cpp" />
     <ClCompile Include="GameLib\Components\PathMover.cpp" />
     <ClCompile Include="Game\ComponentRegister.cpp" />
-    <ClCompile Include="Game\ClearScene\ToSelectComponent.cpp" />
-    <ClCompile Include="Game\SelectScene\Copmonents\SelectBlock.cpp" />
+    <ClCompile Include="Game\SelectScene\SelectBlock.cpp" />
     <ClCompile Include="Game\GamePlayScene\Effect\ClearEffect.cpp" />
     <ClCompile Include="Game\GamePlayScene\Camera\CameraCorrection.cpp" />
     <ClCompile Include="Game\GamePlayScene\GameOverComponent.cpp" />
     <ClCompile Include="Game\ClearScene\SwingComponent.cpp" />
-    <ClCompile Include="GameLib\Components\ClickSE.cpp" />
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
-    <ClCompile Include="Game\Test\HandleTester.cpp" />
     <ClCompile Include="EngineTester\MaterialTester.cpp" />
     <ClCompile Include="EngineTester\ReferenceTester.cpp" />
+    <ClCompile Include="GameLib\UI\Dialog.cpp" />
+    <ClCompile Include="GameLib\UI\PauseDialog.cpp" />
+    <ClCompile Include="GameLib\UI\DialogController.cpp" />
+    <ClCompile Include="Game\TitleScene\TitleManager.cpp" />
+    <ClCompile Include="Game\Common\ChangeSceneComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

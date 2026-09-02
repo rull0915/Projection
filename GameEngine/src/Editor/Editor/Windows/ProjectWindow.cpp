@@ -232,6 +232,15 @@ namespace REngine
 			// 新規作成を表示
 			if (ImGui::BeginMenu("Create"))
 			{
+				// メニューとして表示
+				if (ImGui::MenuItem("Folder"))
+				{
+					// 新規作成ポップアップを表示
+					m_createType = "Folder";
+
+					m_openCreatePopup = true;
+				}
+
 				// 作成可能アセットを取得
 				for (auto& assetType : m_assetManager.GetCreatableAssets())
 				{
@@ -324,8 +333,16 @@ namespace REngine
 			// 承諾されたら
 			if (ImGui::Button("Accept"))
 			{
-				// 作成
-				m_assetManager.Create(m_createDirectory, m_popupStr, m_createType);
+				if (m_createType == "Folder")
+				{
+					// 作成
+					std::filesystem::create_directory(m_createDirectory /= m_popupStr);
+				}
+				else
+				{
+					// 作成
+					m_assetManager.Create(m_createDirectory, m_popupStr, m_createType);
+				}
 
 				// 閉じる
 				ImGui::CloseCurrentPopup();

@@ -1,75 +1,4 @@
 {
-    "UI": {
-        "Canvases": [
-            {
-                "GameObjects": [
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_anchor": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_anchoredPosition": [
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_pivot": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_rotation": 0.0,
-                                    "m_scale": [
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_size": [
-                                        100.0,
-                                        100.0
-                                    ]
-                                },
-                                "Type": "RectTransform"
-                            },
-                            {
-                                "Data": {
-                                    "m_color": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_fontHandle": 0,
-                                    "m_fontSize": 94.0,
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_origin": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_text": "クリア"
-                                },
-                                "Type": "TextUI"
-                            }
-                        ],
-                        "m_isActive": false,
-                        "m_name": "ClearUI",
-                        "m_tag": ""
-                    }
-                ],
-                "m_canvasName": "",
-                "m_drawOrder": 0,
-                "m_isActive": true
-            }
-        ]
-    },
     "World": {
         "GameObjects": [
             {
@@ -95,13 +24,15 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 5996397114280629535
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "ProjectionSmoothCamera"
+                        "Type": "ProjectionSmoothCamera",
+                        "UUID": 18425996711996072648
                     },
                     {
                         "Data": {
@@ -110,7 +41,8 @@
                             "m_sensitivity": 0.5,
                             "m_targetName": "Player"
                         },
-                        "Type": "TPSCamera"
+                        "Type": "TPSCamera",
+                        "UUID": 8901786967295669592
                     },
                     {
                         "Data": {
@@ -118,7 +50,8 @@
                             "m_isActive": true,
                             "m_textureHandle": 10350532250775094671
                         },
-                        "Type": "SkyboxComponent"
+                        "Type": "SkyboxComponent",
+                        "UUID": 17643348954786272224
                     },
                     {
                         "Data": {
@@ -135,13 +68,15 @@
                             "m_radius": 7.5,
                             "m_targetName": "Player"
                         },
-                        "Type": "StartCamera"
+                        "Type": "StartCamera",
+                        "UUID": 15394508494601590452
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "AudioListener"
+                        "Type": "AudioListener",
+                        "UUID": 7021519109091097475
                     },
                     {
                         "Data": {
@@ -149,9 +84,12 @@
                             "m_playerLayer": 10,
                             "m_playerName": "Player"
                         },
-                        "Type": "CameraCorrection"
+                        "Type": "CameraCorrection",
+                        "UUID": 671442728275280642
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 2622201230363222473,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -179,13 +117,15 @@
                                 0.4000000059604645
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 1067342899794176933
                     },
                     {
                         "Data": {
                             "m_isActive": false
                         },
-                        "Type": "Player"
+                        "Type": "Player",
+                        "UUID": 12136645415114440693
                     },
                     {
                         "Data": {
@@ -205,7 +145,8 @@
                             "m_needInfo": false,
                             "m_physicsMaterial": 0
                         },
-                        "Type": "BoxCollider"
+                        "Type": "BoxCollider",
+                        "UUID": 12666292360896554250
                     },
                     {
                         "Data": {
@@ -225,7 +166,8 @@
                             "m_needInfo": true,
                             "m_physicsMaterial": 0
                         },
-                        "Type": "BoxCollider"
+                        "Type": "BoxCollider",
+                        "UUID": 13073177164060844171
                     },
                     {
                         "Data": {
@@ -233,7 +175,8 @@
                             "m_isActive": true,
                             "m_modelHandle": 2509680242320578614
                         },
-                        "Type": "ModelComponent"
+                        "Type": "ModelComponent",
+                        "UUID": 2458149279668189851
                     },
                     {
                         "Data": {
@@ -243,21 +186,26 @@
                             "m_mass": 1.0,
                             "m_useGravity": true
                         },
-                        "Type": "RigidBody"
+                        "Type": "RigidBody",
+                        "UUID": 4109990666972910567
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "ChangeColliderComponent"
+                        "Type": "ChangeColliderComponent",
+                        "UUID": 12501009321941491252
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "DepthCorrection"
+                        "Type": "DepthCorrection",
+                        "UUID": 5140038867488509544
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 7160215253068007918,
                 "m_isActive": true,
                 "m_name": "Player",
                 "m_tag": "Player"
@@ -285,7 +233,8 @@
                                 2.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 12044490946207352763
                     },
                     {
                         "Data": {
@@ -305,7 +254,8 @@
                             "m_needInfo": false,
                             "m_physicsMaterial": 0
                         },
-                        "Type": "BoxCollider"
+                        "Type": "BoxCollider",
+                        "UUID": 9218969408194939161
                     },
                     {
                         "Data": {
@@ -313,27 +263,33 @@
                             "m_isActive": true,
                             "m_modelHandle": 10911042900965025499
                         },
-                        "Type": "ModelComponent"
+                        "Type": "ModelComponent",
+                        "UUID": 6125079960910584833
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "ChangeColliderComponent"
+                        "Type": "ChangeColliderComponent",
+                        "UUID": 10704324406404918800
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "LandingCandidatePoints"
+                        "Type": "LandingCandidatePoints",
+                        "UUID": 6812455142087478245
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "LandingCandidatePoints2D"
+                        "Type": "LandingCandidatePoints2D",
+                        "UUID": 13981653717165439432
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 16885775768912453554,
                 "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
@@ -363,7 +319,8 @@
                                         0.9999998807907104
                                     ]
                                 },
-                                "Type": "Transform"
+                                "Type": "Transform",
+                                "UUID": 17874493194017828776
                             },
                             {
                                 "Data": {
@@ -371,7 +328,8 @@
                                     "m_isActive": true,
                                     "m_modelHandle": 6409026790604341907
                                 },
-                                "Type": "ModelComponent"
+                                "Type": "ModelComponent",
+                                "UUID": 15253636427903711298
                             },
                             {
                                 "Data": {
@@ -391,13 +349,15 @@
                                     "m_needInfo": false,
                                     "m_physicsMaterial": 0
                                 },
-                                "Type": "BoxCollider"
+                                "Type": "BoxCollider",
+                                "UUID": 12018471820731064805
                             },
                             {
                                 "Data": {
                                     "m_isActive": true
                                 },
-                                "Type": "GoalComponent"
+                                "Type": "GoalComponent",
+                                "UUID": 3390899938401132106
                             },
                             {
                                 "Data": {
@@ -417,9 +377,12 @@
                                     "m_needInfo": false,
                                     "m_physicsMaterial": 0
                                 },
-                                "Type": "BoxCollider"
+                                "Type": "BoxCollider",
+                                "UUID": 7810922336960199066
                             }
                         ],
+                        "IsWorld": true,
+                        "UUID": 17398266944440182633,
                         "m_isActive": true,
                         "m_name": "Goal",
                         "m_tag": ""
@@ -446,7 +409,8 @@
                                 4.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 17914370984253125505
                     },
                     {
                         "Data": {
@@ -466,7 +430,8 @@
                             "m_needInfo": false,
                             "m_physicsMaterial": 0
                         },
-                        "Type": "BoxCollider"
+                        "Type": "BoxCollider",
+                        "UUID": 14837707078676869846
                     },
                     {
                         "Data": {
@@ -474,27 +439,33 @@
                             "m_isActive": true,
                             "m_modelHandle": 710819452532585730
                         },
-                        "Type": "ModelComponent"
+                        "Type": "ModelComponent",
+                        "UUID": 11805311591853705731
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "ChangeColliderComponent"
+                        "Type": "ChangeColliderComponent",
+                        "UUID": 16935074799681362497
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "LandingCandidatePoints"
+                        "Type": "LandingCandidatePoints",
+                        "UUID": 12032073623959285599
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "LandingCandidatePoints2D"
+                        "Type": "LandingCandidatePoints2D",
+                        "UUID": 12465967130732501800
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 10220042010766487176,
                 "m_isActive": true,
                 "m_name": "Cube2",
                 "m_tag": "Floor"
@@ -522,19 +493,22 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 13621088879359887134
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "DimentionManager"
+                        "Type": "DimentionManager",
+                        "UUID": 11457975213774466667
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
-                        "Type": "EnemyManager"
+                        "Type": "EnemyManager",
+                        "UUID": 17144793972614889728
                     },
                     {
                         "Data": {
@@ -542,7 +516,8 @@
                             "m_isActive": true,
                             "m_playerName": "Player"
                         },
-                        "Type": "PlaySceneManager"
+                        "Type": "PlaySceneManager",
+                        "UUID": 6826356748866246932
                     },
                     {
                         "Data": {
@@ -555,16 +530,19 @@
                             "m_use3DAudio": false,
                             "m_volume": 1.0
                         },
-                        "Type": "AudioSource"
+                        "Type": "AudioSource",
+                        "UUID": 3252306967383523717
                     },
                     {
                         "Data": {
                             "m_claerTimeScale": 0.20000000298023224,
+                            "m_clearDialog": 17687806762990345503,
                             "m_clearUIName": "ClearUI",
                             "m_isActive": false,
                             "m_toClearTime": 1.0
                         },
-                        "Type": "ClearEffect"
+                        "Type": "ClearEffect",
+                        "UUID": 17380787976262594682
                     },
                     {
                         "Data": {
@@ -574,11 +552,142 @@
                             "m_overSceneName": "GameOver",
                             "m_playerName": "Player"
                         },
-                        "Type": "GameOverComponent"
+                        "Type": "GameOverComponent",
+                        "UUID": 11545332724383736230
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 6718459953413087467,
                 "m_isActive": true,
                 "m_name": "Manager",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        100.0,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform",
+                                "UUID": 16364434640433144690
+                            },
+                            {
+                                "Data": {
+                                    "m_color": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        1.0
+                                    ],
+                                    "m_fontHandle": 16520189307898809988,
+                                    "m_fontSize": 100.0,
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_origin": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_text": "クリア"
+                                },
+                                "Type": "TextUI",
+                                "UUID": 16942584204333473226
+                            },
+                            {
+                                "Data": {
+                                    "m_closeEasing": {
+                                        "m_kind": "Linear",
+                                        "m_type": "In"
+                                    },
+                                    "m_expType": "XY",
+                                    "m_isActive": true,
+                                    "m_openEasing": {
+                                        "m_kind": "Cubic",
+                                        "m_type": "Out"
+                                    },
+                                    "m_transTime": 0.05000000074505806
+                                },
+                                "Type": "PauseDialog",
+                                "UUID": 17687806762990345503
+                            }
+                        ],
+                        "IsWorld": false,
+                        "UUID": 21689428333042982,
+                        "m_isActive": true,
+                        "m_name": "Text",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform",
+                        "UUID": 9993864914453005932
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 0,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas",
+                        "UUID": 12974606028706138530
+                    }
+                ],
+                "IsWorld": false,
+                "UUID": 5312794606947112098,
+                "m_isActive": true,
+                "m_name": "Canvas",
                 "m_tag": ""
             }
         ]

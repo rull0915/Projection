@@ -142,10 +142,16 @@ namespace REngine
 		// サイズ
 		DirectX::SimpleMath::Vector2 GetSize() const { return m_size; }
 
-		// ワールド座標系でのサイズ
+		// ワールド座標系でのスケール
 		DirectX::SimpleMath::Vector2 GetWorldScale() const
 		{
 			return m_scale * (m_pParent ? m_pParent->GetWorldScale() : DirectX::SimpleMath::Vector2(1.0f, 1.0f));
+		}
+
+		// ローカル座標系でのスケール
+		DirectX::SimpleMath::Vector2 GetLocalScale() const 
+		{
+			return m_scale;
 		}
 
 		// ワールド座標系での回転

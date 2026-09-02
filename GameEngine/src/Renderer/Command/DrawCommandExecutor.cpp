@@ -106,7 +106,7 @@ void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& cont
 	// 各コマンドの実行
 	DrawModelCommandExecute(container.GetDrawModelCommands());
 	DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
-	DrawSpriteAndFontCommandExecute(container.GetDrawSpriteCommands(), container.GetDrawTextCommands());
+	DrawSpriteAndFontCommandExecute(container.GetDrawUICommands());
 }
 
 void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands)
@@ -168,23 +168,35 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 	}
 }
 
-void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawSpriteCommand>& spriteCommands, const std::vector<DrawTextCommand>& textCommands)
+void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
 {
 	// スプライトバッチの開始
-	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied(), m_pStates->PointWrap());
+	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
 
 	// 全コマンドの描画
-	for (auto& c : spriteCommands)
+	for (auto& command : commands)
 	{
-		// テクスチャがあれば描画
-		if (c.pTexture) 
-			m_spriteBatch->Draw(c.pTexture, c.pos, (c.srcRect ? &c.srcRect.value() : nullptr), c.color, c.angle, c.origin, c.scale);
-	}
-	for (auto& c : textCommands)
-	{
-		// フォントがあれば描画
-		if (c.spriteFont)
-			c.spriteFont->DrawString(m_spriteBatch.get(), c.text.c_str(), c.pos, c.color, c.angle, c.origin, c.scale);
+		std::visit([this](auto& c) {
+
+			// decayを使用し参照を外した巣の型を取得
+			using T = std::decay_t<decltype(c)>;
+
+			// SpriteCommandの場合
+			if constexpr (std::is_same_v<T, DrawSpriteCommand>)
+			{
+				// テクスチャがあれば描画
+				if (c.pTexture)
+					m_spriteBatch->Draw(c.pTexture, c.pos, (c.srcRect ? &c.srcRect.value() : nullptr), c.color, c.angle, c.origin, c.scale);
+			}
+			// TextCommandの場合
+			if constexpr (std::is_same_v<T, DrawTextCommand>)
+			{
+				// フォントがあれば描画
+				if (c.spriteFont)
+					c.spriteFont->DrawString(m_spriteBatch.get(), c.text.c_str(), c.pos, c.color, c.angle, c.origin, c.scale);
+			}
+			
+			}, command);
 	}
 
 	// 終了

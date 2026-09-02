@@ -14,6 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <functional>
+#include <unordered_map>
 #include "UIBehaviorBase.h"
 
 namespace REngine
@@ -23,12 +25,15 @@ namespace REngine
 	//====================================================//
 	class ButtonUI : public UIBehaviorBase
 	{
+	public:
+
+		// クリック時イベント
+		using OnClickEvent = std::function<void()>;
+
+		// クリック時イベント識別用ID
+		using EventToken = int;
+
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
 
 		//-----------------------------------------------------
 		// メンバ変数
@@ -41,6 +46,9 @@ namespace REngine
 		DirectX::SimpleMath::Color m_pressedColor; // 押されている時
 
 		bool m_isPressed;   // 自分が押されているか
+
+		// 押されたときの処理
+		std::unordered_map<EventToken, OnClickEvent> m_onClicked;
 
 	public:
 
@@ -59,11 +67,20 @@ namespace REngine
 		void OnMouseDown() override;
 		void OnMouseUp() override;
 
+		// イベント追加関数
+		EventToken AddOnClicked(OnClickEvent event);
+
+		// イベント削除関数
+		void RemoveOnClicked(EventToken token);
+
+		// 外部からクリック時処理を呼び出す関数
+		void Submit();
+
 		//-----------------------------------------------------
 		// Type
 		//-----------------------------------------------------
 
-		COMPONENT_TYPE(ButtonUI, UIBehaviorBase)
+		COMPONENT_TYPE(ButtonUI, UIBehaviorBase);
 
 		//-----------------------------------------------------
 		// セッター

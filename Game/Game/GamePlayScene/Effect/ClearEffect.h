@@ -18,7 +18,7 @@
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
-#include "GameObject/GameObject.h"
+#include "GameLib/UI/Dialog.h"
 
 //====================================================//
 // 前方宣言
@@ -39,8 +39,8 @@ private:
 	// クリアUIの名前
 	std::string m_clearUIName;
 
-	// クリアUI
-	REngine::GameObject* m_clearUI;
+	// クリアダイアログ
+	REngine::Ref<Dialog> m_clearDialog;
 
 	// クリアシーンへ移行するまでの時間
 	float m_toClearTime;

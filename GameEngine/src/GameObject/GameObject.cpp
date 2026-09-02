@@ -78,7 +78,7 @@ namespace REngine
 		}
 
 		// コンポーネントのReserveを呼び出す
-		for (auto& component : m_components.GetAll())
+		for (auto& component : GetAllComponents())
 		{
 			component->Reserve();
 		}
@@ -187,7 +187,7 @@ namespace REngine
 		}
 
 		// コンポーネントに通知する
-		for (auto& component : m_components.GetAll())
+		for (auto& component : GetAllComponents())
 		{
 			component->SetOwnerActive(f);
 		}

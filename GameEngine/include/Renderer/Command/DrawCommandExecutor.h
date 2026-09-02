@@ -122,7 +122,7 @@ namespace REngine
 		void DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands);
 
 		// スプライト フォント
-		void DrawSpriteAndFontCommandExecute(const std::vector<DrawSpriteCommand>& spriteCommands, const std::vector<DrawTextCommand>& textCommands);
+		void DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands);
 
 		// モデル
 		void DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands);

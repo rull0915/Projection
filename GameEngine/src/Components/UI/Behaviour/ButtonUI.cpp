@@ -13,7 +13,6 @@
 #include "Components/UI/Behaviour/ButtonUI.h"
 
 #include "Components/UI/Graphics/ImageUI.h"
-#include "Components/UI/Behaviour/ButtonListenerBase.h"
 
 namespace REngine
 {
@@ -84,11 +83,10 @@ namespace REngine
 		// 押されていたら
 		if (m_isPressed && IsHovered())
 		{
-			// リスナーを取得
-			for (auto& listener : GetOwn()->GetComponents<ButtonListenerBase>())
+			// クリック時イベントを実行
+			for (auto& event : m_onClicked)
 			{
-				// 呼び出し
-				static_cast<ButtonListenerBase*>(listener)->OnClicked();
+				event.second();
 			}
 		}
 
@@ -99,6 +97,36 @@ namespace REngine
 		if (auto* image = GetOwn()->GetComponent<ImageUI>())
 		{
 			image->SetMulColor(m_normalColor);
+		}
+	}
+
+	int ButtonUI::AddOnClicked(OnClickEvent event)
+	{
+		// 全体で一つのトークンを共有
+		static EventToken token = 0;
+
+		// トークンをインクリメント
+		token++;
+
+		// イベントを追加
+		m_onClicked.insert({ token, event });
+
+		// トークンを返す
+		return token;
+	}
+
+	void ButtonUI::RemoveOnClicked(EventToken token)
+	{
+		// リストから削除
+		m_onClicked.erase(token);
+	}
+
+	void ButtonUI::Submit()
+	{
+		// クリック時イベントを実行
+		for (auto& event : m_onClicked)
+		{
+			event.second();
 		}
 	}
 }	// namespace REngine

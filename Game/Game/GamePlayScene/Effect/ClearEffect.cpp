@@ -25,12 +25,13 @@
 ClearEffect::ClearEffect(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_clearUIName{}
-	, m_clearUI{ nullptr }
+	, m_clearDialog{}
 	, m_toClearTime{ 1.0f }
 	, m_sumTime{ 0 }
 	, m_claerTimeScale{ 0.2f }
 {
 	ADD_PROPERTY(m_clearUIName);
+	ADD_PROPERTY(m_clearDialog);
 	ADD_PROPERTY(m_toClearTime);
 	ADD_PROPERTY(m_claerTimeScale);
 }
@@ -48,17 +49,14 @@ void ClearEffect::Start()
 	// シーンを取得
 	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
 
-	// クリアUIを取得
-	m_clearUI = scene->GetObjectFinder()->FindWithName(m_clearUIName);
-
 	// 時間の初期化
 	m_sumTime = 0;
 
 	// スローに
 	REngine::TimeSettings::Instance().SetTimeScale(m_claerTimeScale);
 
-	// アクティブ化
-	m_clearUI->SetActive(true);
+	// ダイアログを出現
+	if (m_clearDialog) m_clearDialog->Show();
 }
 
 void ClearEffect::OnDestroy()
