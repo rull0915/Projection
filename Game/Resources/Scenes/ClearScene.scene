@@ -1,316 +1,4 @@
 {
-    "UI": {
-        "Canvases": [
-            {
-                "GameObjects": [
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_anchor": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_anchoredPosition": [
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_pivot": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_rotation": 0.0,
-                                    "m_scale": [
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_size": [
-                                        1063.0,
-                                        597.7999877929688
-                                    ]
-                                },
-                                "Type": "RectTransform"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 0.4000000059604645,
-                                    "m_color": [
-                                        0.0,
-                                        0.0,
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_textureName": "Default"
-                                },
-                                "Type": "ImageUI"
-                            }
-                        ],
-                        "m_isActive": true,
-                        "m_name": "",
-                        "m_tag": ""
-                    }
-                ],
-                "m_canvasName": "",
-                "m_drawOrder": 0,
-                "m_isActive": true
-            },
-            {
-                "GameObjects": [
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_anchor": [
-                                        0.5,
-                                        0.4000000059604645
-                                    ],
-                                    "m_anchoredPosition": [
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_pivot": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_rotation": 0.0,
-                                    "m_scale": [
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_size": [
-                                        700.0,
-                                        150.0
-                                    ]
-                                },
-                                "Type": "RectTransform"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 1.0,
-                                    "m_color": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_fontName": "Default",
-                                    "m_fontSize": 83.5999984741211,
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_origin": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_text": "StageClear!"
-                                },
-                                "Type": "TextUI"
-                            }
-                        ],
-                        "m_isActive": true,
-                        "m_name": "",
-                        "m_tag": ""
-                    },
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_anchor": [
-                                        0.5,
-                                        0.699999988079071
-                                    ],
-                                    "m_anchoredPosition": [
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_pivot": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_rotation": 0.0,
-                                    "m_scale": [
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_size": [
-                                        378.8999938964844,
-                                        100.0
-                                    ]
-                                },
-                                "Type": "RectTransform"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 1.0,
-                                    "m_color": [
-                                        0.4556962251663208,
-                                        0.4556962251663208,
-                                        0.4556962251663208,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_textureName": "Default"
-                                },
-                                "Type": "ImageUI"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 1.0,
-                                    "m_color": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_fontName": "Makinas",
-                                    "m_fontSize": 46.79999923706055,
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_origin": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_text": "Return"
-                                },
-                                "Type": "TextUI"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true
-                                },
-                                "Type": "ToSelectComponent"
-                            },
-                            {
-                                "Data": {
-                                    "m_hoverdColor": [
-                                        0.9215686321258545,
-                                        0.9215686321258545,
-                                        0.9215686321258545,
-                                        1.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_normalColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_pressedColor": [
-                                        0.75,
-                                        0.75,
-                                        0.75,
-                                        1.0
-                                    ]
-                                },
-                                "Type": "ButtonUI"
-                            }
-                        ],
-                        "m_isActive": true,
-                        "m_name": "Button",
-                        "m_tag": ""
-                    },
-                    {
-                        "Children": [],
-                        "Components": [
-                            {
-                                "Data": {
-                                    "m_anchor": [
-                                        0.6000000238418579,
-                                        0.30000001192092896
-                                    ],
-                                    "m_anchoredPosition": [
-                                        174.10000610351563,
-                                        0.0
-                                    ],
-                                    "m_isActive": true,
-                                    "m_pivot": [
-                                        0.5,
-                                        0.5
-                                    ],
-                                    "m_rotation": 0.0,
-                                    "m_scale": [
-                                        1.0,
-                                        1.0
-                                    ],
-                                    "m_size": [
-                                        219.39999389648438,
-                                        100.0
-                                    ]
-                                },
-                                "Type": "RectTransform"
-                            },
-                            {
-                                "Data": {
-                                    "m_alpha": 1.0,
-                                    "m_color": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_fontName": "Makinas",
-                                    "m_fontSize": 49.0,
-                                    "m_isActive": true,
-                                    "m_mulColor": [
-                                        1.0,
-                                        1.0,
-                                        1.0,
-                                        0.0
-                                    ],
-                                    "m_origin": [
-                                        0.0,
-                                        0.0
-                                    ],
-                                    "m_text": "すごい"
-                                },
-                                "Type": "TextUI"
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true
-                                },
-                                "Type": "SwingComponent"
-                            }
-                        ],
-                        "m_isActive": true,
-                        "m_name": "",
-                        "m_tag": ""
-                    }
-                ],
-                "m_canvasName": "",
-                "m_drawOrder": 12,
-                "m_isActive": true
-            }
-        ]
-    },
     "World": {
         "GameObjects": [
             {
@@ -336,7 +24,8 @@
                                 1.0
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 6914747551007367721
                     },
                     {
                         "Data": {
@@ -346,17 +35,21 @@
                             "m_isActive": true,
                             "m_nearZ": 0.10000000149011612
                         },
-                        "Type": "StandardCamera"
+                        "Type": "StandardCamera",
+                        "UUID": 9148224746301326658
                     },
                     {
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_keyName": "Skybox"
+                            "m_textureHandle": 10350532250775094671
                         },
-                        "Type": "SkyboxComponent"
+                        "Type": "SkyboxComponent",
+                        "UUID": 5924284811870479495
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 13553142575873901974,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -384,19 +77,346 @@
                                 2.5
                             ]
                         },
-                        "Type": "Transform"
+                        "Type": "Transform",
+                        "UUID": 2486380733226549137
                     },
                     {
                         "Data": {
                             "m_alpha": 1.0,
                             "m_isActive": true,
-                            "m_modelName": "Platform_4x2"
+                            "m_modelHandle": 9333390461007467492
                         },
-                        "Type": "ModelComponent"
+                        "Type": "ModelComponent",
+                        "UUID": 18370675974516551733
                     }
                 ],
+                "IsWorld": true,
+                "UUID": 2796111783527345991,
                 "m_isActive": true,
                 "m_name": "Cube",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.30000001192092896
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                100.0,
+                                                100.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 14456749063497212377
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 80.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "Stage Clear!"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 7807370323480591209
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 14334149522434350672,
+                                "m_isActive": true,
+                                "m_name": "Text",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_anchor": [
+                                                0.5,
+                                                0.699999988079071
+                                            ],
+                                            "m_anchoredPosition": [
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_pivot": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_rotation": 0.0,
+                                            "m_scale": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_size": [
+                                                400.0,
+                                                80.0
+                                            ]
+                                        },
+                                        "Type": "RectTransform",
+                                        "UUID": 13617490741987378586
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.894514799118042,
+                                                0.894514799118042,
+                                                0.894514799118042,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_raycastTarget": true,
+                                            "m_textureHandle": 16832540059583752122
+                                        },
+                                        "Type": "ImageUI",
+                                        "UUID": 5940373152361633685
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_color": [
+                                                0.0,
+                                                0.0,
+                                                0.0,
+                                                1.0
+                                            ],
+                                            "m_fontHandle": 16520189307898809988,
+                                            "m_fontSize": 40.0,
+                                            "m_isActive": true,
+                                            "m_mulColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_origin": [
+                                                0.5,
+                                                0.5
+                                            ],
+                                            "m_text": "Return"
+                                        },
+                                        "Type": "TextUI",
+                                        "UUID": 8902052601423924511
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_hoverdColor": [
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                0.9215686321258545,
+                                                1.0
+                                            ],
+                                            "m_isActive": true,
+                                            "m_normalColor": [
+                                                1.0,
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "m_pressedColor": [
+                                                0.75,
+                                                0.75,
+                                                0.75,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "ButtonUI",
+                                        "UUID": 15542985475053416590
+                                    }
+                                ],
+                                "IsWorld": false,
+                                "UUID": 1495072481136262348,
+                                "m_isActive": true,
+                                "m_name": "ReturnButton",
+                                "m_tag": ""
+                            }
+                        ],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        960.0,
+                                        540.0
+                                    ]
+                                },
+                                "Type": "RectTransform",
+                                "UUID": 3981274580928920493
+                            },
+                            {
+                                "Data": {
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        0.47058823704719543
+                                    ],
+                                    "m_isActive": true,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_raycastTarget": true,
+                                    "m_textureHandle": 16832540059583752122
+                                },
+                                "Type": "ImageUI",
+                                "UUID": 4026087771913426210
+                            }
+                        ],
+                        "IsWorld": false,
+                        "UUID": 5885454713427061221,
+                        "m_isActive": true,
+                        "m_name": "Back",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform",
+                        "UUID": 8742507397424644001
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 0,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas",
+                        "UUID": 7115221395596782405
+                    }
+                ],
+                "IsWorld": false,
+                "UUID": 13959381720464915460,
+                "m_isActive": true,
+                "m_name": "Canvas",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 8689649788058469431
+                    },
+                    {
+                        "Data": {
+                            "m_button": 15542985475053416590,
+                            "m_isActive": true,
+                            "m_targetScene": "Select"
+                        },
+                        "Type": "ChangeSceneComponent",
+                        "UUID": 6904439162168631584
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 6869817695351713345,
+                "m_isActive": true,
+                "m_name": "TitleManager",
                 "m_tag": ""
             }
         ]
