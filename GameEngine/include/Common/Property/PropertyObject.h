@@ -19,9 +19,11 @@
 #include <vector>
 
 #include "Property.h"
+#include "Common/CheckVector.h"
 #include "Assets/Objects/Handle.h"
 #include "Common/ObjectReference.h"
 #include "EnumRegistry.h"
+#include "ArrayRegistry.h"
 #include "AssetPropertyRegistry.h"
 
 // マクロ
@@ -54,7 +56,7 @@ namespace REngine
 
 	public:
 		// プロパティを取得する関数
-		const std::vector<Property>& GetPropaties() const { return m_properties; }
+		const std::vector<Property>& GetProperties() const { return m_properties; }
 
 	protected:
 		// プロパティの追加関数
@@ -63,6 +65,18 @@ namespace REngine
 		{
 			Property prop{ name, GetPropertyType<T>(), value };
 
+			// 型の登録
+			prop.typeIndex = RegisterType<T>();
+
+			// 配列に追加
+			m_properties.push_back(prop);
+		}
+
+	private:
+		// 型登録関数
+		template<typename T>
+		std::type_index RegisterType()
+		{
 			// 列挙型なら
 			if constexpr (std::is_enum_v<T>)
 			{
@@ -70,7 +84,7 @@ namespace REngine
 				EnumRegistry::Instance().Register<T>();
 
 				// タイプインデックスを保存
-				prop.typeIndex = std::type_index(typeid(T));
+				return std::type_index(typeid(T));
 			}
 			// AssetHandleなら
 			else if constexpr (IsHandle_v<T>)
@@ -78,15 +92,27 @@ namespace REngine
 				// 登録
 				AssetPropertyRegistry::Instance().Register<typename T::value_type>();
 
-				// タイプインデックスを保存
-				prop.typeIndex = std::type_index(typeid(typename T::value_type));
+				// タイプインデックスを返す
+				return std::type_index(typeid(typename T::value_type));
 			}
+			// vectorなら
+			else if constexpr (is_vector<T>::value)
+			{
+				// 配列のテンプレート型
+				using ElementType = typename T::value_type;
 
-			// 配列に追加
-			m_properties.push_back(prop);
+				// 登録
+				ArrayRegistry::Instance().Register<T>(GetPropertyType<ElementType>());
+
+				// 管理対象の型も登録
+				RegisterType<ElementType>();
+
+				// タイプインデックスを返す
+				return std::type_index(typeid(T));
+			}
+			else return std::type_index(typeid(void));
 		}
 
-	private:
 		// 型からタイプを取得する関数
 		template<typename T>
 		PropertyType GetPropertyType()
@@ -115,6 +141,8 @@ namespace REngine
 			else if constexpr (IsHandle_v<T>) return PropertyType::AssetHandle;
 			// Ref
 			else if constexpr (IsRef_v<T>) return PropertyType::ObjectRef;
+			// vector
+			else if constexpr (is_vector<T>::value) return PropertyType::Array;
 
 			// その他
 			else return PropertyType::None;

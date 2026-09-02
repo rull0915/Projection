@@ -44,7 +44,7 @@ void ChangeSceneComponent::Start()
 	}
 }
 
-void ChangeSceneComponent::Update(const REngine::GameTimer& timer)
+void ChangeSceneComponent::Update(const REngine::GameTimer&)
 {
 	using namespace REngine::Input;
 

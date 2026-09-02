@@ -83,7 +83,6 @@ public:
 	void Start() override;
 
 	void Update(const REngine::GameTimer& gameTimer) override;
-	void LateUpdate(const REngine::GameTimer& gameTimer) override;
 
 	void Draw(REngine::Renderer& renderer) override;
 

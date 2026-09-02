@@ -173,6 +173,7 @@
     <ClInclude Include="GameLib\UI\DialogController.h" />
     <ClInclude Include="Game\TitleScene\TitleManager.h" />
     <ClInclude Include="Game\Common\ChangeSceneComponent.h" />
+    <ClInclude Include="EngineTester\ArrayTester.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -222,6 +223,7 @@
     <ClCompile Include="GameLib\UI\DialogController.cpp" />
     <ClCompile Include="Game\TitleScene\TitleManager.cpp" />
     <ClCompile Include="Game\Common\ChangeSceneComponent.cpp" />
+    <ClCompile Include="EngineTester\ArrayTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -37,7 +37,7 @@ namespace REngine
 		json js;
 
 		// 全プロパティを調べる
-		for (auto& property : obj.GetPropaties())
+		for (auto& property : obj.GetProperties())
 		{
 			// 型によって分岐
 			switch (property.type)

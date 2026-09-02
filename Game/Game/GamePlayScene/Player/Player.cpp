@@ -54,13 +54,13 @@ void Player::Start()
 	GetOwn()->GetComponents<REngine::ColliderBase>();
 
 	// 全てのコライダー
-	if (colliders.size() > 0)
-	{
-		for (auto collider : colliders)
-		{
-			// static_cast<ColliderBase*>(collider)->SetPhysicsMaterial(&m_material);
-		}
-	}
+	//if (colliders.size() > 0)
+	//{
+	//	for (auto collider : colliders)
+	//	{
+	//		// static_cast<ColliderBase*>(collider)->SetPhysicsMaterial(&m_material);
+	//	}
+	//}
 
 	// タグを設定
 	GetOwn()->SetTag("Player");

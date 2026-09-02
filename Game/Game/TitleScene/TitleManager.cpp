@@ -63,7 +63,7 @@ void TitleManager::Start()
 }
 
 // 毎フレーム呼ばれます
-void TitleManager::Update(const REngine::GameTimer & gameTimer)
+void TitleManager::Update(const REngine::GameTimer &)
 {
 	// コントローラー接続チェック
 	if (m_padUI)

@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "ClearEffect.h"
 
-#include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
 #include "Settings/TimeSettings.h"
 #include "GameLib/Transition/SlideTransition.h"
@@ -46,9 +45,6 @@ void ClearEffect::Awake()
 // 最初のUpdate関数の直線に一度呼ばれます
 void ClearEffect::Start()
 {
-	// シーンを取得
-	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
-
 	// 時間の初期化
 	m_sumTime = 0;
 

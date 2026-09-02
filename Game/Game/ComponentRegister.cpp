@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "ComponentRegister.h"
+#include "EngineTester/ArrayTester.h"
 #include "EngineTester/EasingTestComponent.h"
 #include "EngineTester/MaterialTester.h"
 #include "EngineTester/ReferenceTester.h"
@@ -35,6 +36,7 @@
 
 void ComponentRegister::RegistComponents()
 {
+    REGIST_TO_FACTORY(ArrayTester);
     REGIST_TO_FACTORY(EasingTestComponent);
     REGIST_TO_FACTORY(MaterialTester);
     REGIST_TO_FACTORY(ReferenceTester);

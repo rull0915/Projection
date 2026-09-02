@@ -165,5 +165,7 @@ public:
 		default:
 			break;
 		}
+
+		return 0;
 	}
 };

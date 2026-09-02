@@ -61,10 +61,6 @@ void MaterialTester::Update(const REngine::GameTimer & gameTimer)
 	}
 }
 
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void MaterialTester::LateUpdate(const REngine::GameTimer & gameTimer)
-{}
-
 void MaterialTester::Draw(REngine::Renderer & renderer)
 {
 	if (!m_pTransform) m_pTransform = GetComponent<REngine::Transform>();
