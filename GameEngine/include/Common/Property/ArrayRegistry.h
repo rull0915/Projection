@@ -41,8 +41,8 @@ namespace REngine
 		// 配列の要素を追加する関数マップ
 		std::unordered_map<std::type_index, std::function<void(void*)>> m_addElementMap;
 
-		// 配列の要素を削除する関数マップ
-		std::unordered_map<std::type_index, std::function<void(void*, size_t)>> m_removeElementMap;
+		// 配列の末尾の要素を削除する関数マップ
+		std::unordered_map<std::type_index, std::function<void(void*)>> m_popBackElementMap;
 		
 		// 型のプロパティタイプマップ
 		std::unordered_map<std::type_index, PropertyType> m_propertyTypeMap;
@@ -114,16 +114,16 @@ namespace REngine
 				};
 
 			// 配列の要素を削除する関数の登録
-			m_removeElementMap[idx] =
-				[](void* p, size_t index)
+			m_popBackElementMap[idx] =
+				[](void* p)
 				{
 					// 配列に変換
 					ArrayType& vec = *static_cast<ArrayType*>(p);
 
-					// 範囲内なら
-					if (index < vec.size())
-						// 削除
-						vec.erase(vec.begin() + index);				
+					// 要素があれば
+					if (!vec.empty())
+						// 末尾削除
+						vec.pop_back();
 				};
 
 			// プロパティタイプを持つマップ
@@ -143,7 +143,7 @@ namespace REngine
 		void AddElement(std::type_index idx, void* p) { m_addElementMap.at(idx)(p); }
 
 		// 配列から要素を削除する関数
-		void RemoveElement(std::type_index idx, void* p, size_t index) { m_removeElementMap.at(idx)(p, index); }
+		void PopBackElement(std::type_index idx, void* p) { m_popBackElementMap.at(idx)(p); }
 
 		// タイプを取得する関数
 		PropertyType GetPropertyType(std::type_index idx) { return m_propertyTypeMap.at(idx); }

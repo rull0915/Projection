@@ -20,7 +20,7 @@
 ArrayTester::ArrayTester(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_testArray{ 1, 2, 4 }
-	, m_colorArray{}
+	, m_colorArray(100)
 {
 	ADD_PROPERTY(m_testArray);
 	ADD_PROPERTY(m_colorArray);

@@ -18,6 +18,19 @@
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
 
+class ABCD : public REngine::PropertyObject
+{
+	int id;
+	std::string name;
+
+public:
+	ABCD()
+	{
+		ADD_PROPERTY(id);
+		ADD_PROPERTY(name);
+	}
+};
+
 //====================================================//
 // クラス宣言
 //====================================================//
@@ -30,6 +43,7 @@ private:
 	//-----------------------------------------------------
 
 	std::vector<int> m_testArray;
+	std::vector<ABCD> m_colorArray;
 
 public:
 

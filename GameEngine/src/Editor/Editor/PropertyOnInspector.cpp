@@ -407,7 +407,7 @@ namespace REngine
 				if (ImGui::Button(" － "))
 				{
 					// 削除
-					registry.RemoveElement(idx, value, registry.GetSize(idx, value) - 1);
+					registry.PopBackElement(idx, value);
 				}
 
 				// ツリーの終了
