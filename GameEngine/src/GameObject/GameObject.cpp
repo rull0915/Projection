@@ -37,9 +37,9 @@ namespace REngine
 		, m_isInvincible{ false }
 		, m_uuid{ 0 }
 	{
-		ADD_PROPERTY(m_isActive);
-		ADD_PROPERTY(m_name);
-		ADD_PROPERTY(m_tag);
+		ADD_PROPERTY(GameObject, m_isActive);
+		ADD_PROPERTY(GameObject, m_name);
+		ADD_PROPERTY(GameObject, m_tag);
 	}
 
 	void GameObject::Finalize()

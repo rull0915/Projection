@@ -23,8 +23,6 @@ namespace REngine
 	RendererBase::RendererBase(IComponentOwner* own)
 		: WorldComponentBase(own)
 		, m_pTransform{ GetComponent<Transform>() }
-		, m_alpha{ 1.0f }
 	{
-		ADD_PROPERTY(m_alpha);
 	};
 }	// namespace REngine

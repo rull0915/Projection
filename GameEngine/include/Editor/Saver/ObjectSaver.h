@@ -52,10 +52,10 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// Propertyの保存
-		nlohmann::json SaveProperty(const PropertyObject& obj);
+		nlohmann::json SaveProperty(PropertyObject& obj);
 
 		// GameObjectの保存
-		nlohmann::json SaveObject(const GameObject* obj);
+		nlohmann::json SaveObject(GameObject* obj);
 
 		// ObjectManagerの保存
 		nlohmann::json SaveObjectManager(const ObjectManager* objManager);

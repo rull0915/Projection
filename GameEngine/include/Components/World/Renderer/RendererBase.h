@@ -36,9 +36,6 @@ namespace REngine
 		// トランスフォームポインタ
 		Transform* m_pTransform;
 
-		// 透明度
-		float m_alpha;
-
 	public:
 
 		//-----------------------------------------------------
@@ -59,15 +56,6 @@ namespace REngine
 
 		// 描画関数
 		virtual void Draw(Renderer& renderer) = 0;
-
-		// 透明度
-		float GetAlpha() const { return m_alpha; }
-
-		// セッター
-		void SetAlpha(float alpha)
-		{
-			m_alpha = std::clamp(alpha, 0.0f, 1.0f);
-		}
 
 		//-----------------------------------------------------
 		// ゲッター

@@ -28,7 +28,7 @@ namespace REngine
 		, m_color{ 1, 1, 1, 1 }
 		, m_mulColor{ 1, 1, 1, 1 }
 	{
-		ADD_PROPERTY(m_color);
-		ADD_PROPERTY(m_mulColor);
+		ADD_PROPERTY(UIGraphicBase, m_color);
+		ADD_PROPERTY(UIGraphicBase, m_mulColor);
 	}
 }	// namespace REngine

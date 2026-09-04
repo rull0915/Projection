@@ -30,13 +30,13 @@ namespace REngine
 		, m_playOnStart{ false }
 		, m_use3DAudio{ false }
 	{
-		ADD_PROPERTY(m_audioClip);
-		ADD_PROPERTY(m_volume);
-		ADD_PROPERTY(m_pan);
-		ADD_PROPERTY(m_pitch);
-		ADD_PROPERTY(m_loop);
-		ADD_PROPERTY(m_playOnStart);
-		ADD_PROPERTY(m_use3DAudio);
+		ADD_PROPERTY(AudioSource, m_audioClip);
+		ADD_PROPERTY(AudioSource, m_volume);
+		ADD_PROPERTY(AudioSource, m_pan);
+		ADD_PROPERTY(AudioSource, m_pitch);
+		ADD_PROPERTY(AudioSource, m_loop);
+		ADD_PROPERTY(AudioSource, m_playOnStart);
+		ADD_PROPERTY(AudioSource, m_use3DAudio);
 	}
 
 	void AudioSource::Load(Handle<AudioClip> handle)

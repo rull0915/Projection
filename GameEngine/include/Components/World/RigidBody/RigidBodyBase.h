@@ -80,10 +80,10 @@ namespace REngine
 			, m_stoppingTime{ 0 }
 			, m_latestVersion{ 0 }
 		{
-			ADD_PROPERTY(m_mass);
-			ADD_PROPERTY(m_linearDamping);
-			ADD_PROPERTY(m_isStatic);
-			ADD_PROPERTY(m_useGravity);
+			ADD_PROPERTY(RigidBodyBase, m_mass);
+			ADD_PROPERTY(RigidBodyBase, m_linearDamping);
+			ADD_PROPERTY(RigidBodyBase, m_isStatic);
+			ADD_PROPERTY(RigidBodyBase, m_useGravity);
 		}
 
 		virtual ~RigidBodyBase() = default;

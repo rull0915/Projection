@@ -28,12 +28,12 @@ CatmullRomComponent::CatmullRomComponent(REngine::IComponentOwner* own)
 	, m_p2{}
 	, m_p3{}
 {
-	ADD_PROPERTY(m_isLoop);
-	ADD_PROPERTY(m_offset);
-	ADD_PROPERTY(m_p0);
-	ADD_PROPERTY(m_p1);
-	ADD_PROPERTY(m_p2);
-	ADD_PROPERTY(m_p3);
+	ADD_PROPERTY(CatmullRomComponent, m_isLoop);
+	ADD_PROPERTY(CatmullRomComponent, m_offset);
+	ADD_PROPERTY(CatmullRomComponent, m_p0);
+	ADD_PROPERTY(CatmullRomComponent, m_p1);
+	ADD_PROPERTY(CatmullRomComponent, m_p2);
+	ADD_PROPERTY(CatmullRomComponent, m_p3);
 }
 
 void CatmullRomComponent::DebugRender(REngine::Renderer & renderer, const DirectX::SimpleMath::Color & color)

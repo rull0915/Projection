@@ -35,14 +35,14 @@ TitleManager::TitleManager(REngine::IComponentOwner* own)
 	, m_padUIOnDialog{}
 	, m_quitDialog{}
 {
-	ADD_PROPERTY(m_targetScene);
-	ADD_PROPERTY(m_playButton);
-	ADD_PROPERTY(m_exitButton);
-	ADD_PROPERTY(m_exitAcceptButton);
-	ADD_PROPERTY(m_exitCancelButton);
-	ADD_PROPERTY(m_padUI);
-	ADD_PROPERTY(m_padUIOnDialog);
-	ADD_PROPERTY(m_quitDialog);
+	ADD_PROPERTY(TitleManager, m_targetScene);
+	ADD_PROPERTY(TitleManager, m_playButton);
+	ADD_PROPERTY(TitleManager, m_exitButton);
+	ADD_PROPERTY(TitleManager, m_exitAcceptButton);
+	ADD_PROPERTY(TitleManager, m_exitCancelButton);
+	ADD_PROPERTY(TitleManager, m_padUI);
+	ADD_PROPERTY(TitleManager, m_padUIOnDialog);
+	ADD_PROPERTY(TitleManager, m_quitDialog);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます

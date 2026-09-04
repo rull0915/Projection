@@ -20,10 +20,10 @@
 ArrayTester::ArrayTester(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_testArray{ 1, 2, 4 }
-	, m_colorArray(100)
+	, m_colorArray(1)
 {
-	ADD_PROPERTY(m_testArray);
-	ADD_PROPERTY(m_colorArray);
+	ADD_PROPERTY(ArrayTester, m_testArray);
+	ADD_PROPERTY(ArrayTester, m_colorArray);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます

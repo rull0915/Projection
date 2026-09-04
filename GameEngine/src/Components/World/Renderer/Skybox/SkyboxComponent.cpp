@@ -30,7 +30,7 @@ namespace REngine
 		, m_effect{}
 		, m_skyInputLayout{ nullptr }
 	{
-		ADD_PROPERTY(m_textureHandle);
+		ADD_PROPERTY(SkyboxComponent, m_textureHandle);
 
 		// デバイスを取得
 		auto* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();

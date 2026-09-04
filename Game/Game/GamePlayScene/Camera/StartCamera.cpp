@@ -38,13 +38,13 @@ StartCamera::StartCamera(REngine::IComponentOwner* own)
 	, m_nowAngle{ 0.0f }
 	, m_offset{ 0, 0, 0 }
 {
-	ADD_PROPERTY(m_targetName);
-	ADD_PROPERTY(m_radius);
-	ADD_PROPERTY(m_finalAngle);
-	ADD_PROPERTY(m_angleVelocity);
-	ADD_PROPERTY(m_initialHeight);
-	ADD_PROPERTY(m_fallVelocity);
-	ADD_PROPERTY(m_offset);
+	ADD_PROPERTY(StartCamera, m_targetName);
+	ADD_PROPERTY(StartCamera, m_radius);
+	ADD_PROPERTY(StartCamera, m_finalAngle);
+	ADD_PROPERTY(StartCamera, m_angleVelocity);
+	ADD_PROPERTY(StartCamera, m_initialHeight);
+	ADD_PROPERTY(StartCamera, m_fallVelocity);
+	ADD_PROPERTY(StartCamera, m_offset);
 }
 
 // 生成直後に一度呼ばれます

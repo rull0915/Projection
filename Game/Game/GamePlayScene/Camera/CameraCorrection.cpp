@@ -28,8 +28,8 @@ CameraCorrection::CameraCorrection(REngine::IComponentOwner* own)
 	, m_playerName{}
 	, m_playerLayer{ 0 }
 {
-	ADD_PROPERTY(m_playerName);
-	ADD_PROPERTY(m_playerLayer);
+	ADD_PROPERTY(CameraCorrection, m_playerName);
+	ADD_PROPERTY(CameraCorrection, m_playerLayer);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます

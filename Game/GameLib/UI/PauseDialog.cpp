@@ -28,10 +28,10 @@ PauseDialog::PauseDialog(REngine::IComponentOwner* own)
 	, m_currentTime{ 0 }
 
 {
-	ADD_PROPERTY(m_openEasing);
-	ADD_PROPERTY(m_closeEasing);
-	ADD_PROPERTY(m_transTime);
-	ADD_PROPERTY(m_expType);
+	ADD_PROPERTY(PauseDialog, m_openEasing);
+	ADD_PROPERTY(PauseDialog, m_closeEasing);
+	ADD_PROPERTY(PauseDialog, m_transTime);
+	ADD_PROPERTY(PauseDialog, m_expType);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます

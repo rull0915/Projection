@@ -29,10 +29,10 @@ ClearEffect::ClearEffect(REngine::IComponentOwner* own)
 	, m_sumTime{ 0 }
 	, m_claerTimeScale{ 0.2f }
 {
-	ADD_PROPERTY(m_clearUIName);
-	ADD_PROPERTY(m_clearDialog);
-	ADD_PROPERTY(m_toClearTime);
-	ADD_PROPERTY(m_claerTimeScale);
+	ADD_PROPERTY(ClearEffect, m_clearUIName);
+	ADD_PROPERTY(ClearEffect, m_clearDialog);
+	ADD_PROPERTY(ClearEffect, m_toClearTime);
+	ADD_PROPERTY(ClearEffect, m_claerTimeScale);
 }
 
 // 生成直後に一度呼ばれます

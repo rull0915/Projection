@@ -22,8 +22,8 @@ ReferenceTester::ReferenceTester(REngine::IComponentOwner* own)
 	, m_targetTransform{}
 	, m_tarrgetSetPos{}
 {
-	ADD_PROPERTY(m_targetTransform);
-	ADD_PROPERTY(m_tarrgetSetPos);
+	ADD_PROPERTY(ReferenceTester, m_targetTransform);
+	ADD_PROPERTY(ReferenceTester, m_tarrgetSetPos);
 }
 
 // 生成直後に一度呼ばれます

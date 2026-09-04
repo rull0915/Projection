@@ -36,8 +36,8 @@ PlaySceneManager::PlaySceneManager(REngine::IComponentOwner* own)
 	, m_enemyManager{ nullptr }
 	, m_eventIds{}
 {
-	ADD_PROPERTY(m_cameraName);
-	ADD_PROPERTY(m_playerName);
+	ADD_PROPERTY(PlaySceneManager, m_cameraName);
+	ADD_PROPERTY(PlaySceneManager, m_playerName);
 }
 
 void PlaySceneManager::Awake()

@@ -31,7 +31,7 @@ namespace REngine
 		, m_ownerIsActive{ true }
 		, m_isStarted{ false }
 	{
-		ADD_PROPERTY(m_isActive);
+		ADD_PROPERTY(ComponentBase, m_isActive);
 	}
 
 	/// <summary>

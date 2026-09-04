@@ -27,7 +27,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool PropertyOnInspector::DrawPropertyObject(const PropertyObject* object)
+	bool PropertyOnInspector::DrawPropertyObject(PropertyObject* object)
 	{
 		// 変更フラグ
 		bool changed = false;
@@ -41,7 +41,7 @@ namespace REngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawProperty(const Property* property)
+	bool PropertyOnInspector::DrawProperty(Property* property)
 	{
 		// nullなら何もしない
 		if (!property) return false;

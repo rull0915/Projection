@@ -30,7 +30,7 @@ namespace REngine
 		: UIComponentBase(own)
 		, m_drawOrder{ 0 }
 	{
-		ADD_PROPERTY(m_drawOrder);
+		ADD_PROPERTY(Canvas, m_drawOrder);
 
 		// ルートRectTransformの初期設定
 		auto* rectTransform = GetComponent<RectTransform>();

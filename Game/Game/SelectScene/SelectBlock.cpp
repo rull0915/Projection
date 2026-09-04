@@ -27,9 +27,9 @@ SelectBlock::SelectBlock(REngine::IComponentOwner* own)
 	, m_targetScene{}
 	, m_targetDialog{}
 {
-	ADD_PROPERTY(m_targetScene);
-	ADD_PROPERTY(m_targetDialog);
-	ADD_PROPERTY(m_nameText);
+	ADD_PROPERTY(SelectBlock, m_targetScene);
+	ADD_PROPERTY(SelectBlock, m_targetDialog);
+	ADD_PROPERTY(SelectBlock, m_nameText);
 }
 
 void SelectBlock::Start()

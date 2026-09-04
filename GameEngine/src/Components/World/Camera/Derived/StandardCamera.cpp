@@ -28,10 +28,10 @@ namespace REngine
 		, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 		, m_fov{ PI_F / 4 }
 	{
-		ADD_PROPERTY(m_nearZ);
-		ADD_PROPERTY(m_farZ);
-		ADD_PROPERTY(m_aspect);
-		ADD_PROPERTY(m_fov);
+		ADD_PROPERTY(StandardCamera, m_nearZ);
+		ADD_PROPERTY(StandardCamera, m_farZ);
+		ADD_PROPERTY(StandardCamera, m_aspect);
+		ADD_PROPERTY(StandardCamera, m_fov);
 
 		UpdateView();
 		UpdateProj();

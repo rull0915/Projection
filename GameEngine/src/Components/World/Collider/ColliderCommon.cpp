@@ -29,10 +29,10 @@ namespace REngine
 		, m_needInfo{ false }
 		, m_assetManager{ nullptr }
 	{
-		ADD_PROPERTY(m_isTrigger);
-		ADD_PROPERTY(m_needInfo);
-		ADD_PROPERTY(m_physicsMaterial);
-		ADD_PROPERTY(m_layerNum);
+		ADD_PROPERTY(ColliderCommon, m_isTrigger);
+		ADD_PROPERTY(ColliderCommon, m_needInfo);
+		ADD_PROPERTY(ColliderCommon, m_physicsMaterial);
+		ADD_PROPERTY(ColliderCommon, m_layerNum);
 	}
 
 	const PhysicsMaterial* ColliderCommon::GetPhysicsMaterial() const

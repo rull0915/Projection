@@ -41,7 +41,7 @@ namespace REngine
 			: ColliderBase2D(own)
 			, m_radius{ 0.5f }
 		{
-			ADD_PROPERTY(m_radius);
+			ADD_PROPERTY(CircleCollider2D, m_radius);
 		};
 		~CircleCollider2D() = default;
 

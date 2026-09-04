@@ -25,9 +25,11 @@ class ABCD : public REngine::PropertyObject
 
 public:
 	ABCD()
+		: id()
+		, name()
 	{
-		ADD_PROPERTY(id);
-		ADD_PROPERTY(name);
+		ADD_PROPERTY(ABCD, id);
+		ADD_PROPERTY(ABCD, name);
 	}
 };
 

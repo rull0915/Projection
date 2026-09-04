@@ -29,9 +29,9 @@ PathMover::PathMover(REngine::IComponentOwner* own)
 	, m_pCatmull{ nullptr }
 	, m_rotateType{ 0 }
 {
-	ADD_PROPERTY(m_magnification);
-	ADD_PROPERTY(m_playOnStart);
-	ADD_PROPERTY(m_rotateType);
+	ADD_PROPERTY(PathMover, m_magnification);
+	ADD_PROPERTY(PathMover, m_playOnStart);
+	ADD_PROPERTY(PathMover, m_rotateType);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます

@@ -61,8 +61,8 @@ public:
 		: m_kind{ EasingKind::Linear }
 		, m_type{ EasingType::In }
 	{
-		ADD_PROPERTY(m_kind);
-		ADD_PROPERTY(m_type);
+		ADD_PROPERTY(EasingConfig, m_kind);
+		ADD_PROPERTY(EasingConfig, m_type);
 	}
 
 	/// <summary>

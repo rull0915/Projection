@@ -81,7 +81,7 @@ namespace REngine
 			, m_boundingBox{ {0, 0, 0}, {0, 0, 0} }
 			, m_localCenterPos{ 0, 0, 0 }
 		{
-			ADD_PROPERTY(m_localCenterPos);
+			ADD_PROPERTY(ColliderBase, m_localCenterPos);
 		}
 
 		virtual ~ColliderBase() = default;
