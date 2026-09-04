@@ -27,8 +27,8 @@ namespace REngine
 		, m_constantBuffers{}
 		, m_isDirty{ true }
 	{
-		ADD_PROPERTY(m_vertexShader);
-		ADD_PROPERTY(m_pixelShader);
+		ADD_PROPERTY(MaterialAsset, m_vertexShader);
+		ADD_PROPERTY(MaterialAsset, m_pixelShader);
 	}
 
 	ShaderParam* MaterialAsset::FindParam(ShaderType stage, const std::string& name, AssetManager& assetManager)

@@ -59,7 +59,7 @@ namespace REngine
 			, m_localSize{ 1, 1, 1 }
 			, m_cache{}
 		{
-			ADD_PROPERTY(m_localSize);
+			ADD_PROPERTY(BoxCollider, m_localSize);
 		};
 		~BoxCollider() = default;
 

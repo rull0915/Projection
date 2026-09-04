@@ -71,8 +71,8 @@ namespace REngine
 			, m_boundingBox{}
 			, m_worldCenterPos{}
 		{
-			ADD_PROPERTY(m_localCenterPos);
-			ADD_PROPERTY(m_rotation);
+			ADD_PROPERTY(ColliderBase2D, m_localCenterPos);
+			ADD_PROPERTY(ColliderBase2D, m_rotation);
 		}
 
 		virtual ~ColliderBase2D() = default;

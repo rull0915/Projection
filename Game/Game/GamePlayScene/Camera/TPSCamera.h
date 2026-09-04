@@ -71,9 +71,9 @@ public:
 		, m_distance{ 5.0f }
 		, m_position{ 0, 0, 0 }
 	{
-		ADD_PROPERTY(m_targetName);
-		ADD_PROPERTY(m_sensitivity);
-		ADD_PROPERTY(m_distance);
+		ADD_PROPERTY(TPSCamera, m_targetName);
+		ADD_PROPERTY(TPSCamera, m_sensitivity);
+		ADD_PROPERTY(TPSCamera, m_distance);
 	}
 
 	~TPSCamera() = default;

@@ -213,6 +213,7 @@ $(ProjectDir)
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EngineTester\ArrayTester.h" />
     <ClInclude Include="EngineTester\EasingConfig.h">
       <SubType>
       </SubType>
@@ -286,6 +287,7 @@ $(ProjectDir)
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineTester\ArrayTester.cpp" />
     <ClCompile Include="EngineTester\EasingTestComponent.cpp" />
     <ClCompile Include="EngineTester\MaterialTester.cpp" />
     <ClCompile Include="EngineTester\ReferenceTester.cpp" />

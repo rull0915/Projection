@@ -30,10 +30,10 @@ namespace REngine
 		, m_fov{ PI_F / 4 }
 		, m_target{ nullptr }
 	{
-		ADD_PROPERTY(m_nearZ);
-		ADD_PROPERTY(m_farZ);
-		ADD_PROPERTY(m_aspect);
-		ADD_PROPERTY(m_fov);
+		ADD_PROPERTY(TargetCamera, m_nearZ);
+		ADD_PROPERTY(TargetCamera, m_farZ);
+		ADD_PROPERTY(TargetCamera, m_aspect);
+		ADD_PROPERTY(TargetCamera, m_fov);
 
 		UpdateView();
 		UpdateProj();

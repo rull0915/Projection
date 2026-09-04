@@ -12,7 +12,6 @@
 #include "pch.h"
 #include "ClearEffect.h"
 
-#include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
 #include "Settings/TimeSettings.h"
 #include "GameLib/Transition/SlideTransition.h"
@@ -30,10 +29,10 @@ ClearEffect::ClearEffect(REngine::IComponentOwner* own)
 	, m_sumTime{ 0 }
 	, m_claerTimeScale{ 0.2f }
 {
-	ADD_PROPERTY(m_clearUIName);
-	ADD_PROPERTY(m_clearDialog);
-	ADD_PROPERTY(m_toClearTime);
-	ADD_PROPERTY(m_claerTimeScale);
+	ADD_PROPERTY(ClearEffect, m_clearUIName);
+	ADD_PROPERTY(ClearEffect, m_clearDialog);
+	ADD_PROPERTY(ClearEffect, m_toClearTime);
+	ADD_PROPERTY(ClearEffect, m_claerTimeScale);
 }
 
 // 生成直後に一度呼ばれます
@@ -46,9 +45,6 @@ void ClearEffect::Awake()
 // 最初のUpdate関数の直線に一度呼ばれます
 void ClearEffect::Start()
 {
-	// シーンを取得
-	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
-
 	// 時間の初期化
 	m_sumTime = 0;
 

@@ -34,7 +34,7 @@ namespace REngine
 	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj, Scene* pScene)
 	{
 		// 登録されているプロパティを全て調べる
-		for (auto& property : obj.GetPropaties())
+		for (auto& property : obj.GetProperties())
 		{
 			// 存在チェック
 			if (!json.contains(property.name)) continue;

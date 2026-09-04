@@ -32,12 +32,12 @@ namespace REngine
 
 	using namespace nlohmann;
 
-	nlohmann::json ObjectSaver::SaveProperty(const PropertyObject& obj)
+	nlohmann::json ObjectSaver::SaveProperty(PropertyObject& obj)
 	{
 		json js;
 
 		// 全プロパティを調べる
-		for (auto& property : obj.GetPropaties())
+		for (auto& property : obj.GetProperties())
 		{
 			// 型によって分岐
 			switch (property.type)
@@ -118,7 +118,7 @@ namespace REngine
 		return js;
 	}
 
-	json ObjectSaver::SaveObject(const GameObject* obj)
+	json ObjectSaver::SaveObject(GameObject* obj)
 	{
 		// GameObject部分を保存
 		json j = SaveProperty(*obj);

@@ -46,7 +46,7 @@ namespace REngine
 			: RendererBase(own)
 			, m_modelHandle{}
 		{
-			ADD_PROPERTY(m_modelHandle);
+			ADD_PROPERTY(ModelComponent, m_modelHandle);
 		};
 		~ModelComponent() = default;
 

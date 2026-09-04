@@ -27,13 +27,13 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool PropertyOnInspector::DrawPropertyObject(const PropertyObject* object)
+	bool PropertyOnInspector::DrawPropertyObject(PropertyObject* object)
 	{
 		// 変更フラグ
 		bool changed = false;
 
 		// 全プロパティを表示
-		for(auto& p : object->GetPropaties())
+		for(auto& p : object->GetProperties())
 		{
 			if (DrawProperty(&p)) changed = true;
 		}
@@ -41,7 +41,7 @@ namespace REngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawProperty(const Property* property)
+	bool PropertyOnInspector::DrawProperty(Property* property)
 	{
 		// nullなら何もしない
 		if (!property) return false;
@@ -366,6 +366,56 @@ namespace REngine
 			return changed;
 		}
 
+		// 配列の場合
+		case PropertyType::Array: {
+
+			// 変更フラグ
+			bool changed = false;
+
+			// 配列型管理クラスを取得
+			auto& registry = ArrayRegistry::Instance();
+
+			std::type_index idx = property->typeIndex;
+			void* value = property->value;
+
+			// ツリーの開始
+			if (ImGui::TreeNode(name.data()))
+			{
+				// サイズ分ループ
+				for (size_t i = 0; i < registry.GetSize(idx, value); ++i)
+				{
+					// 一時Propertyを作成
+					Property tempProperty = registry.GetProperty(idx, value, i);
+
+					// 描画
+					bool c = DrawProperty(&tempProperty);
+
+					// 変更フラグ更新
+					if (c) changed = true;
+				}
+
+				// 追加ボタン
+				if (ImGui::Button(" + "))
+				{
+					// 追加
+					registry.AddElement(idx, value);
+				}
+
+				ImGui::SameLine();
+
+				// 削除ボタン
+				if (ImGui::Button(" － "))
+				{
+					// 削除
+					registry.PopBackElement(idx, value);
+				}
+
+				// ツリーの終了
+				ImGui::TreePop();
+			}
+
+			return changed;
+		}
 		default:
 			break;
 		}

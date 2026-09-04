@@ -33,9 +33,9 @@ namespace REngine
 		, m_addCache{ 0, 0, 0 }
 		, m_changeCache{ false }
 	{
-		ADD_PROPERTY(m_localPosition);
-		ADD_PROPERTY(m_localRotation);
-		ADD_PROPERTY(m_localScale);
+		ADD_PROPERTY(Transform, m_localPosition);
+		ADD_PROPERTY(Transform, m_localRotation);
+		ADD_PROPERTY(Transform, m_localScale);
 	}
 
 	Transform::~Transform()

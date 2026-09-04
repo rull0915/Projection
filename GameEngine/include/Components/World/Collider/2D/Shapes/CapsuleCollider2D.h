@@ -68,9 +68,9 @@ namespace REngine
 			, m_radius{ 0.5f }
 			, m_cache{}
 		{
-			ADD_PROPERTY(m_lineDir);
-			ADD_PROPERTY(m_capsuleHeight);
-			ADD_PROPERTY(m_radius);
+			ADD_PROPERTY(CapsuleCollider2D, m_lineDir);
+			ADD_PROPERTY(CapsuleCollider2D, m_capsuleHeight);
+			ADD_PROPERTY(CapsuleCollider2D, m_radius);
 		};
 		~CapsuleCollider2D() = default;
 

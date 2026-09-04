@@ -52,8 +52,8 @@ namespace REngine
 			, m_raycastTarget{ true }
 			, m_assetManager{ nullptr }
 		{
-			ADD_PROPERTY(m_textureHandle);
-			ADD_PROPERTY(m_raycastTarget);
+			ADD_PROPERTY(ImageUI, m_textureHandle);
+			ADD_PROPERTY(ImageUI, m_raycastTarget);
 		}
 
 		~ImageUI() = default;

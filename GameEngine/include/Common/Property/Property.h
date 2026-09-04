@@ -14,6 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <functional>
 #include <typeindex>
 #include <string>
 
@@ -39,6 +40,7 @@ namespace REngine
 		Enum,		// 列挙型
 		AssetHandle,// アセットハンドル
 		ObjectRef,	// オブジェクト参照
+		Array,		// 配列
 	};
 
 	// プロパティ
@@ -52,5 +54,28 @@ namespace REngine
 		void* value;
 		// タイプインデックス
 		std::type_index typeIndex = std::type_index(typeid(void));
+	};
+
+	// 前方宣言
+	class PropertyObject;
+
+	// メンバ変数ポインタから実アドレスを取得できるコピー可能なプロパティ
+	struct PropertyDiscripter
+	{
+		// プロパティ名
+		std::string name = "";
+		// プロパティタイプ
+		PropertyType type = PropertyType::None;
+		// タイプインデックス
+		std::type_index typeIndex = std::type_index(typeid(void));
+
+		// インスタンスを渡して実アドレスを取得する関数オブジェクト
+		std::function<void* (PropertyObject*)> getAddress;
+
+		// 実データに解決する関数
+		Property Resolve(PropertyObject* obj) const
+		{
+			return Property{ name, type, getAddress(obj), typeIndex };
+		}
 	};
 }	// namespace REngine

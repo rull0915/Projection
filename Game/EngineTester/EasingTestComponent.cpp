@@ -30,12 +30,12 @@ EasingTestComponent::EasingTestComponent(REngine::IComponentOwner* own)
 	, m_loop{ false }
 	, m_loopInterval{ 0.5f }
 {
-	ADD_PROPERTY(m_easingConfig);
-	ADD_PROPERTY(m_start);
-	ADD_PROPERTY(m_end);
-	ADD_PROPERTY(m_playScale);
-	ADD_PROPERTY(m_loop);
-	ADD_PROPERTY(m_loopInterval);
+	ADD_PROPERTY(EasingTestComponent, m_easingConfig);
+	ADD_PROPERTY(EasingTestComponent, m_start);
+	ADD_PROPERTY(EasingTestComponent, m_end);
+	ADD_PROPERTY(EasingTestComponent, m_playScale);
+	ADD_PROPERTY(EasingTestComponent, m_loop);
+	ADD_PROPERTY(EasingTestComponent, m_loopInterval);
 }
 
 // 生成直後に一度呼ばれます

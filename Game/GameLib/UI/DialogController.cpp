@@ -24,9 +24,9 @@ DialogController::DialogController(REngine::IComponentOwner* own)
 	, m_openId{ 0 }
 	, m_closeId{ 0 }
 {
-	ADD_PROPERTY(m_targetDialog);
-	ADD_PROPERTY(m_openButton);
-	ADD_PROPERTY(m_closeButton);
+	ADD_PROPERTY(DialogController, m_targetDialog);
+	ADD_PROPERTY(DialogController, m_openButton);
+	ADD_PROPERTY(DialogController, m_closeButton);
 }
 
 void DialogController::Start()

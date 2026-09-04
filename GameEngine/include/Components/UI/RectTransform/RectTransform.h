@@ -80,12 +80,12 @@ namespace REngine
 			, m_rotation{ 0 }
 			, m_isDirty{ true }
 		{
-			ADD_PROPERTY(m_anchoredPosition);
-			ADD_PROPERTY(m_anchor);
-			ADD_PROPERTY(m_pivot);
-			ADD_PROPERTY(m_size);
-			ADD_PROPERTY(m_rotation);
-			ADD_PROPERTY(m_scale);
+			ADD_PROPERTY(RectTransform, m_anchoredPosition);
+			ADD_PROPERTY(RectTransform, m_anchor);
+			ADD_PROPERTY(RectTransform, m_pivot);
+			ADD_PROPERTY(RectTransform, m_size);
+			ADD_PROPERTY(RectTransform, m_rotation);
+			ADD_PROPERTY(RectTransform, m_scale);
 		};
 
 		~RectTransform()

@@ -60,10 +60,10 @@ namespace REngine
 			, m_fontSize{ 64 }
 			, m_origin{ 0, 0 }
 		{
-			ADD_PROPERTY(m_text);
-			ADD_PROPERTY(m_fontSize);
-			ADD_PROPERTY(m_origin);
-			ADD_PROPERTY(m_fontHandle);
+			ADD_PROPERTY(TextUI, m_text);
+			ADD_PROPERTY(TextUI, m_fontSize);
+			ADD_PROPERTY(TextUI, m_origin);
+			ADD_PROPERTY(TextUI, m_fontHandle);
 		}
 
 		~TextUI() = default;

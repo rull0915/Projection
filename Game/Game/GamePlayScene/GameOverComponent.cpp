@@ -32,10 +32,10 @@ GameOverComponent::GameOverComponent(REngine::IComponentOwner* own)
 	, m_border3D{ -10.0f }
 	, m_border2D{ -10.0f }
 {
-	ADD_PROPERTY(m_overSceneName);
-	ADD_PROPERTY(m_playerName);
-	ADD_PROPERTY(m_border2D);
-	ADD_PROPERTY(m_border3D);
+	ADD_PROPERTY(GameOverComponent, m_overSceneName);
+	ADD_PROPERTY(GameOverComponent, m_playerName);
+	ADD_PROPERTY(GameOverComponent, m_border2D);
+	ADD_PROPERTY(GameOverComponent, m_border3D);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます

@@ -28,9 +28,9 @@ ChangeSceneComponent::ChangeSceneComponent(REngine::IComponentOwner* own)
 	, m_eventToken{}
 	, m_padUI{}
 {
-	ADD_PROPERTY(m_button);
-	ADD_PROPERTY(m_targetScene);
-	ADD_PROPERTY(m_padUI);
+	ADD_PROPERTY(ChangeSceneComponent, m_button);
+	ADD_PROPERTY(ChangeSceneComponent, m_targetScene);
+	ADD_PROPERTY(ChangeSceneComponent, m_padUI);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます
@@ -44,7 +44,7 @@ void ChangeSceneComponent::Start()
 	}
 }
 
-void ChangeSceneComponent::Update(const REngine::GameTimer& timer)
+void ChangeSceneComponent::Update(const REngine::GameTimer&)
 {
 	using namespace REngine::Input;
 

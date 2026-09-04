@@ -22,8 +22,8 @@ ReferenceTester::ReferenceTester(REngine::IComponentOwner* own)
 	, m_targetTransform{}
 	, m_tarrgetSetPos{}
 {
-	ADD_PROPERTY(m_targetTransform);
-	ADD_PROPERTY(m_tarrgetSetPos);
+	ADD_PROPERTY(ReferenceTester, m_targetTransform);
+	ADD_PROPERTY(ReferenceTester, m_tarrgetSetPos);
 }
 
 // 生成直後に一度呼ばれます
@@ -35,7 +35,7 @@ void ReferenceTester::Start()
 {}
 
 // 毎フレーム呼ばれます
-void ReferenceTester::Update(const REngine::GameTimer & gameTimer)
+void ReferenceTester::Update(const REngine::GameTimer &)
 {
 	if (m_targetTransform)
 	{
@@ -44,5 +44,5 @@ void ReferenceTester::Update(const REngine::GameTimer & gameTimer)
 }
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます
-void ReferenceTester::LateUpdate(const REngine::GameTimer & gameTimer)
+void ReferenceTester::LateUpdate(const REngine::GameTimer & )
 {}

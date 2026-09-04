@@ -46,11 +46,11 @@ namespace REngine
 			, m_frictionCombine{ fMode }
 			, m_bounceCombine{ bMode }
 		{
-			ADD_PROPERTY(m_staticFriction);
-			ADD_PROPERTY(m_dynamicFriction);
-			ADD_PROPERTY(m_bounciness);
-			ADD_PROPERTY(m_frictionCombine);
-			ADD_PROPERTY(m_bounceCombine);
+			ADD_PROPERTY(PhysicsMaterial, m_staticFriction);
+			ADD_PROPERTY(PhysicsMaterial, m_dynamicFriction);
+			ADD_PROPERTY(PhysicsMaterial, m_bounciness);
+			ADD_PROPERTY(PhysicsMaterial, m_frictionCombine);
+			ADD_PROPERTY(PhysicsMaterial, m_bounceCombine);
 		};
 		PhysicsMaterial()
 			: PhysicsMaterial(0.6f, 0.6f, 0, CombineMode::Average, CombineMode::Average)

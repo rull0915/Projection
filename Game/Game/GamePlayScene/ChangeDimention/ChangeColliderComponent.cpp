@@ -49,7 +49,7 @@ void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 		auto cl2D = Create2DColliderFrom3D(pCamera, collider);
 
 		// 物理マテリアルを共有
-		// cl2D->SetPhysicsMaterial(collider->GetMutablePhysicsMaterial());
+		cl2D;// ->SetPhysicsMaterial(collider->());
 	}
 
 	// 3D物理挙動を無効化

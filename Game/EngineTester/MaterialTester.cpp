@@ -29,10 +29,10 @@ MaterialTester::MaterialTester(REngine::IComponentOwner* own)
 	, m_sumTime{ 0 }
 	, m_mulColor{  }
 {
-	ADD_PROPERTY(m_material);
-	ADD_PROPERTY(m_texture);
-	ADD_PROPERTY(m_samplerType);
-	ADD_PROPERTY(m_mulColor);
+	ADD_PROPERTY(MaterialTester, m_material);
+	ADD_PROPERTY(MaterialTester, m_texture);
+	ADD_PROPERTY(MaterialTester, m_samplerType);
+	ADD_PROPERTY(MaterialTester, m_mulColor);
 }
 
 // 生成直後に一度呼ばれます
@@ -60,10 +60,6 @@ void MaterialTester::Update(const REngine::GameTimer & gameTimer)
 		material->SetParam(REngine::ShaderType::Pixel, "time", m_sumTime);
 	}
 }
-
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
-void MaterialTester::LateUpdate(const REngine::GameTimer & gameTimer)
-{}
 
 void MaterialTester::Draw(REngine::Renderer & renderer)
 {

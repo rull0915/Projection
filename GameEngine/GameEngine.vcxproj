@@ -378,9 +378,17 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Common\CheckVector.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Common\EventBus.h" />
     <ClInclude Include="include\Common\ObjectReference.h" />
     <ClInclude Include="include\Common\Origin.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Common\Property\ArrayRegistry.h">
       <SubType>
       </SubType>
     </ClInclude>
