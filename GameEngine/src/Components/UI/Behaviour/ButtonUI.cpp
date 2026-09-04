@@ -31,10 +31,7 @@ namespace REngine
 		, m_isPressed{ false }
 	{
 		ADD_PROPERTY(ButtonUI, m_normalColor);
-		
-		
-		
-		;
+		ADD_PROPERTY(ButtonUI, m_hoverdColor);
 		ADD_PROPERTY(ButtonUI, m_pressedColor);
 	}
 

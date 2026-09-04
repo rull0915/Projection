@@ -35,6 +35,9 @@ namespace REngine
 		// 配列のサイズを取得する関数マップ
 		std::unordered_map<std::type_index, std::function<size_t(const void*)>> m_getArraySizeMap;
 
+		// 配列をリサイズする関数マップ
+		std::unordered_map<std::type_index, std::function<void(void*, size_t)>> m_changeArraySizeMap;
+
 		// 配列の要素を取得する関数マップ
 		std::unordered_map<std::type_index, std::function<void*(void*, size_t)>> m_getArrayElementMap;
 
@@ -90,6 +93,14 @@ namespace REngine
 					return static_cast<const ArrayType*>(p)->size();
 				};
 
+			// 配列サイズを変更する関数の登録
+			m_changeArraySizeMap[idx] =
+				[](void* p, size_t size)
+				{
+					// 配列に変換
+					static_cast<ArrayType*>(p)->resize(size);
+				};
+
 			// 配列の要素を取得する関数の登録
 			m_getArrayElementMap[idx] =
 				[](void* p, size_t index) -> void*
@@ -135,6 +146,9 @@ namespace REngine
 
 		// 配列サイズを返す関数
 		size_t GetSize(std::type_index idx, const void* p) const { return m_getArraySizeMap.at(idx)(p); }
+
+		// 配列サイズを変更関数
+		void Resize(std::type_index idx, void* p, size_t size) const { return m_changeArraySizeMap.at(idx)(p, size); }
 
 		// 配列の要素を取得する関数
 		void* GetElement(std::type_index idx, void* p, size_t index) const { return m_getArrayElementMap.at(idx)(p, index); }
