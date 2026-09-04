@@ -7,6 +7,8 @@
 //
 // 更新履歴 :
 // 2026/07/02 新規作成
+// 2026/09/04 void*で実アドレスを保持するPropertyではなく、メンバ変数ポインタで管理するPropertyDiscripterを保持する設計に変更
+//				この変更によってコピー・ムーブをした際にもアドレスが破綻しないようになりました。
 //====================================================//
 
 #pragma once
@@ -27,7 +29,7 @@
 #include "AssetPropertyRegistry.h"
 
 // マクロ
-#define ADD_PROPERTY(property) (AddProperty(#property, &property))
+#define ADD_PROPERTY(Class, Property) (AddProperty(#Property, &Class::Property))
 
 //====================================================//
 // クラス宣言
@@ -40,33 +42,51 @@ namespace REngine
 	{
 	private:
 		// プロパティ一覧
-		std::vector<Property> m_properties;
+		std::vector<PropertyDiscripter> m_properties;
 
 	protected:
 		// コンストラクタ
 		PropertyObject()
 			: m_properties{}
 		{}
-		// コピー禁止
-		PropertyObject(const PropertyObject&) = delete;
-		PropertyObject& operator=(const PropertyObject&) = delete;
+		// コピー
+		PropertyObject(const PropertyObject&) = default;
+		PropertyObject& operator=(const PropertyObject&) = default;
 
 		// デストラクタ
 		virtual ~PropertyObject() = default;
 
 	public:
 		// プロパティを取得する関数
-		const std::vector<Property>& GetProperties() const { return m_properties; }
+		std::vector<Property> GetProperties() 
+		{
+			std::vector<Property> properties{};
+
+			// DiscripterからPropertyを構築
+			for (auto& d : m_properties)
+			{
+				properties.push_back(d.Resolve(this));
+			}
+
+			return properties;
+		}
 
 	protected:
 		// プロパティの追加関数
-		template<typename T>
-		void AddProperty(std::string name, T* value)
+		template<typename Class, typename T>
+		void AddProperty(const std::string& name, T Class::* memberPtr)
 		{
-			Property prop{ name, GetPropertyType<T>(), value };
-
-			// 型の登録
+			PropertyDiscripter prop;
+			prop.name = name;
+			prop.type = GetPropertyType<T>();
 			prop.typeIndex = RegisterType<T>();
+
+			// ラムダ式の登録
+			prop.getAddress = [memberPtr](PropertyObject* obj) -> void*
+				{
+					Class* derived = static_cast<Class*>(obj);
+					return static_cast<void*>(&(derived->*memberPtr));
+				};
 
 			// 配列に追加
 			m_properties.push_back(prop);

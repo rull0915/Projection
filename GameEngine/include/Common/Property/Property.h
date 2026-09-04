@@ -14,6 +14,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+#include <functional>
 #include <typeindex>
 #include <string>
 
@@ -46,12 +47,35 @@ namespace REngine
 	struct Property
 	{
 		// プロパティ名
+		std::string name;
+		// プロパティタイプ
+		PropertyType type;
+		// ポインタ
+		void* value;
+		// タイプインデックス
+		std::type_index typeIndex = std::type_index(typeid(void));
+	};
+
+	// 前方宣言
+	class PropertyObject;
+
+	// メンバ変数ポインタから実アドレスを取得できるコピー可能なプロパティ
+	struct PropertyDiscripter
+	{
+		// プロパティ名
 		std::string name = "";
 		// プロパティタイプ
 		PropertyType type = PropertyType::None;
-		// ポインタ
-		void* value = nullptr;
 		// タイプインデックス
 		std::type_index typeIndex = std::type_index(typeid(void));
+
+		// インスタンスを渡して実アドレスを取得する関数オブジェクト
+		std::function<void* (PropertyObject*)> getAddress;
+
+		// 実データに解決する関数
+		Property Resolve(PropertyObject* obj) const
+		{
+			return Property{ name, type, getAddress(obj), typeIndex };
+		}
 	};
 }	// namespace REngine
