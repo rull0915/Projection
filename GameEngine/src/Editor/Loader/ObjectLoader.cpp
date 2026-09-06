@@ -31,7 +31,99 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	void ObjectLoader::LoadProperty(const nlohmann::json& json, PropertyObject& obj, Scene* pScene)
+	void ObjectLoader::LoadProperty(const nlohmann::json& json, Property& property, Scene* pScene)
+	{
+		// 型によって分岐
+		switch (property.type)
+		{
+			// int
+		case PropertyType::Int:
+			*(static_cast<int*>(property.value)) = json;
+			break;
+
+			// float
+		case PropertyType::Float:
+			*(static_cast<float*>(property.value)) = json;
+			break;
+
+			// bool
+		case PropertyType::Bool:
+			*(static_cast<bool*>(property.value)) = json;
+			break;
+
+			// string
+		case PropertyType::String:
+			*(static_cast<std::string*>(property.value)) = json;
+			break;
+
+			// Vector2
+		case PropertyType::Vector2:
+			*(static_cast<DirectX::SimpleMath::Vector2*>(property.value)) = { json[0], json[1] };
+			break;
+
+			// Vector3
+		case PropertyType::Vector3:
+			*(static_cast<DirectX::SimpleMath::Vector3*>(property.value)) = { json[0], json[1], json[2] };
+			break;
+
+			// Quaternion
+		case PropertyType::Quaternion:
+			*(static_cast<DirectX::SimpleMath::Quaternion*>(property.value)) = { json[0], json[1], json[2], json[3] };
+			break;
+
+			// Color
+		case PropertyType::Color:
+			*(static_cast<DirectX::SimpleMath::Color*>(property.value)) = { json[0], json[1], json[2], json[3] };
+			break;
+
+			// PropertyObject
+		case PropertyType::Object:
+			LoadPropertyObject(json, *(static_cast<PropertyObject*>(property.value)), pScene);
+			break;
+
+			// Enum
+		case PropertyType::Enum: {
+			auto& registry = EnumRegistry::Instance();
+			registry.SetByName(property.typeIndex, property.value, json);
+			break;
+		}
+			// AssetHandle
+		case PropertyType::AssetHandle: {
+			auto& registry = AssetPropertyRegistry::Instance();
+			UnTypeHandle handle = m_assetManager.LoadFromUUID(json);	// UUIDからHandleを取得
+			registry.Assign(property.typeIndex, property.value, handle);	// 変更
+			break;
+		}
+			// ObjRef
+		case PropertyType::ObjectRef: {
+			(static_cast<RefBase*>(property.value))->SetUUID(json);
+			if (pScene) pScene->RegisterLateResolve(static_cast<RefBase*>(property.value));	// シーンに参照の遅延解決をリクエスト
+			break;
+		}
+			// Array
+		case PropertyType::Array: {
+			// jsonを取得
+			if (!json.contains("size")) return;	
+
+			auto& registry = ArrayRegistry::Instance();	// レジストリを取得
+			size_t size = json["size"];					// 配列のサイズを取得
+			registry.Resize(property.typeIndex, property.value, size);	// リサイズ
+
+			// 要素分ループ
+			for (size_t i = 0; i < size; ++i)
+			{
+				// プロパティとしてロード
+				Property obj = registry.GetProperty(property.typeIndex, property.value, i);
+				LoadProperty(json["array"][i], obj, pScene);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	void ObjectLoader::LoadPropertyObject(const nlohmann::json& json, PropertyObject& obj, Scene* pScene)
 	{
 		// 登録されているプロパティを全て調べる
 		for (auto& property : obj.GetProperties())
@@ -39,82 +131,15 @@ namespace REngine
 			// 存在チェック
 			if (!json.contains(property.name)) continue;
 
-			// 型によって分岐
-			switch (property.type)
-			{
-				// int
-			case PropertyType::Int:
-				*(static_cast<int*>(property.value)) = json[property.name];
-				break;
-
-				// float
-			case PropertyType::Float:
-				*(static_cast<float*>(property.value)) = json[property.name];
-				break;
-
-				// bool
-			case PropertyType::Bool:
-				*(static_cast<bool*>(property.value)) = json[property.name];
-				break;
-
-				// string
-			case PropertyType::String:
-				*(static_cast<std::string*>(property.value)) = json[property.name];
-				break;
-
-				// Vector2
-			case PropertyType::Vector2:
-				*(static_cast<DirectX::SimpleMath::Vector2*>(property.value)) = { json[property.name][0], json[property.name][1] };
-				break;
-
-				// Vector3
-			case PropertyType::Vector3:
-				*(static_cast<DirectX::SimpleMath::Vector3*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2] };
-				break;
-
-				// Quaternion
-			case PropertyType::Quaternion:
-				*(static_cast<DirectX::SimpleMath::Quaternion*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
-				break;
-
-				// Color
-			case PropertyType::Color:
-				*(static_cast<DirectX::SimpleMath::Color*>(property.value)) = { json[property.name][0], json[property.name][1], json[property.name][2], json[property.name][3] };
-				break;
-
-				// PropertyObject
-			case PropertyType::Object:
-				LoadProperty(json[property.name], *(static_cast<PropertyObject*>(property.value)), pScene);
-				break;
-
-				// Enum
-			case PropertyType::Enum: {
-				auto& registry = EnumRegistry::Instance();
-				registry.SetByName(property.typeIndex, property.value, json[property.name]);
-				break;
-			}
-				// AssetHandle
-			case PropertyType::AssetHandle: {
-				auto& registry = AssetPropertyRegistry::Instance();
-				UnTypeHandle handle = m_assetManager.LoadFromUUID(json[property.name]);	// UUIDからHandleを取得
-				registry.Assign(property.typeIndex, property.value, handle);	// 変更
-				break;
-			}
-				// ObjRef
-			case PropertyType::ObjectRef:
-				(static_cast<RefBase*>(property.value))->SetUUID(json[property.name]);
-				if (pScene) pScene->RegisterLateResolve(static_cast<RefBase*>(property.value));
-				break;
-			default:
-				break;
-			}
+			// ロード
+			LoadProperty(json[property.name], property, pScene);
 		}
 	}
 
 	void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene)
 	{
 		// ゲームオブジェクト部分をロード
-		LoadProperty(json, *obj, pScene);
+		LoadPropertyObject(json, *obj, pScene);
 
 		// UUIDをロード
 		UUID uuid = 0;
@@ -133,7 +158,7 @@ namespace REngine
 			// ロード
 			if (component)
 			{
-				LoadProperty(js["Data"], *component, pScene);
+				LoadPropertyObject(js["Data"], *component, pScene);
 
 				// 変更時処理の呼び出し
 				component->OnValidate();
@@ -215,7 +240,7 @@ namespace REngine
 			ifs >> j;
 
 			// ロード
-			LoadProperty(j, *obj, nullptr);
+			LoadPropertyObject(j, *obj, nullptr);
 		}
 
 		// 閉じる

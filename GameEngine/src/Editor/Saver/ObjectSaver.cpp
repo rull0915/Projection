@@ -32,87 +32,108 @@ namespace REngine
 
 	using namespace nlohmann;
 
-	nlohmann::json ObjectSaver::SaveProperty(PropertyObject& obj)
+	nlohmann::json ObjectSaver::SaveProperty(Property& property)
+	{
+		json js;
+
+		// 型によって分岐
+		switch (property.type)
+		{
+			// int
+		case PropertyType::Int:
+			js = *(static_cast<int*>(property.value));
+			break;
+
+			// float
+		case PropertyType::Float:
+			js = *(static_cast<float*>(property.value));
+			break;
+
+			// bool
+		case PropertyType::Bool:
+			js = *(static_cast<bool*>(property.value));
+			break;
+
+			// string
+		case PropertyType::String:
+			js = *(static_cast<std::string*>(property.value));
+			break;
+
+			// Vector2
+		case PropertyType::Vector2: {
+			auto v = (static_cast<DirectX::SimpleMath::Vector2*>(property.value));
+			js = { v->x, v->y };
+			break;
+		}
+			// Vector3
+		case PropertyType::Vector3: {
+			auto v = (static_cast<DirectX::SimpleMath::Vector3*>(property.value));
+			js = { v->x, v->y, v->z };
+			break;
+		}
+			// Quaternion
+		case PropertyType::Quaternion: {
+			auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(property.value));
+			js = { v->x, v->y, v->z, v->w };
+			break;
+		}
+			// Color
+		case PropertyType::Color: {
+			auto v = (static_cast<DirectX::SimpleMath::Color*>(property.value));
+			js = { v->x, v->y, v->z, v->w };
+			break;
+		}
+			// PropertyObject
+		case PropertyType::Object: {
+			auto v = (static_cast<PropertyObject*>(property.value));
+			js = SavePropertyObject(*v);
+			break;
+		}
+			// Enum
+		case PropertyType::Enum: {
+			auto& registry = EnumRegistry::Instance();
+			js = registry.GetCurrentName(property.typeIndex, property.value);
+			break;
+		}
+			// AssetHandle
+		case PropertyType::AssetHandle: {
+			auto& registry = AssetPropertyRegistry::Instance();
+			js = registry.GetUUID(property.typeIndex, property.value, m_assetManager);	// UUIDを保存
+			break;
+		}
+			// ObjRef
+		case PropertyType::ObjectRef: {
+			auto v = (static_cast<RefBase*>(property.value));
+			js = v->GetUUID();
+			break;
+		}
+			// Array
+		case PropertyType::Array: {
+			auto& registry = ArrayRegistry::Instance();
+			size_t size = registry.GetSize(property.typeIndex, property.value);
+			js["size"] = size;
+			for (size_t i = 0; i < size; ++i)
+			{
+				Property p = registry.GetProperty(property.typeIndex, property.value, i);
+				js["array"].push_back(SaveProperty(p));
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+		return js;
+	}
+
+	nlohmann::json ObjectSaver::SavePropertyObject(PropertyObject& obj)
 	{
 		json js;
 
 		// 全プロパティを調べる
 		for (auto& property : obj.GetProperties())
 		{
-			// 型によって分岐
-			switch (property.type)
-			{
-				// int
-			case PropertyType::Int:
-				js[property.name] = *(static_cast<int*>(property.value));
-				break;
-
-				// float
-			case PropertyType::Float:
-				js[property.name] = *(static_cast<float*>(property.value));
-				break;
-
-				// bool
-			case PropertyType::Bool:
-				js[property.name] = *(static_cast<bool*>(property.value));
-				break;
-
-				// string
-			case PropertyType::String:
-				js[property.name] = *(static_cast<std::string*>(property.value));
-				break;
-
-				// Vector2
-			case PropertyType::Vector2: {
-				auto v = (static_cast<DirectX::SimpleMath::Vector2*>(property.value));
-				js[property.name] = { v->x, v->y };
-				break;
-			}
-				// Vector3
-			case PropertyType::Vector3: {
-				auto v = (static_cast<DirectX::SimpleMath::Vector3*>(property.value));
-				js[property.name] = { v->x, v->y, v->z };
-				break;
-			}
-				// Quaternion
-			case PropertyType::Quaternion: {
-				auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(property.value));
-				js[property.name] = { v->x, v->y, v->z, v->w };
-				break;
-			}
-				 // Color
-			case PropertyType::Color: {
-				auto v = (static_cast<DirectX::SimpleMath::Color*>(property.value));
-				js[property.name] = { v->x, v->y, v->z, v->w };
-				break;
-			}
-				// PropertyObject
-			case PropertyType::Object: {
-				auto v = (static_cast<PropertyObject*>(property.value));
-				js[property.name] = SaveProperty(*v);
-				break;
-			}
-				// Enum
-			case PropertyType::Enum: {
-				auto& registry = EnumRegistry::Instance();
-				js[property.name] = registry.GetCurrentName(property.typeIndex, property.value);
-				break;
-			}
-				// AssetHandle
-			case PropertyType::AssetHandle: {
-				auto& registry = AssetPropertyRegistry::Instance();
-				js[property.name] = registry.GetUUID(property.typeIndex, property.value, m_assetManager);	// UUIDを保存
-				break;
-			}
-				// ObjRef
-			case PropertyType::ObjectRef: {
-				auto v = (static_cast<RefBase*>(property.value));
-				js[property.name] = v->GetUUID();
-				break;
-			}
-			default:
-				break;
-			}
+			js[property.name] = SaveProperty(property);
 		}
 
 		return js;
@@ -121,7 +142,7 @@ namespace REngine
 	json ObjectSaver::SaveObject(GameObject* obj)
 	{
 		// GameObject部分を保存
-		json j = SaveProperty(*obj);
+		json j = SavePropertyObject(*obj);
 
 		// UUIDを保存
 		j["UUID"] = obj->GetUUID();
@@ -130,7 +151,7 @@ namespace REngine
 		for (auto& component : obj->GetAllComponents())
 		{
 			// jsonを生成
-			json compJson = SaveProperty(*component);
+			json compJson = SavePropertyObject(*component);
 
 			// コンポーネント名を取得
 			auto componentName = NAMEOF_SHORT_TYPE_RTTI(*component);
@@ -248,7 +269,7 @@ namespace REngine
 		if (ofs.is_open())
 		{
 			// パス
-			ofs << SaveProperty(*property).dump(4);
+			ofs << SavePropertyObject(*property).dump(4);
 		}
 
 		// 閉じる
