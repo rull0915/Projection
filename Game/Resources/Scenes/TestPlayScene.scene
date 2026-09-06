@@ -29,7 +29,23 @@
                     },
                     {
                         "Data": {
-                            "m_isActive": true
+                            "m_colorArray": {
+                                "array": [
+                                    {
+                                        "id": 0,
+                                        "name": "Hello"
+                                    }
+                                ],
+                                "size": 1
+                            },
+                            "m_isActive": true,
+                            "m_testArray": {
+                                "array": [
+                                    1,
+                                    2
+                                ],
+                                "size": 2
+                            }
                         },
                         "Type": "ArrayTester",
                         "UUID": 8773088579430345654
