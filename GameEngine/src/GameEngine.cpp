@@ -35,11 +35,12 @@ namespace REngine
 		, m_renderer{ nullptr }
 		, m_assetManager{ std::make_unique<AssetManager>() }
 		, m_editor{}
+		, m_sceneEdit{ false }
 	{
 		m_renderer = std::make_unique<Renderer>(*m_assetManager);
 	}
 
-	void GameEngine::Initialize(DX::DeviceResources* deviceResources, HWND window)
+	void GameEngine::Initialize(DX::DeviceResources* deviceResources, HWND window, bool edit)
 	{
 		// デバイス コンテキストの取得
 		auto* device = deviceResources->GetD3DDevice();
@@ -73,16 +74,22 @@ namespace REngine
 		// エディターの生成
 		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), *m_assetManager);
 
-		// 初期化
-	//	m_editor->Initialize();
+		m_sceneEdit = edit;
+
+		if (m_sceneEdit)
+		{
+			// 初期化
+			m_editor->Initialize();
+		}
 	}
 
 	void GameEngine::BeginFrame()
 	{
-#ifdef _DEBUG
-		// ImGuiの更新
-		ImguiManager::Update();
-#endif
+		if (m_sceneEdit)
+		{
+			// ImGuiの更新
+			ImguiManager::Update();
+		}
 	}
 
 	void GameEngine::Update(float elapsedTime)
@@ -110,18 +117,18 @@ namespace REngine
 			)
 			SceneManager::Instance().Update(*m_gameTimer);
 
-#ifdef _DEBUG
-
-		// エディターの更新
-		m_editor->Update(*m_gameTimer);
-
-		// Ctrl + Eキーでエディット
-		if (Input::Key::Get(Input::Key::Code::LeftControl) &&
-			Input::Key::GetDown(Input::Key::Code::E))
+		if (m_sceneEdit)
 		{
-			m_editor->Initialize();
+			// エディターの更新
+			m_editor->Update(*m_gameTimer);
+
+			// Ctrl + Eキーでエディット
+			if (Input::Key::Get(Input::Key::Code::LeftControl) &&
+				Input::Key::GetDown(Input::Key::Code::E))
+			{
+				m_editor->Initialize();
+			}
 		}
-#endif
 	}
 
 	void GameEngine::Render()
@@ -129,13 +136,14 @@ namespace REngine
 		// 現在のシーンの描画
 		SceneManager::Instance().Render(*m_renderer);
 
-#ifdef _DEBUG
-		// エディターの描画
-		m_editor->Render(*m_renderer);
+		if (m_sceneEdit)
+		{
+			// エディターの描画
+			m_editor->Render(*m_renderer);
 
-		// Imguiの描画
-		REngine::ImguiManager::Render();
-#endif
+			// Imguiの描画
+			REngine::ImguiManager::Render();
+		}
 	}
 
 	void GameEngine::Finalize()

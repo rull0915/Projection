@@ -59,8 +59,25 @@ void Game::Initialize(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
+	HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
+
+	int result = MessageBox(
+		hwnd,
+		L"エディタとして起動しますか？",
+		L"選択してください",
+		MB_YESNO | MB_ICONQUESTION
+	);
+
+	bool editor = false;
+
+	// 肯定が押されたら
+	if (result == IDYES)
+	{
+		editor = true;
+	}
+
 	// ゲームエンジンの初期化
-	m_gameEngine->Initialize(m_deviceResources, window);
+	m_gameEngine->Initialize(m_deviceResources, window, editor);
 
 	// ゲームの初期化
 	GameInitializer::Initialize();

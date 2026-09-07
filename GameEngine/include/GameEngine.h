@@ -35,6 +35,9 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
+		// シーンエディットフラグ
+		bool m_sceneEdit;
+
 		// ゲームタイマー
 		std::unique_ptr<GameTimer> m_gameTimer;
 
@@ -60,7 +63,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 初期化関数
-		void Initialize(DX::DeviceResources* deviceResources, HWND window);
+		void Initialize(DX::DeviceResources* deviceResources, HWND window, bool edit);
 
 		// 更新関数
 		void BeginFrame();
