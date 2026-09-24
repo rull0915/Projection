@@ -158,7 +158,7 @@ namespace REngine
 
 		// Handle経由で本体の取得をする関数
 		template<AssetType T>
-		T* Get(Handle<T> handle)
+		T* Get(Handle<T> handle) const
 		{
 			// Registryを経由して返す
 			return m_registry.Get<T>(handle);
