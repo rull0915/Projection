@@ -38,15 +38,14 @@
                         "Data": {
                             "m_distance": 5.0,
                             "m_isActive": false,
-                            "m_sensitivity": 0.5,
-                            "m_targetName": "Player"
+                            "m_pTargetTransform": 9802973021847045744,
+                            "m_sensitivity": 0.5
                         },
                         "Type": "TPSCamera",
                         "UUID": 8037446152528328933
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
                             "m_textureHandle": 10350532250775094671
                         },
@@ -81,8 +80,8 @@
                     {
                         "Data": {
                             "m_isActive": false,
-                            "m_playerLayer": 10,
-                            "m_playerName": "Player"
+                            "m_player": 1042021939330863839,
+                            "m_playerLayer": 10
                         },
                         "Type": "CameraCorrection",
                         "UUID": 9786133198241958415
@@ -171,8 +170,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 2509680242320578614
                         },
                         "Type": "ModelComponent",
@@ -238,8 +237,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 6409026790604341907
                         },
                         "Type": "ModelComponent",
@@ -350,8 +349,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 10911042900965025499
                         },
                         "Type": "ModelComponent",
@@ -434,8 +433,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 710819452532585730
                         },
                         "Type": "ModelComponent",
@@ -518,8 +517,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 6180276126187633230
                         },
                         "Type": "ModelComponent",
@@ -602,8 +601,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 710819452532585730
                         },
                         "Type": "ModelComponent",
@@ -686,8 +685,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 10267307003664980907
                         },
                         "Type": "ModelComponent",
@@ -770,8 +769,8 @@
                     },
                     {
                         "Data": {
-                            "m_alpha": 1.0,
                             "m_isActive": true,
+                            "m_materialHandle": 0,
                             "m_modelHandle": 710819452532585730
                         },
                         "Type": "ModelComponent",
