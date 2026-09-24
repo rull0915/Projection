@@ -17,6 +17,7 @@
 #include <map>
 #include <utility>
 #include <variant>
+#include <Effects.h>
 
 #include "Assets/Objects/Handle.h"
 #include "Shader/ShaderAsset.h"
@@ -73,7 +74,7 @@ namespace REngine
 
 	class AssetManager;
 
-	class MaterialAsset : public AssetBase
+	class MaterialAsset : public AssetBase, public DirectX::IEffect
 	{
 	private:
 
@@ -94,6 +95,12 @@ namespace REngine
 		// バッファの変更済みフラグ
 		bool m_isDirty;
 
+		// アセットマネージャー
+		const AssetManager* m_assetManager;
+
+		// サンプラーリスト
+		const SamplerList* m_samplerList;
+
 	public:
 
 		//-----------------------------------------------------
@@ -105,6 +112,13 @@ namespace REngine
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
+
+		// アセットマネージャー・サンプラーリストをセットする関数
+		void SetReference(const AssetManager* assetManager, const SamplerList* samplerList)
+		{
+			m_assetManager = assetManager;
+			m_samplerList = samplerList;
+		}
 
 		// パラメータを変更する関数
 		template<typename T>
@@ -118,18 +132,30 @@ namespace REngine
 		}
 
 		// パラメータを名前検索する関数
-		ShaderParam* FindParam(ShaderType stage, const std::string& name, AssetManager& assetManager);
+		ShaderParam* FindParam(ShaderType stage, const std::string& name);
 
 		// 定数バッファを更新する関数
-		void UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context, AssetManager& assetManager);
+		void UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context);
+		
+		// 有効かどうか
+		bool IsValid()
+		{
+			return m_vertexShader != ERROR_HANDLE<ShaderAsset>;
+		}
+
+		// InputLayoutの取得関数
+		ID3D11InputLayout* GetInputLayout();
+
+		//------ IEffectの実装 ------//
 
 		// シェーダーをcontextにバインドする関数
-		void Bind(ID3D11DeviceContext* context, AssetManager& assetManager, const SamplerList& samplerList);
+		void Apply(ID3D11DeviceContext* context) override;
 
-		// 有効かどうか
-		bool IsValid() 
+		// InputLayoutのセットは手動で行っているのでセットはしない
+		void __cdecl GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength) override
 		{
-			return m_vertexShader != ERROR_HANDLE<ShaderAsset> || m_pixelShader != ERROR_HANDLE<ShaderAsset>; 
+			*pShaderByteCode = nullptr;
+			*pByteCodeLength = 0;
 		}
 
 	private:

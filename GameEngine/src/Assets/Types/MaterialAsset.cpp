@@ -26,23 +26,28 @@ namespace REngine
 		, m_vertexShader{}
 		, m_constantBuffers{}
 		, m_isDirty{ true }
+		, m_assetManager{ nullptr }
+		, m_samplerList{ nullptr }
 	{
 		ADD_PROPERTY(MaterialAsset, m_vertexShader);
 		ADD_PROPERTY(MaterialAsset, m_pixelShader);
 	}
 
-	ShaderParam* MaterialAsset::FindParam(ShaderType stage, const std::string& name, AssetManager& assetManager)
+	ShaderParam* MaterialAsset::FindParam(ShaderType stage, const std::string& name)
 	{
+		// アセットマネージャーが設定されていなければ更新不可
+		if (!m_assetManager) return nullptr;
+
 		// 指定されたステージ
 		switch (stage)
 		{
 			// 頂点シェーダ
 		case REngine::ShaderType::Vertex:
-			if (ShaderAsset* vs = assetManager.Get<ShaderAsset>(m_vertexShader)) { return vs->FindParam(name); }
+			if (ShaderAsset* vs = m_assetManager->Get<ShaderAsset>(m_vertexShader)) { return vs->FindParam(name); }
 			break;
 			// ピクセルシェーダ
 		case REngine::ShaderType::Pixel:
-			if (ShaderAsset* ps = assetManager.Get<ShaderAsset>(m_pixelShader)) { return ps->FindParam(name); }
+			if (ShaderAsset* ps = m_assetManager->Get<ShaderAsset>(m_pixelShader)) { return ps->FindParam(name); }
 			break;
 		default:
 			break;
@@ -53,7 +58,7 @@ namespace REngine
 	}
 
 	// 定数バッファを更新する関数
-	void MaterialAsset::UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context, AssetManager& assetManager)
+	void MaterialAsset::UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
 		// 1つのステージのバッファを更新するラムダ
 		auto updateStage = [&](ShaderAsset* asset, ShaderType type)
@@ -143,24 +148,47 @@ namespace REngine
 				}
 			};
 
+		// アセットマネージャーが設定されていなければ更新不可
+		if (!m_assetManager) return;
+
 		// 各ステージを更新
-		updateStage(assetManager.Get<ShaderAsset>(m_pixelShader), ShaderType::Pixel);
-		updateStage(assetManager.Get<ShaderAsset>(m_vertexShader), ShaderType::Vertex);
+		updateStage(m_assetManager->Get<ShaderAsset>(m_pixelShader), ShaderType::Pixel);
+		updateStage(m_assetManager->Get<ShaderAsset>(m_vertexShader), ShaderType::Vertex);
 
 		// 変更済みフラグをリセット
 		m_isDirty = false;
 	}
 
-	void MaterialAsset::Bind(ID3D11DeviceContext* context, AssetManager& assetManager, const SamplerList& samplerList)
+	ID3D11InputLayout* MaterialAsset::GetInputLayout()
 	{
+		// vsを取得
+		if (m_assetManager)
+		{
+			auto* vs = m_assetManager->Get(m_vertexShader);
+
+			if (vs) return vs->GetInputLayout();
+		}
+
+		return nullptr;
+	}
+
+	void MaterialAsset::Apply(ID3D11DeviceContext* context)
+	{
+		// 参照が設定されていなければ解決不可
+		if (!(m_assetManager && m_samplerList)) return;
+
 		// 頂点シェーダー本体を取得
-		auto* vs = assetManager.Get<ShaderAsset>(m_vertexShader);
+		auto* vs = m_assetManager->Get<ShaderAsset>(m_vertexShader);
+
+		// vsがなければ対応不可
+		if (!vs) return;
 
 		// ピクセルシェーダ本体を取得
-		auto* ps = assetManager.Get<ShaderAsset>(m_pixelShader);
+		auto* ps = m_assetManager->Get<ShaderAsset>(m_pixelShader);
 
 		// シェーダー本体をバインド
-		if (vs) vs->Bind(context);
+		vs->Bind(context);
+
 		if (ps) ps->Bind(context);
 		else context->PSSetShader(nullptr, nullptr, 0);	// なかった場合リセットする
 
@@ -174,7 +202,7 @@ namespace REngine
 			{
 				// 頂点シェーダ
 			case ShaderType::Vertex:
-				if (vs) context->VSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
+				context->VSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
 				break;
 			case ShaderType::Pixel:
 				if (ps) context->PSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
@@ -204,7 +232,7 @@ namespace REngine
 			if (auto* t = std::get_if<Handle<Texture>>(&value))
 			{
 				// テクスチャを取得
-				auto* tex = assetManager.Get<Texture>(*t);
+				auto* tex = m_assetManager->Get<Texture>(*t);
 
 				// バインド
 				BindTexture(context, shader, tex, key);
@@ -213,7 +241,7 @@ namespace REngine
 			else if (auto* s = std::get_if<SamplerType>(&value))
 			{
 				// サンプラーを取得
-				auto& sampler = samplerList.GetSampler(*s);
+				auto& sampler = m_samplerList->GetSampler(*s);
 
 				// バインド
 				BindSampler(context, shader, sampler, key);

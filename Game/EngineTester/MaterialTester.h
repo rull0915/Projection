@@ -16,7 +16,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/Renderer/RendererBase.h"
+#include "Components/Both/BothComponentBase.h"
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/MaterialAsset.h"
@@ -32,7 +32,7 @@ class REngine::AssetManager;
 //====================================================//
 // クラス宣言
 //====================================================//
-class MaterialTester : public REngine::RendererBase, public REngine::IAssetDependent
+class MaterialTester : public REngine::BothComponentBase, public REngine::IAssetDependent
 {
 private:
 
@@ -73,7 +73,7 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(MaterialTester, REngine::RendererBase)
+	COMPONENT_TYPE(MaterialTester, REngine::BothComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -83,8 +83,6 @@ public:
 	void Start() override;
 
 	void Update(const REngine::GameTimer& gameTimer) override;
-
-	void Draw(REngine::Renderer& renderer) override;
 
 	void OnValidate() override;
 

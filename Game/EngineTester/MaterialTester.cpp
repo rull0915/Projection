@@ -21,7 +21,7 @@
 
 // コンストラクタ
 MaterialTester::MaterialTester(REngine::IComponentOwner* own)
-	: RendererBase(own)
+	: BothComponentBase(own)
 	, m_pTransform{ nullptr }
 	, m_assetManager{ nullptr }
 	, m_texture{}
@@ -59,32 +59,6 @@ void MaterialTester::Update(const REngine::GameTimer & gameTimer)
 	{
 		material->SetParam(REngine::ShaderType::Pixel, "time", m_sumTime);
 	}
-}
-
-void MaterialTester::Draw(REngine::Renderer & renderer)
-{
-	if (!m_pTransform) m_pTransform = GetComponent<REngine::Transform>();
-
-	// マテリアルのセット
-	renderer.SetMaterial(m_material);
-
-	// ワールド行列のセット
-	renderer.SetWorld(m_pTransform->GetWorldMatrix());
-
-	// テスト描画
-	renderer.Draw().Primitive().DrawRect(
-		{ -1, 1, 0 }, { 0, 0 },
-		{ 1, 1, 0 }, { 1, 0 },
-		{ 1, -1, 0 }, { 1, 1 }, 
-		{ -1, -1, 0 }, { 0, 1 },
-		{ 1, 1, 1, 1 }, true
-	);
-
-	// マテリアルのリセット
-	renderer.SetMaterial(REngine::ERROR_HANDLE<REngine::MaterialAsset>);
-
-	// ワールド行列のリセット
-	renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 }
 
 void MaterialTester::OnValidate()

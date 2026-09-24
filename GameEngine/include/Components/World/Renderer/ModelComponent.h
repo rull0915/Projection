@@ -19,6 +19,7 @@
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Model.h"
+#include "Assets/Types/MaterialAsset.h"
 
 namespace REngine
 {
@@ -34,6 +35,9 @@ namespace REngine
 		// モデルハンドル
 		Handle<Model> m_modelHandle;
 
+		// マテリアルハンドル
+		Handle<MaterialAsset> m_materialHandle;
+
 		// AssetManager
 		AssetManager* m_assetManager;
 
@@ -45,8 +49,11 @@ namespace REngine
 		ModelComponent(IComponentOwner* own)
 			: RendererBase(own)
 			, m_modelHandle{}
+			, m_materialHandle{}
+			, m_assetManager{ nullptr }
 		{
 			ADD_PROPERTY(ModelComponent, m_modelHandle);
+			ADD_PROPERTY(ModelComponent, m_materialHandle);
 		};
 		~ModelComponent() = default;
 

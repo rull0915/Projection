@@ -39,7 +39,13 @@ namespace REngine
 		// トランスフォームからworld行列を取得
 		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
+		// マテリアルを設定
+		renderer.SetMaterial(m_materialHandle);
+
 		// 行列を使用しモデルを描画
 		renderer.Draw().Model().DrawModel(model->Get(), world);
+
+		// マテリアルのリセット
+		renderer.SetMaterial(REngine::ERROR_HANDLE<REngine::MaterialAsset>);
 	}
 }	// namespace REngine
