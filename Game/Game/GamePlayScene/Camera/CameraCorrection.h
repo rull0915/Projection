@@ -42,10 +42,7 @@ private:
 	TPSCamera* m_camera;
 
 	// プレイヤー
-	REngine::GameObject* m_player;
-
-	// プレイヤーのオブジェクト名
-	std::string m_playerName;
+	REngine::Ref<REngine::GameObject> m_player;
 
 	// プレイヤーのレイヤー
 	int m_playerLayer;

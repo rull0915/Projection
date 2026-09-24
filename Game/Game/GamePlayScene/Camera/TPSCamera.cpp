@@ -29,12 +29,6 @@ void TPSCamera::Awake()
 
 void TPSCamera::Start()
 {
-	// 既に設定されていれば
-	if (!m_targetName.empty())
-	{
-		// 読み込み
-		SetTarget(m_targetName);
-	}
 }
 
 void TPSCamera::OnEnable()
@@ -82,15 +76,4 @@ void TPSCamera::Update(const REngine::GameTimer& gameTimer)
 
 void TPSCamera::SetTarget(const std::string& name)
 {
-	// ターゲットにセット
-	m_targetName = name;
-
-	// 名前でオブジェクトを検索する
-	REngine::GameObject* obj = static_cast<REngine::GameObject*>(GetOwn())->GetScene()->GetObjectFinder()->FindWithName("Player");
-
-	// 見つかれば
-	if (obj)
-	{
-		m_pTargetTransform = obj->GetComponent<REngine::Transform>();
-	}
 }
