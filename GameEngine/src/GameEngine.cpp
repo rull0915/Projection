@@ -13,7 +13,10 @@
 #include "GameEngine.h"
 
 #include "Scene/SceneManager.h"
+
+#ifdef USE_IMGUI
 #include "Editor/Editor/ImguiManager.h"
+#endif // USE_IMGUI
 
 #include "System/EngineInitializer.h"
 #include "Assets/System/AssetInitializer.h"
@@ -34,8 +37,11 @@ namespace REngine
 		: m_gameTimer{ std::make_unique<GameTimer>() }
 		, m_renderer{ nullptr }
 		, m_assetManager{ std::make_unique<AssetManager>() }
+		, m_modeChange{ false }
+#ifdef ENGINE_GUI
 		, m_editor{}
 		, m_sceneEdit{ false }
+#endif // ENGINE_GUI
 	{
 		m_renderer = std::make_unique<Renderer>(*m_assetManager);
 	}
@@ -56,8 +62,12 @@ namespace REngine
 		// 背景色の設定
 		WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
 
+#ifdef USE_IMGUI
+
 		// imguiの初期化
 		ImguiManager::Initialize(window, device, context);
+
+#endif // USE_IMGUI
 
 		// 描画クラスの初期化
 		m_renderer->Initialize();
@@ -71,6 +81,8 @@ namespace REngine
 		// アセット管理クラスの初期化
 		m_assetManager->Initialize(L"Resources");
 
+#ifdef ENGINE_GUI
+
 		// エディターの生成
 		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), *m_assetManager);
 
@@ -81,15 +93,34 @@ namespace REngine
 			// 初期化
 			m_editor->Initialize();
 		}
+#endif // ENGINE_GUI
 	}
 
 	void GameEngine::BeginFrame()
 	{
+#ifdef ENGINE_GUI
+
+		if (m_modeChange)
+		{
+			if (m_sceneEdit)
+				EndEditor("Title");
+			else
+				StartEditor();
+
+			m_modeChange = !m_modeChange;
+		}
+
+#endif // ENGINE_GUI
+
+#ifdef USE_IMGUI
+
 		if (m_sceneEdit)
 		{
 			// ImGuiの更新
 			ImguiManager::Update();
 		}
+
+#endif // USE_IMGUI
 	}
 
 	void GameEngine::Update(float elapsedTime)
@@ -117,18 +148,32 @@ namespace REngine
 			)
 			SceneManager::Instance().Update(*m_gameTimer);
 
+#ifdef ENGINE_GUI
+
 		if (m_sceneEdit)
 		{
 			// エディターの更新
 			m_editor->Update(*m_gameTimer);
 
 			// Ctrl + Eキーでエディット
-			if (Input::Key::Get(Input::Key::Code::LeftControl) &&
+			if (
+				Input::Key::Get(Input::Key::Code::LeftControl) &&
+				!Input::Key::Get(Input::Key::Code::LeftShift) &&
 				Input::Key::GetDown(Input::Key::Code::E))
 			{
 				m_editor->Initialize();
 			}
 		}
+		// Ctrl + Eキーでエディットとプレイの切り替え
+		if (
+			Input::Key::Get(Input::Key::Code::LeftControl) &&
+			Input::Key::Get(Input::Key::Code::LeftShift) &&
+			Input::Key::GetDown(Input::Key::Code::E))
+		{
+			m_modeChange = true;
+		}
+
+#endif // ENGINE_GUI
 	}
 
 	void GameEngine::Render()
@@ -136,14 +181,25 @@ namespace REngine
 		// 現在のシーンの描画
 		SceneManager::Instance().Render(*m_renderer);
 
+#ifdef ENGINE_GUI
+
 		if (m_sceneEdit)
 		{
 			// エディターの描画
 			m_editor->Render(*m_renderer);
+		}
 
+#endif // ENGINE_GUI
+
+#ifdef USE_IMGUI
+
+		if (m_sceneEdit)
+		{
 			// Imguiの描画
 			REngine::ImguiManager::Render();
 		}
+
+#endif // USE_IMGUI
 	}
 
 	void GameEngine::Finalize()
@@ -151,12 +207,33 @@ namespace REngine
 		// シーンの終了
 		SceneManager::Instance().Finalize();
 
+#ifdef USE_IMGUI
+
 		// Imguiの終了
 		ImguiManager::Finalize();
+
+#endif // USE_IMGUI
 	}
 
-	void GameEngine::RegistryAssets()
+#ifdef ENGINE_GUI
+
+	void GameEngine::StartEditor()
 	{
-		// m_assetManager->Registry<>();
+		m_sceneEdit = true;
+
+		// 初期化
+		m_editor->Initialize();
 	}
+
+	void GameEngine::EndEditor(std::string initSceneName)
+	{
+		m_sceneEdit = false;
+
+		m_editor->Finalize();
+
+		SceneManager::Instance().RequestSceneChange(initSceneName);
+	}
+
+#endif // ENGINE_GUI
+
 }	// namespace REngine

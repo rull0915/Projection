@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 //====================================================//
 // インクルードファイル
 //====================================================//
@@ -43,3 +45,5 @@ namespace REngine
 		void SetDrawFlag(int flag) { m_drawFlag = flag; }
 	};
 }	// namespace REngine
+
+#endif // ENGINE_GUI

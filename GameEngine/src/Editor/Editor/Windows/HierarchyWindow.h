@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 #include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine
@@ -69,3 +71,5 @@ namespace REngine
 		void DrawObjects(ObjectManager* objectManager);
 	};
 }	// namespace REngine
+
+#endif // ENGINE_GUI

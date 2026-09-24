@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef USE_IMGUI
+
 #include "Editor/Editor/ImguiManager.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -79,3 +83,5 @@ namespace REngine
 		return (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wp, lp));
 	}
 }	// namespace REngine
+
+#endif // USE_IMGUI

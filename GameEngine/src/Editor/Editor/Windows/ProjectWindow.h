@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 #include <filesystem>
 #include "Assets/Managers/AssetManager.h"
 #include "Editor/Editor/SelectedOnGUI.h"
@@ -101,3 +103,5 @@ namespace REngine
 		void DrawCreatePopup();
 	};
 }	// namespace REngine
+
+#endif // ENGINE_GUI

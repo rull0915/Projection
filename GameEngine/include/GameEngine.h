@@ -19,8 +19,13 @@
 #include "Renderer/Renderer.h"
 #include "Assets/Managers/AssetManager.h"
 #include "Timer/GameTimer.h"
-#include "Editor/SceneEditor.h"
 #include "System/DeviceResources.h"
+
+#ifdef ENGINE_GUI
+
+#include "Editor/SceneEditor.h"
+
+#endif // ENGINE_GUI
 
 namespace REngine
 {
@@ -35,8 +40,8 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// シーンエディットフラグ
-		bool m_sceneEdit;
+		// モード変更フラグ
+		bool m_modeChange;
 
 		// ゲームタイマー
 		std::unique_ptr<GameTimer> m_gameTimer;
@@ -47,8 +52,15 @@ namespace REngine
 		// アセット管理
 		std::unique_ptr<AssetManager> m_assetManager;
 
+#ifdef ENGINE_GUI
+
+		// シーンエディットフラグ
+		bool m_sceneEdit;
+
 		// エディター
 		std::unique_ptr<SceneEditor> m_editor;
+
+#endif // ENGINE_GUI
 
 	public:
 
@@ -77,6 +89,16 @@ namespace REngine
 		// 終了関数
 		void Finalize();
 
+#ifdef ENGINE_GUI
+
+		// エディタの開始関数
+		void StartEditor();
+
+		// エディタの終了関数
+		void EndEditor(std::string initSceneName);
+
+#endif // ENGINE_GUI
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
@@ -84,9 +106,5 @@ namespace REngine
 		GameTimer& GetTimer() { return *m_gameTimer; }
 		Renderer& GetRenderer() { return *m_renderer; }
 
-	private:
-
-		// アセットの登録関数
-		void RegistryAssets();
 	};
 }	// namespace REngine

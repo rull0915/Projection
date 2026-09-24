@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 //====================================================//
 // インクルードファイル
 //====================================================//
@@ -83,3 +85,5 @@ namespace REngine
 		void DrawAsset(AssetBase* asset);
 	};
 }	// namespace REngine
+
+#endif // ENGINE_GUI

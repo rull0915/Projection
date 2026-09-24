@@ -10,6 +10,9 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "Editor/Editor/GuizmoManager.h"
 
 #include "ThirdParty/imgui/ImGuizmo.h"
@@ -59,3 +62,5 @@ void REngine::GuizmoManager::DrawTransformGuizmo(CameraBase* camera, Transform* 
 		transform->SetWorldMatrix(world);
 	}
 }
+
+#endif // ENGINE_GUI
