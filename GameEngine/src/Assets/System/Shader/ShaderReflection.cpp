@@ -15,6 +15,8 @@
 #include "FormatGetter.h"
 #include <d3dcompiler.h>
 
+#pragma comment(lib, "D3DCompiler.lib")
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//

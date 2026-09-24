@@ -123,8 +123,10 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 		// 存在しており有効ハンドルなら
 		if (material && material->IsValid())
 		{
+			material->SetReference(&m_assetManager, &m_samplerList);
+
 			// バインド
-			material->Bind(m_pContext, m_assetManager, m_samplerList);
+			material->Apply(m_pContext);
 		
 			// VP行列をバインド
 			BindVPBuffer();
@@ -133,7 +135,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 			BindWorldBuffer(c.world);
 
 			// 定数バッファを更新
-			material->UpdateConstantBuffers(m_pDevice, m_pContext, m_assetManager);
+			material->UpdateConstantBuffers(m_pDevice, m_pContext);
 		}
 		// なければ
 		else
@@ -208,8 +210,43 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 	// 全コマンドを描画
 	for (auto& c : commands)
 	{
-		// 描画
-		c.pModel->Draw(m_pContext, *m_pStates, c.world, m_view, m_projection);
+		// マテリアルを取得
+		auto* material = m_assetManager.Get(c.material);
+
+		// マテリアルが設定されていて有効なとき
+		if (material && material->IsValid())
+		{
+			material->SetReference(&m_assetManager, &m_samplerList);
+
+			// VP行列をバインド
+			BindVPBuffer();
+
+			// ワールド行列をバインド
+			BindWorldBuffer(c.world);
+
+			// 定数バッファを更新
+			material->UpdateConstantBuffers(m_pDevice, m_pContext);
+
+			for (auto& mesh : c.pModel->meshes)
+			{
+				for (auto& part : mesh->meshParts)
+				{
+					part->effect = std::shared_ptr<MaterialAsset>(material, [](MaterialAsset*) {});
+					part->inputLayout = material->GetInputLayout();
+
+					part->vertexBuffer;
+				}
+			}
+
+			c.pModel->Draw(m_pContext, *m_pStates, DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity);
+		}
+
+		// 無効な時
+		else
+		{
+			// 描画
+			c.pModel->Draw(m_pContext, *m_pStates, c.world, m_view, m_projection);
+		}
 	}
 }
 
