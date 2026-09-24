@@ -98,6 +98,9 @@ namespace REngine
 				return GetAxis(m_oldState, stick);
 			}
 
+			// 振動させる関数
+			static void SetVibration(float left, float right);
+
 		private:
 			// 指定したステートのボタンの押下状況を返す関数
 			static bool GetPressed(const DirectX::GamePad::State& state, Button button);

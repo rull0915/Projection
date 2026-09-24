@@ -37,7 +37,7 @@ namespace REngine
 	bool RaySystem::CheckHit(const Ray& ray, float max, ColliderBase* collider, RaycastHit* raycastHit)
 	{
 		// ID取得
-		Component::TypeId id = collider->StaticTypeId();
+		Component::TypeId id = collider->TypeId();
 
 		// マップにあるかを調べる
 		auto it = m_collisionMap.find(id);
