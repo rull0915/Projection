@@ -137,6 +137,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 			// 定数バッファを更新
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
 		}
+
 		// なければ
 		else
 		{

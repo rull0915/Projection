@@ -102,22 +102,19 @@ namespace REngine
 		// 有効サイズ
 		ImVec2 avail = ImGui::GetContentRegionAvail();
 
-		if (Input::Key::Get(Input::Key::Code::LeftShift))
+		// アスペクト比
+		float aspect = WindowManager::Instance().GetAspect();
+
+		// 小さい方に合わせる
+		float correction = avail.x / aspect;
+
+		if (correction > avail.y)
 		{
-			// アスペクト比
-			float aspect = WindowManager::Instance().GetAspect();
-
-			// 小さい方に合わせる
-			float correction = avail.x / aspect;
-
-			if (correction > avail.y)
-			{
-				avail.x = avail.y * aspect;
-			}
-			else if (correction < avail.y)
-			{
-				avail.y = avail.x / aspect;
-			}
+			avail.x = avail.y * aspect;
+		}
+		else if (correction < avail.y)
+		{
+			avail.y = avail.x / aspect;
 		}
 
 		ImGui::Image(
