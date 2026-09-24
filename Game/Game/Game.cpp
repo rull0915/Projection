@@ -61,23 +61,8 @@ void Game::Initialize(HWND window, int width, int height)
 
 	HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
 
-	int result = MessageBox(
-		hwnd,
-		L"エディタとして起動しますか？",
-		L"選択してください",
-		MB_YESNO | MB_ICONQUESTION
-	);
-
-	bool editor = false;
-
-	// 肯定が押されたら
-	if (result == IDYES)
-	{
-		editor = true;
-	}
-
 	// ゲームエンジンの初期化
-	m_gameEngine->Initialize(m_deviceResources, window, editor);
+	m_gameEngine->Initialize(m_deviceResources, window, false);
 
 	// ゲームの初期化
 	GameInitializer::Initialize();
@@ -91,8 +76,10 @@ void Game::Initialize(HWND window, int width, int height)
 	REngine::SceneManager::Instance().RegisterScene("Clear", L"Resources/Scenes/ClearScene.scene");
 	REngine::SceneManager::Instance().RegisterScene("GameOver", L"Resources/Scenes/GameOverScene.scene");
 
+	REngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
+
 	// 開始時のシーンを設定
-	REngine::SceneManager::Instance().SetStartScene("Title");
+	REngine::SceneManager::Instance().SetStartScene("GUITest");
 }
 
 #pragma region Frame Update
