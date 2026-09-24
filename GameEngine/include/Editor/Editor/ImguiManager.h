@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef USE_IMGUI
+
 namespace REngine
 {
 	//====================================================//
@@ -69,3 +71,5 @@ namespace REngine
 
 	};
 } // namespace REngine
+
+#endif // USE_IMGUI

@@ -1,8 +1,10 @@
 struct VS_INPUT
 {
-    float3 Position : POSITION; // 頂点座標 (x, y, z, w)
-    float4 Color : COLOR; // 頂点カラー (r, g, b, a)
-    float2 Tex      : TEXCOORD; // UV座標 (x, y)
+    float3 Position : SV_POSITION;
+    float3 Normal : NORMAL;
+    float4 Tangent : TANGENT;
+    uint Color : COLOR;
+    float2 tex : TEXCOORD;
 };
 
 struct PS_INPUT

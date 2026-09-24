@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include <SimpleMath.h>
 
 #include "Editor/Editor/SceneCamera.h"
@@ -173,3 +177,5 @@ namespace REngine
 		);
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

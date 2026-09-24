@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "InspectorWindow.h"
 
 #include "ThirdParty/nameof/nameof.hpp"
@@ -245,3 +249,5 @@ namespace REngine
 		}
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

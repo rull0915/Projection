@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "HierarchyWindow.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -290,3 +294,5 @@ namespace REngine
 		ImGui::PopID();
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

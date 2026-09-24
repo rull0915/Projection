@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "InfoWindow.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -141,3 +145,5 @@ namespace REngine
 		}
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

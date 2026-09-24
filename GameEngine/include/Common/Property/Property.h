@@ -47,11 +47,11 @@ namespace REngine
 	struct Property
 	{
 		// プロパティ名
-		std::string name;
+		std::string name = "";
 		// プロパティタイプ
-		PropertyType type;
+		PropertyType type = PropertyType::None;
 		// ポインタ
-		void* value;
+		void* value = nullptr;
 		// タイプインデックス
 		std::type_index typeIndex = std::type_index(typeid(void));
 	};

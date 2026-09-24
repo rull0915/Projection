@@ -70,10 +70,14 @@ namespace REngine
 		// 相互変換を行う関数
 		UUID GetUUID(const std::filesystem::path& path) const
 		{
+			if (m_pathToUuid.find(path) == m_pathToUuid.end()) return UUID_NONE;
+
 			return m_pathToUuid.at(path);
 		}
 		const std::filesystem::path& GetPath(UUID uuid) const
 		{
+			if (m_uuidToPath.find(uuid) == m_uuidToPath.end()) return L"";
+
 			return m_uuidToPath.at(uuid);
 		}
 

@@ -40,16 +40,13 @@ private:
 	// メンバ変数
 	//-----------------------------------------------------
 
-	// ターゲットの名前
-	std::string m_targetName;
-
 	// 感度
 	float m_sensitivity;
 
 	float m_distance;
 
 	REngine::Transform* m_pOwnTransform;
-	REngine::Transform* m_pTargetTransform;
+	REngine::Ref<REngine::Transform> m_pTargetTransform;
 
 	DirectX::SimpleMath::Vector2 m_angle;
 
@@ -63,15 +60,14 @@ public:
 	//-----------------------------------------------------
 	TPSCamera(REngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
-		, m_targetName{ "" }
 		, m_pOwnTransform{ nullptr }
-		, m_pTargetTransform{ nullptr }
+		, m_pTargetTransform{}
 		, m_angle{ 0.0f, 0.0f }
 		, m_sensitivity{ 0.5f }
 		, m_distance{ 5.0f }
 		, m_position{ 0, 0, 0 }
 	{
-		ADD_PROPERTY(TPSCamera, m_targetName);
+		ADD_PROPERTY(TPSCamera, m_pTargetTransform);
 		ADD_PROPERTY(TPSCamera, m_sensitivity);
 		ADD_PROPERTY(TPSCamera, m_distance);
 	}

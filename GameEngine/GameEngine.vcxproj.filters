@@ -307,9 +307,6 @@
     <ClCompile Include="src\ThirdParty\imgui\ImGuizmo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>

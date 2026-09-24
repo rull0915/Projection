@@ -95,5 +95,10 @@ namespace REngine
 				return 0;
 			}
 		}
+
+		void Pad::SetVibration(float left, float right)
+		{
+			DirectX::GamePad::Get().SetVibration(0, left, right);
+		}
 	}
 }	// namespace REngine

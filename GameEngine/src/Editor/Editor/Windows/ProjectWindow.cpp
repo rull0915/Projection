@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "ProjectWindow.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -176,14 +180,18 @@ namespace REngine
 						// パスからUUIDを取得
 						UnTypeHandle handle = m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(file.path().wstring()));
 
-						// 受け渡し構造体を生成
-						HandlePayload payload = { m_assetManager.GetTypeManager().GetAssetClass(file.path().wstring()), handle };
+						// 無効ハンドルであればドラッグ不可
+						if (handle != ERROR_UNTYPE_HANDLE)
+						{
+							// 受け渡し構造体を生成
+							HandlePayload payload = { m_assetManager.GetTypeManager().GetAssetClass(file.path().wstring()), handle };
 
-						// データを設定
-						ImGui::SetDragDropPayload("ASSET", &payload, sizeof(payload));
+							// データを設定
+							ImGui::SetDragDropPayload("ASSET", &payload, sizeof(payload));
 
-						// ドラッグ中に表示される内容
-						ImGui::Text(file.path().stem().string().c_str());
+							// ドラッグ中に表示される内容
+							ImGui::Text(file.path().stem().string().c_str());
+						}
 
 						// ドラッグの終了
 						ImGui::EndDragDropSource();
@@ -362,3 +370,5 @@ namespace REngine
 		}
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

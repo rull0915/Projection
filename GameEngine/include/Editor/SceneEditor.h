@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 //====================================================//
 // インクルードファイル
 //====================================================//
@@ -66,6 +68,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		void Initialize();
+		void Finalize();
 		void Update(const GameTimer& gameTimer);
 		void Render(Renderer& renderer);
 
@@ -86,3 +89,5 @@ namespace REngine
 		void TestPlay();
 	};
 } // namespace REngine
+
+#endif // ENGINE_GUI

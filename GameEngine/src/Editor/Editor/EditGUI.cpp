@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "Editor/Editor/EditGUI.h"
 #include "ThirdParty/imgui/imgui_internal.h"
 
@@ -215,3 +219,5 @@ namespace REngine
 		}
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

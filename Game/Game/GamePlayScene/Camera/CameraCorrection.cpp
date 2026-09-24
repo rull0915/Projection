@@ -23,12 +23,11 @@
 CameraCorrection::CameraCorrection(REngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_camera{ nullptr }
-	, m_player{ nullptr }
+	, m_player{}
 	, m_pScene{ nullptr }
-	, m_playerName{}
 	, m_playerLayer{ 0 }
 {
-	ADD_PROPERTY(CameraCorrection, m_playerName);
+	ADD_PROPERTY(CameraCorrection, m_player);
 	ADD_PROPERTY(CameraCorrection, m_playerLayer);
 }
 
@@ -40,9 +39,6 @@ void CameraCorrection::Start()
 
 	// プレイヤーを取得
 	m_pScene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
-
-	// 探索
-	m_player = m_pScene->GetObjectFinder()->FindWithName(m_playerName);
 }
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます

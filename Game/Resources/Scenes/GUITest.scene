@@ -1,0 +1,146 @@
+{
+    "World": {
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                10.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 17493097131517184094
+                    },
+                    {
+                        "Data": {
+                            "m_aspect": 1.7777777910232544,
+                            "m_farZ": 1000.0,
+                            "m_fov": 0.7853981852531433,
+                            "m_isActive": true,
+                            "m_nearZ": 0.10000000149011612
+                        },
+                        "Type": "StandardCamera",
+                        "UUID": 9173184400633054754
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 7368186866691324831,
+                "m_isActive": true,
+                "m_name": "MainCamera",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -1.4901161193847656e-08,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0000001192092896,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 4055409024941385595
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.899999976158142,
+                                0.2199999988079071,
+                                1.899999976158142
+                            ],
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
+                        },
+                        "Type": "BoxCollider",
+                        "UUID": 609445032999180333
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materialHandle": 403178784719374786,
+                            "m_modelHandle": 7357398224225983858
+                        },
+                        "Type": "ModelComponent",
+                        "UUID": 17991524501047263319
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14237119821797662079,
+                "m_isActive": true,
+                "m_name": "Cube1",
+                "m_tag": "Floor"
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                7.0
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 3922475515361678715
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 15342497262733819020,
+                "m_isActive": true,
+                "m_name": "",
+                "m_tag": ""
+            }
+        ]
+    }
+}

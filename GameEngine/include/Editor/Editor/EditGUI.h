@@ -10,6 +10,9 @@
 //====================================================//
 
 #pragma once
+
+#ifdef ENGINE_GUI
+
 #include "Components/World/Camera/CameraBase.h"
 #include "GuizmoManager.h"
 #include "SelectedOnGUI.h"
@@ -123,3 +126,5 @@ namespace REngine
 		void DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera);
 	};
 } // namespace REngine
+
+#endif // ENGINE_GUI

@@ -6,10 +6,15 @@
 // 概要       : SceneEditorシーン
 //====================================================//
 
+
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "Editor/SceneEditor.h"
 
 #include "System/GraphicsManager.h"
@@ -84,6 +89,28 @@ namespace REngine
 		Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 	}
 
+	void SceneEditor::Finalize()
+	{
+		// GUIのリセット
+		m_gui.Reset();
+
+		// プレイモードへ
+		m_pScene->SetUpdateMode(UpdateMode::Play);
+
+		// 非アクティブ化
+		m_isActive = false;
+
+		// プレイフラグのリセット
+		m_isPlaying = false;
+
+		// メインスクリーンの描画を有効化
+		m_pScene->GetMainScreen()->SetIsDraw(true);
+
+		// マウスの表示を設定
+		Input::Mouse::SetMouseVisible(true);
+		Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+	}
+
 	// 更新関数
 	void SceneEditor::Update(const GameTimer& gameTimer)
 	{
@@ -137,3 +164,5 @@ namespace REngine
 		m_pScene->SetUpdateMode(UpdateMode::Play);
 	}
 }	// namespace REngine
+
+#endif // ENGINE_GUI

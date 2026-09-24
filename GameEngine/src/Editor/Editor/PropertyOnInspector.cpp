@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "PropertyOnInspector.h"
 #include "Assets/Managers/AssetManager.h"
 #include "GameObject/GameObject.h"
@@ -202,7 +206,7 @@ namespace REngine
 			// 変数名を表示
 			ImGui::Text(property->name.c_str());
 
-			ImGui::PushID(property);
+			ImGui::PushID(property->value);
 
 			// 同じライン
 			ImGui::SameLine();
@@ -417,9 +421,9 @@ namespace REngine
 			return changed;
 		}
 		default:
-			break;
+			return false;
 		}
-
-		return false;
 	}
 }
+
+#endif // ENGINE_GUI

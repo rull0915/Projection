@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 //====================================================//
 // インクルードファイル
 //====================================================//
@@ -69,3 +71,5 @@ namespace REngine
 		bool DrawProperty(Property* property);
 	};
 }
+
+#endif // ENGINE_GUI

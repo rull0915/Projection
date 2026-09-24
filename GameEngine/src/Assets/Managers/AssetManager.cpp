@@ -86,8 +86,10 @@ namespace REngine
 		// 無効値ならエラーハンドルを返す
 		if (uuid == UUID_NONE) return ERROR_UNTYPE_HANDLE;
 
-		// 新規のUUIDならパスを取得
+		// 存在しないUUIDならエラーハンドルを返す
 		const std::wstring& path = m_dataBase.GetPath(uuid);
+
+		if (path == L"") return ERROR_UNTYPE_HANDLE;
 
 		// パスから読み込む
 		UnTypeHandle handle = LoadFromPath(path);
@@ -193,21 +195,26 @@ namespace REngine
 
 	UnTypeHandle AssetManager::LoadFromPath(const std::wstring& path)
 	{
-		// ローダー関数を取得
-		auto& loader = m_loaders.at(m_typeManager.GetAssetClass(path));
+		if (m_loaders.find(m_typeManager.GetAssetClass(path)) != m_loaders.end())
+		{
+			// ローダー関数を取得
+			auto& loader = m_loaders.at(m_typeManager.GetAssetClass(path));
 
-		// asyncで非同期ロード
-		auto future = std::async(
-			std::launch::async, loader, path
-		);
+			// asyncで非同期ロード
+			auto future = std::async(
+				std::launch::async, loader, path
+			);
 
-		// Handleを生成
-		UnTypeHandle handle = m_registry.Register(m_dataBase.GetUUID(path));
+			// Handleを生成
+			UnTypeHandle handle = m_registry.Register(m_dataBase.GetUUID(path));
 
-		// futureを配列に追加
-		m_asyncJobs.push_back(AsyncJob{ handle.index, std::move(future) });
+			// futureを配列に追加
+			m_asyncJobs.push_back(AsyncJob{ handle.index, std::move(future) });
 
-		// 生成したHandleを返す
-		return handle;
+			// 生成したHandleを返す
+			return handle;
+		}
+
+		return ERROR_UNTYPE_HANDLE;
 	}
 }	// namespace REngine

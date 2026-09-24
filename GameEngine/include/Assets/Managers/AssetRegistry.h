@@ -119,13 +119,16 @@ namespace REngine
 
 		// ハンドルからアセットを取得する関数
 		template<typename T>
-		T* Get(Handle<T> handle)
+		T* Get(Handle<T> handle) const
 		{
 			// 無効なインデックスを指していた場合nullptrを返す
 			if (handle.index >= m_slots.size()) return nullptr;
 
 			// スロットを取得
 			auto& slot = m_slots[handle.index];
+
+			// 無効スロットだった場合nullptrを返す
+			if (!slot.isValid) return nullptr;
 
 			// 異なる世代のハンドルだった場合nullptrを返す
 			if (handle.generation != slot.generation) return nullptr;
@@ -142,6 +145,9 @@ namespace REngine
 
 			// スロットを取得
 			auto& slot = m_slots[handle.index];
+
+			// 無効スロットだった場合nullptrを返す
+			if (!slot.isValid) return nullptr;
 
 			// 異なる世代のハンドルだった場合nullptrを返す
 			if (handle.generation != slot.generation) return nullptr;
