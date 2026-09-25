@@ -18,6 +18,8 @@
 #include "Assets/Managers/AssetManager.h"
 
 #include "Renderer/CBufferSlot.h"
+#include "Assets/Types/Shader/InputLayoutCache.h"
+#include "Assets/Types/Vertex/VertexTypes.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -228,13 +230,20 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 			// 定数バッファを更新
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
 
+			// InputLayoutを取得
+			auto inputlayout = InputLayoutCache::Instance().GetOrCreate(
+					m_pDevice, typeid(VertexPositionNormalTangentColorTexture).hash_code(), material->GetBlob(ShaderType::Vertex), VertexPositionNormalTangentColorTexture::GetLayout()
+				);
+
+			// なければスキップ
+			if (!inputlayout) continue;
+
 			for (auto& mesh : c.pModel->meshes)
 			{
 				for (auto& part : mesh->meshParts)
 				{
 					part->effect = std::shared_ptr<MaterialAsset>(material, [](MaterialAsset*) {});
-					part->inputLayout = material->GetInputLayout();
-
+					part->inputLayout = inputlayout;
 					part->vertexBuffer;
 				}
 			}

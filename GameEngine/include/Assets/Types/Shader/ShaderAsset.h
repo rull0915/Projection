@@ -71,10 +71,6 @@ namespace REngine
 		// 定数バッファ一覧
 		std::vector<ConstantBufferInfo> m_cBuffers;
 
-		// 入力レイアウト
-		// このアセットがVertexShaderを扱う場合のみ構築されます
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
-
 	public:
 
 		//-----------------------------------------------------
@@ -109,14 +105,14 @@ namespace REngine
 		// タイプ
 		ShaderType GetType() const { return m_type; }
 
-		// InputLayout
-		ID3D11InputLayout* GetInputLayout() const { return m_inputLayout.Get(); }
-
 		// パラメータ一覧
 		const std::vector<ShaderParam>& GetParams() const { return m_params; }
 
 		// 定数バッファ一覧
 		const std::vector<ConstantBufferInfo>& GetBuffers() const { return m_cBuffers; };
+
+		// バイナリ
+		ID3DBlob* GetBlob() const { return m_byteCode.Get(); }
 
 		//-----------------------------------------------------
 		// セッター

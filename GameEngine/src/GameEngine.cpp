@@ -14,9 +14,9 @@
 
 #include "Scene/SceneManager.h"
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 #include "Editor/Editor/ImguiManager.h"
-#endif // USE_IMGUI
+#endif // ENGINE_GUI
 
 #include "System/EngineInitializer.h"
 #include "Assets/System/AssetInitializer.h"
@@ -62,12 +62,12 @@ namespace REngine
 		// 背景色の設定
 		WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 
 		// imguiの初期化
 		ImguiManager::Initialize(window, device, context);
 
-#endif // USE_IMGUI
+#endif // ENGINE_GUI
 
 		// 描画クラスの初期化
 		m_renderer->Initialize();
@@ -112,7 +112,7 @@ namespace REngine
 
 #endif // ENGINE_GUI
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 
 		if (m_sceneEdit)
 		{
@@ -120,7 +120,7 @@ namespace REngine
 			ImguiManager::Update();
 		}
 
-#endif // USE_IMGUI
+#endif // ENGINE_GUI
 	}
 
 	void GameEngine::Update(float elapsedTime)
@@ -191,7 +191,7 @@ namespace REngine
 
 #endif // ENGINE_GUI
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 
 		if (m_sceneEdit)
 		{
@@ -199,7 +199,7 @@ namespace REngine
 			REngine::ImguiManager::Render();
 		}
 
-#endif // USE_IMGUI
+#endif // ENGINE_GUI
 	}
 
 	void GameEngine::Finalize()
@@ -207,12 +207,12 @@ namespace REngine
 		// シーンの終了
 		SceneManager::Instance().Finalize();
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 
 		// Imguiの終了
 		ImguiManager::Finalize();
 
-#endif // USE_IMGUI
+#endif // ENGINE_GUI
 	}
 
 #ifdef ENGINE_GUI

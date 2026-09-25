@@ -15,17 +15,35 @@
 // インクルードファイル
 //====================================================//
 
-#include "Assets/Types/Shader/ShaderParam.h"
 #include <d3d11shader.h>
+#include "Assets/Types/Shader/ShaderParam.h"
+#include "Assets/Types/Vertex/VertexElementInfo.h"
 
 namespace REngine
 {
 	namespace Reflection
 	{
-		// InputLayoutを作成する関数
-		void CreateInputLayout(ID3D11Device* device, const Microsoft::WRL::ComPtr<ID3DBlob>& blob, Microsoft::WRL::ComPtr<ID3D11InputLayout>& inputLayout);
+		/// <summary>
+		/// VertexElementInfoとVertexShaderのバイナリからInputLayoutを作成する関数
+		/// </summary>
+		/// <param name="device">D3D11デバイス</param>
+		/// <param name="vsBlob">VertexShader のコンパイル済みバイナリ</param>
+		/// <param name="layoutInfo">C++頂点構造体から取得した VertexElementInfo の配列</param>
+		/// <param name="outInputLayout">生成される ID3D11InputLayout</param>
+		/// <returns>結果</returns>
+		HRESULT CreateInputLayout(
+			ID3D11Device* device,
+			ID3DBlob* vsBlob,
+			const std::vector<VertexElementInfo>& layoutInfo,
+			Microsoft::WRL::ComPtr<ID3D11InputLayout>& outInputLayout
+		);
 
-		// シェーダーを読み取ってエンジン用のデータを作成する関数
+		/// <summary>
+		/// シェーダーを読み取ってエンジン用のデータを作成する関数
+		/// </summary>
+		/// <param name="blob">Shaderのコンパイル済みバイナリ</param>
+		/// <param name="params">結果を格納するパラメータ配列</param>
+		/// <param name="infos">定数バッファ全体の情報を格納する配列</param>
 		void ReflectShader(const Microsoft::WRL::ComPtr<ID3DBlob>& blob, std::vector<ShaderParam>& params, std::vector<ConstantBufferInfo>& infos);
 
 		// リフレクションインターフェースからタイプを取得する関数

@@ -159,17 +159,26 @@ namespace REngine
 		m_isDirty = false;
 	}
 
-	ID3D11InputLayout* MaterialAsset::GetInputLayout()
+	ID3DBlob* MaterialAsset::GetBlob(ShaderType type)
 	{
-		// vsを取得
-		if (m_assetManager)
-		{
-			auto* vs = m_assetManager->Get(m_vertexShader);
+		ShaderAsset* shader;
 
-			if (vs) return vs->GetInputLayout();
+		switch (type)
+		{
+			// VS
+		case REngine::ShaderType::Vertex:
+			shader = m_assetManager->Get(m_vertexShader);
+			break;
+			// PS
+		case REngine::ShaderType::Pixel:
+			shader = m_assetManager->Get(m_pixelShader);
+			break;
+			// 未対応シェーダー
+		default:
+			return nullptr;
 		}
 
-		return nullptr;
+		return shader ? shader->GetBlob() : nullptr;
 	}
 
 	void MaterialAsset::Apply(ID3D11DeviceContext* context)

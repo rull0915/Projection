@@ -143,8 +143,8 @@ namespace REngine
 			return m_vertexShader != ERROR_HANDLE<ShaderAsset>;
 		}
 
-		// InputLayoutの取得関数
-		ID3D11InputLayout* GetInputLayout();
+		// 各シェーダーのコンパイル済みバイナリを取得する関数
+		ID3DBlob* GetBlob(ShaderType type);
 
 		//------ IEffectの実装 ------//
 
