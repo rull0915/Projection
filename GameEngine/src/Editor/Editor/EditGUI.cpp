@@ -24,9 +24,9 @@
 #include "System/Render/RenderContext.h"
 
 #include "Windows/HierarchyWindow.h"
-#include "Windows/InspectorWindow.h"
 #include "Windows/ProjectWindow.h"
 #include "Windows/InfoWindow.h"
+#include "Windows/Inspector/InspectorWindow.h"
 
 namespace REngine
 {

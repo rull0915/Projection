@@ -22,7 +22,7 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_stdlib.h"
 
-#include "HandlePayload.h"
+#include "Editor/Editor/HandlePayload.h"
 #include "Common/ObjectReference.h"
 
 namespace REngine
@@ -347,6 +347,7 @@ namespace REngine
 						}
 					}
 				}
+
 				// COMPONENTがドロップされたら
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("COMPONENT"))
 				{

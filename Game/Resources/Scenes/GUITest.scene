@@ -25,7 +25,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 17493097131517184094
+                        "UUID": 16032107892283237882
                     },
                     {
                         "Data": {
@@ -36,11 +36,24 @@
                             "m_nearZ": 0.10000000149011612
                         },
                         "Type": "StandardCamera",
-                        "UUID": 9173184400633054754
+                        "UUID": 5766962533219240220
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_targetTransform": 9633619329444748429,
+                            "m_tarrgetSetPos": [
+                                5.0,
+                                0.0,
+                                0.0
+                            ]
+                        },
+                        "Type": "ReferenceTester",
+                        "UUID": 9392192963943990411
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 7368186866691324831,
+                "UUID": 5841945044368571313,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
@@ -69,7 +82,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 4055409024941385595
+                        "UUID": 9633619329444748429
                     },
                     {
                         "Data": {
@@ -90,20 +103,20 @@
                             "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider",
-                        "UUID": 609445032999180333
+                        "UUID": 5298042203537395725
                     },
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_materialHandle": 403178784719374786,
-                            "m_modelHandle": 7357398224225983858
+                            "m_materialHandle": 0,
+                            "m_modelHandle": 955517710624667869
                         },
                         "Type": "ModelComponent",
-                        "UUID": 17991524501047263319
+                        "UUID": 12223120485199972121
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 14237119821797662079,
+                "UUID": 7185120441584843349,
                 "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
@@ -132,11 +145,27 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 3922475515361678715
+                        "UUID": 10651375284141270780
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_material": 0,
+                            "m_mulColor": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_samplerType": "Linear",
+                            "m_texture": 0
+                        },
+                        "Type": "MaterialTester",
+                        "UUID": 13141728546939948169
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 15342497262733819020,
+                "UUID": 10710928390516439349,
                 "m_isActive": true,
                 "m_name": "",
                 "m_tag": ""

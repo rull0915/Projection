@@ -18,6 +18,7 @@
 #include <utility>
 #include <variant>
 #include <Effects.h>
+#include <type_traits>
 
 #include "Assets/Objects/Handle.h"
 #include "Shader/ShaderAsset.h"
@@ -26,37 +27,6 @@
 #include "Assets/Objects/AssetBase.h"
 #include "Assets/Types/Shader/SamplerType.h"
 #include "Assets/Types/Shader/SamplerList.h"
-
-namespace REngine
-{
-	// マテリアルがもつパラメータのキー
-	struct MaterialParamKey
-	{
-		ShaderType stage;	// シェーダーのステージ
-		std::string name;			// 名前
-
-		// 等価演算子
-		bool operator==(const MaterialParamKey& other) const noexcept
-		{
-			return stage == other.stage && name == other.name; 
-		}
-	};
-}
-
-// unordered_mapで使うためのハッシュ特殊化
-namespace std
-{
-	template<>
-	struct hash<REngine::MaterialParamKey>
-	{
-		size_t operator()(const REngine::MaterialParamKey& k) const noexcept
-		{
-			size_t h1 = std::hash<int>()(static_cast<int>(k.stage));	// 列挙型をintに変換しハッシュを取得
-			size_t h2 = std::hash<std::string>()(k.name);				// stringのハッシュを取得
-			return h1 ^ (h2 << 1); // 2つのハッシュを結合する
-		}
-	};
-}
 
 namespace REngine
 {
@@ -76,6 +46,14 @@ namespace REngine
 
 	class MaterialAsset : public AssetBase, public DirectX::IEffect
 	{
+	public:
+
+		struct Parameter
+		{
+			ShaderParamType type;
+			MaterialParamVariant value;
+		};
+
 	private:
 
 		//-----------------------------------------------------
@@ -90,7 +68,7 @@ namespace REngine
 		std::map<std::pair<ShaderType, uint32_t>, Microsoft::WRL::ComPtr<ID3D11Buffer>> m_constantBuffers;
 
 		// パラメータの一覧
-		std::unordered_map<MaterialParamKey, MaterialParamVariant> m_params;
+		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> m_params;
 
 		// バッファの変更済みフラグ
 		bool m_isDirty;
@@ -125,10 +103,30 @@ namespace REngine
 		void SetParam(ShaderType type, const std::string& name, T value)
 		{
 			// 変更
-			m_params[{ type, name }] = value;
+			m_params[type][name] = Parameter{ GetParamType<T>(), value };
 
 			// Dirtyに
 			m_isDirty = true;
+		}
+
+		// パラメータタイプを取得する関数
+		template<typename T>
+		ShaderParamType GetParamType()
+		{
+			if constexpr (std::is_same_v<T, float>)
+				return ShaderParamType::Float;
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>)
+				return ShaderParamType::Float2;
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>)
+				return ShaderParamType::Float3;
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector4>)
+				return ShaderParamType::Float4;
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Matrix>)
+				return ShaderParamType::Float4x4;
+			else if constexpr (std::is_same_v<T, Handle<Texture>>)
+				return ShaderParamType::Texture2D;
+			else if constexpr (std::is_same_v<T, SamplerType>)
+				return ShaderParamType::Sampler;
 		}
 
 		// パラメータを名前検索する関数
@@ -146,6 +144,22 @@ namespace REngine
 		// 各シェーダーのコンパイル済みバイナリを取得する関数
 		ID3DBlob* GetBlob(ShaderType type);
 
+		// 各シェーダーのパラメータ一覧を取得する関数
+		const std::unordered_map<std::string, Parameter>& GetParams(ShaderType type) const
+		{
+			// エラー用static変数
+			static std::unordered_map<std::string, Parameter> error{};
+
+			// 検索
+			auto it = m_params.find(type);
+
+			// 見つかれば
+			if (it != m_params.end()) return it->second;
+
+			// なければエラー値
+			return error;
+		}
+
 		//------ IEffectの実装 ------//
 
 		// シェーダーをcontextにバインドする関数
@@ -161,9 +175,9 @@ namespace REngine
 	private:
 
 		// テクスチャをバインドする関数
-		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const MaterialParamKey& key);
+		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const std::string& name, ShaderType type);
 
 		// サンプラーをバインドする関数
-		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const MaterialParamKey& key);
+		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
 	};
 }	// namespace REngine

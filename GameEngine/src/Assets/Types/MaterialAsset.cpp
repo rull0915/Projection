@@ -98,14 +98,13 @@ namespace REngine
 					// バッファを格納する配列
 					std::vector<uint8_t> buf(cBuffer.size, 0);	// 1byteで1つの領域とするため8bit整数型を使用
 
-					// 全パラメータを調べる
-					for (auto& [paramKey, value] : m_params)
-					{
-						// ステージが一致しなければ何もしない
-						if (paramKey.stage != type) continue;
+					auto map = m_params[type];
 
+					// 全パラメータを調べる
+					for (auto& [name, value] : map)
+					{
 						// 対応するパラメータをShaderから取得
-						const ShaderParam* p = asset->FindParam(paramKey.name);
+						const ShaderParam* p = asset->FindParam(name);
 
 						if (!p ||									// 取得できなかった場合	
 							p->slot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
@@ -126,7 +125,7 @@ namespace REngine
 								// バッファの先頭アドレスからオフセット分ずらしたメモリ領域にコピーします
 								std::memcpy(buf.data() + p->offset, &v, p->size);
 							}
-						}, value);
+							}, value.value);
 					}
 
 					// DYNAMICなのでmapで書き換える
@@ -222,11 +221,11 @@ namespace REngine
 		}
 
 		// リソースのバインド
-		for (auto& [key, value] : m_params)
+		for (auto& [key, map] : m_params)
 		{
 			// 対応するシェーダーを取得
 			auto* shader = [&]() -> ShaderAsset* {
-				switch (key.stage) 
+				switch (key) 
 				{
 				case ShaderType::Vertex:  return vs;
 				case ShaderType::Pixel:  return ps;
@@ -237,39 +236,42 @@ namespace REngine
 			// なければ次へ
 			if (!shader) continue;
 
-			// Handle<Texture>として取得
-			if (auto* t = std::get_if<Handle<Texture>>(&value))
+			for (auto& [name, value] : map)
 			{
-				// テクスチャを取得
-				auto* tex = m_assetManager->Get<Texture>(*t);
+				// Handle<Texture>として取得
+				if (auto* t = std::get_if<Handle<Texture>>(&value.value))
+				{
+					// テクスチャを取得
+					auto* tex = m_assetManager->Get<Texture>(*t);
 
-				// バインド
-				BindTexture(context, shader, tex, key);
-			}
-			// SamplerTypeとして取得
-			else if (auto* s = std::get_if<SamplerType>(&value))
-			{
-				// サンプラーを取得
-				auto& sampler = m_samplerList->GetSampler(*s);
+					// バインド
+					BindTexture(context, shader, tex, name, key);
+				}
+				// SamplerTypeとして取得
+				else if (auto* s = std::get_if<SamplerType>(&value.value))
+				{
+					// サンプラーを取得
+					auto& sampler = m_samplerList->GetSampler(*s);
 
-				// バインド
-				BindSampler(context, shader, sampler, key);
+					// バインド
+					BindSampler(context, shader, sampler, name, key);
+				}
 			}
 		}
 	}
-	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const MaterialParamKey& key)
+	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const std::string& name, ShaderType type)
 	{
 		// テクスチャがなければ何もしない
 		if (!texture) return;
 
 		// パラメータを取得
-		auto* param = shader->FindParam(key.name);
+		auto* param = shader->FindParam(name);
 
 		// 対応していなければ何もしない
 		if (!param || param->type != ShaderParamType::Texture2D) return;
 
 		// 取得できたら対応するステージを調べる
-		switch (key.stage)
+		switch (type)
 		{
 			// PS
 		case ShaderType::Pixel:
@@ -288,19 +290,19 @@ namespace REngine
 		}
 	}
 
-	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const MaterialParamKey& key)
+	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
 	{
 		// サンプラーがなければ何もしない
 		if (!sampler) return;
 
 		// パラメータを取得
-		auto* param = shader->FindParam(key.name);
+		auto* param = shader->FindParam(name);
 
 		// 対応していなければ何もしない
 		if (!param || param->type != ShaderParamType::Sampler) return;
 
 		// 取得できたら対応するステージを調べる
-		switch (key.stage)
+		switch (type)
 		{
 			// PS
 		case ShaderType::Pixel:

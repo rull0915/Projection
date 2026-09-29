@@ -235,7 +235,10 @@ namespace REngine
 		ImGui::Text(stem.c_str());
 
 		// 本体を表示
-		m_propertyOnInspector.DrawPropertyObject(asset);
+		if (m_propertyOnInspector.DrawPropertyObject(asset))
+		{
+			asset->OnValidate();
+		}
 
 		// セーブ可能かどうか
 		if (m_assetManager.CanSave(path))

@@ -238,7 +238,7 @@
     <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\Windows\InspectorWindow.cpp">
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\ProjectWindow.cpp">
@@ -298,7 +298,7 @@
     <ClCompile Include="src\GameEngine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp">
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp">
@@ -365,6 +365,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\System\Shader\InputLayoutCache.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\AssetOnInspector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -747,7 +750,7 @@
     <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\Windows\InspectorWindow.h">
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Editor\Editor\Windows\ProjectWindow.h">
@@ -807,7 +810,7 @@
     <ClInclude Include="include\GameEngine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h">
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Editor\Editor\GuizmoManager.h">
@@ -979,6 +982,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\Shader\InputLayoutCache.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\AssetOnInspector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
