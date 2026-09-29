@@ -59,8 +59,6 @@ void Game::Initialize(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
-	HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
-
 	// ゲームエンジンの初期化
 	m_gameEngine->Initialize(m_deviceResources, window, false);
 

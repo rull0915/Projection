@@ -232,7 +232,7 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 
 			// InputLayoutを取得
 			auto inputlayout = InputLayoutCache::Instance().GetOrCreate(
-					m_pDevice, typeid(VertexPositionNormalTangentColorTexture).hash_code(), material->GetBlob(ShaderType::Vertex), VertexPositionNormalTangentColorTexture::GetLayout()
+					m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTangentColorTexture).hash_code()), material->GetBlob(ShaderType::Vertex), VertexPositionNormalTangentColorTexture::GetLayout()
 				);
 
 			// なければスキップ

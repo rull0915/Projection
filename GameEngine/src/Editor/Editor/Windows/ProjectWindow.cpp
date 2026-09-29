@@ -167,10 +167,9 @@ namespace REngine
 								// 選択状態にする
 								m_selected.SetSelectedHandle(handle);
 
-							// シーンなら
-							else
-								// Todo: ロードする
-								int a;
+							//// シーンなら
+							//else
+								//// Todo: ロードする
 						}
 					}
 
