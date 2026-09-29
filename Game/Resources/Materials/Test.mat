@@ -1,4 +1,11 @@
 {
+    "PixelShader": null,
+    "Proj": null,
+    "VertexShader": null,
+    "View": null,
+    "World": null,
     "m_pixelShader": 2271068393283076460,
-    "m_vertexShader": 14830256197784369889
+    "m_vertexShader": 14830256197784369889,
+    "mulColor": null,
+    "time": 0.0
 }

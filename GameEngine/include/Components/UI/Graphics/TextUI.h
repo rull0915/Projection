@@ -59,6 +59,7 @@ namespace REngine
 			, m_fontHandle{}
 			, m_fontSize{ 64 }
 			, m_origin{ 0, 0 }
+			, m_assetManager{}
 		{
 			ADD_PROPERTY(TextUI, m_text);
 			ADD_PROPERTY(TextUI, m_fontSize);

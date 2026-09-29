@@ -182,7 +182,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\Windows\Inspector\AssetOnInspector.cpp" />
     <ClCompile Include="src\GameController.cpp" />
     <ClCompile Include="src\Input\PadInput.cpp">
       <SubType>
@@ -509,7 +508,6 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
-    <ClInclude Include="src\Editor\Editor\Windows\Inspector\AssetOnInspector.h" />
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
       <SubType>
       </SubType>

@@ -155,6 +155,9 @@ namespace REngine
 		// レンダラー
 		SceneRenderer* GetSceneRenderer() const { return m_sceneRenderer.get(); }
 
+		// アセットマネージャー
+		AssetManager& GetAssetManager() const { return m_assetManager; }
+
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------

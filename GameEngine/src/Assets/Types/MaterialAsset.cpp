@@ -259,6 +259,47 @@ namespace REngine
 			}
 		}
 	}
+
+	std::vector<Property> MaterialAsset::GetProperties()
+	{
+		// デフォルトのプロパティを取得
+		std::vector<Property> properties = PropertyObject::GetProperties();
+
+		// ヘッダー装飾を追加する関数
+		auto addHeader = [&](const std::string& name)
+			{
+				Property prop{};
+				prop.name = name;
+				prop.type = PropertyType::Header;
+
+				properties.push_back(prop);
+			};
+
+		// 各ステージの全パラメータを追加するラムダ式
+		auto addParams = [&](ShaderType type)
+			{
+				// パラメータを取得
+				if (!m_params.contains(type)) return;
+
+				auto& params = m_params[type];
+
+				for (auto& param : params)
+				{
+					properties.push_back(CreatePropertyFromParameter(param.first, param.second));
+				}
+			};
+
+		// VS
+		addHeader("VertexShader");
+		addParams(ShaderType::Vertex);
+
+		// PS
+		addHeader("PixelShader");
+		addParams(ShaderType::Pixel);
+
+		return properties;
+	}
+
 	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const std::string& name, ShaderType type)
 	{
 		// テクスチャがなければ何もしない
@@ -319,5 +360,88 @@ namespace REngine
 		default:
 			break;
 		}
+	}
+
+	void MaterialAsset::RebuildParams()
+	{
+		// 新しいパラメータマップを用意
+		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> newParams;
+
+		// 1つのステージを作り直すラムダ式
+		auto processShader = [&](ShaderAsset* shader, ShaderType stage)
+			{
+				if (!shader) return;
+
+				auto& params = m_params[stage];
+				auto& newOnceParams = newParams[stage];
+
+				for (const auto& param : shader->GetParams())
+				{
+					// すでに旧パラメータに存在していればその値を引き継ぐ
+					if (params.contains(param.name))
+					{
+						newOnceParams[param.name] = params[param.name];
+					}
+
+					// 新しいパラメータなら型に応じたデフォルト値を設定
+					else
+					{
+						newOnceParams[param.name] = { param.type, GetDefaultParam(param.type) };
+					}
+				}
+			};
+
+		// 全シェーダーから最新パラメータを作り直す
+		if (m_assetManager)
+		{
+			processShader(m_assetManager->Get(m_vertexShader), ShaderType::Vertex);
+			processShader(m_assetManager->Get(m_pixelShader), ShaderType::Pixel);
+		}
+
+		// 古いパラメータを新しいパラメータで上書き
+		m_params = std::move(newParams);
+
+		// プロパティ変更
+		m_isDirty = true;
+	}
+
+	MaterialParamVariant MaterialAsset::GetDefaultParam(ShaderParamType type)
+	{
+		switch (type)
+		{
+		case REngine::ShaderParamType::Float:
+			return (float)0.0f;
+		case REngine::ShaderParamType::Float2:
+			return DirectX::SimpleMath::Vector2::Zero;
+		case REngine::ShaderParamType::Float3:
+			return DirectX::SimpleMath::Vector3::Zero;
+		case REngine::ShaderParamType::Float4:
+			return DirectX::SimpleMath::Vector4::Zero;
+		case REngine::ShaderParamType::Float4x4:
+			return DirectX::SimpleMath::Matrix::Identity;
+		case REngine::ShaderParamType::Texture2D:
+			return ERROR_HANDLE<Texture>;
+		case REngine::ShaderParamType::Sampler:
+			return SamplerType::None;
+		default:
+			return MaterialParamVariant{};
+		}
+	}
+
+	Property MaterialAsset::CreatePropertyFromParameter(const std::string& name, Parameter& parameter)
+	{
+		Property prop;
+		prop.name = name;	// 名前を取得
+
+		// variantの中身のアドレスを取得
+		std::visit([&](auto&& val) {
+			using T = std::decay_t<decltype(val)>;
+			prop.value = static_cast<void*>(&val);	// void*に変換して格納
+			prop.type = GetPropertyType<T>();		// 型をPropertyTypeに変換
+			prop.typeIndex = RegisterType<T>();		// type_indexを取得
+			}, parameter.value
+		);
+
+		return prop;
 	}
 }

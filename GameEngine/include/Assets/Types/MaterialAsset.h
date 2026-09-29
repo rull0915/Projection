@@ -50,8 +50,8 @@ namespace REngine
 
 		struct Parameter
 		{
-			ShaderParamType type;
-			MaterialParamVariant value;
+			ShaderParamType type{};
+			MaterialParamVariant value{};
 		};
 
 	private:
@@ -62,7 +62,7 @@ namespace REngine
 
 		// 各ステージのシェーダー
 		Handle<ShaderAsset> m_vertexShader;	// 頂点シェーダ
-		Handle<ShaderAsset> m_pixelShader;	// ピクセルシェーダ	
+		Handle<ShaderAsset> m_pixelShader;	// ピクセルシェーダ
 
 		// 各ステージの定数バッファマップ
 		std::map<std::pair<ShaderType, uint32_t>, Microsoft::WRL::ComPtr<ID3D11Buffer>> m_constantBuffers;
@@ -127,6 +127,7 @@ namespace REngine
 				return ShaderParamType::Texture2D;
 			else if constexpr (std::is_same_v<T, SamplerType>)
 				return ShaderParamType::Sampler;
+			else return ShaderParamType::None;
 		}
 
 		// パラメータを名前検索する関数
@@ -160,6 +161,14 @@ namespace REngine
 			return error;
 		}
 
+		// GUI変更時の関数
+		void OnValidate() override
+		{
+			RebuildParams();
+
+			m_isDirty = true;
+		}
+
 		//------ IEffectの実装 ------//
 
 		// シェーダーをcontextにバインドする関数
@@ -172,6 +181,11 @@ namespace REngine
 			*pByteCodeLength = 0;
 		}
 
+		//----- PropertyObjectの実装 -----//
+
+		// プロパティ一覧を取得する関数
+		std::vector<Property> GetProperties() override;
+
 	private:
 
 		// テクスチャをバインドする関数
@@ -179,5 +193,14 @@ namespace REngine
 
 		// サンプラーをバインドする関数
 		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
+
+		// シェーダーのパラメータから自身のパラメータを作り直す関数
+		void RebuildParams();
+
+		// パラメータのデフォルト値を返す関数
+		MaterialParamVariant GetDefaultParam(ShaderParamType type);
+		
+		// パラメータからプロパティを作成する関数
+		Property CreatePropertyFromParameter(const std::string& name, Parameter& parameter);
 	};
 }	// namespace REngine

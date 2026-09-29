@@ -65,6 +65,9 @@ namespace REngine
 				// Assetのステータスを読み込み済みに変更
 				asset->SetStatus(LoadStatus::Loaded);
 
+				// 読み込み
+				asset->OnValidate();
+
 				// 置き換える
 				m_registry.Replace(job.index, std::move(asset));
 
