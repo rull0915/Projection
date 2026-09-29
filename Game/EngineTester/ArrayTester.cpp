@@ -22,6 +22,7 @@ ArrayTester::ArrayTester(REngine::IComponentOwner* own)
 	, m_testArray{ 1, 2, 4 }
 	, m_colorArray(1)
 {
+	ADD_HEADER("Header");
 	ADD_PROPERTY(ArrayTester, m_testArray);
 	ADD_PROPERTY(ArrayTester, m_colorArray);
 }

@@ -421,6 +421,14 @@ namespace REngine
 
 			return changed;
 		}
+
+		case PropertyType::Header:
+
+			ImGui::Spacing();
+			ImGui::SeparatorText(property->name.c_str());
+
+			return false;
+
 		default:
 			return false;
 		}
