@@ -77,7 +77,7 @@ void Game::Initialize(HWND window, int width, int height)
 	REngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
 
 	// 開始時のシーンを設定
-	REngine::SceneManager::Instance().SetStartScene("GUITest");
+	REngine::SceneManager::Instance().SetStartScene("Title");
 }
 
 #pragma region Frame Update
