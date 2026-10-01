@@ -79,6 +79,9 @@ namespace REngine
 		// サンプラーリスト
 		const SamplerList* m_samplerList;
 
+		// パラメータの再構築が必要かどうかのフラグ
+		bool m_needRebuildParams;
+
 	public:
 
 		//-----------------------------------------------------
@@ -164,9 +167,8 @@ namespace REngine
 		// GUI変更時の関数
 		void OnValidate() override
 		{
-			RebuildParams();
-
 			m_isDirty = true;
+			m_needRebuildParams = true;
 		}
 
 		//------ IEffectの実装 ------//
@@ -202,5 +204,8 @@ namespace REngine
 		
 		// パラメータからプロパティを作成する関数
 		Property CreatePropertyFromParameter(const std::string& name, Parameter& parameter);
+
+		// パラメータのリビルドが必要かを調べ、実行する関数
+		void CheckAndDoRebuild();
 	};
 }	// namespace REngine

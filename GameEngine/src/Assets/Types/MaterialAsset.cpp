@@ -28,6 +28,7 @@ namespace REngine
 		, m_isDirty{ true }
 		, m_assetManager{ nullptr }
 		, m_samplerList{ nullptr }
+		, m_needRebuildParams{ false }
 	{
 		ADD_PROPERTY(MaterialAsset, m_vertexShader);
 		ADD_PROPERTY(MaterialAsset, m_pixelShader);
@@ -60,6 +61,9 @@ namespace REngine
 	// 定数バッファを更新する関数
 	void MaterialAsset::UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
+		// 再構築のチェック
+		CheckAndDoRebuild();
+
 		// 1つのステージのバッファを更新するラムダ
 		auto updateStage = [&](ShaderAsset* asset, ShaderType type)
 			{
@@ -262,6 +266,9 @@ namespace REngine
 
 	std::vector<Property> MaterialAsset::GetProperties()
 	{
+		// 再構築のチェック
+		CheckAndDoRebuild();
+
 		// デフォルトのプロパティを取得
 		std::vector<Property> properties = PropertyObject::GetProperties();
 
@@ -415,6 +422,8 @@ namespace REngine
 			return DirectX::SimpleMath::Vector2::Zero;
 		case REngine::ShaderParamType::Float3:
 			return DirectX::SimpleMath::Vector3::Zero;
+		case REngine::ShaderParamType::Color:
+			return DirectX::SimpleMath::Color{ 1, 1, 1, 1 };
 		case REngine::ShaderParamType::Float4:
 			return DirectX::SimpleMath::Vector4::Zero;
 		case REngine::ShaderParamType::Float4x4:
@@ -443,5 +452,27 @@ namespace REngine
 		);
 
 		return prop;
+	}
+
+	void MaterialAsset::CheckAndDoRebuild()
+	{
+		// 再構築の必要性があるかを調べる
+		if (!m_assetManager || !m_needRebuildParams) return;
+
+		// 各ステージのシェーダーを取得
+		auto* vs = m_assetManager->Get(m_vertexShader);
+		auto* ps = m_assetManager->Get(m_pixelShader);
+
+		// VSが存在し、かつロードが終わっているかチェック
+		bool vsReady = !m_vertexShader.IsValid() || (vs && vs->GetStatus() == LoadStatus::Loaded);
+
+		// PSは設定されていないか、設定されている場合はロードが終わっているかチェック
+		bool psReady = !m_pixelShader.IsValid() || (ps && ps->GetStatus() == LoadStatus::Loaded);
+
+		// 両方問題がなければ
+		if (vsReady && psReady) {
+			RebuildParams();		// 再構築
+			m_needRebuildParams = false; // 再構築完了フラグのリセット
+		}
 	}
 }

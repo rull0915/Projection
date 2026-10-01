@@ -184,7 +184,7 @@ namespace REngine
 					param.slot = slotNum;
 					param.offset = vaDesc.StartOffset;
 					param.size = vaDesc.Size;
-					param.type = GetTypeFromInterface(v);
+					param.type = GetTypeFromInterface(v, param.name);
 
 					// 配列に追加
 					params.push_back(param);
@@ -215,7 +215,7 @@ namespace REngine
 			}
 		}
 
-		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* var)
+		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* var, const std::string& name)
 		{
 			// タイプ情報を取得
 			auto* iType = var->GetType();
@@ -250,7 +250,11 @@ namespace REngine
 					{
 					case 2: return ShaderParamType::Float2;
 					case 3: return ShaderParamType::Float3;
-					case 4: return ShaderParamType::Float4;
+					case 4: 
+						// 名前にColorが含まれている場合Colorとして扱う
+						if (name.find("Color") != std::string::npos || name.find("color") != std::string::npos) return ShaderParamType::Color;		
+						// なければ通常のVector4
+						return ShaderParamType::Float4;
 					default: break;
 					}
 					break;

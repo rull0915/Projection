@@ -47,6 +47,6 @@ namespace REngine
 		void ReflectShader(const Microsoft::WRL::ComPtr<ID3DBlob>& blob, std::vector<ShaderParam>& params, std::vector<ConstantBufferInfo>& infos);
 
 		// リフレクションインターフェースからタイプを取得する関数
-		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* var);
+		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* var, const std::string& name);
 	}
 }	// namespace REngine

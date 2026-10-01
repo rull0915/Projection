@@ -25,6 +25,7 @@ namespace REngine
 		Float2,
 		Float3,
 		Float4,
+		Color,
 		Float4x4,
 		Texture2D,
 		Sampler,
