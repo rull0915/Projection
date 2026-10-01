@@ -71,6 +71,14 @@ namespace REngine
 			js = { v->x, v->y, v->z };
 			break;
 		}
+
+			// Vector4
+		case PropertyType::Vector4: {
+			auto v = (static_cast<DirectX::SimpleMath::Vector4*>(property.value));
+			js = { v->x, v->y, v->z, v->w };
+			break;
+		}
+
 			// Quaternion
 		case PropertyType::Quaternion: {
 			auto v = (static_cast<DirectX::SimpleMath::Quaternion*>(property.value));
@@ -133,7 +141,12 @@ namespace REngine
 		// 全プロパティを調べる
 		for (auto& property : obj.GetProperties())
 		{
-			js[property.name] = SaveProperty(property);
+			auto j = SaveProperty(property);
+
+			if (!j.empty())
+			{
+				js[property.name] = j;
+			}
 		}
 
 		return js;

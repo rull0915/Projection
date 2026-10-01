@@ -90,6 +90,11 @@ namespace REngine
 			return ImGui::DragFloat3(name.c_str(),
 				&static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
 
+			// Vector4
+		case PropertyType::Vector4:
+			return ImGui::DragFloat4(name.c_str(),
+				&static_cast<DirectX::SimpleMath::Vector4*>(property->value)->x, 0.1f);
+
 			// Quaternion 
 		case PropertyType::Quaternion: {
 

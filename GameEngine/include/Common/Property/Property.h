@@ -36,6 +36,7 @@ namespace REngine
 		String,		// std::string
 		Vector2,	// DirectX::SimpleMath::Vector2
 		Vector3,	// DirectX::SimpleMath::Vector3
+		Vector4,	// DirectX::SimpleMath::Vector4
 		Quaternion,	// DirectX::SimpleMath::Quaternion
 		Color,		// DirectX::SimpleMath::Color
 		Object,		// PropertyObject派生クラス

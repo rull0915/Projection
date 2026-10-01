@@ -162,6 +162,8 @@ namespace REngine
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>) return PropertyType::Vector2;
 			// Vector3
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropertyType::Vector3;
+			// Vector4
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector4>) return PropertyType::Vector4;
 			// Quaternion
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
 			// Color
