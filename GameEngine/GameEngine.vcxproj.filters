@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{c3186216-00f6-4c7d-9d21-282b82905dda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -238,7 +241,7 @@
     <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\Windows\InspectorWindow.cpp">
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\ProjectWindow.cpp">
@@ -298,7 +301,7 @@
     <ClCompile Include="src\GameEngine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp">
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp">
@@ -314,9 +317,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Managers\AuxFileRepository.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp">
@@ -360,6 +360,15 @@
     </ClCompile>
     <ClCompile Include="src\GameController.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\System\Shader\InputLayoutCache.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -741,7 +750,7 @@
     <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\Windows\InspectorWindow.h">
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Editor\Editor\Windows\ProjectWindow.h">
@@ -801,7 +810,7 @@
     <ClInclude Include="include\GameEngine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h">
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Editor\Editor\GuizmoManager.h">
@@ -964,6 +973,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\CheckVector.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Vertex\VertexElementInfo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Vertex\VertexTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\InputLayoutCache.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

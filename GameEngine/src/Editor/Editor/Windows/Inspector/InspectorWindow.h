@@ -16,7 +16,7 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "../PropertyOnInspector.h"
+#include "PropertyOnInspector.h"
 #include "Common/Property/PropertyObject.h"
 #include "GameObject/GameObject.h"
 #include "Assets/Objects/AssetBase.h"

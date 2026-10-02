@@ -30,6 +30,7 @@
 
 // マクロ
 #define ADD_PROPERTY(Class, Property) (AddProperty(#Property, &Class::Property))
+#define ADD_HEADER(Name) (AddDecoration(Name, REngine::PropertyType::Header))
 
 //====================================================//
 // クラス宣言
@@ -58,7 +59,7 @@ namespace REngine
 
 	public:
 		// プロパティを取得する関数
-		std::vector<Property> GetProperties() 
+		virtual std::vector<Property> GetProperties() 
 		{
 			std::vector<Property> properties{};
 
@@ -92,7 +93,19 @@ namespace REngine
 			m_properties.push_back(prop);
 		}
 
-	private:
+		// 装飾プロパティの追加関数
+		void AddDecoration(const std::string& name, PropertyType type)
+		{
+			PropertyDiscripter prop;
+			prop.name = name;
+			prop.type = type;
+			prop.typeIndex = std::type_index(typeid(void));
+			prop.getAddress = nullptr;
+
+			// 配列に追加
+			m_properties.push_back(prop);
+		}
+
 		// 型登録関数
 		template<typename T>
 		std::type_index RegisterType()
@@ -149,6 +162,8 @@ namespace REngine
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>) return PropertyType::Vector2;
 			// Vector3
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>) return PropertyType::Vector3;
+			// Vector4
+			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector4>) return PropertyType::Vector4;
 			// Quaternion
 			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Quaternion>) return PropertyType::Quaternion;
 			// Color

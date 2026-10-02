@@ -24,7 +24,6 @@ namespace REngine
 		, m_byteCode{ nullptr }
 		, m_params{}
 		, m_cBuffers{}
-		, m_inputLayout{ nullptr }
 	{
 	}
 
@@ -44,7 +43,6 @@ namespace REngine
 				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11VertexShader>>) 
 				{
 					context->VSSetShader(obj.Get(), nullptr, 0); 
-					context->IASetInputLayout(m_inputLayout.Get());
 				}
 				// ピクセルシェーダ
 				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11PixelShader>>) 

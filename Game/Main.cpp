@@ -7,9 +7,9 @@
 
 #include "System/WindowManager.h"
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 #include "Editor/Editor/ImguiManager.h"
-#endif // USE_IMGUI
+#endif // ENGINE_GUI
 
 #include <Keyboard.h>
 #include <Mouse.h>
@@ -133,7 +133,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 // Windows procedure
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 	if (REngine::ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
 	{
 		return true;

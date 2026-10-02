@@ -76,7 +76,9 @@ namespace REngine
 		}
 		const std::filesystem::path& GetPath(UUID uuid) const
 		{
-			if (m_uuidToPath.find(uuid) == m_uuidToPath.end()) return L"";
+			static std::filesystem::path errorPath{};
+
+			if (m_uuidToPath.find(uuid) == m_uuidToPath.end()) return errorPath;
 
 			return m_uuidToPath.at(uuid);
 		}

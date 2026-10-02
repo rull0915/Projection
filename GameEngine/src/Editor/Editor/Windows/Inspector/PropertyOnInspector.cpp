@@ -22,7 +22,7 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_stdlib.h"
 
-#include "HandlePayload.h"
+#include "Editor/Editor/HandlePayload.h"
 #include "Common/ObjectReference.h"
 
 namespace REngine
@@ -89,6 +89,11 @@ namespace REngine
 		case PropertyType::Vector3:
 			return ImGui::DragFloat3(name.c_str(),
 				&static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
+
+			// Vector4
+		case PropertyType::Vector4:
+			return ImGui::DragFloat4(name.c_str(),
+				&static_cast<DirectX::SimpleMath::Vector4*>(property->value)->x, 0.1f);
 
 			// Quaternion 
 		case PropertyType::Quaternion: {
@@ -347,6 +352,7 @@ namespace REngine
 						}
 					}
 				}
+
 				// COMPONENTがドロップされたら
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("COMPONENT"))
 				{
@@ -420,6 +426,14 @@ namespace REngine
 
 			return changed;
 		}
+
+		case PropertyType::Header:
+
+			ImGui::Spacing();
+			ImGui::SeparatorText(property->name.c_str());
+
+			return false;
+
 		default:
 			return false;
 		}

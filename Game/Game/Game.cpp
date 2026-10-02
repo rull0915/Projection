@@ -59,8 +59,6 @@ void Game::Initialize(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
-	HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
-
 	// ゲームエンジンの初期化
 	m_gameEngine->Initialize(m_deviceResources, window, false);
 
@@ -79,7 +77,7 @@ void Game::Initialize(HWND window, int width, int height)
 	REngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
 
 	// 開始時のシーンを設定
-	REngine::SceneManager::Instance().SetStartScene("GUITest");
+	REngine::SceneManager::Instance().SetStartScene("Title");
 }
 
 #pragma region Frame Update
@@ -112,7 +110,7 @@ void Game::Update(DX::StepTimer const& timer)
 	// Todo : TGS用の特殊処理です 終わったら削除して下さい
 	if (REngine::Input::Key::Get(REngine::Input::Key::Code::LeftControl) && REngine::Input::Key::GetDown(REngine::Input::Key::Code::T))
 	{
-		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>());
+		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(0.1f), std::make_unique<REngine::Transition::Fade>(0.1f));
 	}
 	if (REngine::Input::Pad::Get(REngine::Input::Pad::Button::LStick) && REngine::Input::Pad::GetDown(REngine::Input::Pad::Button::RStick))
 	{

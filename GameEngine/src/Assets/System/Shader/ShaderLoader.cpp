@@ -65,9 +65,6 @@ namespace REngine
 
 				// シェーダを渡す
 				shader->m_shader = vs;
-
-				// インプットレイアウトの作成
-				Reflection::CreateInputLayout(device, blob, shader->m_inputLayout);
 			}
 			else if (ext == ".ps")	// ピクセルシェーダの場合
 			{

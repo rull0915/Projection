@@ -73,6 +73,7 @@ namespace REngine
 		{
 			m_addReserves.clear();
 			m_canvases.clear();
+			m_removeReserves.clear();
 		}
 
 		//-----------------------------------------------------

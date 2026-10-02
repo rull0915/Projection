@@ -12,7 +12,7 @@
 
 #include "pch.h"
 
-#ifdef USE_IMGUI
+#ifdef ENGINE_GUI
 
 #include "Editor/Editor/ImguiManager.h"
 
@@ -84,4 +84,4 @@ namespace REngine
 	}
 }	// namespace REngine
 
-#endif // USE_IMGUI
+#endif // ENGINE_GUI

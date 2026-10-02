@@ -27,6 +27,8 @@ namespace REngine
 	// 型の列挙型
 	enum class PropertyType
 	{
+		//----- 変数 -----//
+
 		None,
 		Int,		// int
 		Float,		// float
@@ -34,6 +36,7 @@ namespace REngine
 		String,		// std::string
 		Vector2,	// DirectX::SimpleMath::Vector2
 		Vector3,	// DirectX::SimpleMath::Vector3
+		Vector4,	// DirectX::SimpleMath::Vector4
 		Quaternion,	// DirectX::SimpleMath::Quaternion
 		Color,		// DirectX::SimpleMath::Color
 		Object,		// PropertyObject派生クラス
@@ -41,6 +44,10 @@ namespace REngine
 		AssetHandle,// アセットハンドル
 		ObjectRef,	// オブジェクト参照
 		Array,		// 配列
+
+		//----- 装飾システム -----//
+
+		Header,		// ヘッダー
 	};
 
 	// プロパティ
@@ -75,7 +82,7 @@ namespace REngine
 		// 実データに解決する関数
 		Property Resolve(PropertyObject* obj) const
 		{
-			return Property{ name, type, getAddress(obj), typeIndex };
+			return Property{ name, type, getAddress ? getAddress(obj) : nullptr, typeIndex };
 		}
 	};
 }	// namespace REngine

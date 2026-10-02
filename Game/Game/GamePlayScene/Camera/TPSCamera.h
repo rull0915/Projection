@@ -93,8 +93,6 @@ public:
 
 	void Update(const REngine::GameTimer& gameTimer) override;
 
-	void SetTarget(const std::string& name);
-
 	// 理想位置
 	DirectX::SimpleMath::Vector3 GetIdealPosition() const { return m_position; }
 

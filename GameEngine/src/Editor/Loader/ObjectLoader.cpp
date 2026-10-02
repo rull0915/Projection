@@ -66,6 +66,11 @@ namespace REngine
 			*(static_cast<DirectX::SimpleMath::Vector3*>(property.value)) = { json[0], json[1], json[2] };
 			break;
 
+			// Vector4
+		case PropertyType::Vector4:
+			*(static_cast<DirectX::SimpleMath::Vector4*>(property.value)) = { json[0], json[1], json[2], json[3] };
+			break;
+
 			// Quaternion
 		case PropertyType::Quaternion:
 			*(static_cast<DirectX::SimpleMath::Quaternion*>(property.value)) = { json[0], json[1], json[2], json[3] };

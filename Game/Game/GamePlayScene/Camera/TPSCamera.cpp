@@ -73,7 +73,3 @@ void TPSCamera::Update(const REngine::GameTimer& gameTimer)
 	// 位置を設定
 	m_position = pos;
 }
-
-void TPSCamera::SetTarget(const std::string& name)
-{
-}

@@ -108,7 +108,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;USE_IMGUI;ENGINE_GUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;ENGINE_GUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -117,6 +117,7 @@
 $(ProjectDir)ThirdParty;
 %(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +143,7 @@ $(ProjectDir)ThirdParty;
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <GuardEHContMetadata>true</GuardEHContMetadata>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +158,10 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\System\Shader\InputLayoutCache.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Components\UI\Canvas.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
@@ -182,12 +188,13 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\GuizmoManager.cpp" />
-    <ClCompile Include="src\Editor\Editor\PropertyOnInspector.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.cpp" />
     <ClCompile Include="src\Editor\SceneEditor.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\Scene\MainScreen.cpp" />
@@ -219,7 +226,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\Windows\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp" />
-    <ClCompile Include="src\Editor\Editor\Windows\InspectorWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\SceneCamera.cpp" />
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
@@ -356,6 +363,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Assets\Types\Shader\InputLayoutCache.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Types\Shader\SamplerList.h">
       <SubType>
       </SubType>
@@ -373,6 +384,14 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\Texture.h" />
+    <ClInclude Include="include\Assets\Types\Vertex\VertexElementInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Vertex\VertexTypes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Common\CastString.h">
       <SubType>
       </SubType>
@@ -544,7 +563,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\PropertyOnInspector.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.h" />
     <ClInclude Include="include\Editor\Editor\SelectedOnGUI.h">
       <SubType>
       </SubType>
@@ -609,7 +628,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h" />
-    <ClInclude Include="src\Editor\Editor\Windows\InspectorWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\ProjectWindow.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\StandardCheckHit2D.h" />

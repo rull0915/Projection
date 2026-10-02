@@ -44,7 +44,6 @@ namespace REngine
 			object->Reserve();
 		}
 
-
 		// 全オブジェクトのコンポーネントを追加
 		for (auto& object : m_objects)
 		{

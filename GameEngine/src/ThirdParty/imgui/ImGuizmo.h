@@ -108,7 +108,7 @@ void EditTransform(const Camera& camera, matrix_t& matrix)
 #include "imgui.h"
 #include "imgui_internal.h"
 
-#ifdef USE_IMGUI_API
+#ifdef ENGINE_GUI_API
 #include "imconfig.h"
 #endif
 #ifndef IMGUI_API

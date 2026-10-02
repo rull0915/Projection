@@ -39,6 +39,11 @@ namespace REngine
 		{
 			return index == handle.index && generation == handle.generation;
 		}
+		
+		bool IsValid() const
+		{
+			return index != 0 || generation != 0;
+		}
 	};
 
 	// Assetに対応するハンドル
@@ -57,6 +62,11 @@ namespace REngine
 		bool operator==(const Handle<T>& handle) const
 		{
 			return index == handle.index && generation == handle.generation;
+		}
+
+		bool IsValid() const
+		{
+			return index != 0 || generation != 0;
 		}
 	};
 
