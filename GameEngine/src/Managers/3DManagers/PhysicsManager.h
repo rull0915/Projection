@@ -17,11 +17,9 @@
 // インクルードファイル
 //====================================================//
 #include "Components/World/RigidBody/RigidBody.h"
-
 #include "Physics/HitContact.h"
+#include "../ReserveContainer.h"
 
-#include <vector>
-#include <unordered_set>
 #include <unordered_map>
 
 namespace REngine
@@ -35,20 +33,13 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class PhysicsManager
+	class PhysicsManager : public ReserveContainer<RigidBody>
 	{
 	private:
 
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
-
-		// 登録予約中のRigidBody
-		std::vector<RigidBody*> m_addReserves;
-		std::unordered_set<RigidBody*> m_removeReserves;
-
-		// 登録されているRigidBody
-		std::vector<RigidBody*> m_rigidBodies;
 
 		// 衝突管理クラス
 		std::unique_ptr<CollideManager> m_collideManager;
@@ -71,41 +62,6 @@ namespace REngine
 		void Update(float elapsedTime);
 
 		void ReflectReserves();
-
-		// 登録予約
-		void AddRigidBody(RigidBody* r) { m_addReserves.push_back(r); }
-		void RemoveRigidBody(RigidBody* r) { m_removeReserves.insert(r); }
-
-		// 予約済みポインタの追加
-		void AddReserved()
-		{
-			for (auto p : m_addReserves)
-			{
-				m_rigidBodies.push_back(p);
-			}
-
-			m_addReserves.clear();
-		}
-
-		// 予約済みポインタの削除
-		void RemoveReserved()
-		{
-			// 削除リストが空なら何もしない
-			if (m_removeReserves.empty()) return;
-
-			// 削除リストに含まれているかを調べるラムダ式
-			auto shouldRemove = [this](RigidBody* base)
-				{
-					return m_removeReserves.contains(base);
-				};
-
-			// 削除
-			std::erase_if(m_rigidBodies, shouldRemove);
-			std::erase_if(m_addReserves, shouldRemove);
-
-			// 削除リストをクリア
-			m_removeReserves.clear();
-		}
 
 		//-----------------------------------------------------
 		// ゲッター

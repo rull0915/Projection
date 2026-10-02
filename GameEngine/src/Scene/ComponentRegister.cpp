@@ -54,23 +54,23 @@ namespace REngine
 		// Canvasの場合
 		if (component->IsTypeOf(Canvas::StaticTypeId()))
 		{
-			m_pPipeline->m_uiManager->AddCanvas(static_cast<Canvas*>(component));
+			m_pPipeline->m_uiManager->AddObject(static_cast<Canvas*>(component));
 		}
 
 		// RigidBodyの場合
 		if (component->IsTypeOf(RigidBody::StaticTypeId()))
 		{
-			m_pPipeline->m_physicsManager->AddRigidBody(static_cast<RigidBody*>(component));
+			m_pPipeline->m_physicsManager->AddObject(static_cast<RigidBody*>(component));
 		}
 
 		// RigidBody2Dの場合
 		if (component->IsTypeOf(RigidBody2D::StaticTypeId())) {
-			m_pPipeline->m_physicsManager2D->AddRigidBody(static_cast<RigidBody2D*>(component));
+			m_pPipeline->m_physicsManager2D->AddObject(static_cast<RigidBody2D*>(component));
 		}
 
 		// AudioSourceの場合
 		if (component->IsTypeOf(AudioSource::StaticTypeId())) {
-			m_pPipeline->m_soundManager->AddAudioSource(static_cast<AudioSource*>(component));
+			m_pPipeline->m_soundManager->AddObject(static_cast<AudioSource*>(component));
 		}
 
 		// AudioListenerの場合
@@ -86,19 +86,19 @@ namespace REngine
 		// 3Dコライダーの場合
 		if (component->IsTypeOf(ColliderBase::StaticTypeId())) 
 		{
-			m_pPipeline->m_physicsManager->GetCollideManager()->AddCollide(static_cast<ColliderBase*>(component));
+			m_pPipeline->m_physicsManager->GetCollideManager()->AddObject(static_cast<ColliderBase*>(component));
 		}
 
 		// 2Dコライダーの場合
 		if (component->IsTypeOf(ColliderBase2D::StaticTypeId()))
 		{
-			m_pPipeline->m_physicsManager2D->GetCollideManager()->AddCollide(static_cast<ColliderBase2D*>(component));
+			m_pPipeline->m_physicsManager2D->GetCollideManager()->AddObject(static_cast<ColliderBase2D*>(component));
 		}
 
 		// 描画コンポーネントの場合
 		if (component->IsTypeOf(RendererBase::StaticTypeId()))
 		{
-			m_pPipeline->m_rendererManager->AddRenderer(static_cast<RendererBase*>(component));
+			m_pPipeline->m_rendererManager->AddObject(static_cast<RendererBase*>(component));
 		}
 
 		// 読み取りコンポーネントに通知
@@ -136,23 +136,23 @@ namespace REngine
 		// Canvasの場合
 		if (component->IsTypeOf(Canvas::StaticTypeId()))
 		{
-			m_pPipeline->m_uiManager->RemoveCanvas(static_cast<Canvas*>(component));
+			m_pPipeline->m_uiManager->RemoveObject(static_cast<Canvas*>(component));
 		}
 
 		// RigidBodyの場合
 		if (component->IsTypeOf(RigidBody::StaticTypeId()))
 		{
-			m_pPipeline->m_physicsManager->RemoveRigidBody(static_cast<RigidBody*>(component));
+			m_pPipeline->m_physicsManager->RemoveObject(static_cast<RigidBody*>(component));
 		}
 
 		// RigidBody2Dの場合
 		if (component->IsTypeOf(RigidBody2D::StaticTypeId())) {
-			m_pPipeline->m_physicsManager2D->RemoveRigidBody(static_cast<RigidBody2D*>(component));
+			m_pPipeline->m_physicsManager2D->RemoveObject(static_cast<RigidBody2D*>(component));
 		}
 
 		// AudioSourceの場合
 		if (component->IsTypeOf(AudioSource::StaticTypeId())) {
-			m_pPipeline->m_soundManager->RemoveAudioSource(static_cast<AudioSource*>(component));
+			m_pPipeline->m_soundManager->RemoveObject(static_cast<AudioSource*>(component));
 		}
 
 		// AudioListenerの場合
@@ -168,21 +168,21 @@ namespace REngine
 		// 3Dコライダーの場合
 		if (component->IsTypeOf(ColliderBase::StaticTypeId())) 
 		{
-			m_pPipeline->m_physicsManager->GetCollideManager()->RemoveCollide(static_cast<ColliderBase*>(component));
+			m_pPipeline->m_physicsManager->GetCollideManager()->RemoveObject(static_cast<ColliderBase*>(component));
 			m_pPipeline->m_colEvent->RemoveCollider(static_cast<ColliderBase*>(component));
 		}
 
 		// 2Dコライダーの場合
 		if (component->IsTypeOf(ColliderBase2D::StaticTypeId()))
 		{
-			m_pPipeline->m_physicsManager2D->GetCollideManager()->RemoveCollide(static_cast<ColliderBase2D*>(component));
+			m_pPipeline->m_physicsManager2D->GetCollideManager()->RemoveObject(static_cast<ColliderBase2D*>(component));
 			m_pPipeline->m_colEvent->RemoveCollider2D(static_cast<ColliderBase2D*>(component));
 		}
 
 		// 描画コンポーネントの場合
 		if (component->IsTypeOf(RendererBase::StaticTypeId()))
 		{
-			m_pPipeline->m_rendererManager->RemoveRenderer(static_cast<RendererBase*>(component));
+			m_pPipeline->m_rendererManager->RemoveObject(static_cast<RendererBase*>(component));
 		}
 
 		// 読み取りコンポーネントに通知

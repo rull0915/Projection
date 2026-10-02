@@ -16,12 +16,10 @@
 // インクルードファイル
 //====================================================//
 
-#include <vector>
-#include <unordered_set>
-
 // 衝突判定
 #include "SpaceDivision/TreeManager.h"
 #include "Physics/HitContact.h"
+#include "../../ReserveContainer.h"
 
 namespace REngine
 {
@@ -29,7 +27,7 @@ namespace REngine
 	// クラス宣言
 	//====================================================//
 
-	class CollideManager
+	class CollideManager : public ReserveContainer<ColliderBase>
 	{
 	private:
 
@@ -37,12 +35,7 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 登録予約中のCollider
-		std::vector<ColliderBase*> m_addReserves;
-		std::unordered_set<ColliderBase*> m_removeReserves;
-
 		// 管理しているコライダー
-		std::vector<ColliderBase*> m_colliders;
 		std::vector<ObjectForTree*> m_treeObjects;
 
 		// 木構造
@@ -54,34 +47,11 @@ namespace REngine
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		CollideManager()
-			: m_addReserves{}
-			, m_removeReserves{}
-			, m_colliders{}
-			, m_treeObjects{}
+			: m_treeObjects{}
 			, m_tree{ { 1024, 1024, 1024 }, 5, {0, 0, 0} }
 		{};
 
 		~CollideManager() = default;
-
-		// コライダーの追加
-		void AddCollide(ColliderBase* collide)
-		{
-			m_addReserves.push_back(collide);
-		}
-
-		// コライダーの削除
-		void RemoveCollide(ColliderBase* collide)
-		{
-			// 削除予約リストに追加
-			m_removeReserves.insert(collide);
-		}
-
-		// 予約の反映
-		void ReflectReserves()
-		{
-			AddReserved();
-			RemoveReserved();
-		}
 
 		// 全コライダーのキャッシュ更新
 		void UpdateCaches();
@@ -102,14 +72,14 @@ namespace REngine
 			AddReserved();
 			RemoveReserved();
 
-			return m_colliders;
+			return GetObjects();
 		}
 	private:
 
 		// 登録予約済みのコライダーを追加する関数
-		void AddReserved();
+		void AddReserved() override;
 
 		// 削除予約済みのコライダーを削除する関数
-		void RemoveReserved();
+		void RemoveReserved() override;
 	};
 }	// namespace REngine

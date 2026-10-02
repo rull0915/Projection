@@ -36,7 +36,7 @@ namespace REngine
 	void UIManager::CheckEvent()
 	{
 		// キャンバスを更新する
-		for (auto& canvas : m_canvases)
+		for (auto& canvas : GetObjects())
 		{
 			// キャンバスがアクティブなら
 			if (canvas->IsActive())
@@ -62,8 +62,8 @@ namespace REngine
 		RectTransform* hitRect = nullptr;
 
 		// 描画の逆順で調べる
-		for (auto it = m_canvases.rbegin();
-			it != m_canvases.rend();
+		for (auto it = GetObjects().rbegin();
+			it != GetObjects().rend();
 			++it)
 		{
 			if (!(*it)->IsActive()) continue;
@@ -92,8 +92,8 @@ namespace REngine
 	{
 		// 同値のキャンバスは順序を保持
 		std::stable_sort(
-			m_canvases.begin(), // 最初から
-			m_canvases.end(),   // 最後まで 
+			GetObjects().begin(), // 最初から
+			GetObjects().end(),   // 最後まで 
 			// 描画順で入れ替え
 			[](const Canvas* a,
 				const Canvas* b)
@@ -108,7 +108,7 @@ namespace REngine
 		SortCanvas();
 
 		// キャンバスを描画する
-		for (auto& canvas : m_canvases)
+		for (auto& canvas : GetObjects())
 		{
 			if (canvas->IsActive())
 			{
@@ -120,7 +120,7 @@ namespace REngine
 	void UIManager::DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color)
 	{
 		// 全キャンバスをループ
-		//for (auto& canvas : m_canvases)
+		//for (auto& canvas : GetObjects())
 		//{
 		//	// 描画
 		//	RectDebugRenderer::DebugDraw(

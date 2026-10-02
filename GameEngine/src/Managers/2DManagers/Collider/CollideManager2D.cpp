@@ -30,9 +30,9 @@ namespace REngine
 
 	void CollideManager2D::AddReserved()
 	{
-		for (auto& collide : m_addReserves)
+		for (auto& collide : GetAddReserves())
 		{
-			m_colliders.push_back(collide);
+			GetObjects().push_back(collide);
 
 			// ツリー登録用オブジェクト生成
 			ObjectForTree2D* pOFT = new ObjectForTree2D();
@@ -43,19 +43,19 @@ namespace REngine
 			m_tree.AddObject(pOFT);
 		}
 
-		m_addReserves.clear();
+		GetAddReserves().clear();
 	}
 
 	void CollideManager2D::RemoveReserved()
 	{
 		// 削除リストが空なら何もしない
-		if (m_removeReserves.empty()) return;
+		if (GetRemoveReserves().empty()) return;
 
 		// 8分木から削除
 		std::erase_if(m_treeObjects,
 			[this](const auto& oft)
 			{
-				if (m_removeReserves.contains(oft->m_pObject))
+				if (GetRemoveReserves().contains(oft->m_pObject))
 				{
 					oft->Remove();
 					return true;
@@ -66,20 +66,20 @@ namespace REngine
 		// 削除リストに含まれているかを調べるラムダ式
 		auto shouldRemove = [this](ColliderBase2D* base)
 			{
-				return m_removeReserves.contains(base);
+				return GetRemoveReserves().contains(base);
 			};
 
 		// リストから削除
-		std::erase_if(m_addReserves, shouldRemove);
-		std::erase_if(m_colliders, shouldRemove);
+		std::erase_if(GetAddReserves(), shouldRemove);
+		std::erase_if(GetObjects(), shouldRemove);
 
-		m_removeReserves.clear();
+		GetRemoveReserves().clear();
 	}
 
 	void CollideManager2D::UpdateCaches()
 	{
 		// 全てのコライダー
-		for (auto& collide : m_colliders)
+		for (auto& collide : GetObjects())
 		{
 			// Dirthフラグが立っていればキャッシュを更新
 			if (collide->IsDirty()) collide->UpdateCache();
@@ -95,16 +95,18 @@ namespace REngine
 		RemoveReserved();
 
 		// 全オブジェクトのチェック
-		for (size_t i = 0; i < m_colliders.size(); i++)
+		for (size_t i = 0; i < GetObjects().size(); i++)
 		{
+			auto& col = GetObjects()[i];
+
 			// もし値が変わっていたら
-			if (m_colliders[i]->IsDirty())
+			if (col->IsDirty())
 			{
 				// キャッシュの更新
-				m_colliders[i]->UpdateCache();
+				col->UpdateCache();
 			}
 			// もし変更フラグが立っていたら
-			if (m_colliders[i]->IsChanged())
+			if (col->IsChanged())
 			{
 				// 木構造を更新
 
@@ -114,7 +116,7 @@ namespace REngine
 				// 再登録
 				m_tree.AddObject(m_treeObjects[i]);
 
-				m_colliders[i]->ResetChangeFrag();
+				col->ResetChangeFrag();
 			}
 		}
 	}
@@ -169,7 +171,7 @@ namespace REngine
 		if (WorldSetting2D::Instance().IsDirty())
 		{
 			// 全てのコライダー
-			for (auto& collide : m_colliders)
+			for (auto& collide : GetObjects())
 			{
 				// Dirthフラグが立っていればキャッシュを更新
 				collide->SetDirty();

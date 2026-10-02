@@ -20,10 +20,7 @@ namespace REngine
 
 	// コンストラクタ
 	SoundManager::SoundManager()
-		: m_reserves{}
-		, m_removeReserves{}
-		, m_sources{}
-		, m_listener{ nullptr }
+		: m_listener{ nullptr }
 	{}
 
 	// 更新関数
@@ -39,7 +36,7 @@ namespace REngine
 		DirectX::AudioEmitter emitter;
 
 		// 全ソースをループ
-		for (auto& source : m_sources)
+		for (auto& source : GetObjects())
 		{
 			// 3Dソースなら
 			if (source->Is3D())

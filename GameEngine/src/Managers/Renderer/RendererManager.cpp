@@ -19,9 +19,6 @@ namespace REngine
 	//====================================================//
 
 	RendererManager::RendererManager()
-		: m_addReserves{}
-		, m_removeReserves{}
-		, m_renderers{}
 	{}
 
 	RendererManager::~RendererManager()
@@ -35,7 +32,7 @@ namespace REngine
 		ReflectReserves();
 
 		// 管理している全てのコンポーネントの描画処理を呼び出す
-		for (auto& component : m_renderers)
+		for (auto& component : GetObjects())
 		{
 			// アクティブチェック
 			if (!component->IsActive() || !component->GetOwn()->IsActive()) continue;

@@ -23,10 +23,7 @@ namespace REngine
 	//====================================================//
 
 	PhysicsManager2D::PhysicsManager2D()
-		: m_removeReserves{}
-		, m_addReserves{}
-		, m_rigidBodies{}
-		, m_collideManager{ std::make_unique<CollideManager2D>() }
+		: m_collideManager{ std::make_unique<CollideManager2D>() }
 		, m_contacts{}
 		, m_contactMap{}
 	{
@@ -49,7 +46,7 @@ namespace REngine
 		// 外力の適用
 
 		// 重力
-		for (auto* body : m_rigidBodies)
+		for (auto* body : GetObjects())
 		{
 			// アクティブチェック
 			if (!body->IsActive()) continue;
@@ -62,7 +59,7 @@ namespace REngine
 		}
 
 		// 位置の更新
-		for (auto* body : m_rigidBodies)
+		for (auto* body : GetObjects())
 		{
 			// アクティブチェック
 			if (!body->IsActive()) continue;
@@ -82,18 +79,6 @@ namespace REngine
 
 		// 位置補正
 		HittedCorrection();
-	}
-
-	void PhysicsManager2D::ReflectReserves()
-	{
-		// 登録予約済みのコライダーを追加
-		AddReserved();
-
-		// 削除予約済みのコライダーを削除
-		RemoveReserved();
-
-		// 衝突も同様
-		m_collideManager->ReflectReserves();
 	}
 
 	// 衝突後の補正を行う関数
