@@ -75,8 +75,8 @@ namespace REngine
 		// 内部実装
 		//-----------------------------------------------------
 		
-		// QueternionのGUI表示を行う関数
-		bool DrawQueternion(Property* property);
+		// QuaternionのGUI表示を行う関数
+		bool DrawQuaternion(Property* property);
 
 		// PropertyObjectのGUi表示を行う関数
 		bool DrawObject(Property* property);

@@ -106,7 +106,7 @@ namespace REngine
 
 			// Quaternion 
 		case PropertyType::Quaternion: 
-			changed = DrawQueternion(property);
+			changed = DrawQuaternion(property);
 			break;
 
 			// Color
@@ -153,7 +153,7 @@ namespace REngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawQueternion(Property* property)
+	bool PropertyOnInspector::DrawQuaternion(Property* property)
 	{
 		bool changed = false;
 
