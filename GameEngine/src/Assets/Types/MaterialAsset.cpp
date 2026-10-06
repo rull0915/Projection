@@ -39,22 +39,10 @@ namespace REngine
 		// アセットマネージャーが設定されていなければ更新不可
 		if (!m_assetManager) return nullptr;
 
-		// 指定されたステージ
-		switch (stage)
-		{
-			// 頂点シェーダ
-		case REngine::ShaderType::Vertex:
-			if (ShaderAsset* vs = m_assetManager->Get<ShaderAsset>(m_vertexShader)) { return vs->FindParam(name); }
-			break;
-			// ピクセルシェーダ
-		case REngine::ShaderType::Pixel:
-			if (ShaderAsset* ps = m_assetManager->Get<ShaderAsset>(m_pixelShader)) { return ps->FindParam(name); }
-			break;
-		default:
-			break;
-		}
+		ShaderAsset* shader = GetShaderAsset(stage);
 
-		// 見つからなかった場合
+		if (shader) return shader->FindParam(name);
+
 		return nullptr;
 	}
 
@@ -129,7 +117,7 @@ namespace REngine
 								// バッファの先頭アドレスからオフセット分ずらしたメモリ領域にコピーします
 								std::memcpy(buf.data() + p->offset, &v, p->size);
 							}
-							}, value.value);
+						}, value.value);
 					}
 
 					// DYNAMICなのでmapで書き換える
@@ -164,22 +152,7 @@ namespace REngine
 
 	ID3DBlob* MaterialAsset::GetBlob(ShaderType type)
 	{
-		ShaderAsset* shader;
-
-		switch (type)
-		{
-			// VS
-		case REngine::ShaderType::Vertex:
-			shader = m_assetManager->Get(m_vertexShader);
-			break;
-			// PS
-		case REngine::ShaderType::Pixel:
-			shader = m_assetManager->Get(m_pixelShader);
-			break;
-			// 未対応シェーダー
-		default:
-			return nullptr;
-		}
+		ShaderAsset* shader = GetShaderAsset(type);
 
 		return shader ? shader->GetBlob() : nullptr;
 	}
@@ -473,6 +446,21 @@ namespace REngine
 		if (vsReady && psReady) {
 			RebuildParams();		// 再構築
 			m_needRebuildParams = false; // 再構築完了フラグのリセット
+		}
+	}
+
+	ShaderAsset* MaterialAsset::GetShaderAsset(ShaderType type)
+	{
+		switch (type)
+		{
+			// 頂点シェーダ
+		case REngine::ShaderType::Vertex:
+			return m_assetManager->Get<ShaderAsset>(m_vertexShader);
+			// ピクセルシェーダ
+		case REngine::ShaderType::Pixel:
+			return m_assetManager->Get<ShaderAsset>(m_pixelShader);
+		default:
+			return nullptr;
 		}
 	}
 }

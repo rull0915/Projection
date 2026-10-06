@@ -207,5 +207,8 @@ namespace REngine
 
 		// パラメータのリビルドが必要かを調べ、実行する関数
 		void CheckAndDoRebuild();
+
+		// タイプからシェーダー本体を取得する関数
+		ShaderAsset* GetShaderAsset(ShaderType type);
 	};
 }	// namespace REngine

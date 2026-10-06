@@ -65,10 +65,33 @@ namespace REngine
 		//-----------------------------------------------------
 		
 		// プロパティオブジェクトを表示する関数
-		bool DrawPropertyObject(PropertyObject* object);
+		bool DrawPropertyObject(PropertyObject* object, bool readOnly = false);
 
 		// プロパティを一つ表示する関数
 		bool DrawProperty(Property* property);
+
+	private:
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+		
+		// QuaternionのGUI表示を行う関数
+		bool DrawQuaternion(Property* property);
+
+		// PropertyObjectのGUi表示を行う関数
+		bool DrawObject(Property* property);
+		
+		// 列挙型のGUi表示を行う関数
+		bool DrawEnum(Property* property);
+		
+		// AssetHandleのGUi表示を行う関数
+		bool DrawAssetHandle(Property* property);
+
+		// RefのGUI表示を行う関数
+		bool DrawReference(Property* property);
+
+		// 配列のGUI表示を行う関数
+		bool DrawArray(Property* property);
 	};
 }
 
