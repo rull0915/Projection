@@ -31,16 +31,20 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool PropertyOnInspector::DrawPropertyObject(PropertyObject* object)
+	bool PropertyOnInspector::DrawPropertyObject(PropertyObject* object, bool readOnly)
 	{
 		// 変更フラグ
 		bool changed = false;
+
+		ImGui::BeginDisabled(readOnly);
 
 		// 全プロパティを表示
 		for(auto& p : object->GetProperties())
 		{
 			if (DrawProperty(&p)) changed = true;
 		}
+
+		ImGui::EndDisabled();
 
 		return changed;
 	}
@@ -56,44 +60,56 @@ namespace REngine
 		// 空時の例外処理
 		if (name.empty()) name = "Property";
 
+		// 変更フラグ
+		bool changed = false;
+
+		ImGui::PushID(property->value);
+
 		// タイプによって分岐
 		switch (property->type)
 		{
 			// int
 		case PropertyType::Int:
-			return ImGui::DragInt(name.c_str(),
+			changed = ImGui::DragInt(name.c_str(),
 				static_cast<int*>(property->value));
+			break;
 
 			// float
 		case PropertyType::Float:
-			return ImGui::DragFloat(name.c_str(),
+			changed = ImGui::DragFloat(name.c_str(),
 				static_cast<float*>(property->value), 0.1f);
+			break;
 
 			// bool
 		case PropertyType::Bool:
-			return ImGui::Checkbox(name.c_str(),
+			changed = ImGui::Checkbox(name.c_str(),
 				static_cast<bool*>(property->value));
+			break;
 
 			// std::string
 		case PropertyType::String:
-			return ImGui::InputText(name.c_str(),
+			changed = ImGui::InputText(name.c_str(),
 				static_cast<std::string*>(property->value)
 			);
+			break;
 
 			// Vector2
 		case PropertyType::Vector2:
-			return ImGui::DragFloat2(name.c_str(),
+			changed = ImGui::DragFloat2(name.c_str(),
 				&static_cast<DirectX::SimpleMath::Vector2*>(property->value)->x, 0.1f);
+			break;
 
 			// Vector3
 		case PropertyType::Vector3:
-			return ImGui::DragFloat3(name.c_str(),
+			changed = ImGui::DragFloat3(name.c_str(),
 				&static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
+			break;
 
 			// Vector4
 		case PropertyType::Vector4:
-			return ImGui::DragFloat4(name.c_str(),
+			changed = ImGui::DragFloat4(name.c_str(),
 				&static_cast<DirectX::SimpleMath::Vector4*>(property->value)->x, 0.1f);
+			break;
 
 			// Quaternion 
 		case PropertyType::Quaternion: {
@@ -110,7 +126,7 @@ namespace REngine
 			else euler = q->ToEuler();
 
 			// 表示
-			bool changed = ImGui::DragFloat3(name.c_str(), &euler.x, DirectX::XM_PI / 128);
+			changed = ImGui::DragFloat3(name.c_str(), &euler.x, DirectX::XM_PI / 128);
 
 			// クリックされたフレームならキャッシュを初期化
 			if (ImGui::IsItemActivated()) m_quaternionCache = q->ToEuler();
@@ -128,22 +144,20 @@ namespace REngine
 				*q = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler.y, euler.x, euler.z);
 			}
 
-			return changed;
-		}
 			break;
-
+		}
 			// Color
 		case PropertyType::Color:
-			return ImGui::ColorEdit4(name.c_str(),
+			changed = ImGui::ColorEdit4(name.c_str(),
 				&static_cast<DirectX::SimpleMath::Color*>(property->value)->x
 			);
+			break;
 
 			// PropertyObject派生
-		case PropertyType::Object: {
+		case PropertyType::Object:
 
-			bool changed = false;
 			// ツリーの開始
-			if (ImGui::TreeNode(name.data()))
+			if (ImGui::TreeNode(name.c_str()))
 			{
 				// 表示
 				changed = DrawPropertyObject(static_cast<PropertyObject*>(property->value));
@@ -151,14 +165,10 @@ namespace REngine
 				// ツリーの終了
 				ImGui::TreePop();
 			}
-			return changed;
-		}
+			break;
 
 			// 列挙型
 		case PropertyType::Enum: {
-
-			// 変更フラグ
-			bool changed = false;
 
 			// 列挙型管理クラスを取得
 			auto& registry = EnumRegistry::Instance();
@@ -196,7 +206,7 @@ namespace REngine
 				ImGui::EndCombo();
 			}
 
-			return changed;
+			break;
 		}
 
 			// AssetHandle
@@ -211,16 +221,10 @@ namespace REngine
 			// 変数名を表示
 			ImGui::Text(property->name.c_str());
 
-			ImGui::PushID(property->value);
-
-			// 同じライン
 			ImGui::SameLine();
 
 			// 表示
 			ImGui::Selectable(name.c_str(), false);
-
-			// 変更フラグ
-			bool changed = false;
 
 			// 描画リストを取得
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
@@ -247,7 +251,7 @@ namespace REngine
 						// ハンドルを変更する
 						AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, pay->handle);
 
-						// Trueを返す
+						// 変更フラグをオン
 						changed = true;
 					}
 				}
@@ -265,9 +269,7 @@ namespace REngine
 				changed = true;
 			}
 
-			ImGui::PopID();		
-
-			return changed;
+			break;
 		}
 
 		case PropertyType::ObjectRef: {
@@ -278,8 +280,6 @@ namespace REngine
 			// 変数名を表示
 			ImGui::Text(property->name.c_str());
 
-			ImGui::PushID(property);
-	
 			// 同じライン
 			ImGui::SameLine();
 
@@ -304,9 +304,6 @@ namespace REngine
 			}
 
 			ImGui::Selectable(name.c_str(), false);
-
-			// 変更フラグ
-			bool changed = false;
 
 			// 描画リストを取得
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
@@ -342,13 +339,7 @@ namespace REngine
 							refBase->SetUUID(component->GetUUID());
 
 							// シーン経由で参照解決
-							if (m_pScene->ResolveRef(refBase))
-							{
-								// 成功したら
-								changed = true;
-
-								break;
-							}
+							if (changed = m_pScene->ResolveRef(refBase)) break;
 						}
 					}
 				}
@@ -363,24 +354,17 @@ namespace REngine
 					refBase->SetUUID(obj->GetUUID());
 
 					// シーン経由で参照解決
-					m_pScene->ResolveRef(refBase);
-
-					changed = true;
+					changed = m_pScene->ResolveRef(refBase);
 				}
 
 				ImGui::EndDragDropTarget();
 			}
 
-			ImGui::PopID();
-
-			return changed;
+			break;
 		}
 
 		// 配列の場合
 		case PropertyType::Array: {
-
-			// 変更フラグ
-			bool changed = false;
 
 			// 配列型管理クラスを取得
 			auto& registry = ArrayRegistry::Instance();
@@ -389,7 +373,7 @@ namespace REngine
 			void* value = property->value;
 
 			// ツリーの開始
-			if (ImGui::TreeNode(name.data()))
+			if (ImGui::TreeNode(name.c_str()))
 			{
 				// サイズ分ループ
 				for (size_t i = 0; i < registry.GetSize(idx, value); ++i)
@@ -424,19 +408,22 @@ namespace REngine
 				ImGui::TreePop();
 			}
 
-			return changed;
+			break;
 		}
 
 		case PropertyType::Header:
 
 			ImGui::Spacing();
 			ImGui::SeparatorText(property->name.c_str());
-
-			return false;
+			break;
 
 		default:
-			return false;
+			break;
 		}
+
+		ImGui::PopID();
+
+		return changed;
 	}
 }
 

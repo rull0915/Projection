@@ -65,7 +65,7 @@ namespace REngine
 		//-----------------------------------------------------
 		
 		// プロパティオブジェクトを表示する関数
-		bool DrawPropertyObject(PropertyObject* object);
+		bool DrawPropertyObject(PropertyObject* object, bool readOnly = false);
 
 		// プロパティを一つ表示する関数
 		bool DrawProperty(Property* property);
