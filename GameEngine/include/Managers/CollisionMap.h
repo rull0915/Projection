@@ -16,7 +16,6 @@
 //====================================================//
 #include <functional>
 #include <unordered_map>
-#include <cstdint>
 
 #include "Physics/HitInfomation.h"
 #include "Physics/HitInfomation2D.h"

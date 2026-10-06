@@ -14,8 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <vector>
-#include <unordered_set>
+
+#include "../ReserveContainer.h"
 #include "Components/World/Renderer/RendererBase.h"
 
 namespace REngine
@@ -23,25 +23,13 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class RendererManager
+	class RendererManager : public ReserveContainer<RendererBase>
 	{
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
 
 	   //-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
-
-		// 登録予約中のRenderer
-		std::vector<RendererBase*> m_addReserves;
-		std::unordered_set<RendererBase*> m_removeReserves;
-
-		// 登録されているRendererBase
-		std::vector<RendererBase*> m_renderers;
 
 	public:
 
@@ -57,47 +45,5 @@ namespace REngine
 
 		// 描画処理
 		void DrawAll(Renderer& renderer);
-
-		// 登録予約
-		void AddRenderer(RendererBase* r) { m_addReserves.push_back(r); }
-		void RemoveRenderer(RendererBase* r) { m_removeReserves.insert(r); }
-
-		// 予約反映
-		void ReflectReserves()
-		{
-			AddReserved();
-			RemoveReserved();
-		}
-
-		// 予約済みポインタの追加
-		void AddReserved()
-		{
-			for (auto p : m_addReserves)
-			{
-				m_renderers.push_back(p);
-			}
-
-			m_addReserves.clear();
-		}
-
-		// 予約済みポインタの削除
-		void RemoveReserved()
-		{
-			// 削除リストが空なら何もしない
-			if (m_removeReserves.empty()) return;
-
-			// 削除リストに含まれているかを調べるラムダ式
-			auto shouldRemove = [this](RendererBase* base)
-				{
-					return m_removeReserves.contains(base);
-				};
-
-			// 削除
-			std::erase_if(m_renderers, shouldRemove);
-			std::erase_if(m_addReserves, shouldRemove);
-
-			// 削除リストをクリア
-			m_removeReserves.clear();
-		}
 	};
 }	// namespace REngine

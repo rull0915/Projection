@@ -1,12 +1,13 @@
 ﻿//====================================================//
-// ファイル名   : PhysicsManager2D.h
+// ファイル名   : UIManager.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/16
+// 作成日       : 2026/05/24
 //
-// 概要 : 2D版物理挙動管理クラスです
+// 概要 : UI管理クラス
+// 　　   Canvasを保持する
 //
 // 更新履歴 :
-// 2026/04/16 新規作成
+// 2026/05/24 新規作成
 //====================================================//
 
 #pragma once
@@ -14,71 +15,57 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/RigidBody/RigidBody2D.h"
-#include "Physics/HitContact.h"
 #include "../ReserveContainer.h"
-
-#include <memory>
+#include "Components/UI/Canvas.h"
 
 namespace REngine
 {
 	//====================================================//
 	// 前方宣言
 	//====================================================//
-
-	class CollideManager2D;
+	class Renderer;
+	class Scene;
 
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class PhysicsManager2D : public ReserveContainer<RigidBody2D>
+	class UIManager : public ReserveContainer<Canvas>
 	{
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
 
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 衝突管理クラス
-		std::unique_ptr<CollideManager2D> m_collideManager;
-
-		// 衝突情報
-		std::vector<HitContact2D> m_contacts;
-		std::unordered_map<ObjectPair2D, HitContact2D, ObjectPairHash2D> m_contactMap;
+	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-	public:
-		PhysicsManager2D();
-		~PhysicsManager2D();
+		UIManager(Scene* pScene);
+		~UIManager();
+
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
-		// 更新処理
-		void Update(float elapsedTime);
+		void CheckEvent();
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-		std::unordered_map<ObjectPair2D, HitContact2D, ObjectPairHash2D>& GetHitList() { return m_contactMap; }
+		void Draw(Renderer& renderer);
 
-		CollideManager2D* GetCollideManager() { return m_collideManager.get(); }
+		// マウスとの衝突を調べる関数
+		void CheckHitRay(DirectX::SimpleMath::Vector2 position);
+
+		// デバッグ描画関数
+		void DebugDraw(Renderer& renderer, DirectX::SimpleMath::Color color);
+
+	private:
 
 		//-----------------------------------------------------
 		// 内部実装
 		//-----------------------------------------------------
 
-	private:
-		// 衝突後の補正
-		void HittedCorrection();
-
-		void PositionCorrection(HitContact2D& contact);
-		void VelocityCorrection(HitContact2D& contact);
+		// キャンバスの並び順をソートする関数
+		void SortCanvas();
 	};
 }	// namespace REngine

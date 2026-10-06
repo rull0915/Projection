@@ -509,6 +509,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="src\Managers\ReserveContainer.h" />
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
       <SubType>
       </SubType>
@@ -653,7 +654,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Managers\CameraManager.h" />
     <ClInclude Include="include\Managers\CollisionMap.h" />
     <ClInclude Include="include\Physics\HitContact.h" />
-    <ClInclude Include="include\Managers\ObjectManager.h" />
+    <ClInclude Include="src\Managers\ObjectManager.h" />
     <ClInclude Include="src\Managers\Renderer\RendererManager.h" />
     <ClInclude Include="src\Managers\Sounds\SoundManager.h" />
     <ClInclude Include="src\Managers\System\CollideEventSystem.h" />
@@ -684,7 +685,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\System\WindowManager.h" />
     <ClInclude Include="include\Timer\GameTimer.h" />
     <ClInclude Include="include\Timer\StepTimer.h" />
-    <ClInclude Include="include\Managers\UI\UIManager.h" />
+    <ClInclude Include="src\Managers\UI\UIManager.h" />
     <ClInclude Include="include\Components\UI\UIComponentBase.h" />
     <ClInclude Include="include\Components\UI\Behaviour\ButtonUI.h" />
     <ClInclude Include="include\Components\UI\Graphics\UIGraphicBase.h" />

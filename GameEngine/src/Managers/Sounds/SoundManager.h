@@ -14,8 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <unordered_set>
 
+#include "../ReserveContainer.h"
 #include "Components/Both/Sounds/AudioSource.h"
 #include "Components/World/Sounds/AudioListener.h"
 
@@ -24,25 +24,13 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class SoundManager
+	class SoundManager : public ReserveContainer<AudioSource>
 	{
 	private:
 
 		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
-
-		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
-
-		// 登録予約中のAudioSource
-		std::vector<AudioSource*> m_reserves;
-		std::unordered_set<AudioSource*> m_removeReserves;
-
-		// 登録されているAudioSource
-		std::vector<AudioSource*> m_sources;
 
 		// 使用中のリスナー
 		AudioListener* m_listener;
@@ -62,23 +50,6 @@ namespace REngine
 		// 更新処理
 		void Update();
 
-		// 予約反映
-		void ReflectReserves()
-		{
-			AddReserved();
-			RemoveReserved();
-		}
-
-		// 登録予約
-		void AddAudioSource(AudioSource* r)
-		{
-			m_reserves.push_back(r);
-		}
-		void RemoveAudioSource(AudioSource* r)
-		{
-			m_removeReserves.insert(r);
-		}
-
 		// リスナーの設定
 		void SetListener(AudioListener* l)
 		{
@@ -90,39 +61,5 @@ namespace REngine
 
 		// リスナーの削除
 		void RemoveListener(AudioListener* l) { if (m_listener == l) m_listener = nullptr; }
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-		// 予約済みポインタの追加
-		void AddReserved()
-		{
-			for (auto p : m_reserves)
-			{
-				m_sources.push_back(p);
-			}
-
-			m_reserves.clear();
-		}
-
-		// 予約済みポインタの削除
-		void RemoveReserved()
-		{
-			// 削除予約がなければ何もしない
-			if (m_removeReserves.empty()) return;
-
-			// 削除リストに含まれる要素を削除
-			std::erase_if(
-				m_sources,
-				[&](AudioSource* source) ->bool
-				{
-					return m_removeReserves.contains(source);
-				}
-			);
-
-			// 削除リストを初期化
-			m_removeReserves.clear();
-		}
 	};
 }	// namespace REngine

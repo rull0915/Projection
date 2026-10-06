@@ -22,10 +22,7 @@ namespace REngine
 	//====================================================//
 
 	PhysicsManager::PhysicsManager()
-		: m_addReserves{}
-		, m_removeReserves{}
-		, m_rigidBodies{}
-		, m_collideManager{ std::make_unique<CollideManager>() }
+		: m_collideManager{ std::make_unique<CollideManager>() }
 		, m_contacts{}
 		, m_contactMap{}
 	{}
@@ -38,7 +35,7 @@ namespace REngine
 		// 全RigidBodyの更新
 
 		// 外力の適用
-		for (auto* body : m_rigidBodies)
+		for (auto* body : GetObjects())
 		{
 			// アクティブチェック
 			if (!body->IsActive()) continue;
@@ -51,7 +48,7 @@ namespace REngine
 		}
 
 		// 位置の更新
-		for (auto* body : m_rigidBodies)
+		for (auto* body : GetObjects())
 		{
 			// アクティブチェック
 			if (!body->IsActive()) continue;
