@@ -42,6 +42,9 @@ namespace REngine
 		// 自身のUUID
 		UUID m_uuid = 0;
 
+		// GUI変更不可フラグ
+		bool m_readOnly = false;
+
 	public:
 
 		//-----------------------------------------------------
@@ -70,14 +73,22 @@ namespace REngine
 		// UUID
 		void SetUUID(UUID uuid) { m_uuid = uuid; }
 
+	protected:
+		// 変更不可フラグ
+		void SetReadOnly(bool flag) { m_readOnly = flag; }
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
 
+	public:
 		// 読み込み状態
 		LoadStatus GetStatus() { return m_status; }
 
 		// UUID
 		UUID GetUUID() { return m_uuid; }
+
+		// 変更不可フラグ
+		bool IsReadOnly() { return m_readOnly; }
 	};
 }	// namespace REngine

@@ -83,6 +83,9 @@ namespace REngine
 		// スタート済みかどうか
 		bool IsStarted() const { return m_isStarted; }
 
+		// 1つのGameObjectに複数付けられるかどうか
+		virtual bool AllowMultiple() const { return true; }
+
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
