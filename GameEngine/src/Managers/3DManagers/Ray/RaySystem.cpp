@@ -73,7 +73,7 @@ namespace REngine
 			if (!(layerMask & (1ULL << layer))) continue;
 
 			// ブロードフェーズ
-			AABB aabb = collider->GetBoundingBox();
+			BoundingBox aabb = collider->GetBoundingBox();
 
 			if (aabb.min.x > max.x || min.x > aabb.max.x) continue;
 			if (aabb.min.y > max.y || min.y > aabb.max.y) continue;

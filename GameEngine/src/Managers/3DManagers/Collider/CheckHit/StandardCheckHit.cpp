@@ -116,7 +116,7 @@ namespace REngine
 			SimpleMath::Vector3 halfSize = col2->GetHalfSize();
 
 			// ボックス内の最近接点を求める
-			SimpleMath::Vector3 localNear = ClosedPointOnAABB(halfSize, localCenter);
+			SimpleMath::Vector3 localNear = ClosedPointOnBoundingBox(halfSize, localCenter);
 
 			// 距離の判定（二乗で比較して計算負荷を軽減）
 			float distSq = SimpleMath::Vector3::DistanceSquared(localCenter, localNear);
@@ -331,7 +331,7 @@ namespace REngine
 			SimpleMath::Vector3 end = SimpleMath::Vector3::Transform(worldPoints.second, localInv);
 
 			// ボックスへの最近点を求める
-			SimpleMath::Vector3 nearStart = ClosedPointOnAABB(size, start), nearGoal = ClosedPointOnAABB(size, end);
+			SimpleMath::Vector3 nearStart = ClosedPointOnBoundingBox(size, start), nearGoal = ClosedPointOnBoundingBox(size, end);
 
 			// ワールド座標系へ戻す
 			SimpleMath::Vector3 wStart = SimpleMath::Vector3::Transform(nearStart, local), wGoal = SimpleMath::Vector3::Transform(nearGoal, local);

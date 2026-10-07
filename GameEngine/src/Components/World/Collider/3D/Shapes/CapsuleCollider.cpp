@@ -108,7 +108,7 @@ namespace REngine
 			m_cache.points = std::make_pair(world - line / 2, world + line / 2);
 		}
 
-		// ----- AABBの更新 ----- //
+		// ----- BoundingBoxの更新 ----- //
 		{
 			std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> points = m_cache.points;
 			float r = m_cache.radius;
@@ -119,7 +119,7 @@ namespace REngine
 			minP -= { r, r, r };
 			maxP += { r, r, r };
 
-			SetBoundingBox(AABB(minP, maxP));
+			SetBoundingBox(BoundingBox(minP, maxP));
 		}
 
 		// フラグのリセット

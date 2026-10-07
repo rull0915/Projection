@@ -111,8 +111,8 @@ namespace REngine
 		// オブジェクトを登録する関数
 		void AddObject(ObjectForTree2D* obj)
 		{
-			// AABBを取得
-			AABB2D box = obj->m_pObject->GetBoundingBox();
+			// BoundingBoxを取得
+			BoundingBox2D box = obj->m_pObject->GetBoundingBox();
 
 			unsigned int index = GetMortonNumber(box);
 
@@ -234,7 +234,7 @@ namespace REngine
 		};
 
 		// ボックスからモートン番号を取得する関数
-		unsigned int GetMortonNumber(const AABB2D& box)
+		unsigned int GetMortonNumber(const BoundingBox2D& box)
 		{
 			// 2点の最小空間モートン番号を取得
 			unsigned int minMorton = GetMinimumIndex(box.min);

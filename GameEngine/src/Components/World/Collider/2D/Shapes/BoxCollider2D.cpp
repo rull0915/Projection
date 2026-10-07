@@ -45,7 +45,7 @@ namespace REngine
 		m_cache.xAxis = { cosf(zAngle), sinf(zAngle) };
 		m_cache.yAxis = { -sinf(zAngle), cosf(zAngle) };
 
-		// ----- AABBの更新 ----- //
+		// ----- BoundingBoxの更新 ----- //
 		SimpleMath::Vector2 h = m_localSize * 0.5f;
 
 		float ex = abs(m_cache.xAxis.x * h.x) + abs(m_cache.yAxis.x * h.y);
@@ -54,7 +54,7 @@ namespace REngine
 		SimpleMath::Vector2 extent(ex, ey);
 
 		// extentからmin maxを計算
-		SetBoundingBox(AABB2D(center - extent, center + extent));
+		SetBoundingBox(BoundingBox2D(center - extent, center + extent));
 
 		// フラグのリセット
 		ResetDirty();

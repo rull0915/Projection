@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "../ColliderCommon.h"
+#include "Math/Bounding.h"
 
 namespace REngine
 {
@@ -27,24 +28,6 @@ namespace REngine
 		Line,
 		Capsule,
 		Box,
-	};
-
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
-	struct AABB
-	{
-		DirectX::SimpleMath::Vector3 min;
-		DirectX::SimpleMath::Vector3 max;
-
-		AABB(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b)
-			: min{ a }
-			, max{ b }
-		{};
-
-		AABB()
-			: min{ 0, 0, 0 }, max{ 0, 0, 0 }
-		{}
 	};
 
 	//====================================================//
@@ -64,8 +47,8 @@ namespace REngine
 		// ローカル中心座標
 		DirectX::SimpleMath::Vector3 m_localCenterPos;
 
-		// 自身を覆うAABB
-		mutable AABB m_boundingBox;
+		// 自身を覆うBoundingBox
+		mutable BoundingBox m_boundingBox;
 
 		// ワールド中心座標のキャッシュ
 		mutable DirectX::SimpleMath::Vector3 m_worldCenterPos;
@@ -111,7 +94,7 @@ namespace REngine
 
 		ColliderType GetType() const { return m_type; };
 
-		inline AABB& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うAABBを取得する関数
+		inline BoundingBox& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うBoundingBoxを取得する関数
 
 		// ワールド座標系での中心座標を返す関数
 		DirectX::SimpleMath::Vector3 GetWorldCenterPos() const
@@ -134,6 +117,6 @@ namespace REngine
 	protected:
 
 		inline void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos) const { m_worldCenterPos = pos; }
-		inline void SetBoundingBox(const AABB& box) const { m_boundingBox = box; }
+		inline void SetBoundingBox(const BoundingBox& box) const { m_boundingBox = box; }
 	};
 } // namespace REngine

@@ -141,7 +141,7 @@ namespace REngine
 		}
 	}
 
-	static DirectX::SimpleMath::Vector3 ClosedPointOnAABB(const DirectX::SimpleMath::Vector3& halfSize, const DirectX::SimpleMath::Vector3 point)
+	static DirectX::SimpleMath::Vector3 ClosedPointOnBoundingBox(const DirectX::SimpleMath::Vector3& halfSize, const DirectX::SimpleMath::Vector3 point)
 	{
 		DirectX::SimpleMath::Vector3 nearPoint = {
 		std::clamp(point.x, -halfSize.x, halfSize.x),

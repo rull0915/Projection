@@ -15,27 +15,10 @@
 // インクルードファイル
 //====================================================//
 #include "../ColliderCommon.h"
+#include "Math/Bounding.h"
 
 namespace REngine
 {
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
-	struct AABB2D
-	{
-		DirectX::SimpleMath::Vector2 min;
-		DirectX::SimpleMath::Vector2 max;
-
-		AABB2D(DirectX::SimpleMath::Vector2 a, DirectX::SimpleMath::Vector2 b)
-			: min{ a }
-			, max{ b }
-		{};
-
-		AABB2D()
-			: min{ 0, 0 }, max{ 0, 0 }
-		{}
-	};
-
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -53,8 +36,8 @@ namespace REngine
 		// 回転量
 		float m_rotation;
 
-		// 自身を覆うAABB2D
-		mutable AABB2D m_boundingBox;
+		// 自身を覆うBoundingBox2D
+		mutable BoundingBox2D m_boundingBox;
 
 		// ワールド中心座標のキャッシュ
 		mutable DirectX::SimpleMath::Vector2 m_worldCenterPos;
@@ -100,7 +83,7 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		inline AABB2D& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うAABBを取得する関数
+		inline BoundingBox2D& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うBoundingBoxを取得する関数
 
 		// ワールド座標系での中心座標を返す関数
 		DirectX::SimpleMath::Vector2 GetWorldCenterPos() const
@@ -129,6 +112,6 @@ namespace REngine
 	protected:
 
 		inline void SetWorldPosition(const DirectX::SimpleMath::Vector2& pos) const { m_worldCenterPos = pos; }
-		inline void SetBoundingBox(const AABB2D& box) const { m_boundingBox = box; }
+		inline void SetBoundingBox(const BoundingBox2D& box) const { m_boundingBox = box; }
 	};
 } // namespace REngine

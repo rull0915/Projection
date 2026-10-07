@@ -131,12 +131,12 @@ namespace REngine
 				// コライダーの所有者が同じならスキップ
 				if (a->GetOwn() == b->GetOwn()) return false;
 
-				// コライダーが持つAABBが衝突していなければスキップ
-				AABB aabb1 = a->GetBoundingBox(), aabb2 = b->GetBoundingBox();
+				// コライダーが持つBoundingBoxが衝突していなければスキップ
+				BoundingBox boundingBox1 = a->GetBoundingBox(), boundingBox2 = b->GetBoundingBox();
 
-				if (aabb1.min.x > aabb2.max.x || aabb2.min.x > aabb1.max.x) return false;
-				if (aabb1.min.y > aabb2.max.y || aabb2.min.y > aabb1.max.y) return false;
-				if (aabb1.min.z > aabb2.max.z || aabb2.min.z > aabb1.max.z) return false;
+				if (boundingBox1.min.x > boundingBox2.max.x || boundingBox2.min.x > boundingBox1.max.x) return false;
+				if (boundingBox1.min.y > boundingBox2.max.y || boundingBox2.min.y > boundingBox1.max.y) return false;
+				if (boundingBox1.min.z > boundingBox2.max.z || boundingBox2.min.z > boundingBox1.max.z) return false;
 
 				// レイヤー確認
 				if (!PhysicsSettings::Instance().CanHit(a->GetLayer(), b->GetLayer())) return false;
