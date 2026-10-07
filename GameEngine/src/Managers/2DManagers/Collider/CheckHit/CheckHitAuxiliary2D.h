@@ -111,7 +111,7 @@ namespace REngine
 		return (outP - outQ).LengthSquared();
 	}
 
-	static SimpleMath::Vector2 ClosedPointOnAABB(const SimpleMath::Vector2& halfSize, const SimpleMath::Vector2 point)
+	static SimpleMath::Vector2 ClosedPointOnBoundingBox(const SimpleMath::Vector2& halfSize, const SimpleMath::Vector2 point)
 	{
 		SimpleMath::Vector2 nearPoint = {
 		std::clamp(point.x, -halfSize.x, halfSize.x),

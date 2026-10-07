@@ -10,7 +10,6 @@
 #include <memory>
 
 #include "GameEngine.h"
-#include "Scene/Transition/TransitionBase.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -66,11 +65,6 @@ private:
 	// Rendering loop timer.
 	DX::StepTimer m_timer;
 
-	// FPSカウンタ
-	uint32_t m_frameCount;
-	float m_timeAccumulator;
-	float m_fps;
-
 	// ================ 自分の処理 ================== //
 	
 	// タイトルの文字列
@@ -81,7 +75,4 @@ private:
 
 	// ゲームエンジン本体
 	std::unique_ptr<REngine::GameEngine> m_gameEngine;
-
-private:
-	void TitleNameUpdate(float elapsedTime);
 };

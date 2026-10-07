@@ -34,9 +34,9 @@ namespace REngine
 		DirectX::SimpleMath::Vector2 center = world2D.World3DToLocal2D(center3D);
 		SetWorldPosition(center);
 
-		// ----- AABBの更新 ----- //
+		// ----- BoundingBoxの更新 ----- //
 		DirectX::SimpleMath::Vector3 size = { m_radius, m_radius, m_radius };
-		SetBoundingBox(AABB2D(center - size, center + size));
+		SetBoundingBox(BoundingBox2D(center - size, center + size));
 
 		// フラグのリセット
 		ResetDirty();

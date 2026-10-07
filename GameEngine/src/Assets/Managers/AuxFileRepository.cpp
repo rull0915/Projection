@@ -13,7 +13,7 @@
 #include "Assets/Managers/AuxFileRepository.h"
 
 #include <fstream>
-#include "nlohmann/json.hpp"
+#include "ThirdParty/nlohmann/json.hpp"
 
 namespace REngine
 {

@@ -1,5 +1,6 @@
 ﻿#include <random>
 #include <mutex>
+#include <array>
 
 namespace REngine
 {
@@ -12,14 +13,21 @@ namespace REngine
 
 		inline bool Init()
 		{
-			// std::random_deviceを作成
+			// 擬似乱数生成器の状態シーケンスのサイズ分、
+			// シードを用意する
+			std::array<
+				std::seed_seq::result_type,
+				std::mt19937::state_size
+			> seed_data;
+
+			// 非決定的な乱数でシード列を構築する
 			std::random_device rd;
+			std::generate(seed_data.begin(), seed_data.end(), std::ref(rd));
 
-			// 上記のrdで4つの値を使ってstd::seed_seqを作成
-			std::seed_seq ss{ rd(), rd(), rd(), rd() };
+			std::seed_seq seq(seed_data.begin(), seed_data.end());
 
-			// 上記のss連続値を使って「mt」エンジンの再シードを行う（mt.seed()関数）
-			mt.seed(ss);
+			// 擬似乱数生成器をシード列で初期化
+			mt.seed(seq);
 
 			return true;
 		}

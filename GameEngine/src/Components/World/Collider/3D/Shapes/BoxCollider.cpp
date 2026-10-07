@@ -41,7 +41,7 @@ namespace REngine
 		// ----- スケールの更新 ----- //
 		m_cache.scale = m_localSize * worldScale;
 
-		// ----- AABBの更新 ----- //
+		// ----- BoundingBoxの更新 ----- //
 		SimpleMath::Vector3 h = m_cache.scale * 0.5f;
 
 		float ex = abs(m_cache.xAxis.x * h.x) + abs(m_cache.yAxis.x * h.y) + abs(m_cache.zAxis.x * h.z);
@@ -51,7 +51,7 @@ namespace REngine
 		SimpleMath::Vector3 extent(ex, ey, ez);
 
 		// extentからmin maxを計算
-		SetBoundingBox(AABB(world - extent, world + extent));
+		SetBoundingBox(BoundingBox(world - extent, world + extent));
 
 		// ----- ローカル座標行列の更新 ----- //
 		m_cache.localMatrix = pT->GetWorldRotationMatrix() * SimpleMath::Matrix::CreateTranslation(world);

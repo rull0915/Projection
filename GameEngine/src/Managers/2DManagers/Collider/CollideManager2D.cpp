@@ -141,11 +141,11 @@ namespace REngine
 				// コライダーの所有者が同じならスキップ
 				if (a->GetOwn() == b->GetOwn()) return false;
 
-				// コライダーが持つAABBが衝突していなければスキップ
-				AABB2D aabb1 = a->GetBoundingBox(), aabb2 = b->GetBoundingBox();
+				// コライダーが持つBoundingBoxが衝突していなければスキップ
+				BoundingBox2D boundingBox1 = a->GetBoundingBox(), boundingBox2 = b->GetBoundingBox();
 
-				if (aabb1.min.x > aabb2.max.x || aabb2.min.x > aabb1.max.x) return false;
-				if (aabb1.min.y > aabb2.max.y || aabb2.min.y > aabb1.max.y) return false;
+				if (boundingBox1.min.x > boundingBox2.max.x || boundingBox2.min.x > boundingBox1.max.x) return false;
+				if (boundingBox1.min.y > boundingBox2.max.y || boundingBox2.min.y > boundingBox1.max.y) return false;
 
 				return true;
 			};

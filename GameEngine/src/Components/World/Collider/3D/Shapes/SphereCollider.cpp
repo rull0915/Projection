@@ -36,9 +36,9 @@ namespace REngine
 
 		m_worldRadius = max * m_radius;
 
-		// ----- AABBの更新 ----- //
+		// ----- BoundingBoxの更新 ----- //
 		DirectX::SimpleMath::Vector3 size = { m_worldRadius, m_worldRadius, m_worldRadius };
-		SetBoundingBox(AABB(world - size, world + size));
+		SetBoundingBox(BoundingBox(world - size, world + size));
 
 		// フラグのリセット
 		ResetDirty();

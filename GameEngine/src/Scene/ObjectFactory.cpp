@@ -10,8 +10,8 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Scene/ObjectFactory.h"
 
+#include "Scene/ObjectFactory.h"
 #include "Scene/Scene.h"
 #include "Managers/ObjectManager.h"
 #include "System/UUIDRegistry.h"

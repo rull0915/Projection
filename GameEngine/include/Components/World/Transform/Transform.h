@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
-#include <unordered_set>
+#include <vector>
 
 namespace REngine
 {
@@ -50,7 +50,7 @@ namespace REngine
 
 		Transform* m_pParent;   // 親
 
-		std::unordered_set<Transform*> m_children; // 子
+		std::vector<Transform*> m_children; // 子
 
 		// 位置の変更をためておく変数
 		DirectX::SimpleMath::Vector3 m_addCache;
@@ -219,7 +219,7 @@ namespace REngine
 		const Transform* GetParent() const { return m_pParent; }
 
 		// 子供
-		const std::unordered_set<Transform*>& GetChildren() const { return m_children; }
+		const std::vector<Transform*>& GetChildren() const { return m_children; }
 
 		//-----------------------------------------------------
 		// セッター
@@ -301,7 +301,7 @@ namespace REngine
 		void AddChild(Transform* child)
 		{
 			// nullptrでなければ追加
-			if (child) m_children.insert(child);
+			if (child) m_children.push_back(child);
 		}
 
 		// 子供を削除する関数
@@ -309,7 +309,7 @@ namespace REngine
 		{
 			if (!child) return;
 
-			m_children.erase(child);
+			std::erase_if(m_children, [child](Transform* transform) { return transform == child; });
 		}
 
 		// 子供を全て解放する関数

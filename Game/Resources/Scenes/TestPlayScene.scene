@@ -67,69 +67,6 @@
                             "m_localPosition": [
                                 0.0,
                                 0.0,
-                                0.0
-                            ],
-                            "m_localRotation": [
-                                -1.4901161193847656e-08,
-                                0.0,
-                                0.0,
-                                1.0
-                            ],
-                            "m_localScale": [
-                                1.0,
-                                1.0000001192092896,
-                                1.0
-                            ]
-                        },
-                        "Type": "Transform",
-                        "UUID": 9633619329444748429
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_isTrigger": false,
-                            "m_layerNum": 0,
-                            "m_localCenterPos": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "m_localSize": [
-                                1.899999976158142,
-                                0.2199999988079071,
-                                1.899999976158142
-                            ],
-                            "m_needInfo": false,
-                            "m_physicsMaterial": 0
-                        },
-                        "Type": "BoxCollider",
-                        "UUID": 5298042203537395725
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_materialHandle": 0,
-                            "m_modelHandle": 955517710624667869
-                        },
-                        "Type": "ModelComponent",
-                        "UUID": 12223120485199972121
-                    }
-                ],
-                "IsWorld": true,
-                "UUID": 7185120441584843349,
-                "m_isActive": true,
-                "m_name": "Cube1",
-                "m_tag": "Floor"
-            },
-            {
-                "Children": [],
-                "Components": [
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_localPosition": [
-                                0.0,
-                                0.0,
                                 7.0
                             ],
                             "m_localRotation": [
@@ -168,6 +105,155 @@
                 "UUID": 10710928390516439349,
                 "m_isActive": true,
                 "m_name": "",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        -0.09090393781661987,
+                                        0.32310643792152405,
+                                        -0.9397661685943604
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 13051561203489261505
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_isTrigger": false,
+                                    "m_layerNum": 0,
+                                    "m_localCenterPos": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localSize": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_needInfo": false,
+                                    "m_physicsMaterial": 0
+                                },
+                                "Type": "BoxCollider",
+                                "UUID": 10781610004427144046
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materialHandle": 0,
+                                    "m_modelHandle": 7357398224225983858
+                                },
+                                "Type": "ModelComponent",
+                                "UUID": 6082393013098052349
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": false,
+                                    "m_isStatic": false,
+                                    "m_linearDamping": 0.0,
+                                    "m_mass": 1.0,
+                                    "m_useGravity": false
+                                },
+                                "Type": "RigidBody",
+                                "UUID": 15096779705797406430
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 14872037067590552921,
+                        "m_isActive": true,
+                        "m_name": "Child",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 3339607341038197109
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materialHandle": 0,
+                            "m_modelHandle": 7357398224225983858
+                        },
+                        "Type": "ModelComponent",
+                        "UUID": 17444856394263258701
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
+                        },
+                        "Type": "BoxCollider",
+                        "UUID": 8312423716987459706
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": false,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": false
+                        },
+                        "Type": "RigidBody",
+                        "UUID": 16747562780228540296
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 4379789197353630691,
+                "m_isActive": true,
+                "m_name": "Cube",
                 "m_tag": ""
             }
         ]
