@@ -164,9 +164,6 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Assets\Types\Model\Mesh.cpp" />
-    <ClCompile Include="include\Assets\Types\Model\Model.cpp" />
-    <ClCompile Include="include\Assets\Types\Model\SubMesh.cpp" />
     <ClCompile Include="src\Assets\System\Shader\InputLayoutCache.cpp">
       <SubType>
       </SubType>

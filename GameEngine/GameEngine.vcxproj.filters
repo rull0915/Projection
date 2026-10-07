@@ -370,15 +370,6 @@
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="include\Assets\Types\Model\Mesh.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Assets\Types\Model\SubMesh.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Assets\Types\Model\Model.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h">
