@@ -90,7 +90,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
 		m_worldVertices3D[i] = world2D.Local2DToWorld3D(m_worldVertices[i]);
 	}
 
-	// AABBの更新
+	// BoundingBoxの更新
 	if (size_t count = m_worldVertices.size(); count > 0)
 	{
 		SimpleMath::Vector2 min = m_worldVertices[0], max = m_worldVertices[0];
@@ -105,7 +105,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
 			if (p.y > max.y) max.y = p.y;
 		}
 
-		REngine::AABB2D boundingBox(min, max);
+		REngine::BoundingBox2D boundingBox(min, max);
 
 		SetBoundingBox(boundingBox);
 	}

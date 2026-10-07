@@ -13,10 +13,6 @@
 // 各プロジェクト初期化
 #include "GameInitializer.h"		// ゲーム部分	
 
-#include "Input/KeyInput.h"
-#include "Input/PadInput.h"
-#include "Scene/Transition/FadeTransition.h"
-
 extern void ExitGame() noexcept;
 
 using namespace DirectX;
@@ -24,10 +20,7 @@ using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept(false)
-	: m_fps{}
-	, m_timeAccumulator{}
-	, m_frameCount{}
-	, m_gameEngine{ std::make_unique<REngine::GameEngine>() }
+	: m_gameEngine{ std::make_unique<REngine::GameEngine>() }
 	, m_deviceResources{ nullptr }
 {
 	// デバイスリソースの取得
@@ -99,23 +92,8 @@ void Game::Update(DX::StepTimer const& timer)
 {
 	float elapsedTime = float(timer.GetElapsedSeconds());
 
-	// TODO: Add your game logic here.
-
-	TitleNameUpdate(elapsedTime);
-
 	// ゲームエンジンの更新
 	m_gameEngine->Update(elapsedTime);
-
-	// タイトルへ戻る処理
-	// Todo : TGS用の特殊処理です 終わったら削除して下さい
-	if (REngine::Input::Key::Get(REngine::Input::Key::Code::LeftControl) && REngine::Input::Key::GetDown(REngine::Input::Key::Code::T))
-	{
-		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(0.1f), std::make_unique<REngine::Transition::Fade>(0.1f));
-	}
-	if (REngine::Input::Pad::Get(REngine::Input::Pad::Button::LStick) && REngine::Input::Pad::GetDown(REngine::Input::Pad::Button::RStick))
-	{
-		REngine::SceneManager::Instance().RequestSceneChange("Title", std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>());
-	}
 }
 #pragma endregion
 
@@ -235,44 +213,6 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
 	// TODO: Initialize windows-size dependent objects here.
-}
-
-void Game::TitleNameUpdate(float elapsedTime)
-{
-	elapsedTime;
-
-	// デバッグなら
-#ifdef _DEBUG
-
-	// FPSの計算
-	m_timeAccumulator += elapsedTime;
-	++m_frameCount;
-
-	// FPSを1秒ごとに更新
-	if (m_timeAccumulator > 1.0f)
-	{
-		m_fps = static_cast<float>(m_frameCount) / m_timeAccumulator;
-
-		// windowタイトルをFPSで更新
-		HWND hwnd = m_deviceResources->GetWindow();
-
-		if (hwnd)
-		{
-			std::wstring titleStr = TITLE_STRING;
-
-			wchar_t title[128]{};
-
-			swprintf_s(title, L"(FPS: %.1f)", m_fps);
-			titleStr += title;
-
-			SetWindowTextW(hwnd, titleStr.data());
-		}
-
-		m_frameCount = 0;
-		m_timeAccumulator = 0;
-	}
-
-#endif
 }
 
 void Game::OnDeviceLost()
