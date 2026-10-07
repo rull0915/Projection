@@ -15,17 +15,15 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <nlohmann/json.hpp>
+#include "ThirdParty/nlohmann/json.hpp"
 #include "Common/Property/PropertyObject.h"
 #include "Assets/Managers/AssetManager.h"
 
 namespace REngine
 {
 	class GameObject;
-	class Canvas;
 	class Scene;
 	class ObjectManager;
-	class UIManager;
 
 	//====================================================//
 	// クラス宣言
