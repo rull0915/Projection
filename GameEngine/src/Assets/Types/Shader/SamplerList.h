@@ -16,7 +16,7 @@
 //====================================================//
 
 #include <unordered_map>
-#include "SamplerType.h"
+#include "Assets/Types/Shader/SamplerType.h"
 
 namespace REngine
 {

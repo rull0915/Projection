@@ -340,9 +340,6 @@
     <ClCompile Include="src\Assets\System\Shader\ShaderLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assets\System\Shader\FormatGetter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Assets\System\Shader\ShaderReflection.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -364,11 +361,14 @@
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assets\System\Shader\InputLayoutCache.cpp">
+    <ClCompile Include="src\Assets\Types\Shader\InputLayoutCache.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp">
       <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -894,9 +894,6 @@
     <ClInclude Include="src\Editor\Editor\HandlePayload.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\Model.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Assets\Types\Font.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -933,16 +930,13 @@
     <ClInclude Include="src\Assets\System\Shader\ShaderReflection.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Assets\System\Shader\FormatGetter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Assets\Types\MaterialAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\CBufferSlot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\Shader\SamplerList.h">
+    <ClInclude Include="src\Assets\Types\Shader\SamplerList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\Shader\SamplerType.h">
@@ -981,7 +975,7 @@
     <ClInclude Include="include\Assets\Types\Vertex\VertexTypes.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\Shader\InputLayoutCache.h">
+    <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Managers\ReserveContainer.h">
@@ -1000,6 +994,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Math\Bounding.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\System\Model\OBJLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

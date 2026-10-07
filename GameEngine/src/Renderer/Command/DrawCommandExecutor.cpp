@@ -20,6 +20,7 @@
 #include "Renderer/CBufferSlot.h"
 #include "Assets/Types/Shader/InputLayoutCache.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
+#include "Assets/Types/Shader/SamplerList.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -36,8 +37,10 @@ REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager)
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
 	, m_assetManager{ assetManager }
-	, m_samplerList{}
+	, m_samplerList{ std::make_unique<SamplerList>() }
 {}
+
+REngine::DrawCommandExecutor::~DrawCommandExecutor() = default;
 
 void REngine::DrawCommandExecutor::Initialize()
 {
@@ -94,7 +97,7 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_pDevice->CreateBuffer(&desc1, nullptr, m_worldConstantBuffer.ReleaseAndGetAddressOf());
 
 	// サンプラーリストの初期化
-	m_samplerList.Initialize(m_pDevice);
+	m_samplerList->Initialize(m_pDevice);
 }
 
 void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
@@ -125,7 +128,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 		// 存在しており有効ハンドルなら
 		if (material && material->IsValid())
 		{
-			material->SetReference(&m_assetManager, &m_samplerList);
+			material->SetReference(&m_assetManager, m_samplerList.get());
 
 			// バインド
 			material->Apply(m_pContext);
@@ -219,7 +222,7 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 		// マテリアルが設定されていて有効なとき
 		if (material && material->IsValid())
 		{
-			material->SetReference(&m_assetManager, &m_samplerList);
+			material->SetReference(&m_assetManager, m_samplerList.get());
 
 			// VP行列をバインド
 			BindVPBuffer();

@@ -16,7 +16,6 @@
 //====================================================//
 
 #include "Assets/Types/Texture.h"
-#include "Assets/Types/Model.h"
 #include "Assets/Types/Font.h"
 #include "Assets/Types/Prefab.h"
 #include "Assets/Types/AudioClip.h"
@@ -31,9 +30,6 @@ namespace REngine
 
 		// Texture
 		std::unique_ptr<Texture> TextureLoader(const std::filesystem::path& path);
-
-		// Model
-		std::unique_ptr<Model> ModelLoader(const std::filesystem::path& path);
 
 		// Font
 		std::unique_ptr<Font> FontLoader(const std::filesystem::path& path);

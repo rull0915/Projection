@@ -69,34 +69,6 @@ namespace REngine
 		return std::make_unique<Texture>(std::move(texture));
 	}
 
-	std::unique_ptr<Model> Loader::ModelLoader(const std::filesystem::path& path)
-	{
-		// デバイスを取得
-		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
-
-		// EffectFactoryを取得
-		auto fx = ResourceManager::Instance().GetEffectFactory();
-
-		// キーの拡張子を取得
-		std::string extension = path.extension().string();
-
-		std::unique_ptr<DirectX::Model> model;
-
-		// CMOファイルの場合
-		if (extension == ".cmo")
-		{
-			model = DirectX::Model::CreateFromCMO(device, path.c_str(), *fx);
-		}
-		// SDKMESHファイルの場合
-		else if (extension == ".sdkmesh")
-		{
-			model = DirectX::Model::CreateFromSDKMESH(device, path.c_str(), *fx);
-		}
-
-		// Modelの生成
-		return std::make_unique<Model>(std::move(model));
-	}
-
 	std::unique_ptr<Font> Loader::FontLoader(const std::filesystem::path& path)
 	{
 		// デバイスを取得

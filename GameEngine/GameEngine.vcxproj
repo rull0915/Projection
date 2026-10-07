@@ -164,7 +164,8 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Assets\System\Shader\InputLayoutCache.cpp">
+    <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp" />
+    <ClCompile Include="src\Assets\Types\Shader\InputLayoutCache.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -241,10 +242,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Assets\System\AssetInitializer.cpp" />
     <ClCompile Include="src\Assets\System\AssetLoaders.cpp" />
     <ClCompile Include="src\Assets\System\AssetSaver.cpp" />
-    <ClCompile Include="src\Assets\System\Shader\FormatGetter.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="src\Assets\System\Shader\ShaderLoader.cpp">
       <SubType>
       </SubType>
@@ -357,10 +354,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\Model.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\Assets\Types\Model\Mesh.h" />
     <ClInclude Include="include\Assets\Types\Model\Model.h" />
     <ClInclude Include="include\Assets\Types\Model\SubMesh.h" />
@@ -372,11 +365,12 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\Shader\InputLayoutCache.h">
+    <ClInclude Include="src\Assets\System\Model\OBJLoader.h" />
+    <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\Shader\SamplerList.h">
+    <ClInclude Include="src\Assets\Types\Shader\SamplerList.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -586,10 +580,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Assets\System\AssetLoaders.h" />
     <ClInclude Include="src\Assets\System\AssetSaver.h" />
     <ClInclude Include="include\Assets\Types\Shader\ShaderLoader.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="src\Assets\System\Shader\FormatGetter.h">
       <SubType>
       </SubType>
     </ClInclude>

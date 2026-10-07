@@ -20,11 +20,11 @@
 #include <VertexTypes.h>
 
 #include "DrawCommandContainer.h"
-#include "Assets/Types/Shader/SamplerList.h"
 
 namespace REngine
 {
 	class AssetManager;
+	class SamplerList;
 
 	// 16バイトアライメントに合わせた構造体定義
 	struct alignas(16) VPBuffer
@@ -96,7 +96,7 @@ namespace REngine
 		AssetManager& m_assetManager;
 
 		// サンプラーリスト
-		SamplerList m_samplerList;
+		std::unique_ptr<SamplerList> m_samplerList;
 
 	public:
 
@@ -104,7 +104,7 @@ namespace REngine
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		DrawCommandExecutor(AssetManager& assetManager);
-		~DrawCommandExecutor() = default;
+		~DrawCommandExecutor();
 
 		//-----------------------------------------------------
 		// 公開関数

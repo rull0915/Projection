@@ -14,6 +14,7 @@
 #include "Assets/Managers/AssetManager.h"
 
 #include "Renderer/CBufferSlot.h"
+#include "Assets/Types/Shader/SamplerList.h"
 
 //====================================================//
 // 関数の実体宣言

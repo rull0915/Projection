@@ -41,13 +41,13 @@ namespace REngine
 			false,
 			{ L".png", L".jpeg", L".bmp", L".tiff", L".gif", L".dds" });
 
-		// Modelの登録
-		assetManager.Registry<Model>(
-			"Model",
-			Loader::ModelLoader,
-			nullptr, 
-			false,
-			{ L".cmo", L".sdkmesh" });
+		//// Modelの登録
+		//assetManager.Registry<Model>(
+		//	"Model",
+		//	Loader::ModelLoader,
+		//	nullptr, 
+		//	false,
+		//	{ L".obj" });
 
 		// Fontの登録
 		assetManager.Registry<Font>(

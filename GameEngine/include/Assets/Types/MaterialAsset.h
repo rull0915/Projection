@@ -26,7 +26,6 @@
 
 #include "Assets/Objects/AssetBase.h"
 #include "Assets/Types/Shader/SamplerType.h"
-#include "Assets/Types/Shader/SamplerList.h"
 
 namespace REngine
 {
@@ -43,6 +42,7 @@ namespace REngine
 	>;
 
 	class AssetManager;
+	class SamplerList;
 
 	class MaterialAsset : public AssetBase, public DirectX::IEffect
 	{
