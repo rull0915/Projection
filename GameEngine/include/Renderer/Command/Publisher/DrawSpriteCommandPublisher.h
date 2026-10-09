@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : TextRenderer.h
+// ファイル名   : DrawSpriteCommandPublisher.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/04/29
 //
-// 概要 : 文字列の描画を担当するクラス
+// 概要 : スプライトの描画を担当するクラス
 //
 // 更新履歴 :
 // 2026/04/29 新規作成
@@ -22,7 +22,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class TextRenderer
+	class DrawSpriteCommandPublisher
 	{
 	private:
 
@@ -30,7 +30,7 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// コマンドコンテナ
+		// 描画の状態
 		DrawCommandContainer& m_container;
 
 		// システム
@@ -41,8 +41,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		TextRenderer(DrawCommandContainer& container, GraphicsSystem& graphicSystem);
-		~TextRenderer();
+		DrawSpriteCommandPublisher(DrawCommandContainer& container, GraphicsSystem& system);
+		~DrawSpriteCommandPublisher() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
@@ -50,8 +50,7 @@ namespace REngine
 
 		// デフォルト
 		void Draw(
-			DirectX::SpriteFont* font,
-			const std::wstring& text,
+			ID3D11ShaderResourceView* texture,
 			DirectX::SimpleMath::Vector2 pos,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -60,8 +59,7 @@ namespace REngine
 
 		// 描画領域指定
 		void Draw(
-			DirectX::SpriteFont* font,
-			const std::wstring& text,
+			ID3D11ShaderResourceView* texture,
 			DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -70,8 +68,7 @@ namespace REngine
 
 		// 原点指定
 		void Draw(
-			DirectX::SpriteFont* font,
-			const std::wstring& text,
+			ID3D11ShaderResourceView* texture,
 			DirectX::SimpleMath::Vector2 pos,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -81,8 +78,7 @@ namespace REngine
 
 		// 描画領域 原点指定
 		void Draw(
-			DirectX::SpriteFont* font,
-			const std::wstring& text,
+			ID3D11ShaderResourceView* texture,
 			DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -90,11 +86,17 @@ namespace REngine
 			DirectX::SimpleMath::Color color
 		);
 
-		static DirectX::SimpleMath::Vector2 GetTextureSize(DirectX::SpriteFont* font, const wchar_t* text)
-		{
-			DirectX::XMVECTOR result = font->MeasureString(text);
+		// 全指定
+		void Draw(
+			ID3D11ShaderResourceView* texture,
+			DirectX::SimpleMath::Vector2 pos,
+			RECT* srcRect,
+			DirectX::SimpleMath::Vector2 scale,
+			float angle,
+			DirectX::SimpleMath::Vector2 origin,
+			DirectX::SimpleMath::Color color
+		);
 
-			return { DirectX::XMVectorGetX(result), DirectX::XMVectorGetY(result) };
-		}
+		static DirectX::SimpleMath::Vector2 GetTextureSize(ID3D11ShaderResourceView* srv);
 	};
 }	// namespace REngine

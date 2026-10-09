@@ -1,5 +1,5 @@
 ﻿//====================================================//
-// ファイル名   : UIRenderer.h
+// ファイル名   : DrawUICommandPublisher.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/09
 //
@@ -22,7 +22,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class UIRenderer
+	class DrawUICommandPublisher
 	{
 	private:
 
@@ -37,8 +37,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		UIRenderer(DrawCommandContainer& container);
-		~UIRenderer() = default;
+		DrawUICommandPublisher(DrawCommandContainer& container);
+		~DrawUICommandPublisher() = default;
 
 		//-----------------------------------------------------
 		// 公開関数

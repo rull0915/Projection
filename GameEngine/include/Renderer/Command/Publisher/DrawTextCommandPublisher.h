@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : SpriteRenderer.h
+// ファイル名   : DrawTextCommandPublisher.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/04/29
 //
-// 概要 : スプライトの描画を担当するクラス
+// 概要 : 文字列の描画を担当するクラス
 //
 // 更新履歴 :
 // 2026/04/29 新規作成
@@ -14,7 +14,6 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include <optional>
 #include "Renderer/Command/DrawCommandContainer.h"
 #include "Renderer/GraphicsSystem.h"
 
@@ -23,7 +22,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class SpriteRenderer
+	class DrawTextCommandPublisher
 	{
 	private:
 
@@ -31,7 +30,7 @@ namespace REngine
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// 描画の状態
+		// コマンドコンテナ
 		DrawCommandContainer& m_container;
 
 		// システム
@@ -42,8 +41,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		SpriteRenderer(DrawCommandContainer& container, GraphicsSystem& system);
-		~SpriteRenderer();
+		DrawTextCommandPublisher(DrawCommandContainer& container, GraphicsSystem& graphicSystem);
+		~DrawTextCommandPublisher() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
@@ -51,7 +50,8 @@ namespace REngine
 
 		// デフォルト
 		void Draw(
-			ID3D11ShaderResourceView* texture,
+			DirectX::SpriteFont* font,
+			const std::wstring& text,
 			DirectX::SimpleMath::Vector2 pos,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -60,7 +60,8 @@ namespace REngine
 
 		// 描画領域指定
 		void Draw(
-			ID3D11ShaderResourceView* texture,
+			DirectX::SpriteFont* font,
+			const std::wstring& text,
 			DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -69,7 +70,8 @@ namespace REngine
 
 		// 原点指定
 		void Draw(
-			ID3D11ShaderResourceView* texture,
+			DirectX::SpriteFont* font,
+			const std::wstring& text,
 			DirectX::SimpleMath::Vector2 pos,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -79,7 +81,8 @@ namespace REngine
 
 		// 描画領域 原点指定
 		void Draw(
-			ID3D11ShaderResourceView* texture,
+			DirectX::SpriteFont* font,
+			const std::wstring& text,
 			DirectX::SimpleMath::Vector2 min, DirectX::SimpleMath::Vector2 max,
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
@@ -87,17 +90,11 @@ namespace REngine
 			DirectX::SimpleMath::Color color
 		);
 
-		// 全指定
-		void Draw(
-			ID3D11ShaderResourceView* texture,
-			DirectX::SimpleMath::Vector2 pos,
-			RECT* srcRect,
-			DirectX::SimpleMath::Vector2 scale,
-			float angle,
-			DirectX::SimpleMath::Vector2 origin,
-			DirectX::SimpleMath::Color color
-		);
+		static DirectX::SimpleMath::Vector2 GetTextureSize(DirectX::SpriteFont* font, const wchar_t* text)
+		{
+			DirectX::XMVECTOR result = font->MeasureString(text);
 
-		static DirectX::SimpleMath::Vector2 GetTextureSize(ID3D11ShaderResourceView* srv);
+			return { DirectX::XMVectorGetX(result), DirectX::XMVectorGetY(result) };
+		}
 	};
 }	// namespace REngine

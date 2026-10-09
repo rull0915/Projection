@@ -1,9 +1,9 @@
 ﻿//====================================================//
-// ファイル名   : PrimitiveRenderer.h
+// ファイル名   : DrawPrimitiveCommandPublisher.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/04/29
 //
-// 概要 : プリミティブの描画を担当するクラス
+// 概要 : プリミティブの描画のコマンドを発行するクラス
 //
 // 更新履歴 :
 // 2026/04/29 新規作成
@@ -21,7 +21,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class PrimitiveRenderer
+	class DrawPrimitiveCommandPublisher
 	{
 	private:
 
@@ -37,8 +37,8 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		PrimitiveRenderer(DrawCommandContainer& container);
-		~PrimitiveRenderer() = default;
+		DrawPrimitiveCommandPublisher(DrawCommandContainer& container);
+		~DrawPrimitiveCommandPublisher() = default;
 
 	public:
 
