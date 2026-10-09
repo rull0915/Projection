@@ -23,11 +23,20 @@
 
 namespace REngine
 {
+	namespace Loader
+	{
+		class OBJLoader;
+	}
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
 	class Mesh : public AssetBase
 	{
+	public:
+		// ロードクラスをフレンド指定
+		friend class Loader::OBJLoader;
+
 	private:
 
 		//-----------------------------------------------------
@@ -38,7 +47,7 @@ namespace REngine
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
 
 		// インデックスバッファ
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
 
 		// サブメッシュ配列
 		std::vector<SubMesh> m_subMeshes;
@@ -48,12 +57,25 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		Mesh();
+		Mesh()
+			: m_vertexBuffer{}
+			, m_indexBuffer{}
+			, m_subMeshes{}
+		{
+		}
 		~Mesh() = default;
 
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
 
+		// サブメッシュのリスト
+		const std::vector<SubMesh>& GetSubMeshes() const { return m_subMeshes; }
+
+		// 頂点バッファ
+		ID3D11Buffer* GetVertexBuffer() const { return m_vertexBuffer.Get(); }
+
+		// インデックスバッファ
+		ID3D11Buffer* GetIndexBuffer() const { return m_indexBuffer.Get(); }
 	};
 }

@@ -21,6 +21,7 @@
 #include "Collider/3D/Shapes/Colliders.h"
 #include "RigidBody/RigidBody2D.h"
 #include "RigidBody/RigidBody.h"
-#include "Renderer/ModelComponent.h"
+#include "Renderer/MeshRenderer.h"
 #include "Renderer/Skybox/SkyboxComponent.h"
 #include "Sounds/AudioListener.h"
+#include "Mesh/MeshFilter.h"
