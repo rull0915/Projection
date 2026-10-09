@@ -22,7 +22,7 @@ PS_INPUT main(VS_INPUT input)
     output.Position = mul(output.Position, Proj);
     
     // 頂点カラーをそのままピクセルシェーダーへ送る
-    output.Color = input.Color;
+    output.Color = float4(1, 1, 1, 1);
     
     return output;
 }
