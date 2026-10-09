@@ -20,12 +20,13 @@
 #include <optional>
 // DXTK
 #include <SimpleMath.h>
-#include <Model.h>
 #include <SpriteFont.h>
 #include <VertexTypes.h>
 // User
 #include "../RendererType.h"
 #include "Assets/Objects/Handle.h"
+#include "Assets/Types/Model/Mesh.h"
+#include "Assets/Types/MaterialAsset.h"
 
 namespace REngine
 {
@@ -60,8 +61,11 @@ namespace REngine
 	/// </summary>
 	struct DrawModelCommand : public DrawCommandBase
 	{
-		// モデル
-		DirectX::Model* pModel = nullptr;
+		// メッシュ
+		Mesh* pMesh = nullptr;
+
+		// サブメッシュ番号
+		size_t subMeshIndex = 0;
 
 		// マテリアル
 		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
@@ -71,7 +75,7 @@ namespace REngine
 
 		// コンストラクタ
 		DrawModelCommand()
-			: DrawCommandBase(RendererType::Model)
+			: DrawCommandBase(RendererType::Mesh)
 		{}
 	};
 

@@ -22,7 +22,7 @@ namespace REngine
 	{
 		None,
 		Primitive,
-		Model,
+		Mesh,
 		Sprite,
 		Text,
 		UI,

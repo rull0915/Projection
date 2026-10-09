@@ -16,11 +16,11 @@
 //====================================================//
 #include <memory>
 
-#include "EachRenderer/PrimitiveRenderer.h"
-#include "EachRenderer/SpriteRenderer.h"
-#include "EachRenderer/ModelRenderer.h"
-#include "EachRenderer/TextRenderer.h"
-#include "EachRenderer/UIRenderer.h"
+#include "Command/Publisher/DrawPrimitiveCommandPublisher.h"
+#include "Command/Publisher/DrawMeshCommandPublisher.h"
+#include "Command/Publisher/DrawSpriteCommandPublisher.h"
+#include "Command/Publisher/DrawTextCommandPublisher.h"
+#include "Command/Publisher/DrawUICommandPublisher.h"
 
 namespace REngine
 {
@@ -39,19 +39,19 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// プリミティブ
-		std::unique_ptr<PrimitiveRenderer> m_primitiveRenderer;
+		std::unique_ptr<DrawPrimitiveCommandPublisher> m_primitiveRenderer;
 
-		// モデル
-		std::unique_ptr<ModelRenderer> m_modelRenderer;
+		// メッシュ
+		std::unique_ptr<DrawMeshCommandPublisher> m_meshRenderer;
 
 		// スプライト
-		std::unique_ptr<SpriteRenderer> m_spriteRenderer;
+		std::unique_ptr<DrawSpriteCommandPublisher> m_spriteRenderer;
 
 		// 文字列
-		std::unique_ptr<TextRenderer> m_textRenderer;
+		std::unique_ptr<DrawTextCommandPublisher> m_textRenderer;
 
 		// UI
-		std::unique_ptr<UIRenderer> m_uiRenderer;
+		std::unique_ptr<DrawUICommandPublisher> m_uiRenderer;
 
 	public:
 
@@ -73,18 +73,18 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// Primitive
-		PrimitiveRenderer& Primitive() { return *m_primitiveRenderer; }
+		DrawPrimitiveCommandPublisher& Primitive() { return *m_primitiveRenderer; }
 
 		// Model
-		ModelRenderer& Model() { return *m_modelRenderer; }
+		DrawMeshCommandPublisher& Mesh() { return *m_meshRenderer; }
 
 		// Sprite
-		SpriteRenderer& Sprite() { return *m_spriteRenderer; }
+		DrawSpriteCommandPublisher& Sprite() { return *m_spriteRenderer; }
 
 		// Text
-		TextRenderer& Text() { return *m_textRenderer; }
+		DrawTextCommandPublisher& Text() { return *m_textRenderer; }
 
 		// UI
-		UIRenderer& UI() { return *m_uiRenderer; }
+		DrawUICommandPublisher& UI() { return *m_uiRenderer; }
 	};
 }

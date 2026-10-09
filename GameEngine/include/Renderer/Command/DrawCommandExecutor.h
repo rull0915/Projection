@@ -17,6 +17,7 @@
 #include <PrimitiveBatch.h>
 #include <SpriteBatch.h>
 #include <Effects.h>
+#include <CommonStates.h>
 #include <VertexTypes.h>
 
 #include "DrawCommandContainer.h"

@@ -1,5 +1,5 @@
 ﻿//====================================================//
-// ファイル名   : ModelComponent.h
+// ファイル名   : MeshRenderer.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/05/03
 //
@@ -18,7 +18,6 @@
 #include "Components/Interface/IAssetDependent.h"
 
 #include "Assets/Objects/Handle.h"
-#include "Assets/Types/Model.h"
 #include "Assets/Types/MaterialAsset.h"
 
 namespace REngine
@@ -26,17 +25,15 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ModelComponent : public RendererBase, public IAssetDependent
+	class MeshRenderer : public RendererBase, public IAssetDependent
 	{
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// モデルハンドル
-		Handle<Model> m_modelHandle;
-
-		// マテリアルハンドル
-		Handle<MaterialAsset> m_materialHandle;
+		// マテリアルの配列
+		std::vector<Handle<MaterialAsset>> m_materials;
+		Handle<MaterialAsset> m_material;
 
 		// AssetManager
 		AssetManager* m_assetManager;
@@ -46,28 +43,25 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ModelComponent(IComponentOwner* own)
+		MeshRenderer(IComponentOwner* own)
 			: RendererBase(own)
-			, m_modelHandle{}
-			, m_materialHandle{}
+			, m_materials{}
 			, m_assetManager{ nullptr }
 		{
-			ADD_PROPERTY(ModelComponent, m_modelHandle);
-			ADD_PROPERTY(ModelComponent, m_materialHandle);
+			//ADD_PROPERTY(MeshRenderer, m_materials);
+			ADD_PROPERTY(MeshRenderer, m_materials);
 		};
-		~ModelComponent() = default;
+		~MeshRenderer() = default;
 
 		//-----------------------------------------------------
 		// Type
 		//-----------------------------------------------------
 
-		COMPONENT_TYPE(ModelComponent, RendererBase)
+		COMPONENT_TYPE(MeshRenderer, RendererBase)
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
-
-		void Start() override;
 
 		// 描画関数
 		void Draw(Renderer& renderer) override;
@@ -78,10 +72,5 @@ namespace REngine
 			m_assetManager = &a;
 		}
 
-		// モデルをセットする関数
-		void SetModel(Handle<Model> handle)
-		{
-			m_modelHandle = handle;
-		}
 	};
 } // namespace REngine
