@@ -27,6 +27,7 @@
 #include "AssetDataBase.h"
 #include "AssetRegistry.h"
 #include "AssetTypeManager.h"
+#include "AssetLoadContext.h"
 
 namespace REngine
 {
@@ -52,7 +53,7 @@ namespace REngine
 		};
 
 		// パスを引数にしてAssetを生成するローダー関数
-		using Loader = std::function<std::unique_ptr<AssetBase>(const std::filesystem::path&)>;
+		using Loader = std::function<std::unique_ptr<AssetBase>(const std::filesystem::path&, AssetLoadContext& ctx)>;
 
 		// Assetからパスに保存するセーバー関数
 		using Saver = std::function<void(AssetBase*, const std::filesystem::path&)>;
@@ -75,8 +76,8 @@ namespace REngine
 		// AssetTypeManager
 		AssetTypeManager m_typeManager;
 
-		// UUIDとHandleの対応マップ
-		std::unordered_map<UUID, UnTypeHandle> m_uuidToHandle;
+		// ロードコンテキスト
+		AssetLoadContext m_loadContext;
 
 		// 読み込み関数マップ
 		std::unordered_map<std::type_index, Loader> m_loaders;
@@ -89,6 +90,9 @@ namespace REngine
 
 		// 生成可能なAssetTypeをまとめた配列
 		std::vector<std::string> m_creatableAssets;
+
+		// サブアセットを持つタイプをまとめた配列
+		std::vector<std::string> m_haveSubAssets;
 
 		// 非同期実行中のローダーを管理する配列
 		std::vector<AsyncJob> m_asyncJobs;
@@ -106,10 +110,10 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 初期化関数
-		void Initialize(const std::wstring& root);
+		void Initialize(const std::filesystem::path& root);
 
 		// 特定のファイルのスキャンをする関数
-		void ScanOnceFile(const std::wstring& path);
+		void ScanOnceFile(const std::filesystem::path& path);
 
 		// 更新関数
 		void Update();
@@ -125,6 +129,7 @@ namespace REngine
 		/// <param name="loader">ロード関数</param>
 		/// <param name="saver">保存関数</param>
 		/// <param name="canCreate">実行中に新規作成可能にするかどうか</param>
+		/// <param name="haveSubAsset">サブアセットを持つかどうか</param>
 		/// <param name="extentions">対応する拡張子の一覧</param>
 		template<AssetType T>
 		void Registry(
@@ -132,6 +137,7 @@ namespace REngine
 			Loader loader, 
 			Saver saver,
 			bool canCreate,
+			bool haveSubAsset,
 			const std::vector<std::wstring>& extentions);
 
 		// データベースの取得関数
@@ -148,6 +154,9 @@ namespace REngine
 
 		// アセットをセーブ可能か調べる関数
 		bool CanSave(const std::filesystem::path& path);
+
+		// アセットがサブアセットを持つか調べる関数
+		bool HaveSubAsset(const std::filesystem::path& path);
 
 		// 保存する関数
 		void SaveAsset(const std::filesystem::path& path);
@@ -180,12 +189,6 @@ namespace REngine
 			{
 				// Registryを経由して削除
 				m_registry.Release(handle.index);
-
-				// UUIDを取得
-				UUID uuid = GetUuidFromHandle(handle);
-
-				// マップから削除
-				m_uuidToHandle.erase(uuid);
 			}
 		}
 
@@ -201,10 +204,16 @@ namespace REngine
 		}
 
 		// UUIDからUnTypeHandleを取得する関数
-		UnTypeHandle GetHandle(UUID uuid) const override;
+		UnTypeHandle GetHandle(UUID uuid) const
+		{
+			return m_registry.GetHandle(uuid);
+		}
 
 		// HandelからUUIDを取得する関数
-		UUID GetUUID(const UnTypeHandle& handle) const override;
+		UUID GetUUID(const UnTypeHandle& handle) const
+		{
+			return m_registry.GetUUID(handle);
+		}
 
 	private:
 
@@ -213,11 +222,11 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// パスから読み込む関数
-		UnTypeHandle LoadFromPath(const std::wstring& path);
+		UnTypeHandle LoadFromPath(const std::filesystem::path& path);
 	};
 
 	template<AssetType T>
-	inline void AssetManager::Registry(const std::string& assetName, Loader loader, Saver saver, bool canCreate, const std::vector<std::wstring>& extentions)
+	inline void AssetManager::Registry(const std::string& assetName, Loader loader, Saver saver, bool canCreate, bool haveSubAsset, const std::vector<std::wstring>& extentions)
 	{
 		std::type_index idx = std::type_index(typeid(T));
 
@@ -239,13 +248,18 @@ namespace REngine
 						// 新規作成
 						std::ofstream(path).close();
 
-						// デフォルトコンストラクタで作成（なければエラー）
+						// デフォルトコンストラクタで作成
 						return std::make_unique<T>();
 					};
 
 				// 生成可能に追加
 				m_creatableAssets.push_back(assetName);
 			}
+		}
+
+		if (haveSubAsset)
+		{
+			m_haveSubAssets.push_back(assetName);
 		}
 
 		// 拡張子の登録

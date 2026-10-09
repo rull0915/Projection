@@ -24,7 +24,7 @@ namespace REngine
 		: m_dataBase{ m_typeManager }
 		, m_registry{}
 		, m_typeManager{}
-		, m_uuidToHandle{}
+		, m_loadContext{ m_dataBase, m_registry }
 		, m_loaders{}
 		, m_savers{}
 		, m_creators{}
@@ -32,13 +32,13 @@ namespace REngine
 		, m_asyncJobs{}
 	{}
 
-	void AssetManager::Initialize(const std::wstring& root)
+	void AssetManager::Initialize(const std::filesystem::path& root)
 	{
 		// スキャン
 		m_dataBase.ScanFile(root);
 	}
 
-	void AssetManager::ScanOnceFile(const std::wstring& path)
+	void AssetManager::ScanOnceFile(const std::filesystem::path& path)
 	{
 		// スキャン
 		m_dataBase.ScanOnceFile(path);
@@ -80,25 +80,18 @@ namespace REngine
 	UnTypeHandle AssetManager::LoadFromUUID(UUID uuid)
 	{
 		// 既に読み込まれているUUIDなら
-		if (auto it = m_uuidToHandle.find(uuid); it != m_uuidToHandle.end())
-		{
-			// 返す
-			return it->second;
-		}
+		auto handle = m_registry.GetHandle(uuid);
 
-		// 無効値ならエラーハンドルを返す
-		if (uuid == UUID_NONE) return ERROR_UNTYPE_HANDLE;
+		// 返す
+		if (handle != ERROR_UNTYPE_HANDLE) return handle;
 
-		// 存在しないUUIDならエラーハンドルを返す
-		const std::wstring& path = m_dataBase.GetPath(uuid);
+		// 未登録のUUIDならエラーハンドルを返す
+		const std::filesystem::path& path = m_dataBase.GetPath(uuid);
 
 		if (path == L"") return ERROR_UNTYPE_HANDLE;
 
 		// パスから読み込む
-		UnTypeHandle handle = LoadFromPath(path);
-
-		// マップに追加
-		m_uuidToHandle[uuid] = handle;
+		handle = LoadFromPath(path);
 
 		// 返す
 		return handle;
@@ -150,6 +143,13 @@ namespace REngine
 		return it != m_savers.end();
 	}
 
+	bool AssetManager::HaveSubAsset(const std::filesystem::path& path)
+	{
+		auto it = std::find(m_haveSubAssets.begin(), m_haveSubAssets.end(), m_typeManager.GetAssetType(path));
+
+		return it != m_haveSubAssets.end();
+	}
+
 	void AssetManager::SaveAsset(const std::filesystem::path& path)
 	{
 		// 保存関数を取得
@@ -161,12 +161,12 @@ namespace REngine
 		UUID uuid = m_dataBase.GetUUID(path);
 
 		// ハンドルを取得
-		auto handle = m_uuidToHandle.find(uuid);
+		auto handle = m_registry.GetHandle(uuid);
 
-		if (handle == m_uuidToHandle.end()) return;
+		if (handle == ERROR_UNTYPE_HANDLE) return;
 
 		// アセット本体を取得
-		AssetBase* asset = m_registry.GetFromUnTypeHandle(handle->second);
+		AssetBase* asset = m_registry.GetFromUnTypeHandle(handle);
 
 		if (!asset) return;
 
@@ -174,29 +174,7 @@ namespace REngine
 		it->second(asset, path);
 	}
 
-	UnTypeHandle AssetManager::GetHandle(UUID uuid) const
-	{
-		// マップにあれば
-		if (auto it = m_uuidToHandle.find(uuid); it != m_uuidToHandle.end())
-		{
-			// 返す
-			return it->second;
-		}
-
-		// なければエラー値(generationが0)を返す
-		return UnTypeHandle(0, 0);
-	}
-
-	UUID AssetManager::GetUUID(const UnTypeHandle& handle) const
-	{
-		// Handleに対応するAssetがあればそのUUIDを返す
-		if (AssetBase* asset = m_registry.GetFromUnTypeHandle(handle)) return asset->GetUUID();
-
-		// なければエラー値として0を返す
-		return 0;
-	}
-
-	UnTypeHandle AssetManager::LoadFromPath(const std::wstring& path)
+	UnTypeHandle AssetManager::LoadFromPath(const std::filesystem::path& path)
 	{
 		if (m_loaders.find(m_typeManager.GetAssetClass(path)) != m_loaders.end())
 		{
@@ -205,7 +183,7 @@ namespace REngine
 
 			// asyncで非同期ロード
 			auto future = std::async(
-				std::launch::async, loader, path
+				std::launch::async, [&]() { return loader(path, m_loadContext); }
 			);
 
 			// Handleを生成

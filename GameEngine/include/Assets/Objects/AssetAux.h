@@ -23,12 +23,27 @@ namespace REngine
 	// 構造体宣言
 	//====================================================//
 
+	struct SubAssetInfo
+	{
+		// 識別用名前
+		std::string name = "";
+
+		// UUID
+		UUID uuid = UUID_NONE;
+		
+		// アセットの種類
+		std::string assetType = "";
+	};
+
 	struct AssetAux
 	{
 		// UUID
-		UUID uuid;
+		UUID uuid = UUID_NONE;
 
 		// アセットの種類
-		std::string assetType;
+		std::string assetType = "";
+
+		// サブアセットの配列
+		std::vector<SubAssetInfo> subAssets;
 	};
 }	// namespace REngine

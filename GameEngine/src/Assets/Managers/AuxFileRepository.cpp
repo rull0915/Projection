@@ -21,7 +21,7 @@ namespace REngine
 	// 関数の実体宣言
 	//====================================================//
 
-	void AuxFileRepository::SaveAux(AssetAux& aux, const std::wstring& path)
+	void AuxFileRepository::SaveAux(const AssetAux& aux, const std::wstring& path)
 	{
 		// jsonを用意
 		nlohmann::json j;
@@ -29,6 +29,14 @@ namespace REngine
 		// 書き込む
 		j["UUID"] = aux.uuid;
 		j["AssetType"] = aux.assetType;
+		for (auto& sub : aux.subAssets)
+		{
+			nlohmann::json subJ;
+			subJ["Name"] = sub.name;
+			subJ["UUID"] = sub.uuid;
+			subJ["AssetType"] = sub.assetType;
+			j["SubAssets"].push_back(subJ);
+		}
 
 		// ファイルを書き込み専用で開く
 		std::ofstream ofs(path);
@@ -59,6 +67,14 @@ namespace REngine
 			// ロード
 			aux.uuid = j["UUID"];
 			aux.assetType = j["AssetType"];
+			for (auto& sub : j["SubAssets"])
+			{
+				SubAssetInfo info;
+				info.uuid = sub["UUID"];
+				info.name = sub["Name"];
+				info.assetType = sub["AssetType"];
+				aux.subAssets.push_back(info);
+			}
 		}
 
 		// 閉じる

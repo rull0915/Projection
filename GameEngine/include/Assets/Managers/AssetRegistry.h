@@ -52,6 +52,9 @@ namespace REngine
 		// 現在使われていないスロットをまとめた配列(配列に含まれるインデックスが現在未使用)
 		std::vector<uint32_t> m_freeIndexList;
 
+		// UUIDからインデックスへの変換マップ
+		std::unordered_map<UUID, uint32_t> m_uuidToIndex;
+
 	public:
 		// アセットを登録する関数
 		UnTypeHandle Register(UUID uuid)
@@ -87,6 +90,9 @@ namespace REngine
 			// UUIDを設定する
 			m_slots[index].uuid = uuid;
 
+			// 変換マップに追加
+			m_uuidToIndex[uuid] = index;
+
 			// ハンドルを生成し返す
 			return UnTypeHandle{ index, m_slots[index].generation };
 		}
@@ -94,8 +100,14 @@ namespace REngine
 		// アセットを破棄する関数
 		void Release(uint32_t index)
 		{
+			// 無効インデックスならスキップ
+			if (index >= m_slots.size() || !m_slots[index].isValid) return;
+
 			// 破棄するスロットを取得
 			auto& slot = m_slots[index];
+
+			// マップから削除
+			m_uuidToIndex.erase(slot.uuid);
 
 			// アセット本体を解放
 			slot.asset.reset();
@@ -154,6 +166,38 @@ namespace REngine
 
 			// アセットを返す
 			return slot.asset.get();
+		}
+
+		// UUIDからUnTypeHandle
+		UnTypeHandle GetHandle(UUID uuid) const 
+		{
+			// UUIDで検索
+			auto it = m_uuidToIndex.find(uuid);
+
+			// 未登録UUIDならエラーハンドル
+			if (it == m_uuidToIndex.end()) return ERROR_UNTYPE_HANDLE;
+
+			// インデックスを取得
+			uint32_t index = it->second;
+
+			// ハンドルを構築して返す
+			return UnTypeHandle{ index, m_slots[index].generation };
+		}
+
+		// UnTypeHandleからUUID
+		UUID GetUUID(UnTypeHandle handle) const 
+		{
+			// 範囲外ハンドルならエラーID
+			if (handle.index >= m_slots.size()) return UUID_NONE;
+
+			// スロットを取得
+			const auto& slot = m_slots[handle.index];
+
+			// 無効スロットならエラーID
+			if (!slot.isValid || slot.generation != handle.generation) return 0;
+
+			// UUIDを取得し返す
+			return slot.uuid;
 		}
 	};
 }	// namespace REngine

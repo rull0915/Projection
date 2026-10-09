@@ -65,6 +65,17 @@ namespace REngine
 		return std::type_index(typeid(void));
 	}
 
+	std::type_index AssetTypeManager::GetAssetClassFromType(const std::string& type) const
+	{
+		for (auto& map : m_assetTypeMap)
+		{
+			if (map.second == type)
+			{
+				return m_assetClassMap.at(map.first);
+			}
+		}
+	}
+
 	std::wstring AssetTypeManager::GetExtention(const std::string& type) const
 	{
 		// ループ
