@@ -71,13 +71,13 @@ namespace REngine
 			m_assignMap[idx] =
 				[](void* property, const UnTypeHandle& handle)
 				{
-					*static_cast<T*>(property) = handle.As<T::value_type>();
+					*static_cast<Handle<T>*>(property) = handle.As<T>();
 				};
 
 			m_getUUIDMap[idx] =
 				[](void* property, const IAssetResolver& resolver)
 				{
-					return resolver.GetUUID(static_cast<T*>(property)->GetUnTypeHandle());
+					return resolver.GetUUID(static_cast<Handle<T>*>(property)->GetUnTypeHandle());
 				};
 		}
 		

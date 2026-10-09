@@ -21,6 +21,8 @@
 #include <vector>
 
 #include "Property.h"
+#include "PropertyTypeIndex.h"
+
 #include "Common/CheckVector.h"
 #include "Assets/Objects/Handle.h"
 #include "Common/ObjectReference.h"
@@ -80,7 +82,10 @@ namespace REngine
 			PropertyDiscripter prop;
 			prop.name = name;
 			prop.type = GetPropertyType<T>();
-			prop.typeIndex = RegisterType<T>();
+			prop.typeIndex = PropertyTypeIndex::GetTypeIndex<T>();
+
+			// 型の登録
+			RegisterType<T>();
 
 			// ラムダ式の登録
 			prop.getAddress = [memberPtr](PropertyObject* obj) -> void*
@@ -108,7 +113,7 @@ namespace REngine
 
 		// 型登録関数
 		template<typename T>
-		std::type_index RegisterType()
+		void RegisterType()
 		{
 			// 列挙型なら
 			if constexpr (std::is_enum_v<T>)
@@ -120,7 +125,7 @@ namespace REngine
 			else if constexpr (IsHandle_v<T>)
 			{
 				// 登録
-				AssetPropertyRegistry::Instance().Register<T>();
+				AssetPropertyRegistry::Instance().Register<typename T::value_type> ();
 			}
 			// vectorなら
 			else if constexpr (is_vector<T>::value)
@@ -134,8 +139,6 @@ namespace REngine
 				// 管理対象の型も登録
 				RegisterType<ElementType>();
 			}
-
-			return std::type_index(typeid(T));
 		}
 
 		// 型からタイプを取得する関数
