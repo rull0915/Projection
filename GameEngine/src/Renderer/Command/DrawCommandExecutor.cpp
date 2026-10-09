@@ -108,6 +108,9 @@ void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& cont
 	// プロジェクション行列の取得
 	m_projection = proj;
 
+	// VP行列のバインド
+	BindVPBuffer();
+
 	// 各コマンドの実行
 	DrawModelCommandExecute(container.GetDrawModelCommands());
 	DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
@@ -133,9 +136,6 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 			// バインド
 			material->Apply(m_pContext);
 		
-			// VP行列をバインド
-			BindVPBuffer();
-
 			// ワールド行列をバインド
 			BindWorldBuffer(c.world);
 
@@ -224,9 +224,6 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 		{
 			material->SetReference(&m_assetManager, m_samplerList.get());
 
-			// VP行列をバインド
-			BindVPBuffer();
-
 			// ワールド行列をバインド
 			BindWorldBuffer(c.world);
 
@@ -234,32 +231,45 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
 
 			// InputLayoutを取得
-			auto inputlayout = InputLayoutCache::Instance().GetOrCreate(
-					m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTangentColorTexture).hash_code()), material->GetBlob(ShaderType::Vertex), VertexPositionNormalTangentColorTexture::GetLayout()
-				);
+			auto inputLayout = InputLayoutCache::Instance().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
+				material->GetBlob(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout()
+			);
 
 			// なければスキップ
-			if (!inputlayout) continue;
+			if (!inputLayout) continue;
 
-			for (auto& mesh : c.pModel->meshes)
-			{
-				for (auto& part : mesh->meshParts)
-				{
-					part->effect = std::shared_ptr<MaterialAsset>(material, [](MaterialAsset*) {});
-					part->inputLayout = inputlayout;
-					part->vertexBuffer;
-				}
-			}
+			// マテリアルの設定を適用
+			material->Apply(m_pContext);
 
-			c.pModel->Draw(m_pContext, *m_pStates, DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity);
+			// 頂点バッファの設定
+			ID3D11Buffer* vsBuffers[] = { c.pMesh->GetVertexBuffer() };
+			UINT strides[] = { sizeof(VertexPositionNormalTexture) };
+			UINT offsets[] = { 0 };
+			m_pContext->IASetVertexBuffers(0, 1, vsBuffers, strides, offsets);
+
+			// インデックスバッファの設定
+			m_pContext->IASetIndexBuffer(c.pMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+			// トポロジーの設定 
+			m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			// 入力レイアウトの設定 
+			m_pContext->IASetInputLayout(inputLayout.Get());
+
+			// サブメッシュの取得
+			auto& subMesh = c.pMesh->GetSubMeshes()[c.subMeshIndex];
+
+			// 描画命令
+			m_pContext->DrawIndexed(subMesh.indexCount, subMesh.indexOffset, subMesh.vertexOffset);
 		}
 
-		// 無効な時
-		else
-		{
-			// 描画
-			c.pModel->Draw(m_pContext, *m_pStates, c.world, m_view, m_projection);
-		}
+		//// 無効な時
+		//else
+		//{
+		//	// 描画
+		//	c.pModel->Draw(m_pContext, *m_pStates, c.world, m_view, m_projection);
+		//}
 	}
 }
 

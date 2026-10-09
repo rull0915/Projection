@@ -21,10 +21,10 @@ namespace REngine
 	void RenderProxy::Initialize(GraphicsSystem& system, DrawCommandContainer& container)
 	{
 		// 各レンダーの作成
-		m_primitiveRenderer = std::make_unique<PrimitiveRenderer>(container);
-		m_spriteRenderer = std::make_unique<SpriteRenderer>(container, system);
-		m_modelRenderer = std::make_unique<ModelRenderer>(container, system);
-		m_textRenderer = std::make_unique<TextRenderer>(container, system);
-		m_uiRenderer = std::make_unique<UIRenderer>(container);
+		m_primitiveRenderer = std::make_unique<DrawPrimitiveCommandPublisher>(container);
+		m_spriteRenderer = std::make_unique<DrawSpriteCommandPublisher>(container, system);
+		m_meshRenderer = std::make_unique<DrawMeshCommandPublisher>(container, system);
+		m_textRenderer = std::make_unique<DrawTextCommandPublisher>(container, system);
+		m_uiRenderer = std::make_unique<DrawUICommandPublisher>(container);
 	}
 }
