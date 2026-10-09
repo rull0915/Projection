@@ -1,36 +1,38 @@
 ﻿//====================================================//
-// ファイル名   : ProjectWindow.h
+// ファイル名   : ProjectWindowPopUp.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
+// 作成日       : 2026/10/08
 //
-// 概要 : プロジェクトウィンドウ
+// 概要 : プロジェクトウィンドウが扱うポップアップを管理するクラス
 //
 // 更新履歴 :
-// 2026/07/06 新規作成
+// 2026/10/08 新規作成
 //====================================================//
 
 #pragma once
 
-#ifdef ENGINE_GUI
-
+//====================================================//
+// インクルードファイル
+//====================================================//
 #include <filesystem>
-#include "Assets/Managers/AssetManager.h"
-#include "Editor/Editor/SelectedOnGUI.h"
 
 namespace REngine
 {
+	class AssetManager;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class ProjectWindow
+	class ProjectWindowPopUp
 	{
 	private:
 
+		//-----------------------------------------------------
+		// メンバ変数
+		//-----------------------------------------------------
+
 		// アセットマネージャー
 		AssetManager& m_assetManager;
-
-		// 選択中オブジェクト
-		SelectedOnGUI& m_selected;
 
 		// 選択中パス
 		std::filesystem::path m_selectedPath;
@@ -56,39 +58,22 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ProjectWindow(AssetManager& am, SelectedOnGUI& selected)
+		ProjectWindowPopUp(AssetManager& am)
 			: m_assetManager{ am }
-			, m_selected{ selected }
 			, m_selectedPath{}
 			, m_openRenamePopup{ false }
 			, m_openCreatePopup{ false }
-			, m_popupStr{ "" }
+			, m_popupStr{}
 			, m_targetPath{}
 			, m_createDirectory{}
+			, m_createType{}
 		{}
-		~ProjectWindow() = default;
+		~ProjectWindowPopUp() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
-		// 描画
-		bool DrawProject();
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		bool StartProject();
-
-		// 各リソースの描画
-		void DrawResources();
-
-		// ファイル構造の描画
-		void DrawFileStructure(const std::filesystem::path& path);
-	
 		/// <summary>
 		/// ファイル操作ポップアップの表示
 		/// </summary>
@@ -96,12 +81,16 @@ namespace REngine
 		/// <param name="isDirectory">ディレクトリかどうか</param>
 		void DrawFileOperation(const std::filesystem::path& path, bool isDirectory);
 
-		// 名前入力ポップアップの表示
+		// 名前変更ポップアップの出現
+		void OpenRenamePopUp(const std::filesystem::path& path);
+
+		// 新規作成ポップアップの出現
+		void OpenCreatePopUp(const std::filesystem::path& path);
+
+		// 名前変更ポップアップの描画
 		void DrawRenamePopup();
 
-		// 新規作成ポップアップの表示
+		// 新規作成ポップアップの描画
 		void DrawCreatePopup();
 	};
-}	// namespace REngine
-
-#endif // ENGINE_GUI
+}
