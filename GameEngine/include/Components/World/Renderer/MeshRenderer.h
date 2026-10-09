@@ -33,7 +33,6 @@ namespace REngine
 
 		// マテリアルの配列
 		std::vector<Handle<MaterialAsset>> m_materials;
-		Handle<MaterialAsset> m_material;
 
 		// AssetManager
 		AssetManager* m_assetManager;

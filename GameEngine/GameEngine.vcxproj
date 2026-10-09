@@ -371,6 +371,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Common\Property\PropertyTypeIndex.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h" />
     <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">

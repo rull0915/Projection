@@ -36,8 +36,8 @@ namespace REngine
 		// 選択中のオブジェクト
 		PropertyObject* m_propertyObject;
 
-		// 選択されたハンドル
-		std::optional<UnTypeHandle> m_selectedHandle;
+		// 選択されたUUID
+		UUID m_selectedAssetID;
 
 		// AssetManager
 		AssetManager& m_assetManager;
@@ -49,6 +49,7 @@ namespace REngine
 		//-----------------------------------------------------
 		SelectedOnGUI(AssetManager& assetManager)
 			: m_propertyObject{ nullptr } 
+			, m_selectedAssetID{ UUID_NONE }
 			, m_assetManager{ assetManager }
 		{};
 		~SelectedOnGUI() = default;
@@ -60,10 +61,10 @@ namespace REngine
 		PropertyObject* GetSelected()
 		{
 			// Handleが設定されていてpropertyObjectがない場合
-			if (!m_propertyObject && m_selectedHandle != std::nullopt)
+			if (!m_propertyObject && m_selectedAssetID != UUID_NONE)
 			{
 				// ロード完了チェック
-				AssetBase* asset = m_assetManager.GetFromUnTypeHandle(m_selectedHandle.value());
+				AssetBase* asset = m_assetManager.GetFromUnTypeHandle(m_assetManager.GetHandle(m_selectedAssetID));
 
 				// 読み込まれていれば
 				if (asset)
@@ -76,13 +77,6 @@ namespace REngine
 			return m_propertyObject;
 		}
 
-		UnTypeHandle* GetSelectedHandle()
-		{
-			if (m_selectedHandle.has_value()) return &m_selectedHandle.value();
-
-			return nullptr;
-		}
-
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
@@ -91,12 +85,12 @@ namespace REngine
 		{
 			m_propertyObject = obj; 
 
-			m_selectedHandle.reset();
+			m_selectedAssetID = UUID_NONE;
 		}
 
-		void SetSelectedHandle(UnTypeHandle handle) 
+		void SetSelectedAssetID(UUID uuid) 
 		{
-			m_selectedHandle = handle;
+			m_selectedAssetID = uuid;
 
 			m_propertyObject = nullptr;
 		}

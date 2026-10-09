@@ -48,8 +48,7 @@ namespace REngine
 		for (size_t i = 0; i < subMeshes.size(); ++i)
 		{
 			// マテリアルを設定
-			//renderer.SetMaterial(i < m_materials.size() ? m_materials[i] : ERROR_HANDLE<MaterialAsset>);
-			renderer.SetMaterial(m_material);
+			renderer.SetMaterial(i < m_materials.size() ? m_materials[i] : ERROR_HANDLE<MaterialAsset>);
 
 			// 行列を使用しモデルを描画
 			renderer.Draw().Mesh().DrawMesh(pMesh, i, world);
