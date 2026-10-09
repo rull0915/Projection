@@ -71,6 +71,9 @@ namespace REngine
 
 				// 変換表へ登録
 				Register(subAsset.uuid, vPath);
+
+				// SubIDとMainIDを保存
+				m_subIdToMainId[subAsset.uuid] = aux.uuid;
 			}
 		}
 

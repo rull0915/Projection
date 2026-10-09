@@ -151,11 +151,20 @@ namespace REngine
 					// サブメッシュを渡す
 					mesh.m_subMeshes = subMeshs;
 
+					// 各サイズを渡す
+					mesh.m_subMeshCount = static_cast<int>(subMeshs.size());
+					mesh.m_vertexCount = static_cast<int>(vertices.size());
+					mesh.m_polygonCount = static_cast<int>(indices.size() / 3);
+
 					// 各キャッシュのリセット
 					vertices.clear();
 					indices.clear();
 					vertexkeys.clear();
 					subMeshs.clear();
+
+					// 名前を設定
+					mesh.SetName(currentMeshName);
+					mesh.SetReadOnly(true);
 
 					// 配列に追加
 					meshs.push_back({ currentMeshName, mesh });
@@ -344,8 +353,13 @@ namespace REngine
 					aux.subAssets.push_back(info);
 				}
 
-				// 登録
-				auto handle = ctx.GetRegistry().Register(uuid);
+				// ハンドルを取得
+				auto handle = ctx.GetRegistry().GetHandle(uuid);
+
+				// 未登録なら登録
+				if (handle == ERROR_UNTYPE_HANDLE) handle = ctx.GetRegistry().Register(uuid);
+
+				// 置き換え
 				ctx.GetRegistry().Replace(handle.index, std::make_unique<Mesh>(mesh.second));
 			}
 

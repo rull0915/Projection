@@ -81,20 +81,29 @@ namespace REngine
 	{
 		// 既に読み込まれているUUIDなら
 		auto handle = m_registry.GetHandle(uuid);
-
-		// 返す
 		if (handle != ERROR_UNTYPE_HANDLE) return handle;
 
-		// 未登録のUUIDならエラーハンドルを返す
-		const std::filesystem::path& path = m_dataBase.GetPath(uuid);
+		// MainAssetがあればそっちを読み込み対象に
+		UUID mainID = m_dataBase.GetMainUUID(uuid);
 
+		// MainIDからパスを取得
+		const std::filesystem::path& path = m_dataBase.GetPath(mainID);
+
+		// 未登録のUUIDならエラーハンドルを返す
 		if (path == L"") return ERROR_UNTYPE_HANDLE;
 
 		// パスから読み込む
-		handle = LoadFromPath(path);
+		auto mainHandle = LoadFromPath(path);
 
-		// 返す
-		return handle;
+		// サブアセットのIDなら
+		if (mainID != uuid)
+		{
+			// サブアセットのハンドルを返す
+			return m_registry.Register(uuid);
+		}
+
+		// メインアセットのハンドルを返す
+		return mainHandle;
 	}
 
 	void AssetManager::Create(const std::filesystem::path& directory, const std::string& fileName, const std::string& assetType)
@@ -183,7 +192,14 @@ namespace REngine
 
 			// asyncで非同期ロード
 			auto future = std::async(
-				std::launch::async, [&]() { return loader(path, m_loadContext); }
+				std::launch::async, [&]() 
+				{
+					std::unique_ptr<AssetBase> asset = loader(path, m_loadContext); 
+
+					asset->SetName(path.stem().string());
+
+					return asset;
+				}
 			);
 
 			// Handleを生成

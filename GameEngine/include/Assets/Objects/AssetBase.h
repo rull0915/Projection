@@ -45,6 +45,9 @@ namespace REngine
 		// GUI変更不可フラグ
 		bool m_readOnly = false;
 
+		// アセット名
+		std::string m_name;
+
 	public:
 
 		//-----------------------------------------------------
@@ -73,7 +76,9 @@ namespace REngine
 		// UUID
 		void SetUUID(UUID uuid) { m_uuid = uuid; }
 
-	protected:
+		// 名前
+		void SetName(const std::string& name) { m_name = name; }
+
 		// 変更不可フラグ
 		void SetReadOnly(bool flag) { m_readOnly = flag; }
 
@@ -83,12 +88,15 @@ namespace REngine
 
 	public:
 		// 読み込み状態
-		LoadStatus GetStatus() { return m_status; }
+		LoadStatus GetStatus() const { return m_status; }
 
 		// UUID
-		UUID GetUUID() { return m_uuid; }
+		UUID GetUUID() const { return m_uuid; }
 
 		// 変更不可フラグ
-		bool IsReadOnly() { return m_readOnly; }
+		bool IsReadOnly() const { return m_readOnly; }
+
+		// 名前
+		const std::string& GetName() const { return m_name; }
 	};
 }	// namespace REngine

@@ -421,7 +421,7 @@ namespace REngine
 			using T = std::decay_t<decltype(val)>;
 			prop.value = static_cast<void*>(&val);	// void*に変換して格納
 			prop.type = GetPropertyType<T>();		// 型をPropertyTypeに変換
-			prop.typeIndex = RegisterType<T>();		// type_indexを取得
+			prop.typeIndex = PropertyTypeIndex::GetTypeIndex<T>();		// type_indexを取得
 			}, parameter.value
 		);
 

@@ -52,6 +52,11 @@ namespace REngine
 		// サブメッシュ配列
 		std::vector<SubMesh> m_subMeshes;
 
+		// 各情報の数
+		int m_vertexCount;
+		int m_polygonCount;
+		int m_subMeshCount;
+
 	public:
 
 		//-----------------------------------------------------
@@ -61,6 +66,9 @@ namespace REngine
 			: m_vertexBuffer{}
 			, m_indexBuffer{}
 			, m_subMeshes{}
+			, m_vertexCount{}
+			, m_polygonCount{}
+			, m_subMeshCount{}
 		{
 		}
 		~Mesh() = default;
@@ -77,5 +85,35 @@ namespace REngine
 
 		// インデックスバッファ
 		ID3D11Buffer* GetIndexBuffer() const { return m_indexBuffer.Get(); }
+
+		// プロパティリスト
+		std::vector<Property> GetProperties() override
+		{
+			std::vector<Property> properties;
+
+			Property vertexInfo;
+			vertexInfo.name = "Vertex:";
+			vertexInfo.type = PropertyType::Int;
+			vertexInfo.typeIndex = std::type_index(typeid(int));
+			vertexInfo.value = &m_vertexCount;
+
+			Property indexInfo;
+			indexInfo.name = "Polygon:";
+			indexInfo.type = PropertyType::Int;
+			indexInfo.typeIndex = std::type_index(typeid(int));
+			indexInfo.value = &m_polygonCount;
+
+			Property subMeshInfo;
+			subMeshInfo.name = "SubMesh:";
+			subMeshInfo.type = PropertyType::Int;
+			subMeshInfo.typeIndex = std::type_index(typeid(int));
+			subMeshInfo.value = &m_subMeshCount;
+
+			properties.push_back(subMeshInfo);
+			properties.push_back(vertexInfo);
+			properties.push_back(indexInfo);
+
+			return properties;
+		}
 	};
 }

@@ -49,6 +49,9 @@ namespace REngine
 		// UUIDからAux
 		std::unordered_map<UUID, AssetAux> m_uuidToAux;
 
+		// サブアセットIDからメインアセットIDを取得するマップ
+		std::unordered_map<UUID, UUID> m_subIdToMainId;
+
 	public:
 
 		//-----------------------------------------------------
@@ -74,6 +77,24 @@ namespace REngine
 		void SaveAux(AssetAux& asset, const std::filesystem::path& path)
 		{
 			m_auxFileRepository.SaveAux(asset, path.wstring() + L".aux");
+
+			// 変換表のAuxも更新
+			auto uuid = GetUUID(path);
+
+			m_uuidToAux[uuid] = asset;
+		}
+
+		// MainAssetのUUIDを取得する関数
+		UUID GetMainUUID(UUID id)
+		{
+			// SubAssetならMainIDを取得し返す
+			if (m_subIdToMainId.find(id) != m_subIdToMainId.end())
+			{
+				return m_subIdToMainId[id];
+			}
+
+			// MainAssetならそのまま返す
+			return id;
 		}
 
 		// 相互変換を行う関数
