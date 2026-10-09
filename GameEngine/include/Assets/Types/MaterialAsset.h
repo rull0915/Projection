@@ -44,7 +44,7 @@ namespace REngine
 	class AssetManager;
 	class SamplerList;
 
-	class MaterialAsset : public AssetBase, public DirectX::IEffect
+	class MaterialAsset : public AssetBase
 	{
 	public:
 
@@ -171,17 +171,8 @@ namespace REngine
 			m_needRebuildParams = true;
 		}
 
-		//------ IEffectの実装 ------//
-
 		// シェーダーをcontextにバインドする関数
-		void Apply(ID3D11DeviceContext* context) override;
-
-		// InputLayoutのセットは手動で行っているのでセットはしない
-		void __cdecl GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength) override
-		{
-			*pShaderByteCode = nullptr;
-			*pByteCodeLength = 0;
-		}
+		void Apply(ID3D11DeviceContext* context);
 
 		//----- PropertyObjectの実装 -----//
 

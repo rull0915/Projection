@@ -124,6 +124,6 @@ namespace REngine
 		// 内部実装
 		//-----------------------------------------------------
 
-		friend std::unique_ptr<ShaderAsset> Loader::ShaderLoader(const std::filesystem::path& path);
+		friend std::unique_ptr<ShaderAsset> Loader::ShaderLoader(const std::filesystem::path& path, AssetLoadContext& ctx);
 	};
 }

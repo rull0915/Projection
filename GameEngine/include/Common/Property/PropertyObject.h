@@ -115,18 +115,12 @@ namespace REngine
 			{
 				// 登録
 				EnumRegistry::Instance().Register<T>();
-
-				// タイプインデックスを保存
-				return std::type_index(typeid(T));
 			}
 			// AssetHandleなら
 			else if constexpr (IsHandle_v<T>)
 			{
 				// 登録
-				AssetPropertyRegistry::Instance().Register<typename T::value_type>();
-
-				// タイプインデックスを返す
-				return std::type_index(typeid(typename T::value_type));
+				AssetPropertyRegistry::Instance().Register<T>();
 			}
 			// vectorなら
 			else if constexpr (is_vector<T>::value)
@@ -139,11 +133,9 @@ namespace REngine
 
 				// 管理対象の型も登録
 				RegisterType<ElementType>();
-
-				// タイプインデックスを返す
-				return std::type_index(typeid(T));
 			}
-			else return std::type_index(typeid(void));
+
+			return std::type_index(typeid(T));
 		}
 
 		// 型からタイプを取得する関数

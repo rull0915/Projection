@@ -190,6 +190,8 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.cpp" />
     <ClCompile Include="src\GameController.cpp" />
     <ClCompile Include="src\Input\PadInput.cpp">
       <SubType>
@@ -218,7 +220,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\Collider\3D\Shapes\SphereCollider.cpp" />
     <ClCompile Include="src\Components\World\Collider\ColliderCommon.cpp" />
     <ClCompile Include="src\Components\ComponentBase.cpp" />
-    <ClCompile Include="src\Components\World\Renderer\ModelComponent.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp" />
     <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxComponent.cpp" />
     <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxEffect.cpp" />
@@ -234,7 +236,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp" />
-    <ClCompile Include="src\Editor\Editor\Windows\ProjectWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\SceneCamera.cpp" />
     <ClCompile Include="src\Editor\Loader\ComponentFactory.cpp" />
     <ClCompile Include="src\Editor\Loader\ObjectLoader.cpp" />
@@ -278,10 +280,10 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EachRenderer\PrimitiveRenderer.cpp" />
-    <ClCompile Include="src\Renderer\EachRenderer\SpriteRenderer.cpp" />
-    <ClCompile Include="src\Renderer\EachRenderer\TextRenderer.cpp" />
-    <ClCompile Include="src\Renderer\EachRenderer\UIRenderer.cpp" />
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawPrimitiveCommandPublisher.cpp" />
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawSpriteCommandPublisher.cpp" />
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawTextCommandPublisher.cpp" />
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawUICommandPublisher.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Scene\ComponentRegister.cpp" />
     <ClCompile Include="src\Scene\ObjectFinder.cpp" />
@@ -338,6 +340,10 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Assets\Managers\AssetLoadContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Managers\IAssetResolver.h">
       <SubType>
       </SubType>
@@ -365,6 +371,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h" />
     <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
       <SubType>
@@ -468,7 +475,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Components\ComponentBase.h" />
     <ClInclude Include="include\Components\ComponentInfo.h" />
     <ClInclude Include="include\Components\World\Components.h" />
-    <ClInclude Include="include\Components\World\Renderer\ModelComponent.h" />
+    <ClInclude Include="include\Components\World\Renderer\MeshRenderer.h" />
     <ClInclude Include="include\Components\World\Renderer\RendererBase.h" />
     <ClInclude Include="include\Components\World\RigidBody\RigidBody2D.h" />
     <ClInclude Include="include\Components\World\RigidBody\RigidBody.h" />
@@ -516,6 +523,8 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />
     <ClInclude Include="src\Managers\ReserveContainer.h" />
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
       <SubType>
@@ -633,7 +642,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h" />
-    <ClInclude Include="src\Editor\Editor\Windows\ProjectWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindow.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\StandardCheckHit2D.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CollideManager2D.h" />
@@ -662,11 +671,11 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Managers\Sounds\SoundManager.h" />
     <ClInclude Include="src\Managers\System\CollideEventSystem.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="include\Renderer\EachRenderer\ModelRenderer.h" />
-    <ClInclude Include="include\Renderer\EachRenderer\PrimitiveRenderer.h" />
-    <ClInclude Include="include\Renderer\EachRenderer\SpriteRenderer.h" />
-    <ClInclude Include="include\Renderer\EachRenderer\TextRenderer.h" />
-    <ClInclude Include="include\Renderer\EachRenderer\UIRenderer.h" />
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawMeshCommandPublisher.h" />
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawPrimitiveCommandPublisher.h" />
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawSpriteCommandPublisher.h" />
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawTextCommandPublisher.h" />
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawUICommandPublisher.h" />
     <ClInclude Include="include\Renderer\Renderer.h" />
     <ClInclude Include="include\Renderer\RendererType.h">
       <SubType>

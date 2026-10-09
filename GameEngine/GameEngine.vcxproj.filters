@@ -52,7 +52,7 @@
     <ClCompile Include="src\Components\World\Collider\ColliderCommon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\World\Renderer\ModelComponent.cpp">
+    <ClCompile Include="src\Components\World\Renderer\MeshRenderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp">
@@ -118,16 +118,16 @@
     <ClCompile Include="src\Managers\ObjectManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EachRenderer\PrimitiveRenderer.cpp">
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawPrimitiveCommandPublisher.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EachRenderer\SpriteRenderer.cpp">
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawSpriteCommandPublisher.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EachRenderer\TextRenderer.cpp">
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawTextCommandPublisher.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EachRenderer\UIRenderer.cpp">
+    <ClCompile Include="src\Renderer\Command\Publisher\DrawUICommandPublisher.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp">
@@ -244,7 +244,7 @@
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\Windows\ProjectWindow.cpp">
+    <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\SceneCamera.cpp">
@@ -370,6 +370,12 @@
     <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h">
@@ -417,7 +423,7 @@
     <ClInclude Include="include\Assets\Types\PhysicsMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\World\Renderer\ModelComponent.h">
+    <ClInclude Include="include\Components\World\Renderer\MeshRenderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\World\Renderer\RendererBase.h">
@@ -531,19 +537,19 @@
     <ClInclude Include="src\Managers\ObjectManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer\EachRenderer\ModelRenderer.h">
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawMeshCommandPublisher.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer\EachRenderer\PrimitiveRenderer.h">
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawPrimitiveCommandPublisher.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer\EachRenderer\SpriteRenderer.h">
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawSpriteCommandPublisher.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer\EachRenderer\TextRenderer.h">
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawTextCommandPublisher.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer\EachRenderer\UIRenderer.h">
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawUICommandPublisher.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\Renderer.h">
@@ -753,7 +759,7 @@
     <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\Windows\ProjectWindow.h">
+    <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\ThirdParty\imgui\imconfig.h">
@@ -997,6 +1003,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetLoadContext.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\World\Mesh\MeshFilter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

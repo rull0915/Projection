@@ -48,7 +48,7 @@ namespace REngine
 		ADD_FACTORY(RigidBody2D);
 
 		// Renderer
-		ADD_FACTORY(ModelComponent);
+		ADD_FACTORY(MeshRenderer);
 		ADD_FACTORY(SkyboxComponent);
 
 		// Camera
@@ -65,5 +65,8 @@ namespace REngine
 		ADD_FACTORY(ImageUI);
 		ADD_FACTORY(TextUI);
 		ADD_FACTORY(ButtonUI);
+
+		// MeshFilter
+		ADD_FACTORY(MeshFilter);
 	}
 }	// namespace REngine
