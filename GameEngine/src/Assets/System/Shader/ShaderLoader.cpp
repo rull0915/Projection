@@ -27,7 +27,7 @@ namespace REngine
 {
 	namespace Loader
 	{
-		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path)
+		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path, AssetLoadContext& ctx)
 		{
 			// シェーダーアセットを生成
 			std::unique_ptr<ShaderAsset> shader = std::make_unique<ShaderAsset>();

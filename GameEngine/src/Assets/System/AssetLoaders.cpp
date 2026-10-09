@@ -24,7 +24,7 @@
 
 namespace REngine
 {
-	std::unique_ptr<Texture> REngine::Loader::TextureLoader(const std::filesystem::path& path)
+	std::unique_ptr<Texture> REngine::Loader::TextureLoader(const std::filesystem::path& path, AssetLoadContext& ctx)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -69,7 +69,7 @@ namespace REngine
 		return std::make_unique<Texture>(std::move(texture));
 	}
 
-	std::unique_ptr<Font> Loader::FontLoader(const std::filesystem::path& path)
+	std::unique_ptr<Font> Loader::FontLoader(const std::filesystem::path& path, AssetLoadContext& ctx)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -89,13 +89,13 @@ namespace REngine
 		return std::make_unique<Font>(std::move(font), height);
 	}
 
-	std::unique_ptr<Prefab> Loader::PrefabLoader(const std::filesystem::path& path)
+	std::unique_ptr<Prefab> Loader::PrefabLoader(const std::filesystem::path& path, AssetLoadContext& ctx)
 	{
 		// 返す
 		return std::make_unique<Prefab>(std::filesystem::path(path));
 	}
 
-	std::unique_ptr<AudioClip> Loader::AudioClipLoader(const std::filesystem::path& path)
+	std::unique_ptr<AudioClip> Loader::AudioClipLoader(const std::filesystem::path& path, AssetLoadContext& ctx)
 	{
 		// AudioEngineを取得
 		auto ae = ResourceManager::Instance().GetAudioEngine();

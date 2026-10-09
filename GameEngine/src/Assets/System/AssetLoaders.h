@@ -29,16 +29,16 @@ namespace REngine
 		// 各ロード関数
 
 		// Texture
-		std::unique_ptr<Texture> TextureLoader(const std::filesystem::path& path);
+		std::unique_ptr<Texture> TextureLoader(const std::filesystem::path& path, AssetLoadContext& ctx);
 
 		// Font
-		std::unique_ptr<Font> FontLoader(const std::filesystem::path& path);
+		std::unique_ptr<Font> FontLoader(const std::filesystem::path& path, AssetLoadContext& ctx);
 
 		// Prefab
-		std::unique_ptr<Prefab> PrefabLoader(const std::filesystem::path& path);
+		std::unique_ptr<Prefab> PrefabLoader(const std::filesystem::path& path, AssetLoadContext& ctx);
 
 		// AudioClip
-		std::unique_ptr<AudioClip> AudioClipLoader(const std::filesystem::path& path);
+		std::unique_ptr<AudioClip> AudioClipLoader(const std::filesystem::path& path, AssetLoadContext& ctx);
 
 		// Propertyとして扱う場合
 		template<typename T>
