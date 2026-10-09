@@ -223,33 +223,27 @@ namespace REngine
 
 	void InspectorWindow::DrawAsset(AssetBase* asset)
 	{
-		// Handleを取得
-		UnTypeHandle* handle = m_selected.GetSelectedHandle();
-
-		// Handleからパスへ
-		auto& path = m_assetManager.GetDataBase().GetPath(m_assetManager.GetUUID(*handle));
-
 		// fs::pathに変換しファイル名を取得
-		std::string stem = std::filesystem::path(path).stem().string();
+		std::string name = asset->GetName();
 
-		ImGui::Text(stem.c_str());
+		ImGui::Text(name.c_str());
 
 		// 本体を表示
-		if (m_propertyOnInspector.DrawPropertyObject(asset))
+		if (m_propertyOnInspector.DrawPropertyObject(asset, asset->IsReadOnly()))
 		{
 			asset->OnValidate();
 		}
 
-		// セーブ可能かどうか
-		if (m_assetManager.CanSave(path))
-		{
-			// ボタンを表示
-			if (ImGui::Button("Save"))
-			{
-				// 保存
-				m_assetManager.SaveAsset(path);
-			}
-		}
+		//// セーブ可能かどうか
+		//if (m_assetManager.CanSave(path))
+		//{
+		//	// ボタンを表示
+		//	if (ImGui::Button("Save"))
+		//	{
+		//		// 保存
+		//		m_assetManager.SaveAsset(path);
+		//	}
+		//}
 	}
 }	// namespace REngine
 

@@ -256,7 +256,7 @@ namespace REngine
 		UUID uuid = AssetPropertyRegistry::Instance().GetUUID(property->typeIndex, property->value, m_assetManager);
 
 		// UUIDから名前を取得
-		std::string name = uuid == 0 ? "" : std::filesystem::path(m_assetManager.GetDataBase().GetPath(uuid)).stem().string();
+		std::string name = uuid == 0 ? "" : m_assetManager.GetFromUnTypeHandle(m_assetManager.GetHandle(uuid))->GetName();
 
 		ImGui::Text(property->name.c_str());
 

@@ -128,18 +128,15 @@ namespace REngine
 				else
 				{
 					// ファイル表示
-					auto result = m_assetFileDrawer.DrawAssetFile(file.path(), file.path() == m_selectedPath);
+					auto result = m_assetFileDrawer.DrawAssetFile(file.path(), m_selectedID);
 
-					// 操作が起きていれば選択パスを上書き
-					if (result != AssetFileDrawer::Result::None)
-					{
-						m_selectedPath = file.path();
-					}
+					// 選択パスを上書き
+					if (result.select != UUID_NONE) m_selectedID = result.select;
 
 					// ダブルクリックされていれば選択
-					if (result == AssetFileDrawer::Result::DoubleClick)
+					if (result.doubleClick != UUID_NONE)
 					{
-						m_selected.SetSelectedHandle(m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(file.path())));
+						m_selected.SetSelectedAssetID(result.doubleClick);
 					}
 
 					// 右クリック時にメニューを表示

@@ -16,6 +16,7 @@
 //====================================================//
 
 #include <filesystem>
+#include "Common/UUID.h"
 
 namespace REngine
 {
@@ -29,9 +30,10 @@ namespace REngine
 	public:
 
 		// 表示の結果用構造体
-		enum class Result
+		struct Result
 		{
-			None, Select, DoubleClick
+			UUID select = UUID_NONE;
+			UUID doubleClick = UUID_NONE;
 		};
 
 	private:
@@ -58,13 +60,6 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// 表示関数
-		Result DrawAssetFile(const std::filesystem::path& path, bool selected);
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		Result DrawAssetFile(const std::filesystem::path& path, UUID selected);
 	};
 }

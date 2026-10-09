@@ -35,7 +35,7 @@ namespace REngine
 		SelectedOnGUI& m_selected;
 
 		// 選択中パス
-		std::filesystem::path m_selectedPath;
+		UUID m_selectedID;
 
 		// ポップアップ管理クラス
 		ProjectWindowPopUp m_popUp;
@@ -51,7 +51,7 @@ namespace REngine
 		ProjectWindow(AssetManager& am, SelectedOnGUI& selected)
 			: m_assetManager{ am }
 			, m_selected{ selected }
-			, m_selectedPath{}
+			, m_selectedID{}
 			, m_popUp{ am }
 			, m_assetFileDrawer{ am }
 		{}

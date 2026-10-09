@@ -21,9 +21,9 @@
 // 関数の実体宣言
 //====================================================//
 
-REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const std::filesystem::path& path, bool selected)
+REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const std::filesystem::path& path, UUID selected)
 {
-	Result r = Result::None;
+	Result r{};
 
 	// ファイル名を取得
 	std::string fileName = path.filename().string();
@@ -31,8 +31,11 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 	// 初期状態のフラグ
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
+	// UUIDを取得
+	UUID id = m_assetManager.GetDataBase().GetUUID(path);
+
 	// 選択されていれば
-	if (selected)
+	if (selected == id)
 	{
 		// 選択状態に
 		flags |= ImGuiTreeNodeFlags_Selected;
@@ -51,10 +54,10 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 	if (ImGui::IsItemClicked())
 	{
 		// 選択
-		r = Result::Select;
+		r.select = id;
 
 		// 読み込み
-		m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(path));
+		m_assetManager.LoadFromUUID(id);
 	}
 
 	// 左ボタンがダブルクリックされていれば
@@ -63,7 +66,7 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 		// シーン以外なら
 		if (path.extension() != L".scene")
 			// 選択状態にする
-			r = Result::DoubleClick;
+			r.doubleClick = id;
 
 		//// シーンなら
 		//else
@@ -73,8 +76,8 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 	// ドラッグ可能に
 	if (ImGui::BeginDragDropSource())
 	{
-		// パスからUUIDを取得
-		UnTypeHandle handle = m_assetManager.LoadFromUUID(m_assetManager.GetDataBase().GetUUID(path));
+		// UUIDからハンドルを取得
+		UnTypeHandle handle = m_assetManager.LoadFromUUID(id);
 
 		// 無効ハンドルであればドラッグ不可
 		if (handle != ERROR_UNTYPE_HANDLE)
@@ -101,11 +104,19 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 		// サブアセットの分ループ
 		for (auto& subAsset : aux.subAssets)
 		{
-			if (ImGui::Selectable(subAsset.name.c_str(), selected))
+			// 選択されたら
+			if (ImGui::Selectable(subAsset.name.c_str(), subAsset.uuid == selected))
 			{
-
+				r.select = subAsset.uuid;
 			}
 
+			// 左ボタンがダブルクリックされていれば
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			{
+				// 選択状態にする
+				r.doubleClick = subAsset.uuid;
+			}
+		
 			// 仮想パスを作成
 			std::filesystem::path subPath = path.string() + "#" + subAsset.name;
 
