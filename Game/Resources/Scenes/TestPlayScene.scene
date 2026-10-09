@@ -239,7 +239,230 @@
                 "m_tag": ""
             },
             {
-                "Children": [],
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 15687788174937822902
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 17436427619498470470
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 6275700941876954558
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            403178784719374786,
+                                            403178784719374786,
+                                            403178784719374786,
+                                            403178784719374786
+                                        ],
+                                        "size": 4
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 12073586165200936392
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 15168818889145937202,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 16789427622423130809
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 12992983410217461113
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 16462248121962913936
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            403178784719374786,
+                                            403178784719374786,
+                                            403178784719374786
+                                        ],
+                                        "size": 3
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 4612964079213024552
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 787123765382333036,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 13312556155104363903
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 9667960418642555920
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 9941350484986683179
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            403178784719374786
+                                        ],
+                                        "size": 1
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 1224884604630283501
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 5944331757035303358,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 5150339245500208325
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 12202010595235106090
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 15422720269819782236
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            403178784719374786,
+                                            403178784719374786
+                                        ],
+                                        "size": 2
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 13143209029103590992
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 7722117474744803473,
+                        "m_isActive": true,
+                        "m_name": "",
+                        "m_tag": ""
+                    }
+                ],
                 "Components": [
                     {
                         "Data": {
@@ -263,28 +486,70 @@
                         },
                         "Type": "Transform",
                         "UUID": 14971657339154265834
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_mesh": 12523000207065827200
-                        },
-                        "Type": "MeshFilter",
-                        "UUID": 9662769031803133479
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_material": 403178784719374786
-                        },
-                        "Type": "MeshRenderer",
-                        "UUID": 1355652751746247077
                     }
                 ],
                 "IsWorld": true,
                 "UUID": 7589627372482129741,
                 "m_isActive": true,
                 "m_name": "Mesh",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                1.1498571634292603,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 14421234177666796397
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 1292518473465197881
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 10227181324617003329
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    403178784719374786,
+                                    403178784719374786,
+                                    403178784719374786,
+                                    403178784719374786,
+                                    403178784719374786
+                                ],
+                                "size": 5
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 15586496981422080368
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 12818351356417901327,
+                "m_isActive": true,
+                "m_name": "",
                 "m_tag": ""
             }
         ]
