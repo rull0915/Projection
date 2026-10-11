@@ -24,7 +24,7 @@ namespace REngine
 		: m_dataBase{ m_typeManager }
 		, m_registry{}
 		, m_typeManager{}
-		, m_loadContext{ m_dataBase, m_registry }
+		, m_assetContext{ m_dataBase, m_registry, [this](UUID uuid) { return LoadFromUUID(uuid); } }
 		, m_loaders{}
 		, m_savers{}
 		, m_creators{}
@@ -137,7 +137,7 @@ namespace REngine
 			if (saver->second)
 			{
 				// 保存
-				saver->second(asset.get(), path);
+				saver->second(asset.get(), path, m_assetContext);
 			}
 
 			// スキャンさせる
@@ -180,7 +180,7 @@ namespace REngine
 		if (!asset) return;
 
 		// 保存
-		it->second(asset, path);
+		it->second(asset, path, m_assetContext);
 	}
 
 	UnTypeHandle AssetManager::LoadFromPath(const std::filesystem::path& path)
@@ -194,7 +194,7 @@ namespace REngine
 			auto future = std::async(
 				std::launch::async, [&]() 
 				{
-					std::unique_ptr<AssetBase> asset = loader(path, m_loadContext); 
+					std::unique_ptr<AssetBase> asset = loader(path, m_assetContext); 
 
 					asset->SetName(path.stem().string());
 

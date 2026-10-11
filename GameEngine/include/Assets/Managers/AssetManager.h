@@ -27,7 +27,7 @@
 #include "AssetDataBase.h"
 #include "AssetRegistry.h"
 #include "AssetTypeManager.h"
-#include "AssetLoadContext.h"
+#include "AssetContext.h"
 
 namespace REngine
 {
@@ -53,10 +53,10 @@ namespace REngine
 		};
 
 		// パスを引数にしてAssetを生成するローダー関数
-		using Loader = std::function<std::unique_ptr<AssetBase>(const std::filesystem::path&, AssetLoadContext& ctx)>;
+		using Loader = std::function<std::unique_ptr<AssetBase>(const std::filesystem::path&, AssetContext& ctx)>;
 
 		// Assetからパスに保存するセーバー関数
-		using Saver = std::function<void(AssetBase*, const std::filesystem::path&)>;
+		using Saver = std::function<void(AssetBase*, const std::filesystem::path&, AssetContext& ctx)>;
 
 		// パスから新規ファイルを作成してデフォルトのアセットを生成する関数
 		using Creator = std::function<std::unique_ptr<AssetBase>(std::filesystem::path)>;
@@ -76,8 +76,8 @@ namespace REngine
 		// AssetTypeManager
 		AssetTypeManager m_typeManager;
 
-		// ロードコンテキスト
-		AssetLoadContext m_loadContext;
+		// アセットコンテキスト
+		AssetContext m_assetContext;
 
 		// 読み込み関数マップ
 		std::unordered_map<std::type_index, Loader> m_loaders;

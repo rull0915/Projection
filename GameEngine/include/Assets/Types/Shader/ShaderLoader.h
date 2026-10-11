@@ -18,7 +18,7 @@
 #include <memory>
 #include <filesystem>
 
-#include "Assets/Managers/AssetLoadContext.h"
+#include "Assets/Managers/AssetContext.h"
 
 namespace REngine
 {
@@ -28,6 +28,6 @@ namespace REngine
 	namespace Loader
 	{
 		// ロード関数
-		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path, AssetLoadContext& ctx);
+		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path, AssetContext& ctx);
 	}
 }

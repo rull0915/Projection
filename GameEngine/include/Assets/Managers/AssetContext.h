@@ -1,5 +1,5 @@
 ﻿//====================================================//
-// ファイル名   : AssetLoadContext.h
+// ファイル名   : AssetContext.h
 // 作成者       : Hoshino Ryunosuke
 // 作成日       : 2026/10/08
 //
@@ -16,13 +16,14 @@
 //====================================================//
 #include "AssetDataBase.h"
 #include "AssetRegistry.h"
+#include <functional>
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetLoadContext
+	class AssetContext
 	{
 	private:
 
@@ -34,17 +35,23 @@ namespace REngine
 
 		AssetRegistry& m_registry;
 
+		// UUIDからロードする関数オブジェクト
+		std::function<UnTypeHandle(UUID)> m_loadFromUUID;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		AssetLoadContext(AssetDataBase& db, AssetRegistry& r)
+		AssetContext(AssetDataBase& db, AssetRegistry& r, std::function<UnTypeHandle(UUID)> func)
 			: m_dataBase{ db }
 			, m_registry{ r }
+			, m_loadFromUUID{ func }
 		{
 		}
-		~AssetLoadContext() = default;
+		~AssetContext() = default;
+
+		UnTypeHandle LoadFromUUID(UUID uuid) const { return m_loadFromUUID(uuid); }
 
 		//-----------------------------------------------------
 		// ゲッター

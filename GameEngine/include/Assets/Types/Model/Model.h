@@ -18,7 +18,7 @@
 
 #include "Assets/Objects/Handle.h"
 #include "Mesh.h"
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace REngine
 {

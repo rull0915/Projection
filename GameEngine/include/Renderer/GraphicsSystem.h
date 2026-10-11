@@ -15,7 +15,7 @@
 #include "Command/DrawCommandExecutor.h"
 
 // Material
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Objects/Handle.h"
 
 namespace REngine

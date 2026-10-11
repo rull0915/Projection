@@ -18,7 +18,7 @@
 #include "Components/Interface/IAssetDependent.h"
 
 #include "Assets/Objects/Handle.h"
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace REngine
 {

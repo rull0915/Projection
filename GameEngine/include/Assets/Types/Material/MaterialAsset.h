@@ -16,36 +16,34 @@
 //====================================================//
 #include <map>
 #include <utility>
-#include <variant>
-#include <Effects.h>
 #include <type_traits>
 
+#include "MaterialParams.h"
 #include "Assets/Objects/Handle.h"
-#include "Shader/ShaderAsset.h"
+#include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Types/Texture.h"
 
 #include "Assets/Objects/AssetBase.h"
-#include "Assets/Types/Shader/SamplerType.h"
 
 namespace REngine
 {
-	// バッファとして存在する型を全て扱うVariant
-	using MaterialParamVariant = std::variant<
-		float,
-		DirectX::SimpleMath::Vector2,
-		DirectX::SimpleMath::Vector3,
-		DirectX::SimpleMath::Vector4,
-		DirectX::SimpleMath::Color,
-		DirectX::SimpleMath::Matrix,
-		Handle<Texture>,
-		SamplerType
-	>;
-
 	class AssetManager;
 	class SamplerList;
+	namespace Loader
+	{
+		class MaterialLoader;
+	}
+	namespace Saver
+	{
+		class MaterialSaver;
+	}
 
 	class MaterialAsset : public AssetBase
 	{
+		// ロード、保存クラスをfriend指定
+		friend class Loader::MaterialLoader;
+		friend class Saver::MaterialSaver;
+
 	public:
 
 		struct Parameter
@@ -64,11 +62,18 @@ namespace REngine
 		Handle<ShaderAsset> m_vertexShader;	// 頂点シェーダ
 		Handle<ShaderAsset> m_pixelShader;	// ピクセルシェーダ
 
+		// 変更前のハンドル
+		Handle<ShaderAsset> m_oldVertexShader;	// 頂点シェーダ
+		Handle<ShaderAsset> m_oldPixelShader;	// ピクセルシェーダ
+
 		// 各ステージの定数バッファマップ
 		std::map<std::pair<ShaderType, uint32_t>, Microsoft::WRL::ComPtr<ID3D11Buffer>> m_constantBuffers;
 
 		// パラメータの一覧
 		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> m_params;
+
+		// ロード時に読み込まれたパラメータ
+		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> m_pendingParams;
 
 		// バッファの変更済みフラグ
 		bool m_isDirty;
@@ -78,9 +83,6 @@ namespace REngine
 
 		// サンプラーリスト
 		const SamplerList* m_samplerList;
-
-		// パラメータの再構築が必要かどうかのフラグ
-		bool m_needRebuildParams;
 
 	public:
 
@@ -106,35 +108,11 @@ namespace REngine
 		void SetParam(ShaderType type, const std::string& name, T value)
 		{
 			// 変更
-			m_params[type][name] = Parameter{ GetParamType<T>(), value };
+			m_params[type][name] = Parameter{ MaterialParams::GetParamType<T>(), value };
 
 			// Dirtyに
 			m_isDirty = true;
 		}
-
-		// パラメータタイプを取得する関数
-		template<typename T>
-		ShaderParamType GetParamType()
-		{
-			if constexpr (std::is_same_v<T, float>)
-				return ShaderParamType::Float;
-			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector2>)
-				return ShaderParamType::Float2;
-			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector3>)
-				return ShaderParamType::Float3;
-			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Vector4>)
-				return ShaderParamType::Float4;
-			else if constexpr (std::is_same_v<T, DirectX::SimpleMath::Matrix>)
-				return ShaderParamType::Float4x4;
-			else if constexpr (std::is_same_v<T, Handle<Texture>>)
-				return ShaderParamType::Texture2D;
-			else if constexpr (std::is_same_v<T, SamplerType>)
-				return ShaderParamType::Sampler;
-			else return ShaderParamType::None;
-		}
-
-		// パラメータを名前検索する関数
-		ShaderParam* FindParam(ShaderType stage, const std::string& name);
 
 		// 定数バッファを更新する関数
 		void UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context);
@@ -164,11 +142,26 @@ namespace REngine
 			return error;
 		}
 
+		// 各シェーダーのロード用パラメータ一覧を取得する関数
+		std::unordered_map<std::string, Parameter>& GetPendingParams(ShaderType type)
+		{
+			// エラー用static変数
+			static std::unordered_map<std::string, Parameter> error{};
+
+			// 検索
+			auto it = m_pendingParams.find(type);
+
+			// 見つかれば
+			if (it != m_pendingParams.end()) return it->second;
+
+			// なければエラー値
+			return error;
+		}
+
 		// GUI変更時の関数
 		void OnValidate() override
 		{
 			m_isDirty = true;
-			m_needRebuildParams = true;
 		}
 
 		// シェーダーをcontextにバインドする関数
@@ -190,9 +183,6 @@ namespace REngine
 		// シェーダーのパラメータから自身のパラメータを作り直す関数
 		void RebuildParams();
 
-		// パラメータのデフォルト値を返す関数
-		MaterialParamVariant GetDefaultParam(ShaderParamType type);
-		
 		// パラメータからプロパティを作成する関数
 		Property CreatePropertyFromParameter(const std::string& name, Parameter& parameter);
 
