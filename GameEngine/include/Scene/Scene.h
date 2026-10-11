@@ -29,6 +29,8 @@
 #include "Assets/Managers/AssetManager.h"
 #include "Common/ObjectReference.h"
 
+#include "SceneInfo.h"
+
 namespace REngine
 {
 	//====================================================//
@@ -80,6 +82,9 @@ namespace REngine
 
 		// 参照解決待ちリスト
 		std::vector<RefBase*> m_waitingRefBases;
+
+		// シーンデータ
+		SceneData m_sceneData;
 
 	public:
 
@@ -157,6 +162,9 @@ namespace REngine
 
 		// アセットマネージャー
 		AssetManager& GetAssetManager() const { return m_assetManager; }
+
+		// シーンデータ
+		SceneData& GetSceneData() { return m_sceneData; }
 
 		//-----------------------------------------------------
 		// セッター

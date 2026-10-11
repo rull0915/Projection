@@ -101,6 +101,12 @@ namespace REngine
 			m_pPipeline->m_rendererManager->AddObject(static_cast<RendererBase*>(component));
 		}
 
+		// ライトコンポーネントの場合
+		if (component->IsTypeOf(LightComponent::StaticTypeId()))
+		{
+			m_pPipeline->m_lightManager->AddObject(static_cast<LightComponent*>(component));
+		}
+
 		// 読み取りコンポーネントに通知
 		for (auto& listener : m_listeners) listener->OnComponentAdded(component);
 	}
@@ -183,6 +189,12 @@ namespace REngine
 		if (component->IsTypeOf(RendererBase::StaticTypeId()))
 		{
 			m_pPipeline->m_rendererManager->RemoveObject(static_cast<RendererBase*>(component));
+		}
+
+		// ライトコンポーネントの場合
+		if (component->IsTypeOf(LightComponent::StaticTypeId()))
+		{
+			m_pPipeline->m_lightManager->RemoveObject(static_cast<LightComponent*>(component));
 		}
 
 		// 読み取りコンポーネントに通知

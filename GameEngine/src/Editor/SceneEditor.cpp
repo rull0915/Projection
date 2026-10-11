@@ -133,12 +133,20 @@ namespace REngine
 	{
 		if (!m_isActive) return;
 
+		// コンテキストの作成
+		RenderContext ctx{};
+		ctx.sceneData = m_pScene->GetSceneData();
+		ctx.target = m_sceneView.get();
+		ctx.back = WindowManager::Instance().GetBackGroundColor();
+		ctx.flags = m_gui.GetDrawSetting();
+
+		// カメラの情報を設定
+		ctx.sceneData.cameraData.view = m_sceneViewCamera ? m_sceneViewCamera->GetView() : DirectX::SimpleMath::Matrix::Identity;
+		ctx.sceneData.cameraData.proj = m_sceneViewCamera ? m_sceneViewCamera->GetProj() : DirectX::SimpleMath::Matrix::Identity;
+		ctx.sceneData.cameraData.pos = m_sceneViewCamera ? m_sceneViewCamera->GetComponent<Transform>()->GetWorldPosition() : DirectX::SimpleMath::Vector3::Zero;
+
 		// ゲームビューへの描画
-		m_pScene->GetSceneRenderer()->RenderWithContext(
-			{
-				m_sceneViewCamera, m_sceneView.get(), WindowManager::Instance().GetBackGroundColor(),
-				m_gui.GetDrawSetting(),
-			}, renderer);
+		m_pScene->GetSceneRenderer()->RenderWithContext(ctx, renderer);
 	}
 
 	void SceneEditor::TestPlay()

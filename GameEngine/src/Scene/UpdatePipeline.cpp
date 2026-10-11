@@ -26,6 +26,7 @@ namespace REngine
 		, m_colEvent{ std::make_unique<CollideEventSystem>() }
 		, m_cameraManager{ std::make_unique<CameraManager>() }
 		, m_rendererManager{ std::make_unique<RendererManager>() }
+		, m_lightManager{ std::make_unique<LightManager>() }
 		, m_objectManager{ std::make_unique<ObjectManager>() }
 		, m_uiManager{ std::make_unique<UIManager>(pScene) }
 		, m_soundManager{ std::make_unique<SoundManager>() }
@@ -48,6 +49,7 @@ namespace REngine
 		m_objectManager->Update(gameTimer, playing);
 
 		m_rendererManager->ReflectReserves();
+		m_lightManager->ReflectReserves();
 		m_uiManager->ReflectReserves();
 
 		if (playing)
@@ -118,6 +120,7 @@ namespace REngine
 
 		// 各マネージャーから全削除
 		m_rendererManager->RemoveReserved();
+		m_lightManager->RemoveReserved();
 		m_physicsManager->RemoveReserved();
 		m_physicsManager->GetCollideManager()->ReflectReserves();
 

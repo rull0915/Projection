@@ -68,5 +68,8 @@ namespace REngine
 
 		// MeshFilter
 		ADD_FACTORY(MeshFilter);
+
+		// Light
+		ADD_FACTORY(LightComponent);
 	}
 }	// namespace REngine

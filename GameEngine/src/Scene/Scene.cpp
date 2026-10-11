@@ -44,6 +44,7 @@ namespace REngine
 		, m_referenceRegistry{ std::make_unique<ReferenceRegistry>() }
 		, m_updateMode{ UpdateMode::Play }
 		, m_assetManager{ assetManager }
+		, m_sceneData{}
 	{
 		// 初期化
 		m_updatePipeline->Initialize();
@@ -70,17 +71,36 @@ namespace REngine
 	{
 		// 各管理クラスの更新
 		m_updatePipeline->Update(gameTimer, m_updateMode);
+
+		// シーンデータの更新
+
+		// カメラデータの更新
+		CameraBase* mainCamera = GetMainCamera();
+		m_sceneData.cameraData.view = mainCamera ? mainCamera->GetView() : DirectX::SimpleMath::Matrix::Identity;
+		m_sceneData.cameraData.proj = mainCamera ? mainCamera->GetProj() : DirectX::SimpleMath::Matrix::Identity;
+		m_sceneData.cameraData.pos = mainCamera ? mainCamera->GetComponent<Transform>()->GetWorldPosition() : DirectX::SimpleMath::Vector3::Zero;
+
+		// ライトデータの更新
+		m_updatePipeline->GetLightManager()->RebuildLightData();
+		m_sceneData.lightData = m_updatePipeline->GetLightManager()->GetLightData();
+
+		// 時間データの更新
+		m_sceneData.timeData.time = gameTimer.GetTime();
+		m_sceneData.timeData.elapsedTime = gameTimer.GetElapsedTime();
 	}
 
 	// 描画関数
 	void Scene::Render(Renderer& renderer)
 	{
+		// コンテキストの作成
+		RenderContext ctx{};
+		ctx.sceneData = m_sceneData;
+		ctx.target = m_mainScreen->GetRenderTarget();
+		ctx.back = WindowManager::Instance().GetBackGroundColor();
+		ctx.flags = DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug;
+
 		// メインの描画
-		m_sceneRenderer->RenderWithContext(
-			{ GetMainCamera(), m_mainScreen->GetRenderTarget(), WindowManager::Instance().GetBackGroundColor(),
-				DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug },
-			renderer
-		);
+		m_sceneRenderer->RenderWithContext(ctx, renderer);
 	}
 
 	// 実際の画面へ描画する関数

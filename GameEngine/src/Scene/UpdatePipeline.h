@@ -17,6 +17,7 @@
 #include "Managers/ObjectManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/Renderer/RendererManager.h"
+#include "Managers/Renderer/LightManager.h"
 #include "Managers/2DManagers/PhysicsManager2D.h"
 #include "Managers/2DManagers/Collider/CollideManager2D.h"
 #include "Managers/3DManagers/PhysicsManager.h"
@@ -51,6 +52,7 @@ namespace REngine
 		std::unique_ptr<CollideEventSystem> m_colEvent;			// 衝突時のイベント
 		std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
 		std::unique_ptr<RendererManager> m_rendererManager;	// 描画
+		std::unique_ptr<LightManager> m_lightManager;		// ライト
 		std::unique_ptr<SoundManager> m_soundManager;		// 音
 		std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
 		std::unique_ptr<UIManager> m_uiManager;				// UI
@@ -95,6 +97,8 @@ namespace REngine
 		UIManager* GetUIManager() const { return m_uiManager.get(); }
 		// Camera
 		CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
+		// ライト
+		LightManager* GetLightManager() const { return m_lightManager.get(); }
 
 		//-----------------------------------------------------
 		// セッター

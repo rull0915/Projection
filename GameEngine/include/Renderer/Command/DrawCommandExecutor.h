@@ -28,9 +28,11 @@ namespace REngine
 	class AssetManager;
 	class SamplerList;
 
-	struct alignas(16) WorldBuffer
+	struct alignas(16) PerObjectBuffer
 	{
 		DirectX::SimpleMath::Matrix world;
+		DirectX::SimpleMath::Matrix wvp;
+		DirectX::SimpleMath::Matrix worldInvTranspose;
 	};
 
 	//====================================================//
@@ -125,10 +127,10 @@ namespace REngine
 		// プリミティブの描画を開始する関数
 		void PreparePrimitiveRendering();
 
-		// VP行列のバッファをバインドする関数
-		void BindVPBuffer();
+		// フレーム毎のバッファをバインドする関数
+		void BindPerFrameBuffer(const FrameInfo& perFrame);
 
 		// World行列をバインドする関数
-		void BindWorldBuffer(const DirectX::SimpleMath::Matrix& world);
+		void BindPerObjectBuffer(const DirectX::SimpleMath::Matrix& world);
 	};
 }	// namespace REngine

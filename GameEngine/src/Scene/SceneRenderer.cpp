@@ -41,11 +41,10 @@ namespace REngine
 		// クリア
 		context.target->Clear(deviceContext, context.back);
 
-		// 各行列の設定
-		if (context.camera)
-		{
-			renderer.SetVPMatrix(context.camera->GetView(), context.camera->GetProj());
-		}
+		// シーンデータの設定
+		SceneData sceneData = context.sceneData;
+
+		renderer.SetSceneData(sceneData);
 
 		// Worldの描画
 		if (context.flags & DrawFlag::World)
@@ -73,7 +72,10 @@ namespace REngine
 		}
 
 		// 行列のリセット
-		renderer.SetVPMatrix(DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity);
+		sceneData.cameraData.view = DirectX::SimpleMath::Matrix::Identity;
+		sceneData.cameraData.proj = DirectX::SimpleMath::Matrix::Identity;
+
+		renderer.SetSceneData(sceneData);
 
 		// UIの描画
 		if (context.flags & DrawFlag::UI)

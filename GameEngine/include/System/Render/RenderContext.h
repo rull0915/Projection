@@ -14,8 +14,8 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/Camera/CameraBase.h"
 #include "RenderTarget.h"
+#include "Scene/SceneInfo.h"
 
 namespace REngine
 {
@@ -34,8 +34,8 @@ namespace REngine
 	// 描画の情報
 	struct RenderContext
 	{
-		// 使用するカメラ
-		CameraBase* camera = nullptr;
+		// 描画するシーンのデータ
+		SceneData sceneData;
 
 		// 描画先
 		RenderTarget* target = nullptr;

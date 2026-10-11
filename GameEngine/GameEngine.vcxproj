@@ -164,6 +164,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\GraphicsSystem.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
     <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp" />
@@ -192,6 +193,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Components\World\Light\LightComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.cpp" />
     <ClCompile Include="src\GameController.cpp" />
@@ -199,6 +204,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Managers\Renderer\LightManager.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
@@ -377,12 +383,24 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Common\LightData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Common\Property\PropertyTypeIndex.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Components\World\Light\LightComponent.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
     <ClInclude Include="include\Renderer\RendererInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Scene\SceneInfo.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -545,6 +563,7 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Scene\ObjectFactory.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />
+    <ClInclude Include="src\Managers\Renderer\LightManager.h" />
     <ClInclude Include="src\Managers\ReserveContainer.h" />
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
       <SubType>

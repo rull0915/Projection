@@ -16,6 +16,7 @@
 // インクルードファイル
 //====================================================//
 
+#include "Common/LightData.h"
 
 namespace REngine
 {
@@ -23,40 +24,12 @@ namespace REngine
 	// 構造体宣言
 	//====================================================//
 
-	struct PointLight
-	{
-		DirectX::SimpleMath::Vector3 pos;	// ライトの位置
-		float radius;						// 光が届く最大の半径
-		DirectX::SimpleMath::Vector3 color; // 光の色
-		float intensity;					// 光の強さ
-	};
-
-	struct SpotLight
-	{
-		DirectX::SimpleMath::Vector3 pos;	// ライトの位置
-		float length;						// ライトが届く最大距離
-		DirectX::SimpleMath::Vector3 color; // ライトの色    
-		float intensity;					// ライトの強度
-		DirectX::SimpleMath::Vector3 direction; // ライトの向き
-		float cosInnerAngle;
-		float cosOuterAngle;
-		DirectX::SimpleMath::Vector3 padding;
-	};
-
-	struct DirectionalLight
-	{
-		DirectX::SimpleMath::Vector3 direction; // ライトの向き
-		float intensity;						// ライトの強さ
-		DirectX::SimpleMath::Vector3 color;		// ライトの色
-		float padding;
-	};
-
 	static const int MAX_POINT_LIGHT = 3;
 	static const int MAX_SPOT_LIGHT = 3;
 	static const int MAX_DIRECTIONAL_LIGHT = 3;
 
 	// ライト
-	struct LightInfo
+	struct alignas(16) LightInfo
 	{
 		PointLight pointLights[MAX_POINT_LIGHT];					// ポイントライト  
 		SpotLight spotLights[MAX_SPOT_LIGHT];						// スポットライト  
@@ -70,7 +43,7 @@ namespace REngine
 	};
 
 	// カメラ
-	struct CameraInfo
+	struct alignas(16) CameraInfo
 	{
 		DirectX::SimpleMath::Matrix view;
 		DirectX::SimpleMath::Matrix proj;
@@ -81,14 +54,15 @@ namespace REngine
 	};
 
 	// 時間
-	struct TimeInfo
+	struct alignas(16) TimeInfo
 	{
 		float time;
 		float elapsedTime;
+		DirectX::SimpleMath::Vector2 padding;
 	};
 
 	// フレームの情報
-	struct FrameInfo
+	struct alignas(16) FrameInfo
 	{
 		CameraInfo camera;
 		LightInfo light;

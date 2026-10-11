@@ -83,7 +83,7 @@ namespace REngine
 
 		void SetWorld(const DirectX::SimpleMath::Matrix& world) { m_graphicSystem.SetWorld(world); }
 
-		void SetVPMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj) { m_graphicSystem.SetVPMatrix(view, proj); }
+		void SetSceneData(const SceneData& data) { m_graphicSystem.SetSceneData(data); }
 
 		void SetMaterial(Handle<MaterialAsset> handle) { m_graphicSystem.SetMaterial(handle); };
 	};
