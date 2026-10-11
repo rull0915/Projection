@@ -164,6 +164,8 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
+    <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
     <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp" />
     <ClCompile Include="src\Assets\Types\Shader\InputLayoutCache.cpp">
       <SubType>
@@ -174,7 +176,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AuxFileRepository.cpp" />
-    <ClCompile Include="src\Assets\Types\MaterialAsset.cpp">
+    <ClCompile Include="src\Assets\Types\Material\MaterialAsset.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -340,7 +342,7 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Assets\Managers\AssetLoadContext.h">
+    <ClInclude Include="include\Assets\Managers\AssetContext.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -356,7 +358,11 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\MaterialAsset.h">
+    <ClInclude Include="include\Assets\Types\Material\MaterialAsset.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Material\MaterialParams.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -376,6 +382,16 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
+    <ClInclude Include="include\Renderer\RendererInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="src\Assets\System\Material\MaterialConstant.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="src\Assets\System\Material\MaterialLoader.h" />
+    <ClInclude Include="src\Assets\System\Material\MaterialSaver.h" />
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h" />
     <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
       <SubType>

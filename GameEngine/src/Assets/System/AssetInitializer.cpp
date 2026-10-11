@@ -15,11 +15,13 @@
 #include "System/GraphicsManager.h"
 #include "Assets/Types/PhysicsMaterial.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Types/Model/Model.h"
 #include "Assets/Types/Model/Mesh.h"
 
 #include "Assets/Types/Shader/ShaderLoader.h"
+#include "Assets/System/Material/MaterialLoader.h"
+#include "Assets/System/Material/MaterialSaver.h"
 #include "Assets/System/Model/OBJLoader.h"
 
 #include "AssetLoaders.h"
@@ -93,8 +95,8 @@ namespace REngine
 		// PhysicsMaterialの登録
 		assetManager.Registry<PhysicsMaterial>(
 			"PhysicsMaterial",
-			[&assetManager](const std::filesystem::path& path, AssetLoadContext& ctx) { return Loader::AssetLoaderAsProperty<PhysicsMaterial>(path, assetManager); },
-			[&assetManager](AssetBase* base, const std::filesystem::path& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
+			[&assetManager](const std::filesystem::path& path, AssetContext& ctx) { return Loader::AssetLoaderAsProperty<PhysicsMaterial>(path, assetManager); },
+			[&assetManager](AssetBase* base, const std::filesystem::path& path, AssetContext& ctx) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
 			true,
 			false,
 			{ L".physicsmaterial" });
@@ -111,8 +113,8 @@ namespace REngine
 		// Materialの登録
 		assetManager.Registry<MaterialAsset>(
 			"Material",
-			[&assetManager](const std::filesystem::path& path, AssetLoadContext& ctx) { return Loader::AssetLoaderAsProperty<MaterialAsset>(path, assetManager); },
-			[&assetManager](AssetBase* base, const std::filesystem::path& path) { return Saver::AssetSaverAsProperty(base, path, assetManager); },
+			Loader::MaterialLoader::Load,
+			Saver::MaterialSaver::Save,
 			true,
 			false,
 			{ L".mat" });

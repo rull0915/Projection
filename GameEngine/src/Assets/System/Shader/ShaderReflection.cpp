@@ -11,6 +11,7 @@
 //====================================================//
 #include "pch.h"
 #include "ShaderReflection.h"
+#include "Renderer/CBufferSlot.h"
 
 #include <iostream>
 #include <d3dcompiler.h>
@@ -157,6 +158,9 @@ namespace REngine
 
 				// スロット番号の取得
 				UINT slotNum = bindDesc.BindPoint;
+
+				// マテリアル管轄でなければスキップ
+				if (!IsMaterialManagedSlot(slotNum)) continue;
 
 				// 定数バッファ情報を作成
 				ConstantBufferInfo info{};

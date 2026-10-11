@@ -21,18 +21,12 @@
 #include <VertexTypes.h>
 
 #include "DrawCommandContainer.h"
+#include "Renderer/RendererInfo.h"
 
 namespace REngine
 {
 	class AssetManager;
 	class SamplerList;
-
-	// 16バイトアライメントに合わせた構造体定義
-	struct alignas(16) VPBuffer
-	{
-		DirectX::SimpleMath::Matrix view;
-		DirectX::SimpleMath::Matrix proj;
-	};
 
 	struct alignas(16) WorldBuffer
 	{
@@ -64,13 +58,13 @@ namespace REngine
 		// インプットレイアウト
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
-		//----- 行列 -----//
+		//----- 定数バッファ -----//
 
-		// ビュー行列
-		DirectX::SimpleMath::Matrix m_view;
+		// フレーム毎に更新のバッファ
+		FrameInfo m_perFrameInfo;
 
-		// プロジェクション行列
-		DirectX::SimpleMath::Matrix m_projection;
+		// オブジェクト毎に更新のバッファ
+
 
 		//----- デバイス -----//
 
@@ -85,8 +79,8 @@ namespace REngine
 
 		//----- 固定のバッファ -----//
 
-		// VP行列
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_vpConstantBuffer;
+		// PerFrame
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perFrameConstantBuffer;
 
 		// World行列
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_worldConstantBuffer;
@@ -115,7 +109,7 @@ namespace REngine
 		void Initialize();
 
 		// 描画実行
-		void DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj);
+		void DrawCommandExecute(DrawCommandContainer& container, const FrameInfo& perFrame);
 
 	private:
 

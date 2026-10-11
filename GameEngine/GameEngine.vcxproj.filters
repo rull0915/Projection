@@ -343,7 +343,7 @@
     <ClCompile Include="src\Assets\System\Shader\ShaderReflection.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assets\Types\MaterialAsset.cpp">
+    <ClCompile Include="src\Assets\Types\Material\MaterialAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Types\Shader\SamplerList.cpp">
@@ -374,6 +374,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -936,7 +942,7 @@
     <ClInclude Include="src\Assets\System\Shader\ShaderReflection.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Assets\Types\MaterialAsset.h">
+    <ClInclude Include="include\Assets\Types\Material\MaterialAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\CBufferSlot.h">
@@ -1005,7 +1011,7 @@
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Assets\Managers\AssetLoadContext.h">
+    <ClInclude Include="include\Assets\Managers\AssetContext.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h">
@@ -1018,6 +1024,21 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\Property\PropertyTypeIndex.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\System\Material\MaterialLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Types\Material\MaterialParams.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\System\Material\MaterialSaver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\System\Material\MaterialConstant.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\RendererInfo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

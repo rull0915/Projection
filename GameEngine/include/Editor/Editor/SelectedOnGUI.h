@@ -71,6 +71,8 @@ namespace REngine
 				{
 					// 選択
 					m_propertyObject = asset;
+
+					m_selectedAssetID = UUID_NONE;
 				}
 			}
 

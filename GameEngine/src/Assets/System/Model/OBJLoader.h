@@ -18,7 +18,7 @@
 
 namespace REngine
 {
-	class AssetLoadContext;
+	class AssetContext;
 
 	namespace Loader
 	{
@@ -57,7 +57,7 @@ namespace REngine
 			/// </summary>
 			/// <param name="path">ファイルパス</param>
 			/// <returns>モデルアセット</returns>
-			static std::unique_ptr<Model> Load(const std::filesystem::path& path, AssetLoadContext& ctx);
+			static std::unique_ptr<Model> Load(const std::filesystem::path& path, AssetContext& ctx);
 
 			/// <summary>
 			/// OBJ形式の要素を取得する関数

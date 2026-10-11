@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetManager.h"
 
 #include "Renderer/CBufferSlot.h"
@@ -25,26 +25,15 @@ namespace REngine
 	MaterialAsset::MaterialAsset()
 		: m_pixelShader{}
 		, m_vertexShader{}
+		, m_oldPixelShader{}
+		, m_oldVertexShader{}
 		, m_constantBuffers{}
 		, m_isDirty{ true }
 		, m_assetManager{ nullptr }
 		, m_samplerList{ nullptr }
-		, m_needRebuildParams{ false }
 	{
 		ADD_PROPERTY(MaterialAsset, m_vertexShader);
 		ADD_PROPERTY(MaterialAsset, m_pixelShader);
-	}
-
-	ShaderParam* MaterialAsset::FindParam(ShaderType stage, const std::string& name)
-	{
-		// アセットマネージャーが設定されていなければ更新不可
-		if (!m_assetManager) return nullptr;
-
-		ShaderAsset* shader = GetShaderAsset(stage);
-
-		if (shader) return shader->FindParam(name);
-
-		return nullptr;
 	}
 
 	// 定数バッファを更新する関数
@@ -91,7 +80,7 @@ namespace REngine
 					// バッファを格納する配列
 					std::vector<uint8_t> buf(cBuffer.size, 0);	// 1byteで1つの領域とするため8bit整数型を使用
 
-					auto map = m_params[type];
+					const auto& map = m_params[type];
 
 					// 全パラメータを調べる
 					for (auto& [name, value] : map)
@@ -353,21 +342,27 @@ namespace REngine
 			{
 				if (!shader) return;
 
-				auto& params = m_params[stage];
+				auto& oldParams = m_params[stage];
+				auto& pending = m_pendingParams[stage]; // ローダーで設定された未解決のパラメータを取得
+
 				auto& newOnceParams = newParams[stage];
 
 				for (const auto& param : shader->GetParams())
 				{
-					// すでに旧パラメータに存在していればその値を引き継ぐ
-					if (params.contains(param.name))
+					// 未解決パラメータに存在していれば優先して取得
+					if (pending.contains(param.name))
 					{
-						newOnceParams[param.name] = params[param.name];
+						newOnceParams[param.name] = pending[param.name];
 					}
-
+					// すでに旧パラメータに存在していればその値を引き継ぐ
+					else if (oldParams.contains(param.name))
+					{
+						newOnceParams[param.name] = oldParams[param.name];
+					}
 					// 新しいパラメータなら型に応じたデフォルト値を設定
 					else
 					{
-						newOnceParams[param.name] = { param.type, GetDefaultParam(param.type) };
+						newOnceParams[param.name] = { param.type, MaterialParams::GetDefaultParam(param.type) };
 					}
 				}
 			};
@@ -382,33 +377,11 @@ namespace REngine
 		// 古いパラメータを新しいパラメータで上書き
 		m_params = std::move(newParams);
 
+		// 未解決パラメータをクリア
+		m_pendingParams.clear();
+
 		// プロパティ変更
 		m_isDirty = true;
-	}
-
-	MaterialParamVariant MaterialAsset::GetDefaultParam(ShaderParamType type)
-	{
-		switch (type)
-		{
-		case REngine::ShaderParamType::Float:
-			return (float)0.0f;
-		case REngine::ShaderParamType::Float2:
-			return DirectX::SimpleMath::Vector2::Zero;
-		case REngine::ShaderParamType::Float3:
-			return DirectX::SimpleMath::Vector3::Zero;
-		case REngine::ShaderParamType::Color:
-			return DirectX::SimpleMath::Color{ 1, 1, 1, 1 };
-		case REngine::ShaderParamType::Float4:
-			return DirectX::SimpleMath::Vector4::Zero;
-		case REngine::ShaderParamType::Float4x4:
-			return DirectX::SimpleMath::Matrix::Identity;
-		case REngine::ShaderParamType::Texture2D:
-			return ERROR_HANDLE<Texture>;
-		case REngine::ShaderParamType::Sampler:
-			return SamplerType::None;
-		default:
-			return MaterialParamVariant{};
-		}
 	}
 
 	Property MaterialAsset::CreatePropertyFromParameter(const std::string& name, Parameter& parameter)
@@ -419,7 +392,7 @@ namespace REngine
 		// variantの中身のアドレスを取得
 		std::visit([&](auto&& val) {
 			using T = std::decay_t<decltype(val)>;
-			prop.value = static_cast<void*>(&val);	// void*に変換して格納
+			prop.value = static_cast<void*>(std::get_if<T>(&parameter.value));	// void*に変換して格納
 			prop.type = GetPropertyType<T>();		// 型をPropertyTypeに変換
 			prop.typeIndex = PropertyTypeIndex::GetTypeIndex<T>();		// type_indexを取得
 			}, parameter.value
@@ -430,8 +403,15 @@ namespace REngine
 
 	void MaterialAsset::CheckAndDoRebuild()
 	{
-		// 再構築の必要性があるかを調べる
-		if (!m_assetManager || !m_needRebuildParams) return;
+		// アセットマネージャーがなければ再構築不可
+		if (!m_assetManager) return;
+
+		// 再構築の必要があるか調べる
+		bool needRebuild =
+			m_vertexShader != m_oldVertexShader ||
+			m_pixelShader != m_oldPixelShader;
+
+		if (!needRebuild) return;
 
 		// 各ステージのシェーダーを取得
 		auto* vs = m_assetManager->Get(m_vertexShader);
@@ -446,7 +426,9 @@ namespace REngine
 		// 両方問題がなければ
 		if (vsReady && psReady) {
 			RebuildParams();		// 再構築
-			m_needRebuildParams = false; // 再構築完了フラグのリセット
+
+			m_oldPixelShader = m_pixelShader;
+			m_oldVertexShader = m_vertexShader;
 		}
 	}
 

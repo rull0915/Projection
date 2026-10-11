@@ -234,16 +234,18 @@ namespace REngine
 			asset->OnValidate();
 		}
 
-		//// セーブ可能かどうか
-		//if (m_assetManager.CanSave(path))
-		//{
-		//	// ボタンを表示
-		//	if (ImGui::Button("Save"))
-		//	{
-		//		// 保存
-		//		m_assetManager.SaveAsset(path);
-		//	}
-		//}
+		// セーブ可能かどうか
+		auto& path = m_assetManager.GetDataBase().GetPath(asset->GetUUID());
+
+		if (m_assetManager.CanSave(path))
+		{
+			// ボタンを表示
+			if (ImGui::Button("Save"))
+			{
+				// 保存
+				m_assetManager.SaveAsset(path);
+			}
+		}
 	}
 }	// namespace REngine
 

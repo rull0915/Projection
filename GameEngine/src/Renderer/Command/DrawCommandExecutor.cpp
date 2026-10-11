@@ -14,7 +14,7 @@
 
 #include "System/GraphicsManager.h"
 
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetManager.h"
 
 #include "Renderer/CBufferSlot.h"
@@ -31,8 +31,6 @@ REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager)
 	, m_basicEffect{}
 	, m_spriteBatch{}
 	, m_inputLayout{}
-	, m_view{}
-	, m_projection{}
 	, m_pDevice{ nullptr }
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
@@ -82,11 +80,11 @@ void REngine::DrawCommandExecutor::Initialize()
 
 	// VP定数バッファの作成
 	D3D11_BUFFER_DESC desc0 = {};
-	desc0.ByteWidth = sizeof(VPBuffer);
+	desc0.ByteWidth = sizeof(FrameInfo);
 	desc0.Usage = D3D11_USAGE_DYNAMIC;
 	desc0.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc0.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	m_pDevice->CreateBuffer(&desc0, nullptr, m_vpConstantBuffer.ReleaseAndGetAddressOf());
+	m_pDevice->CreateBuffer(&desc0, nullptr, m_perFrameConstantBuffer.ReleaseAndGetAddressOf());
 
 	// World定数バッファの作成
 	D3D11_BUFFER_DESC desc1 = {};
@@ -100,14 +98,8 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_samplerList->Initialize(m_pDevice);
 }
 
-void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
+void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container, const FrameInfo& perFrame)
 {
-	// ビュー行列の取得
-	m_view = view;
-
-	// プロジェクション行列の取得
-	m_projection = proj;
-
 	// VP行列のバインド
 	BindVPBuffer();
 
@@ -150,10 +142,10 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 			m_basicEffect->SetWorld(c.world);
 
 			// View
-			m_basicEffect->SetView(m_view);
+			m_basicEffect->SetView(m_perFrameInfo.camera.view);
 
 			// Projection
-			m_basicEffect->SetProjection(m_projection);
+			m_basicEffect->SetProjection(m_perFrameInfo.camera.proj);
 
 			// インプットレイアウトをセット
 			m_pContext->IASetInputLayout(m_inputLayout.Get());
@@ -292,22 +284,31 @@ void REngine::DrawCommandExecutor::PreparePrimitiveRendering()
 void REngine::DrawCommandExecutor::BindVPBuffer()
 {
 	// 定数バッファを用意
-	VPBuffer vpData;
+	FrameInfo perFrameData;
 
-	// 行列を掛けて渡す (転置が必要かも)
-	vpData.view = m_view.Transpose();
-	vpData.proj = m_projection.Transpose();
+	// 行列を掛けて渡す (転置が必要)
+	//perFrameData.view = m_view.Transpose();
+	//perFrameData.proj = m_projection.Transpose();
+	//perFrameData.vp = (m_view * m_projection).Transpose();
+	//perFrameData.invVp = (m_view * m_projection).Invert().Transpose();
+	//perFrameData.cameraPos = {};
+	//perFrameData.screenSize = {};
+	//perFrameData.lightDir = { 0, 1, 0, 1 };
+	//perFrameData.lightColor = { 1, 1, 1, 1 };
+	//perFrameData.ambientColor = { 1, 1, 1, 1 };
+	//perFrameData.time = {};
+	//perFrameData.deltaTime = {};
 
 	// マップを使用しCPU側から変更
 	D3D11_MAPPED_SUBRESOURCE mapped;
-	if (SUCCEEDED(m_pContext->Map(m_vpConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+	if (SUCCEEDED(m_pContext->Map(m_perFrameConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
 	{
-		std::memcpy(mapped.pData, &vpData, sizeof(VPBuffer));
-		m_pContext->Unmap(m_vpConstantBuffer.Get(), 0);
+		std::memcpy(mapped.pData, &perFrameData, sizeof(FrameInfo));
+		m_pContext->Unmap(m_perFrameConstantBuffer.Get(), 0);
 	}
 
 	// VP用スロットにバインド
-	m_pContext->VSSetConstantBuffers(CBufferSlot::PerFrame, 1, m_vpConstantBuffer.GetAddressOf());
+	m_pContext->VSSetConstantBuffers(CBufferSlot::PerFrame, 1, m_perFrameConstantBuffer.GetAddressOf());
 }
 
 void REngine::DrawCommandExecutor::BindWorldBuffer(const DirectX::SimpleMath::Matrix& world)

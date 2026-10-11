@@ -14,6 +14,7 @@
 
 #include <fstream>
 #include "Assets/Types/PrefabImpl.h"
+#include "Assets/Managers/AssetContext.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -23,7 +24,7 @@ namespace REngine
 {
 	namespace Saver
 	{
-		void PrefabSaver(AssetBase* base, const std::filesystem::path& path)
+		void PrefabSaver(AssetBase* base, const std::filesystem::path& path, AssetContext& ctx)
 		{
 			Prefab* prefab = static_cast<Prefab*>(base);
 

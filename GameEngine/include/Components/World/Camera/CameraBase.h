@@ -100,6 +100,11 @@ namespace REngine
 		// カメラから指定したスクリーン座標へのRayを作る関数
 		Ray GetRayToScreenPoint(const DirectX::SimpleMath::Vector2& point);
 
+		void OnValidate() override
+		{
+			m_needUpdateProj = true;
+		}
+
 		// 各行列を設定する関数
 	protected:
 

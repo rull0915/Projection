@@ -23,12 +23,14 @@
 
 namespace REngine
 {
+	class AssetContext;
+
 	namespace Saver
 	{		
 		// 各ロード関数
 
 		// Prefab
-		void PrefabSaver(AssetBase* prefab, const std::filesystem::path& path);
+		void PrefabSaver(AssetBase* prefab, const std::filesystem::path& path, AssetContext& ctx);
 
 		// Propertyとして扱う場合
 		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, AssetManager& assetManager);

@@ -14,7 +14,7 @@
 #include <fstream>
 
 #include "OBJLoader.h"
-#include "Assets/Managers/AssetLoadContext.h"
+#include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
 #include "System/GraphicsManager.h"
 
@@ -26,7 +26,7 @@ namespace REngine
 {
 	namespace Loader
 	{
-		std::unique_ptr<Model> OBJLoader::Load(const std::filesystem::path& path, AssetLoadContext& ctx)
+		std::unique_ptr<Model> OBJLoader::Load(const std::filesystem::path& path, AssetContext& ctx)
 		{
 			// ------- 拡張子がobjでなければスキップ ------- //
 
