@@ -3,19 +3,34 @@
     "DomainShader": null,
     "GeometryShader": null,
     "HullShader": null,
-    "PSHandle": 2271068393283076460,
+    "PSHandle": 8697814716291861295,
     "PixelShader": [
         {
-            "Name": "mulColor",
+            "Name": "baseColor",
             "Type": "Color",
             "Value": [
                 1.0,
-                0.0,
+                1.0,
                 1.0,
                 1.0
             ]
+        },
+        {
+            "Name": "metallic",
+            "Type": "Float",
+            "Value": 0.0
+        },
+        {
+            "Name": "roughness",
+            "Type": "Float",
+            "Value": 0.0
+        },
+        {
+            "Name": "padding",
+            "Type": "Float",
+            "Value": 0.0
         }
     ],
-    "VSHandle": 14830256197784369889,
+    "VSHandle": 16504523158451717825,
     "VertexShader": null
 }
