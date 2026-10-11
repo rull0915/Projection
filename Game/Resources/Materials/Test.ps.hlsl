@@ -2,7 +2,6 @@
 
 cbuffer Pixel : register(b2)
 {
-    float time;
     float4 mulColor;
 }
 
@@ -11,5 +10,5 @@ SamplerState sam : register(s0);
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-    return input.Color;
+    return input.Color * mulColor;
 }

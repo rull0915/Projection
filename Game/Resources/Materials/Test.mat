@@ -1,11 +1,21 @@
 {
-    "m_pixelShader": 2271068393283076460,
-    "m_vertexShader": 14830256197784369889,
-    "mulColor": [
-        0.6371307969093323,
-        0.4731435477733612,
-        0.4731435477733612,
-        1.0
+    "ComputeShader": null,
+    "DomainShader": null,
+    "GeometryShader": null,
+    "HullShader": null,
+    "PSHandle": 2271068393283076460,
+    "PixelShader": [
+        {
+            "Name": "mulColor",
+            "Type": "Color",
+            "Value": [
+                1.0,
+                0.0,
+                1.0,
+                1.0
+            ]
+        }
     ],
-    "time": 1.0
+    "VSHandle": 14830256197784369889,
+    "VertexShader": null
 }

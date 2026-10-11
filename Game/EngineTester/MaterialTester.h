@@ -19,7 +19,7 @@
 #include "Components/Both/BothComponentBase.h"
 
 #include "Assets/Objects/Handle.h"
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Components/World/Transform/Transform.h"
 #include "Components/Interface/IAssetDependent.h"
 #include "Assets/Types/Shader/SamplerType.h"
