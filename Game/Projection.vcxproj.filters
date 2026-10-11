@@ -240,13 +240,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Materials\Test.hlsli" />
     <None Include="Shaders\BasicShader.hlsli" />
     <None Include="Shaders\InputStructure.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Materials\Test.ps.hlsl" />
-    <FxCompile Include="Resources\Materials\Test.vs.hlsl" />
-    <FxCompile Include="Shaders\BasicShader.vs.hlsl" />
+    <FxCompile Include="Shaders\BasicVertexShader.vs.hlsl" />
+    <FxCompile Include="Shaders\BasicPixelShader.ps.hlsl" />
   </ItemGroup>
 </Project>
