@@ -30,7 +30,7 @@ void REngine::AssetAsyncLoader::RequestLoad(const std::filesystem::path& path, U
 		{
 			LoadResult result = loader(path, m_assetContext);
 
-			if (!result.asset)
+			if (result.asset)
 			{
 				result.asset->SetName(path.stem().string());
 			}

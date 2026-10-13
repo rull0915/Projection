@@ -51,9 +51,12 @@ namespace REngine
 
 		for (auto& job : completedJobs)
 		{
+			// 失敗していれば追加しない
+			if (!job.scuccess || !job.asset) continue;
+
 			// 生成したAssetを取得
 			auto asset = job.asset.get();
-
+				
 			// Assetのステータスを読み込み済みに変更
 			asset->SetStatus(LoadStatus::Loaded);
 
