@@ -559,20 +559,20 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                0.0,
-                                0.0
+                                0.2238059639930725,
+                                6.5574838892246134e-09,
+                                -1.063143173496428e-07
                             ],
                             "m_localRotation": [
-                                0.1368202418088913,
-                                -0.42748188972473145,
-                                0.8846254348754883,
-                                -0.1264016330242157
+                                -0.6622338891029358,
+                                1.6826754745125072e-07,
+                                1.6826760429466958e-07,
+                                0.7492972016334534
                             ],
                             "m_localScale": [
-                                1.0000077486038208,
-                                1.0000078678131104,
-                                1.0000001192092896
+                                10.0,
+                                9.999996185302734,
+                                9.999996185302734
                             ]
                         },
                         "Type": "Transform",
@@ -586,7 +586,7 @@
                                 1.0,
                                 1.0
                             ],
-                            "m_intensity": 1.0,
+                            "m_intensity": 0.5,
                             "m_isActive": true,
                             "m_lightType": "Directional"
                         },
@@ -598,6 +598,133 @@
                 "UUID": 14319028006406936465,
                 "m_isActive": true,
                 "m_name": "DirectionalLight",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                -1.558236837387085,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                10.0,
+                                0.5,
+                                10.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 16652700552849229995
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 12251378768225270443
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 13251215513945151575
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    403178784719374786
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 18294662567946039658
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 4713690653653763982,
+                "m_isActive": true,
+                "m_name": "Floor",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                1.432995319366455,
+                                1.5957973003387451,
+                                1.575033187866211
+                            ],
+                            "m_localRotation": [
+                                -0.3731260895729065,
+                                0.20329658687114716,
+                                -0.08416076004505157,
+                                0.901312530040741
+                            ],
+                            "m_localScale": [
+                                0.049999985843896866,
+                                0.05000002682209015,
+                                0.04999992996454239
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 1685997366307584817
+                    },
+                    {
+                        "Data": {
+                            "innerAngle": 0.20000000298023224,
+                            "length": 15.100000381469727,
+                            "m_color": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_intensity": 1.0,
+                            "m_isActive": true,
+                            "m_lightType": "Spot",
+                            "outerAngle": 0.5,
+                            "radius": 1.0
+                        },
+                        "Type": "LightComponent",
+                        "UUID": 11155950298342473367
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 12251378768225270443
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 16784757873372262543
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    403178784719374786
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 4681161254923193518
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14851800184510239779,
+                "m_isActive": true,
+                "m_name": "PointLight",
                 "m_tag": ""
             }
         ]

@@ -6,6 +6,16 @@
     "PSHandle": 8697814716291861295,
     "PixelShader": [
         {
+            "Name": "specularColor",
+            "Type": "Color",
+            "Value": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
             "Name": "baseColor",
             "Type": "Color",
             "Value": [
@@ -16,19 +26,19 @@
             ]
         },
         {
-            "Name": "metallic",
+            "Name": "kd",
             "Type": "Float",
-            "Value": 0.0
+            "Value": 1.0
         },
         {
-            "Name": "roughness",
+            "Name": "ks",
             "Type": "Float",
-            "Value": 0.0
+            "Value": 1.0
         },
         {
-            "Name": "padding",
+            "Name": "specExponent",
             "Type": "Float",
-            "Value": 0.0
+            "Value": 30.0
         }
     ],
     "VSHandle": 16504523158451717825,
