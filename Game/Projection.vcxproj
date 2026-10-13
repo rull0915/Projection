@@ -364,6 +364,8 @@ $(ProjectDir)
     <None Include="packages.config" />
     <None Include="Shaders\BasicShader.hlsli" />
     <None Include="Shaders\InputStructure.hlsli" />
+    <None Include="Shaders\Lighting.hlsli" />
+    <None Include="Shaders\LightStructure.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">

@@ -164,6 +164,10 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\GraphicsSystem.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
@@ -348,7 +352,15 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Assets\Managers\AssetAsyncLoader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Managers\AssetContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Assets\Managers\AssetLoadResult.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -36,6 +36,7 @@ namespace REngine
 		cameraInfo.proj = proj.Transpose();
 		cameraInfo.vpMat = vp.Transpose();               
 		cameraInfo.invVpMat = vp.Invert().Transpose();    
+		cameraInfo.cameraPos = sceneData.cameraData.pos;
 		frameInfo.camera = cameraInfo;
 
 		// ライト情報の設定

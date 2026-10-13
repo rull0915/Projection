@@ -1,32 +1,8 @@
 // ゲーム全体で使用する基本的な構造
+#ifndef BASIC_SHADER_HLSLI
+#define BASIC_SHADER_HLSLI
 
-struct PointLight
-{
-    float3 pos; // ライトの位置
-    float radius; // 光が届く最大の半径
-    float3 color; // 光の色
-    float intensity; // 光の強さ
-};
-
-struct SpotLight
-{
-    float3 pos; // ライトの位置
-    float length; // ライトが届く最大距離
-    float3 color; // ライトの色    
-    float intensity; // ライトの強度
-    float3 direction; // ライトの向き
-    float cosInnerAngle;
-    float cosOuterAngle;
-    float3 padding;
-};
-
-struct DirectionalLight
-{
-    float3 direction; // ライトの向き
-    float intensity; // ライトの強さ
-    float3 color; // ライトの色
-    float padding;
-};
+#include "LightStructure.hlsli"
 
 static const int MAX_POINT_LIGHT = 3;
 static const int MAX_SPOT_LIGHT = 3;
@@ -75,3 +51,5 @@ cbuffer PerObject : register(b1)
     matrix WVPMat;
     matrix WorldInvTranspose;
 }
+
+#endif

@@ -242,6 +242,8 @@
     <None Include="packages.config" />
     <None Include="Shaders\BasicShader.hlsli" />
     <None Include="Shaders\InputStructure.hlsli" />
+    <None Include="Shaders\LightStructure.hlsli" />
+    <None Include="Shaders\Lighting.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BasicVertexShader.vs.hlsl" />

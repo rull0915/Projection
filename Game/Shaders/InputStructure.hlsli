@@ -1,4 +1,6 @@
 // 入力構造体をまとめたヘッダ
+#ifndef INPUT_STRUCTURE_HLSLI
+#define INPUT_STRUCTURE_HLSLI
 
 // VertexShader
 struct VS_Input
@@ -15,3 +17,5 @@ struct PS_Input
     float3 worldPos : TEXCOORD0;
     float3 worldNormal : TEXCOORD1;
 };
+
+#endif

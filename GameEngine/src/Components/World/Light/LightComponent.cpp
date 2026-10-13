@@ -96,4 +96,25 @@ namespace REngine
 
 	LightComponent::~LightComponent()
 	{}
+
+	void LightComponent::OnValidate()
+	{
+		// 内角度と外角度の関係を保証する
+		if (m_innerAngle > m_outerAngle)
+		{
+			m_innerAngle = m_outerAngle;
+		}
+
+		// 強度は0以上を保証する
+		if (m_intensity < 0.0f)
+		{
+			m_intensity = 0.0f;
+		}
+
+		// 半径は0以上を保証する
+		if (m_radius < 0.0f)
+		{
+			m_radius = 0.0f;
+		}
+	}
 }

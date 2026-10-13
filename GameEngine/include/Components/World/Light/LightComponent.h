@@ -85,6 +85,8 @@ namespace REngine
 
 		std::vector<Property> GetProperties() override;
 
+		void OnValidate() override;
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
