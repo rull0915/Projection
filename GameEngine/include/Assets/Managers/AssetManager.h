@@ -28,6 +28,7 @@
 #include "AssetRegistry.h"
 #include "AssetTypeManager.h"
 #include "AssetContext.h"
+#include "AssetAsyncLoader.h"
 
 namespace REngine
 {
@@ -42,18 +43,8 @@ namespace REngine
 	{
 	private:
 
-		// 非同期読み込みを識別するための構造体
-		struct AsyncJob
-		{
-			// Assetが存在しているindex
-			uint32_t index;
-
-			// Asyncから受け取るfuture
-			std::future<std::unique_ptr<AssetBase>> future;
-		};
-
 		// パスを引数にしてAssetを生成するローダー関数
-		using Loader = std::function<std::unique_ptr<AssetBase>(const std::filesystem::path&, AssetContext& ctx)>;
+		using Loader = AssetAsyncLoader::Loader;
 
 		// Assetからパスに保存するセーバー関数
 		using Saver = std::function<void(AssetBase*, const std::filesystem::path&, AssetContext& ctx)>;
@@ -79,6 +70,9 @@ namespace REngine
 		// アセットコンテキスト
 		AssetContext m_assetContext;
 
+		// 非同期読み込み
+		AssetAsyncLoader m_asyncLoader;
+
 		// 読み込み関数マップ
 		std::unordered_map<std::type_index, Loader> m_loaders;
 
@@ -93,9 +87,6 @@ namespace REngine
 
 		// サブアセットを持つタイプをまとめた配列
 		std::vector<std::string> m_haveSubAssets;
-
-		// 非同期実行中のローダーを管理する配列
-		std::vector<AsyncJob> m_asyncJobs;
 
 	public:
 

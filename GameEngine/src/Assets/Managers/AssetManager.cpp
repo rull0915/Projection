@@ -25,11 +25,11 @@ namespace REngine
 		, m_registry{}
 		, m_typeManager{}
 		, m_assetContext{ m_dataBase, m_registry, [this](UUID uuid) { return LoadFromUUID(uuid); } }
+		, m_asyncLoader{ m_assetContext }
 		, m_loaders{}
 		, m_savers{}
 		, m_creators{}
 		, m_creatableAssets{}
-		, m_asyncJobs{}
 	{}
 
 	void AssetManager::Initialize(const std::filesystem::path& root)
@@ -46,39 +46,43 @@ namespace REngine
 
 	void AssetManager::Update()
 	{
-		// Jobがなければ何もしない
-		if (m_asyncJobs.empty()) return;
+		//　ロードが完了したJobを取得する
+		auto completedJobs = m_asyncLoader.PopCompletedJobs();
 
-		// ロードが終わったJobを削除する
-		std::erase_if(m_asyncJobs,
-			[this](AsyncJob& job)
+		for (auto& job : completedJobs)
+		{
+			// 生成したAssetを取得
+			auto asset = job.asset.get();
+
+			// Assetのステータスを読み込み済みに変更
+			asset->SetStatus(LoadStatus::Loaded);
+
+			// 読み込み
+			asset->OnValidate();
+
+			// 置き換える
+			m_registry.Replace(job.handle.index, std::move(job.asset));
+
+			// サブアセットを走査
+			for (auto& subAsset : job.subAssets)
 			{
-				// 終了していなければfalse
-				if (job.future.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready)
-					return false;
-
-				// 終了していれば
-
-				// 生成したAssetを取得
-				auto asset = job.future.get();
-
 				// Assetのステータスを読み込み済みに変更
-				asset->SetStatus(LoadStatus::Loaded);
+				subAsset.asset->SetStatus(LoadStatus::Loaded);
 
 				// 読み込み
-				asset->OnValidate();
+				subAsset.asset->OnValidate();
 
 				// 置き換える
-				m_registry.Replace(job.index, std::move(asset));
-
-				// 削除してもらう
-				return true;
+				m_registry.Replace(subAsset.handle.index, std::move(subAsset.asset));
 			}
-		);
+		}
 	}
 
 	UnTypeHandle AssetManager::LoadFromUUID(UUID uuid)
 	{
+		// エラーUUIDならエラー値を返す
+		if (uuid == UUID_NONE) return ERROR_UNTYPE_HANDLE;
+
 		// 既に読み込まれているUUIDなら
 		auto handle = m_registry.GetHandle(uuid);
 		if (handle != ERROR_UNTYPE_HANDLE) return handle;
@@ -190,23 +194,11 @@ namespace REngine
 			// ローダー関数を取得
 			auto& loader = m_loaders.at(m_typeManager.GetAssetClass(path));
 
-			// asyncで非同期ロード
-			auto future = std::async(
-				std::launch::async, [&]() 
-				{
-					std::unique_ptr<AssetBase> asset = loader(path, m_assetContext); 
-
-					asset->SetName(path.stem().string());
-
-					return asset;
-				}
-			);
-
 			// Handleを生成
 			UnTypeHandle handle = m_registry.Register(m_dataBase.GetUUID(path));
 
-			// futureを配列に追加
-			m_asyncJobs.push_back(AsyncJob{ handle.index, std::move(future) });
+			// 非同期ロードリクエスト
+			m_asyncLoader.RequestLoad(path, handle, loader);
 
 			// 生成したHandleを返す
 			return handle;

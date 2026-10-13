@@ -22,6 +22,7 @@
 
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
+#include "Assets/Managers/AssetLoadResult.h"
 
 namespace REngine
 {
@@ -49,7 +50,7 @@ namespace REngine
 			//-----------------------------------------------------
 
 			// マテリアルを読み込む関数
-			static std::unique_ptr<MaterialAsset> Load(const std::filesystem::path& path, AssetContext& ctx);
+			static LoadResult Load(const std::filesystem::path& path, AssetContext& ctx);
 		};
 	}
 }

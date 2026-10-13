@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "Assets/Types/Model/Model.h"
+#include "Assets/Managers/AssetLoadResult.h"
 
 namespace REngine
 {
@@ -57,7 +58,7 @@ namespace REngine
 			/// </summary>
 			/// <param name="path">ファイルパス</param>
 			/// <returns>モデルアセット</returns>
-			static std::unique_ptr<Model> Load(const std::filesystem::path& path, AssetContext& ctx);
+			static LoadResult Load(const std::filesystem::path& path, AssetContext& ctx);
 
 			/// <summary>
 			/// OBJ形式の要素を取得する関数

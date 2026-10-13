@@ -27,9 +27,13 @@ namespace REngine
 {
 	namespace Loader
 	{
-		std::unique_ptr<ShaderAsset> ShaderLoader(const std::filesystem::path& path, AssetContext& ctx)
+		LoadResult ShaderLoader(const std::filesystem::path& path, AssetContext& ctx)
 		{
+			LoadResult result{};
+
 			// シェーダーアセットを生成
+			result.asset;
+
 			std::unique_ptr<ShaderAsset> shader = std::make_unique<ShaderAsset>();
 
 			// サブ拡張子を取得
@@ -46,7 +50,12 @@ namespace REngine
 			HRESULT hr = D3DReadFileToBlob(path.c_str(), &blob);
 
 			// 失敗したら早期リターン
-			if (FAILED(hr)) return nullptr;
+			if (FAILED(hr))
+			{
+				result.scuccess = false;
+
+				return result;
+			}
 
 			// デバイスを取得
 			ID3D11Device* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -61,7 +70,12 @@ namespace REngine
 				Microsoft::WRL::ComPtr<ID3D11VertexShader> vs;
 
 				// バイナリファイルから読み取る
-				if (FAILED(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, vs.GetAddressOf()))) return nullptr;
+				if (FAILED(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, vs.GetAddressOf())))
+				{
+					result.scuccess = false;
+
+					return result;
+				}
 
 				// シェーダを渡す
 				shader->m_shader = vs;
@@ -75,15 +89,21 @@ namespace REngine
 				Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;
 
 				// バイナリファイルから読み取る
-				if (FAILED(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, ps.GetAddressOf()))) return nullptr;
+				if (FAILED(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, ps.GetAddressOf())))
+				{
+					result.scuccess = false;
+
+					return result;
+				}
 
 				// シェーダを渡す
 				shader->m_shader = ps;
 			}
 			else
 			{
-				// 未対応の拡張子
-				return nullptr;
+				result.scuccess = false;
+
+				return result;
 			}
 
 			// データの作成
@@ -94,7 +114,9 @@ namespace REngine
 			// blobを渡す
 			shader->m_byteCode = blob;
 
-			return shader;
+			result.asset = std::move(shader);
+
+			return result;
 		}
 	}
 }

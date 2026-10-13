@@ -29,8 +29,11 @@ namespace REngine
 {
 	namespace Loader
 	{
-		std::unique_ptr<MaterialAsset> MaterialLoader::Load(const std::filesystem::path& path, AssetContext& ctx)
+		LoadResult MaterialLoader::Load(const std::filesystem::path& path, AssetContext& ctx)
 		{
+			// リザルトの作成
+			LoadResult result{};
+
 			// Materialの生成
 			MaterialAsset material{};
 
@@ -42,7 +45,9 @@ namespace REngine
 			{
 				ifs.close();
 
-				return nullptr;
+				result.scuccess = false;
+
+				return result;
 			}
 
 			// jsonから読み取り
@@ -98,7 +103,9 @@ namespace REngine
 			ifs.close();
 
 			// 返す
-			return std::make_unique<MaterialAsset>(material);
+			result.asset = std::make_unique<MaterialAsset>(material);
+
+			return result;
 		}
 	}
 }

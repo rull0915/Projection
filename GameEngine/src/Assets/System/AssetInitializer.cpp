@@ -16,6 +16,9 @@
 #include "Assets/Types/PhysicsMaterial.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Types/Material/MaterialAsset.h"
+
+#include "Assets/Types/Font.h"
+#include "Assets/Types/AudioClip.h"
 #include "Assets/Types/Model/Model.h"
 #include "Assets/Types/Model/Mesh.h"
 

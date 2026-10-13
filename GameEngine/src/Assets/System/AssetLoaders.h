@@ -15,12 +15,8 @@
 // インクルードファイル
 //====================================================//
 
-#include "Assets/Types/Texture.h"
-#include "Assets/Types/Font.h"
-#include "Assets/Types/Prefab.h"
-#include "Assets/Types/AudioClip.h"
-
 #include "Editor/Loader/ObjectLoader.h"
+#include "Assets/Managers/AssetLoadResult.h"
 
 namespace REngine
 {
@@ -29,33 +25,36 @@ namespace REngine
 		// 各ロード関数
 
 		// Texture
-		std::unique_ptr<Texture> TextureLoader(const std::filesystem::path& path, AssetContext& ctx);
+		LoadResult TextureLoader(const std::filesystem::path& path, AssetContext& ctx);
 
 		// Font
-		std::unique_ptr<Font> FontLoader(const std::filesystem::path& path, AssetContext& ctx);
+		LoadResult FontLoader(const std::filesystem::path& path, AssetContext& ctx);
 
 		// Prefab
-		std::unique_ptr<Prefab> PrefabLoader(const std::filesystem::path& path, AssetContext& ctx);
+		LoadResult PrefabLoader(const std::filesystem::path& path, AssetContext& ctx);
 
 		// AudioClip
-		std::unique_ptr<AudioClip> AudioClipLoader(const std::filesystem::path& path, AssetContext& ctx);
+		LoadResult AudioClipLoader(const std::filesystem::path& path, AssetContext& ctx);
 
 		// Propertyとして扱う場合
 		template<typename T>
 		requires std::derived_from<T, AssetBase>
-		std::unique_ptr<T> AssetLoaderAsProperty(const std::filesystem::path& path, AssetManager& assetManager)
+		LoadResult AssetLoaderAsProperty(const std::filesystem::path& path, AssetManager& assetManager)
 		{
+			// リザルト
+			LoadResult result{};
+
 			// ローダーを生成
 			ObjectLoader loader(assetManager);
 
 			// アセットを生成
-			std::unique_ptr<T> asset = std::make_unique<T>();
+			result.asset = std::make_unique<T>();
 
 			// ファイルからロード
-			loader.LoadPropertyFromFile(path, asset.get());
+			loader.LoadPropertyFromFile(path, result.asset.get());
 
 			// 返す
-			return std::move(asset);
+			return result;
 		}
 	}
 }	// namespace REngine

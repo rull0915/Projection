@@ -26,8 +26,11 @@ namespace REngine
 {
 	namespace Loader
 	{
-		std::unique_ptr<Model> OBJLoader::Load(const std::filesystem::path& path, AssetContext& ctx)
+		LoadResult OBJLoader::Load(const std::filesystem::path& path, AssetContext& ctx)
 		{
+			// リザルトを作成
+			LoadResult result{};
+
 			// ------- 拡張子がobjでなければスキップ ------- //
 
 			// 拡張子取得
@@ -39,7 +42,12 @@ namespace REngine
 				});
 
 			// objか調べる
-			if (ext != ".obj") return nullptr;
+			if (ext != ".obj")
+			{
+				result.scuccess = false;
+
+				return result;
+			}
 
 			// 1行ずつ読み込む
 
@@ -53,7 +61,9 @@ namespace REngine
 			{
 				ifs.close();
 
-				return nullptr;
+				result.scuccess = false;
+
+				return result;
 			}
 
 			// 1行ずつ格納する用の文字列
@@ -276,6 +286,8 @@ namespace REngine
 						vertexkeys[key] = static_cast<uint32_t>(vertices.size() - 1);
 					}
 
+					if (faceVertices.size() < 3) continue; // 3頂点未満はスキップ
+
 					// インデックスキャッシュの追加
 					for (size_t i = 0; i < faceVertices.size() - 2; ++i)
 					{
@@ -359,8 +371,14 @@ namespace REngine
 				// 未登録なら登録
 				if (handle == ERROR_UNTYPE_HANDLE) handle = ctx.GetRegistry().Register(uuid);
 
-				// 置き換え
-				ctx.GetRegistry().Replace(handle.index, std::make_unique<Mesh>(mesh.second));
+				// サブアセットの作成
+				SubAssetEntry subAsset{};
+
+				subAsset.name = mesh.first;
+				subAsset.asset = std::make_unique<Mesh>(mesh.second);
+				subAsset.handle = handle;
+
+				result.subAssets.push_back(std::move(subAsset));
 			}
 
 			// 変更があれば.auxファイルの更新
@@ -370,7 +388,9 @@ namespace REngine
 			}
 
 			// 返す
-			return std::make_unique<Model>();
+			result.asset = std::make_unique<Model>();
+
+			return result;
 		}
 	}
 }

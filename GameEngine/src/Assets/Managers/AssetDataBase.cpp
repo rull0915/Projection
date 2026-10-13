@@ -114,13 +114,14 @@ namespace REngine
 
 	UUID AssetDataBase::GenerateUUID()
 	{
-		UUID uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
+		// 0~10000はEngineのデフォルトで使用するAssetのIDとする
+		UUID uuid = Random::Get<UUID>(10000, std::numeric_limits<UUID>::max());
 
 		// リストにないUUIDが生成されるまでループ
 		while(m_uuidToPath.contains(uuid))
 		{
 			// ランダム生成
-			uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
+			uuid = Random::Get<UUID>(10000, std::numeric_limits<UUID>::max());
 		}
 
 		// UUIDを返す
