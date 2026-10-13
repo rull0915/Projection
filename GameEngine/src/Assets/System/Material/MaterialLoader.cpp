@@ -103,6 +103,7 @@ namespace REngine
 			ifs.close();
 
 			// 返す
+			result.scuccess = true;
 			result.asset = std::make_unique<MaterialAsset>(material);
 
 			return result;

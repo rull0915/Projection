@@ -78,6 +78,8 @@ namespace REngine
 			result.asset = std::make_unique<Texture>(std::move(texture));
 		}
 
+		result.scuccess = true;
+
 		return result;
 	}
 

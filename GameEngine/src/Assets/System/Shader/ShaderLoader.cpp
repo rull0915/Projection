@@ -116,6 +116,8 @@ namespace REngine
 
 			result.asset = std::move(shader);
 
+			result.scuccess = true;
+
 			return result;
 		}
 	}
