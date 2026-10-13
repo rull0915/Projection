@@ -80,7 +80,10 @@ namespace REngine
 			std::vector<uint32_t> indices;					// インデックス
 
 			// 作られたメッシュの一覧
-			std::vector<std::pair<std::string, Mesh>> meshs;
+			std::unordered_map<std::string, Mesh> meshs{};
+
+			// 作られたマテリアルの一覧
+			std::unordered_map<std::string, MaterialAsset> materials{};
 
 			// 作られたサブメッシュの一覧
 			std::vector<SubMesh> subMeshs;
@@ -178,7 +181,7 @@ namespace REngine
 					mesh.SetReadOnly(true);
 
 					// 配列に追加
-					meshs.push_back({ currentMeshName, mesh });
+					meshs.insert({ currentMeshName, mesh });
 				};
 
 			// ---------- 1行ずつ調べる ---------- //
@@ -306,7 +309,18 @@ namespace REngine
 				}
 				else if (type == "mtllib")
 				{
+					// マテリアルファイルのパスを作成
+					std::string fileName{};
+					stream >> fileName;
+
 					// マテリアルファイルの読み込み
+					auto loadedMaterials = LoadMTL(path.parent_path() / fileName, ctx);
+
+					// 追加していく
+					for (auto& mat : loadedMaterials)
+					{
+						materials.insert(mat);
+					}
 				}
 				else if (type == "o")
 				{
@@ -382,6 +396,49 @@ namespace REngine
 				result.subAssets.push_back(std::move(subAsset));
 			}
 
+			for (auto& mat : materials)
+			{
+				// 仮想パスを生成
+				std::filesystem::path virtualPath = path.string() + "#" + mat.first;
+
+				// UUIDを取得
+				UUID uuid = db.GetUUID(virtualPath);
+
+				// 未登録なら
+				if (uuid == UUID_NONE)
+				{
+					// 新規サブアセットフラグを立てる
+					existNewSubAsset = true;
+
+					// UUIDを生成
+					uuid = db.GenerateUUID();
+
+					// サブアセット情報
+					SubAssetInfo info;
+
+					info.assetType = "Material";
+					info.uuid = uuid;
+					info.name = mat.first;
+
+					aux.subAssets.push_back(info);
+				}
+
+				// ハンドルを取得
+				auto handle = ctx.GetRegistry().GetHandle(uuid);
+
+				// 未登録なら登録
+				if (handle == ERROR_UNTYPE_HANDLE) handle = ctx.GetRegistry().Register(uuid);
+
+				// サブアセットの作成
+				SubAssetEntry subAsset{};
+
+				subAsset.name = mat.first;
+				subAsset.asset = std::make_unique<MaterialAsset>(mat.second);
+				subAsset.handle = handle;
+
+				result.subAssets.push_back(std::move(subAsset));
+			}
+
 			// 変更があれば.auxファイルの更新
 			if (existNewSubAsset)
 			{
@@ -447,11 +504,14 @@ namespace REngine
 				// マテリアルを作成
 				MaterialAsset material{};
 
-				// ピクセルシェーダーのロード用パラメータを取得
-				auto& pixelParams = material.GetPendingParams(ShaderType::Pixel);
+				material.SetName(currentMaterialName);
 
-				// マテリアルに渡す
-				pixelParams = currentParams;
+				// デフォルト値を指定
+				currentParams.insert({ "DiffuseIntensity", { ShaderParamType::Float, 1.0f } });
+				currentParams.insert({ "SpecularIntensity", { ShaderParamType::Float, 1.0f } });
+
+				// ピクセルシェーダーのロード用パラメータをセット
+				material.SetPendingParams(ShaderType::Pixel, currentParams);
 
 				// シェーダーをセット
 				material.SetShader(vs, ShaderType::Vertex);
@@ -520,7 +580,7 @@ namespace REngine
 				if (type == "newmtl")	// 新しいマテリアルの場合
 				{
 					// 既存のマテリアルを保存
-					if (!currentParams.empty())
+					if (!currentMaterialName.empty())
 					{
 						createMaterial();
 					}
