@@ -18,6 +18,7 @@
 #include "Components/Interface/IAssetDependent.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Texture.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace REngine
 {
@@ -35,6 +36,9 @@ namespace REngine
 		// テクスチャハンドル
 		Handle<Texture> m_textureHandle;
 
+		// マテリアルハンドル
+		Handle<MaterialAsset> m_materialHandle;
+
 		// Rayと衝突するかどうか
 		bool m_raycastTarget;
 
@@ -49,10 +53,12 @@ namespace REngine
 		ImageUI(IComponentOwner* owner)
 			: UIGraphicBase(owner)
 			, m_textureHandle{}
+			, m_materialHandle{}
 			, m_raycastTarget{ true }
 			, m_assetManager{ nullptr }
 		{
 			ADD_PROPERTY(ImageUI, m_textureHandle);
+			ADD_PROPERTY(ImageUI, m_materialHandle);
 			ADD_PROPERTY(ImageUI, m_raycastTarget);
 		}
 

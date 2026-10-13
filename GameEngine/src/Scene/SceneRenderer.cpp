@@ -44,6 +44,7 @@ namespace REngine
 		// シーンデータの設定
 		SceneData sceneData = context.sceneData;
 
+		// マテリアルの設定
 		renderer.SetSceneData(sceneData);
 
 		// Worldの描画

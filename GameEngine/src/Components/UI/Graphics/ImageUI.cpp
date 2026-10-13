@@ -46,6 +46,12 @@ namespace REngine
 
 		DirectX::SimpleMath::Vector2 size = transform->GetSize();
 
+		// 有効なハンドルならセットする
+		if (m_materialHandle.IsValid())
+		{
+			renderer.SetMaterial(m_materialHandle);
+		}
+
 		renderer.Draw().Sprite().Draw(
 			texture->Get(),
 			pivotPixelPos - size * pivot,
@@ -55,5 +61,8 @@ namespace REngine
 			pivot,
 			GetColor() * GetMulColor()
 		);
+
+		// マテリアルのリセット
+		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 	}
 }	// namespace REngine

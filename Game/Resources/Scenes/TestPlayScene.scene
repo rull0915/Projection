@@ -682,8 +682,8 @@
                     },
                     {
                         "Data": {
-                            "innerAngle": 0.20000000298023224,
-                            "length": 15.100000381469727,
+                            "innerAngle": 0.0,
+                            "length": 1.0,
                             "m_color": [
                                 1.0,
                                 1.0,
@@ -693,7 +693,7 @@
                             "m_intensity": 1.0,
                             "m_isActive": true,
                             "m_lightType": "Spot",
-                            "outerAngle": 0.5,
+                            "outerAngle": 1.0,
                             "radius": 1.0
                         },
                         "Type": "LightComponent",
@@ -725,6 +725,113 @@
                 "UUID": 14851800184510239779,
                 "m_isActive": true,
                 "m_name": "PointLight",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_anchor": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_anchoredPosition": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_pivot": [
+                                        0.5,
+                                        0.5
+                                    ],
+                                    "m_rotation": 0.0,
+                                    "m_scale": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_size": [
+                                        100.0,
+                                        100.0
+                                    ]
+                                },
+                                "Type": "RectTransform",
+                                "UUID": 15309725979362885506
+                            },
+                            {
+                                "Data": {
+                                    "m_color": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_isActive": true,
+                                    "m_materialHandle": 14986829223232533644,
+                                    "m_mulColor": [
+                                        1.0,
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "m_raycastTarget": true,
+                                    "m_textureHandle": 16832540059583752122
+                                },
+                                "Type": "ImageUI",
+                                "UUID": 10639123094190510757
+                            }
+                        ],
+                        "IsWorld": false,
+                        "UUID": 15064992629933556444,
+                        "m_isActive": true,
+                        "m_name": "Image",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform",
+                        "UUID": 10362348409028887454
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 0,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas",
+                        "UUID": 10139104059187358603
+                    }
+                ],
+                "IsWorld": false,
+                "UUID": 1462900509858288559,
+                "m_isActive": true,
+                "m_name": "Canvas",
                 "m_tag": ""
             }
         ]

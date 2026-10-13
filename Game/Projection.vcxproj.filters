@@ -248,5 +248,6 @@
   <ItemGroup>
     <FxCompile Include="Shaders\BasicVertexShader.vs.hlsl" />
     <FxCompile Include="Shaders\BasicPixelShader.ps.hlsl" />
+    <FxCompile Include="Shaders\ImagePixelShader.ps.hlsl" />
   </ItemGroup>
 </Project>

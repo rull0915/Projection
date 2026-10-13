@@ -79,6 +79,7 @@ namespace REngine
 		m_sceneData.cameraData.view = mainCamera ? mainCamera->GetView() : DirectX::SimpleMath::Matrix::Identity;
 		m_sceneData.cameraData.proj = mainCamera ? mainCamera->GetProj() : DirectX::SimpleMath::Matrix::Identity;
 		m_sceneData.cameraData.pos = mainCamera ? mainCamera->GetComponent<Transform>()->GetWorldPosition() : DirectX::SimpleMath::Vector3::Zero;
+		m_sceneData.cameraData.materialHandle = mainCamera ? mainCamera->GetMaterial() : ERROR_HANDLE<MaterialAsset>;
 
 		// ライトデータの更新
 		m_updatePipeline->GetLightManager()->RebuildLightData();

@@ -152,22 +152,36 @@ namespace REngine
 		// 参照が設定されていなければ解決不可
 		if (!(m_assetManager && m_samplerList)) return;
 
-		// 頂点シェーダー本体を取得
-		auto* vs = m_assetManager->Get<ShaderAsset>(m_vertexShader);
+		// 頂点シェーダー
+		if (!BindShader(context, ShaderType::Vertex))
+		{
+			// 失敗した場合リセット
+			context->VSSetShader(nullptr, nullptr, 0);
 
-		// vsがなければ対応不可
-		if (!vs) return;
+			// vsがない場合不可
+			return;
+		}
 
-		// ピクセルシェーダ本体を取得
-		auto* ps = m_assetManager->Get<ShaderAsset>(m_pixelShader);
+		// ピクセルシェーダー
+		if (!BindShader(context, ShaderType::Pixel))
+		{
+			context->PSSetShader(nullptr, nullptr, 0);	
+		}
+	}
 
-		// シェーダー本体をバインド
-		vs->Bind(context);
+	bool MaterialAsset::BindShader(ID3D11DeviceContext* context, ShaderType type)
+	{
+		// シェーダーを取得
+		auto* shader = GetShaderAsset(type);
 
-		if (ps) ps->Bind(context);
-		else context->PSSetShader(nullptr, nullptr, 0);	// なかった場合リセットする
+		// なければ失敗
+		if (!shader || shader->GetStatus() != LoadStatus::Loaded)
+		{
+			return false;
+		}
 
-		// Todo: 扱うステージが増えた場合同様の処理を他のシェーダーでも行ってください。
+		// バインド
+		shader->Bind(context);
 
 		// 全定数バッファを走査
 		for (auto& [key, buf] : m_constantBuffers)
@@ -180,7 +194,7 @@ namespace REngine
 				context->VSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
 				break;
 			case ShaderType::Pixel:
-				if (ps) context->PSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
+				context->PSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
 				break;
 			default:
 				break;
@@ -188,43 +202,33 @@ namespace REngine
 		}
 
 		// リソースのバインド
-		for (auto& [key, map] : m_params)
+		for (auto& [name, value] : m_params[type])
 		{
-			// 対応するシェーダーを取得
-			auto* shader = [&]() -> ShaderAsset* {
-				switch (key) 
-				{
-				case ShaderType::Vertex:  return vs;
-				case ShaderType::Pixel:  return ps;
-				default: return nullptr;
-				}
-			}();
-
 			// なければ次へ
 			if (!shader) continue;
 
-			for (auto& [name, value] : map)
+			// Handle<Texture>として取得
+			if (auto* t = std::get_if<Handle<Texture>>(&value.value))
 			{
-				// Handle<Texture>として取得
-				if (auto* t = std::get_if<Handle<Texture>>(&value.value))
-				{
-					// テクスチャを取得
-					auto* tex = m_assetManager->Get<Texture>(*t);
+				// テクスチャを取得
+				auto* tex = m_assetManager->Get<Texture>(*t);
 
-					// バインド
-					BindTexture(context, shader, tex, name, key);
-				}
-				// SamplerTypeとして取得
-				else if (auto* s = std::get_if<SamplerType>(&value.value))
-				{
-					// サンプラーを取得
-					auto& sampler = m_samplerList->GetSampler(*s);
+				// バインド
+				BindTexture(context, shader, tex, name, type);
+			}
+			// SamplerTypeとして取得
+			else if (auto* s = std::get_if<SamplerType>(&value.value))
+			{
+				// サンプラーを取得
+				auto& sampler = m_samplerList->GetSampler(*s);
 
-					// バインド
-					BindSampler(context, shader, sampler, name, key);
-				}
+				// バインド
+				BindSampler(context, shader, sampler, name, type);
 			}
 		}
+
+		// 成功
+		return true;
 	}
 
 	std::vector<Property> MaterialAsset::GetProperties()

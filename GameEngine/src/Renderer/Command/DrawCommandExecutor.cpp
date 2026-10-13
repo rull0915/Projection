@@ -176,12 +176,52 @@ void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::ve
 	// スプライトバッチの開始
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
 
+	// マテリアルハンドル
+	Handle<MaterialAsset> oldHandle = { -1, -1 };
+
 	// 全コマンドの描画
 	for (auto& command : commands)
 	{
+		// マテリアルの取得
+		Handle<MaterialAsset> matHandle = std::visit([this](auto& c) { return c.material; }, command);
+
+		MaterialAsset* mat = m_assetManager.Get(matHandle);
+
+		// マテリアルが変わっていた場合
+		if (matHandle != oldHandle)
+		{
+			// マテリアル情報の更新
+			oldHandle = matHandle;
+
+			// 一度終了
+			m_spriteBatch->End();
+
+			// 再度Begin
+			if (mat)
+			{
+				mat->SetReference(&m_assetManager, m_samplerList.get());
+
+				m_spriteBatch->Begin(
+					DirectX::SpriteSortMode_Deferred,
+					m_pStates->NonPremultiplied(),
+					nullptr,
+					nullptr,
+					nullptr,
+					[this, mat]()
+					{
+						mat->BindShader(m_pContext, ShaderType::Pixel);
+					}
+				);
+			}
+			else
+			{
+				m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
+			}
+		}
+
 		std::visit([this](auto& c) {
 
-			// decayを使用し参照を外した巣の型を取得
+			// decayを使用し参照を外した素の型を取得
 			using T = std::decay_t<decltype(c)>;
 
 			// SpriteCommandの場合
@@ -198,7 +238,7 @@ void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::ve
 				if (c.spriteFont)
 					c.spriteFont->DrawString(m_spriteBatch.get(), c.text.c_str(), c.pos, c.color, c.angle, c.origin, c.scale);
 			}
-			
+
 			}, command);
 	}
 
