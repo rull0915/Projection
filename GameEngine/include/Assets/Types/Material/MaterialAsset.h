@@ -167,6 +167,25 @@ namespace REngine
 		// シェーダーをcontextにバインドする関数
 		void Apply(ID3D11DeviceContext* context);
 
+		// 1つのシェーダーをバインドする関数
+		bool BindShader(ID3D11DeviceContext* context, ShaderType type);
+
+		// シェーダーを変更する関数
+		void SetShader(Handle<ShaderAsset> shader, ShaderType type)
+		{
+			switch (type)
+			{
+			case REngine::ShaderType::Vertex:
+				m_vertexShader = shader;
+				break;
+			case REngine::ShaderType::Pixel:
+				m_pixelShader = shader;
+				break;
+			default:
+				break;
+			}
+		}
+
 		//----- PropertyObjectの実装 -----//
 
 		// プロパティ一覧を取得する関数

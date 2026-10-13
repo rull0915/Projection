@@ -1071,6 +1071,9 @@
     <ClInclude Include="include\Assets\Managers\AssetLoadResult.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\Assets\EngineDefaultAssets.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\SkyboxEffect_VS.hlsl" />

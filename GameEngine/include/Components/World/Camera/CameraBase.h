@@ -17,6 +17,8 @@
 #include "Components/World/WorldComponentBase.h"
 
 #include "Physics/Ray.h"
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace REngine
 {
@@ -48,6 +50,9 @@ namespace REngine
 
 		bool m_needUpdateProj;
 
+		// マテリアル
+		Handle<MaterialAsset> m_materialHandle;
+
 	public:
 
 		//-----------------------------------------------------
@@ -60,7 +65,9 @@ namespace REngine
 			, m_inverseView{}
 			, m_inverseProj{}
 			, m_needUpdateProj{ true }
-		{}
+		{
+			ADD_PROPERTY(CameraBase, m_materialHandle);
+		}
 
 		virtual ~CameraBase() = default;
 
@@ -88,8 +95,10 @@ namespace REngine
 			}
 			return m_proj;
 		}
-		const DirectX::SimpleMath::Matrix& GetInverseView() { return m_inverseView; }
-		const DirectX::SimpleMath::Matrix& GetInverseProj() { return m_inverseProj; }
+		const DirectX::SimpleMath::Matrix& GetInverseView() const { return m_inverseView; }
+		const DirectX::SimpleMath::Matrix& GetInverseProj() const { return m_inverseProj; }
+
+		Handle<MaterialAsset> GetMaterial() const { return m_materialHandle; }
 
 		bool IsNeedUpdateProj() const { return m_needUpdateProj; }
 
@@ -103,6 +112,11 @@ namespace REngine
 		void OnValidate() override
 		{
 			m_needUpdateProj = true;
+		}
+
+		void SetMaterial(Handle<MaterialAsset> mat)
+		{
+			m_materialHandle = mat;
 		}
 
 		// 各行列を設定する関数

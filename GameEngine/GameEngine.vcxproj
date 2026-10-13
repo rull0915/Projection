@@ -416,6 +416,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="src\Assets\EngineDefaultAssets.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Assets\System\Material\MaterialConstant.h">
       <SubType>
       </SubType>

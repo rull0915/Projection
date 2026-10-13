@@ -17,6 +17,7 @@
 
 #include <SimpleMath.h>
 #include "Common/LightData.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace REngine
 {
@@ -26,6 +27,7 @@ namespace REngine
 		DirectX::SimpleMath::Matrix view;
 		DirectX::SimpleMath::Matrix proj;
 		DirectX::SimpleMath::Vector3 pos;
+		Handle<MaterialAsset> materialHandle;
 	};
 
 	// ライトの情報
