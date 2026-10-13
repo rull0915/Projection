@@ -16,6 +16,7 @@
 //====================================================//
 #include "Assets/Types/Model/Model.h"
 #include "Assets/Managers/AssetLoadResult.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace REngine
 {
@@ -59,6 +60,8 @@ namespace REngine
 			/// <param name="path">ファイルパス</param>
 			/// <returns>モデルアセット</returns>
 			static LoadResult Load(const std::filesystem::path& path, AssetContext& ctx);
+
+			static std::unordered_map<std::string, MaterialAsset> LoadMTL(const std::filesystem::path& path, AssetContext& ctx);
 
 			/// <summary>
 			/// OBJ形式の要素を取得する関数
