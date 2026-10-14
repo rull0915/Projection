@@ -6,11 +6,11 @@
 
 cbuffer PerMaterial : register(b2)
 {
-    float4 baseColor;       // ベースカラー
-    float4 specularColor;   // スペキュラカラー
-    float kd;               // 拡散反射率
-    float ks;               // 鏡面反射率
-    float specExponent;     // ハイライトの鋭さ
+    float4 BaseColor;           // ベースカラー
+    float4 SpecularColor;       // スペキュラカラー
+    float DiffuseIntensity;     // 拡散反射率
+    float SpecularIntensity;    // 鏡面反射率
+    float Shininess;            // ハイライトの鋭さ
 };
 
 float4 main(PS_Input input) : SV_TARGET
@@ -35,7 +35,7 @@ float4 main(PS_Input input) : SV_TARGET
         float3 diffuse = CalcLembertDiffuse(lDir, pLight.color, pLight.intensity, normal);
 
         // スペキュラの計算
-        float3 specular = CalcBlinnPhongSpecular(lDir, pLight.color, pLight.intensity, camera.cameraPos, input.worldPos, normal, specExponent);
+        float3 specular = CalcBlinnPhongSpecular(lDir, pLight.color, pLight.intensity, camera.cameraPos, input.worldPos, normal, Shininess);
         
         // 距離を取得
         float distance = length(pLight.pos - input.worldPos);
@@ -47,8 +47,8 @@ float4 main(PS_Input input) : SV_TARGET
         affect = pow(affect, 3.0f);
         
         // 最終的な値を加算する
-        totalDiffuse += affect * kd * diffuse;
-        totalSpecular += affect * ks * specular;
+        totalDiffuse += affect * diffuse;
+        totalSpecular += affect * specular;
     }
     
     ///-------------- ディレクショナルライトの計算 --------------///    
@@ -59,10 +59,10 @@ float4 main(PS_Input input) : SV_TARGET
         DirectionalLight dLight = light.directionalLights[j];
     
         // ディフューズの加算
-        totalDiffuse += kd * CalcLembertDiffuse(-dLight.direction, dLight.color, dLight.intensity, normal);
+        totalDiffuse += CalcLembertDiffuse(-dLight.direction, dLight.color, dLight.intensity, normal);
     
         // スペキュラの加算
-        totalSpecular += ks * CalcBlinnPhongSpecular(-dLight.direction, dLight.color, dLight.intensity, camera.cameraPos, input.worldPos, normal, specExponent);
+        totalSpecular += CalcBlinnPhongSpecular(-dLight.direction, dLight.color, dLight.intensity, camera.cameraPos, input.worldPos, normal, Shininess);
     }
     
     // スポットライトの計算
@@ -78,7 +78,7 @@ float4 main(PS_Input input) : SV_TARGET
         float3 diffuse = CalcLembertDiffuse(lDir, sLight.color, sLight.intensity, normal);
 
         // スペキュラの計算
-        float3 specular = CalcBlinnPhongSpecular(lDir, sLight.color, sLight.intensity, camera.cameraPos, input.worldPos, normal, specExponent);
+        float3 specular = CalcBlinnPhongSpecular(lDir, sLight.color, sLight.intensity, camera.cameraPos, input.worldPos, normal, Shininess);
         
         // 距離を取得
         float distance = length(lDir);
@@ -102,8 +102,8 @@ float4 main(PS_Input input) : SV_TARGET
         float totalAffect = distAffect * spotFactor;
         
         // 最終的な値を加算する
-        totalDiffuse += totalAffect * kd * diffuse;
-        totalSpecular += totalAffect * ks * specular;
+        totalDiffuse += totalAffect * diffuse;
+        totalSpecular += totalAffect * specular;
     }
     
     // ライティングの合成
@@ -111,8 +111,8 @@ float4 main(PS_Input input) : SV_TARGET
     
     // 最終的な色 = ベースカラー * (環境光 + ディレクショナル光)
     float3 finalColor = 
-    baseColor.rgb * (ambient + totalDiffuse) + 
-    specularColor.rgb * totalSpecular;
+    BaseColor.rgb * (ambient + DiffuseIntensity * totalDiffuse) +
+    SpecularColor.rgb * SpecularIntensity * totalSpecular;
             
-    return float4(finalColor, baseColor.a);
+    return float4(finalColor, BaseColor.a);
 }
