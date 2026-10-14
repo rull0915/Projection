@@ -17,7 +17,9 @@
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
 #include "System/GraphicsManager.h"
-#include "Assets/EngineDefaultAssets.h"
+
+#include "MtlFileLoader.h"
+#include "CreatePrefabFromModelData.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -45,7 +47,7 @@ namespace REngine
 			// objか調べる
 			if (ext != ".obj")
 			{
-				result.scuccess = false;
+				result.success = false;
 
 				return result;
 			}
@@ -62,7 +64,7 @@ namespace REngine
 			{
 				ifs.close();
 
-				result.scuccess = false;
+				result.success = false;
 
 				return result;
 			}
@@ -91,15 +93,20 @@ namespace REngine
 			// 現在作成中のメッシュ名
 			std::string currentMeshName = "Mesh0";
 
+			// 現在使用中のマテリアル名
+			std::string currentMaterialName;
+
 			// サブメッシュを1つ確定するラムダ式
 			auto confirmSubMesh =
-				[&subMeshs, &indices]()
+				[&subMeshs, &indices, &currentMaterialName]()
 				{
 					// インデックスがなければ登録しない
 					if (indices.empty()) return;
 
 					// サブメッシュを確定
 					SubMesh subMesh{};
+					subMesh.vertexOffset = 0;	// 加算なし
+					subMesh.materialName = currentMaterialName;
 
 					// 1つ前のサブメッシュを調べる
 					if (!subMeshs.empty())
@@ -108,14 +115,12 @@ namespace REngine
 
 						subMesh.indexOffset = last.indexOffset + last.indexCount;	// 前のサブメッシュの管理下の次から使用
 						subMesh.indexCount = static_cast<UINT>(indices.size()) - subMesh.indexOffset;	// 前のサブメッシュからここまでに作られた全てを使用
-						subMesh.vertexOffset = 0;	// 加算なし
 					}
 					// 最初のサブメッシュの場合
 					else
 					{
 						subMesh.indexOffset = 0;	// 0番から使用
 						subMesh.indexCount = static_cast<UINT>(indices.size());	// これまでに記録された全てのインデックスを使用
-						subMesh.vertexOffset = 0;	// 加算なし
 					}
 
 					// 配列に追加
@@ -306,6 +311,9 @@ namespace REngine
 				{
 					// ここまでのサブメッシュを確定
 					confirmSubMesh();
+
+					// 次に使用するマテリアル名を取得
+					stream >> currentMaterialName;
 				}
 				else if (type == "mtllib")
 				{
@@ -314,7 +322,7 @@ namespace REngine
 					stream >> fileName;
 
 					// マテリアルファイルの読み込み
-					auto loadedMaterials = LoadMTL(path.parent_path() / fileName, ctx);
+					auto loadedMaterials = MtlFileLoader::LoadMTL(path.parent_path() / fileName, ctx);
 
 					// 追加していく
 					for (auto& mat : loadedMaterials)
@@ -343,7 +351,7 @@ namespace REngine
 			confirmSubMesh();
 			confirmMesh();
 
-			// ----------- 作られたメッシュを登録する ----------- //
+			// ----------- 作られたサブアセットを登録する ----------- //
 
 			// 新しいサブアセットがあるかどうかのフラグ
 			bool existNewSubAsset = false;
@@ -353,91 +361,87 @@ namespace REngine
 			// Auxを取得
 			AssetAux aux = db.GetAux(db.GetUUID(path));
 
-			for (auto& mesh : meshs)
-			{
-				// 仮想パスを生成
-				std::filesystem::path virtualPath = path.string() + "#" + mesh.first;
-
-				// UUIDを取得
-				UUID uuid = db.GetUUID(virtualPath);
-
-				// 未登録なら
-				if (uuid == UUID_NONE)
+			// サブアセットを作成、登録するラムダ式
+			auto registerSubAsset =
+				[&](const std::string& name, auto& data, const std::string& assetTypeName, auto createAssetFunc)
 				{
-					// 新規サブアセットフラグを立てる
-					existNewSubAsset = true;
+					// 仮想パスを生成
+					std::filesystem::path virtualPath = path.string() + "#" + assetTypeName + "#" + name;
 
-					// UUIDを生成
-					uuid = db.GenerateUUID();
+					// UUIDを取得
+					UUID uuid = db.GetUUID(virtualPath);
 
-					// サブアセット情報
-					SubAssetInfo info;
+					// 未登録なら
+					if (uuid == UUID_NONE)
+					{
+						existNewSubAsset = true;
+						uuid = db.GenerateUUID();
 
-					info.assetType = "Mesh";
-					info.uuid = uuid;
-					info.name = mesh.first;
+						// サブアセット情報
+						SubAssetInfo info;
 
-					aux.subAssets.push_back(info);
-				}
+						info.assetType = assetTypeName;
+						info.uuid = uuid;
+						info.name = name;
 
-				// ハンドルを取得
-				auto handle = ctx.GetRegistry().GetHandle(uuid);
+						aux.subAssets.push_back(info);
+					}
 
-				// 未登録なら登録
-				if (handle == ERROR_UNTYPE_HANDLE) handle = ctx.GetRegistry().Register(uuid);
+					// ハンドルを取得
+					auto handle = ctx.GetRegistry().GetHandle(uuid);
 
-				// サブアセットの作成
-				SubAssetEntry subAsset{};
+					// 未登録ハンドルなら登録
+					if (handle == ERROR_UNTYPE_HANDLE) handle = ctx.GetRegistry().Register(uuid);
 
-				subAsset.name = mesh.first;
-				subAsset.asset = std::make_unique<Mesh>(mesh.second);
-				subAsset.handle = handle;
+					// サブアセットの作成
+					SubAssetEntry subAsset{};
 
-				result.subAssets.push_back(std::move(subAsset));
+					subAsset.name = name;
+					subAsset.asset = createAssetFunc(data); // 渡された作成関数で本体を作成
+					subAsset.handle = handle;
+
+					result.subAssets.push_back(std::move(subAsset));
+
+					return handle;
+				};
+
+			// Prefab生成用のリスト
+			std::unordered_map<std::string, std::pair<Handle<Mesh>, Mesh>> meshesInfo{};
+			std::unordered_map<std::string, Handle<MaterialAsset>> materialHandles{};
+
+			// Meshの登録
+			for (auto& [name, data] : meshs)
+			{
+				UnTypeHandle handle = registerSubAsset(name, data, "Mesh", [](auto& data) {
+					return std::make_unique<Mesh>(data);
+				});
+
+				meshesInfo[name] = { handle.As<Mesh>(), data };
 			}
 
-			for (auto& mat : materials)
+			// Materialの登録
+			for (auto& [name, data] : materials)
 			{
-				// 仮想パスを生成
-				std::filesystem::path virtualPath = path.string() + "#" + mat.first;
+				UnTypeHandle handle = registerSubAsset(name, data, "Material", [](auto& data) {
+					return std::make_unique<MaterialAsset>(data);
+				});
 
-				// UUIDを取得
-				UUID uuid = db.GetUUID(virtualPath);
-
-				// 未登録なら
-				if (uuid == UUID_NONE)
-				{
-					// 新規サブアセットフラグを立てる
-					existNewSubAsset = true;
-
-					// UUIDを生成
-					uuid = db.GenerateUUID();
-
-					// サブアセット情報
-					SubAssetInfo info;
-
-					info.assetType = "Material";
-					info.uuid = uuid;
-					info.name = mat.first;
-
-					aux.subAssets.push_back(info);
-				}
-
-				// ハンドルを取得
-				auto handle = ctx.GetRegistry().GetHandle(uuid);
-
-				// 未登録なら登録
-				if (handle == ERROR_UNTYPE_HANDLE) handle = ctx.GetRegistry().Register(uuid);
-
-				// サブアセットの作成
-				SubAssetEntry subAsset{};
-
-				subAsset.name = mat.first;
-				subAsset.asset = std::make_unique<MaterialAsset>(mat.second);
-				subAsset.handle = handle;
-
-				result.subAssets.push_back(std::move(subAsset));
+				materialHandles[name] = handle.As<MaterialAsset>();
 			}
+
+			// Prefabの生成
+			std::unique_ptr<Prefab> prefab = CreatePrefabFromModelData::Create(
+				path.stem().string(), ctx.GetRegistry(), meshesInfo, materialHandles
+			);
+
+			prefab->SetName(path.stem().string());
+
+			// Prefabの登録
+			registerSubAsset(
+				path.stem().string(), prefab, "Prefab", [](auto& data) {
+					return std::move(data);
+				}
+			);
 
 			// 変更があれば.auxファイルの更新
 			if (existNewSubAsset)
@@ -447,191 +451,9 @@ namespace REngine
 
 			// 返す
 			result.asset = std::make_unique<Model>();
-			result.scuccess = true;
+			result.success = true;
 
 			return result;
-		}
-
-		std::unordered_map<std::string, MaterialAsset> OBJLoader::LoadMTL(const std::filesystem::path& path, AssetContext& ctx)
-		{
-			// ------- 拡張子がmtlでなければスキップ ------- //
-
-			// 拡張子取得
-			std::string ext = path.extension().string();
-
-			// 小文字に変換する
-			std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c) {
-				return std::tolower(c);
-				});
-
-			// mtlか調べる
-			if (ext != ".mtl")
-			{
-				return {};
-			}
-
-			// -------------- ファイル読み込み ------------- //
-
-			// ifsに変換
-			std::ifstream ifs(path);
-
-			// 開けなかったら生成しない
-			if (!ifs.is_open())
-			{
-				ifs.close();
-
-				return{};
-			}
-
-			// 作成したマテリアルを保持しておく配列
-			std::unordered_map<std::string, MaterialAsset> materials{};
-
-			// 作成中のマテリアル
-			std::unordered_map<std::string, MaterialAsset::Parameter> currentParams{};
-
-			// 作成中のマテリアル名
-			std::string currentMaterialName{};
-
-			// ---------- 使用するシェーダーアセットを読み込む ---------- //
-
-			Handle<ShaderAsset> ps = ctx.LoadFromUUID(REngine::DefaultAsset::LIT_PS).As<ShaderAsset>();
-			Handle<ShaderAsset> vs = ctx.LoadFromUUID(REngine::DefaultAsset::LIT_VS).As<ShaderAsset>();
-
-
-			// 作成中のマテリアルをリストに追加するラムダ式
-			auto createMaterial =
-				[&]() {
-				// マテリアルを作成
-				MaterialAsset material{};
-
-				material.SetName(currentMaterialName);
-
-				// デフォルト値を指定
-				currentParams.insert({ "DiffuseIntensity", { ShaderParamType::Float, 1.0f } });
-				currentParams.insert({ "SpecularIntensity", { ShaderParamType::Float, 1.0f } });
-
-				// ピクセルシェーダーのロード用パラメータをセット
-				material.SetPendingParams(ShaderType::Pixel, currentParams);
-
-				// シェーダーをセット
-				material.SetShader(vs, ShaderType::Vertex);
-				material.SetShader(ps, ShaderType::Pixel);
-
-				// リストに追加
-				materials.insert({ currentMaterialName, material });
-				};
-
-			// ---------- パラメータを構築するラムダ式 ---------- //
-
-			// sstreamからfloatを取得する関数
-			auto getFloatParam = [](std::istringstream& ss)
-				{
-					// sstreamから情報を取得
-					float value{};
-					ss >> value;
-
-					// パラメータを構築して返す
-					return MaterialAsset::Parameter(ShaderParamType::Float, value);
-				};
-
-			// sstreamからカラーを取得する関数
-			auto getColorParam = [](std::istringstream& ss)
-				{
-					// sstreamから色情報を取得
-					DirectX::SimpleMath::Color color{};
-					ss >> color.x >> color.y >> color.z;
-
-					// パラメータを構築して返す
-					return MaterialAsset::Parameter(ShaderParamType::Color, color);
-				};
-
-			// sstreamからテクスチャハンドルパラメータを構築する関数
-			auto getTextureParam = [&ctx, &path](std::istringstream& ss)
-				{
-					// sstreamからファイル名情報を取得
-					std::string fileName{};
-					ss >> fileName;
-
-					// パスを構築
-					std::filesystem::path texPath = path.parent_path() / fileName;
-
-					// ロードする
-					UnTypeHandle handle = ctx.LoadFromUUID(ctx.GetDataBase().GetUUID(texPath));
-
-					// パラメータを生成
-					return MaterialAsset::Parameter(ShaderParamType::Texture2D, handle.As<Texture>());
-				};
-
-			// ---------- 1行ずつ調べる ---------- //
-			std::string line{};
-
-			while (std::getline(ifs, line))
-			{
-				// sstreamに変換
-				std::istringstream stream(line);
-
-				// スペース区切りで格納するための変数
-				std::string type;
-
-				// スペース区切り
-				stream >> type;
-
-				// typeによって分岐
-				if (type == "newmtl")	// 新しいマテリアルの場合
-				{
-					// 既存のマテリアルを保存
-					if (!currentMaterialName.empty())
-					{
-						createMaterial();
-					}
-
-					// 名前を取得
-					std::string name{};
-					stream >> name;
-
-					// 次のマテリアルへ
-					currentMaterialName = name;
-					currentParams.clear();
-				}
-
-				else if (type == "Kd")
-				{
-					currentParams.insert({ "BaseColor", getColorParam(stream) });
-				}
-
-				else if (type == "Ka")
-				{
-					currentParams.insert({ "AmbientColor", getColorParam(stream) });
-				}
-
-				else if (type == "Ks")
-				{
-					currentParams.insert({ "SpecularColor", getColorParam(stream) });
-				}
-
-				else if (type == "Ke")
-				{
-					currentParams.insert({ "EmissiveColor", getColorParam(stream) });
-				}
-
-				else if (type == "map_Kd")
-				{
-					currentParams.insert({ "BaseColorMap", getTextureParam(stream) });
-				}
-
-				else if (type == "Ns")
-				{
-					currentParams.insert({ "Shininess", getFloatParam(stream) });
-				}
-			}
-
-			// 最後の1つを確定
-			if (!currentMaterialName.empty())
-			{
-				createMaterial();
-			}
-
-			return materials;
 		}
 	}
 }
