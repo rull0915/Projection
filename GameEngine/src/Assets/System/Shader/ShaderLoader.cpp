@@ -52,7 +52,7 @@ namespace REngine
 			// 失敗したら早期リターン
 			if (FAILED(hr))
 			{
-				result.scuccess = false;
+				result.success = false;
 
 				return result;
 			}
@@ -72,7 +72,7 @@ namespace REngine
 				// バイナリファイルから読み取る
 				if (FAILED(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, vs.GetAddressOf())))
 				{
-					result.scuccess = false;
+					result.success = false;
 
 					return result;
 				}
@@ -91,7 +91,7 @@ namespace REngine
 				// バイナリファイルから読み取る
 				if (FAILED(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, ps.GetAddressOf())))
 				{
-					result.scuccess = false;
+					result.success = false;
 
 					return result;
 				}
@@ -101,7 +101,7 @@ namespace REngine
 			}
 			else
 			{
-				result.scuccess = false;
+				result.success = false;
 
 				return result;
 			}
@@ -116,7 +116,7 @@ namespace REngine
 
 			result.asset = std::move(shader);
 
-			result.scuccess = true;
+			result.success = true;
 
 			return result;
 		}

@@ -53,7 +53,7 @@ namespace REngine
 			// ファイルからロード
 			loader.LoadPropertyFromFile(path, result.asset.get());
 
-			result.scuccess = true;
+			result.success = true;
 
 			// 返す
 			return result;

@@ -70,7 +70,7 @@ namespace REngine
 		if (FAILED(hr))
 		{
 			// 失敗フラグを立てる
-			result.scuccess = false;
+			result.success = false;
 		}
 		else
 		{
@@ -78,7 +78,7 @@ namespace REngine
 			result.asset = std::make_unique<Texture>(std::move(texture));
 		}
 
-		result.scuccess = true;
+		result.success = true;
 
 		return result;
 	}
@@ -102,7 +102,7 @@ namespace REngine
 		// リザルトの作成
 		LoadResult loadResult{};
 
-		loadResult.scuccess = true;
+		loadResult.success = true;
 
 		// 返す
 		loadResult.asset = std::make_unique<Font>(std::move(font), height);
@@ -116,7 +116,7 @@ namespace REngine
 
 		result.asset = std::make_unique<Prefab>(std::filesystem::path(path));
 
-		result.scuccess = true;
+		result.success = true;
 
 		return result;
 	}
@@ -133,7 +133,7 @@ namespace REngine
 
 		result.asset = std::make_unique<AudioClip>(std::move(sound));
 
-		result.scuccess = true;
+		result.success = true;
 
 		// 返す
 		return result;

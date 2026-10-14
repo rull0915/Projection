@@ -45,7 +45,7 @@ namespace REngine
 			{
 				ifs.close();
 
-				result.scuccess = false;
+				result.success = false;
 
 				return result;
 			}
@@ -103,7 +103,7 @@ namespace REngine
 			ifs.close();
 
 			// 返す
-			result.scuccess = true;
+			result.success = true;
 			result.asset = std::make_unique<MaterialAsset>(material);
 
 			return result;

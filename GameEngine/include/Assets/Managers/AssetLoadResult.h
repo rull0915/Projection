@@ -52,6 +52,6 @@ namespace REngine
 		std::vector<SubAssetEntry> subAssets;
 
 		// 成功フラグ
-		bool scuccess;
+		bool success;
 	};
 }
