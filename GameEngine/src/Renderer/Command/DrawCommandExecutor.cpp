@@ -126,7 +126,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 		// 存在しており有効ハンドルなら
 		if (material && material->IsValid())
 		{
-			material->SetReference(&m_assetManager, m_samplerList.get());
+			material->SetSamplerList(m_samplerList.get());
 
 			// バインド
 			material->Apply(m_pContext);
@@ -199,7 +199,7 @@ void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::ve
 			// 再度Begin
 			if (mat)
 			{
-				mat->SetReference(&m_assetManager, m_samplerList.get());
+				mat->SetSamplerList(m_samplerList.get());
 
 				m_spriteBatch->Begin(
 					DirectX::SpriteSortMode_Deferred,
@@ -257,7 +257,7 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 		// マテリアルが設定されていて有効なとき
 		if (material && material->IsValid())
 		{
-			material->SetReference(&m_assetManager, m_samplerList.get());
+			material->SetSamplerList(m_samplerList.get());
 
 			// ワールド行列をバインド
 			BindPerObjectBuffer(c.world);

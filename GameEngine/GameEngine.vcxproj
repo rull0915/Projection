@@ -168,6 +168,8 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Assets\System\Model\CreatePrefabFromModelData.cpp" />
+    <ClCompile Include="src\Assets\System\Model\MtlFileLoader.cpp" />
     <ClCompile Include="src\Renderer\GraphicsSystem.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
@@ -426,7 +428,13 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="src\Assets\System\Material\MaterialLoader.h" />
     <ClInclude Include="src\Assets\System\Material\MaterialSaver.h" />
+    <ClInclude Include="src\Assets\System\Model\CreatePrefabFromModelData.h" />
+    <ClInclude Include="src\Assets\System\Model\MtlFileLoader.h" />
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h" />
+    <ClInclude Include="src\Assets\System\Prefab\PrefabBuilder.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
       <SubType>
       </SubType>

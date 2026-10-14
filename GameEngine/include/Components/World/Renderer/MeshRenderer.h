@@ -71,5 +71,9 @@ namespace REngine
 			m_assetManager = &a;
 		}
 
+		// マテリアル一覧を取得する関数
+		std::vector<Handle<MaterialAsset>>& GetMaterials() { return m_materials; }
+
+		const std::vector<Handle<MaterialAsset>>& GetMaterials() const { return m_materials; }
 	};
 } // namespace REngine

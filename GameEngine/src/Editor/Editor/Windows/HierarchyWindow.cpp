@@ -23,6 +23,10 @@
 #include "Managers/ObjectManager.h"
 #include "Scene/Scene.h"
 
+#include "Assets/Managers/AssetManager.h"
+#include "Editor/Editor/HandlePayload.h"
+#include "Assets/Types/Prefab.h"
+
 namespace REngine
 {
 	//====================================================//
@@ -112,6 +116,22 @@ namespace REngine
 				if (auto* t = data->GetComponent<RectTransform>())
 				{
 					t->SetParent(nullptr);
+				}
+			}
+
+			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET"))
+			{
+				// 受け渡し構造体を生成
+				HandlePayload* handlePay = (HandlePayload*)payload->Data;
+
+				// Prefabの時
+				if (handlePay && handlePay->type == std::type_index(typeid(Prefab)))
+				{
+					// プレハブハンドルを取得
+					auto handle = handlePay->handle.As<Prefab>();
+
+					// 生成
+					if (m_pScene) m_pScene->GetFactory()->Instantiate(m_pScene->GetAssetManager().Get(handle));
 				}
 			}
 

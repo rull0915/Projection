@@ -45,7 +45,7 @@ namespace REngine
 	void GameObject::Finalize()
 	{
 		// シーンに通知
-		m_pScene->OnGameObjectDestroy(this);
+		if (m_pScene) m_pScene->OnGameObjectDestroy(this);
 
 		// コンポーネント削除
 		RemoveComponents();
@@ -86,7 +86,11 @@ namespace REngine
 
 	GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
 	{
-		return m_pScene->GetFactory()->Generate(position);
+		if (m_pScene)
+		{
+			return m_pScene->GetFactory()->Generate(position);
+		}
+		return nullptr;
 	}
 
 	GameObject* GameObject::GetParent() const

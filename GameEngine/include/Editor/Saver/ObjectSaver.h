@@ -16,7 +16,9 @@
 // インクルードファイル
 //====================================================//
 #include "ThirdParty/nlohmann/json.hpp"
-#include "Assets/Managers/AssetManager.h"
+#include "Assets/Managers/IAssetResolver.h"
+#include "Common/Property/Property.h"
+#include "Common/Property/PropertyObject.h"
 
 namespace REngine
 {
@@ -31,14 +33,14 @@ namespace REngine
 	{
 	private:
 
-		AssetManager& m_assetManager;
+		const IAssetResolver& m_assetManager;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ObjectSaver(AssetManager& assetManager)
+		ObjectSaver(const IAssetResolver& assetManager)
 			: m_assetManager{ assetManager }
 		{
 		}
