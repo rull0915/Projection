@@ -410,6 +410,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
+    <ClInclude Include="include\EntryPoint.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Renderer\RendererInfo.h">
       <SubType>
       </SubType>
