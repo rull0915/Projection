@@ -15,6 +15,7 @@
 // インクルードファイル
 //====================================================//
 #include "GameObject/GameObject.h"
+#include "Assets/Types/Prefab.h"
 
 namespace REngine
 {
@@ -47,6 +48,9 @@ namespace REngine
 
 		// オブジェクトを生成する関数
 		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
+
+		// プレハブからオブジェクトを生成する関数
+		GameObject* Instantiate(Prefab* prefab, DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
 		// UIオブジェクトを生成する関数
 		GameObject* GenerateUI();

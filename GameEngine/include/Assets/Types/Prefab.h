@@ -42,6 +42,8 @@ namespace REngine
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		Prefab(std::filesystem::path path);
+		Prefab(std::unique_ptr<PrefabImpl> impl);
+
 		~Prefab() = default;
 
 		//-----------------------------------------------------

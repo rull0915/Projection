@@ -15,6 +15,8 @@
 #include "Scene/Scene.h"
 #include "Managers/ObjectManager.h"
 #include "System/UUIDRegistry.h"
+#include "Editor/Loader/ObjectLoader.h"
+#include "Assets/Types/PrefabImpl.h"
 
 namespace REngine
 {
@@ -48,6 +50,43 @@ namespace REngine
 		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
 
 		// 作成したポインタを返す
+		return pObj;
+	}
+
+	GameObject* ObjectFactory::Instantiate(Prefab* prefab, DirectX::SimpleMath::Vector3 position)
+	{
+		// prefabがなければ何もしない
+		if (!prefab) return nullptr;
+
+		// jsonを取得
+		ObjectLoader loader(m_pScene->GetAssetManager());
+
+		// ポインタを作成
+		GameObject* pObj = new GameObject(GameObject::CreateToken{});
+
+		// オブジェクトのシーンを設定
+		pObj->SetScene(m_pScene);
+
+		// オブジェクト管理クラスに追加
+		m_pScene->GetObjectManager()->AddObject(pObj);
+
+		if (prefab->GetImpl()->IsWorldObject())
+		{
+			// Transformを追加
+			pObj->AddComponent<Transform>();
+		}
+		else
+		{
+			// RectTransformを追加
+			pObj->AddComponent<RectTransform>();
+		}
+
+		// UUIDを生成
+		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
+
+		// jsonからロード
+		loader.LoadObject(prefab->GetImpl()->GetJson(), pObj, m_pScene);
+
 		return pObj;
 	}
 

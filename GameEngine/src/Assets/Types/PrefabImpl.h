@@ -33,12 +33,17 @@ namespace REngine
 		// json本体
 		nlohmann::json m_json;
 
+		// World空間かどうか
+		bool m_isWorld;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		PrefabImpl(const std::filesystem::path& path)
+			: m_json{}
+			, m_isWorld{ true }
 		{
 			std::ifstream ifs(path);
 
@@ -51,6 +56,23 @@ namespace REngine
 
 			// 閉じる
 			ifs.close();
+
+			if (m_json.contains("IsWorld") && !m_json["IsWorld"])
+			{
+				m_isWorld = false;
+			}
+		}
+
+		PrefabImpl(const nlohmann::json& j)
+			: m_json( j )
+			, m_isWorld{ true }
+		{
+			if (m_json.contains("IsWorld") && !m_json["IsWorld"])
+			{
+				m_isWorld = false;
+			}
+
+			assert(m_json.is_object());
 		}
 		~PrefabImpl() = default;
 
@@ -59,6 +81,12 @@ namespace REngine
 		//-----------------------------------------------------
 
 		// jsonのゲッター
-		const nlohmann::json& GetJson() const { return m_json; }
+		const nlohmann::json& GetJson() const
+		{
+			return m_json; 
+		}
+
+		// World空間オブジェクトかどうか
+		bool IsWorldObject() const { return m_isWorld; }
 	};
 }	// namespace REngine

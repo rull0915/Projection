@@ -35,5 +35,7 @@ namespace REngine
 		INT vertexOffset;	// 頂点バッファの頂点を読み取る際に、全てのインデックスに対して加算される値
 
 		BoundingBox boudingBox;	// SubMeshを覆う境界ボックス
+
+		std::string materialName;	// マテリアル名
 	};
 }

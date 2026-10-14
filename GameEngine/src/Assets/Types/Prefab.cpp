@@ -22,3 +22,8 @@ REngine::Prefab::Prefab(std::filesystem::path path)
 	: m_impl{ std::make_unique<PrefabImpl>(path) }
 {
 }
+
+REngine::Prefab::Prefab(std::unique_ptr<PrefabImpl> impl)
+	: m_impl{ std::move(impl) }
+{
+}

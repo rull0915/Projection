@@ -53,7 +53,7 @@ namespace REngine
 
 			// 作成可能クラスをfriendに指定
 			friend class ObjectFactory;
-			friend class Canvas;
+			friend class PrefabBuilder;
 		};
 
 		//-----------------------------------------------------
