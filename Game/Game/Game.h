@@ -1,78 +1,34 @@
-﻿//
-// Game.h
+﻿//====================================================//
+// ファイル名   : Game.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/07/11
 //
+// 概要 : ゲームクラス
+//
+// 更新履歴 :
+// 2026/06/02 新規作成
+// 2026/10/14 Engine側のApplicationを継承する設計に変更
+//====================================================//
 
 #pragma once
 
-#include "System/DeviceResources.h"
-#include "Timer/StepTimer.h"
+//====================================================//
+// インクルードファイル
+//====================================================//
 
-#include <memory>
+#include "EntryPoint.h"
+#include "Application.h"
 
-#include "GameEngine.h"
-
-// A basic game implementation that creates a D3D11 device and
-// provides a game loop.
-class Game final : public DX::IDeviceNotify
-{
-	// ========= テンプレートの処理 ========= //
+// ゲーム本体クラス
+class Game : public REngine::Application {
 public:
+    Game()
+        : Application({ L"My Game Project", 1280, 720 }) {}
 
-	Game() noexcept(false);
-	~Game();
-
-	Game(Game&&) = default;
-	Game& operator= (Game&&) = default;
-
-	Game(Game const&) = delete;
-	Game& operator= (Game const&) = delete;
-
-	// Initialization and management
-	void Initialize(HWND window, int width, int height);
-
-	// Basic game loop
-	void Tick();
-
-	// IDeviceNotify
-	void OnDeviceLost() override;
-	void OnDeviceRestored() override;
-
-	// Messages
-	void OnActivated();
-	void OnDeactivated();
-	void OnSuspending();
-	void OnResuming();
-	void OnWindowMoved();
-	void OnDisplayChange();
-	void OnWindowSizeChanged(int width, int height);
-
-	// Properties
-	void GetDefaultSize(int& width, int& height) const noexcept;
-
-private:
-
-	void Update(DX::StepTimer const& timer);
-	void Render();
-
-	void Clear();
-
-	void CreateDeviceDependentResources();
-	void CreateWindowSizeDependentResources();
-
-	// Device resources.
-	DX::DeviceResources* m_deviceResources;
-
-	// Rendering loop timer.
-	DX::StepTimer m_timer;
-
-	// ================ 自分の処理 ================== //
-	
-	// タイトルの文字列
-public:
-	static constexpr const wchar_t TITLE_STRING[]{ L"Projection" };
-
-private:
-
-	// ゲームエンジン本体
-	std::unique_ptr<REngine::GameEngine> m_gameEngine;
+	void OnInitialize() override;
+	void OnFinalize() override {};
 };
+
+REngine::Application* REngine::CreateApplication() {
+	return new Game();
+}

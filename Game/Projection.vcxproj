@@ -343,7 +343,6 @@ $(ProjectDir)
     <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp" />
     <ClCompile Include="Game\SelectScene\SelectBlock.cpp" />
     <ClCompile Include="Game\TitleScene\TitleManager.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

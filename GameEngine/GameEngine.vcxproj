@@ -164,6 +164,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
       <SubType>
       </SubType>
@@ -354,6 +355,7 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Assets\Managers\AssetAsyncLoader.h">
       <SubType>
       </SubType>
