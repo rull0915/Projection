@@ -19,13 +19,14 @@
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Objects/AssetBase.h"
+#include "IAssetResolver.h"
 
 namespace REngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class AssetRegistry
+	class AssetRegistry : public IAssetResolver
 	{
 	private:
 
@@ -43,6 +44,9 @@ namespace REngine
 
 			// UUID 
 			UUID uuid = 0;
+
+			// type_index
+			std::type_index type = std::type_index(typeid(void));
 		};
 
 	private:
@@ -125,19 +129,34 @@ namespace REngine
 		// アセットを置き換える関数 (既存のハンドルを無効化しない)
 		void Replace(uint32_t index, std::unique_ptr<AssetBase> newAsset)
 		{
-			m_slots[index].asset = std::move(newAsset);
-			m_slots[index].asset->SetUUID(m_slots[index].uuid);
+			if (newAsset)
+			{
+				m_slots[index].type = std::type_index(typeid(*newAsset));
+				m_slots[index].asset = std::move(newAsset);
+				m_slots[index].asset->SetUUID(m_slots[index].uuid);
+			}
+			else
+			{
+				m_slots[index].type = std::type_index(typeid(void));
+				m_slots[index].asset = nullptr;
+			}
 		}
 
 		// ハンドルからアセットを取得する関数
 		template<typename T>
 		T* Get(Handle<T> handle) const
 		{
+			// タイプ
+			static std::type_index type = std::type_index(typeid(T));
+
 			// 無効なインデックスを指していた場合nullptrを返す
 			if (handle.index >= m_slots.size()) return nullptr;
 
 			// スロットを取得
 			auto& slot = m_slots[handle.index];
+
+			// タイプが異なる場合nullptrを返す
+			if (slot.type != type) return nullptr;
 
 			// 無効スロットだった場合nullptrを返す
 			if (!slot.isValid) return nullptr;
@@ -169,7 +188,7 @@ namespace REngine
 		}
 
 		// UUIDからUnTypeHandle
-		UnTypeHandle GetHandle(UUID uuid) const 
+		UnTypeHandle GetHandle(UUID uuid) const override
 		{
 			// UUIDで検索
 			auto it = m_uuidToIndex.find(uuid);
@@ -185,7 +204,7 @@ namespace REngine
 		}
 
 		// UnTypeHandleからUUID
-		UUID GetUUID(UnTypeHandle handle) const 
+		UUID GetUUID(const UnTypeHandle& handle) const override
 		{
 			// 範囲外ハンドルならエラーID
 			if (handle.index >= m_slots.size()) return UUID_NONE;

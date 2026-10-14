@@ -195,13 +195,13 @@ namespace REngine
 		}
 
 		// UUIDからUnTypeHandleを取得する関数
-		UnTypeHandle GetHandle(UUID uuid) const
+		UnTypeHandle GetHandle(UUID uuid) const override
 		{
 			return m_registry.GetHandle(uuid);
 		}
 
 		// HandelからUUIDを取得する関数
-		UUID GetUUID(const UnTypeHandle& handle) const
+		UUID GetUUID(const UnTypeHandle& handle) const override
 		{
 			return m_registry.GetUUID(handle);
 		}
