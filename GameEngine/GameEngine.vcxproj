@@ -164,6 +164,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Renderer\Shadow\ShadowRenderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
       <SubType>
@@ -221,6 +222,10 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.cpp" />
     <ClCompile Include="src\Editor\SceneEditor.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\Renderer\Shader\ShadowMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Scene\MainScreen.cpp" />
     <ClCompile Include="src\Scene\ObjectFactory.cpp" />
     <ClCompile Include="src\Scene\SceneRenderer.cpp" />
@@ -420,6 +425,11 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Renderer\Shadow\ShadowMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Shadow\ShadowRenderer.h" />
     <ClInclude Include="include\Scene\SceneInfo.h">
       <SubType>
       </SubType>

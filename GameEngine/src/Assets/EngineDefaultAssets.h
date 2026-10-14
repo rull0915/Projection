@@ -26,6 +26,8 @@ namespace REngine
 		const UUID LIT_VS = 0x01;
 		const UUID LIT_PS = 0x02;
 
+		const UUID SHADOW_PASS_VS = 0x03;
+
 		//-------- Materials -------- //
 		const UUID BASIC_MATERIAL = 0x11;
 	}
