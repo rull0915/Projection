@@ -11,6 +11,8 @@
 
 #pragma once
 
+#ifdef ENGINE_GUI
+
 //====================================================//
 // インクルードファイル
 //====================================================//
@@ -63,3 +65,5 @@ namespace REngine
 		Result DrawAssetFile(const std::filesystem::path& path, UUID selected);
 	};
 }
+
+#endif

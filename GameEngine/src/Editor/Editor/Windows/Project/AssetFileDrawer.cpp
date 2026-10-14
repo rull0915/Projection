@@ -9,7 +9,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "AssetFileDrawer.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -118,7 +122,7 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 			}
 		
 			// 仮想パスを作成
-			std::filesystem::path subPath = path.string() + "#" + subAsset.name;
+			std::filesystem::path subPath = path.string() + "#" + subAsset.assetType + "#" + subAsset.name;
 
 			// ドラッグ可能に
 			if (ImGui::BeginDragDropSource())
@@ -150,3 +154,5 @@ REngine::AssetFileDrawer::Result REngine::AssetFileDrawer::DrawAssetFile(const s
 
 	return r;
 }
+
+#endif

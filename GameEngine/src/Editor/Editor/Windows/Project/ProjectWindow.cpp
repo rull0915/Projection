@@ -18,7 +18,6 @@
 
 #include "ThirdParty/imgui/imgui.h"
 #include "System/WindowManager.h"
-#include "../../HandlePayload.h"
 
 #include "GameObject/GameObject.h"
 #include "Editor/Saver/ObjectSaver.h"
