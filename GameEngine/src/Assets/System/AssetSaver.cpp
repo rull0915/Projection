@@ -15,6 +15,8 @@
 #include <fstream>
 #include "Assets/Types/PrefabImpl.h"
 #include "Assets/Managers/AssetContext.h"
+#include "Assets/Managers/AssetManager.h"
+#include "Editor/Saver/ObjectSaver.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -45,7 +47,7 @@ namespace REngine
 			ofs.close();
 		}
 
-		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, AssetManager& assetManager)
+		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, const AssetManager& assetManager)
 		{
 			// セーバーを生成
 			ObjectSaver saver(assetManager);

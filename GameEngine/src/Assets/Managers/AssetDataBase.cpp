@@ -67,7 +67,7 @@ namespace REngine
 				// 仮想パスを作成
 				// サブアセットの仮想パスはメインアセットのパスの末尾に、# + アセット名 を追加したものとします。
 				// 例 : Model.obj#Mesh2
-				std::filesystem::path vPath = path.string() + "#" + subAsset.name;
+				std::filesystem::path vPath = path.string() + "#" + subAsset.assetType + "#" + subAsset.name;
 
 				// 変換表へ登録
 				Register(subAsset.uuid, vPath);

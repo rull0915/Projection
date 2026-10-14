@@ -96,10 +96,15 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		// アセットマネージャー・サンプラーリストをセットする関数
-		void SetReference(const AssetManager* assetManager, const SamplerList* samplerList)
+		// アセットマネージャーを受け取る関数
+		void ReceiveAssetManager(AssetManager* am) override
 		{
-			m_assetManager = assetManager;
+			m_assetManager = am;
+		}
+
+		// サンプラーリストをセットする関数
+		void SetSamplerList(const SamplerList* samplerList)
+		{
 			m_samplerList = samplerList;
 		}
 
@@ -156,6 +161,12 @@ namespace REngine
 
 			// なければエラー値
 			return error;
+		}
+
+		// シェーダーのパラメータをセットする関数
+		void SetPendingParams(ShaderType type, const std::unordered_map<std::string, Parameter>& params)
+		{
+			m_pendingParams[type] = params;
 		}
 
 		// GUI変更時の関数

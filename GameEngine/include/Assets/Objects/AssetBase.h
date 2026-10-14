@@ -22,6 +22,8 @@
 
 namespace REngine
 {
+	class AssetManager;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -62,6 +64,9 @@ namespace REngine
 
 		// GUI出の値変更時に呼ばれる関数
 		virtual void OnValidate() {}
+
+		// ロード時にアセットマネージャーが渡される関数
+		virtual void ReceiveAssetManager(AssetManager*) {};
 
 		//-----------------------------------------------------
 		// セッター

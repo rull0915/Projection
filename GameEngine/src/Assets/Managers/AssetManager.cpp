@@ -52,13 +52,16 @@ namespace REngine
 		for (auto& job : completedJobs)
 		{
 			// 失敗していれば追加しない
-			if (!job.scuccess || !job.asset) continue;
+			if (!job.success || !job.asset) continue;
 
 			// 生成したAssetを取得
 			auto asset = job.asset.get();
 				
 			// Assetのステータスを読み込み済みに変更
 			asset->SetStatus(LoadStatus::Loaded);
+
+			// 自身を渡す
+			asset->ReceiveAssetManager(this);
 
 			// 読み込み
 			asset->OnValidate();
@@ -75,6 +78,9 @@ namespace REngine
 				// 読み込み
 				subAsset.asset->OnValidate();
 
+				// 自身を渡す
+				subAsset.asset->ReceiveAssetManager(this);
+
 				// 置き換える
 				m_registry.Replace(subAsset.handle.index, std::move(subAsset.asset));
 			}
@@ -90,17 +96,25 @@ namespace REngine
 		auto handle = m_registry.GetHandle(uuid);
 		if (handle != ERROR_UNTYPE_HANDLE) return handle;
 
-		// MainAssetがあればそっちを読み込み対象に
+		// MainAssetのIDを取得
 		UUID mainID = m_dataBase.GetMainUUID(uuid);
 
-		// MainIDからパスを取得
-		const std::filesystem::path& path = m_dataBase.GetPath(mainID);
+		// 既に読み込まれているMainIDかどうかを調べる
+		auto mainHandle = m_registry.GetHandle(mainID);
+		bool loaded = (mainHandle != ERROR_UNTYPE_HANDLE);
 
-		// 未登録のUUIDならエラーハンドルを返す
-		if (path == L"") return ERROR_UNTYPE_HANDLE;
+		// まだ読み込んでいなければ
+		if (!loaded)
+		{
+			// MainIDからパスを取得
+			const std::filesystem::path& path = m_dataBase.GetPath(mainID);
 
-		// パスから読み込む
-		auto mainHandle = LoadFromPath(path);
+			// 未登録のUUIDならエラーハンドルを返す
+			if (path == L"") return ERROR_UNTYPE_HANDLE;
+
+			// パスから読み込む
+			mainHandle = LoadFromPath(path);
+		}
 
 		// サブアセットのIDなら
 		if (mainID != uuid)
