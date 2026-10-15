@@ -17,8 +17,6 @@
 #include <SimpleMath.h>
 
 #include "Editor/Editor/SceneCamera.h"
-#include "Components/World/Transform/Transform.h"
-
 #include "System/WindowManager.h"
 
 #include "Input/MouseInput.h"
@@ -31,15 +29,14 @@ namespace REngine
 	//====================================================//
 
 	// コンストラクタ
-	SceneCamera::SceneCamera(IComponentOwner* own)
-		: CameraBase(own)
-		, m_movable{ false }
+	SceneCamera::SceneCamera()
+		: m_movable{ false }
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
 		, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 		, m_fov{ DirectX::XM_PI / 4 }
 		, m_targetPoint{ 0, 0, 0 }
-		, m_rot{ DirectX::SimpleMath::Quaternion::Identity }
+		, m_rotation{ DirectX::SimpleMath::Quaternion::Identity }
 		, m_radius{ 3.0f }
 		, m_yaw{ 0.0f }
 		, m_pitch{ 0.0f }
@@ -48,40 +45,18 @@ namespace REngine
 		, m_scaleRatio{ 0.01f }
 	{}
 
-	// 生成直後に一度呼ばれます
-	void SceneCamera::Awake()
-	{}
-
 	// 最初のUpdate関数の直線に一度呼ばれます
 	void SceneCamera::Start()
 	{
 		// 行列を更新しておく
-		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rot);
-
-		// Transformを取得
-		if (auto* t = GetComponent<Transform>())
-		{
-			// 向きを変更
-			t->SetLocalRotation(
-				m_rot
-			);
-
-			// 位置を変更
-			t->SetLocalPosition(
-				{ m_targetPoint - m_radius * forward }
-			);
-		}
+		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rotation);
 
 		UpdateView();
 		UpdateProj();
 	}
 
-	// 毎フレーム呼ばれます
-	void SceneCamera::Update(const GameTimer& gameTimer)
-	{}
-
 	// 毎フレームUpdate及び物理挙動の後に呼ばれます
-	void SceneCamera::LateUpdate(const GameTimer& gameTimer)
+	void SceneCamera::Update(const GameTimer& gameTimer)
 	{
 		// 移動不可なら何もしない
 		if (!m_movable) return;
@@ -101,14 +76,14 @@ namespace REngine
 
 				m_pitch = std::clamp(m_pitch, -DirectX::XM_PIDIV2 + 0.01f, DirectX::XM_PIDIV2 - 0.01f);
 
-				m_rot =
+				m_rotation =
 					DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(DirectX::SimpleMath::Vector3::Right, m_pitch) *
 					DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(DirectX::SimpleMath::Vector3::Up, m_yaw);
 			}
 		}
 
 		// 前方向を取得
-		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rot);
+		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rotation);
 
 		// 右方向
 		DirectX::SimpleMath::Vector3 right;
@@ -134,19 +109,8 @@ namespace REngine
 
 		m_radius = std::clamp(m_radius, 0.1f, 100.0f);
 
-		// Transformを取得
-		if (auto* t = GetComponent<Transform>())
-		{
-			// 向きを変更
-			t->SetLocalRotation(
-				m_rot
-			);
-
-			// 位置を変更
-			t->SetLocalPosition(
-				{ m_targetPoint - m_radius * forward }
-			);
-		}
+		// 位置を変更
+		m_position = m_targetPoint - m_radius * forward;
 	}
 
 	/// <summary>
@@ -155,9 +119,10 @@ namespace REngine
 	void SceneCamera::UpdateView()
 	{
 		// 位置をそのまま行列に
-		SetView(
-			GetOwn()->GetComponent<Transform>()->GetWorldMatrix().Invert()
-		);
+		m_view = (
+			DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation)*
+			DirectX::SimpleMath::Matrix::CreateTranslation(m_position)
+			).Invert();
 	}
 
 	/// <summary>
@@ -166,14 +131,11 @@ namespace REngine
 	void SceneCamera::UpdateProj()
 	{
 		// 各設定から射影行列を作成
-		SetProj
-		(
-			DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
-				m_fov,
-				m_aspect,
-				m_nearZ,
-				m_farZ
-			)
+		m_proj = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
+			m_fov,
+			m_aspect,
+			m_nearZ,
+			m_farZ
 		);
 	}
 }	// namespace REngine

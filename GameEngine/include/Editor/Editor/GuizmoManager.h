@@ -17,7 +17,7 @@
 // インクルードファイル
 //====================================================//
 #include "Components/World/Transform/Transform.h"
-#include "Components/World/Camera/CameraBase.h"
+#include "Editor/Editor/SceneCamera.h"
 
 namespace REngine
 {
@@ -40,7 +40,7 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void DrawTransformGuizmo(CameraBase* camera, Transform* transform, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 size);
+		void DrawTransformGuizmo(SceneCamera* camera, Transform* transform, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 size);
 
 		void SetDrawFlag(int flag) { m_drawFlag = flag; }
 	};

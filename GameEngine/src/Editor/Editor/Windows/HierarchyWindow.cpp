@@ -147,8 +147,8 @@ namespace REngine
 		// nullなら何もしない
 		if (!object) return;
 
-		// 削除不可なら何もしない
-		if (object->IsInvincible()) return;
+		// シリアライズしない設定なら何もしない
+		if (!object->IsSerializable()) return;
 
 		// 名前を取得
 		std::string name = object->GetName();

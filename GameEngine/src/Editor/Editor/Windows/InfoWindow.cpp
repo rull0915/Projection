@@ -19,7 +19,7 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_internal.h"
 #include "System/WindowManager.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 
 #include "Input/MouseInput.h"
 

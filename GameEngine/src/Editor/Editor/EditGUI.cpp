@@ -71,7 +71,7 @@ namespace REngine
 		if (m_inspector->DrawInspector()) m_nowType = WindowType::Inspector;
 	}
 
-	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera)
+	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, SceneCamera* sceneViewCamera)
 	{
 		// キー入力を取得し描画するギズモを変える
 		if (Input::Key::GetDown(Input::Key::Code::W)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
@@ -154,7 +154,7 @@ namespace REngine
 		}
 	}
 
-	void EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera)
+	void EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera)
 	{
 		// 描画
 		ImGui::Text("SceneView");

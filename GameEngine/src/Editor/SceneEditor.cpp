@@ -17,7 +17,7 @@
 
 #include "Editor/SceneEditor.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "System/WindowManager.h"
 #include "Scene/SceneManager.h"
 #include "Scene/SceneRenderer.h"
@@ -38,7 +38,7 @@ namespace REngine
 		, m_isPlaying{ false }
 		, m_gui{ m_pScene, am, [this]() { TestPlay(); } }
 		, m_sceneView{ std::make_unique<RenderTarget>() }
-		, m_sceneViewCamera{ nullptr }
+		, m_sceneViewCamera{}
 		, m_assetManager{ am }
 	{
 		// ゲームビューの作成
@@ -47,17 +47,14 @@ namespace REngine
 			WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight()
 		);
 
-		// ゲームビューカメラの作成
-		auto camera = m_pScene->GetFactory()->Generate();
-
-		// ヒエラルキーウィンドウ非表示
-		camera->SetInvincible(true);
-
-		// カメラの追加
-		m_sceneViewCamera = camera->AddComponent<SceneCamera>();
-
 		// 専用シーンを登録
 		SceneManager::Instance().RegisterScene("Edit__", L"Resources/Scenes/TestPlayScene.scene");
+
+		// カメラの初期化
+		m_sceneViewCamera.Start();
+
+		// Projection行列の更新
+		m_sceneViewCamera.UpdateProj();
 	}
 
 	SceneEditor::~SceneEditor()
@@ -81,9 +78,6 @@ namespace REngine
 		// プレイフラグのリセット
 		m_isPlaying = false;
 
-		// メインスクリーンの描画を無効化
-		m_pScene->GetMainScreen()->SetIsDraw(false);
-
 		// マウスの表示を設定
 		Input::Mouse::SetMouseVisible(true);
 		Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
@@ -103,9 +97,6 @@ namespace REngine
 		// プレイフラグのリセット
 		m_isPlaying = false;
 
-		// メインスクリーンの描画を有効化
-		m_pScene->GetMainScreen()->SetIsDraw(true);
-
 		// マウスの表示を設定
 		Input::Mouse::SetMouseVisible(true);
 		Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
@@ -122,31 +113,33 @@ namespace REngine
 		m_gui.DrawWindows();
 
 		// 2つのビューを描画
-		m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetMainScreen()->GetRenderTarget()->GetShaderResourceView(), m_sceneViewCamera);
+		m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetGameView(), &m_sceneViewCamera);
 
 		// シーンビューカメラ
-		m_sceneViewCamera->SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);
+		m_sceneViewCamera.SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);
+
+		// カメラの更新
+		m_sceneViewCamera.Update(gameTimer);
+
+		// ビュー行列の更新
+		m_sceneViewCamera.UpdateView();
 	}
 
-	// 描画関数
 	void SceneEditor::Render(Renderer& renderer)
 	{
-		if (!m_isActive) return;
+		// シーンビューを描画
 
-		// コンテキストの作成
-		RenderContext ctx{};
-		ctx.sceneData = m_pScene->GetSceneData();
+		// 描画用コンテキストを用意
+		RenderContext ctx;
+
+		ctx.backColor = WindowManager::Instance().GetBackGroundColor();
 		ctx.target = m_sceneView.get();
-		ctx.back = WindowManager::Instance().GetBackGroundColor();
-		ctx.flags = m_gui.GetDrawSetting();
+		ctx.flags = DrawFlag::World | DrawFlag::UI;
+		ctx.clearTarget = true;
+		ctx.cameraData = m_sceneViewCamera.GetData();
 
-		// カメラの情報を設定
-		ctx.sceneData.cameraData.view = m_sceneViewCamera ? m_sceneViewCamera->GetView() : DirectX::SimpleMath::Matrix::Identity;
-		ctx.sceneData.cameraData.proj = m_sceneViewCamera ? m_sceneViewCamera->GetProj() : DirectX::SimpleMath::Matrix::Identity;
-		ctx.sceneData.cameraData.pos = m_sceneViewCamera ? m_sceneViewCamera->GetComponent<Transform>()->GetWorldPosition() : DirectX::SimpleMath::Vector3::Zero;
-
-		// ゲームビューへの描画
-		m_pScene->GetSceneRenderer()->RenderWithContext(ctx, renderer);
+		// 描画
+		m_pScene->DrawOnceCamera(ctx, renderer);
 	}
 
 	void SceneEditor::TestPlay()

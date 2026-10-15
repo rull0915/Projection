@@ -16,6 +16,7 @@
 #include "Components/World/Camera/CameraBase.h"
 #include "GuizmoManager.h"
 #include "SelectedOnGUI.h"
+#include "SceneCamera.h"
 
 //====================================================//
 // インクルードファイル
@@ -96,7 +97,7 @@ namespace REngine
 		void DrawWindows();
 
 		// ビューの描画をする関数
-		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera);
+		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, SceneCamera* sceneViewCamera);
 
 		// ウィンドウをセットする関数
 		void SetWindowType(WindowType type) { m_nowType = type; }
@@ -123,7 +124,7 @@ namespace REngine
 		void StartGameView();
 
 		// シーンビューの描画
-		void DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera);
+		void DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera);
 	};
 } // namespace REngine
 
