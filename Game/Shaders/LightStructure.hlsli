@@ -33,4 +33,12 @@ struct DirectionalLight
     float padding;
 };
 
+// 影の設定
+struct ShadowInfo
+{
+    matrix LightVP;
+    float ShadowBias;
+    float3 padding;
+};
+
 #endif

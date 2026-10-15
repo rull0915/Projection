@@ -1,10 +1,8 @@
-#pragma once
-
 #include "BasicShader.hlsli"
 #include "InputStructure.hlsli"
 #include "Lighting.hlsli"
 
-cbuffer PerMaterial : register(b2)
+cbuffer PerMaterial : register(b3)
 {
     float4 BaseColor;           // ベースカラー
     float4 SpecularColor;       // スペキュラカラー

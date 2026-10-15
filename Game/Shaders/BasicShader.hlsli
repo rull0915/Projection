@@ -40,12 +40,17 @@ struct TimeInfo
 
 cbuffer PerFrame : register(b0)
 {
-    CameraInfo camera;
     LightInfo light;
     TimeInfo time;
+    ShadowInfo shadowInfo;
 }
 
-cbuffer PerObject : register(b1)
+cbuffer PerCamera : register(b1)
+{
+    CameraInfo camera;
+}
+
+cbuffer PerObject : register(b2)
 {
     matrix World;
     matrix WVPMat;
