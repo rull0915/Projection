@@ -16,6 +16,7 @@
 //====================================================//
 
 #include <vector>
+#include <CommonStates.h>
 
 #include "Renderer/Command/DrawCommand.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
@@ -50,6 +51,9 @@ namespace REngine
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
+
+		// 使用可能フラグ
+		bool m_usable;
 
 		// モデル描画コマンド配列
 		std::vector<DrawModelCommand> m_drawMeshCommands;

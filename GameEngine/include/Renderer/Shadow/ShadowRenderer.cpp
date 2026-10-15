@@ -25,11 +25,14 @@
 //====================================================//
 
 REngine::ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
-	: m_drawMeshCommands{}
-	, m_assetManager{ assetManager }
+	: m_usable{ false }
+	, m_drawMeshCommands{}
 	, m_vsShaderHandle{}
+	, m_assetManager{ assetManager }
 	, m_pDevice{ nullptr }
 	, m_pContext{ nullptr }
+	, m_pStates{ nullptr }
+	, m_currentShadowMap{ nullptr }
 	, m_perFrameConstantBuffer{}
 	, m_perObjectConstantBuffer{}
 	, m_depthStencilState{}
@@ -56,7 +59,10 @@ void REngine::ShadowRenderer::Initialize()
 	desc0.Usage = D3D11_USAGE_DYNAMIC;
 	desc0.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc0.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	m_pDevice->CreateBuffer(&desc0, nullptr, m_perFrameConstantBuffer.ReleaseAndGetAddressOf());
+	HRESULT hr = m_pDevice->CreateBuffer(&desc0, nullptr, m_perFrameConstantBuffer.ReleaseAndGetAddressOf());
+
+	// 失敗したら使用不可のまま中断
+	if (FAILED(hr)) return;
 
 	// PerObject定数バッファの作成
 	D3D11_BUFFER_DESC desc1 = {};
@@ -64,7 +70,9 @@ void REngine::ShadowRenderer::Initialize()
 	desc1.Usage = D3D11_USAGE_DYNAMIC;
 	desc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc1.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	m_pDevice->CreateBuffer(&desc1, nullptr, m_perObjectConstantBuffer.ReleaseAndGetAddressOf());
+	hr = m_pDevice->CreateBuffer(&desc1, nullptr, m_perObjectConstantBuffer.ReleaseAndGetAddressOf());
+
+	if (FAILED(hr)) return;
 
 	// DepthStencilStateの作成
 	D3D11_DEPTH_STENCIL_DESC desc{};
@@ -72,11 +80,19 @@ void REngine::ShadowRenderer::Initialize()
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	desc.DepthFunc = D3D11_COMPARISON_LESS;
 	desc.StencilEnable = FALSE;
-	m_pDevice->CreateDepthStencilState(&desc, m_depthStencilState.GetAddressOf());
+	hr = m_pDevice->CreateDepthStencilState(&desc, m_depthStencilState.GetAddressOf());
+
+	if (FAILED(hr)) return;
+
+	// 全て成功したら使用可能に
+	m_usable = true;
 }
 
 void REngine::ShadowRenderer::Begin(ShadowMap* shadowMap)
 {
+	// 使用不可ならスキップ
+	if (!m_usable) return;
+
 	// 既に描画中かShadowMapが指定されていないならスキップ
 	if (m_currentShadowMap || !shadowMap) return;
 
@@ -89,7 +105,7 @@ void REngine::ShadowRenderer::Begin(ShadowMap* shadowMap)
 
 void REngine::ShadowRenderer::End()
 {
-	if (!m_currentShadowMap) return;
+	if (!m_currentShadowMap || !m_usable) return;
 
 	// シャドウマップへの描画を終了
 	m_currentShadowMap->End(m_pContext);
@@ -100,13 +116,16 @@ void REngine::ShadowRenderer::End()
 
 void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix& lightView, const DirectX::SimpleMath::Matrix& lightProj)
 {
+	// 使用不可ならスキップ
+	if (!m_usable) return;
+
 	// シャドウマップを使用していない場合スキップ
 	if (!m_currentShadowMap)
 	{
-		return;
-
 		// 描画コマンドのクリア
 		m_drawMeshCommands.clear();
+
+		return;
 	}
 
 	// 各ステージの設定
@@ -173,6 +192,9 @@ void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix&
 		// インデックスバッファの設定
 		m_pContext->IASetIndexBuffer(mesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
 
+		// 範囲外サブメッシュの場合次へ
+		if (command.subMeshIndex >= mesh->GetSubMeshes().size()) continue;
+
 		// サブメッシュの取得
 		auto& subMesh = mesh->GetSubMeshes()[command.subMeshIndex];
 
@@ -208,6 +230,6 @@ void REngine::ShadowRenderer::BindPerObject(const ShadowPassPerObjectCBuffer& bu
 		m_pContext->Unmap(m_perObjectConstantBuffer.Get(), 0);
 	}
 
-	// PerFrame用スロットにバインド
+	// PerObject用スロットにバインド
 	m_pContext->VSSetConstantBuffers(CBufferSlot::PerObject, 1, m_perObjectConstantBuffer.GetAddressOf());
 }

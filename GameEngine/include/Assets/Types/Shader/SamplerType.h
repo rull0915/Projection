@@ -16,8 +16,8 @@ namespace REngine
 	enum class SamplerType
 	{
 		None,
-		Linear,
-		Point,
+		LinearWrap,
+		PointWrap,
 		LinearClamp,
 		PointClamp,
 		Anisotropic,

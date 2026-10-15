@@ -22,6 +22,8 @@
 
 namespace REngine
 {
+	class ShadowRenderer;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
@@ -64,6 +66,9 @@ namespace REngine
 
 		// 描画関数
 		void Draw(Renderer& renderer) override;
+
+		// シャドウマップへの描画を行う関数
+		void DrawToShadowMap(ShadowRenderer& shadowRenderer);
 
 		// AssetManagerを受け取る関数
 		void ReceiveAssetManager(AssetManager& a) override

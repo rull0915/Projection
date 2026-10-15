@@ -30,5 +30,8 @@ namespace REngine
 
 		//-------- Materials -------- //
 		const UUID BASIC_MATERIAL = 0x11;
+
+		//-------- Sprite --------//
+		const UUID BASIC_SPRITE = 0x21;
 	}
 }

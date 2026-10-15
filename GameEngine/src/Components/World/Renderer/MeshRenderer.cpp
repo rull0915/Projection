@@ -13,6 +13,7 @@
 #include "Components/World/Renderer/MeshRenderer.h"
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Shadow/ShadowRenderer.h"
 #include "Components/World/Mesh/MeshFilter.h"
 #include "Assets/Managers/AssetManager.h"
 
@@ -57,4 +58,31 @@ namespace REngine
 		// マテリアルのリセット
 		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 	}
+
+	void MeshRenderer::DrawToShadowMap(ShadowRenderer& shadowRenderer)
+	{
+		// AssetManagerがなければスキップ
+		if (!m_assetManager) return;
+
+		// 同じオブジェクトに付いているMeshFilterを取得
+		auto* meshFilter = GetComponent<MeshFilter>();
+
+		// メッシュが設定されていなければ描画しない
+		if (!meshFilter || meshFilter->GetMesh() == ERROR_HANDLE<Mesh>) return;
+
+		// トランスフォームからworld行列を取得
+		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
+
+		// Meshを取得
+		if (Mesh* pMesh = m_assetManager->Get(meshFilter->GetMesh()))
+		{
+			// SubMeshの数分ループ
+			for (size_t i = 0; i < pMesh->GetSubMeshes().size(); ++i)
+			{
+				// 行列を使用しモデルを描画
+				shadowRenderer.DrawMesh(pMesh, i, world);
+			}
+		}
+	}
 }	// namespace REngine
+

@@ -19,8 +19,8 @@
 void REngine::SamplerList::Initialize(ID3D11Device* device)
 {
 	// 各タイプを作成する
-	CreateSampler(device, SamplerType::Linear,		D3D11_FILTER_MIN_MAG_MIP_LINEAR,	D3D11_TEXTURE_ADDRESS_WRAP);
-	CreateSampler(device, SamplerType::Point,		D3D11_FILTER_MIN_MAG_MIP_POINT,		D3D11_TEXTURE_ADDRESS_WRAP);
+	CreateSampler(device, SamplerType::LinearWrap,	D3D11_FILTER_MIN_MAG_MIP_LINEAR,	D3D11_TEXTURE_ADDRESS_WRAP);
+	CreateSampler(device, SamplerType::PointWrap,	D3D11_FILTER_MIN_MAG_MIP_POINT,		D3D11_TEXTURE_ADDRESS_WRAP);
 	CreateSampler(device, SamplerType::LinearClamp, D3D11_FILTER_MIN_MAG_MIP_LINEAR,	D3D11_TEXTURE_ADDRESS_CLAMP);
 	CreateSampler(device, SamplerType::PointClamp,	D3D11_FILTER_MIN_MAG_MIP_POINT,		D3D11_TEXTURE_ADDRESS_CLAMP);
 	CreateSampler(device, SamplerType::Anisotropic, D3D11_FILTER_ANISOTROPIC,			D3D11_TEXTURE_ADDRESS_WRAP);
