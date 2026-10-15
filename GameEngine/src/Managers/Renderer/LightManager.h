@@ -54,5 +54,19 @@ namespace REngine
 
 		// ライトデータを取得する関数
 		const SceneLightData& GetLightData() const { return m_lightData; }
+
+		// カメラデータとライトからライトのカメラデータを構築する関数
+		SceneCameraData GetLightData(const SceneCameraData& cameraData, LightComponent* light, float shadowMapSize) const;
+
+		// 特定のタイプのライトを1つ返す関数
+		LightComponent* GetLight(LightType type);
+
+		//-----------------------------------------------------
+		// 内部実装
+		//-----------------------------------------------------
+	private:
+
+		// DirectionalLight
+		SceneCameraData GetDirectionalLightData(const SceneCameraData& cameraData, LightComponent* light, float shadowMapSize) const;
 	};
 }
