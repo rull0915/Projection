@@ -81,8 +81,8 @@ namespace REngine
 		// 削除フラグ
 		bool m_isDead;
 
-		// 削除不可フラグ
-		bool m_isInvincible;
+		// シリアライズ可能フラグ
+		bool m_isSerializable;	// オフにすると保存されず、GUIに表示されません
 
 	public:
 		// タグ
@@ -129,7 +129,7 @@ namespace REngine
 
 		Scene* GetScene() const { return m_pScene; }
 
-		bool IsInvincible() const { return m_isInvincible; }
+		bool IsSerializable() const { return m_isSerializable; }
 
 		const std::string& GetTag() const override { return m_tag; }
 
@@ -145,7 +145,7 @@ namespace REngine
 
 		void SetActive(bool f);
 
-		void SetInvincible(bool f) { m_isInvincible = f; }
+		void SetSerializble(bool f) { m_isSerializable = f; }
 
 		void SetScene(Scene* scene)
 		{

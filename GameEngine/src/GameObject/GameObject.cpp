@@ -33,8 +33,8 @@ namespace REngine
 		, m_pScene{ nullptr }
 		, m_components{ this }
 		, m_tag{}
-		, m_name{}
-		, m_isInvincible{ false }
+		, m_name{ "GameObject" }
+		, m_isSerializable{ true }
 		, m_uuid{ 0 }
 	{
 		ADD_PROPERTY(GameObject, m_isActive);

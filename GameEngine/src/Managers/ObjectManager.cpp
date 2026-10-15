@@ -51,7 +51,7 @@ namespace REngine
 			if (object->IsActive())
 			{
 				// Awakeの呼び出し
-				if (playing || object->IsInvincible())
+				if (playing)
 				{
 					object->GetComponentContainer().AwakeComponets();
 				}
@@ -70,7 +70,7 @@ namespace REngine
 			// Start処理
 
 			// 更新処理
-			if (playing || object->IsInvincible())
+			if (playing)
 			{
 				object->GetComponentContainer().UpdateComponents(gameTimer);
 			}
@@ -89,7 +89,7 @@ namespace REngine
 			if (!object->IsActive()) continue;
 
 			// 予約されたコンポーネントを追加
-			if (playing || object->IsInvincible())
+			if (playing)
 				object->GetComponentContainer().LateUpdateComponents(gameTimer);
 		}
 	}
@@ -127,12 +127,8 @@ namespace REngine
 		// 管理リストを全て調べる
 		for (auto& obj : m_objects)
 		{
-			// 削除可能なら
-			if (!obj->IsInvincible())
-			{
-				// 削除
-				obj->Destroy();
-			}
+			// 削除
+			obj->Destroy();
 		}
 	}
 
