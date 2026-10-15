@@ -52,4 +52,15 @@ namespace REngine
 		// Rayを構築し返す
 		return Ray(start, result);
 	}
+
+	SceneCameraData CameraBase::CreateCameraData()
+	{
+		SceneCameraData data{};
+
+		data.view = GetView();
+		data.proj = GetProj();
+		data.pos = GetComponent<Transform>()->GetWorldPosition();
+
+		return data;
+	}
 }	// namespace REngine
