@@ -53,11 +53,11 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		GraphicsSystem(AssetManager& am)
+		GraphicsSystem(AssetManager& am, RenderInfoManager& im)
 			: m_world		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_material	{ ERROR_HANDLE<MaterialAsset> }
 			, m_drawCommandContainer{}
-			, m_drawCommandExecutor{ am }
+			, m_drawCommandExecutor{ am, im }
 		{
 		};
 		~GraphicsSystem() = default;
@@ -81,10 +81,6 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		const DirectX::SimpleMath::Matrix& GetWorld() const { return m_world; }
-		const DirectX::SimpleMath::Matrix& GetView() const { return m_sceneData.cameraData.view; }
-		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_sceneData.cameraData.proj; }
-
 		Handle<MaterialAsset> GetMaterial() const { return m_material; }
 
 		DrawCommandContainer& GetCommandContainer() { return m_drawCommandContainer; }
@@ -105,13 +101,6 @@ namespace REngine
 				p.material = m_material;
 			}
 		}
-		void SetSceneData(const SceneData& data)
-		{
-			// コマンド実行
-			ExecuteCommands();
-
-			m_sceneData = data;
-		}
 
 		void SetMaterial(Handle<MaterialAsset> handle)
 		{
@@ -131,7 +120,7 @@ namespace REngine
 		void ExecuteCommands()
 		{
 			// 貯めたコマンドを実行
-			m_drawCommandExecutor.DrawCommandExecute(m_drawCommandContainer, CreateFrameInfo(m_sceneData));
+			m_drawCommandExecutor.DrawCommandExecute(m_drawCommandContainer);
 
 			// コマンドのリセット
 			m_drawCommandContainer.Clear();
@@ -141,10 +130,5 @@ namespace REngine
 			p.world = m_world;
 			p.material = m_material;
 		}
-
-	private:
-
-		// シーンデータからフレームデータを作成する関数
-		FrameInfo CreateFrameInfo(const SceneData& sceneData);
 	};
 }	// namespace REngine

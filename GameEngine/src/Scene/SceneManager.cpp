@@ -63,13 +63,10 @@ namespace REngine
 	}
 
 	// 描画処理
-	void SceneManager::Render(Renderer& renderer)
+	void SceneManager::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
 		// シーンの描画処理
-		if (m_currentScene) m_currentScene->Render(renderer);
-
-		// シーンのスクリーンへの描画処理
-		if (m_currentScene) m_currentScene->RenderOnScreen(renderer);
+		if (m_currentScene) m_currentScene->Render(renderer, shadowRenderer);
 
 		// 描画終了
 		renderer.End();

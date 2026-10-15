@@ -17,9 +17,10 @@ namespace REngine
 {
 	namespace CBufferSlot
 	{
-		constexpr uint32_t PerFrame = 0; // View/Projection
-		constexpr uint32_t PerObject = 1; // World行列
-		constexpr uint32_t MaterialRangeStart = 2; // 2番以降は全てMaterialの管轄
+		constexpr uint32_t PerFrame = 0;
+		constexpr uint32_t PerCamera = 1;
+		constexpr uint32_t PerObject = 2;
+		constexpr uint32_t MaterialRangeStart = 3; // 3番以降は全てMaterialの管轄
 	}
 
 	/// <summary>

@@ -80,7 +80,7 @@ namespace REngine
 
 		// カメラコンポーネントの場合
 		if (component->IsTypeOf(CameraBase::StaticTypeId())) {
-			m_pPipeline->m_cameraManager->SetMainCamera(static_cast<CameraBase*>(component));
+			m_pPipeline->m_cameraManager->AddObject(static_cast<CameraBase*>(component));
 		}
 
 		// 3Dコライダーの場合
@@ -168,7 +168,7 @@ namespace REngine
 
 		// カメラコンポーネントの場合
 		if (component->IsTypeOf(CameraBase::StaticTypeId())) {
-			m_pPipeline->m_cameraManager->UnSetMainCamera(static_cast<CameraBase*>(component));
+			m_pPipeline->m_cameraManager->RemoveObject(static_cast<CameraBase*>(component));
 		}
 
 		// 3Dコライダーの場合

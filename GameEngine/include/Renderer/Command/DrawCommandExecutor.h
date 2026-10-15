@@ -16,24 +16,16 @@
 //====================================================//
 #include <PrimitiveBatch.h>
 #include <SpriteBatch.h>
-#include <Effects.h>
 #include <CommonStates.h>
 #include <VertexTypes.h>
 
 #include "DrawCommandContainer.h"
-#include "Renderer/RendererInfo.h"
+#include "Renderer/RenderInfoManager.h"
 
 namespace REngine
 {
 	class AssetManager;
 	class SamplerList;
-
-	struct alignas(16) PerObjectBuffer
-	{
-		DirectX::SimpleMath::Matrix world;
-		DirectX::SimpleMath::Matrix wvp;
-		DirectX::SimpleMath::Matrix worldInvTranspose;
-	};
 
 	//====================================================//
 	// クラス宣言
@@ -51,22 +43,11 @@ namespace REngine
 		// プリミティブバッチ
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_primitiveBatch;
 
-		// ベーシックエフェクト
-		std::unique_ptr<DirectX::BasicEffect> m_basicEffect;
-
 		// スプライトバッチ
 		std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
 
-		// インプットレイアウト
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
-
-		//----- 定数バッファ -----//
-
-		// フレーム毎に更新のバッファ
-		FrameInfo m_perFrameInfo;
-
-		// オブジェクト毎に更新のバッファ
-
+		// 描画情報マネージャー
+		RenderInfoManager& m_infoManager;
 
 		//----- デバイス -----//
 
@@ -79,28 +60,17 @@ namespace REngine
 		// コモンステート
 		DirectX::CommonStates* m_pStates;
 
-		//----- 固定のバッファ -----//
-
-		// PerFrame
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perFrameConstantBuffer;
-
-		// World行列
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_worldConstantBuffer;
-
 		//----- その他 -----//
 
 		// アセットマネージャー
 		AssetManager& m_assetManager;
-
-		// サンプラーリスト
-		std::unique_ptr<SamplerList> m_samplerList;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		DrawCommandExecutor(AssetManager& assetManager);
+		DrawCommandExecutor(AssetManager& assetManager, RenderInfoManager& infoManager);
 		~DrawCommandExecutor();
 
 		//-----------------------------------------------------
@@ -111,7 +81,7 @@ namespace REngine
 		void Initialize();
 
 		// 描画実行
-		void DrawCommandExecute(DrawCommandContainer& container, const FrameInfo& perFrame);
+		void DrawCommandExecute(DrawCommandContainer& container);
 
 	private:
 
@@ -123,14 +93,5 @@ namespace REngine
 
 		// モデル
 		void DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands);
-
-		// プリミティブの描画を開始する関数
-		void PreparePrimitiveRendering();
-
-		// フレーム毎のバッファをバインドする関数
-		void BindPerFrameBuffer(const FrameInfo& perFrame);
-
-		// World行列をバインドする関数
-		void BindPerObjectBuffer(const DirectX::SimpleMath::Matrix& world);
 	};
 }	// namespace REngine

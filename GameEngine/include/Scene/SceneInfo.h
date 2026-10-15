@@ -21,35 +21,41 @@
 
 namespace REngine
 {
-	// カメラの情報
-	struct SceneCameraData
-	{
-		DirectX::SimpleMath::Matrix view;
-		DirectX::SimpleMath::Matrix proj;
-		DirectX::SimpleMath::Vector3 pos;
-		Handle<MaterialAsset> materialHandle;
-	};
-
 	// ライトの情報
 	struct SceneLightData
 	{
-		std::vector<PointLight> pointLights;
-		std::vector<SpotLight> spotLights;
-		std::vector<DirectionalLight> directionalLights;
+		std::vector<PointLight> pointLights{};
+		std::vector<SpotLight> spotLights{};
+		std::vector<DirectionalLight> directionalLights{};
 	};
 
 	// 時間の情報
 	struct SceneTimeData
 	{
-		float time;
-		float elapsedTime;
+		float time = 0.0f;
+		float elapsedTime = 0.0f;
+	};
+
+	// カメラの情報
+	struct SceneCameraData
+	{
+		DirectX::SimpleMath::Matrix view = DirectX::SimpleMath::Matrix::Identity;
+		DirectX::SimpleMath::Matrix proj = DirectX::SimpleMath::Matrix::Identity;
+		DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3::Zero;
+	};
+	
+	// 影の情報
+	struct SceneShadowData
+	{
+		SceneCameraData lightCameraData{};
+		float shadowBias = 0.0f;
 	};
 
 	// シーンの情報
 	struct SceneData
 	{
-		SceneCameraData cameraData;
-		SceneLightData lightData;
-		SceneTimeData timeData;
+		SceneLightData lightData{};
+		SceneTimeData timeData{};
+		SceneShadowData shadowData{};
 	};
 }

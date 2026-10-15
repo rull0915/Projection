@@ -15,17 +15,19 @@
 // 各管理クラス
 #include "Scene/UpdatePipeline.h"
 #include "Managers/3DManagers/Ray/RaySystem.h"
-#include "System/WindowManager.h"
 #include "ReferenceRegistry.h"
 
 // 各コンポーネント
 #include "Components/ComponentBase.h"
-#include "Components/World/Camera/CameraBase.h"
 #include "Components/Interface/IAssetDependent.h"
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Shadow/ShadowRenderer.h"
 #include "Timer/GameTimer.h"
 #include "Scene/SceneRenderer.h"
+
+#include "System/Render/GraphicsManager.h"
+#include "System/WindowManager.h"
 
 namespace REngine
 {
@@ -40,14 +42,21 @@ namespace REngine
 		, m_objectFinder{ std::make_unique<ObjectFinder>(this) }
 		, m_sceneRenderer{ std::make_unique<SceneRenderer>(this) }
 		, m_objectFactory{ std::make_unique<ObjectFactory>(this) }
-		, m_mainScreen{ std::make_unique<MainScreen>() }
 		, m_referenceRegistry{ std::make_unique<ReferenceRegistry>() }
 		, m_updateMode{ UpdateMode::Play }
 		, m_assetManager{ assetManager }
 		, m_sceneData{}
+		, m_gameView{}
 	{
-		// 初期化
-		m_updatePipeline->Initialize();
+		// デバイスの取得
+		ID3D11Device* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+
+		// ゲームビューの作成
+		m_mainWorld.Create(device, WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight());
+		m_gameView.Create(device, WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight());
+
+		// シャドウマップを作成
+		m_shadowMap.Initialize(device, 2048, 2048);
 	}
 
 	// デストラクタ
@@ -74,13 +83,6 @@ namespace REngine
 
 		// シーンデータの更新
 
-		// カメラデータの更新
-		CameraBase* mainCamera = GetMainCamera();
-		m_sceneData.cameraData.view = mainCamera ? mainCamera->GetView() : DirectX::SimpleMath::Matrix::Identity;
-		m_sceneData.cameraData.proj = mainCamera ? mainCamera->GetProj() : DirectX::SimpleMath::Matrix::Identity;
-		m_sceneData.cameraData.pos = mainCamera ? mainCamera->GetComponent<Transform>()->GetWorldPosition() : DirectX::SimpleMath::Vector3::Zero;
-		m_sceneData.cameraData.materialHandle = mainCamera ? mainCamera->GetMaterial() : ERROR_HANDLE<MaterialAsset>;
-
 		// ライトデータの更新
 		m_updatePipeline->GetLightManager()->RebuildLightData();
 		m_sceneData.lightData = m_updatePipeline->GetLightManager()->GetLightData();
@@ -88,27 +90,105 @@ namespace REngine
 		// 時間データの更新
 		m_sceneData.timeData.time = gameTimer.GetTime();
 		m_sceneData.timeData.elapsedTime = gameTimer.GetElapsedTime();
+
+		// メインカメラを取得
+		CameraBase* mainCamera = m_updatePipeline->GetCameraManager()->GetMainCamera();
+
+		// 影データの更新
+		// Todo : 複数ライト、スポットライト・ポイントライトへの対応
+		// 初期実装は平行光源の0番目の身を扱います
+		auto lightManager = m_updatePipeline->GetLightManager();
+		LightComponent* dLight = lightManager->GetLight(LightType::Directional);
+
+		// シャドウ描画用コンテキストの作成
+		SceneCameraData camData = mainCamera ? mainCamera->CreateCameraData() : SceneCameraData{};
+		m_sceneData.shadowData.lightCameraData = lightManager->GetLightData(camData, dLight, 2048.0f);
+		m_sceneData.shadowData.shadowBias = 0.001f;	// Todo : マジックナンバーの解消
 	}
 
 	// 描画関数
-	void Scene::Render(Renderer& renderer)
+	void Scene::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
+		// Todo: ポストエフェクトなどの処理
+		ID3D11DeviceContext* context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+
 		// コンテキストの作成
 		RenderContext ctx{};
-		ctx.sceneData = m_sceneData;
-		ctx.target = m_mainScreen->GetRenderTarget();
-		ctx.back = WindowManager::Instance().GetBackGroundColor();
-		ctx.flags = DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug;
 
-		// メインの描画
-		m_sceneRenderer->RenderWithContext(ctx, renderer);
+		// ToRefactor カメラ毎に異なる背景色に対応
+		ctx.backColor = WindowManager::Instance().GetBackGroundColor();
+		ctx.flags = DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug;
+		ctx.clearTarget = true;
+
+		// シャドウパスの描画
+		{
+			// シャドウ描画用コンテキストの作成
+			ShadowRenderContext shadowCtx{};
+			shadowCtx.cameraData = m_sceneData.shadowData.lightCameraData;
+			shadowCtx.pShadowMap = &m_shadowMap;
+
+			// シャドウパスの描画
+			m_sceneRenderer->DrawShadowPass(shadowCtx, shadowRenderer);
+		}
+
+		// Test: シャドウマップ用スロットにバインド
+		auto shadowMapSRV = m_shadowMap.GetSRV();
+		context->PSSetShaderResources(10, 1, &shadowMapSRV);
+
+		auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap);
+		context->PSSetSamplers(10, 1, sampler.GetAddressOf());
+
+		// 描画の開始
+		renderer.Begin(m_sceneData);
+
+		// ワールドパスの描画
+		{
+			// 全カメラを取得
+			for (auto& camera : m_updatePipeline->GetCameraManager()->GetObjects())
+			{
+				// RenderTargetが設定されていれば
+				if (RenderTarget* target = camera->GetRenderTarget())
+				{
+					// 描画コンテキストを更新
+					ctx.target = target;
+					ctx.cameraData = camera->CreateCameraData();
+
+					// WorldPassの描画
+					m_sceneRenderer->DrawWorldPass(ctx, renderer);
+				}
+			}
+
+			// メインカメラを描画
+			if (CameraBase* mainCamera = m_updatePipeline->GetCameraManager()->GetMainCamera())
+			{
+				// 描画コンテキストを更新
+				ctx.target = &m_mainWorld;
+				ctx.cameraData = mainCamera->CreateCameraData();
+
+				// WorldPassの描画
+				m_sceneRenderer->DrawWorldPass(ctx, renderer);
+			}
+		}
+
+		// メインカメラをフルスクリーン描画するcommandを発行
+		renderer.Draw().Sprite().DrawFullScreen(m_mainWorld.GetShaderResourceView());
+
+		// UIパスの描画
+		{
+			ctx.target = &m_gameView;
+			ctx.cameraData = {};
+
+			m_sceneRenderer->DrawUIPass(ctx, renderer);
+
+			// メインカメラをフルスクリーン描画するcommandを発行
+			renderer.Draw().Sprite().DrawFullScreen(m_gameView.GetShaderResourceView());
+		}
 	}
 
-	// 実際の画面へ描画する関数
-	void Scene::RenderOnScreen(Renderer& renderer)
+	void Scene::DrawOnceCamera(const RenderContext& data,  Renderer& renderer)
 	{
-		// メインスクリーンを描画
-		m_mainScreen->Render(renderer);
+		// WorldPassの描画
+		m_sceneRenderer->DrawWorldPass(data, renderer);
 	}
 
 	/// <summary>
@@ -155,24 +235,12 @@ namespace REngine
 		m_referenceRegistry->RemoveObj(obj);
 	}
 
-	// メインカメラ設定関数
-	void Scene::SetMainCamera(CameraBase* camera)
-	{
-		m_updatePipeline->GetCameraManager()->SetMainCamera(camera);
-	}
-
-	// メインカメラ取得関数
-	CameraBase* Scene::GetMainCamera() const
-	{
-		return m_updatePipeline->GetCameraManager()->GetMainCamera();
-	}
-
 	// Rayの衝突を調べる
 	bool Scene::RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask)
 	{
 		return
 			RaySystem::RayCast(
-				m_updatePipeline->GetPhysicsManager()->GetCollideManager()->GetAllColliders(),
+				m_updatePipeline->GetPhysicsManager()->GetCollideManager()->GetObjects(),
 				ray, max, hit, layerMask
 			);
 	}

@@ -15,9 +15,10 @@
 // インクルードファイル
 //====================================================//
 
-// DirectXTK
 #include "GraphicsSystem.h"
 #include "RenderProxy.h"
+#include "RenderInfoManager.h"
+#include "Scene/SceneInfo.h"
 
 namespace REngine
 {
@@ -38,8 +39,14 @@ namespace REngine
 		// 描画システム
 		GraphicsSystem m_graphicSystem;
 
+		// 描画情報
+		RenderInfoManager m_infoManager;
+
 		// 初期化フラグ
 		bool m_isInitialized;
+
+		// 使用中のカメラデータ
+		SceneCameraData m_currentCamera;
 
 	public:
 
@@ -56,6 +63,12 @@ namespace REngine
 		// 初期化
 		void Initialize();
 
+		// 描画開始
+		void Begin(const SceneData& data);
+
+		// カメラを変更する関数
+		void ChangeCamera(const SceneCameraData& data);
+
 		// 描画関数
 		RenderProxy& Draw()
 		{
@@ -66,6 +79,9 @@ namespace REngine
 			return m_renderProxy;
 		}
 
+		// 描画コマンドの発行
+		void ExecuteCommands();
+
 		// 描画終了
 		void End();
 
@@ -73,17 +89,14 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		const DirectX::SimpleMath::Matrix& GetWorld() const { return m_graphicSystem.GetWorld(); };
-		const DirectX::SimpleMath::Matrix& GetView() const { return m_graphicSystem.GetView(); };
-		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_graphicSystem.GetProjection(); };
+		const DirectX::SimpleMath::Matrix& GetView() const { return m_currentCamera.view; };
+		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_currentCamera.proj; };
 
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
 
 		void SetWorld(const DirectX::SimpleMath::Matrix& world) { m_graphicSystem.SetWorld(world); }
-
-		void SetSceneData(const SceneData& data) { m_graphicSystem.SetSceneData(data); }
 
 		void SetMaterial(Handle<MaterialAsset> handle) { m_graphicSystem.SetMaterial(handle); };
 	};

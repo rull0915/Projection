@@ -69,8 +69,6 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Initialize();
-
 		void Update(const GameTimer& timer, UpdateMode mode);
 
 		// 各マネージャーを介した描画
@@ -88,17 +86,19 @@ namespace REngine
 		// 管理クラスの取得
 
 		// オブジェクト
-		ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
+		ObjectManager* GetObjectManager() { return m_objectManager.get(); }
+		const ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
 		// 3D物理
-		PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
+		const PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
 		// 描画
-		RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
+		const RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
 		// UI
-		UIManager* GetUIManager() const { return m_uiManager.get(); }
+		const UIManager* GetUIManager() const { return m_uiManager.get(); }
 		// Camera
-		CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
+		const CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
 		// ライト
-		LightManager* GetLightManager() const { return m_lightManager.get(); }
+		LightManager* GetLightManager() { return m_lightManager.get(); }
+		const LightManager* GetLightManager() const { return m_lightManager.get(); }
 
 		//-----------------------------------------------------
 		// セッター

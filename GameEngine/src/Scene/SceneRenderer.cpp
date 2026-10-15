@@ -15,11 +15,14 @@
 #include "Scene/Scene.h"
 #include "Renderer/Renderer.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "Debug/DebugManager.h"
 
 #include "Components/ComponentBase.h"
 #include "Scene/UpdatePipeline.h"
+#include "Renderer/Shadow/ShadowRenderer.h"
+
+#include "Components/World/Renderer/MeshRenderer.h"
 
 namespace REngine
 {
@@ -31,34 +34,60 @@ namespace REngine
 		: m_pScene{ pScene }
 	{}
 
-	void SceneRenderer::RenderWithContext(const RenderContext& context, Renderer& renderer)
+	void SceneRenderer::DrawShadowPass(const ShadowRenderContext& ctx, ShadowRenderer& renderer)
+	{
+		// シャドウマップが未設定なら描画しない
+		if (!ctx.pShadowMap) return;
+
+		// 描画開始
+		renderer.Begin(ctx.pShadowMap);
+
+		// 描画コマンドの発行
+		for (auto& comp : m_pScene->GetComponentRegister()->GetAllComponents<MeshRenderer>())
+		{
+			// メッシュレンダラーに変換
+			MeshRenderer* pMesh = static_cast<MeshRenderer*>(comp);
+
+			// 描画条件を満たしていればなら
+			if (pMesh->IsActive() && pMesh->GetOwn()->IsActive())
+			{
+				// シャドウマップへ描画
+				pMesh->DrawToShadowMap(renderer);
+			}
+		}
+
+		// 描画コマンドの実行
+		renderer.ExecuteCommands(ctx.cameraData);
+
+		// 描画終了
+		renderer.End();
+	}
+
+	void SceneRenderer::DrawWorldPass(const RenderContext& ctx, Renderer& renderer)
 	{
 		auto* deviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
-		// 描画を開始
-		context.target->Begin(deviceContext);
+		// 描画開始 未設定の場合直接バックバッファへ描画
+		if (ctx.target)
+		{
+			ctx.target->Begin(deviceContext);
 
-		// クリア
-		context.target->Clear(deviceContext, context.back);
+			// クリア
+			if (ctx.clearTarget) ctx.target->Clear(deviceContext, ctx.backColor);
+		}
 
-		// シーンデータの設定
-		SceneData sceneData = context.sceneData;
-
-		// マテリアルの設定
-		renderer.SetSceneData(sceneData);
+		// カメラデータを設定
+		renderer.ChangeCamera(ctx.cameraData);
 
 		// Worldの描画
-		if (context.flags & DrawFlag::World)
+		if (ctx.flags & DrawFlag::World)
 		{
 			// 描画管理クラスの描画処理
 			m_pScene->GetPipeline()->DrawWorld(renderer);
 		}
 
-		// 色 (緑)
-		static const DirectX::SimpleMath::Color color = { 0, 1, 0, 1 };
-
 		// Worldのデバッグ描画
-		if (context.flags & DrawFlag::WorldDebug && DebugManager::Instance().IsDrawDebugOnWorld())
+		if (ctx.flags & DrawFlag::WorldDebug && DebugManager::Instance().IsDrawDebugOnWorld())
 		{
 			for (auto& c : m_pScene->GetComponentRegister()->GetDebugRenders())
 			{
@@ -67,33 +96,56 @@ namespace REngine
 				{
 					if (!com->IsActive() || !com->GetOwn()->IsActive()) continue;
 
-					c->DebugRender(renderer, color);
+					c->DebugRender(renderer, DEBUG_COLOR);
 				}
 			}
 		}
 
-		// 行列のリセット
-		sceneData.cameraData.view = DirectX::SimpleMath::Matrix::Identity;
-		sceneData.cameraData.proj = DirectX::SimpleMath::Matrix::Identity;
+		// 描画コマンドの発行
+		renderer.ExecuteCommands();
 
-		renderer.SetSceneData(sceneData);
+		// 描画終了
+		if (ctx.target)
+		{
+			ctx.target->End(deviceContext);
+		}
+	}
+
+	void SceneRenderer::DrawUIPass(const RenderContext& ctx, Renderer& renderer)
+	{
+		// カメラデータを設定
+		renderer.ChangeCamera(ctx.cameraData);
 
 		// UIの描画
-		if (context.flags & DrawFlag::UI)
+		if (ctx.flags & DrawFlag::UI)
 		{
 			m_pScene->GetPipeline()->DrawUI(renderer);
 		}
 
 		// RectTransformのデバッグ描画
-		if (context.flags & DrawFlag::UIDebug && DebugManager::Instance().IsDrawDebugOnUI())
+		if (ctx.flags & DrawFlag::UIDebug && DebugManager::Instance().IsDrawDebugOnUI())
 		{
-			m_pScene->GetPipeline()->DrawRects(renderer, color);
+			m_pScene->GetPipeline()->DrawRects(renderer, DEBUG_COLOR);
 		}
 
-		// Rendererの終了
-		renderer.End();
+		auto* deviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
-		// 描画の終了
-		context.target->End(deviceContext);
+		// 設定されていればターゲットへの描画を開始
+		if (ctx.target)
+		{
+			ctx.target->Begin(deviceContext);
+
+			// 上から描画する想定のため背景は完全透明
+			if (ctx.clearTarget) ctx.target->Clear(deviceContext, ctx.backColor);
+		}
+
+		// 描画コマンドの発行
+		renderer.ExecuteCommands();
+
+		// 設定されていればターゲットへの描画を終了
+		if (ctx.target)
+		{
+			ctx.target->End(deviceContext);
+		}
 	}
 }	// namespace REngine

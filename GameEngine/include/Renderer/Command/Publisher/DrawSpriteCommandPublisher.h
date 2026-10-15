@@ -57,6 +57,11 @@ namespace REngine
 			DirectX::SimpleMath::Color color
 		);
 
+		void DrawFullScreen(
+			ID3D11ShaderResourceView* texture,
+			DirectX::SimpleMath::Color color = { 1, 1, 1, 1 }
+		);
+
 		// 描画領域指定
 		void Draw(
 			ID3D11ShaderResourceView* texture,

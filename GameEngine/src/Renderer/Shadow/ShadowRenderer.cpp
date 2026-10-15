@@ -10,15 +10,12 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "ShadowRenderer.h"
+#include "Renderer/Shadow/ShadowRenderer.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
 
 #include "Assets/EngineDefaultAssets.h"
 #include "Assets/Managers/AssetManager.h"
-#include "Assets/Types/Shader/InputLayoutCache.h"
-#include "System/GraphicsManager.h"
-
-#include "Renderer/CBufferSlot.h"
+#include "System/Render/GraphicsManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -33,9 +30,8 @@ REngine::ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
 	, m_currentShadowMap{ nullptr }
-	, m_perFrameConstantBuffer{}
-	, m_perObjectConstantBuffer{}
 	, m_depthStencilState{}
+	, m_infoManager{}
 {
 }
 
@@ -53,26 +49,8 @@ void REngine::ShadowRenderer::Initialize()
 
 	m_pStates = dr->GetCommonStates();
 
-	// PerFrame定数バッファの作成
-	D3D11_BUFFER_DESC desc0 = {};
-	desc0.ByteWidth = sizeof(ShadowPassPerFrameCBuffer);
-	desc0.Usage = D3D11_USAGE_DYNAMIC;
-	desc0.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	desc0.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	HRESULT hr = m_pDevice->CreateBuffer(&desc0, nullptr, m_perFrameConstantBuffer.ReleaseAndGetAddressOf());
-
-	// 失敗したら使用不可のまま中断
-	if (FAILED(hr)) return;
-
-	// PerObject定数バッファの作成
-	D3D11_BUFFER_DESC desc1 = {};
-	desc1.ByteWidth = sizeof(ShadowPassPerObjectCBuffer);
-	desc1.Usage = D3D11_USAGE_DYNAMIC;
-	desc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	desc1.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	hr = m_pDevice->CreateBuffer(&desc1, nullptr, m_perObjectConstantBuffer.ReleaseAndGetAddressOf());
-
-	if (FAILED(hr)) return;
+	// 情報マネージャーを初期化
+	m_infoManager.Initialize(m_pDevice, m_pContext);
 
 	// DepthStencilStateの作成
 	D3D11_DEPTH_STENCIL_DESC desc{};
@@ -80,7 +58,7 @@ void REngine::ShadowRenderer::Initialize()
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	desc.DepthFunc = D3D11_COMPARISON_LESS;
 	desc.StencilEnable = FALSE;
-	hr = m_pDevice->CreateDepthStencilState(&desc, m_depthStencilState.GetAddressOf());
+	HRESULT hr = m_pDevice->CreateDepthStencilState(&desc, m_depthStencilState.GetAddressOf());
 
 	if (FAILED(hr)) return;
 
@@ -114,7 +92,7 @@ void REngine::ShadowRenderer::End()
 	m_currentShadowMap = nullptr;
 }
 
-void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix& lightView, const DirectX::SimpleMath::Matrix& lightProj)
+void REngine::ShadowRenderer::ExecuteCommands(const SceneCameraData& data)
 {
 	// 使用不可ならスキップ
 	if (!m_usable) return;
@@ -143,7 +121,7 @@ void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix&
 	}
 
 	// InputLayoutを取得
-	auto inputLayout = InputLayoutCache::Instance().GetOrCreate(
+	auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
 		m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
 		vs->GetBlob(), VertexPositionNormalTexture::GetLayout()
 	);
@@ -157,11 +135,13 @@ void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix&
 	// 頂点シェーダの設定
 	vs->Bind(m_pContext);
 
-	// VP行列の設定
-	ShadowPassPerFrameCBuffer perFrame{ (lightView * lightProj).Transpose() };
+	// ピクセルシェーダーを明示的にNULLにする
+	m_pContext->PSSetShader(nullptr, nullptr, 0);
 
-	BindPerFrame(perFrame);
-
+	// カメラの設定 (ライトのVP)
+	m_infoManager.UpdatePerCamera(data);
+	m_infoManager.BindPerCamera();
+	
 	// カリング
 	m_pContext->RSSetState(m_pStates->CullClockwise());
 
@@ -181,10 +161,9 @@ void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix&
 		UINT strides[] = { sizeof(VertexPositionNormalTexture) };
 		UINT offsets[] = { 0 };
 
-		ShadowPassPerObjectCBuffer perObject{ command.world };
-
 		// ワールド行列のセット
-		BindPerObject(perObject);
+		m_infoManager.UpdatePerObject(command.world);
+		m_infoManager.BindPerObject();
 
 		// 頂点バッファの設定
 		m_pContext->IASetVertexBuffers(0, 1, vsBuffers, strides, offsets);
@@ -204,32 +183,4 @@ void REngine::ShadowRenderer::ExecuteCommands(const DirectX::SimpleMath::Matrix&
 
 	// 描画コマンドのクリア
 	m_drawMeshCommands.clear();
-}
-
-void REngine::ShadowRenderer::BindPerFrame(const ShadowPassPerFrameCBuffer& buf)
-{
-	// マップを使用しCPU側から変更
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	if (SUCCEEDED(m_pContext->Map(m_perFrameConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
-	{
-		std::memcpy(mapped.pData, &buf, sizeof(ShadowPassPerFrameCBuffer));
-		m_pContext->Unmap(m_perFrameConstantBuffer.Get(), 0);
-	}
-
-	// PerFrame用スロットにバインド
-	m_pContext->VSSetConstantBuffers(CBufferSlot::PerFrame, 1, m_perFrameConstantBuffer.GetAddressOf());
-}
-
-void REngine::ShadowRenderer::BindPerObject(const ShadowPassPerObjectCBuffer& buf)
-{
-	// マップを使用しCPU側から変更
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	if (SUCCEEDED(m_pContext->Map(m_perObjectConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
-	{
-		std::memcpy(mapped.pData, &buf, sizeof(ShadowPassPerObjectCBuffer));
-		m_pContext->Unmap(m_perObjectConstantBuffer.Get(), 0);
-	}
-
-	// PerObject用スロットにバインド
-	m_pContext->VSSetConstantBuffers(CBufferSlot::PerObject, 1, m_perObjectConstantBuffer.GetAddressOf());
 }

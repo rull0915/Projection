@@ -23,6 +23,7 @@
 #include "Assets/Objects/Handle.h"
 
 #include "ShadowMap.h"
+#include "Renderer/RenderInfoManager.h"
 
 namespace REngine
 {
@@ -34,18 +35,6 @@ namespace REngine
 	//====================================================//
 	class ShadowRenderer
 	{
-		// 定数バッファ用の構造体
-		struct alignas(16) ShadowPassPerFrameCBuffer
-		{
-			DirectX::SimpleMath::Matrix VP;
-		};
-
-		// 定数バッファ用の構造体
-		struct alignas(16) ShadowPassPerObjectCBuffer
-		{
-			DirectX::SimpleMath::Matrix World;
-		};
-
 	private:
 
 		//-----------------------------------------------------
@@ -76,13 +65,10 @@ namespace REngine
 		// 使用中のShadowMap
 		ShadowMap* m_currentShadowMap;
 
-		// ----- Buffer ----- //
-		
-		// PerFrame
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perFrameConstantBuffer;
+		// 描画情報マネージャー
+		RenderInfoManager m_infoManager;
 
-		// World行列
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perObjectConstantBuffer;
+		// ----- Buffer ----- //
 
 		// DepthStencilState
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
@@ -121,18 +107,6 @@ namespace REngine
 		void End();
 
 		// 描画コマンドを実行する関数
-		void ExecuteCommands(const DirectX::SimpleMath::Matrix& lightView, const DirectX::SimpleMath::Matrix& lightProj);
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		// PerFrameバッファのバインド
-		void BindPerFrame(const ShadowPassPerFrameCBuffer& buf);
-
-		// PerObjectバッファのバインド
-		void BindPerObject(const ShadowPassPerObjectCBuffer& buf);
+		void ExecuteCommands(const SceneCameraData& data);
 	};
 }

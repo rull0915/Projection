@@ -37,7 +37,7 @@ namespace REngine
 		// IDをキーとしたInputLayoutのマップ
 		std::unordered_map<uint64_t, Microsoft::WRL::ComPtr<ID3D11InputLayout>> m_inputLayoutCache;
 
-	private:
+	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
@@ -49,13 +49,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
-
-		// インスタンス取得
-		static InputLayoutCache& Instance()
-		{
-			static InputLayoutCache instance;
-			return instance;
-		}
 
 		// InputLayoutを取得|作成する関数
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> GetOrCreate(
@@ -88,6 +81,7 @@ namespace REngine
 			size_t size = blob->GetBufferSize();
 
 			// 32bit用のFNV-1aを使用しハッシュ計算
+			// Todo : 異なるシェーダーが同一のキャッシュになる可能性がまだあるので修正が必要です
 			uint32_t hash = 2166136261u;
 			for (size_t i = 0; i < size; ++i)
 			{

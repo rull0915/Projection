@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Assets/Types/Shader/SamplerList.h"
+#include "System/Render/SamplerList.h"
 
 //====================================================//
 // 関数の実体宣言

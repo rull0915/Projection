@@ -32,12 +32,6 @@ namespace REngine
 		, m_soundManager{ std::make_unique<SoundManager>() }
 	{}
 
-	void UpdatePipeline::Initialize()
-	{
-		// カメラの初期化
-		m_cameraManager->Initialize(m_pScene);
-	}
-
 	void UpdatePipeline::Update(const GameTimer& gameTimer, UpdateMode mode)
 	{
 		// ポーズの場合何もしない
@@ -51,6 +45,7 @@ namespace REngine
 		m_rendererManager->ReflectReserves();
 		m_lightManager->ReflectReserves();
 		m_uiManager->ReflectReserves();
+		m_cameraManager->ReflectReserves();
 
 		if (playing)
 		{
@@ -86,7 +81,8 @@ namespace REngine
 		// UIの更新
 		if (playing)
 		{
-			m_uiManager->CheckHitRay(m_pScene->GetMainScreen()->GetMousePointOnMainScreen());
+			// To Refactor
+			m_uiManager->CheckHitRay({ 0, 0 });
 			m_uiManager->CheckEvent();
 		}
 	}

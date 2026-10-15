@@ -11,6 +11,7 @@
 //====================================================//
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawSpriteCommandPublisher.h"
+#include "System/WindowManager.h"
 
 namespace REngine
 {
@@ -35,6 +36,25 @@ namespace REngine
 		command.pos = pos;
 		command.scale = scale;
 		command.angle = angle;
+		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
+	}
+
+	void DrawSpriteCommandPublisher::DrawFullScreen(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Color color)
+	{
+		// コマンドの追加
+		auto& command = m_container.AddSprite();
+
+		// テクスチャサイズを取得
+		DirectX::SimpleMath::Vector2 texSize = GetTextureSize(texture);
+
+		// スケールの計算
+		DirectX::SimpleMath::Vector2 finalScale = WindowManager::Instance().GetSize() / texSize;
+
+		command.pTexture = texture;
+		command.pos = DirectX::SimpleMath::Vector2::Zero;
+		command.scale = finalScale;
+		command.angle = 0.0f;
 		command.color = color;
 		command.material = m_graphicSystem.GetMaterial();
 	}

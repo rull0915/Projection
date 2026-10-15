@@ -42,8 +42,31 @@ namespace REngine
 		float padding;
 	};
 
-	// カメラ
-	struct alignas(16) CameraInfo
+	// 時間
+	struct alignas(16) TimeInfo
+	{
+		float time;
+		float elapsedTime;
+		DirectX::SimpleMath::Vector2 padding;
+	};
+
+	// 影の情報
+	struct alignas(16) ShadowInfo
+	{
+		DirectX::SimpleMath::Matrix lightVP;
+		float shadowBias;
+		DirectX::SimpleMath::Vector3 padding;
+	};
+
+	// フレームの情報
+	struct alignas(16) PerFrame
+	{
+		LightInfo light;
+		TimeInfo time;
+		ShadowInfo shadow;
+	};
+	// カメラの情報
+	struct alignas(16) PerCamera
 	{
 		DirectX::SimpleMath::Matrix view;
 		DirectX::SimpleMath::Matrix proj;
@@ -53,19 +76,11 @@ namespace REngine
 		float padding;
 	};
 
-	// 時間
-	struct alignas(16) TimeInfo
+	// オブジェクトの情報
+	struct alignas(16) PerObject
 	{
-		float time;
-		float elapsedTime;
-		DirectX::SimpleMath::Vector2 padding;
-	};
-
-	// フレームの情報
-	struct alignas(16) FrameInfo
-	{
-		CameraInfo camera;
-		LightInfo light;
-		TimeInfo time;
+		DirectX::SimpleMath::Matrix world;
+		DirectX::SimpleMath::Matrix wvp;
+		DirectX::SimpleMath::Matrix worldInvTranspose;
 	};
 }
