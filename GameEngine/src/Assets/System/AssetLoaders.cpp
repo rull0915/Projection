@@ -17,7 +17,7 @@
 #include "Assets/Types/Prefab.h"
 #include "Assets/Types/AudioClip.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "System/ResourceManager.h"
 
 #include "WICTextureLoader.h"

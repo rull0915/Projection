@@ -65,15 +65,6 @@ namespace REngine
 		// コライダーの衝突チェック
 		bool CheckHitPair(ColliderBase*, ColliderBase*, HitContact& contact);
 
-		// 所有しているコライダーを全て返す関数
-		const std::vector<ColliderBase*> GetAllColliders()
-		{
-			// 予約を反映
-			AddReserved();
-			RemoveReserved();
-
-			return GetObjects();
-		}
 	private:
 
 		// 登録予約済みのコライダーを追加する関数

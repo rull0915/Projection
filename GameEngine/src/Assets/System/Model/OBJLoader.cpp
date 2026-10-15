@@ -16,7 +16,7 @@
 #include "OBJLoader.h"
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 
 #include "MtlFileLoader.h"
 #include "CreatePrefabFromModelData.h"

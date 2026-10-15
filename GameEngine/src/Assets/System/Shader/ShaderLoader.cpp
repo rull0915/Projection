@@ -13,7 +13,7 @@
 #include "Assets/Types/Shader/ShaderLoader.h"
 
 #include "Assets/Types/Shader/ShaderAsset.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "ShaderReflection.h"
 
 #include <filesystem>

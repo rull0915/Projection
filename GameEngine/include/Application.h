@@ -71,7 +71,7 @@ namespace REngine
 		// ゲーム側でがオーバーライドするイベントフック
 		virtual void OnInitialize() {}
 		virtual void OnFinalize() {}
-		virtual void OnUpdate(float deltaTime) {}
+		virtual void OnUpdate(float deltaTime) { deltaTime; }
 
 		// エンジン内部で使用する関数
 		void Initialize(HWND hwnd, int width, int height);

@@ -14,7 +14,7 @@
 #include "Assets/Managers/AssetManager.h"
 
 #include "Renderer/CBufferSlot.h"
-#include "Assets/Types/Shader/SamplerList.h"
+#include "System/Render/GraphicsManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -34,6 +34,9 @@ namespace REngine
 	{
 		ADD_PROPERTY(MaterialAsset, m_vertexShader);
 		ADD_PROPERTY(MaterialAsset, m_pixelShader);
+
+		// サンプラーリストの取得
+		m_samplerList = &GraphicsManager::Instance().GetSamplerList();
 	}
 
 	// 定数バッファを更新する関数

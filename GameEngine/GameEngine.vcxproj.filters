@@ -286,9 +286,6 @@
     <ClCompile Include="src\ThirdParty\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scene\MainScreen.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scene\SceneRenderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -346,9 +343,6 @@
     <ClCompile Include="src\Assets\Types\Material\MaterialAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assets\Types\Shader\SamplerList.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Input\PadInput.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -359,9 +353,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\Types\Shader\InputLayoutCache.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp">
@@ -388,9 +379,6 @@
     <ClCompile Include="src\Managers\Renderer\LightManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\GraphicsSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -406,7 +394,16 @@
     <ClCompile Include="src\Renderer\Shader\ShadowMap.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="include\Renderer\Shadow\ShadowRenderer.cpp">
+    <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\RenderInfoManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Render\InputLayoutCache.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Render\SamplerList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -828,9 +825,6 @@
     <ClInclude Include="include\Scene\UpdateMode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\Scene\MainScreen.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Scene\SceneRenderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -867,7 +861,7 @@
     <ClInclude Include="include\Renderer\Command\DrawCommandExecutor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\System\GraphicsManager.h">
+    <ClInclude Include="include\System\Render\GraphicsManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\RenderProxy.h">
@@ -975,9 +969,6 @@
     <ClInclude Include="include\Renderer\CBufferSlot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\Assets\Types\Shader\SamplerList.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\Assets\Types\Shader\SamplerType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1012,9 +1003,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Types\Vertex\VertexTypes.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Managers\ReserveContainer.h">
@@ -1108,6 +1096,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderer\Shadow\ShadowRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\RenderInfoManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\System\Render\InputLayoutCache.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\System\Render\SamplerList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,7 +29,7 @@ namespace REngine
 
 			ShowWindow(hWnd, SW_SHOWNORMAL);
 
-			RECT rc = { 0,0,m_width,m_height };
+			RECT rc = { 0,0,static_cast<LONG>(m_width),static_cast<LONG>(m_height) };
 			AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
 
 			SetWindowPos(

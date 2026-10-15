@@ -70,6 +70,8 @@ namespace REngine
 
 		CollideManager* GetCollideManager() { return m_collideManager.get(); }
 
+		const CollideManager* GetCollideManager() const { return m_collideManager.get(); }
+
 		//-----------------------------------------------------
 		// 内部実装
 		//-----------------------------------------------------

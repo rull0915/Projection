@@ -13,7 +13,7 @@
 #include "Application.h"
 
 #include "GameEngine.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 
 //====================================================//
 // 関数の実体宣言

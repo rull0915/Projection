@@ -176,7 +176,8 @@ namespace REngine
 			// インパルスの算出
 
 			// それぞれの質量の逆数を取得
-			float aInvMass = !contact.ownIsStatic ? aRigid->GetInvMass() : 0, bInvMass = !contact.otherIsStatic ? bRigid->GetInvMass() : 0;
+			float aInvMass = (!contact.ownIsStatic && aRigid) ? aRigid->GetInvMass() : 0;
+			float bInvMass = (!contact.otherIsStatic && bRigid) ? bRigid->GetInvMass() : 0;
 			float jToZero = -(hitDirVel / (aInvMass + bInvMass));
 			float j = jToZero - (e * hitDirVel) / (aInvMass + bInvMass);	// 打ち消しと反発を同時に行うために-(1 + e)
 

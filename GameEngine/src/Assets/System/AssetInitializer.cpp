@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "AssetInitializer.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "Assets/Types/PhysicsMaterial.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Types/Material/MaterialAsset.h"

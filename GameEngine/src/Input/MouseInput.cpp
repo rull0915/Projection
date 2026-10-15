@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Input/MouseInput.h"
 #include "System/ResourceManager.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "System/WindowManager.h"
 
 namespace REngine

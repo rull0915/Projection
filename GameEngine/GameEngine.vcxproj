@@ -164,7 +164,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Renderer\Shadow\ShadowRenderer.cpp" />
+    <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
       <SubType>
@@ -172,14 +172,9 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
     <ClCompile Include="src\Assets\System\Model\CreatePrefabFromModelData.cpp" />
     <ClCompile Include="src\Assets\System\Model\MtlFileLoader.cpp" />
-    <ClCompile Include="src\Renderer\GraphicsSystem.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
     <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp" />
-    <ClCompile Include="src\Assets\Types\Shader\InputLayoutCache.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="src\Components\UI\Canvas.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
@@ -197,10 +192,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\Assets\Types\Shader\SamplerList.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="src\Components\World\Light\LightComponent.cpp">
       <SubType>
       </SubType>
@@ -214,6 +205,10 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
     <ClCompile Include="src\Managers\Renderer\LightManager.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandExecutor.cpp" />
+    <ClCompile Include="src\Renderer\RenderInfoManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <SubType>
       </SubType>
@@ -226,7 +221,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\Scene\MainScreen.cpp" />
     <ClCompile Include="src\Scene\ObjectFactory.cpp" />
     <ClCompile Include="src\Scene\SceneRenderer.cpp" />
     <ClCompile Include="src\Components\World\Camera\CameraBase.cpp" />
@@ -321,7 +315,9 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Scene\UpdatePipeline.cpp" />
     <ClCompile Include="src\System\DeviceResources.cpp" />
     <ClCompile Include="src\System\EngineInitializer.cpp" />
+    <ClCompile Include="src\System\Render\InputLayoutCache.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
+    <ClCompile Include="src\System\Render\SamplerList.cpp" />
     <ClCompile Include="src\System\ResourceManager.cpp" />
     <ClCompile Include="src\System\WindowManager.cpp" />
     <ClCompile Include="src\Timer\GameTimer.cpp" />
@@ -425,6 +421,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Renderer\RenderInfoManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Renderer\Shadow\ShadowMap.h">
       <SubType>
       </SubType>
@@ -434,6 +434,8 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\System\Render\InputLayoutCache.h" />
+    <ClInclude Include="include\System\Render\SamplerList.h" />
     <ClInclude Include="src\Assets\EngineDefaultAssets.h">
       <SubType>
       </SubType>
@@ -448,14 +450,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\Assets\System\Model\MtlFileLoader.h" />
     <ClInclude Include="src\Assets\System\Model\OBJLoader.h" />
     <ClInclude Include="src\Assets\System\Prefab\PrefabBuilder.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="src\Assets\Types\Shader\InputLayoutCache.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="src\Assets\Types\Shader\SamplerList.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -599,7 +593,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Scene\MainScreen.h" />
     <ClInclude Include="include\Scene\ObjectFactory.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />
@@ -616,7 +609,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Components\Both\BothComponentBase.h" />
     <ClInclude Include="include\GameEngine.h" />
-    <ClInclude Include="include\System\GraphicsManager.h">
+    <ClInclude Include="include\System\Render\GraphicsManager.h">
       <SubType>
       </SubType>
     </ClInclude>
