@@ -1,0 +1,46 @@
+{
+    "ComputeShader": null,
+    "DomainShader": null,
+    "GeometryShader": null,
+    "HullShader": null,
+    "PSHandle": 8697814716291861295,
+    "PixelShader": [
+        {
+            "Name": "specularColor",
+            "Type": "Color",
+            "Value": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "baseColor",
+            "Type": "Color",
+            "Value": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "kd",
+            "Type": "Float",
+            "Value": 1.0
+        },
+        {
+            "Name": "ks",
+            "Type": "Float",
+            "Value": 1.0
+        },
+        {
+            "Name": "specExponent",
+            "Type": "Float",
+            "Value": 30.0
+        }
+    ],
+    "VSHandle": 16504523158451717825,
+    "VertexShader": null
+}
