@@ -135,7 +135,7 @@ namespace REngine
 		auto shadowMapSRV = m_shadowMap.GetSRV();
 		context->PSSetShaderResources(10, 1, &shadowMapSRV);
 
-		auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap);
+		auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::PointWrap);
 		context->PSSetSamplers(10, 1, sampler.GetAddressOf());
 
 		// 描画の開始

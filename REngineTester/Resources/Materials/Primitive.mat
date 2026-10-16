@@ -1,0 +1,10 @@
+{
+    "ComputeShader": null,
+    "DomainShader": null,
+    "GeometryShader": null,
+    "HullShader": null,
+    "PSHandle": 0,
+    "PixelShader": null
+    "VSHandle": 5,
+    "VertexShader": null
+}

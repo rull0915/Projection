@@ -166,6 +166,9 @@ namespace REngine
 		// ゲームビューの取得
 		ID3D11ShaderResourceView* GetGameView() const { return m_gameView.GetShaderResourceView(); }
 
+		// ToDelete Debug用 シャドウマップテクスチャの取得
+		ID3D11ShaderResourceView* GetShadowMapTexture() const { return m_shadowMap.GetSRV(); }
+
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------

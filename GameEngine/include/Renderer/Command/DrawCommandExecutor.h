@@ -65,6 +65,9 @@ namespace REngine
 		// アセットマネージャー
 		AssetManager& m_assetManager;
 
+		// デフォルトマテリアル
+		Handle<MaterialAsset> m_defaultMaterial;
+
 	public:
 
 		//-----------------------------------------------------

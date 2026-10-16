@@ -13,7 +13,6 @@
 
 #ifdef ENGINE_GUI
 
-#include "Components/World/Camera/CameraBase.h"
 #include "GuizmoManager.h"
 #include "SelectedOnGUI.h"
 #include "SceneCamera.h"
@@ -107,6 +106,9 @@ namespace REngine
 
 		// 描画設定を取得する関数
 		unsigned char GetDrawSetting() const { return m_sceneDrawSetting; }
+
+		// Imageのデバッグ表示をする関数
+		void DrawImageDebugWindow(std::string_view title, ID3D11ShaderResourceView* image) const;
 
 	private:
 

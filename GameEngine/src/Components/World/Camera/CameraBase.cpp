@@ -14,6 +14,7 @@
 
 #include "Components/World/Transform/Transform.h"
 #include "System/WindowManager.h"
+#include "Renderer/Renderer.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -62,5 +63,42 @@ namespace REngine
 		data.pos = GetComponent<Transform>()->GetWorldPosition();
 
 		return data;
+	}
+
+	void CameraBase::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	{
+		// 試錐台の範囲を表示する
+
+		// VP逆行列から8頂点を求める
+		DirectX::SimpleMath::Matrix invVP = (m_view * m_proj).Invert();
+
+		DirectX::SimpleMath::Vector3 points[8]{};
+
+		// 8頂点
+		for (int i = 0; i < 8; i++)
+		{
+			DirectX::SimpleMath::Vector3 point =
+			{
+				i & 1 ? 1.0f : -1.0f,
+				i & 2 ? 1.0f : -1.0f,
+				i & 4 ? 1.0f :  0.0f
+			};
+
+			points[i] = DirectX::SimpleMath::Vector3::Transform(point, invVP);
+		}
+
+		// 合わせるように描画コマンドを作成
+		renderer.Draw().Primitive().DrawRect(
+			points[0], points[1], points[3], points[2], color, false
+		);
+		renderer.Draw().Primitive().DrawRect(
+			points[4], points[5], points[7], points[6], color, false
+		);
+		for (int i = 0; i < 4; i++)
+		{
+			renderer.Draw().Primitive().DrawLine(
+				points[i], points[i + 4], color
+			);
+		}
 	}
 }	// namespace REngine

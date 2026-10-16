@@ -28,8 +28,11 @@ namespace REngine
 
 		const UUID SHADOW_PASS_VS = 0x03;
 
+		const UUID PRIMITIVE_VS = 0x05;
+
 		//-------- Materials -------- //
 		const UUID BASIC_MATERIAL = 0x11;
+		const UUID PRIMITIVE_MATERIAL = 0x12;
 
 		//-------- Sprite --------//
 		const UUID BASIC_SPRITE = 0x21;

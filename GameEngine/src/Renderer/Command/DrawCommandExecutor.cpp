@@ -17,6 +17,7 @@
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetManager.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
+#include "Assets/EngineDefaultAssets.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -30,6 +31,7 @@ REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, Re
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
 	, m_assetManager{ assetManager }
+	, m_defaultMaterial{}
 {}
 
 REngine::DrawCommandExecutor::~DrawCommandExecutor() = default;
@@ -44,6 +46,9 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_pContext = dr->GetD3DDeviceContext();
 
 	m_pStates = dr->GetCommonStates();
+
+	// デフォルトマテリアルのロード
+	m_defaultMaterial = m_assetManager.LoadFromUUID(DefaultAsset::PRIMITIVE_MATERIAL).As<MaterialAsset>();
 
 	// プリミティブバッチの初期化
 	m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(m_pContext);
@@ -67,6 +72,11 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 	{
 		// マテリアルを調べる
 		MaterialAsset* material = m_assetManager.Get<MaterialAsset>(c.material);
+
+		if (!material)
+		{
+			material = m_assetManager.Get(m_defaultMaterial);
+		}
 
 		// 透明度を不使用
 		m_pContext->OMSetBlendState(m_pStates->Opaque(), nullptr, 0xFFFFFFFF);

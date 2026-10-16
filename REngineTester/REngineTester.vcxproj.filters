@@ -43,5 +43,6 @@
     <FxCompile Include="Shaders\BasicVertexShader.vs.hlsl" />
     <FxCompile Include="Shaders\ImagePixelShader.ps.hlsl" />
     <FxCompile Include="Shaders\ShadowMap.vs.hlsl" />
+    <FxCompile Include="Shaders\PrimitiveShader.vs.hlsl" />
   </ItemGroup>
 </Project>

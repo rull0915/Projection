@@ -31,7 +31,7 @@ float CalcShadow(
     // 影判定
     if (currentDepth > depth + 0.001f)
     {
-        return 0.0f; // 影の中
+        return 0.3f; // 影の中
     }
     
     return 1.0f;

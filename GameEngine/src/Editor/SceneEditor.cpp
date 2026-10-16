@@ -20,7 +20,6 @@
 #include "System/Render/GraphicsManager.h"
 #include "System/WindowManager.h"
 #include "Scene/SceneManager.h"
-#include "Scene/SceneRenderer.h"
 
 #include "Input/MouseInput.h"
 #include "Editor/Saver/ObjectSaver.h"
@@ -123,6 +122,15 @@ namespace REngine
 
 		// ビュー行列の更新
 		m_sceneViewCamera.UpdateView();
+
+		static bool showShadowMap = false;
+
+		// ToDelete
+		if (Input::Mouse::Get(Input::Mouse::Button::Right) && Input::Mouse::GetDown(Input::Mouse::Button::Left))
+		{
+			showShadowMap = !showShadowMap;
+		}
+		if (showShadowMap) m_gui.DrawImageDebugWindow("ShadowMap", m_pScene->GetShadowMapTexture());
 	}
 
 	void SceneEditor::Render(Renderer& renderer)

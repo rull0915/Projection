@@ -22,6 +22,7 @@
 #include "Assets/Types/Material/MaterialAsset.h"
 
 #include "Scene/SceneInfo.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 namespace REngine
 {
@@ -38,7 +39,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class CameraBase : public WorldComponentBase
+	class CameraBase : public WorldComponentBase, public IDebugRenderable
 	{
 	private:
 		//-----------------------------------------------------
@@ -103,6 +104,9 @@ namespace REngine
 
 		// カメラデータを構築する関数
 		SceneCameraData CreateCameraData();
+		
+		// デバッグ表示
+		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
 		
 		//-----------------------------------------------------
 		// ゲッター
