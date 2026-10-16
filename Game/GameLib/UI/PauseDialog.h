@@ -19,7 +19,7 @@
 #include "Dialog.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
-#include "EngineTester/EasingConfig.h"
+#include "GameLib/GameMath/EasingConfig.h"
 
 //====================================================//
 // クラス宣言

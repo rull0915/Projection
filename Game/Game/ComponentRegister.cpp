@@ -3,13 +3,10 @@
 
 #include "pch.h"
 #include "ComponentRegister.h"
-#include "EngineTester/ArrayTester.h"
-#include "EngineTester/EasingTestComponent.h"
-#include "EngineTester/MaterialTester.h"
-#include "EngineTester/ReferenceTester.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 #include "GameLib/Components/CatmullRomComponent.h"
 #include "GameLib/Components/PathMover.h"
+#include "GameLib/GameMath/EasingTestComponent.h"
 #include "GameLib/UI/Dialog.h"
 #include "GameLib/UI/DialogController.h"
 #include "GameLib/UI/PauseDialog.h"
@@ -36,13 +33,10 @@
 
 void ComponentRegister::RegistComponents()
 {
-    REGIST_TO_FACTORY(ArrayTester);
-    REGIST_TO_FACTORY(EasingTestComponent);
-    REGIST_TO_FACTORY(MaterialTester);
-    REGIST_TO_FACTORY(ReferenceTester);
     REGIST_TO_FACTORY(ConvexPolygonCollider2D);
     REGIST_TO_FACTORY(CatmullRomComponent);
     REGIST_TO_FACTORY(PathMover);
+    REGIST_TO_FACTORY(EasingTestComponent);
     REGIST_TO_FACTORY(Dialog);
     REGIST_TO_FACTORY(DialogController);
     REGIST_TO_FACTORY(PauseDialog);
