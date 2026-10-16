@@ -110,7 +110,7 @@ namespace RHEngine
 		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);
 
 		// カメラ情報から描画する関数
-		void DrawOnceCamera(const RenderContext& data, Renderer& renderer);
+		void DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow);
 
 		// 終了処理
 		void Finalize();

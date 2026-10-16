@@ -117,7 +117,7 @@ namespace RHEngine
 
 		// ToRefactor カメラ毎に異なる背景色に対応
 		ctx.backColor = WindowManager::Instance().GetBackGroundColor();
-		ctx.flags = DrawFlag::World | DrawFlag::UI | DrawFlag::WorldDebug | DrawFlag::UIDebug;
+		ctx.flags = DrawFlag::World | DrawFlag::UI;
 		ctx.clearTarget = true;
 
 		// シャドウパスの描画
@@ -169,6 +169,10 @@ namespace RHEngine
 				m_sceneRenderer->DrawWorldPass(ctx, renderer);
 			}
 		}
+			
+		// Test: シャドウマップ用スロットをアンバインド
+		ID3D11ShaderResourceView* nullSRV = nullptr;
+		context->PSSetShaderResources(10, 1, &nullSRV);
 
 		// メインカメラをフルスクリーン描画するcommandを発行
 		renderer.Draw().Sprite().DrawFullScreen(m_mainWorld.GetShaderResourceView());
@@ -185,10 +189,29 @@ namespace RHEngine
 		}
 	}
 
-	void Scene::DrawOnceCamera(const RenderContext& data,  Renderer& renderer)
+	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow)
 	{
+		ID3D11DeviceContext* context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+
+		if (useShadow)
+		{
+			// Test: シャドウマップ用スロットにバインド
+			auto shadowMapSRV = m_shadowMap.GetSRV();
+			context->PSSetShaderResources(10, 1, &shadowMapSRV);
+
+			auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::PointWrap);
+			context->PSSetSamplers(10, 1, sampler.GetAddressOf());
+		}
+
 		// WorldPassの描画
 		m_sceneRenderer->DrawWorldPass(data, renderer);
+
+		if (useShadow)
+		{
+			// Test: シャドウマップ用スロットをアンバインド
+			ID3D11ShaderResourceView* nullSRV = nullptr;
+			context->PSSetShaderResources(10, 1, &nullSRV);
+		}
 	}
 
 	/// <summary>

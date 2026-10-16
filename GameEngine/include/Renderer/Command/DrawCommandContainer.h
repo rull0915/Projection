@@ -67,6 +67,12 @@ namespace RHEngine
 		// プリミティブ描画コマンドの登録関数
 		DrawPrimitiveCommand& AddPrimitive()
 		{
+			// もし末尾のコマンドがなければポップ
+			if (!m_drawPrimitiveCommands.empty() && (m_drawPrimitiveCommands.back().lines.empty() && m_drawPrimitiveCommands.back().triangles.empty()))
+			{
+				m_drawPrimitiveCommands.pop_back();
+			}
+
 			auto& cmd = m_drawPrimitiveCommands.emplace_back();
 			cmd.lines.reserve(1024);
 			cmd.triangles.reserve(512);

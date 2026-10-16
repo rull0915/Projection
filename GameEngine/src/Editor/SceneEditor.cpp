@@ -143,12 +143,12 @@ namespace RHEngine
 
 		ctx.backColor = WindowManager::Instance().GetBackGroundColor();
 		ctx.target = m_sceneView.get();
-		ctx.flags = DrawFlag::World | DrawFlag::UI;
+		ctx.flags = DrawFlag::World | DrawFlag::WorldDebug;
 		ctx.clearTarget = true;
 		ctx.cameraData = m_sceneViewCamera.GetData();
 
 		// 描画
-		m_pScene->DrawOnceCamera(ctx, renderer);
+		m_pScene->DrawOnceCamera(ctx, renderer, true);
 	}
 
 	void SceneEditor::TestPlay()

@@ -70,6 +70,9 @@ void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vecto
 	// コマンド分ループ
 	for (auto& c : commands)
 	{
+		// 描画対象が存在しなければ次へ
+		if (c.lines.empty() && c.triangles.empty()) continue;
+
 		// マテリアルを調べる
 		MaterialAsset* material = m_assetManager.Get<MaterialAsset>(c.material);
 
@@ -77,6 +80,10 @@ void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vecto
 		{
 			material = m_assetManager.Get(m_defaultMaterial);
 		}
+
+		// InfoManager経由のPerObjectバッファ更新
+		m_infoManager.UpdatePerObject(c.world);
+		m_infoManager.BindPerObject();
 
 		// 透明度を不使用
 		m_pContext->OMSetBlendState(m_pStates->Opaque(), nullptr, 0xFFFFFFFF);
@@ -93,9 +100,14 @@ void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vecto
 			// バインド
 			material->Apply(m_pContext);
 
-			// InfoManager経由のPerObjectバッファ更新
-			m_infoManager.UpdatePerObject(c.world);
-			m_infoManager.BindPerObject();
+			// InputLayoutを取得
+			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionColorTexture).hash_code()),
+				material->GetBlob(ShaderType::Vertex), VertexPositionColorTexture::GetLayout()
+			);
+
+			// 取得したInputLayoutを設定
+			m_pContext->IASetInputLayout(inputLayout.Get());
 
 			// 定数バッファを更新
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);

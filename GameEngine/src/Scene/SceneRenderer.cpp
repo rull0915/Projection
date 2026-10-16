@@ -79,12 +79,20 @@ namespace RHEngine
 		// カメラデータを設定
 		renderer.ChangeCamera(ctx.cameraData);
 
+		// ワールドデータのリセット
+		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
+		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
+
 		// Worldの描画
 		if (ctx.flags & DrawFlag::World)
 		{
 			// 描画管理クラスの描画処理
 			m_pScene->GetPipeline()->DrawWorld(renderer);
 		}
+
+		// ワールドデータのリセット
+		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
+		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 
 		// Worldのデバッグ描画
 		if (ctx.flags & DrawFlag::WorldDebug && DebugManager::Instance().IsDrawDebugOnWorld())

@@ -23,18 +23,19 @@ namespace RHEngine
 	namespace DefaultAsset
 	{
 		//-------- Shaders --------//
-		const UUID LIT_VS = 0x01;
-		const UUID LIT_PS = 0x02;
+		const UUID LIT_VS = 01;
+		const UUID LIT_PS = 02;
 
-		const UUID SHADOW_PASS_VS = 0x03;
+		const UUID SHADOW_PASS_VS = 03;
 
-		const UUID PRIMITIVE_VS = 0x05;
+		const UUID PRIMITIVE_VS = 05;
+		const UUID PRIMITIVE_PS = 06;
 
 		//-------- Materials -------- //
-		const UUID BASIC_MATERIAL = 0x11;
-		const UUID PRIMITIVE_MATERIAL = 0x12;
+		const UUID BASIC_MATERIAL = 11;
+		const UUID PRIMITIVE_MATERIAL = 12;
 
 		//-------- Sprite --------//
-		const UUID BASIC_SPRITE = 0x21;
+		const UUID BASIC_SPRITE = 21;
 	}
 }
