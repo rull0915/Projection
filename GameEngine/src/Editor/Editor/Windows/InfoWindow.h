@@ -18,7 +18,7 @@
 //====================================================//
 #include <functional>
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 	class EditGUI;
@@ -84,6 +84,6 @@ namespace REngine
 		// ロード
 		void Load();
 	};
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

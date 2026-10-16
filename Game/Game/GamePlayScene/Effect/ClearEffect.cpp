@@ -21,7 +21,7 @@
 //====================================================//
 
 // コンストラクタ
-ClearEffect::ClearEffect(REngine::IComponentOwner* own)
+ClearEffect::ClearEffect(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_clearUIName{}
 	, m_clearDialog{}
@@ -39,7 +39,7 @@ ClearEffect::ClearEffect(REngine::IComponentOwner* own)
 void ClearEffect::Awake()
 {
 	// スローに
-	REngine::TimeSettings::Instance().SetTimeScale(1.0f);
+	RHEngine::TimeSettings::Instance().SetTimeScale(1.0f);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます
@@ -49,7 +49,7 @@ void ClearEffect::Start()
 	m_sumTime = 0;
 
 	// スローに
-	REngine::TimeSettings::Instance().SetTimeScale(m_claerTimeScale);
+	RHEngine::TimeSettings::Instance().SetTimeScale(m_claerTimeScale);
 
 	// ダイアログを出現
 	if (m_clearDialog) m_clearDialog->Show();
@@ -58,11 +58,11 @@ void ClearEffect::Start()
 void ClearEffect::OnDestroy()
 {
 	// 時間設定を戻す
-	REngine::TimeSettings::Instance().SetTimeScale(1.0f);
+	RHEngine::TimeSettings::Instance().SetTimeScale(1.0f);
 }
 
 // 毎フレーム呼ばれます
-void ClearEffect::Update(const REngine::GameTimer & gameTimer)
+void ClearEffect::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// TimeScaleに影響されない時間を加算する
 	m_sumTime += gameTimer.GetUnScaledElapsedTime();
@@ -71,7 +71,7 @@ void ClearEffect::Update(const REngine::GameTimer & gameTimer)
 	if (m_sumTime > m_toClearTime)
 	{
 		// クリアシーンへの移行をリクエスト
-		REngine::SceneManager::Instance().RequestSceneChange("Clear",
+		RHEngine::SceneManager::Instance().RequestSceneChange("Clear",
 			std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(30)),
 			std::make_unique<Transition::Slide>(0.3f, DirectX::SimpleMath::Color{ 0, 0, 0, 1 }, DirectX::XMConvertToRadians(210))
 			);

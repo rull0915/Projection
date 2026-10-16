@@ -20,7 +20,7 @@
 #include "Application.h"
 
 // ゲーム本体クラス
-class Game : public REngine::Application {
+class Game : public RHEngine::Application {
 public:
     Game()
         : Application({ L"My Game Project", 1280, 720 }) {}
@@ -29,6 +29,6 @@ public:
 	void OnFinalize() override {};
 };
 
-REngine::Application* REngine::CreateApplication() {
+RHEngine::Application* RHEngine::CreateApplication() {
 	return new Game();
 }

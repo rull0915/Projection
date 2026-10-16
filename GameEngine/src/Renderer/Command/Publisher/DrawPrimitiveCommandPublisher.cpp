@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawPrimitiveCommandPublisher.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -259,4 +259,4 @@ namespace REngine
 			prev = v;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

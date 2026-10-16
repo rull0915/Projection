@@ -24,7 +24,7 @@
 #include "Input/MouseInput.h"
 #include "Editor/Saver/ObjectSaver.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -53,6 +53,7 @@ namespace REngine
 		m_sceneViewCamera.Start();
 
 		// Projection行列の更新
+		m_sceneViewCamera.UpdateView();
 		m_sceneViewCamera.UpdateProj();
 	}
 
@@ -172,6 +173,6 @@ namespace REngine
 		// プレイモードへ
 		m_pScene->SetUpdateMode(UpdateMode::Play);
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

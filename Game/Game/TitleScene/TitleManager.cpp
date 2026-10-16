@@ -22,7 +22,7 @@
 //====================================================//
 
 // コンストラクタ
-TitleManager::TitleManager(REngine::IComponentOwner* own)
+TitleManager::TitleManager(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_targetScene{}
 	, m_playButton{}
@@ -52,30 +52,30 @@ void TitleManager::Start()
 	if (m_playButton)
 	{
 		m_playEventToken = m_playButton->AddOnClicked([this]() { 
-			REngine::SceneManager::Instance().RequestSceneChange(m_targetScene, std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>()); }
+			RHEngine::SceneManager::Instance().RequestSceneChange(m_targetScene, std::make_unique<RHEngine::Transition::Fade>(), std::make_unique<RHEngine::Transition::Fade>()); }
 		);
 	}
 	// 押下時処理を追加
 	if (m_exitAcceptButton)
 	{
-		m_exitEventToken = m_exitAcceptButton->AddOnClicked([]() { REngine::GameController::Instance().Quit(); });
+		m_exitEventToken = m_exitAcceptButton->AddOnClicked([]() { RHEngine::GameController::Instance().Quit(); });
 	}
 }
 
 // 毎フレーム呼ばれます
-void TitleManager::Update(const REngine::GameTimer &)
+void TitleManager::Update(const RHEngine::GameTimer &)
 {
 	// コントローラー接続チェック
 	if (m_padUI)
 	{
-		m_padUI->SetActive(REngine::Input::Pad::IsConnected());
+		m_padUI->SetActive(RHEngine::Input::Pad::IsConnected());
 	}
 	if (m_padUIOnDialog)
 	{
-		m_padUIOnDialog->SetActive(REngine::Input::Pad::IsConnected());
+		m_padUIOnDialog->SetActive(RHEngine::Input::Pad::IsConnected());
 	}
 
-	using namespace REngine::Input;
+	using namespace RHEngine::Input;
 
 	// ダイアログが開かれていないとき
 	if (m_quitDialog && !m_quitDialog->IsOpen())

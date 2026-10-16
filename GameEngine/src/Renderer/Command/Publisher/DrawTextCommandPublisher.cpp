@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawTextCommandPublisher.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -113,4 +113,4 @@ namespace REngine
 		command.material = m_graphicSystem.GetMaterial();
 	}
 
-}	// namespace REngine
+}	// namespace RHEngine

@@ -32,13 +32,13 @@
 
 // マクロ
 #define ADD_PROPERTY(Class, Property) (AddProperty(#Property, &Class::Property))
-#define ADD_HEADER(Name) (AddDecoration(Name, REngine::PropertyType::Header))
+#define ADD_HEADER(Name) (AddDecoration(Name, RHEngine::PropertyType::Header))
 
 //====================================================//
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// プロパティを扱うオブジェクトの基底クラス
 	class PropertyObject
@@ -178,4 +178,4 @@ namespace REngine
 			else return PropertyType::None;
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

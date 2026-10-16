@@ -23,7 +23,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class DialogController : public REngine::BothComponentBase
+class DialogController : public RHEngine::BothComponentBase
 {
 public:
 
@@ -40,14 +40,14 @@ private:
 	//-----------------------------------------------------
 
 	// 操作対象のDialog
-	REngine::Ref<Dialog> m_targetDialog;
+	RHEngine::Ref<Dialog> m_targetDialog;
 
 	// クリック時の操作
 	ClickedOperation m_clickedOperation;
 
 	// 開くボタン
-	REngine::Ref<REngine::ButtonUI> m_openButton;
-	REngine::Ref<REngine::ButtonUI> m_closeButton;
+	RHEngine::Ref<RHEngine::ButtonUI> m_openButton;
+	RHEngine::Ref<RHEngine::ButtonUI> m_closeButton;
 
 	// 削除用ID
 	int m_openId;
@@ -58,14 +58,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	DialogController(REngine::IComponentOwner* own);
+	DialogController(RHEngine::IComponentOwner* own);
 	~DialogController() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(MyComponent, REngine::BothComponentBase);
+	COMPONENT_TYPE(MyComponent, RHEngine::BothComponentBase);
 	
 	//-----------------------------------------------------
 	// 公開関数

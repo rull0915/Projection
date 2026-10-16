@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 列挙型宣言
@@ -26,4 +26,4 @@ namespace REngine
 		Pause,	// ポーズ
 		Edit,	// 編集中
 	};
-}	// namespace REngine
+}	// namespace RHEngine

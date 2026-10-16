@@ -19,7 +19,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	StandardCamera::StandardCamera(IComponentOwner* own)
 		: CameraBase(own)
@@ -64,4 +64,4 @@ namespace REngine
 			)
 		);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

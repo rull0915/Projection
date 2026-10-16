@@ -21,7 +21,7 @@
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Input
 	{
@@ -48,4 +48,4 @@ namespace REngine
 			Pad::Axis
 		>;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

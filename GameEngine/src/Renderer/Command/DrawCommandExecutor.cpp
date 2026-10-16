@@ -23,7 +23,7 @@
 // 関数の実体宣言
 //====================================================//
 
-REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, RenderInfoManager& infoManager)
+RHEngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, RenderInfoManager& infoManager)
 	: m_primitiveBatch{}
 	, m_spriteBatch{}
 	, m_infoManager{ infoManager }
@@ -34,9 +34,9 @@ REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, Re
 	, m_defaultMaterial{}
 {}
 
-REngine::DrawCommandExecutor::~DrawCommandExecutor() = default;
+RHEngine::DrawCommandExecutor::~DrawCommandExecutor() = default;
 
-void REngine::DrawCommandExecutor::Initialize()
+void RHEngine::DrawCommandExecutor::Initialize()
 {
 	// デバイスリソースの取得
 	DX::DeviceResources* dr = GraphicsManager::Instance().GetDeviceResources();
@@ -57,7 +57,7 @@ void REngine::DrawCommandExecutor::Initialize()
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_pContext);
 }
 
-void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container)
+void RHEngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container)
 {
 	// 各コマンドの実行
 	DrawModelCommandExecute(container.GetDrawModelCommands());
@@ -65,7 +65,7 @@ void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& cont
 	DrawSpriteAndFontCommandExecute(container.GetDrawUICommands());
 }
 
-void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands)
 {
 	// コマンド分ループ
 	for (auto& c : commands)
@@ -115,7 +115,7 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 	}
 }
 
-void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
 {
 	// スプライトバッチの開始
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
@@ -188,7 +188,7 @@ void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::ve
 	m_spriteBatch->End();
 }
 
-void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands)
 {
 	// 全コマンドを描画
 	for (auto& c : commands)

@@ -25,16 +25,16 @@ void Game::OnInitialize()
 	GameInitializer::Initialize();
 
 	// ====== シーンの登録 ====== //
-	REngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
-	REngine::SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");
-	REngine::SceneManager::Instance().RegisterScene("Stage2", L"Resources/Scenes/Stage2.scene");
-	REngine::SceneManager::Instance().RegisterScene("Stage3", L"Resources/Scenes/Stage3.scene");
-	REngine::SceneManager::Instance().RegisterScene("Select", L"Resources/Scenes/SelectScene.scene");
-	REngine::SceneManager::Instance().RegisterScene("Clear", L"Resources/Scenes/ClearScene.scene");
-	REngine::SceneManager::Instance().RegisterScene("GameOver", L"Resources/Scenes/GameOverScene.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Stage2", L"Resources/Scenes/Stage2.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Stage3", L"Resources/Scenes/Stage3.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Select", L"Resources/Scenes/SelectScene.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Clear", L"Resources/Scenes/ClearScene.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("GameOver", L"Resources/Scenes/GameOverScene.scene");
 
-	REngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
 
 	// 開始時のシーンを設定
-	REngine::SceneManager::Instance().SetStartScene("Title");
+	RHEngine::SceneManager::Instance().SetStartScene("Title");
 }

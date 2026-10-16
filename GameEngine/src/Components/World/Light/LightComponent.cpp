@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Components/World/Light/LightComponent.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -45,7 +45,7 @@ namespace REngine
 		// ライトタイプで分岐
 		switch (m_lightType)
 		{
-		case REngine::LightType::Spot:
+		case RHEngine::LightType::Spot:
 
 			// 距離を追加
 			properties.push_back(
@@ -73,7 +73,7 @@ namespace REngine
 
 			// 半径はスポットライト、ポイントライト共通のため意図的なフォールスルー
 			[[fallthrough]];
-		case REngine::LightType::Point:
+		case RHEngine::LightType::Point:
 
 			// 半径を追加
 			properties.push_back(
@@ -85,7 +85,7 @@ namespace REngine
 
 			break;
 			// 平行光源は追加変数なし
-		case REngine::LightType::Directional:
+		case RHEngine::LightType::Directional:
 			break;
 		default:
 			break;

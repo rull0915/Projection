@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数宣言
@@ -207,4 +207,4 @@ namespace REngine
 
 		return true;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

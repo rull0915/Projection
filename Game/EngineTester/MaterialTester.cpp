@@ -20,12 +20,12 @@
 //====================================================//
 
 // コンストラクタ
-MaterialTester::MaterialTester(REngine::IComponentOwner* own)
+MaterialTester::MaterialTester(RHEngine::IComponentOwner* own)
 	: BothComponentBase(own)
 	, m_pTransform{ nullptr }
 	, m_assetManager{ nullptr }
 	, m_texture{}
-	, m_samplerType{ REngine::SamplerType::None }
+	, m_samplerType{ RHEngine::SamplerType::None }
 	, m_sumTime{ 0 }
 	, m_mulColor{  }
 {
@@ -47,17 +47,17 @@ void MaterialTester::Start()
 }
 
 // 毎フレーム呼ばれます
-void MaterialTester::Update(const REngine::GameTimer & gameTimer)
+void MaterialTester::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// PSのTime定数を変更する
 	m_sumTime += gameTimer.GetElapsedTime();
 
 	// Materialを取得
-	REngine::MaterialAsset* material = m_assetManager->Get(m_material);
+	RHEngine::MaterialAsset* material = m_assetManager->Get(m_material);
 
 	if (material)
 	{
-		material->SetParam(REngine::ShaderType::Pixel, "time", m_sumTime);
+		material->SetParam(RHEngine::ShaderType::Pixel, "time", m_sumTime);
 	}
 }
 
@@ -69,12 +69,12 @@ void MaterialTester::OnValidate()
 void MaterialTester::SetBuffer()
 {
 	// Materialを取得
-	REngine::MaterialAsset* material = m_assetManager ? m_assetManager->Get(m_material) : nullptr;
+	RHEngine::MaterialAsset* material = m_assetManager ? m_assetManager->Get(m_material) : nullptr;
 
 	if (material)
 	{
-		material->SetParam(REngine::ShaderType::Pixel, "tex", m_texture);
-		material->SetParam(REngine::ShaderType::Pixel, "sam", m_samplerType);
-		material->SetParam(REngine::ShaderType::Pixel, "mulColor", m_mulColor);
+		material->SetParam(RHEngine::ShaderType::Pixel, "tex", m_texture);
+		material->SetParam(RHEngine::ShaderType::Pixel, "sam", m_samplerType);
+		material->SetParam(RHEngine::ShaderType::Pixel, "mulColor", m_mulColor);
 	}
 }

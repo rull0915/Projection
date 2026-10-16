@@ -28,7 +28,7 @@
 
 #include "Scene/UpdateMode.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -111,4 +111,4 @@ namespace REngine
 		//-----------------------------------------------------
 
 	};
-}	// namespace REngine
+}	// namespace RHEngine

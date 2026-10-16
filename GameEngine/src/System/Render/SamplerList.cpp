@@ -16,7 +16,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void REngine::SamplerList::Initialize(ID3D11Device* device)
+void RHEngine::SamplerList::Initialize(ID3D11Device* device)
 {
 	// 各タイプを作成する
 	CreateSampler(device, SamplerType::LinearWrap,	D3D11_FILTER_MIN_MAG_MIP_LINEAR,	D3D11_TEXTURE_ADDRESS_WRAP);
@@ -26,7 +26,7 @@ void REngine::SamplerList::Initialize(ID3D11Device* device)
 	CreateSampler(device, SamplerType::Anisotropic, D3D11_FILTER_ANISOTROPIC,			D3D11_TEXTURE_ADDRESS_WRAP);
 }
 
-const Microsoft::WRL::ComPtr<ID3D11SamplerState>& REngine::SamplerList::GetSampler(SamplerType type) const
+const Microsoft::WRL::ComPtr<ID3D11SamplerState>& RHEngine::SamplerList::GetSampler(SamplerType type) const
 {
 	// 作成済みのタイプなら
 	if (auto it = m_samplers.find(type); it != m_samplers.end())
@@ -41,7 +41,7 @@ const Microsoft::WRL::ComPtr<ID3D11SamplerState>& REngine::SamplerList::GetSampl
 	return empty;
 }
 
-void REngine::SamplerList::CreateSampler(ID3D11Device* device, SamplerType type, D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE mode)
+void RHEngine::SamplerList::CreateSampler(ID3D11Device* device, SamplerType type, D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE mode)
 {
 	// Descの作成
 	D3D11_SAMPLER_DESC desc{};

@@ -17,7 +17,7 @@
 #include "Components/UI/UIComponentBase.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -69,4 +69,4 @@ namespace REngine
 		DirectX::SimpleMath::Color GetColor() const { return m_color; }
 		DirectX::SimpleMath::Color GetMulColor() const { return m_mulColor; }
 	};
-} // namespace REngine
+} // namespace RHEngine

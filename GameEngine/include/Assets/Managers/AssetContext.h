@@ -18,7 +18,7 @@
 #include "AssetRegistry.h"
 #include <functional>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

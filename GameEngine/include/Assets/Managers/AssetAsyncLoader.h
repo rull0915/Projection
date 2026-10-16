@@ -25,7 +25,7 @@
 #include "Assets/Managers/AssetContext.h"
 #include "AssetLoadResult.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

@@ -46,7 +46,7 @@ enum class EasingType
 };
 
 // イージングをまとめたクラス
-class EasingConfig : public REngine::PropertyObject
+class EasingConfig : public RHEngine::PropertyObject
 {
 private:
 	EasingKind m_kind;
@@ -80,25 +80,25 @@ public:
 			switch (m_kind)
 			{
 			case EasingKind::Linear:
-				return REngine::Easing::Linear(t);
+				return RHEngine::Easing::Linear(t);
 			case EasingKind::Quad:
-				return REngine::Easing::EaseInQuad(t);
+				return RHEngine::Easing::EaseInQuad(t);
 			case EasingKind::Cubic:
-				return REngine::Easing::EaseInCubic(t);
+				return RHEngine::Easing::EaseInCubic(t);
 			case EasingKind::Quart:
-				return REngine::Easing::EaseInQuart(t);
+				return RHEngine::Easing::EaseInQuart(t);
 			case EasingKind::Quint:
-				return REngine::Easing::EaseInQuint(t);
+				return RHEngine::Easing::EaseInQuint(t);
 			case EasingKind::Sine:
-				return REngine::Easing::EaseInSine(t);
+				return RHEngine::Easing::EaseInSine(t);
 			case EasingKind::Circ:
-				return REngine::Easing::EaseInCirc(t);
+				return RHEngine::Easing::EaseInCirc(t);
 			case EasingKind::Back:
-				return REngine::Easing::EaseInBack(t);
+				return RHEngine::Easing::EaseInBack(t);
 			case EasingKind::Bounce:
-				return REngine::Easing::EaseInBounce(t);
+				return RHEngine::Easing::EaseInBounce(t);
 			case EasingKind::Elastic:
-				return REngine::Easing::EaseInElastic(t);
+				return RHEngine::Easing::EaseInElastic(t);
 			default:
 				return t;
 			}
@@ -109,25 +109,25 @@ public:
 			switch (m_kind)
 			{
 			case EasingKind::Linear:
-				return REngine::Easing::Linear(t);
+				return RHEngine::Easing::Linear(t);
 			case EasingKind::Quad:
-				return REngine::Easing::EaseOutQuad(t);
+				return RHEngine::Easing::EaseOutQuad(t);
 			case EasingKind::Cubic:
-				return REngine::Easing::EaseOutCubic(t);
+				return RHEngine::Easing::EaseOutCubic(t);
 			case EasingKind::Quart:
-				return REngine::Easing::EaseOutQuart(t);
+				return RHEngine::Easing::EaseOutQuart(t);
 			case EasingKind::Quint:
-				return REngine::Easing::EaseOutQuint(t);
+				return RHEngine::Easing::EaseOutQuint(t);
 			case EasingKind::Sine:
-				return REngine::Easing::EaseOutSine(t);
+				return RHEngine::Easing::EaseOutSine(t);
 			case EasingKind::Circ:
-				return REngine::Easing::EaseOutCirc(t);
+				return RHEngine::Easing::EaseOutCirc(t);
 			case EasingKind::Back:
-				return REngine::Easing::EaseOutBack(t);
+				return RHEngine::Easing::EaseOutBack(t);
 			case EasingKind::Bounce:
-				return REngine::Easing::EaseOutBounce(t);
+				return RHEngine::Easing::EaseOutBounce(t);
 			case EasingKind::Elastic:
-				return REngine::Easing::EaseOutElastic(t);
+				return RHEngine::Easing::EaseOutElastic(t);
 			default:
 				return t;
 			}
@@ -138,25 +138,25 @@ public:
 			switch (m_kind)
 			{
 			case EasingKind::Linear:
-				return REngine::Easing::Linear(t);
+				return RHEngine::Easing::Linear(t);
 			case EasingKind::Quad:
-				return REngine::Easing::EaseInOutQuad(t);
+				return RHEngine::Easing::EaseInOutQuad(t);
 			case EasingKind::Cubic:
-				return REngine::Easing::EaseInOutCubic(t);
+				return RHEngine::Easing::EaseInOutCubic(t);
 			case EasingKind::Quart:
-				return REngine::Easing::EaseInOutQuart(t);
+				return RHEngine::Easing::EaseInOutQuart(t);
 			case EasingKind::Quint:
-				return REngine::Easing::EaseInOutQuint(t);
+				return RHEngine::Easing::EaseInOutQuint(t);
 			case EasingKind::Sine:
-				return REngine::Easing::EaseInOutSine(t);
+				return RHEngine::Easing::EaseInOutSine(t);
 			case EasingKind::Circ:
-				return REngine::Easing::EaseInOutCirc(t);
+				return RHEngine::Easing::EaseInOutCirc(t);
 			case EasingKind::Back:
-				return REngine::Easing::EaseInOutBack(t);
+				return RHEngine::Easing::EaseInOutBack(t);
 			case EasingKind::Bounce:
-				return REngine::Easing::EaseInOutBounce(t);
+				return RHEngine::Easing::EaseInOutBounce(t);
 			case EasingKind::Elastic:
-				return REngine::Easing::EaseInOutElastic(t);
+				return RHEngine::Easing::EaseInOutElastic(t);
 			default:
 				return t;
 			}

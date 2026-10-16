@@ -22,7 +22,7 @@
 #include "GameObject/GameObject.h"
 #include "Editor/Saver/ObjectSaver.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -161,6 +161,6 @@ namespace REngine
 			ImGui::TreePop();
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

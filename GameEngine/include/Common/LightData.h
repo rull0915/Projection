@@ -17,7 +17,7 @@
 
 #include <SimpleMath.h>
 
-namespace REngine
+namespace RHEngine
 {
 	struct alignas(16) PointLight
 	{

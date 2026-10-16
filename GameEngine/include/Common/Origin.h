@@ -17,7 +17,7 @@
 
 #include <SimpleMath.h>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Origin
 	{
@@ -64,4 +64,4 @@ namespace REngine
 			}
 		}
 	}
-} // namespace REngine
+} // namespace RHEngine

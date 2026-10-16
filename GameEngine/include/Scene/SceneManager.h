@@ -10,7 +10,7 @@
 
 #include "Transition/TransitionManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// 前方参照
 	class Scene;
@@ -90,4 +90,4 @@ namespace REngine
 		// シーンの変更
 		void ChangeScene();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -27,9 +27,9 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
-	LoadResult REngine::Loader::TextureLoader(const std::filesystem::path& path, AssetContext& ctx)
+	LoadResult RHEngine::Loader::TextureLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();

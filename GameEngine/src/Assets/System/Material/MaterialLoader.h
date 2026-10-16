@@ -24,7 +24,7 @@
 #include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Managers/AssetLoadResult.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetContext;
 

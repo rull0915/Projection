@@ -17,7 +17,7 @@
 //====================================================//
 
 // コンストラクタ
-ArrayTester::ArrayTester(REngine::IComponentOwner* own)
+ArrayTester::ArrayTester(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_testArray{ 1, 2, 4 }
 	, m_colorArray(1)
@@ -32,5 +32,5 @@ void ArrayTester::Start()
 {}
 
 // 毎フレーム呼ばれます
-void ArrayTester::Update(const REngine::GameTimer&)
+void ArrayTester::Update(const RHEngine::GameTimer&)
 {}

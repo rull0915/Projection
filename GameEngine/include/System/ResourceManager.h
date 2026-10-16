@@ -21,7 +21,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class ResourceManager
 	{
@@ -70,4 +70,4 @@ namespace REngine
 		DirectX::AudioEngine* GetAudioEngine() { return m_audioEngine.get(); }
 	};
 
-} // namespace REngine
+} // namespace RHEngine

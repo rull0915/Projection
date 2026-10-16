@@ -24,7 +24,7 @@
 #include "Components/ComponentInfo.h"
 #include "Editor/Editor/SelectedOnGUI.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -84,6 +84,6 @@ namespace REngine
 		// Assetを表示する関数
 		void DrawAsset(AssetBase* asset);
 	};
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

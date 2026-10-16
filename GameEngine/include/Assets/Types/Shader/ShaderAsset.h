@@ -22,7 +22,7 @@
 #include "ShaderLoader.h"
 #include "Assets/Managers/AssetLoadResult.h"
 
-namespace REngine
+namespace RHEngine
 {
 	/// <summary>
 	/// シェーダーのタイプ

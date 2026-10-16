@@ -13,7 +13,7 @@
 #pragma once
 #include <cstdint>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace CBufferSlot
 	{
@@ -29,4 +29,4 @@ namespace REngine
 	/// <param name="slot">スロット番号</param>
 	/// <returns></returns>
 	static bool IsMaterialManagedSlot(uint32_t slot) { return slot >= CBufferSlot::MaterialRangeStart; }
-}	// namespace REngine
+}	// namespace RHEngine

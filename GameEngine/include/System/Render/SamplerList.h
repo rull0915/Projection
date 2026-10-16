@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include "Assets/Types/Shader/SamplerType.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

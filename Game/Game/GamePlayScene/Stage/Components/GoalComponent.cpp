@@ -23,19 +23,19 @@
 //====================================================//
 
 // コンストラクタ
-GoalComponent::GoalComponent(REngine::IComponentOwner* own)
+GoalComponent::GoalComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 {
 }
 
 // トリガーで衝突したら
-void GoalComponent::OnTriggerEnter(REngine::HitContact & contact)
+void GoalComponent::OnTriggerEnter(RHEngine::HitContact & contact)
 {
 	// プレイヤーとぶつかったら
 	if (contact.other->GetTag() == "Player")
 	{
 		// ゴールイベントの呼び出し
-		REngine::EventBus<GamePlayEvent>::Publish(GamePlayEvent::Goal);
+		RHEngine::EventBus<GamePlayEvent>::Publish(GamePlayEvent::Goal);
 
 		// コライダーの無効化
 		contact.ownCol->SetActive(false);

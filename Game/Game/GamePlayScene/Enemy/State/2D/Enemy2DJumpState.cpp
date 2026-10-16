@@ -17,7 +17,7 @@
 
 #include "Settings/WorldSetting2D.h"
 
-using namespace REngine;
+using namespace RHEngine;
 
 //====================================================//
 // 関数の実体宣言

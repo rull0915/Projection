@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Managers/ObjectManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -168,4 +168,4 @@ namespace REngine
 			}
 		);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

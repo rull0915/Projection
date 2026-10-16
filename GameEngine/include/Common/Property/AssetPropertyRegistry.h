@@ -21,7 +21,7 @@
 #include "Assets/Objects/Handle.h"
 #include "Assets/Managers/IAssetResolver.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -87,4 +87,4 @@ namespace REngine
 		// UUIDを取得する関数
 		UUID GetUUID(std::type_index idx, void* ptr, const IAssetResolver& resolver) const { return m_getUUIDMap.at(idx)(ptr, resolver); }
 	};
-}	//namespace REngine
+}	//namespace RHEngine

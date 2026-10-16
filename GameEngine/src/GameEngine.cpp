@@ -28,7 +28,7 @@
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -201,7 +201,7 @@ namespace REngine
 		if (m_sceneEdit)
 		{
 			// Imguiの描画
-			REngine::ImguiManager::Render();
+			RHEngine::ImguiManager::Render();
 		}
 
 #endif // ENGINE_GUI
@@ -241,4 +241,4 @@ namespace REngine
 
 #endif // ENGINE_GUI
 
-}	// namespace REngine
+}	// namespace RHEngine

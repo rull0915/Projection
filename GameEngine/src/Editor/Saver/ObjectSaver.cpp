@@ -23,7 +23,7 @@
 #include "Common/Property/AssetPropertyRegistry.h"
 #include "Common/ObjectReference.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -288,4 +288,4 @@ namespace REngine
 		// 閉じる
 		ofs.close();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

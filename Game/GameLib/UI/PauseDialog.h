@@ -45,7 +45,7 @@ private:
 	//-----------------------------------------------------
 
 	// RectTransform
-	REngine::RectTransform* m_rectTransform;
+	RHEngine::RectTransform* m_rectTransform;
 
 	// 使用するイージング
 	EasingConfig m_openEasing;
@@ -71,7 +71,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PauseDialog(REngine::IComponentOwner* own);
+	PauseDialog(RHEngine::IComponentOwner* own);
 	~PauseDialog() = default;
 
 	//-----------------------------------------------------
@@ -86,7 +86,7 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 	// 開く
 	void Show() override;

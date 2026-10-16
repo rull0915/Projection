@@ -21,7 +21,7 @@
 #include "Physics/HitContact.h"
 #include "../../ReserveContainer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -73,4 +73,4 @@ namespace REngine
 		// 削除予約済みのコライダーを削除する関数
 		void RemoveReserved() override;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

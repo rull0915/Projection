@@ -21,7 +21,7 @@
 #include "Editor/Editor/SceneCamera.h"
 #include "System/Render/RenderTarget.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 
@@ -89,6 +89,6 @@ namespace REngine
 
 		void TestPlay();
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

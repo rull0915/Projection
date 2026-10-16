@@ -15,7 +15,7 @@
 #include "Settings/PhysicsSettings.h"
 #include "Managers/3DManagers/Collider/CollideManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -237,4 +237,4 @@ namespace REngine
 			if (bRigid && !contact.otherIsStatic) bRigid->AddForce(tangentImpulse + normalImpulse, ForceMode::Impulse, false);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

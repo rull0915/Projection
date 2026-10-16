@@ -16,7 +16,7 @@
 //====================================================//
 #include <cstdint>
 
-namespace REngine
+namespace RHEngine
 {
 	enum class ShaderParamType
 	{
@@ -49,4 +49,4 @@ namespace REngine
 		uint32_t slot;	// 定数バッファのスロット番号 register(bN)
 		uint32_t size;	// 定数バッファ全体の合計サイズ
 	};
-}	// namespace REngine
+}	// namespace RHEngine

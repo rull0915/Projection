@@ -18,7 +18,7 @@
 
 #include "Common/UUID.h"
 
-namespace REngine
+namespace RHEngine
 {
 	namespace DefaultAsset
 	{

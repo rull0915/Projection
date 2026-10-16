@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 列挙型宣言
@@ -23,4 +23,4 @@ namespace REngine
 		Loaded,   // 成功
 		Failed    // 失敗
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -30,7 +30,7 @@
 #include "AssetContext.h"
 #include "AssetAsyncLoader.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// アセットであることを制限するconcept
 	template<typename T>
@@ -261,4 +261,4 @@ namespace REngine
 			m_typeManager.RegisterAssetType(ext, assetName);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

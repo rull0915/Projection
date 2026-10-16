@@ -22,7 +22,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Saver
 	{
@@ -56,4 +56,4 @@ namespace REngine
 			saver.SavePropertyToFile(path, asset);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

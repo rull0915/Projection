@@ -20,7 +20,7 @@
 
 #include <memory>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -81,4 +81,4 @@ namespace REngine
 		void PositionCorrection(HitContact2D& contact);
 		void VelocityCorrection(HitContact2D& contact);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

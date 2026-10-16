@@ -21,7 +21,7 @@
 
 #include "VertexElementInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// staticなGetLayout関数を持っているかをチェックするConcept
 	template <typename T>

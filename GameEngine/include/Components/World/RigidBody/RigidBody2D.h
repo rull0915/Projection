@@ -16,7 +16,7 @@
 //====================================================//
 #include "RigidBodyBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -95,4 +95,4 @@ namespace REngine
 		void SetVelocity(DirectX::SimpleMath::Vector2 v) { m_velocity = v; }
 		void SetAcceleration(DirectX::SimpleMath::Vector2 a) { m_acceleration = a; }
 	};
-} // namespace REngine
+} // namespace RHEngine

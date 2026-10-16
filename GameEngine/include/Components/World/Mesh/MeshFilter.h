@@ -20,12 +20,12 @@
 #include "Assets/Types/Model/Mesh.h"
 #include "Assets/Objects/Handle.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class MeshFilter : public REngine::WorldComponentBase
+	class MeshFilter : public RHEngine::WorldComponentBase
 	{
 	private:
 
@@ -41,7 +41,7 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		MeshFilter(REngine::IComponentOwner* own)
+		MeshFilter(RHEngine::IComponentOwner* own)
 			: WorldComponentBase(own)
 			, m_mesh{ ERROR_HANDLE<Mesh> }
 		{
@@ -53,7 +53,7 @@ namespace REngine
 		// Type
 		//-----------------------------------------------------
 
-		COMPONENT_TYPE(MeshFilter, REngine::WorldComponentBase);
+		COMPONENT_TYPE(MeshFilter, RHEngine::WorldComponentBase);
 
 		//-----------------------------------------------------
 		// 公開関数

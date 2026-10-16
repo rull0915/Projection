@@ -14,7 +14,7 @@
 #include "Components/World/Collider/ColliderCommon.h"
 #include "Assets/Managers/AssetManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	ColliderCommon::ColliderCommon(IComponentOwner* own)
 		: WorldComponentBase(own)
@@ -39,4 +39,4 @@ namespace REngine
 	{
 		return m_assetManager->Get<PhysicsMaterial>(m_physicsMaterial);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

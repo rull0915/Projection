@@ -22,7 +22,7 @@ using namespace DirectX;
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	ResourceManager::ResourceManager()
 		: m_effect{}
@@ -54,4 +54,4 @@ namespace REngine
 			}
 		}
 	}
-} // namespace REngine
+} // namespace RHEngine

@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class DimentionManager : public REngine::WorldComponentBase, public REngine::IComponentListener
+class DimentionManager : public RHEngine::WorldComponentBase, public RHEngine::IComponentListener
 {
 private:
 	// 状態
@@ -66,14 +66,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	DimentionManager(REngine::IComponentOwner* owner);
+	DimentionManager(RHEngine::IComponentOwner* owner);
 	~DimentionManager() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(DimentionManager, REngine::WorldComponentBase)
+	COMPONENT_TYPE(DimentionManager, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -83,7 +83,7 @@ public:
 	void Awake() override;
 
 	// 更新関数
-	void Update(const REngine::GameTimer& timer) override;
+	void Update(const RHEngine::GameTimer& timer) override;
 
 	// 次元を切り替える関数
 	void ChangeDimention(float changeTime = 1.0f);

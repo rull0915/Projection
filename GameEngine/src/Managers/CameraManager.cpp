@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "CameraManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -26,4 +26,4 @@ namespace REngine
 
 	CameraManager::~CameraManager()
 	{}
-}	// namespace REngine
+}	// namespace RHEngine

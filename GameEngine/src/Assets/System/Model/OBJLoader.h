@@ -18,7 +18,7 @@
 #include "Assets/Managers/AssetLoadResult.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetContext;
 

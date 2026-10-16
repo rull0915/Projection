@@ -18,7 +18,7 @@
 #include "GameObject/GameObject.h"
 
 // 生成関数登録マクロ
-#define REGIST_TO_FACTORY(Name) (REngine::ComponentFactory::Register(#Name, { REngine::ComponentProject::Game, Name::SPACE }, [](REngine::GameObject* o){ return o->AddComponent<Name>(); }))
+#define REGIST_TO_FACTORY(Name) (RHEngine::ComponentFactory::Register(#Name, { RHEngine::ComponentProject::Game, Name::SPACE }, [](RHEngine::GameObject* o){ return o->AddComponent<Name>(); }))
 
 //====================================================//
 // クラス宣言

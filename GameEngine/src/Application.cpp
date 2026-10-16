@@ -19,7 +19,7 @@
 // 関数の実体宣言
 //====================================================//
 
-REngine::Application::Application(const ApplicationProps& props)
+RHEngine::Application::Application(const ApplicationProps& props)
 	: m_props{ props }
 	, m_gameEngine{ std::make_unique<GameEngine>() }
 	, m_deviceResources{ nullptr }
@@ -34,11 +34,11 @@ REngine::Application::Application(const ApplicationProps& props)
 	m_deviceResources->RegisterDeviceNotify(this);
 }
 
-REngine::Application::~Application()
+RHEngine::Application::~Application()
 {
 }
 
-void REngine::Application::Initialize(HWND hwnd, int width, int height)
+void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 {
 	// デバイスリソースにウィンドウを渡す
 	m_deviceResources->SetWindow(hwnd, width, height);
@@ -54,7 +54,7 @@ void REngine::Application::Initialize(HWND hwnd, int width, int height)
 	OnInitialize();
 }
 
-void REngine::Application::Tick()
+void RHEngine::Application::Tick()
 {
 	m_gameEngine->BeginFrame();
 
@@ -66,7 +66,7 @@ void REngine::Application::Tick()
 	Render();
 }
 
-void REngine::Application::Update()
+void RHEngine::Application::Update()
 {
 	// 経過時間を取得
 	float elapsedTime = float(m_timer.GetElapsedSeconds());
@@ -78,7 +78,7 @@ void REngine::Application::Update()
 	OnUpdate(elapsedTime);
 }
 
-void REngine::Application::Render()
+void RHEngine::Application::Render()
 {
 	// Don't try to render anything before the first Update.
 	if (m_timer.GetFrameCount() == 0)
@@ -99,7 +99,7 @@ void REngine::Application::Render()
 	m_deviceResources->Present();
 }
 
-void REngine::Application::Clear()
+void RHEngine::Application::Clear()
 {
 	// クリアイベントの開始
 	m_deviceResources->PIXBeginEvent(L"Clear");
@@ -110,7 +110,7 @@ void REngine::Application::Clear()
 	auto depthStencil = m_deviceResources->GetDepthStencilView();
 
 	// 背景色を取得
-	auto color = REngine::WindowManager::Instance().GetBackGroundColor();
+	auto color = RHEngine::WindowManager::Instance().GetBackGroundColor();
 
 	// RTVのリセット
 	context->ClearRenderTargetView(renderTarget, color);

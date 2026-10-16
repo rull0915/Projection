@@ -18,7 +18,7 @@
 //====================================================//
 #include "Common/Property/PropertyObject.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 	class Scene;

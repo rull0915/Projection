@@ -26,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class DepthCorrection : public REngine::WorldComponentBase
+class DepthCorrection : public RHEngine::WorldComponentBase
 {
 private:
 	static constexpr float CORRECTION_BORDER = 1.0f / 1.1415926535f;
@@ -36,7 +36,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	DepthCorrection(REngine::IComponentOwner* owner)
+	DepthCorrection(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 	{
 	}
@@ -47,11 +47,11 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(DepthCorrection, REngine::WorldComponentBase)
+	COMPONENT_TYPE(DepthCorrection, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void OnCollisionEnter2D(REngine::HitContact2D& contact) override;
+	void OnCollisionEnter2D(RHEngine::HitContact2D& contact) override;
 };

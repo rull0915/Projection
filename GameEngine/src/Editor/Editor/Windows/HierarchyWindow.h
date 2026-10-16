@@ -15,7 +15,7 @@
 
 #include "Editor/Editor/SelectedOnGUI.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -70,6 +70,6 @@ namespace REngine
 		// ObjectManagerから全Objectを描画する
 		void DrawObjects(ObjectManager* objectManager);
 	};
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

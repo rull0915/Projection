@@ -22,7 +22,7 @@
 #include "Command/Publisher/DrawTextCommandPublisher.h"
 #include "Command/Publisher/DrawUICommandPublisher.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class DrawCommandContainer;
 	class GraphicsSystem;

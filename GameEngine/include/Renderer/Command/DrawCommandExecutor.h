@@ -22,7 +22,7 @@
 #include "DrawCommandContainer.h"
 #include "Renderer/RenderInfoManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 	class SamplerList;
@@ -97,4 +97,4 @@ namespace REngine
 		// モデル
 		void DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

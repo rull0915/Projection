@@ -32,16 +32,16 @@
 void GameInitializer::Initialize()
 {
 	// 衝突判定関数の追加
-	REngine::CollisionMap2D::Register(
+	RHEngine::CollisionMap2D::Register(
 		ConvexPolygonCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
 		Collision2D::CheckHit2D_Convex_Convex
 	);
-	REngine::CollisionMap2D::Register(
-		REngine::CircleCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
+	RHEngine::CollisionMap2D::Register(
+		RHEngine::CircleCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
 		Collision2D::CheckHit2D_Circle_Convex
 	);
-	REngine::CollisionMap2D::Register(
-		REngine::CapsuleCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
+	RHEngine::CollisionMap2D::Register(
+		RHEngine::CapsuleCollider2D::StaticTypeId(), ConvexPolygonCollider2D::StaticTypeId(),
 		Collision2D::CheckHit2D_Capsule_Convex
 	);
 
@@ -55,21 +55,21 @@ void GameInitializer::Initialize()
 void GameInitializer::AddKey()
 {
 	// Qボタンで次元変更
-	REngine::Input::Custom::AddButton(
-		"ChangeDimention", REngine::Input::Key::Code::Q
+	RHEngine::Input::Custom::AddButton(
+		"ChangeDimention", RHEngine::Input::Key::Code::Q
 	);
-	REngine::Input::Custom::AddButton(
-		"ChangeDimention", REngine::Input::Pad::Button::RShoulder
+	RHEngine::Input::Custom::AddButton(
+		"ChangeDimention", RHEngine::Input::Pad::Button::RShoulder
 	);
 
 	// 決定
-	REngine::Input::Custom::AddButton(
-		"Decide", REngine::Input::Key::Code::Space
+	RHEngine::Input::Custom::AddButton(
+		"Decide", RHEngine::Input::Key::Code::Space
 	);
-	REngine::Input::Custom::AddButton(
-		"Decide", REngine::Input::Key::Code::Z
+	RHEngine::Input::Custom::AddButton(
+		"Decide", RHEngine::Input::Key::Code::Z
 	);
-	REngine::Input::Custom::AddButton(
-		"Decide", REngine::Input::Pad::Button::B
+	RHEngine::Input::Custom::AddButton(
+		"Decide", RHEngine::Input::Pad::Button::B
 	);
 }

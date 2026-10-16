@@ -22,7 +22,7 @@
 
 #define ADD_FACTORY(type) ComponentFactory::Register(#type, { ComponentProject::Engine, type::SPACE }, [](GameObject* o) { return o->AddComponent<type>(); });
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -72,4 +72,4 @@ namespace REngine
 		// Light
 		ADD_FACTORY(LightComponent);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

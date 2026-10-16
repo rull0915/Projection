@@ -23,7 +23,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void REngine::Saver::MaterialSaver::Save(AssetBase* asset, const std::filesystem::path& path, AssetContext& ctx)
+void RHEngine::Saver::MaterialSaver::Save(AssetBase* asset, const std::filesystem::path& path, AssetContext& ctx)
 {
 	// Materialに変換
 	MaterialAsset* material = dynamic_cast<MaterialAsset*>(asset);

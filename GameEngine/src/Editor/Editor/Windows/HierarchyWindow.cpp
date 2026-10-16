@@ -27,7 +27,7 @@
 #include "Editor/Editor/HandlePayload.h"
 #include "Assets/Types/Prefab.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -313,6 +313,6 @@ namespace REngine
 
 		ImGui::PopID();
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

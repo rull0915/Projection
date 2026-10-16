@@ -14,7 +14,7 @@
 
 using namespace DirectX;
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -68,4 +68,4 @@ namespace REngine
 		// 貯まった力をリセット
 		m_force = SimpleMath::Vector3::Zero;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,7 +16,7 @@
 
 #include "Editor/Loader/ObjectLoader.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -135,4 +135,4 @@ namespace REngine
 		// リクエスト要求をクリア
 		m_pRequestedScene = "";
 	}
-}	// namespace REngine
+}	// namespace RHEngine

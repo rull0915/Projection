@@ -16,7 +16,7 @@
 //====================================================//
 using namespace DirectX;
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数宣言
@@ -120,4 +120,4 @@ namespace REngine
 
 		return nearPoint;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

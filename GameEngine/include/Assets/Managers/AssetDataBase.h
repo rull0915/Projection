@@ -19,7 +19,7 @@
 #include "AuxFileRepository.h"
 #include "AssetTypeManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -150,4 +150,4 @@ namespace REngine
 			m_pathToUuid[path] = uuid;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

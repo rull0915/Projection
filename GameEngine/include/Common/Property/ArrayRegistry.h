@@ -20,7 +20,7 @@
 #include "Property.h"
 #include "PropertyTypeIndex.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -178,4 +178,4 @@ namespace REngine
 			return pro;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,7 +16,7 @@
 // 関数の実体宣言
 //====================================================//
 
-bool REngine::ShadowMap::Initialize(ID3D11Device* device, UINT width, UINT height)
+bool RHEngine::ShadowMap::Initialize(ID3D11Device* device, UINT width, UINT height)
 {
 	// 作成不可なら失敗
 	if (!device || width == 0 || height == 0) return false;
@@ -86,7 +86,7 @@ bool REngine::ShadowMap::Initialize(ID3D11Device* device, UINT width, UINT heigh
 	return true;
 }
 
-void REngine::ShadowMap::Begin(ID3D11DeviceContext* context)
+void RHEngine::ShadowMap::Begin(ID3D11DeviceContext* context)
 {
 	if (!context) return;
 
@@ -116,7 +116,7 @@ void REngine::ShadowMap::Begin(ID3D11DeviceContext* context)
 		0);
 }
 
-void REngine::ShadowMap::End(ID3D11DeviceContext* context)
+void RHEngine::ShadowMap::End(ID3D11DeviceContext* context)
 {
 	if (!context) return;
 
@@ -134,7 +134,7 @@ void REngine::ShadowMap::End(ID3D11DeviceContext* context)
 		&m_prevViewport);
 }
 
-ID3D11ShaderResourceView* REngine::ShadowMap::GetSRV() const
+ID3D11ShaderResourceView* RHEngine::ShadowMap::GetSRV() const
 {
 	return m_srv.Get();
 }

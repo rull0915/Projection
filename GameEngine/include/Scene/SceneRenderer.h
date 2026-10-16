@@ -17,7 +17,7 @@
 //====================================================//
 #include "System/Render/RenderContext.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Renderer;
 	class ShadowRenderer;
@@ -66,4 +66,4 @@ namespace REngine
 		// UIPass描画
 		void DrawUIPass(const RenderContext& ctx, Renderer& renderer);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

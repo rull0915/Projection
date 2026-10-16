@@ -21,7 +21,7 @@
 #include <unordered_map>
 #include "Assets/Types/Vertex/VertexElementInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

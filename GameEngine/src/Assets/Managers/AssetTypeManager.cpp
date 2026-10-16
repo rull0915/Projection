@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Assets/Managers/AssetTypeManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -88,4 +88,4 @@ namespace REngine
 		// なければ空文字を返す
 		return L"";
 	}
-}	// namespace REngine
+}	// namespace RHEngine

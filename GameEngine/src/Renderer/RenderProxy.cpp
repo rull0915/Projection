@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Renderer/RenderProxy.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言

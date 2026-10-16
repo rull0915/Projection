@@ -17,7 +17,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> InputLayoutCache::GetOrCreate(ID3D11Device* device, uint32_t vertexId, ID3DBlob* vsBlob, const std::vector<VertexElementInfo>& layoutInfo)
 	{

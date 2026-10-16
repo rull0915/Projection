@@ -17,7 +17,7 @@
 #include "GameObject/GameObject.h"
 #include "Assets/Types/Prefab.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -55,4 +55,4 @@ namespace REngine
 		// UIオブジェクトを生成する関数
 		GameObject* GenerateUI();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

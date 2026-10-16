@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class CatmullRomComponent : public REngine::WorldComponentBase, public REngine::IDebugRenderable
+class CatmullRomComponent : public RHEngine::WorldComponentBase, public RHEngine::IDebugRenderable
 {
 private:
 
@@ -54,20 +54,20 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	CatmullRomComponent(REngine::IComponentOwner* own);
+	CatmullRomComponent(RHEngine::IComponentOwner* own);
 	~CatmullRomComponent() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(CatmullRomComponent, REngine::WorldComponentBase)
+	COMPONENT_TYPE(CatmullRomComponent, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color);
+	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color);
 
 	//-----------------------------------------------------
 	// ゲッター

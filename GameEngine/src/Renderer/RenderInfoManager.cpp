@@ -18,7 +18,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void REngine::RenderInfoManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+void RHEngine::RenderInfoManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	// デバイスがなければ初期化不可
 	if (!pDevice) return;
@@ -61,7 +61,7 @@ void REngine::RenderInfoManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceC
 	m_pContext = pContext;
 }
 
-void REngine::RenderInfoManager::UpdatePerFrame(const SceneData& data)
+void RHEngine::RenderInfoManager::UpdatePerFrame(const SceneData& data)
 {
 	// ライト情報の設定
 	m_perFrame.light.pointLightCount = std::min(MAX_POINT_LIGHT, static_cast<int>(data.lightData.pointLights.size()));
@@ -96,7 +96,7 @@ void REngine::RenderInfoManager::UpdatePerFrame(const SceneData& data)
 	m_perFrame.shadow.shadowBias = data.shadowData.shadowBias;
 }
 
-void REngine::RenderInfoManager::UpdatePerCamera(const SceneCameraData& data)
+void RHEngine::RenderInfoManager::UpdatePerCamera(const SceneCameraData& data)
 {
 	// VP行列を取得
 	DirectX::SimpleMath::Matrix view = data.view;
@@ -111,7 +111,7 @@ void REngine::RenderInfoManager::UpdatePerCamera(const SceneCameraData& data)
 	m_perCamera.cameraPos = data.pos;
 }
 
-void REngine::RenderInfoManager::UpdatePerObject(const DirectX::SimpleMath::Matrix& world)
+void RHEngine::RenderInfoManager::UpdatePerObject(const DirectX::SimpleMath::Matrix& world)
 {
 	// World行列を取得
 	m_perObject.world = world.Transpose();
@@ -119,7 +119,7 @@ void REngine::RenderInfoManager::UpdatePerObject(const DirectX::SimpleMath::Matr
 	m_perObject.worldInvTranspose = world.Invert();
 }
 
-void REngine::RenderInfoManager::BindPerFrame()
+void RHEngine::RenderInfoManager::BindPerFrame()
 {
 	// コンテキストがなければバインド不可
 	if (!m_pContext) return;
@@ -137,7 +137,7 @@ void REngine::RenderInfoManager::BindPerFrame()
 	m_pContext->PSSetConstantBuffers(CBufferSlot::PerFrame, 1, m_perFrameCBuffer.GetAddressOf());
 }
 
-void REngine::RenderInfoManager::BindPerCamera()
+void RHEngine::RenderInfoManager::BindPerCamera()
 {
 	// コンテキストがなければバインド不可
 	if (!m_pContext) return;
@@ -155,7 +155,7 @@ void REngine::RenderInfoManager::BindPerCamera()
 	m_pContext->PSSetConstantBuffers(CBufferSlot::PerCamera, 1, m_perCameraCBuffer.GetAddressOf());
 }
 
-void REngine::RenderInfoManager::BindPerObject()
+void RHEngine::RenderInfoManager::BindPerObject()
 {
 	// コンテキストがなければバインド不可
 	if (!m_pContext) return;

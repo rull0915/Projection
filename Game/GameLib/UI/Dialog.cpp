@@ -17,7 +17,7 @@
 //====================================================//
 
 // コンストラクタ
-Dialog::Dialog(REngine::IComponentOwner* own)
+Dialog::Dialog(RHEngine::IComponentOwner* own)
 	: UIComponentBase(own)
 	, m_isOpen{ false }
 {

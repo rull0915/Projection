@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class StartCamera : public REngine::WorldComponentBase
+class StartCamera : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -43,7 +43,7 @@ private:
 	//-----------------------------------------------------
 
 	// トランスフォームポインタ
-	REngine::Transform* m_pTransform;
+	RHEngine::Transform* m_pTransform;
 
 	// ターゲット名
 	std::string m_targetName;
@@ -77,14 +77,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	StartCamera(REngine::IComponentOwner* own);
+	StartCamera(RHEngine::IComponentOwner* own);
 	~StartCamera() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(StartCamera, REngine::WorldComponentBase)
+	COMPONENT_TYPE(StartCamera, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -93,5 +93,5 @@ public:
 	void Awake() override;
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 };

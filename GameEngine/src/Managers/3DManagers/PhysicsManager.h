@@ -22,7 +22,7 @@
 
 #include <unordered_map>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -83,4 +83,4 @@ namespace REngine
 		void PositionCorrection(HitContact& contact);
 		void VelocityCorrection(HitContact& contact);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

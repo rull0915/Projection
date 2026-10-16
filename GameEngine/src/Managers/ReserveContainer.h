@@ -20,7 +20,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -143,4 +143,4 @@ namespace REngine
 			return m_objectList;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

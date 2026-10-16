@@ -21,7 +21,7 @@
 // 関数の実体宣言
 //====================================================//
 
-REngine::ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
+RHEngine::ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
 	: m_usable{ false }
 	, m_drawMeshCommands{}
 	, m_vsShaderHandle{}
@@ -35,7 +35,7 @@ REngine::ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
 {
 }
 
-void REngine::ShadowRenderer::Initialize()
+void RHEngine::ShadowRenderer::Initialize()
 {
 	// ゲームエンジンデフォルトのShadowPass用vsを取得
 	m_vsShaderHandle = m_assetManager.LoadFromUUID(DefaultAsset::SHADOW_PASS_VS).As<ShaderAsset>();
@@ -66,7 +66,7 @@ void REngine::ShadowRenderer::Initialize()
 	m_usable = true;
 }
 
-void REngine::ShadowRenderer::Begin(ShadowMap* shadowMap)
+void RHEngine::ShadowRenderer::Begin(ShadowMap* shadowMap)
 {
 	// 使用不可ならスキップ
 	if (!m_usable) return;
@@ -81,7 +81,7 @@ void REngine::ShadowRenderer::Begin(ShadowMap* shadowMap)
 	m_currentShadowMap = shadowMap;
 }
 
-void REngine::ShadowRenderer::End()
+void RHEngine::ShadowRenderer::End()
 {
 	if (!m_currentShadowMap || !m_usable) return;
 
@@ -92,7 +92,7 @@ void REngine::ShadowRenderer::End()
 	m_currentShadowMap = nullptr;
 }
 
-void REngine::ShadowRenderer::ExecuteCommands(const SceneCameraData& data)
+void RHEngine::ShadowRenderer::ExecuteCommands(const SceneCameraData& data)
 {
 	// 使用不可ならスキップ
 	if (!m_usable) return;

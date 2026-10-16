@@ -27,7 +27,7 @@
 
 #include "ComponentContainer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -305,4 +305,4 @@ namespace REngine
 			return m_components.Gets(id);
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

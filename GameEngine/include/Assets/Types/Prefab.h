@@ -18,7 +18,7 @@
 #include <filesystem>
 #include "Assets/Objects/AssetBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class PrefabImpl;
 
@@ -53,4 +53,4 @@ namespace REngine
 		// Implのゲッター
 		PrefabImpl* GetImpl() const { return m_impl.get(); }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

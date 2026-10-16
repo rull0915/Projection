@@ -25,7 +25,7 @@
 #include "ShadowMap.h"
 #include "Renderer/RenderInfoManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// 前方宣言
 	class AssetManager;

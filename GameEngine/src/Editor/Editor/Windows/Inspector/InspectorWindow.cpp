@@ -22,7 +22,7 @@
 
 #include "ThirdParty/imgui/imgui.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -247,6 +247,6 @@ namespace REngine
 			}
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

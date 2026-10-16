@@ -21,7 +21,7 @@
 #include "Assets/Objects/AssetBase.h"
 #include "IAssetResolver.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -219,4 +219,4 @@ namespace REngine
 			return slot.uuid;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

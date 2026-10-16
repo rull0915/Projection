@@ -13,7 +13,7 @@
 #include "Assets/Managers/AssetDataBase.h"
 #include "Common/Random.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -127,4 +127,4 @@ namespace REngine
 		// UUIDを返す
 		return uuid;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

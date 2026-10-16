@@ -22,7 +22,7 @@
 #include "Assets/Types/Shader/SamplerType.h"
 #include "Assets/Types/Shader/ShaderParam.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// バッファとして存在する型を全て扱うVariant
 	using MaterialParamVariant = std::variant<
@@ -70,21 +70,21 @@ namespace REngine
 		{
 			switch (type)
 			{
-			case REngine::ShaderParamType::Float:
+			case RHEngine::ShaderParamType::Float:
 				return (float)0.0f;
-			case REngine::ShaderParamType::Float2:
+			case RHEngine::ShaderParamType::Float2:
 				return DirectX::SimpleMath::Vector2::Zero;
-			case REngine::ShaderParamType::Float3:
+			case RHEngine::ShaderParamType::Float3:
 				return DirectX::SimpleMath::Vector3::Zero;
-			case REngine::ShaderParamType::Color:
+			case RHEngine::ShaderParamType::Color:
 				return DirectX::SimpleMath::Color{ 1, 1, 1, 1 };
-			case REngine::ShaderParamType::Float4:
+			case RHEngine::ShaderParamType::Float4:
 				return DirectX::SimpleMath::Vector4::Zero;
-			case REngine::ShaderParamType::Float4x4:
+			case RHEngine::ShaderParamType::Float4x4:
 				return DirectX::SimpleMath::Matrix::Identity;
-			case REngine::ShaderParamType::Texture2D:
+			case RHEngine::ShaderParamType::Texture2D:
 				return ERROR_HANDLE<Texture>;
-			case REngine::ShaderParamType::Sampler:
+			case RHEngine::ShaderParamType::Sampler:
 				return SamplerType::None;
 			default:
 				return MaterialParamVariant{};

@@ -30,7 +30,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EasingTestComponent : public REngine::WorldComponentBase, public REngine::IDebugRenderable
+class EasingTestComponent : public RHEngine::WorldComponentBase, public RHEngine::IDebugRenderable
 {
 private:
 
@@ -44,7 +44,7 @@ private:
 	//-----------------------------------------------------
 
 	// トランスフォームポインタ
-	REngine::Transform* m_pTransform;
+	RHEngine::Transform* m_pTransform;
 
 	// 開始点
 	DirectX::SimpleMath::Vector3 m_start;
@@ -72,14 +72,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	EasingTestComponent(REngine::IComponentOwner* own);
+	EasingTestComponent(RHEngine::IComponentOwner* own);
 	~EasingTestComponent() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(EasingTestComponent, REngine::WorldComponentBase)
+	COMPONENT_TYPE(EasingTestComponent, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -88,10 +88,10 @@ public:
 	void Awake() override;
 	void OnEnable() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 	// デバッグ描画関数
-	void DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
 	//-----------------------------------------------------
 	// セッター

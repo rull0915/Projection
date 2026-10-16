@@ -22,7 +22,7 @@
 #include "Input/MouseInput.h"
 #include "Input/KeyInput.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -50,6 +50,9 @@ namespace REngine
 	{
 		// 行列を更新しておく
 		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rotation);
+
+		// 位置を変更
+		m_position = m_targetPoint - m_radius * forward;
 
 		UpdateView();
 		UpdateProj();
@@ -138,6 +141,6 @@ namespace REngine
 			m_farZ
 		);
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

@@ -27,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class TPSCamera : public REngine::WorldComponentBase
+class TPSCamera : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -45,8 +45,8 @@ private:
 
 	float m_distance;
 
-	REngine::Transform* m_pOwnTransform;
-	REngine::Ref<REngine::Transform> m_pTargetTransform;
+	RHEngine::Transform* m_pOwnTransform;
+	RHEngine::Ref<RHEngine::Transform> m_pTargetTransform;
 
 	DirectX::SimpleMath::Vector2 m_angle;
 
@@ -58,7 +58,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	TPSCamera(REngine::IComponentOwner* owner)
+	TPSCamera(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_pOwnTransform{ nullptr }
 		, m_pTargetTransform{}
@@ -78,7 +78,7 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(TPSCamera, REngine::WorldComponentBase)
+	COMPONENT_TYPE(TPSCamera, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -91,7 +91,7 @@ public:
 	void OnEnable() override;
 	void OnDisable() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 	// 理想位置
 	DirectX::SimpleMath::Vector3 GetIdealPosition() const { return m_position; }

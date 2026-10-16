@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "System/WindowManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -58,4 +58,4 @@ namespace REngine
 
 		s_fullscreen = !s_fullscreen;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

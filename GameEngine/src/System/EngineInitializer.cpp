@@ -36,7 +36,7 @@
 // 関数定義
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// エンジン全体の初期化処理
 	void EngineInitializer::EngineInitialize()
@@ -214,4 +214,4 @@ namespace REngine
 			"CameraY", Input::Mouse::Axis::Y
 		);
 	}
-} // namespace REngine
+} // namespace RHEngine

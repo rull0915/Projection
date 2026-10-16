@@ -18,7 +18,7 @@
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	enum class LightType
 	{

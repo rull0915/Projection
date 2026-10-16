@@ -20,7 +20,7 @@
 //====================================================//
 
 // コンストラクタ
-CameraCorrection::CameraCorrection(REngine::IComponentOwner* own)
+CameraCorrection::CameraCorrection(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_camera{ nullptr }
 	, m_player{}
@@ -38,11 +38,11 @@ void CameraCorrection::Start()
 	m_camera = GetComponent<TPSCamera>();
 
 	// プレイヤーを取得
-	m_pScene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
+	m_pScene = static_cast<RHEngine::GameObject*>(GetOwn())->GetScene();
 }
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます
-void CameraCorrection::LateUpdate(const REngine::GameTimer& gameTimer)
+void CameraCorrection::LateUpdate(const RHEngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
@@ -55,27 +55,27 @@ void CameraCorrection::LateUpdate(const REngine::GameTimer& gameTimer)
 	DirectX::SimpleMath::Vector3 cameraPos = m_camera->GetIdealPosition();
 
 	// プレイヤーの位置
-	DirectX::SimpleMath::Vector3 playerPos = m_player->GetComponent<REngine::Transform>()->GetWorldPosition();
+	DirectX::SimpleMath::Vector3 playerPos = m_player->GetComponent<RHEngine::Transform>()->GetWorldPosition();
 
 	// Rayの生成
 	DirectX::SimpleMath::Vector3 direction = cameraPos - playerPos;
 	direction.Normalize();
 
-	REngine::Ray ray{ playerPos, direction };
+	RHEngine::Ray ray{ playerPos, direction };
 
 	// 目標位置
 	DirectX::SimpleMath::Vector3 result = cameraPos;
 
 	// 衝突判定
-	REngine::RaycastHit info;
+	RHEngine::RaycastHit info;
 	if (m_pScene->RayCast(ray, 5, &info, ~(1 << m_playerLayer)))
 	{
 		// カメラの位置を補正する
 		result = info.point;
 	}
 
-	REngine::Transform* own = GetComponent<REngine::Transform>();
-	REngine::Transform* target = m_player->GetComponent<REngine::Transform>();
+	RHEngine::Transform* own = GetComponent<RHEngine::Transform>();
+	RHEngine::Transform* target = m_player->GetComponent<RHEngine::Transform>();
 
 	// 位置を設定する
 	own->SetWorldPosition(result);

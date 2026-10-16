@@ -18,7 +18,7 @@
 #include "Renderer/Shadow/ShadowMap.h"
 #include "Scene/SceneInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -60,4 +60,4 @@ namespace REngine
 		// 描画対象
 		ShadowMap* pShadowMap;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,7 +16,7 @@
 //====================================================//
 #include "../CameraBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -127,4 +127,4 @@ namespace REngine
 		//-----------------------------------------------------
 
 	};
-} // namespace REngine
+} // namespace RHEngine

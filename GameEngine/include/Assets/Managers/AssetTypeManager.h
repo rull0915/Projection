@@ -18,7 +18,7 @@
 #include <typeindex>
 #include "Assets/Objects/Handle.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -68,4 +68,4 @@ namespace REngine
 		// マップに追加
 		m_assetClassMap.insert_or_assign(extention, std::type_index(typeid(T)));
 	}
-}	// namespace REngine
+}	// namespace RHEngine

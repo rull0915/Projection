@@ -21,7 +21,7 @@
 #include "Scene/SceneInfo.h"
 #include "Renderer/RendererInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -131,4 +131,4 @@ namespace REngine
 			p.material = m_material;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

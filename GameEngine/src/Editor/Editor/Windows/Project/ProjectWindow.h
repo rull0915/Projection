@@ -19,7 +19,7 @@
 #include "ProjectWindowPopUp.h"
 #include "AssetFileDrawer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -78,6 +78,6 @@ namespace REngine
 		// ファイル構造の描画
 		void DrawFileStructure(const std::filesystem::path& path);
 	};
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

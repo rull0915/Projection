@@ -17,7 +17,7 @@
 #include "Renderer/Command/DrawCommandContainer.h"
 #include "Renderer/GraphicsSystem.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -104,4 +104,4 @@ namespace REngine
 
 		static DirectX::SimpleMath::Vector2 GetTextureSize(ID3D11ShaderResourceView* srv);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

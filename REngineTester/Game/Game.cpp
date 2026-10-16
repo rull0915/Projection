@@ -18,10 +18,10 @@
 void Game::OnInitialize()
 {
 	// ====== シーンの登録 ====== //
-	REngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
 
-	REngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
 
 	// 開始時のシーンを設定
-	REngine::SceneManager::Instance().SetStartScene("Title");
+	RHEngine::SceneManager::Instance().SetStartScene("Title");
 }

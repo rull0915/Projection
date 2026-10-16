@@ -13,7 +13,7 @@
 #include "UpdatePipeline.h"
 #include "Scene/Scene.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -125,4 +125,4 @@ namespace REngine
 
 		m_colEvent->ResetEvent();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

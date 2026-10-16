@@ -22,7 +22,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Reflection
 	{
@@ -292,4 +292,4 @@ namespace REngine
 			return ShaderParamType::None;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

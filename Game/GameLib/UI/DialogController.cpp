@@ -17,8 +17,8 @@
 //====================================================//
 
 // コンストラクタ
-DialogController::DialogController(REngine::IComponentOwner* own)
-	: REngine::BothComponentBase(own)
+DialogController::DialogController(RHEngine::IComponentOwner* own)
+	: RHEngine::BothComponentBase(own)
 	, m_targetDialog{}
 	, m_clickedOperation{ ClickedOperation::Close }
 	, m_openId{ 0 }

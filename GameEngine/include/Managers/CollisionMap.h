@@ -21,7 +21,7 @@
 #include "Physics/HitInfomation2D.h"
 #include "Components/ComponentBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -115,4 +115,4 @@ namespace REngine
 		// 関数実行
 		static bool CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

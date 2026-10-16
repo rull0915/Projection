@@ -2,7 +2,7 @@
 #include <mutex>
 #include <array>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Random
 	{
@@ -56,4 +56,4 @@ namespace REngine
 			}
 		}
 	}
-} // namespace REngine
+} // namespace RHEngine

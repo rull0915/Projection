@@ -35,7 +35,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class Enemy : public REngine::WorldComponentBase
+class Enemy : public RHEngine::WorldComponentBase
 {
 public:
 	//-----------------------------------------------------
@@ -51,10 +51,10 @@ private:
 	//-----------------------------------------------------
 
 	// トランスフォームのポインタ
-	REngine::Transform* m_pTransform;   
+	RHEngine::Transform* m_pTransform;   
 
 	// ステートマシン本体
-	REngine::StateMachine<EnemyStateID> m_stateMachine;
+	RHEngine::StateMachine<EnemyStateID> m_stateMachine;
 	
 	// 最後に着地したポイント
 	LandingCandidatePoints* m_lastPoints;
@@ -64,7 +64,7 @@ private:
 	PathFollower m_pathFollower;
 
 	// 物理マテリアル
-	// REngine::PhysicsMaterial m_physicsMaterial;
+	// RHEngine::PhysicsMaterial m_physicsMaterial;
 
 	// 着地フラグ
 	bool m_isGround;
@@ -78,7 +78,7 @@ public:
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
 
-	Enemy(REngine::IComponentOwner* owner)
+	Enemy(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_pTransform{ nullptr }
 		, m_stateMachine{}
@@ -95,12 +95,12 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	static REngine::Component::TypeId StaticTypeId() {
+	static RHEngine::Component::TypeId StaticTypeId() {
 		static char id; return &id;
-	} bool IsTypeOf(REngine::Component::TypeId id) const override {
-		return id == StaticTypeId() || REngine::WorldComponentBase::IsTypeOf(id);
-	} void CollectTypeIds(std::vector<REngine::Component::TypeId>& out) const override {
-		out.push_back(StaticTypeId()); REngine::WorldComponentBase::CollectTypeIds(out);
+	} bool IsTypeOf(RHEngine::Component::TypeId id) const override {
+		return id == StaticTypeId() || RHEngine::WorldComponentBase::IsTypeOf(id);
+	} void CollectTypeIds(std::vector<RHEngine::Component::TypeId>& out) const override {
+		out.push_back(StaticTypeId()); RHEngine::WorldComponentBase::CollectTypeIds(out);
 	}
 
 	//-----------------------------------------------------
@@ -111,13 +111,13 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
-	void OnCollisionEnter(REngine::HitContact& hit) override;
-	void OnCollisionExit(REngine::HitContact& hit) override;
+	void OnCollisionEnter(RHEngine::HitContact& hit) override;
+	void OnCollisionExit(RHEngine::HitContact& hit) override;
 
-	void OnCollisionEnter2D(REngine::HitContact2D& hit) override;
-	void OnCollisionExit2D(REngine::HitContact2D& hit) override;
+	void OnCollisionEnter2D(RHEngine::HitContact2D& hit) override;
+	void OnCollisionExit2D(RHEngine::HitContact2D& hit) override;
 
 	//-----------------------------------------------------
 	// ゲッター
@@ -144,7 +144,7 @@ public:
 	bool Is2D() const { return m_is2D; }
 
 	// 物理マテリアル
-	// REngine::PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial; }
+	// RHEngine::PhysicsMaterial* GetPhysicsMaterial() { return &m_physicsMaterial; }
 
 	//-----------------------------------------------------
 	// セッター

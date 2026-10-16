@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	class Renderer;
 
@@ -46,4 +46,4 @@ namespace REngine
 			virtual void OutRender(Renderer& renderer) = 0;	// Outの場合	
 		};
 	}
-}	// namespace REngine
+}	// namespace RHEngine

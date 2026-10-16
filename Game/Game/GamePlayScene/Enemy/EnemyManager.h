@@ -36,7 +36,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class EnemyManager : public REngine::WorldComponentBase, public  REngine::IComponentListener
+class EnemyManager : public RHEngine::WorldComponentBase, public  RHEngine::IComponentListener
 {
 	// グラフを更新する感覚
 	static constexpr float GRAPH_UPDATE_DISTANCE = 0.2f;
@@ -68,7 +68,7 @@ private:
 	float m_nowTime;
 
 	// プレイヤーのトランスフォーム
-	REngine::Transform* m_playerTransform;
+	RHEngine::Transform* m_playerTransform;
 
 	// プレイヤーがいた位置
 	DirectX::SimpleMath::Vector3 m_oldPlayerPosition;
@@ -83,14 +83,14 @@ private:
 	bool m_isStarted;
 
 	// イベントのトークン
-	REngine::EventBus<GamePlayEvent>::Token m_eventToken;
+	RHEngine::EventBus<GamePlayEvent>::Token m_eventToken;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	EnemyManager(REngine::IComponentOwner* owner)
+	EnemyManager(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_normalNavigation{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
 		, m_normalNavigation2D{ Enemy::JUMP_IMPLUSE, 1.0f, Enemy::VELOCITY }
@@ -108,7 +108,7 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(EnemyManager, REngine::WorldComponentBase)
+	COMPONENT_TYPE(EnemyManager, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -119,7 +119,7 @@ public:
 
 	void OnDestroy() override;
 
-	void Update(const REngine::GameTimer& timer) override;
+	void Update(const RHEngine::GameTimer& timer) override;
 
 	// 敵を追加する関数
 	void OnComponentAdded(ComponentBase* component) override

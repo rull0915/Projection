@@ -23,7 +23,7 @@
 //====================================================//
 
 // コンストラクタ
-GameOverComponent::GameOverComponent(REngine::IComponentOwner* own)
+GameOverComponent::GameOverComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_overSceneName{ "GameOver" }
 	, m_playerName{}
@@ -42,7 +42,7 @@ GameOverComponent::GameOverComponent(REngine::IComponentOwner* own)
 void GameOverComponent::Start()
 {
 	// シーンを取得
-	REngine::Scene* scene = static_cast<REngine::GameObject*>(GetOwn())->GetScene();
+	RHEngine::Scene* scene = static_cast<RHEngine::GameObject*>(GetOwn())->GetScene();
 
 	// プレイヤーを取得
 	m_player = scene->GetObjectFinder()->FindWithName(m_playerName);
@@ -52,7 +52,7 @@ void GameOverComponent::Start()
 }
 
 // 毎フレーム呼ばれます
-void GameOverComponent::Update(const REngine::GameTimer & gameTimer)
+void GameOverComponent::Update(const RHEngine::GameTimer & gameTimer)
 {
 	gameTimer;
 
@@ -60,26 +60,26 @@ void GameOverComponent::Update(const REngine::GameTimer & gameTimer)
 	if (m_playerComponent->Is2D())
 	{
 		// 高さ
-		DirectX::SimpleMath::Vector2 pos = REngine::WorldSetting2D::Instance().World3DToLocal2D(m_player->GetComponent<REngine::Transform>()->GetWorldPosition());
+		DirectX::SimpleMath::Vector2 pos = RHEngine::WorldSetting2D::Instance().World3DToLocal2D(m_player->GetComponent<RHEngine::Transform>()->GetWorldPosition());
 
 		// ボーダー以下なら
 		if (pos.y < m_border2D)
 		{
 			// ゲームオーバー
-			REngine::SceneManager::Instance().RequestSceneChange(m_overSceneName, std::make_unique<REngine::Transition::Fade>(0.3f), std::make_unique<REngine::Transition::Fade>(0.3f));
+			RHEngine::SceneManager::Instance().RequestSceneChange(m_overSceneName, std::make_unique<RHEngine::Transition::Fade>(0.3f), std::make_unique<RHEngine::Transition::Fade>(0.3f));
 		}
 	}
 	// 3Dなら
 	else
 	{
 		// 位置
-		DirectX::SimpleMath::Vector3 pos = m_player->GetComponent<REngine::Transform>()->GetWorldPosition();
+		DirectX::SimpleMath::Vector3 pos = m_player->GetComponent<RHEngine::Transform>()->GetWorldPosition();
 
 		// ボーダー以下なら
 		if (pos.y < m_border3D)
 		{
 			// ゲームオーバー
-			REngine::SceneManager::Instance().RequestSceneChange(m_overSceneName, std::make_unique<REngine::Transition::Fade>(0.3f), std::make_unique<REngine::Transition::Fade>(0.3f));
+			RHEngine::SceneManager::Instance().RequestSceneChange(m_overSceneName, std::make_unique<RHEngine::Transition::Fade>(0.3f), std::make_unique<RHEngine::Transition::Fade>(0.3f));
 		}
 	}
 }

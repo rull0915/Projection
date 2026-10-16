@@ -25,12 +25,12 @@
 //====================================================//
 // 前方宣言
 //====================================================//
-class REngine::Scene;
+class RHEngine::Scene;
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class CameraCorrection : public REngine::WorldComponentBase
+class CameraCorrection : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -42,27 +42,27 @@ private:
 	TPSCamera* m_camera;
 
 	// プレイヤー
-	REngine::Ref<REngine::GameObject> m_player;
+	RHEngine::Ref<RHEngine::GameObject> m_player;
 
 	// プレイヤーのレイヤー
 	int m_playerLayer;
 
 	// シーンポインタ
-	REngine::Scene* m_pScene;
+	RHEngine::Scene* m_pScene;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	CameraCorrection(REngine::IComponentOwner* own);
+	CameraCorrection(RHEngine::IComponentOwner* own);
 	~CameraCorrection() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(CameraCorrection, REngine::WorldComponentBase)
+	COMPONENT_TYPE(CameraCorrection, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -70,5 +70,5 @@ public:
 
 	void Start() override;
 
-	void LateUpdate(const REngine::GameTimer& gameTimer) override;
+	void LateUpdate(const RHEngine::GameTimer& gameTimer) override;
 };

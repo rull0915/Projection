@@ -13,7 +13,7 @@
 
 #ifdef ENGINE_GUI
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -43,6 +43,6 @@ namespace REngine
 
 		static bool ProcessMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

@@ -43,10 +43,10 @@ namespace Transition
 		DirectX::SimpleMath::Vector2 vrVec = DirectX::SimpleMath::Vector2{ -sinf(m_slideAngle), cosf(m_slideAngle) } * 100;
 
 		// 各点の座標
-		DirectX::SimpleMath::Vector2 RU = DirectX::SimpleMath::Vector2{ REngine::WindowManager::Instance().GetWidthF(), 0 };
-		DirectX::SimpleMath::Vector2 RD = DirectX::SimpleMath::Vector2{ REngine::WindowManager::Instance().GetWidthF(), REngine::WindowManager::Instance().GetHeightF() };
+		DirectX::SimpleMath::Vector2 RU = DirectX::SimpleMath::Vector2{ RHEngine::WindowManager::Instance().GetWidthF(), 0 };
+		DirectX::SimpleMath::Vector2 RD = DirectX::SimpleMath::Vector2{ RHEngine::WindowManager::Instance().GetWidthF(), RHEngine::WindowManager::Instance().GetHeightF() };
 		DirectX::SimpleMath::Vector2 LU = DirectX::SimpleMath::Vector2{ 0, 0 };
-		DirectX::SimpleMath::Vector2 LD = DirectX::SimpleMath::Vector2{ 0, REngine::WindowManager::Instance().GetHeightF() };
+		DirectX::SimpleMath::Vector2 LD = DirectX::SimpleMath::Vector2{ 0, RHEngine::WindowManager::Instance().GetHeightF() };
 
 		// 始点によって分岐
 		switch (end)
@@ -96,7 +96,7 @@ namespace Transition
 		}
 	}
 
-	bool Slide::InUpdate(const REngine::GameTimer& gameTimer)
+	bool Slide::InUpdate(const RHEngine::GameTimer& gameTimer)
 	{
 		// 経過時間の加算
 		m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
@@ -108,7 +108,7 @@ namespace Transition
 		return (m_elapsedTime >= m_transSec);
 	}
 
-	bool Slide::OutUpdate(const REngine::GameTimer& gameTimer)
+	bool Slide::OutUpdate(const RHEngine::GameTimer& gameTimer)
 	{
 		// 経過時間の加算
 		m_elapsedTime += gameTimer.GetUnScaledElapsedTime();
@@ -120,14 +120,14 @@ namespace Transition
 		return (m_elapsedTime >= m_transSec);
 	}
 
-	void Slide::InRender(REngine::Renderer& renderer)
+	void Slide::InRender(RHEngine::Renderer& renderer)
 	{
 		// 4点を決める
 		DirectX::SimpleMath::Vector2 endLeft;
 		DirectX::SimpleMath::Vector2 endRight;
 
-		endLeft = m_points[0] + (DirectX::SimpleMath::Vector2(m_points[2] - m_points[0])) * REngine::Easing::EaseInQuad(1 - m_elapsedTime / m_transSec);
-		endRight = m_points[1] + (DirectX::SimpleMath::Vector2(m_points[3] - m_points[1])) * REngine::Easing::EaseInQuad(1 - m_elapsedTime / m_transSec);
+		endLeft = m_points[0] + (DirectX::SimpleMath::Vector2(m_points[2] - m_points[0])) * RHEngine::Easing::EaseInQuad(1 - m_elapsedTime / m_transSec);
+		endRight = m_points[1] + (DirectX::SimpleMath::Vector2(m_points[3] - m_points[1])) * RHEngine::Easing::EaseInQuad(1 - m_elapsedTime / m_transSec);
 
 		renderer.Draw().UI().DrawRect(
 			m_points[0],
@@ -138,14 +138,14 @@ namespace Transition
 		);
 	}
 
-	void Slide::OutRender(REngine::Renderer& renderer)
+	void Slide::OutRender(RHEngine::Renderer& renderer)
 	{
 		// 4点を決める
 		DirectX::SimpleMath::Vector2 endLeft;
 		DirectX::SimpleMath::Vector2 endRight;
 
-		endLeft = m_points[0] + (DirectX::SimpleMath::Vector2(m_points[2] - m_points[0])) * REngine::Easing::EaseOutQuad(m_elapsedTime / m_transSec);
-		endRight = m_points[1] + (DirectX::SimpleMath::Vector2(m_points[3] - m_points[1])) * REngine::Easing::EaseOutQuad(m_elapsedTime / m_transSec);
+		endLeft = m_points[0] + (DirectX::SimpleMath::Vector2(m_points[2] - m_points[0])) * RHEngine::Easing::EaseOutQuad(m_elapsedTime / m_transSec);
+		endRight = m_points[1] + (DirectX::SimpleMath::Vector2(m_points[3] - m_points[1])) * RHEngine::Easing::EaseOutQuad(m_elapsedTime / m_transSec);
 
 		renderer.Draw().UI().DrawRect(
 			m_points[0],

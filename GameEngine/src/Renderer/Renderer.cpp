@@ -14,7 +14,7 @@
 
 #include "System/Render/GraphicsManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -86,4 +86,4 @@ namespace REngine
 		// ため込んでいた描画を行う
 		m_graphicSystem.ExecuteCommands();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -18,7 +18,7 @@
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
 
-class ABCD : public REngine::PropertyObject
+class ABCD : public RHEngine::PropertyObject
 {
 	int id;
 	std::string name;
@@ -36,7 +36,7 @@ public:
 //====================================================//
 // クラス宣言
 //====================================================//
-class ArrayTester : public REngine::WorldComponentBase
+class ArrayTester : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -52,14 +52,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ArrayTester(REngine::IComponentOwner* own);
+	ArrayTester(RHEngine::IComponentOwner* own);
 	~ArrayTester() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(ArrayTester, REngine::WorldComponentBase);
+	COMPONENT_TYPE(ArrayTester, RHEngine::WorldComponentBase);
 	
 	//-----------------------------------------------------
 	// 公開関数
@@ -67,6 +67,6 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer&) override;
+	void Update(const RHEngine::GameTimer&) override;
 
 };

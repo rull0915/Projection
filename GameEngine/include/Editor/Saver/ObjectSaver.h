@@ -20,7 +20,7 @@
 #include "Common/Property/Property.h"
 #include "Common/Property/PropertyObject.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class GameObject;
 	class ObjectManager;
@@ -68,4 +68,4 @@ namespace REngine
 		void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
 		void SavePropertyToFile(const std::wstring& filePath, PropertyObject* scene);
 	};
-} // namespace REngine
+} // namespace RHEngine

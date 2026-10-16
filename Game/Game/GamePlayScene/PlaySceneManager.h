@@ -36,7 +36,7 @@ class Canvas;
 //====================================================//
 // クラス宣言
 //====================================================//
-class PlaySceneManager : public REngine::WorldComponentBase
+class PlaySceneManager : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -49,10 +49,10 @@ private:
 	std::string m_cameraName;
 
 	// カメラ
-	REngine::GameObject* m_camera;
+	RHEngine::GameObject* m_camera;
 
 	// プレイヤー
-	REngine::GameObject* m_player;
+	RHEngine::GameObject* m_player;
 
 	// 次元管理
 	DimentionManager* m_dimentionManager;
@@ -61,21 +61,21 @@ private:
 	EnemyManager* m_enemyManager;
 
 	// イベントのID
-	std::vector<REngine::EventBus<GamePlayEvent>::Token> m_eventIds;
+	std::vector<RHEngine::EventBus<GamePlayEvent>::Token> m_eventIds;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PlaySceneManager(REngine::IComponentOwner* own);
+	PlaySceneManager(RHEngine::IComponentOwner* own);
 	~PlaySceneManager() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 
-	COMPONENT_TYPE(PlaySceneManager, REngine::WorldComponentBase)
+	COMPONENT_TYPE(PlaySceneManager, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -87,7 +87,7 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 private:
 

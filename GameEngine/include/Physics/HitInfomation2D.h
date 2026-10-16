@@ -16,7 +16,7 @@
 //====================================================//
 #include "GameObject/Interface/IComponentOwner.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 構造体宣言
@@ -45,4 +45,4 @@ namespace REngine
 			, target{ nullptr }
 		{}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

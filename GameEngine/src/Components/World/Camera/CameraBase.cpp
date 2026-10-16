@@ -20,7 +20,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	Ray CameraBase::GetRayToScreenPoint(const DirectX::SimpleMath::Vector2& point)
 	{
@@ -101,4 +101,4 @@ namespace REngine
 			);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

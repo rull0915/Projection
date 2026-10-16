@@ -18,7 +18,7 @@
 #include "Editor/Loader/ObjectLoader.h"
 #include "Assets/Types/PrefabImpl.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -110,4 +110,4 @@ namespace REngine
 		// 作成したポインタを返す
 		return pObj;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

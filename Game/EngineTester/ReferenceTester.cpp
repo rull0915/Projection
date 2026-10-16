@@ -17,7 +17,7 @@
 //====================================================//
 
 // コンストラクタ
-ReferenceTester::ReferenceTester(REngine::IComponentOwner* own)
+ReferenceTester::ReferenceTester(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_targetTransform{}
 	, m_tarrgetSetPos{}
@@ -35,7 +35,7 @@ void ReferenceTester::Start()
 {}
 
 // 毎フレーム呼ばれます
-void ReferenceTester::Update(const REngine::GameTimer &)
+void ReferenceTester::Update(const RHEngine::GameTimer &)
 {
 	if (m_targetTransform)
 	{
@@ -44,5 +44,5 @@ void ReferenceTester::Update(const REngine::GameTimer &)
 }
 
 // 毎フレームUpdate及び物理挙動の後に呼ばれます
-void ReferenceTester::LateUpdate(const REngine::GameTimer & )
+void ReferenceTester::LateUpdate(const RHEngine::GameTimer & )
 {}

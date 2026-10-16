@@ -24,7 +24,7 @@
 
 #include "Components/World/Renderer/MeshRenderer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -148,4 +148,4 @@ namespace REngine
 			ctx.target->End(deviceContext);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

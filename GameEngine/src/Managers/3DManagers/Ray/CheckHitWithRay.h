@@ -18,7 +18,7 @@
 #include "Physics/RaycastHit.h"
 #include "Components/World/Collider/3D/ColliderBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	namespace RayCollision
 	{
@@ -31,4 +31,4 @@ namespace REngine
 		// vsボックス
 		bool CheckHit_Ray_Box(const Ray& ray, float distance, ColliderBase* col, RaycastHit* hit);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -17,7 +17,7 @@
 #include <string>
 #include "Common/UUID.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 構造体宣言
@@ -46,4 +46,4 @@ namespace REngine
 		// サブアセットの配列
 		std::vector<SubAssetInfo> subAssets;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

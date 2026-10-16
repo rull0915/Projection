@@ -17,7 +17,7 @@
 
 #include "Assets/Managers/AssetManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -39,4 +39,4 @@ namespace REngine
 		// 初期化
 		static void AssetInitialize(AssetManager& assetManager);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

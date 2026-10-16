@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	enum class SamplerType
 	{
@@ -22,4 +22,4 @@ namespace REngine
 		PointClamp,
 		Anisotropic,
 	};
-}	// namespace REngine
+}	// namespace RHEngine

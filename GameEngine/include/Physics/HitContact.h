@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	class IComponentOwner;
 	class ColliderBase;
@@ -192,4 +192,4 @@ namespace REngine
 			return hit;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

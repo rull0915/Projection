@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class LandingCandidatePoints : public REngine::WorldComponentBase
+class LandingCandidatePoints : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -48,7 +48,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_centerPoint;
 
 	// 自身と対応するコライダー
-	REngine::ColliderBase* m_ownCollider;
+	RHEngine::ColliderBase* m_ownCollider;
 
 	// バージョン
 	uint32_t m_latestVersion;
@@ -61,7 +61,7 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	LandingCandidatePoints(REngine::IComponentOwner* owner)
+	LandingCandidatePoints(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_candidatePoints(0)
 		, m_centerPoint{}
@@ -77,7 +77,7 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(LandingCandidatePoints, REngine::WorldComponentBase)
+	COMPONENT_TYPE(LandingCandidatePoints, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -87,9 +87,9 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
-	REngine::ColliderBase* GetOwnCollider() const { return m_ownCollider; }
+	RHEngine::ColliderBase* GetOwnCollider() const { return m_ownCollider; }
 
 	// 候補点をすべて取得する関数
 	const std::vector<DirectX::SimpleMath::Vector3>& GetPoints() const { return m_candidatePoints; }

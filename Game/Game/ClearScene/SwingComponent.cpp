@@ -17,7 +17,7 @@
 //====================================================//
 
 // コンストラクタ
-SwingComponent::SwingComponent(REngine::IComponentOwner* own)
+SwingComponent::SwingComponent(RHEngine::IComponentOwner* own)
 	: UIComponentBase(own)
 	, m_rectTransform{ nullptr }
 {
@@ -27,11 +27,11 @@ SwingComponent::SwingComponent(REngine::IComponentOwner* own)
 void SwingComponent::Awake()
 {
 	// RectTransformを取得
-	m_rectTransform = GetComponent<REngine::RectTransform>();
+	m_rectTransform = GetComponent<RHEngine::RectTransform>();
 }
 
 // 毎フレーム呼ばれます
-void SwingComponent::Update(const REngine::GameTimer & gameTimer)
+void SwingComponent::Update(const RHEngine::GameTimer & gameTimer)
 {
 	static float e = 0;
 	e += gameTimer.GetElapsedTime();

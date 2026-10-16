@@ -19,7 +19,7 @@
 
 #include "Scene/SceneInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -111,6 +111,6 @@ namespace REngine
 
 		void SetMovable(bool f) { m_movable = f; }
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

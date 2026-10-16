@@ -18,7 +18,7 @@
 //====================================================//
 #include <filesystem>
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 

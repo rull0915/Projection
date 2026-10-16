@@ -26,7 +26,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class Dialog : public REngine::UIComponentBase
+class Dialog : public RHEngine::UIComponentBase
 {
 private:
 
@@ -42,14 +42,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	Dialog(REngine::IComponentOwner* own);
+	Dialog(RHEngine::IComponentOwner* own);
 	~Dialog() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(Dialog, REngine::UIComponentBase);
+	COMPONENT_TYPE(Dialog, RHEngine::UIComponentBase);
 
 	//-----------------------------------------------------
 	// 公開関数

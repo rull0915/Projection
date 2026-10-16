@@ -21,7 +21,7 @@
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetContext.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

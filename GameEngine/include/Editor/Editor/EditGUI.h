@@ -21,7 +21,7 @@
 // インクルードファイル
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -128,6 +128,6 @@ namespace REngine
 		// シーンビューの描画
 		void DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera);
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

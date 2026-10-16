@@ -25,7 +25,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ConvexPolygonCollider2D : public REngine::ColliderBase2D, public REngine::IDebugRenderable
+class ConvexPolygonCollider2D : public RHEngine::ColliderBase2D, public RHEngine::IDebugRenderable
 {
 private:
 
@@ -47,14 +47,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ConvexPolygonCollider2D(REngine::IComponentOwner* owner);
+	ConvexPolygonCollider2D(RHEngine::IComponentOwner* owner);
 	~ConvexPolygonCollider2D() {};
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(ConvexPolygonCollider2D, REngine::ColliderBase2D)
+	COMPONENT_TYPE(ConvexPolygonCollider2D, RHEngine::ColliderBase2D)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -67,7 +67,7 @@ public:
 	void UpdateCache() const override;
 
 	// デバッグ描画
-	void DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
 	//-----------------------------------------------------
 	// ゲッター

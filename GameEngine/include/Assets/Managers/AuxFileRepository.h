@@ -16,7 +16,7 @@
 //====================================================//
 #include "Assets/Objects/AssetAux.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -39,4 +39,4 @@ namespace REngine
 
 		void LoadAux(AssetAux& aux, const std::wstring& path);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

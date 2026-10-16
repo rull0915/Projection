@@ -24,7 +24,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	void ProjectWindowPopUp::DrawFileOperation(const std::filesystem::path& path, bool isDirectory)
 	{

@@ -25,7 +25,7 @@
 
 #include "Settings/WorldSetting2D.h"
 
-using namespace REngine;
+using namespace RHEngine;
 
 //====================================================//
 // 関数の実体宣言
@@ -51,7 +51,7 @@ void Player::Start()
 {
 	// 物理マテリアルを設定
 	std::vector<ComponentBase*> colliders;
-	GetOwn()->GetComponents<REngine::ColliderBase>();
+	GetOwn()->GetComponents<RHEngine::ColliderBase>();
 
 	// 全てのコライダー
 	//if (colliders.size() > 0)

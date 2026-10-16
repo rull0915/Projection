@@ -24,7 +24,7 @@
 #include "Scene/SceneInfo.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 列挙型宣言
@@ -169,4 +169,4 @@ namespace REngine
 		}
 		void SetNeedUpdateProj(bool f) { m_needUpdateProj = f; }
 	};
-} // namespace REngine
+} // namespace RHEngine

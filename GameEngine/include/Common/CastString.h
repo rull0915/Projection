@@ -21,7 +21,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	namespace CastString
 	{
@@ -61,4 +61,4 @@ namespace REngine
 			return result;
 		}
 	}
-} // namespace REngine
+} // namespace RHEngine

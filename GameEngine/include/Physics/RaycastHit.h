@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -30,4 +30,4 @@ namespace REngine
 
 		float distance = FLT_MAX;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

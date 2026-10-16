@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "System/Render/RenderTarget.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -164,4 +164,4 @@ namespace REngine
 				0);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

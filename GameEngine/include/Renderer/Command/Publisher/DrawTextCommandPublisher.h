@@ -17,7 +17,7 @@
 #include "Renderer/Command/DrawCommandContainer.h"
 #include "Renderer/GraphicsSystem.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -97,4 +97,4 @@ namespace REngine
 			return { DirectX::XMVectorGetX(result), DirectX::XMVectorGetY(result) };
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

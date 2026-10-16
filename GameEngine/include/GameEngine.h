@@ -30,7 +30,7 @@
 
 #endif // ENGINE_GUI
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -111,4 +111,4 @@ namespace REngine
 		Renderer& GetRenderer() { return m_renderer; }
 
 	};
-}	// namespace REngine
+}	// namespace RHEngine

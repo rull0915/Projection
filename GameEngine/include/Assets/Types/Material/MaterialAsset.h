@@ -25,7 +25,7 @@
 
 #include "Assets/Objects/AssetBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 	class SamplerList;
@@ -186,10 +186,10 @@ namespace REngine
 		{
 			switch (type)
 			{
-			case REngine::ShaderType::Vertex:
+			case RHEngine::ShaderType::Vertex:
 				m_vertexShader = shader;
 				break;
-			case REngine::ShaderType::Pixel:
+			case RHEngine::ShaderType::Pixel:
 				m_pixelShader = shader;
 				break;
 			default:
@@ -205,7 +205,7 @@ namespace REngine
 	private:
 
 		// テクスチャをバインドする関数
-		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const std::string& name, ShaderType type);
+		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type);
 
 		// サンプラーをバインドする関数
 		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
@@ -222,4 +222,4 @@ namespace REngine
 		// タイプからシェーダー本体を取得する関数
 		ShaderAsset* GetShaderAsset(ShaderType type);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

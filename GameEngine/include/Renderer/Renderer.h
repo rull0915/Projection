@@ -20,7 +20,7 @@
 #include "RenderInfoManager.h"
 #include "Scene/SceneInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -100,4 +100,4 @@ namespace REngine
 
 		void SetMaterial(Handle<MaterialAsset> handle) { m_graphicSystem.SetMaterial(handle); };
 	};
-}	// namespace REngine
+}	// namespace RHEngine

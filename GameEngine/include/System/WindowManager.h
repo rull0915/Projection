@@ -25,7 +25,7 @@
 					 WS_SYSMENU        | \
 					 WS_MINIMIZEBOX )
 
-namespace REngine
+namespace RHEngine
 {
 
 //====================================================//
@@ -112,4 +112,4 @@ namespace REngine
 
 		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
 	};
-}	// namespace REngine
+}	// namespace RHEngine

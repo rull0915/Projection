@@ -30,13 +30,13 @@
 #include "AssetLoaders.h"
 #include "AssetSaver.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
 	//====================================================//
 
-	void REngine::AssetInitializer::AssetInitialize(AssetManager& assetManager)
+	void RHEngine::AssetInitializer::AssetInitialize(AssetManager& assetManager)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();

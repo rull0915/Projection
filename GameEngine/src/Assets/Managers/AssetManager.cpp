@@ -14,7 +14,7 @@
 
 #include <algorithm>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -223,4 +223,4 @@ namespace REngine
 
 		return ERROR_UNTYPE_HANDLE;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -36,4 +36,4 @@ namespace REngine
 			return id;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

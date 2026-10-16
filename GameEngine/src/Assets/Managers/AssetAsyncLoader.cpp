@@ -18,7 +18,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void REngine::AssetAsyncLoader::RequestLoad(const std::filesystem::path& path, UnTypeHandle targetHandle, Loader& loader)
+void RHEngine::AssetAsyncLoader::RequestLoad(const std::filesystem::path& path, UnTypeHandle targetHandle, Loader& loader)
 {
 	// 完了したfutureを削除
 	CleanUpFutures();

@@ -32,7 +32,7 @@
 #include "Renderer/Shadow/ShadowMap.h"
 #include "SceneInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -176,4 +176,4 @@ namespace REngine
 		// 更新モード
 		void SetUpdateMode(UpdateMode mode) { m_updateMode = mode; }
 	};
-} // namespace REngine
+} // namespace RHEngine

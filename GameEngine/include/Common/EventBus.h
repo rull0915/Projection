@@ -20,7 +20,7 @@
 #include <vector>
 #include <type_traits>
 
-namespace REngine
+namespace RHEngine
 {
 	template<typename EventID, typename = std::enable_if_t<std::is_enum_v<EventID>>>
 	class EventBus
@@ -228,4 +228,4 @@ namespace REngine
 			}
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

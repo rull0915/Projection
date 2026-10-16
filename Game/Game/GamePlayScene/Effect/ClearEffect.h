@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ClearEffect : public REngine::WorldComponentBase
+class ClearEffect : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -40,7 +40,7 @@ private:
 	std::string m_clearUIName;
 
 	// クリアダイアログ
-	REngine::Ref<Dialog> m_clearDialog;
+	RHEngine::Ref<Dialog> m_clearDialog;
 
 	// クリアシーンへ移行するまでの時間
 	float m_toClearTime;
@@ -56,14 +56,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ClearEffect(REngine::IComponentOwner* own);
+	ClearEffect(RHEngine::IComponentOwner* own);
 	~ClearEffect() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(ClearEffect, REngine::WorldComponentBase)
+	COMPONENT_TYPE(ClearEffect, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -74,5 +74,5 @@ public:
 
 	void OnDestroy() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 };

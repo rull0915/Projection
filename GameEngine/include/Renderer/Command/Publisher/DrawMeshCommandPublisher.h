@@ -18,7 +18,7 @@
 #include "Renderer/GraphicsSystem.h"
 #include "Assets/Types/Model/Mesh.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -62,4 +62,4 @@ namespace REngine
 			command.material = m_graphicSystem.GetMaterial();
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

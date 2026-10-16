@@ -13,7 +13,7 @@
 #include "Input/PadInput.h"
 #include "GamePad.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -42,33 +42,33 @@ namespace REngine
 
 			switch (button)
 			{
-			case REngine::Input::Pad::Button::A:
+			case RHEngine::Input::Pad::Button::A:
 				return state.IsAPressed();
-			case REngine::Input::Pad::Button::B:
+			case RHEngine::Input::Pad::Button::B:
 				return state.IsBPressed();
-			case REngine::Input::Pad::Button::X:
+			case RHEngine::Input::Pad::Button::X:
 				return state.IsXPressed();
-			case REngine::Input::Pad::Button::Y:
+			case RHEngine::Input::Pad::Button::Y:
 				return state.IsYPressed();
-			case REngine::Input::Pad::Button::LStick:
+			case RHEngine::Input::Pad::Button::LStick:
 				return state.IsLeftStickPressed();
-			case REngine::Input::Pad::Button::RStick:
+			case RHEngine::Input::Pad::Button::RStick:
 				return state.IsRightStickPressed();
-			case REngine::Input::Pad::Button::LShoulder:
+			case RHEngine::Input::Pad::Button::LShoulder:
 				return state.IsLeftShoulderPressed();
-			case REngine::Input::Pad::Button::RShoulder:
+			case RHEngine::Input::Pad::Button::RShoulder:
 				return state.IsRightShoulderPressed();
-			case REngine::Input::Pad::Button::View:
+			case RHEngine::Input::Pad::Button::View:
 				return state.IsViewPressed();
-			case REngine::Input::Pad::Button::Menu:
+			case RHEngine::Input::Pad::Button::Menu:
 				return state.IsMenuPressed();
-			case REngine::Input::Pad::Button::Up:
+			case RHEngine::Input::Pad::Button::Up:
 				return state.IsDPadUpPressed();
-			case REngine::Input::Pad::Button::Down:
+			case RHEngine::Input::Pad::Button::Down:
 				return state.IsDPadDownPressed();
-			case REngine::Input::Pad::Button::Left:
+			case RHEngine::Input::Pad::Button::Left:
 				return state.IsDPadLeftPressed();
-			case REngine::Input::Pad::Button::Right:
+			case RHEngine::Input::Pad::Button::Right:
 				return state.IsDPadRightPressed();
 			default:
 				return false;
@@ -79,17 +79,17 @@ namespace REngine
 		{
 			switch (stick)
 			{
-			case REngine::Input::Pad::Axis::LeftStickX:
+			case RHEngine::Input::Pad::Axis::LeftStickX:
 				return state.thumbSticks.leftX;
-			case REngine::Input::Pad::Axis::LeftStickY:
+			case RHEngine::Input::Pad::Axis::LeftStickY:
 				return state.thumbSticks.leftY;
-			case REngine::Input::Pad::Axis::RightStickX:
+			case RHEngine::Input::Pad::Axis::RightStickX:
 				return state.thumbSticks.rightX;
-			case REngine::Input::Pad::Axis::RightStickY:
+			case RHEngine::Input::Pad::Axis::RightStickY:
 				return state.thumbSticks.rightY;
-			case REngine::Input::Pad::Axis::LeftTrigger:
+			case RHEngine::Input::Pad::Axis::LeftTrigger:
 				return state.triggers.left;
-			case REngine::Input::Pad::Axis::RightTrigger:
+			case RHEngine::Input::Pad::Axis::RightTrigger:
 				return state.triggers.right;
 			default:
 				return 0;
@@ -101,4 +101,4 @@ namespace REngine
 			DirectX::GamePad::Get().SetVibration(0, left, right);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -21,7 +21,7 @@
 //====================================================//
 
 // コンストラクタ
-ChangeSceneComponent::ChangeSceneComponent(REngine::IComponentOwner* own)
+ChangeSceneComponent::ChangeSceneComponent(RHEngine::IComponentOwner* own)
 	: BothComponentBase(own)
 	, m_button{}
 	, m_targetScene{}
@@ -40,13 +40,13 @@ void ChangeSceneComponent::Start()
 	if (m_button)
 	{
 		// クリック時処理を追加
-		m_eventToken = m_button->AddOnClicked([this]() { REngine::SceneManager::Instance().RequestSceneChange(m_targetScene, std::make_unique<REngine::Transition::Fade>(), std::make_unique<REngine::Transition::Fade>()); });
+		m_eventToken = m_button->AddOnClicked([this]() { RHEngine::SceneManager::Instance().RequestSceneChange(m_targetScene, std::make_unique<RHEngine::Transition::Fade>(), std::make_unique<RHEngine::Transition::Fade>()); });
 	}
 }
 
-void ChangeSceneComponent::Update(const REngine::GameTimer&)
+void ChangeSceneComponent::Update(const RHEngine::GameTimer&)
 {
-	using namespace REngine::Input;
+	using namespace RHEngine::Input;
 
 	bool padConnect = Pad::IsConnected();
 

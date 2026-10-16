@@ -15,7 +15,7 @@
 
 #include "Scene/UpdatePipeline.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -200,4 +200,4 @@ namespace REngine
 		// 読み取りコンポーネントに通知
 		for (auto& listener : m_listeners) listener->OnComponentRemoved(component);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

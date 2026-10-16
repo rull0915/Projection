@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ReferenceTester : public REngine::WorldComponentBase
+class ReferenceTester : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -41,7 +41,7 @@ private:
 	// メンバ変数
 	//-----------------------------------------------------
 
-	REngine::Ref<REngine::Transform> m_targetTransform;
+	RHEngine::Ref<RHEngine::Transform> m_targetTransform;
 
 	DirectX::SimpleMath::Vector3 m_tarrgetSetPos;
 
@@ -50,14 +50,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ReferenceTester(REngine::IComponentOwner* own);
+	ReferenceTester(RHEngine::IComponentOwner* own);
 	~ReferenceTester() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(EasingTestComponent, REngine::WorldComponentBase)
+	COMPONENT_TYPE(EasingTestComponent, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -66,8 +66,8 @@ public:
 	void Awake() override;
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
-	void LateUpdate(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
+	void LateUpdate(const RHEngine::GameTimer& gameTimer) override;
 
 	//-----------------------------------------------------
 	// ゲッター

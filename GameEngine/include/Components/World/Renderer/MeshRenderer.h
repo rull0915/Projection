@@ -20,7 +20,7 @@
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class ShadowRenderer;
 
@@ -81,4 +81,4 @@ namespace REngine
 
 		const std::vector<Handle<MaterialAsset>>& GetMaterials() const { return m_materials; }
 	};
-} // namespace REngine
+} // namespace RHEngine

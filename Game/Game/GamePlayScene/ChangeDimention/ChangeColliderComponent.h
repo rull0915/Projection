@@ -31,19 +31,19 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class ChangeColliderComponent : public REngine::WorldComponentBase
+class ChangeColliderComponent : public RHEngine::WorldComponentBase
 {
 private:
 
 	// 3Dコライダーを受け取る配列
-	std::vector<REngine::ColliderBase*> m_3dColliders;
+	std::vector<RHEngine::ColliderBase*> m_3dColliders;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	ChangeColliderComponent(REngine::IComponentOwner* owner)
+	ChangeColliderComponent(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_3dColliders( 0 )
 	{
@@ -55,20 +55,20 @@ public:
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(ChangeColliderComponent, REngine::WorldComponentBase)
+	COMPONENT_TYPE(ChangeColliderComponent, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	// 3次元から2次元へ切り替える関数
-	void Change3DTo2D(REngine::CameraBase* pCamera);
+	void Change3DTo2D(RHEngine::CameraBase* pCamera);
 
 	// 2次元から3次元へ切り替える関数
 	void Change2DTo3D();
 
 	// 2次元コライダーを更新する関数
-	void Update2DCollider(REngine::CameraBase* pCamera)
+	void Update2DCollider(RHEngine::CameraBase* pCamera)
 	{
 		// 再構築
 		Change2DTo3D();
@@ -82,5 +82,5 @@ private:
 	//-----------------------------------------------------
 
 	// 3次元コライダーから2次元コライダーを生成する関数
-	REngine::ColliderBase2D* Create2DColliderFrom3D(REngine::CameraBase* pCamera, REngine::ColliderBase* p3DCol);
+	RHEngine::ColliderBase2D* Create2DColliderFrom3D(RHEngine::CameraBase* pCamera, RHEngine::ColliderBase* p3DCol);
 };

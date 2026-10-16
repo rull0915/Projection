@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -62,4 +62,4 @@ namespace REngine
 		float GetTime() const { return m_time; }
 		float GetUnScaledTime() const { return m_unscaledTime; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

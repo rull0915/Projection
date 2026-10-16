@@ -28,7 +28,7 @@
 #include "Assets/Types/Model/Mesh.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class MaterialAsset;
 
@@ -186,4 +186,4 @@ namespace REngine
 			: DrawCommandBase(RendererType::Primitive)
 		{}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

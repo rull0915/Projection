@@ -17,7 +17,7 @@
 //====================================================//
 
 // コンストラクタ
-PauseDialog::PauseDialog(REngine::IComponentOwner* own)
+PauseDialog::PauseDialog(RHEngine::IComponentOwner* own)
 	: Dialog(own)
 	, m_openEasing{}
 	, m_closeEasing{}
@@ -38,7 +38,7 @@ PauseDialog::PauseDialog(REngine::IComponentOwner* own)
 void PauseDialog::Start()
 {
 	// rectを取得
-	m_rectTransform = GetComponent<REngine::RectTransform>();
+	m_rectTransform = GetComponent<RHEngine::RectTransform>();
 
 	// 初期状態のスケールを取得
 	m_initScale = m_rectTransform->GetLocalScale();
@@ -48,7 +48,7 @@ void PauseDialog::Start()
 }
 
 // 毎フレーム呼ばれます
-void PauseDialog::Update(const REngine::GameTimer & gameTimer)
+void PauseDialog::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// モードによって変更
 	switch (m_currentMode)

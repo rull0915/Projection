@@ -24,7 +24,7 @@
 void TPSCamera::Awake()
 {
 	// トランスフォームを取得
-	m_pOwnTransform = GetComponent<REngine::Transform>();
+	m_pOwnTransform = GetComponent<RHEngine::Transform>();
 }
 
 void TPSCamera::Start()
@@ -34,16 +34,16 @@ void TPSCamera::Start()
 void TPSCamera::OnEnable()
 {
 	// マウスを相対モードに
-	REngine::Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+	RHEngine::Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
 }
 
 void TPSCamera::OnDisable()
 {
 	// マウスを絶対モードに
-	REngine::Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
+	RHEngine::Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 }
 
-void TPSCamera::Update(const REngine::GameTimer& gameTimer)
+void TPSCamera::Update(const RHEngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
@@ -51,7 +51,7 @@ void TPSCamera::Update(const REngine::GameTimer& gameTimer)
 	if (!m_pTargetTransform) return;
 
 	// マウスの移動量を取得
-	DirectX::SimpleMath::Vector2 moveVal = { REngine::Input::Custom::GetAxis("CameraX"), REngine::Input::Custom::GetAxis("CameraY") };
+	DirectX::SimpleMath::Vector2 moveVal = { RHEngine::Input::Custom::GetAxis("CameraX"), RHEngine::Input::Custom::GetAxis("CameraY") };
 
 	// 角度に加算する
 	m_angle.x += moveVal.y * m_sensitivity * 0.01f;

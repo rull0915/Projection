@@ -16,7 +16,7 @@
 //====================================================//
 #include "Physics/HitContact.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -83,4 +83,4 @@ namespace REngine
 		void OnStay2D(HitContact2D& contact);
 		void OnExit2D(HitContact2D& contact);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

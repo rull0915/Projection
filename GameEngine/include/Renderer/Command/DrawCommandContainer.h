@@ -18,7 +18,7 @@
 #include <variant>
 #include "DrawCommand.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -126,4 +126,4 @@ namespace REngine
 		const std::vector<DrawUICommand>& GetDrawUICommands() const { return m_drawUICommands; }
 
 	};
-}	// namespace REngine
+}	// namespace RHEngine

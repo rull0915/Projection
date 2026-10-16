@@ -16,7 +16,7 @@
 
 using namespace DirectX;
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -100,4 +100,4 @@ namespace REngine
 			renderer.Draw().Primitive().DrawLine(points[edges[i * 2]], points[edges[i * 2 + 1]], color);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

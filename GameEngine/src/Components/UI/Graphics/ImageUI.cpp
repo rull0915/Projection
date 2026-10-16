@@ -15,7 +15,7 @@
 #include "Renderer/Renderer.h"
 #include "Assets/Managers/AssetManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -65,4 +65,4 @@ namespace REngine
 		// マテリアルのリセット
 		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

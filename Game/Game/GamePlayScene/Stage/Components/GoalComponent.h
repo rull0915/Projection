@@ -27,7 +27,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class GoalComponent : public REngine::WorldComponentBase
+class GoalComponent : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -40,18 +40,18 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	GoalComponent(REngine::IComponentOwner* own);
+	GoalComponent(RHEngine::IComponentOwner* own);
 	~GoalComponent() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 
-	COMPONENT_TYPE(GoalComponent, REngine::WorldComponentBase)
+	COMPONENT_TYPE(GoalComponent, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
-	void OnTriggerEnter(REngine::HitContact& contact) override;
+	void OnTriggerEnter(RHEngine::HitContact& contact) override;
 };

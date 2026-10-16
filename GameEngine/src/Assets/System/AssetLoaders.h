@@ -18,7 +18,7 @@
 #include "Editor/Loader/ObjectLoader.h"
 #include "Assets/Managers/AssetLoadResult.h"
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Loader
 	{		
@@ -59,4 +59,4 @@ namespace REngine
 			return result;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

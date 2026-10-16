@@ -30,7 +30,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class PathMover : public REngine::WorldComponentBase
+class PathMover : public RHEngine::WorldComponentBase
 {
 public:
 	enum class RotType
@@ -59,7 +59,7 @@ private:
 	float m_sumTime;
 
 	// トランスフォーム
-	REngine::Transform* m_pTransform;
+	RHEngine::Transform* m_pTransform;
 
 	// 補間コンポーネント
 	CatmullRomComponent* m_pCatmull;
@@ -72,14 +72,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	PathMover(REngine::IComponentOwner* own);
+	PathMover(RHEngine::IComponentOwner* own);
 	~PathMover() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(PathMover, REngine::WorldComponentBase)
+	COMPONENT_TYPE(PathMover, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -87,8 +87,8 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
-	void LateUpdate(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
+	void LateUpdate(const RHEngine::GameTimer& gameTimer) override;
 
 	// 移動開始関数
 	void MoveStart();

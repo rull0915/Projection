@@ -28,7 +28,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class SwingComponent : public REngine::UIComponentBase
+class SwingComponent : public RHEngine::UIComponentBase
 {
 private:
 
@@ -42,7 +42,7 @@ private:
 	//-----------------------------------------------------
 
 	// RectTransform
-	REngine::RectTransform* m_rectTransform;
+	RHEngine::RectTransform* m_rectTransform;
 
 	// 揺れの幅
 
@@ -51,14 +51,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	SwingComponent(REngine::IComponentOwner* own);
+	SwingComponent(RHEngine::IComponentOwner* own);
 	~SwingComponent() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(SwingComponent, REngine::UIComponentBase)
+	COMPONENT_TYPE(SwingComponent, RHEngine::UIComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -66,5 +66,5 @@ public:
 
 	void Awake() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 };

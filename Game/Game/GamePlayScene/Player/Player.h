@@ -30,7 +30,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class Player : public REngine::WorldComponentBase
+class Player : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -44,9 +44,9 @@ private:
 	//-----------------------------------------------------
 	// メンバ変数
 	//-----------------------------------------------------
-	REngine::Transform* m_pTransform;
+	RHEngine::Transform* m_pTransform;
 
-	// REngine::PhysicsMaterial m_material;
+	// RHEngine::PhysicsMaterial m_material;
 
 	// 現在の次元が2次元かどうか
 	bool m_is2D;
@@ -64,27 +64,27 @@ public:
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
 
-	Player(REngine::IComponentOwner* owner);
+	Player(RHEngine::IComponentOwner* owner);
 	~Player();
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 
-	COMPONENT_TYPE(Player, REngine::WorldComponentBase)
+	COMPONENT_TYPE(Player, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
 	//-----------------------------------------------------
 
 	void Start() override;
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
-	void OnCollisionEnter(REngine::HitContact& contact) override;
-	void OnCollisionEnter2D(REngine::HitContact2D& contact) override;
+	void OnCollisionEnter(RHEngine::HitContact& contact) override;
+	void OnCollisionEnter2D(RHEngine::HitContact2D& contact) override;
 
-	void OnTriggerStay(REngine::HitContact& contact) override;
-	void OnTriggerExit(REngine::HitContact& contact) override;
+	void OnTriggerStay(RHEngine::HitContact& contact) override;
+	void OnTriggerExit(RHEngine::HitContact& contact) override;
 
 	// ジャンプ可能かどうか
 	bool CanJump() const { return m_canJump; }
@@ -106,8 +106,8 @@ private:
 	//-----------------------------------------------------
 
 	// 2D時の更新関数
-	void Update2D(const REngine::GameTimer& timer);
+	void Update2D(const RHEngine::GameTimer& timer);
 
 	// 3D時の更新関数
-	void Update3D(const REngine::GameTimer& timer);
+	void Update3D(const RHEngine::GameTimer& timer);
 };

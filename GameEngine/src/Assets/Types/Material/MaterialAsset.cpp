@@ -20,7 +20,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	MaterialAsset::MaterialAsset()
 		: m_pixelShader{}
@@ -277,7 +277,7 @@ namespace REngine
 		return properties;
 	}
 
-	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, REngine::Texture* texture, const std::string& name, ShaderType type)
+	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type)
 	{
 		// テクスチャがなければ何もしない
 		if (!texture) return;
@@ -444,10 +444,10 @@ namespace REngine
 		switch (type)
 		{
 			// 頂点シェーダ
-		case REngine::ShaderType::Vertex:
+		case RHEngine::ShaderType::Vertex:
 			return m_assetManager->Get<ShaderAsset>(m_vertexShader);
 			// ピクセルシェーダ
-		case REngine::ShaderType::Pixel:
+		case RHEngine::ShaderType::Pixel:
 			return m_assetManager->Get<ShaderAsset>(m_pixelShader);
 		default:
 			return nullptr;

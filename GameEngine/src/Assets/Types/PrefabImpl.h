@@ -17,7 +17,7 @@
 #include <fstream>
 #include "Thirdparty/nlohmann/json.hpp"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -89,4 +89,4 @@ namespace REngine
 		// World空間オブジェクトかどうか
 		bool IsWorldObject() const { return m_isWorld; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

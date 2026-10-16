@@ -19,7 +19,7 @@
 
 #include "Assets/Objects/AssetBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -52,4 +52,4 @@ namespace REngine
 
 		DirectX::SoundEffect* Get() const { return m_soundEffect.get(); }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -13,7 +13,7 @@
 #include "Renderer/Command/Publisher/DrawUICommandPublisher.h"
 #include "System/WindowManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -152,4 +152,4 @@ namespace REngine
 	}
 
 #pragma endregion
-}	// namespace REngine
+}	// namespace RHEngine

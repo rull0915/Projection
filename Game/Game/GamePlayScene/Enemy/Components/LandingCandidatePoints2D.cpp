@@ -29,7 +29,7 @@ void LandingCandidatePoints2D::Start()
 {
 	// コライダーを取得
 	// 1つ目のみに対応
-	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponent<REngine::ColliderBase2D>());
+	m_ownCollider = static_cast<RHEngine::ColliderBase2D*>(GetOwn()->GetComponent<RHEngine::ColliderBase2D>());
 
 	// 取得できなかったら何もしない
 	if (!m_ownCollider) return;
@@ -41,12 +41,12 @@ void LandingCandidatePoints2D::Start()
 	m_latestVersion = m_ownCollider->GetVersion();
 }
 
-void LandingCandidatePoints2D::Update(const REngine::GameTimer& gameTimer)
+void LandingCandidatePoints2D::Update(const RHEngine::GameTimer& gameTimer)
 {
 	gameTimer;
 
 	// 再取得
-	m_ownCollider = static_cast<REngine::ColliderBase2D*>(GetOwn()->GetComponent<REngine::ColliderBase2D>());
+	m_ownCollider = static_cast<RHEngine::ColliderBase2D*>(GetOwn()->GetComponent<RHEngine::ColliderBase2D>());
 
 	// 再取得も失敗したら何もしない
 	if (!m_ownCollider) return;
@@ -61,10 +61,10 @@ void LandingCandidatePoints2D::Update(const REngine::GameTimer& gameTimer)
 		UpdateCandidatePoints();
 
 		// 2D世界の設定を取得
-		auto& world2D = REngine::WorldSetting2D::Instance();
+		auto& world2D = RHEngine::WorldSetting2D::Instance();
 
 		// 中心点の更新(トランスフォームの3D座標を2D座標系に変換)
-		m_centerPoint = world2D.World3DToLocal2D(GetComponent<REngine::Transform>()->GetWorldPosition());
+		m_centerPoint = world2D.World3DToLocal2D(GetComponent<RHEngine::Transform>()->GetWorldPosition());
 	}
 }
 
@@ -76,17 +76,17 @@ void LandingCandidatePoints2D::UpdateCandidatePoints()
 	// コライダーのタイプごとに処理を分ける
 
 	// ボックスの場合
-	if (m_ownCollider->IsTypeOf(REngine::BoxCollider2D::StaticTypeId))
+	if (m_ownCollider->IsTypeOf(RHEngine::BoxCollider2D::StaticTypeId))
 	{
 		UpdateCandidatePointsOnBox();
 	}
 	// カプセル
-	else if (m_ownCollider->IsTypeOf(REngine::CapsuleCollider2D::StaticTypeId))
+	else if (m_ownCollider->IsTypeOf(RHEngine::CapsuleCollider2D::StaticTypeId))
 	{
 
 	}
 	// 円
-	else if (m_ownCollider->IsTypeOf(REngine::CircleCollider2D::StaticTypeId))
+	else if (m_ownCollider->IsTypeOf(RHEngine::CircleCollider2D::StaticTypeId))
 	{
 
 	}
@@ -104,7 +104,7 @@ void LandingCandidatePoints2D::UpdateCandidatePointsOnBox()
 	using namespace DirectX;
 
 	// ボックスコライダーに変換
-	REngine::BoxCollider2D* collider = dynamic_cast<REngine::BoxCollider2D*>(m_ownCollider);
+	RHEngine::BoxCollider2D* collider = dynamic_cast<RHEngine::BoxCollider2D*>(m_ownCollider);
 
 	// 変換に失敗したら何もしない
 	if (!collider) return;

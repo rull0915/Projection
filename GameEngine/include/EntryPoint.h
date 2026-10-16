@@ -29,7 +29,7 @@
 #include <GamePad.h>
 #include <Mouse.h>
 
-// REngine
+// RHEngine
 #include "Application.h"
 #include "System/WindowManager.h"
 #include "Editor/Editor/ImguiManager.h"
@@ -39,10 +39,10 @@
 //====================================================//
 
 // 外部で定義されたCreateApplicationを呼び出す
-extern REngine::Application* REngine::CreateApplication();
+extern RHEngine::Application* RHEngine::CreateApplication();
 
 namespace {
-    std::unique_ptr<REngine::Application> g_app;
+    std::unique_ptr<RHEngine::Application> g_app;
 }
 
 // Windows Procedure 前方宣言
@@ -59,7 +59,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
 	// アプリケーションインスタンスを生成
-	g_app.reset(REngine::CreateApplication());
+	g_app.reset(RHEngine::CreateApplication());
 	const auto& props = g_app->GetProps();
 
 	// キーボードの作成
@@ -80,7 +80,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		wcex.lpfnWndProc = WndProc;
 		wcex.hInstance = hInstance;
 		wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-		wcex.lpszClassName = L"REngine_Window";
+		wcex.lpszClassName = L"RHEngine_Window";
 		if (!RegisterClassExW(&wcex)) return 1;
 
 		// ウィンドウサイズの指定
@@ -88,7 +88,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
 
 		// ウィンドウの作成
-		HWND hwnd = CreateWindowExW(0, L"REngine_Window", props.title.c_str(), WS_MYSTYLE,
+		HWND hwnd = CreateWindowExW(0, L"RHEngine_Window", props.title.c_str(), WS_MYSTYLE,
 			CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
 			nullptr, nullptr, hInstance,
 			g_app.get());
@@ -136,7 +136,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 #ifdef ENGINE_GUI
-	if (REngine::ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
+	if (RHEngine::ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
 	{
 		return true;
 	}

@@ -20,7 +20,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	template<typename T, typename = std::enable_if_t<std::is_enum_v<T>>>
 	class StateBase
@@ -79,4 +79,4 @@ namespace REngine
 			m_nextState = next;
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

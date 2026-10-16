@@ -13,7 +13,7 @@
 #include "Components/Both/Sounds/AudioSource.h"
 #include "Assets/Managers/AssetManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -125,4 +125,4 @@ namespace REngine
 		if (m_soundInstance) m_soundInstance->SetPan(m_pan);
 		if (m_soundInstance) m_soundInstance->SetPitch(m_pitch);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

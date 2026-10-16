@@ -17,7 +17,7 @@
 #include "Windows.h"
 #include "Math/Bounding.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 構造体宣言

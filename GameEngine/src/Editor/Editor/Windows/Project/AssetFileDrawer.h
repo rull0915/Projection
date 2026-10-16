@@ -20,7 +20,7 @@
 #include <filesystem>
 #include "Common/UUID.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 

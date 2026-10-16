@@ -18,7 +18,7 @@
 #include "GameObject/GameObject.h"
 #include "Common/UUID.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -65,4 +65,4 @@ namespace REngine
 		// オブジェクトをUUID検索する関数
 		GameObject* FindWithUUID(UUID uuid) const;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -13,7 +13,7 @@
 #include "Renderer/Command/Publisher/DrawSpriteCommandPublisher.h"
 #include "System/WindowManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -173,4 +173,4 @@ namespace REngine
 
 		return DirectX::SimpleMath::Vector2(0, 0);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

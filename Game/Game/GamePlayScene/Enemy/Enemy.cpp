@@ -23,7 +23,7 @@
 #include "State/2D/Enemy2DMoveState.h"
 #include "State/2D/Enemy2DJumpState.h"
 
-using namespace REngine;
+using namespace RHEngine;
 
 //====================================================//
 // 関数の実体宣言

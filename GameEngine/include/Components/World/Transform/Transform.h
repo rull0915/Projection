@@ -17,7 +17,7 @@
 #include "Components/World/WorldComponentBase.h"
 #include <vector>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -337,4 +337,4 @@ namespace REngine
 			return false;
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

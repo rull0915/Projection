@@ -19,7 +19,7 @@
 //====================================================//
 
 // コンストラクタ
-EasingTestComponent::EasingTestComponent(REngine::IComponentOwner* own)
+EasingTestComponent::EasingTestComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_easingConfig{}
 	, m_pTransform{}
@@ -42,7 +42,7 @@ EasingTestComponent::EasingTestComponent(REngine::IComponentOwner* own)
 void EasingTestComponent::Awake()
 {
 	// Transformの取得
-	m_pTransform = GetComponent<REngine::Transform>();
+	m_pTransform = GetComponent<RHEngine::Transform>();
 }
 
 void EasingTestComponent::OnEnable()
@@ -52,7 +52,7 @@ void EasingTestComponent::OnEnable()
 }
 
 // 毎フレーム呼ばれます
-void EasingTestComponent::Update(const REngine::GameTimer & gameTimer)
+void EasingTestComponent::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// 経過時間の加算
 	m_sumTime += gameTimer.GetElapsedTime() * m_playScale;
@@ -81,7 +81,7 @@ void EasingTestComponent::Update(const REngine::GameTimer & gameTimer)
 	}
 }
 
-void EasingTestComponent::DebugRender(REngine::Renderer& renderer, const DirectX::SimpleMath::Color& color)
+void EasingTestComponent::DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color)
 {
 	// 開始点から終了点への線を引く
 	renderer.Draw().Primitive().DrawLine(m_start, m_end, color);

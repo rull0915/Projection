@@ -19,9 +19,9 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
-	std::unordered_map<std::string, MaterialAsset> REngine::MtlFileLoader::LoadMTL(const std::filesystem::path& path, AssetContext& ctx)
+	std::unordered_map<std::string, MaterialAsset> RHEngine::MtlFileLoader::LoadMTL(const std::filesystem::path& path, AssetContext& ctx)
 	{
 		// ------- 拡張子がmtlでなければスキップ ------- //
 
@@ -63,8 +63,8 @@ namespace REngine
 
 		// ---------- 使用するシェーダーアセットを読み込む ---------- //
 
-		Handle<ShaderAsset> ps = ctx.LoadFromUUID(REngine::DefaultAsset::LIT_PS).As<ShaderAsset>();
-		Handle<ShaderAsset> vs = ctx.LoadFromUUID(REngine::DefaultAsset::LIT_VS).As<ShaderAsset>();
+		Handle<ShaderAsset> ps = ctx.LoadFromUUID(RHEngine::DefaultAsset::LIT_PS).As<ShaderAsset>();
+		Handle<ShaderAsset> vs = ctx.LoadFromUUID(RHEngine::DefaultAsset::LIT_VS).As<ShaderAsset>();
 
 		// 作成中のマテリアルをリストに追加するラムダ式
 		auto createMaterial =

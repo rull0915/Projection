@@ -19,7 +19,7 @@
 
 #include "Common/Random.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

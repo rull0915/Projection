@@ -19,7 +19,7 @@
 #include "Common/LightData.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// ライトの情報
 	struct SceneLightData

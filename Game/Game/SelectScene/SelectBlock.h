@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class SelectBlock : public REngine::WorldComponentBase
+class SelectBlock : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -41,24 +41,24 @@ private:
 	std::string m_targetScene;
 
 	// ターゲットダイアログ
-	REngine::Ref<Dialog> m_targetDialog;
+	RHEngine::Ref<Dialog> m_targetDialog;
 
 	// ステージ名テキスト
-	REngine::Ref<REngine::TextUI> m_nameText;
+	RHEngine::Ref<RHEngine::TextUI> m_nameText;
 
 public:
 
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	SelectBlock(REngine::IComponentOwner* own);
+	SelectBlock(RHEngine::IComponentOwner* own);
 	~SelectBlock() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 
-	COMPONENT_TYPE(SelectBlock, REngine::WorldComponentBase)
+	COMPONENT_TYPE(SelectBlock, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -66,7 +66,7 @@ public:
 
 	void Start() override;
 
-	void OnTriggerStay(REngine::HitContact& contact) override;
-	void OnTriggerEnter(REngine::HitContact& contact) override;
-	void OnTriggerExit(REngine::HitContact& contact) override;
+	void OnTriggerStay(RHEngine::HitContact& contact) override;
+	void OnTriggerEnter(RHEngine::HitContact& contact) override;
+	void OnTriggerExit(RHEngine::HitContact& contact) override;
 };

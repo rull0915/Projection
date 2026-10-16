@@ -19,7 +19,7 @@
 #include "Assets/Types/Texture.h"
 #include "Assets/Types/Prefab.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetContext;
 
@@ -33,4 +33,4 @@ namespace REngine
 		// Propertyとして扱う場合
 		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, const AssetManager& assetManager);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

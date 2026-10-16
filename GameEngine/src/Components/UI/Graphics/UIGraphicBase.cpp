@@ -17,7 +17,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	/// <summary>
 	/// コンストラクタ
@@ -31,4 +31,4 @@ namespace REngine
 		ADD_PROPERTY(UIGraphicBase, m_color);
 		ADD_PROPERTY(UIGraphicBase, m_mulColor);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -26,7 +26,7 @@
 #include "Assets/Managers/AssetManager.h"
 #include "Assets/Managers/IAssetResolver.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

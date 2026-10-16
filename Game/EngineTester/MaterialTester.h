@@ -27,12 +27,12 @@
 //====================================================//
 // 前方宣言
 //====================================================//
-class REngine::AssetManager;
+class RHEngine::AssetManager;
 
 //====================================================//
 // クラス宣言
 //====================================================//
-class MaterialTester : public REngine::BothComponentBase, public REngine::IAssetDependent
+class MaterialTester : public RHEngine::BothComponentBase, public RHEngine::IAssetDependent
 {
 private:
 
@@ -41,19 +41,19 @@ private:
 	//-----------------------------------------------------
 
 	// トランスフォームコンポーネント
-	REngine::Transform* m_pTransform;
+	RHEngine::Transform* m_pTransform;
 
 	// マテリアル
-	REngine::Handle<REngine::MaterialAsset> m_material;
+	RHEngine::Handle<RHEngine::MaterialAsset> m_material;
 
 	// AssetManager
-	REngine::AssetManager* m_assetManager;
+	RHEngine::AssetManager* m_assetManager;
 
 	// テクスチャハンドル
-	REngine::Handle<REngine::Texture> m_texture;
+	RHEngine::Handle<RHEngine::Texture> m_texture;
 
 	// サンプラータイプ
-	REngine::SamplerType m_samplerType;
+	RHEngine::SamplerType m_samplerType;
 
 	// 経過時間
 	float m_sumTime;
@@ -66,14 +66,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	MaterialTester(REngine::IComponentOwner* own);
+	MaterialTester(RHEngine::IComponentOwner* own);
 	~MaterialTester() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 	
-	COMPONENT_TYPE(MaterialTester, REngine::BothComponentBase)
+	COMPONENT_TYPE(MaterialTester, RHEngine::BothComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -82,11 +82,11 @@ public:
 	void Awake() override;
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 	void OnValidate() override;
 
-	void ReceiveAssetManager(REngine::AssetManager& am) override
+	void ReceiveAssetManager(RHEngine::AssetManager& am) override
 	{
 		m_assetManager = &am;
 	}

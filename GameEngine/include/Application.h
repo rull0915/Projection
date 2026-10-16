@@ -20,7 +20,7 @@
 #include "System/DeviceResources.h"
 #include "Timer/StepTimer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class GameEngine;
 
@@ -30,7 +30,7 @@ namespace REngine
 
 	// アプリケーション設定構造体
 	struct ApplicationProps {
-		std::wstring title = L"REngine";	// アプリタイトル
+		std::wstring title = L"RHEngine";	// アプリタイトル
 		uint32_t width = 1280;				// ウィンドウ幅
 		uint32_t height = 720;				// ウィンドウ高さ
 	};

@@ -19,7 +19,7 @@
 #include "Components/World/Transform/Transform.h"
 #include "Editor/Editor/SceneCamera.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -44,6 +44,6 @@ namespace REngine
 
 		void SetDrawFlag(int flag) { m_drawFlag = flag; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

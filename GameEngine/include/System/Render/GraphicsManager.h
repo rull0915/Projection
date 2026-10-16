@@ -18,7 +18,7 @@
 #include "InputLayoutCache.h"
 #include "SamplerList.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

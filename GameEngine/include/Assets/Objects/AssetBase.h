@@ -20,7 +20,7 @@
 #include "LoadStatus.h"
 #include "Common/Property/PropertyObject.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 
@@ -104,4 +104,4 @@ namespace REngine
 		// 名前
 		const std::string& GetName() const { return m_name; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,7 +16,7 @@
 //====================================================//
 #include "Renderer/Command/DrawCommandContainer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -117,4 +117,4 @@ namespace REngine
 			bool fillFlag
 		);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -17,7 +17,7 @@
 #include <vector>
 #include "Components/ComponentTypeId.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -79,4 +79,4 @@ namespace REngine
 			Component::TypeId id
 		) const = 0;
 	};
-} // namespace REngine
+} // namespace RHEngine

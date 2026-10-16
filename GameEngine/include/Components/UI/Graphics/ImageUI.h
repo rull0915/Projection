@@ -20,7 +20,7 @@
 #include "Assets/Types/Texture.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -97,4 +97,4 @@ namespace REngine
 		}
 		void SetRaycastTarget(bool f) { m_raycastTarget = f; }
 	};
-} // namespace REngine
+} // namespace RHEngine

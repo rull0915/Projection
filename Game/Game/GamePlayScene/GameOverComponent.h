@@ -29,7 +29,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-class GameOverComponent : public REngine::WorldComponentBase
+class GameOverComponent : public RHEngine::WorldComponentBase
 {
 private:
 
@@ -49,7 +49,7 @@ private:
 	std::string m_playerName;
 
 	// プレイヤー
-	REngine::GameObject* m_player;
+	RHEngine::GameObject* m_player;
 
 	// プレイヤーコンポーネント
 	Player* m_playerComponent;
@@ -63,14 +63,14 @@ public:
 	//-----------------------------------------------------
 	// コンストラクタ / デストラクタ
 	//-----------------------------------------------------
-	GameOverComponent(REngine::IComponentOwner* own);
+	GameOverComponent(RHEngine::IComponentOwner* own);
 	~GameOverComponent() = default;
 
 	//-----------------------------------------------------
 	// Type
 	//-----------------------------------------------------
 
-	COMPONENT_TYPE(GameOverComponent, REngine::WorldComponentBase)
+	COMPONENT_TYPE(GameOverComponent, RHEngine::WorldComponentBase)
 
 	//-----------------------------------------------------
 	// 公開関数
@@ -78,5 +78,5 @@ public:
 
 	void Start() override;
 
-	void Update(const REngine::GameTimer& gameTimer) override;
+	void Update(const RHEngine::GameTimer& gameTimer) override;
 };
