@@ -22,6 +22,7 @@ namespace RHEngine
 {
 	enum class LightType
 	{
+		None,
 		Point,
 		Spot,
 		Directional,

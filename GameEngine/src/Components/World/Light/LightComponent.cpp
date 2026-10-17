@@ -21,7 +21,7 @@ namespace RHEngine
 	// コンストラクタ
 	LightComponent::LightComponent(IComponentOwner* owner)
 		: WorldComponentBase(owner)
-		, m_lightType{ LightType::Directional }
+		, m_lightType{ LightType::None }
 		, m_color{ 1, 1, 1, 1 }
 		, m_intensity{ 1.0f }
 		, m_radius{ 1.0f }
@@ -42,50 +42,41 @@ namespace RHEngine
 		// デフォルトのプロパティを取得
 		properties = PropertyObject::GetProperties();
 
+		// 1つのfloat変数を追加するラムダ式
+		auto addOnceFloat = [&properties](const std::string& name, void* value)
+			{
+				properties.push_back(
+					Property(
+						name, PropertyType::Float, value
+					)
+				);
+			};
+
 		// ライトタイプで分岐
 		switch (m_lightType)
 		{
 		case RHEngine::LightType::Spot:
 
-			// 距離を追加
-			properties.push_back(
-				Property(
-					"length",				// プロパティ名の指定
-					PropertyType::Float,	// プロパティタイプの指定
-					&m_length)				// プロパティ本体の指定
-			);
+			addOnceFloat("length", &m_length);
+			addOnceFloat("innerAngle", &m_innerAngle);
+			addOnceFloat("outerAngle", &m_outerAngle);
 
-			// 内角度を追加
-			properties.push_back(
-				Property(
-					"innerAngle",				// プロパティ名の指定
-					PropertyType::Float,	// プロパティタイプの指定
-					&m_innerAngle)				// プロパティ本体の指定
-			);
-
-			// 外角度を追加
-			properties.push_back(
-				Property(
-					"outerAngle",				// プロパティ名の指定
-					PropertyType::Float,	// プロパティタイプの指定
-					&m_outerAngle)				// プロパティ本体の指定
-			);
-
-			// 半径はスポットライト、ポイントライト共通のため意図的なフォールスルー
-			[[fallthrough]];
+			break;
 		case RHEngine::LightType::Point:
 
 			// 半径を追加
-			properties.push_back(
-				Property(
-					"radius",				// プロパティ名の指定
-					PropertyType::Float,	// プロパティタイプの指定
-					&m_radius)				// プロパティ本体の指定
-			);
+			addOnceFloat("radius", &m_radius);
 
 			break;
+
 			// 平行光源は追加変数なし
-		case RHEngine::LightType::Directional:
+		case RHEngine::LightType::None:
+
+			addOnceFloat("length", &m_length);
+			addOnceFloat("innerAngle", &m_innerAngle);
+			addOnceFloat("outerAngle", &m_outerAngle);
+			addOnceFloat("radius", &m_radius);
+
 			break;
 		default:
 			break;

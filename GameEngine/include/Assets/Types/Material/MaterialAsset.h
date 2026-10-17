@@ -208,7 +208,7 @@ namespace RHEngine
 		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type);
 
 		// サンプラーをバインドする関数
-		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
+		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
 
 		// シェーダーのパラメータから自身のパラメータを作り直す関数
 		void RebuildParams();

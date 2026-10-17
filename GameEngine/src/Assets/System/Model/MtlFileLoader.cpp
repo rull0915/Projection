@@ -77,6 +77,7 @@ namespace RHEngine
 			// デフォルト値を指定
 			currentParams.insert({ "DiffuseIntensity", { ShaderParamType::Float, 1.0f } });
 			currentParams.insert({ "SpecularIntensity", { ShaderParamType::Float, 1.0f } });
+			currentParams.insert({ "Shininess", { ShaderParamType::Float, 32.0f } });
 
 			// ピクセルシェーダーのロード用パラメータをセット
 			material.SetPendingParams(ShaderType::Pixel, currentParams);

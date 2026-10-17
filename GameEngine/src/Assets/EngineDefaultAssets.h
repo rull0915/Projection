@@ -36,6 +36,6 @@ namespace RHEngine
 		const UUID PRIMITIVE_MATERIAL = 12;
 
 		//-------- Sprite --------//
-		const UUID BASIC_SPRITE = 21;
+		const UUID DEFAULT_SPRITE = 21;
 	}
 }

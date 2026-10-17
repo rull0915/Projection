@@ -212,6 +212,7 @@ namespace RHEngine
 				{
 					DirectX::XMFLOAT2 t;
 					stream >> t.x >> t.y;
+					t.y = 1.0f - t.y;
 					texcoords.push_back(t);
 				}
 				else if (type == "vn")	// 法線ベクトル

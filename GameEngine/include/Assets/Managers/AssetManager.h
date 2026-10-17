@@ -18,7 +18,6 @@
 #include <functional>
 #include <fstream>
 #include <memory>
-#include <future>
 #include <typeindex>
 
 #include "Assets/Objects/AssetBase.h"
@@ -204,6 +203,13 @@ namespace RHEngine
 		UUID GetUUID(const UnTypeHandle& handle) const override
 		{
 			return m_registry.GetUUID(handle);
+		}
+
+		// UUIDから本体を直接取得する関数
+		template<typename T>
+		T* GetAssetFromUUID(UUID id) const
+		{
+			return m_registry.Get(m_registry.GetHandle(id).As<T>());
 		}
 
 	private:

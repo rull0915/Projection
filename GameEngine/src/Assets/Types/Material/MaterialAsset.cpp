@@ -13,8 +13,8 @@
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetManager.h"
 
-#include "Renderer/CBufferSlot.h"
 #include "System/Render/GraphicsManager.h"
+#include "Assets/EngineDefaultAssets.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -54,9 +54,6 @@ namespace RHEngine
 				// バッファをループ
 				for (auto& cBuffer : asset->GetBuffers())
 				{
-					// マテリアル管轄のスロットでなければスキップ
-					if (!IsMaterialManagedSlot(cBuffer.slot)) continue;
-
 					// マップのキーを生成
 					auto key = std::make_pair(type, cBuffer.slot);
 
@@ -279,8 +276,14 @@ namespace RHEngine
 
 	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type)
 	{
-		// テクスチャがなければ何もしない
-		if (!texture) return;
+		// テクスチャがなけデフォルトテクスチャを使用
+		if (!texture)
+		{
+			texture = m_assetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
+
+			// デフォルトが取得できなければバインドしない
+			if (!texture) return;
+		}
 
 		// パラメータを取得
 		auto* param = shader->FindParam(name);
@@ -308,10 +311,13 @@ namespace RHEngine
 		}
 	}
 
-	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, const Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
+	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
 	{
-		// サンプラーがなければ何もしない
-		if (!sampler) return;
+		// サンプラーがなければリニアラップを使用
+		if (!sampler)
+		{
+			sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap).Get();
+		}
 
 		// パラメータを取得
 		auto* param = shader->FindParam(name);

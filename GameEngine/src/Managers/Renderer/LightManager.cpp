@@ -191,7 +191,7 @@ namespace RHEngine
 
 		// ライトの手前にある物も反映させるためにnearを動かす
 		float shadowCasterExtension = 100.0f;
-		box.min.z -= shadowCasterExtension;
+	//	box.min.z -= shadowCasterExtension;
 
 		//------ テクセルスナップ ------//
 

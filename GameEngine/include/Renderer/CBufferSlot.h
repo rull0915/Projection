@@ -23,10 +23,23 @@ namespace RHEngine
 		constexpr uint32_t MaterialRangeStart = 3; // 3番以降は全てMaterialの管轄
 	}
 
+	namespace TBufferSlot
+	{
+		constexpr uint32_t MaterialRangeStart = 10; // 10番未満は全てMaterialの管轄
+	}
+	namespace SBufferSlot
+	{
+		constexpr uint32_t MaterialRangeStart = 10; // 10番未満は全てMaterialの管轄
+	}
+
 	/// <summary>
 	/// マテリアルが管轄するスロットかを調べる関数
 	/// </summary>
 	/// <param name="slot">スロット番号</param>
 	/// <returns></returns>
-	static bool IsMaterialManagedSlot(uint32_t slot) { return slot >= CBufferSlot::MaterialRangeStart; }
+	static bool IsMaterialManagedCSlot(uint32_t slot) { return slot >= CBufferSlot::MaterialRangeStart; }
+
+	static bool IsMaterialManagedTSlot(uint32_t slot) { return slot < TBufferSlot::MaterialRangeStart; }
+
+	static bool IsMaterialManagedSSlot(uint32_t slot) { return slot < SBufferSlot::MaterialRangeStart; }
 }	// namespace RHEngine

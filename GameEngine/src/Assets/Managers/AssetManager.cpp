@@ -11,6 +11,7 @@
 //====================================================//
 #include "pch.h"
 #include "Assets/Managers/AssetManager.h"
+#include "Assets/Managers/DefaultAssetManager.h"
 
 #include <algorithm>
 
@@ -36,6 +37,11 @@ namespace RHEngine
 	{
 		// スキャン
 		m_dataBase.ScanFile(root);
+
+		// デフォルトアセットの登録
+		DefaultAssetManager defaultAssetManager{ m_assetContext };
+
+		defaultAssetManager.CreateAndRegister();
 	}
 
 	void AssetManager::ScanOnceFile(const std::filesystem::path& path)

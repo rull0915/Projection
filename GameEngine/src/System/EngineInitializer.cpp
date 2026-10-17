@@ -32,6 +32,10 @@
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
 
+// 列挙型
+#include "Common/Property/EnumRegistry.h"
+#include "System/Render/SamplerList.h"
+
 //====================================================//
 // 関数定義
 //====================================================//
@@ -56,6 +60,9 @@ namespace RHEngine
 		RegistCustomKeys();
 
 		FactoryRegister::RegistFactories();
+
+		// サンプラーリスト列挙型を登録 マテリアルが使用する際にADD_PROPERTYから追加されない可能性があるため手動
+		EnumRegistry::Instance().Register<SamplerType>();
 	}
 
 	void EngineInitializer::Regist3DCollisions()
