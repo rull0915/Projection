@@ -78,6 +78,10 @@ namespace RHEngine
 		{
 			return m_objectList;
 		}
+		std::vector<T*>& GetObjects()
+		{
+			return m_objectList;
+		}
 
 		// 予約済みポインタの追加
 		virtual void AddReserved()
@@ -135,12 +139,6 @@ namespace RHEngine
 		std::unordered_set<T*>& GetRemoveReserves()
 		{
 			return m_removeReserves;
-		}
-
-		// オブジェクトリストを取得する関数
-		std::vector<T*>& GetObjects()
-		{
-			return m_objectList;
 		}
 	};
 }	// namespace RHEngine

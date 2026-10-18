@@ -52,8 +52,10 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		// メインカメラを取得する関数
-		CameraBase* GetMainCamera() const
+		CameraBase* GetMainCamera() 
 		{			
+			ReflectReserves();
+
 			auto& cameras = GetObjects();
 
 			// 追加逆順に調べる

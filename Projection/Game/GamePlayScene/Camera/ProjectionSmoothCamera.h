@@ -48,6 +48,8 @@ private:
 	// Orthographic
 	float m_size;
 
+	float m_negativeNearClip;
+
 	// 変化前のProjection
 	DirectX::SimpleMath::Matrix m_oldProjecition;
 

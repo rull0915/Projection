@@ -82,6 +82,9 @@ namespace RHEngine
 			auto uuid = GetUUID(path);
 
 			m_uuidToAux[uuid] = asset;
+
+			// 再スキャン
+			ScanOnceFile(path);
 		}
 
 		// MainAssetのUUIDを取得する関数

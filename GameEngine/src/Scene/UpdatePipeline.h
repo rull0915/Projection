@@ -87,18 +87,16 @@ namespace RHEngine
 
 		// オブジェクト
 		ObjectManager* GetObjectManager() { return m_objectManager.get(); }
-		const ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
 		// 3D物理
-		const PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
+		PhysicsManager* GetPhysicsManager() { return m_physicsManager.get(); };
 		// 描画
-		const RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
+		RendererManager* GetRendererManager() { return m_rendererManager.get(); }
 		// UI
-		const UIManager* GetUIManager() const { return m_uiManager.get(); }
+		UIManager* GetUIManager() { return m_uiManager.get(); }
 		// Camera
-		const CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
+		CameraManager* GetCameraManager() { return m_cameraManager.get(); }
 		// ライト
 		LightManager* GetLightManager() { return m_lightManager.get(); }
-		const LightManager* GetLightManager() const { return m_lightManager.get(); }
 
 		//-----------------------------------------------------
 		// セッター

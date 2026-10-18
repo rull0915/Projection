@@ -26,6 +26,7 @@ ProjectionSmoothCamera::ProjectionSmoothCamera(RHEngine::IComponentOwner* owner)
 	: CameraBase(owner)
 	, m_type{ RHEngine::ProjectionType::Perspective }
 	, m_farZ{ 1000.0f }, m_nearZ{ 0.1f }
+	, m_negativeNearClip{ -100.0f }
 	, m_aspect{ RHEngine::WindowManager::Instance().GetAspect() }
 	, m_fov{ PI_F / 4 }
 	, m_size{ 15.0f }
@@ -33,6 +34,11 @@ ProjectionSmoothCamera::ProjectionSmoothCamera(RHEngine::IComponentOwner* owner)
 	, m_nowTime{ 0.0f }
 	, m_isChanging{ false }
 {
+	ADD_PROPERTY(ProjectionSmoothCamera, m_nearZ);
+	ADD_PROPERTY(ProjectionSmoothCamera, m_farZ);
+
+	ADD_HEADER("Orthographic");
+	ADD_PROPERTY(ProjectionSmoothCamera, m_negativeNearClip);
 }
 
 void ProjectionSmoothCamera::Update(const RHEngine::GameTimer& gameTimer)
@@ -159,7 +165,7 @@ void ProjectionSmoothCamera::UpdateProj()
 
 			// Orthographicから作成
 			SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(
-				m_size * m_aspect, m_size, -1000.0f, m_farZ	// カメラより手前の物も映るようにnearを負の値にします
+				m_size * m_aspect, m_size, m_negativeNearClip, m_farZ	// カメラより手前の物も映るようにnearを負の値にします
 			));
 
 			break;

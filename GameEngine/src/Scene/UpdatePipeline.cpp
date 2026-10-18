@@ -13,6 +13,8 @@
 #include "UpdatePipeline.h"
 #include "Scene/Scene.h"
 
+#include "Input/MouseInput.h"
+
 namespace RHEngine
 {
 	//====================================================//
@@ -82,7 +84,7 @@ namespace RHEngine
 		if (playing)
 		{
 			// To Refactor
-			m_uiManager->CheckHitRay({ 0, 0 });
+			m_uiManager->CheckHitRay(Input::Mouse::GetScaledMousePoint());
 			m_uiManager->CheckEvent();
 		}
 	}

@@ -45,6 +45,8 @@ void PlaySceneManager::Awake()
 	RHEngine::EventBus<GamePlayEvent>::Register(
 		GamePlayEvent::Start,
 		[this]() {
+			if (!m_player) return;
+
 			// Playerをアクティブ化
 			if (auto* p = m_player->GetComponent<Player>())
 			{
@@ -81,7 +83,10 @@ void PlaySceneManager::OnDestroy()
 void PlaySceneManager::Start()
 {
 	// プレイヤーを非アクティブにしておく
-	if (m_player) m_player->SetActive(false);
+	if (m_player)
+	{
+		if (auto p = m_player->GetComponent<Player>()) p->SetActive(false);
+	}
 }
 
 // 毎フレーム呼ばれます

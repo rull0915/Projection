@@ -109,6 +109,8 @@ namespace RHEngine
 	// 描画関数
 	void Scene::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
+		m_updatePipeline->GetCameraManager()->ReflectReserves();
+
 		// Todo: ポストエフェクトなどの処理
 		ID3D11DeviceContext* context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
@@ -144,8 +146,10 @@ namespace RHEngine
 		// ワールドパスの描画
 		{
 			// 全カメラを取得
-			for (auto& camera : m_updatePipeline->GetCameraManager()->GetObjects())
+			for (auto& cmp : m_componentRegister->GetAllComponents<CameraBase>())
 			{
+				CameraBase* camera = static_cast<CameraBase*>(cmp);
+
 				// RenderTargetが設定されていれば
 				if (RenderTarget* target = camera->GetRenderTarget())
 				{
