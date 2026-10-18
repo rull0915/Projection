@@ -86,7 +86,7 @@ void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vecto
 		m_infoManager.BindPerObject();
 
 		// 透明度を不使用
-		m_pContext->OMSetBlendState(m_pStates->Opaque(), nullptr, 0xFFFFFFFF);
+		m_pContext->OMSetBlendState(m_pStates->NonPremultiplied(), nullptr, 0xFFFFFFFF);
 
 		// デプスソートを使用
 		m_pContext->OMSetDepthStencilState(m_pStates->DepthDefault(), 0);
@@ -97,8 +97,8 @@ void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vecto
 		// 存在しており有効ハンドルなら
 		if (material && material->IsValid())
 		{
-			// バインド
-			material->Apply(m_pContext);
+			// マテリアルの設定を適用
+			if (!material->Apply(m_pContext)) continue;
 
 			// InputLayoutを取得
 			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
@@ -228,7 +228,7 @@ void RHEngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dr
 			if (!inputLayout) continue;
 
 			// マテリアルの設定を適用
-			material->Apply(m_pContext);
+			if (!material->Apply(m_pContext)) continue;
 
 			// 頂点バッファの設定
 			ID3D11Buffer* vsBuffers[] = { c.pMesh->GetVertexBuffer() };

@@ -147,10 +147,10 @@ namespace RHEngine
 		return shader ? shader->GetBlob() : nullptr;
 	}
 
-	void MaterialAsset::Apply(ID3D11DeviceContext* context)
+	bool MaterialAsset::Apply(ID3D11DeviceContext* context)
 	{
 		// 参照が設定されていなければ解決不可
-		if (!(m_assetManager && m_samplerList)) return;
+		if (!(m_assetManager && m_samplerList)) return false;
 
 		// 頂点シェーダー
 		if (!BindShader(context, ShaderType::Vertex))
@@ -159,7 +159,7 @@ namespace RHEngine
 			context->VSSetShader(nullptr, nullptr, 0);
 
 			// vsがない場合不可
-			return;
+			return false;
 		}
 
 		// ピクセルシェーダー
@@ -167,6 +167,8 @@ namespace RHEngine
 		{
 			context->PSSetShader(nullptr, nullptr, 0);	
 		}
+
+		return true;
 	}
 
 	bool MaterialAsset::BindShader(ID3D11DeviceContext* context, ShaderType type)

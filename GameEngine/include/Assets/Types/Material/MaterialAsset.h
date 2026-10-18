@@ -176,7 +176,7 @@ namespace RHEngine
 		}
 
 		// シェーダーをcontextにバインドする関数
-		void Apply(ID3D11DeviceContext* context);
+		bool Apply(ID3D11DeviceContext* context);
 
 		// 1つのシェーダーをバインドする関数
 		bool BindShader(ID3D11DeviceContext* context, ShaderType type);
