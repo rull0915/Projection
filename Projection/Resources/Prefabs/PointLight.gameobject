@@ -1,0 +1,70 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    0.06493420898914337,
+                    0.8840247988700867,
+                    0.4834352731704712
+                ],
+                "m_localRotation": [
+                    -0.3731260895729065,
+                    0.20329658687114716,
+                    -0.08416076004505157,
+                    0.901312530040741
+                ],
+                "m_localScale": [
+                    0.049999985843896866,
+                    0.05000002682209015,
+                    0.04999992996454239
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 1685997366307584817
+        },
+        {
+            "Data": {
+                "m_color": [
+                    0.0,
+                    1.0,
+                    0.9620251655578613,
+                    1.0
+                ],
+                "m_intensity": 1.7000000476837158,
+                "m_isActive": true,
+                "m_lightType": "Point",
+                "radius": 6.0
+            },
+            "Type": "LightComponent",
+            "UUID": 11155950298342473367
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_mesh": 3960837701782852154
+            },
+            "Type": "MeshFilter",
+            "UUID": 16784757873372262543
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_materials": {
+                    "array": [
+                        13167894609641853879
+                    ],
+                    "size": 1
+                }
+            },
+            "Type": "MeshRenderer",
+            "UUID": 4681161254923193518
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 14851800184510239779,
+    "m_isActive": true,
+    "m_name": "PointLight",
+    "m_tag": ""
+}
