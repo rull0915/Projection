@@ -157,7 +157,7 @@ namespace RHEngine
 
 		void SetName(const std::string& name) override { m_name = name; }
 
-		void Destroy() override { m_isDead = true; }
+		void Destroy() override;
 
 	public:
 		// 衝突関連

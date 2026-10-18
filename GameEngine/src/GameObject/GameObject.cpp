@@ -164,6 +164,22 @@ namespace RHEngine
 		}
 	}
 
+	void GameObject::Destroy()
+	{
+		// 自身の死亡フラグをオンに
+		m_isDead = true;
+
+		// 子オブジェクトも消す
+		if (auto* t = GetComponent<Transform>())
+		{
+			for (auto& child : t->GetChildren()) child->GetOwn()->Destroy();
+		}
+		else if (auto* t = GetComponent<RectTransform>()) 
+		{
+			for (auto& child : t->GetChildren()) child->GetOwn()->Destroy();
+		}
+	}
+
 	void GameObject::OnActiveChanged(bool f)
 	{
 		// 子に通知する
