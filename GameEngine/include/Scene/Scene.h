@@ -92,6 +92,9 @@ namespace RHEngine
 		// ShadowMap
 		ShadowMap m_shadowMap;	// Todo : シャドウ管理クラスに委譲
 
+		// 描画情報
+		std::vector<RenderContext> m_renderContexts;
+
 	public:
 
 		// コンストラクタ
@@ -105,6 +108,9 @@ namespace RHEngine
 
 		// 更新処理
 		void Update(const GameTimer& gameTimer);
+
+		// 描画準備処理
+		void PrepareRender();
 
 		// 描画処理
 		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);

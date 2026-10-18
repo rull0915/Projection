@@ -91,8 +91,46 @@ namespace RHEngine
 		m_sceneData.timeData.time = gameTimer.GetTime();
 		m_sceneData.timeData.elapsedTime = gameTimer.GetElapsedTime();
 
-		// メインカメラを取得
-		CameraBase* mainCamera = m_updatePipeline->GetCameraManager()->GetMainCamera();
+		// 描画準備
+		PrepareRender();
+	}
+
+	void Scene::PrepareRender()
+	{
+		// リセット
+		m_renderContexts.clear();
+
+		// 全カメラを取得
+		for (auto& camera : m_updatePipeline->GetCameraManager()->GetObjects())
+		{
+			// RenderTargetが設定されていれば
+			if (auto target = camera->GetRenderTarget())
+			{
+				// RenderContextを作成
+				RenderContext& ctx = m_renderContexts.emplace_back();
+
+				ctx.cameraData = camera->CreateCameraData();
+				ctx.target = target;
+				ctx.flags = DrawFlag::World;
+				ctx.clearTarget = true;
+				ctx.backColor = camera->GetBackColor();
+			}
+		}
+
+		// メインカメラの取得
+		auto mainCamera = m_updatePipeline->GetCameraManager()->GetMainCamera();
+
+		if (mainCamera)
+		{
+			// RenderContextを作成
+			RenderContext& ctx = m_renderContexts.emplace_back();
+
+			ctx.cameraData = mainCamera->CreateCameraData();
+			ctx.target = &m_mainWorld;
+			ctx.flags = DrawFlag::World;
+			ctx.clearTarget = true;
+			ctx.backColor = mainCamera->GetBackColor();
+		}
 
 		// 影データの更新
 		// Todo : 複数ライト、スポットライト・ポイントライトへの対応
@@ -109,18 +147,7 @@ namespace RHEngine
 	// 描画関数
 	void Scene::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
-		m_updatePipeline->GetCameraManager()->ReflectReserves();
-
-		// Todo: ポストエフェクトなどの処理
 		ID3D11DeviceContext* context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
-
-		// コンテキストの作成
-		RenderContext ctx{};
-
-		// ToRefactor カメラ毎に異なる背景色に対応
-		ctx.backColor = WindowManager::Instance().GetBackGroundColor();
-		ctx.flags = DrawFlag::World | DrawFlag::UI;
-		ctx.clearTarget = true;
 
 		// シャドウパスの描画
 		{
@@ -145,31 +172,10 @@ namespace RHEngine
 
 		// ワールドパスの描画
 		{
-			// 全カメラを取得
-			for (auto& cmp : m_componentRegister->GetAllComponents<CameraBase>())
+			// 全ての描画コンテキストを走査
+			for (auto& ctx : m_renderContexts)
 			{
-				CameraBase* camera = static_cast<CameraBase*>(cmp);
-
-				// RenderTargetが設定されていれば
-				if (RenderTarget* target = camera->GetRenderTarget())
-				{
-					// 描画コンテキストを更新
-					ctx.target = target;
-					ctx.cameraData = camera->CreateCameraData();
-
-					// WorldPassの描画
-					m_sceneRenderer->DrawWorldPass(ctx, renderer);
-				}
-			}
-
-			// メインカメラを描画
-			if (CameraBase* mainCamera = m_updatePipeline->GetCameraManager()->GetMainCamera())
-			{
-				// 描画コンテキストを更新
-				ctx.target = &m_mainWorld;
-				ctx.cameraData = mainCamera->CreateCameraData();
-
-				// WorldPassの描画
+				// ワールドパスの描画
 				m_sceneRenderer->DrawWorldPass(ctx, renderer);
 			}
 		}
@@ -183,14 +189,20 @@ namespace RHEngine
 
 		// UIパスの描画
 		{
+			RenderContext ctx{};
+
+			ctx.backColor = { 0, 0, 0, 0 };
 			ctx.target = &m_gameView;
+			ctx.clearTarget = true;
+			ctx.flags = DrawFlag::UI;
 			ctx.cameraData = {};
 
 			m_sceneRenderer->DrawUIPass(ctx, renderer);
 
-			// メインカメラをフルスクリーン描画するcommandを発行
-			renderer.Draw().Sprite().DrawFullScreen(m_gameView.GetShaderResourceView());
 		}
+
+		// シーンの描画
+		renderer.Draw().Sprite().DrawFullScreen(m_gameView.GetShaderResourceView());
 	}
 
 	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow)

@@ -60,6 +60,9 @@ namespace RHEngine
 		// 描画対象
 		RenderTarget* m_pRenderTarget;
 
+		// 背景カラー
+		DirectX::SimpleMath::Color m_backColor;
+
 	public:
 
 		//-----------------------------------------------------
@@ -73,8 +76,10 @@ namespace RHEngine
 			, m_inverseProj{}
 			, m_needUpdateProj{ true }
 			, m_pRenderTarget{ nullptr }
+			, m_backColor{}
 		{
 			ADD_PROPERTY(CameraBase, m_materialHandle);
+			ADD_PROPERTY(CameraBase, m_backColor);
 		}
 
 		virtual ~CameraBase() = default;
@@ -134,7 +139,7 @@ namespace RHEngine
 
 		RenderTarget* GetRenderTarget() const { return m_pRenderTarget; }
 
-		bool IsNeedUpdateProj() const { return m_needUpdateProj; }
+		DirectX::SimpleMath::Color GetBackColor() const { return m_backColor; }
 
 		//-----------------------------------------------------
 		// セッター
@@ -150,6 +155,12 @@ namespace RHEngine
 		void SetTarget(RenderTarget* target)
 		{
 			m_pRenderTarget = target;
+		}
+
+		// 背景色のセット
+		void SetBackColor(DirectX::SimpleMath::Color color)
+		{
+			m_backColor = color;
 		}
 
 		// 各行列を設定する関数
