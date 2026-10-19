@@ -44,7 +44,7 @@ float3 CalcPhongSpecular(float3 lightDir, float3 lightColor, float lightIntensit
     return lightColor.rgb * lightIntensity * t;
 }
 
-float3 CalcBlinnPhongSpecular(float3 lightDir, float3 lightColor, float lightIntensity, float3 eyePos, float3 worldPos, float3 normal, float specularPower)
+float3 CalcBlinnPhongSpecular(float3 lightDir, float3 lightColor, float lightIntensity, float3 eyePos, float3 worldPos, float3 normal, float shininess)
 {
     // ライトの向きを正規化
     lightDir = normalize(lightDir);
@@ -59,7 +59,7 @@ float3 CalcBlinnPhongSpecular(float3 lightDir, float3 lightColor, float lightInt
     float NdotH = saturate(dot(normal, halfVec));
     
     // 鏡面反射強度を計算
-    float t = pow(NdotH, specularPower);
+    float t = pow(NdotH, shininess);
     
     return lightColor.rgb * lightIntensity * t;
 }

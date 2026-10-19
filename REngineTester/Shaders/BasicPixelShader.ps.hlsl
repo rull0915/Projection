@@ -3,6 +3,11 @@
 #include "Lighting.hlsli"
 #include "Shadowing.hlsli"
 
+// ベースカラーマップ
+Texture2D BaseColorMap : register(t0);
+SamplerState BaseColorSampler : register(s0);
+
+// 影
 Texture2D ShadowMap : register(t10);
 SamplerState ShadowSampler : register(s10);
 
@@ -114,12 +119,17 @@ float4 main(PS_Input input) : SV_TARGET
     // 影の計算
     float shadow = CalcShadow(input.worldPos, shadowInfo.LightVP, ShadowMap, ShadowSampler);
     
+    // ベースカラーを計算
+    float4 texColor = BaseColorMap.Sample(BaseColorSampler, input.uv);
+
+    float4 albedo = BaseColor * texColor;
+    
     // 最終的な色 = ベースカラー * (環境光 + ディレクショナル光)
     float3 finalColor = 
-    BaseColor.rgb * 
+    albedo.rgb * 
     (ambient + 
     DiffuseIntensity * totalDiffuse * shadow) +
     SpecularColor.rgb * SpecularIntensity * totalSpecular * shadow;
     
-    return float4(finalColor, BaseColor.a);
+    return float4(finalColor, albedo.a);
 }

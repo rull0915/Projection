@@ -16,5 +16,8 @@ PS_Input main(VS_Input input)
     output.worldNormal = mul(input.normal, (float3x3) WorldInvTranspose);
     output.worldNormal = normalize(output.worldNormal); // 正規化
     
+    // uvはそのまま
+    output.uv = input.uv;
+    
     return output;
 }

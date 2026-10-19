@@ -10,7 +10,7 @@ struct VS_OUTPUT
     float4 posCS : SV_POSITION; // ライト空間のクリップ座標
 };
 
-VS_OUTPUT main( VS_INPUT input : POSITION ) : SV_POSITION
+VS_OUTPUT main(VS_INPUT input)
 {
     VS_OUTPUT output;
 

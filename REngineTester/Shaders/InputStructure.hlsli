@@ -16,6 +16,7 @@ struct PS_Input
     float4 position : SV_POSITION;
     float3 worldPos : TEXCOORD0;
     float3 worldNormal : TEXCOORD1;
+    float2 uv : TEXCOOR2;
 };
 
 #endif
