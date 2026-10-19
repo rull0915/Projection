@@ -96,7 +96,7 @@ namespace RHEngine
 			// ID衝突防止
 			ImGui::PushID(component);
 
-			bool open = ImGui::TreeNode(name.data());
+			bool open = ImGui::TreeNodeEx(name.data(), ImGuiTreeNodeFlags_DefaultOpen);
 
 			// 右クリック時のメニュー
 			if (ImGui::BeginPopupContextItem())

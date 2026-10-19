@@ -69,6 +69,9 @@ namespace RHEngine
 
 		// ObjectManagerから全Objectを描画する
 		void DrawObjects(ObjectManager* objectManager);
+
+		// 選択解除をする関数
+		bool SelectCancel(GameObject* root);
 	};
 }	// namespace RHEngine
 

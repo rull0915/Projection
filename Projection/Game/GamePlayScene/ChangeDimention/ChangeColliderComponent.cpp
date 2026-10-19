@@ -28,17 +28,11 @@ using namespace RHEngine;
 
 void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 {
-	m_3dColliders.clear();
-
 	// 変換
 	for (auto& component : GetOwn()->GetComponents<ColliderBase>())
 	{
-		m_3dColliders.push_back(static_cast<ColliderBase*>(component));
-	}
+		auto collider = static_cast<ColliderBase*>(component);
 
-	// 3Dコライダーをチェック
-	for (auto& collider : m_3dColliders)
-	{
 		// 無効化
 		collider->SetActive(false);
 
@@ -69,10 +63,10 @@ void ChangeColliderComponent::Change2DTo3D()
 
 	owner->RemoveComponents<ColliderBase2D>();
 
-	// 3Dコライダーを有効化する
-	for (auto& collider : m_3dColliders)
+	// 3Dコライダーを再有効化
+	for (auto& component : GetOwn()->GetComponents<ColliderBase>())
 	{
-		collider->SetActive(true);
+		component->SetActive(true);
 	}
 
 	// 2D物理挙動を削除する
@@ -106,14 +100,13 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 
 	switch (type3D)
 	{
-
 		// 球の場合 円を生成する
 	case ColliderType::Sphere:
 	{
 		// 球のコライダーにキャスト
 		SphereCollider* sphere3D = static_cast<SphereCollider*>(p3DCol);
 
-		// そのまま円を生成する
+		// 円コライダーを生成する
 		CircleCollider2D* circle2D = owner->AddComponent<CircleCollider2D>();
 
 		// 半径を設定
@@ -128,7 +121,7 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		return circle2D;
 	}
 
-		// カプセルの場合 カプセルを生成する
+	// カプセルの場合 カプセルを生成する
 	case ColliderType::Capsule:
 	{
 		// カプセルのコライダーにキャスト
@@ -170,7 +163,7 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		return capsule2D;
 	}
 
-		// ボックスの場合 六角形を生成する
+	// ボックスの場合 六角形を生成する
 	case ColliderType::Box:
 	{
 		BoxCollider* box3D = static_cast<BoxCollider*>(p3DCol);
@@ -238,9 +231,11 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		{
 			num = (num + 1) % 4;
 
+			if (num > 8 || num < 0) continue;
+
 			collider->AddVertex(points[num]);
 		}
-		
+
 		// 次の3個
 		for (size_t i = 0; i < 3; ++i)
 		{
@@ -258,10 +253,7 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 
 		return collider;
 	}
-		break;
 	default:
-		break;
+		return nullptr;
 	}
-
-	return nullptr;
 }

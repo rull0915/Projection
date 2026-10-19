@@ -142,6 +142,28 @@ namespace RHEngine
 		ImGui::PopID();
 	}
 
+	bool HierarchyWindow::SelectCancel(GameObject* root)
+	{
+		// 選択中のオブジェクトを取得
+		PropertyObject* selected = m_selected.GetSelected();
+
+		// もし自身が選択されていればリセット
+		if (root == selected)
+		{
+			m_selected.SetSelected(nullptr);
+
+			return true;
+		}
+
+		// 子オブジェクトも調べる
+		for (auto child : root->GetChildren())
+		{
+			if (SelectCancel(child)) return true;
+		}
+
+		return false;
+	}
+
 	void HierarchyWindow::DrawGameObject(GameObject* object)
 	{
 		// nullなら何もしない
@@ -160,7 +182,7 @@ namespace RHEngine
 		}
 
 		// 初期状態のフラグ
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
 
 		// 選択中オブジェクトを取得
 		PropertyObject* selected = m_selected.GetSelected();
@@ -200,11 +222,8 @@ namespace RHEngine
 				// 削除
 				object->Destroy();
 
-				// 選択中ならnullにする
-				if (selected == object)
-				{
-					m_selected.SetSelected(nullptr);
-				}
+				// 選択解除
+				SelectCancel(object);
 			}
 			// Generate
 			if (ImGui::MenuItem("Generate"))
@@ -286,25 +305,11 @@ namespace RHEngine
 		// 開いていたら
 		if (open)
 		{
-			// Transformを取得
-			if (Transform* t = object->GetComponent<Transform>())
+			// 全子供を調べる
+			for (auto* child : object->GetChildren())
 			{
-				// 全子供を調べる
-				for (auto* child : t->GetChildren())
-				{
-					// 子供を描画
-					DrawGameObject(static_cast<GameObject*>(child->GetOwn()));
-				}
-			}
-			// RectTransformを取得
-			else if (RectTransform* t = object->GetComponent<RectTransform>())
-			{
-				// 全子供を調べる
-				for (auto* child : t->GetChildren())
-				{
-					// 子供を描画
-					DrawGameObject(static_cast<GameObject*>(child->GetOwn()));
-				}
+				// 子供を描画
+				DrawGameObject(child);
 			}
 
 			// ツリーを終了

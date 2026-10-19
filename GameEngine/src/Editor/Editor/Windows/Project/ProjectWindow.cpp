@@ -72,7 +72,7 @@ namespace RHEngine
 	void ProjectWindow::DrawFileStructure(const std::filesystem::path& path)
 	{
 		// フォルダ名でツリーを開始
-		bool open = (ImGui::TreeNode(path.stem().string().c_str()));
+		bool open = (ImGui::TreeNodeEx(path.stem().string().c_str(), ImGuiTreeNodeFlags_DefaultOpen));
 
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())

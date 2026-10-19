@@ -33,11 +33,6 @@
 //====================================================//
 class ChangeColliderComponent : public RHEngine::WorldComponentBase
 {
-private:
-
-	// 3Dコライダーを受け取る配列
-	std::vector<RHEngine::ColliderBase*> m_3dColliders;
-
 public:
 
 	//-----------------------------------------------------
@@ -45,9 +40,7 @@ public:
 	//-----------------------------------------------------
 	ChangeColliderComponent(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
-		, m_3dColliders( 0 )
 	{
-		m_3dColliders.clear();
 	}
 	~ChangeColliderComponent() {};
 

@@ -123,6 +123,36 @@ namespace RHEngine
 		return 0;	
 	}
 
+	std::vector<GameObject*> GameObject::GetChildren()
+	{
+		// 子オブジェクトを保持する配列を用意
+		std::vector<GameObject*> children{};
+
+		// Transformを持っているとき
+		if (auto* t = GetComponent<Transform>())
+		{
+			// 子を走査
+			for (auto& child : t->GetChildren())
+			{
+				// 配列に追加
+				children.push_back(static_cast<GameObject*>(child->GetOwn()));
+			}
+		}
+
+		// RectTransformを持っているとき
+		else if (auto* t = GetComponent<RectTransform>())
+		{
+			// 子を走査
+			for (auto& child : t->GetChildren())
+			{
+				// 配列に追加
+				children.push_back(static_cast<GameObject*>(child->GetOwn()));
+			}
+		}
+
+		return children;
+	}
+
 	void GameObject::SetParentActive(bool value)
 	{
 		// 値が変わっていなければ何もしない
@@ -170,13 +200,9 @@ namespace RHEngine
 		m_isDead = true;
 
 		// 子オブジェクトも消す
-		if (auto* t = GetComponent<Transform>())
+		for (auto child : GetChildren())
 		{
-			for (auto& child : t->GetChildren()) child->GetOwn()->Destroy();
-		}
-		else if (auto* t = GetComponent<RectTransform>()) 
-		{
-			for (auto& child : t->GetChildren()) child->GetOwn()->Destroy();
+			child->Destroy();
 		}
 	}
 
