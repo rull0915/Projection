@@ -30,6 +30,12 @@
                     {
                         "Data": {
                             "m_aspect": 1.7777777910232544,
+                            "m_backColor": [
+                                0.0,
+                                0.5742670297622681,
+                                0.8101266026496887,
+                                1.0
+                            ],
                             "m_farZ": 30.0,
                             "m_fov": 0.7853981852531433,
                             "m_isActive": true,
@@ -58,15 +64,15 @@
                                 0.0
                             ],
                             "m_localRotation": [
-                                -0.34474340081214905,
-                                0.1377507448196411,
-                                0.05122165009379387,
-                                0.9271208643913269
+                                -0.34843358397483826,
+                                0.2932974398136139,
+                                -0.008107307367026806,
+                                0.8902274370193481
                             ],
                             "m_localScale": [
-                                1.0,
-                                1.0,
-                                1.0
+                                0.9999996423721313,
+                                0.9999998807907104,
+                                0.9999997615814209
                             ]
                         },
                         "Type": "Transform",
@@ -319,6 +325,95 @@
                 "UUID": 16848442123761428417,
                 "m_isActive": true,
                 "m_name": "Cube",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 7804244865797974383
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 14619508654119940582
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 4328795182623258034
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            11613488240073870779,
+                                            1833440097560188853
+                                        ],
+                                        "size": 2
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 758946996346097547
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 2367711288471795681,
+                        "m_isActive": true,
+                        "m_name": "Cube",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                3.69712495803833,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.007349243853241205,
+                                -0.0,
+                                0.9999729990959167
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 18399929715206132393
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 11402368217561174222,
+                "m_isActive": true,
+                "m_name": "MeshTester",
                 "m_tag": ""
             }
         ]

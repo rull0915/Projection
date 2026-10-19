@@ -41,7 +41,7 @@ namespace RHEngine
 		, m_componentRegister{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
 		, m_objectFinder{ std::make_unique<ObjectFinder>(this) }
 		, m_sceneRenderer{ std::make_unique<SceneRenderer>(this) }
-		, m_objectFactory{ std::make_unique<ObjectFactory>(this) }
+		, m_objectFactory{ std::make_unique<ObjectFactory>(this, m_assetManager) }
 		, m_referenceRegistry{ std::make_unique<ReferenceRegistry>() }
 		, m_updateMode{ UpdateMode::Play }
 		, m_assetManager{ assetManager }

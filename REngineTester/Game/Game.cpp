@@ -14,9 +14,18 @@
 #include "Game.h"
 
 #include "Scene/SceneManager.h"
+#include "Components/RandomGenerator.h"
+
+#include "GameObject/GameObject.h"
+#include "Editor/Loader/ComponentFactory.h"
+
+#define REGIST_TO_FACTORY(Name) (RHEngine::ComponentFactory::Register(#Name, { RHEngine::ComponentProject::Game, Name::SPACE }, [](RHEngine::GameObject* o){ return o->AddComponent<Name>(); }))
 
 void Game::OnInitialize()
 {
+	// コンポーネントの登録
+	REGIST_TO_FACTORY(RandomGenerator);
+
 	// ====== シーンの登録 ====== //
 	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
 

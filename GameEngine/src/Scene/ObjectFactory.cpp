@@ -24,8 +24,9 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
-	ObjectFactory::ObjectFactory(Scene* pScene)
+	ObjectFactory::ObjectFactory(Scene* pScene, AssetManager& assetManager)
 		: m_pScene{ pScene }
+		, m_assetManager{ assetManager }
 	{}
 
 	// ゲームオブジェクトを生成する関数
@@ -53,7 +54,7 @@ namespace RHEngine
 		return pObj;
 	}
 
-	GameObject* ObjectFactory::Instantiate(Prefab* prefab, DirectX::SimpleMath::Vector3 position)
+	GameObject* ObjectFactory::Instantiate(Prefab* prefab) const
 	{
 		// prefabがなければ何もしない
 		if (!prefab) return nullptr;
@@ -88,6 +89,14 @@ namespace RHEngine
 		loader.LoadObject(prefab->GetImpl()->GetJson(), pObj, m_pScene);
 
 		return pObj;
+	}
+
+	GameObject* ObjectFactory::Instantiate(Handle<Prefab> prefab) const
+	{
+		// Prefab本体を取得
+		Prefab* p = m_assetManager.Get(prefab);
+
+		return Instantiate(prefab);
 	}
 
 	GameObject* ObjectFactory::GenerateUI()
