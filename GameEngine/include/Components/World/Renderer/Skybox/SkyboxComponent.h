@@ -21,7 +21,7 @@
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Texture.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -82,4 +82,4 @@ namespace REngine
 			SetTexture(m_textureHandle);
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

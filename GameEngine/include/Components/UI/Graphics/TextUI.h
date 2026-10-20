@@ -20,7 +20,7 @@
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Font.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -95,4 +95,4 @@ namespace REngine
 		void SetOrigin(DirectX::SimpleMath::Vector2 origin) { m_origin = origin; }
 		void SetFontSize(float size) { m_fontSize = size; }
 	};
-} // namespace REngine
+} // namespace RHEngine

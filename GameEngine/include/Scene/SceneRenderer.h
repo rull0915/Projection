@@ -7,6 +7,7 @@
 //
 // 更新履歴 :
 // 2026/07/12 新規作成
+// 2026/10/15 パスごとの描画関数に分割
 //====================================================//
 
 #pragma once
@@ -16,9 +17,10 @@
 //====================================================//
 #include "System/Render/RenderContext.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Renderer;
+	class ShadowRenderer;
 	class Scene;
 
 	//====================================================//
@@ -30,12 +32,11 @@ namespace REngine
 	/// </summary>
 	class SceneRenderer
 	{
+		// デバッグ描画色
+	public:
+		static constexpr DirectX::SimpleMath::Color DEBUG_COLOR = { 0, 1, 0, 1 };
+
 	private:
-
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
 
 		//-----------------------------------------------------
 		// メンバ変数
@@ -56,23 +57,13 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		// RenderContextを描画する関数
-		void RenderWithContext(const RenderContext& context, Renderer& renderer);
+		// ShadowPass描画
+		void DrawShadowPass(const ShadowRenderContext& ctx, ShadowRenderer& renderer);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		// WorldPass描画
+		void DrawWorldPass(const RenderContext& ctx, Renderer& renderer);
 
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		// UIPass描画
+		void DrawUIPass(const RenderContext& ctx, Renderer& renderer);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,7 +16,7 @@
 //====================================================//
 #include <string>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数宣言
@@ -34,4 +34,4 @@ namespace REngine
 
 		std::wstring LoadFileDialog(const std::wstring& initPath, const std::wstring& extention);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

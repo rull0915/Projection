@@ -16,7 +16,7 @@
 //====================================================//
 #include "Assets/Objects/AssetAux.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -35,8 +35,8 @@ namespace REngine
 		// 公開関数
 		//-----------------------------------------------------
 
-		void SaveAux(AssetAux& aux, const std::wstring& path);
+		void SaveAux(const AssetAux& aux, const std::wstring& path);
 
 		void LoadAux(AssetAux& aux, const std::wstring& path);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

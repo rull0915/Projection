@@ -12,10 +12,10 @@
 #include "pch.h"
 #include "Input/MouseInput.h"
 #include "System/ResourceManager.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "System/WindowManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -132,4 +132,4 @@ namespace REngine
 			DirectX::Mouse::Get().SetVisible(visible);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

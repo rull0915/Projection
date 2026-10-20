@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Editor/Loader/ComponentFactory.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -49,4 +49,4 @@ namespace REngine
 		// あれば実行
 		return it->second.second(owner);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

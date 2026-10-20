@@ -14,7 +14,7 @@
 
 #include "Components/UI/Graphics/ImageUI.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -129,4 +129,4 @@ namespace REngine
 			event.second();
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

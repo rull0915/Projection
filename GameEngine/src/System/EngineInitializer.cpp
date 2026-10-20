@@ -32,11 +32,16 @@
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
 
+// 初期登録対象
+#include "Common/Property/EnumRegistry.h"
+#include "Assets/Types/Texture.h"
+#include "System/Render/SamplerList.h"
+
 //====================================================//
 // 関数定義
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// エンジン全体の初期化処理
 	void EngineInitializer::EngineInitialize()
@@ -56,6 +61,12 @@ namespace REngine
 		RegistCustomKeys();
 
 		FactoryRegister::RegistFactories();
+
+		// サンプラーリスト列挙型を登録 マテリアルが使用する際にADD_PROPERTYから追加されない可能性があるため手動
+		EnumRegistry::Instance().Register<SamplerType>();
+
+		// テクスチャアセットを登録 同上
+		AssetPropertyRegistry::Instance().Register<Texture>();
 	}
 
 	void EngineInitializer::Regist3DCollisions()
@@ -214,4 +225,4 @@ namespace REngine
 			"CameraY", Input::Mouse::Axis::Y
 		);
 	}
-} // namespace REngine
+} // namespace RHEngine

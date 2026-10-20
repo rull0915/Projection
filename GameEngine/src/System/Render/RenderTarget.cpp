@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "System/Render/RenderTarget.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -103,8 +103,8 @@ namespace REngine
 	void RenderTarget::Begin(ID3D11DeviceContext* context)
 	{
 		// ShaderResourceを解除
-		ID3D11ShaderResourceView* nullSRV[16] = {};
-		context->PSSetShaderResources(0, 16, nullSRV);
+		ID3D11ShaderResourceView* nullSRV[10] = {};
+		context->PSSetShaderResources(0, 10, nullSRV);
 
 		// 変更前の状態を保存
 		context->OMGetRenderTargets(
@@ -164,4 +164,4 @@ namespace REngine
 				0);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 宣言
@@ -23,4 +23,4 @@ namespace REngine
 		// 生成関数を登録する関数
 		static void RegistFactories();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

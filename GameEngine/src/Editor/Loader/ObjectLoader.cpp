@@ -24,7 +24,7 @@
 #include "Common/ObjectReference.h"
 #include "Common/UUID.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -288,4 +288,4 @@ namespace REngine
 		// 閉じる
 		ifs.close();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

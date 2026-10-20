@@ -13,7 +13,9 @@
 #include "UpdatePipeline.h"
 #include "Scene/Scene.h"
 
-namespace REngine
+#include "Input/MouseInput.h"
+
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -26,16 +28,11 @@ namespace REngine
 		, m_colEvent{ std::make_unique<CollideEventSystem>() }
 		, m_cameraManager{ std::make_unique<CameraManager>() }
 		, m_rendererManager{ std::make_unique<RendererManager>() }
+		, m_lightManager{ std::make_unique<LightManager>() }
 		, m_objectManager{ std::make_unique<ObjectManager>() }
 		, m_uiManager{ std::make_unique<UIManager>(pScene) }
 		, m_soundManager{ std::make_unique<SoundManager>() }
 	{}
-
-	void UpdatePipeline::Initialize()
-	{
-		// カメラの初期化
-		m_cameraManager->Initialize(m_pScene);
-	}
 
 	void UpdatePipeline::Update(const GameTimer& gameTimer, UpdateMode mode)
 	{
@@ -48,7 +45,9 @@ namespace REngine
 		m_objectManager->Update(gameTimer, playing);
 
 		m_rendererManager->ReflectReserves();
+		m_lightManager->ReflectReserves();
 		m_uiManager->ReflectReserves();
+		m_cameraManager->ReflectReserves();
 
 		if (playing)
 		{
@@ -84,7 +83,8 @@ namespace REngine
 		// UIの更新
 		if (playing)
 		{
-			m_uiManager->CheckHitRay(m_pScene->GetMainScreen()->GetMousePointOnMainScreen());
+			// To Refactor
+			m_uiManager->CheckHitRay(Input::Mouse::GetScaledMousePoint());
 			m_uiManager->CheckEvent();
 		}
 	}
@@ -118,6 +118,7 @@ namespace REngine
 
 		// 各マネージャーから全削除
 		m_rendererManager->RemoveReserved();
+		m_lightManager->RemoveReserved();
 		m_physicsManager->RemoveReserved();
 		m_physicsManager->GetCollideManager()->ReflectReserves();
 
@@ -126,4 +127,4 @@ namespace REngine
 
 		m_colEvent->ResetEvent();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

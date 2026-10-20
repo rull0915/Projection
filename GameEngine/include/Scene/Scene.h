@@ -25,17 +25,21 @@
 #include "ObjectFactory.h"
 #include "ComponentRegister.h"
 #include "ObjectFinder.h"
-#include "MainScreen.h"
 #include "Assets/Managers/AssetManager.h"
 #include "Common/ObjectReference.h"
+#include "System/Render/RenderTarget.h"
+#include "System/Render/RenderContext.h"
+#include "Renderer/Shadow/ShadowMap.h"
+#include "SceneInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
 	//====================================================//
 
 	class Renderer;
+	class ShadowRenderer;
 	class CameraBase;
 	class Canvas;
 
@@ -66,9 +70,6 @@ namespace REngine
 		// ファクトリ
 		std::unique_ptr<ObjectFactory> m_objectFactory;
 
-		// メインスクリーン
-		std::unique_ptr<MainScreen> m_mainScreen;
-
 		// 参照レジストリ
 		std::unique_ptr<ReferenceRegistry> m_referenceRegistry;
 
@@ -80,6 +81,19 @@ namespace REngine
 
 		// 参照解決待ちリスト
 		std::vector<RefBase*> m_waitingRefBases;
+
+		// シーンデータ
+		SceneData m_sceneData;
+
+		// ゲームビュー
+		RenderTarget m_mainWorld;	// メインカメラがワールド空間を描画するターゲット
+		RenderTarget m_gameView;	// ゲームビュー
+
+		// ShadowMap
+		ShadowMap m_shadowMap;	// Todo : シャドウ管理クラスに委譲
+
+		// 描画情報
+		std::vector<RenderContext> m_renderContexts;
 
 	public:
 
@@ -95,11 +109,14 @@ namespace REngine
 		// 更新処理
 		void Update(const GameTimer& gameTimer);
 
-		// 描画処理
-		void Render(Renderer& renderer);
+		// 描画準備処理
+		void PrepareRender();
 
-		// スクリーン本体への描画処理
-		void RenderOnScreen(Renderer& renderer);
+		// 描画処理
+		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);
+
+		// カメラ情報から描画する関数
+		void DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow);
 
 		// 終了処理
 		void Finalize();
@@ -131,9 +148,6 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		// メインカメラを取得する関数
-		CameraBase* GetMainCamera() const;
-
 		// 管理クラス
 		ObjectManager* GetObjectManager() const;
 
@@ -149,23 +163,23 @@ namespace REngine
 		// ファクトリ
 		ObjectFactory* GetFactory() const { return m_objectFactory.get(); }
 
-		// メインスクリーン
-		MainScreen* GetMainScreen() const { return m_mainScreen.get(); }
-
-		// レンダラー
-		SceneRenderer* GetSceneRenderer() const { return m_sceneRenderer.get(); }
-
 		// アセットマネージャー
 		AssetManager& GetAssetManager() const { return m_assetManager; }
+
+		// シーンデータ
+		SceneData& GetSceneData() { return m_sceneData; }
+
+		// ゲームビューの取得
+		ID3D11ShaderResourceView* GetGameView() const { return m_gameView.GetShaderResourceView(); }
+
+		// ToDelete Debug用 シャドウマップテクスチャの取得
+		ID3D11ShaderResourceView* GetShadowMapTexture() const { return m_shadowMap.GetSRV(); }
 
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
 
-		// メインカメラをセットする関数
-		void SetMainCamera(CameraBase* camera);
-
 		// 更新モード
 		void SetUpdateMode(UpdateMode mode) { m_updateMode = mode; }
 	};
-} // namespace REngine
+} // namespace RHEngine

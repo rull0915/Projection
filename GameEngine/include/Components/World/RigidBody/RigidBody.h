@@ -16,7 +16,7 @@
 //====================================================//
 #include "RigidBodyBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -113,4 +113,4 @@ namespace REngine
 			WakeUp();
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

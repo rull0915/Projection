@@ -17,7 +17,7 @@
 
 #include "OpenFileDialog.h"
 
-namespace REngine
+namespace RHEngine
 {
 	std::wstring FileDialog::Open(Mode mode, const std::wstring& initPath, const std::wstring& extention)
 	{
@@ -136,4 +136,4 @@ namespace REngine
 		// パスを返す
 		return resultPath;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

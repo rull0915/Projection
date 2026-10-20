@@ -19,7 +19,7 @@
 #include <BufferHelpers.h>
 #include <vector>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -66,4 +66,4 @@ namespace REngine
 
 		DirectX::ConstantBuffer<SkyboxEffectConstants> m_constantBuffer;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

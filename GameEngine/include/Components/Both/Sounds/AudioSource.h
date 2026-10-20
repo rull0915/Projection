@@ -26,7 +26,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class AudioSource : public BothComponentBase, public IAssetDependent
 	{
@@ -168,4 +168,4 @@ namespace REngine
 		// 設定の反映
 		void ReflectSetting();
 	};
-} // namespace REngine
+} // namespace RHEngine

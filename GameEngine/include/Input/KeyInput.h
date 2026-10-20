@@ -17,7 +17,7 @@
 
 #include <Keyboard.h>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Input
 	{
@@ -61,4 +61,4 @@ namespace REngine
 			}
 		};
 	}
-}	// namespace REngine
+}	// namespace RHEngine

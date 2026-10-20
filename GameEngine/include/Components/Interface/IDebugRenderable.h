@@ -13,7 +13,7 @@
 
 #include <SimpleMath.h>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -42,4 +42,4 @@ namespace REngine
 			const DirectX::SimpleMath::Color& color
 		) = 0;
 	};
-} // namespace REngine
+} // namespace RHEngine

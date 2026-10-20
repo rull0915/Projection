@@ -12,34 +12,31 @@
 #include "pch.h"
 #include "Renderer/Command/DrawCommandExecutor.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetManager.h"
-
-#include "Renderer/CBufferSlot.h"
-#include "Assets/Types/Shader/InputLayoutCache.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
+#include "Assets/EngineDefaultAssets.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-REngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager)
+RHEngine::DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, RenderInfoManager& infoManager)
 	: m_primitiveBatch{}
-	, m_basicEffect{}
 	, m_spriteBatch{}
-	, m_inputLayout{}
-	, m_view{}
-	, m_projection{}
+	, m_infoManager{ infoManager }
 	, m_pDevice{ nullptr }
 	, m_pContext{ nullptr }
 	, m_pStates{ nullptr }
 	, m_assetManager{ assetManager }
-	, m_samplerList{}
+	, m_defaultMaterial{}
 {}
 
-void REngine::DrawCommandExecutor::Initialize()
+RHEngine::DrawCommandExecutor::~DrawCommandExecutor() = default;
+
+void RHEngine::DrawCommandExecutor::Initialize()
 {
 	// デバイスリソースの取得
 	DX::DeviceResources* dr = GraphicsManager::Instance().GetDeviceResources();
@@ -50,113 +47,70 @@ void REngine::DrawCommandExecutor::Initialize()
 
 	m_pStates = dr->GetCommonStates();
 
+	// デフォルトマテリアルのロード
+	m_defaultMaterial = m_assetManager.LoadFromUUID(DefaultAsset::PRIMITIVE_MATERIAL).As<MaterialAsset>();
+
 	// プリミティブバッチの初期化
 	m_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(m_pContext);
 
 	// スプライトバッチの初期化
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_pContext);
-
-	// ベーシックエフェクトの初期化
-	m_basicEffect = std::make_unique<DirectX::BasicEffect>(m_pDevice);
-
-	// 設定
-	m_basicEffect->SetVertexColorEnabled(true);	// 頂点カラーの使用をオン
-	m_basicEffect->SetLightingEnabled(false);	// ライトの使用をオフ
-	m_basicEffect->SetTextureEnabled(false);	// テクスチャの使用をオフ
-
-	// インプットレイアウトの作成
-	// 例外処理
-	DX::ThrowIfFailed(
-		DirectX::CreateInputLayoutFromEffect<DirectX::VertexPositionColor>(
-			m_pDevice,
-			m_basicEffect.get(),
-			m_inputLayout.ReleaseAndGetAddressOf()));
-
-	// WVP行列の初期化
-	m_basicEffect->SetWorld(DirectX::SimpleMath::Matrix::Identity);			// ワールド
-	m_basicEffect->SetView(DirectX::SimpleMath::Matrix::Identity);			// ビュー
-	m_basicEffect->SetProjection(DirectX::SimpleMath::Matrix::Identity);	// プロジェクション
-
-	// VP定数バッファの作成
-	D3D11_BUFFER_DESC desc0 = {};
-	desc0.ByteWidth = sizeof(VPBuffer);
-	desc0.Usage = D3D11_USAGE_DYNAMIC;
-	desc0.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	desc0.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	m_pDevice->CreateBuffer(&desc0, nullptr, m_vpConstantBuffer.ReleaseAndGetAddressOf());
-
-	// World定数バッファの作成
-	D3D11_BUFFER_DESC desc1 = {};
-	desc1.ByteWidth = sizeof(WorldBuffer);
-	desc1.Usage = D3D11_USAGE_DYNAMIC;
-	desc1.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	desc1.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	m_pDevice->CreateBuffer(&desc1, nullptr, m_worldConstantBuffer.ReleaseAndGetAddressOf());
-
-	// サンプラーリストの初期化
-	m_samplerList.Initialize(m_pDevice);
 }
 
-void REngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
+void RHEngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container)
 {
-	// ビュー行列の取得
-	m_view = view;
-
-	// プロジェクション行列の取得
-	m_projection = proj;
-
 	// 各コマンドの実行
 	DrawModelCommandExecute(container.GetDrawModelCommands());
 	DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
 	DrawSpriteAndFontCommandExecute(container.GetDrawUICommands());
 }
 
-void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector<DrawPrimitiveCommand>& commands)
 {
 	// コマンド分ループ
 	for (auto& c : commands)
 	{
+		// 描画対象が存在しなければ次へ
+		if (c.lines.empty() && c.triangles.empty()) continue;
+
 		// マテリアルを調べる
 		MaterialAsset* material = m_assetManager.Get<MaterialAsset>(c.material);
 
-		// 描画準備
-		PreparePrimitiveRendering();
+		if (!material)
+		{
+			material = m_assetManager.Get(m_defaultMaterial);
+		}
+
+		// InfoManager経由のPerObjectバッファ更新
+		m_infoManager.UpdatePerObject(c.world);
+		m_infoManager.BindPerObject();
+
+		// 透明度を不使用
+		m_pContext->OMSetBlendState(m_pStates->NonPremultiplied(), nullptr, 0xFFFFFFFF);
+
+		// デプスソートを使用
+		m_pContext->OMSetDepthStencilState(m_pStates->DepthDefault(), 0);
+
+		// カリング不使用
+		m_pContext->RSSetState(m_pStates->CullNone());
 
 		// 存在しており有効ハンドルなら
 		if (material && material->IsValid())
 		{
-			material->SetReference(&m_assetManager, &m_samplerList);
+			// マテリアルの設定を適用
+			if (!material->Apply(m_pContext)) continue;
 
-			// バインド
-			material->Apply(m_pContext);
-		
-			// VP行列をバインド
-			BindVPBuffer();
+			// InputLayoutを取得
+			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionColorTexture).hash_code()),
+				material->GetBlob(ShaderType::Vertex), VertexPositionColorTexture::GetLayout()
+			);
 
-			// ワールド行列をバインド
-			BindWorldBuffer(c.world);
+			// 取得したInputLayoutを設定
+			m_pContext->IASetInputLayout(inputLayout.Get());
 
 			// 定数バッファを更新
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
-		}
-
-		// なければ
-		else
-		{
-			// ワールド行列のセット
-			m_basicEffect->SetWorld(c.world);
-
-			// View
-			m_basicEffect->SetView(m_view);
-
-			// Projection
-			m_basicEffect->SetProjection(m_projection);
-
-			// インプットレイアウトをセット
-			m_pContext->IASetInputLayout(m_inputLayout.Get());
-
-			// エフェクトを適用
-			m_basicEffect->Apply(m_pContext);
 		}
 
 		// 描画開始
@@ -173,17 +127,55 @@ void REngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vector
 	}
 }
 
-void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
 {
 	// スプライトバッチの開始
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
 
+	// マテリアルハンドル
+	Handle<MaterialAsset> oldHandle = { 0, 0 };
+
 	// 全コマンドの描画
 	for (auto& command : commands)
 	{
+		// マテリアルの取得
+		Handle<MaterialAsset> matHandle = std::visit([this](auto& c) { return c.material; }, command);
+
+		MaterialAsset* mat = m_assetManager.Get(matHandle);
+
+		// マテリアルが変わっていた場合
+		if (matHandle != oldHandle)
+		{
+			// マテリアル情報の更新
+			oldHandle = matHandle;
+
+			// 一度終了
+			m_spriteBatch->End();
+
+			// 再度Begin
+			if (mat)
+			{
+				m_spriteBatch->Begin(
+					DirectX::SpriteSortMode_Deferred,
+					m_pStates->NonPremultiplied(),
+					nullptr,
+					nullptr,
+					nullptr,
+					[this, mat]()
+					{
+						mat->BindShader(m_pContext, ShaderType::Pixel);
+					}
+				);
+			}
+			else
+			{
+				m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_pStates->NonPremultiplied());
+			}
+		}
+
 		std::visit([this](auto& c) {
 
-			// decayを使用し参照を外した巣の型を取得
+			// decayを使用し参照を外した素の型を取得
 			using T = std::decay_t<decltype(c)>;
 
 			// SpriteCommandの場合
@@ -200,15 +192,15 @@ void REngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::ve
 				if (c.spriteFont)
 					c.spriteFont->DrawString(m_spriteBatch.get(), c.text.c_str(), c.pos, c.color, c.angle, c.origin, c.scale);
 			}
-			
-			}, command);
+
+		}, command);
 	}
 
 	// 終了
 	m_spriteBatch->End();
 }
 
-void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands)
 {
 	// 全コマンドを描画
 	for (auto& c : commands)
@@ -219,100 +211,51 @@ void REngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dra
 		// マテリアルが設定されていて有効なとき
 		if (material && material->IsValid())
 		{
-			material->SetReference(&m_assetManager, &m_samplerList);
-
-			// VP行列をバインド
-			BindVPBuffer();
-
-			// ワールド行列をバインド
-			BindWorldBuffer(c.world);
+			// InfoManager経由のPerObjectバッファ更新
+			m_infoManager.UpdatePerObject(c.world);
+			m_infoManager.BindPerObject();
 
 			// 定数バッファを更新
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
 
 			// InputLayoutを取得
-			auto inputlayout = InputLayoutCache::Instance().GetOrCreate(
-					m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTangentColorTexture).hash_code()), material->GetBlob(ShaderType::Vertex), VertexPositionNormalTangentColorTexture::GetLayout()
-				);
+			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
+				material->GetBlob(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout()
+			);
 
 			// なければスキップ
-			if (!inputlayout) continue;
+			if (!inputLayout) continue;
 
-			for (auto& mesh : c.pModel->meshes)
-			{
-				for (auto& part : mesh->meshParts)
-				{
-					part->effect = std::shared_ptr<MaterialAsset>(material, [](MaterialAsset*) {});
-					part->inputLayout = inputlayout;
-					part->vertexBuffer;
-				}
-			}
+			// マテリアルの設定を適用
+			if (!material->Apply(m_pContext)) continue;
 
-			c.pModel->Draw(m_pContext, *m_pStates, DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity, DirectX::SimpleMath::Matrix::Identity);
+			// 頂点バッファの設定
+			ID3D11Buffer* vsBuffers[] = { c.pMesh->GetVertexBuffer() };
+			UINT strides[] = { sizeof(VertexPositionNormalTexture) };
+			UINT offsets[] = { 0 };
+			m_pContext->IASetVertexBuffers(0, 1, vsBuffers, strides, offsets);
+
+			// カリング
+			m_pContext->RSSetState(m_pStates->CullClockwise());
+			
+			// デプスソートを使用
+			m_pContext->OMSetDepthStencilState(m_pStates->DepthDefault(), 0);
+
+			// インデックスバッファの設定
+			m_pContext->IASetIndexBuffer(c.pMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+			// トポロジーの設定 
+			m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			// 入力レイアウトの設定 
+			m_pContext->IASetInputLayout(inputLayout.Get());
+
+			// サブメッシュの取得
+			auto& subMesh = c.pMesh->GetSubMeshes()[c.subMeshIndex];
+
+			// 描画命令
+			m_pContext->DrawIndexed(subMesh.indexCount, subMesh.indexOffset, subMesh.vertexOffset);
 		}
-
-		// 無効な時
-		else
-		{
-			// 描画
-			c.pModel->Draw(m_pContext, *m_pStates, c.world, m_view, m_projection);
-		}
 	}
-}
-
-void REngine::DrawCommandExecutor::PreparePrimitiveRendering()
-{
-	// 透明度を使用
-	m_pContext->OMSetBlendState(m_pStates->NonPremultiplied(), nullptr, 0xFFFFFFFF);
-
-	// デプスソートを使用
-	m_pContext->OMSetDepthStencilState(m_pStates->DepthDefault(), 0);
-
-	// カリング不使用
-	m_pContext->RSSetState(m_pStates->CullNone());
-
-	// サンプラーをリセット
-	ID3D11SamplerState* samplers[] = { nullptr };
-	m_pContext->PSSetSamplers(0, 1, samplers);
-}
-
-void REngine::DrawCommandExecutor::BindVPBuffer()
-{
-	// 定数バッファを用意
-	VPBuffer vpData;
-
-	// 行列を掛けて渡す (転置が必要かも)
-	vpData.view = m_view.Transpose();
-	vpData.proj = m_projection.Transpose();
-
-	// マップを使用しCPU側から変更
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	if (SUCCEEDED(m_pContext->Map(m_vpConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
-	{
-		std::memcpy(mapped.pData, &vpData, sizeof(VPBuffer));
-		m_pContext->Unmap(m_vpConstantBuffer.Get(), 0);
-	}
-
-	// VP用スロットにバインド
-	m_pContext->VSSetConstantBuffers(CBufferSlot::PerFrame, 1, m_vpConstantBuffer.GetAddressOf());
-}
-
-void REngine::DrawCommandExecutor::BindWorldBuffer(const DirectX::SimpleMath::Matrix& world)
-{
-	// 定数バッファを用意
-	WorldBuffer worldData;
-
-	// 行列を掛けて渡す (転置が必要かも)
-	worldData.world = world.Transpose();
-
-	// マップを使用しCPU側から変更
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	if (SUCCEEDED(m_pContext->Map(m_worldConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
-	{
-		std::memcpy(mapped.pData, &worldData, sizeof(WorldBuffer));
-		m_pContext->Unmap(m_worldConstantBuffer.Get(), 0);
-	}
-
-	// World用スロットにバインド
-	m_pContext->VSSetConstantBuffers(CBufferSlot::PerObject, 1, m_worldConstantBuffer.GetAddressOf());
 }

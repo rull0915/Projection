@@ -18,7 +18,7 @@
 
 #include "ThirdParty/magic_enum/magic_enum.hpp"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -124,4 +124,4 @@ namespace REngine
 		// 列挙子名から値を変更する関数
 		bool SetByName(std::type_index idx, void* ptr, std::string_view name) const { return m_setByNameFuncMap.at(idx)(ptr, name); }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -19,7 +19,7 @@
 #include "Assets/Types/Shader/ShaderParam.h"
 #include "Assets/Types/Vertex/VertexElementInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Reflection
 	{
@@ -49,4 +49,4 @@ namespace REngine
 		// リフレクションインターフェースからタイプを取得する関数
 		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* var, const std::string& name);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

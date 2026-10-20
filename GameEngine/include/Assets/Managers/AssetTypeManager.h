@@ -16,8 +16,9 @@
 //====================================================//
 #include <filesystem>
 #include <typeindex>
+#include "Assets/Objects/Handle.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -52,7 +53,10 @@ namespace REngine
 		std::string GetAssetType(const std::filesystem::path& path) const;
 
 		// 特定のファイルに対応するtype_indexを取得する関数
-		std::type_index GetAssetClass(const std::filesystem::path& path) const;
+		std::type_index GetAssetClass(const std::filesystem::path& type) const;
+
+		// 特定のタイプ名に対応するtype_indexを取得する関数
+		std::type_index GetAssetClassFromType(const std::string& path) const;
 
 		// 特定のタイプに対応する拡張子を取得する関数
 		std::wstring GetExtention(const std::string& type) const;
@@ -64,4 +68,4 @@ namespace REngine
 		// マップに追加
 		m_assetClassMap.insert_or_assign(extention, std::type_index(typeid(T)));
 	}
-}	// namespace REngine
+}	// namespace RHEngine

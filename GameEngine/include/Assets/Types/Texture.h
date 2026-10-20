@@ -16,7 +16,7 @@
 //====================================================//
 #include "Assets/Objects/AssetBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -47,4 +47,4 @@ namespace REngine
 		ID3D11ShaderResourceView* Get() const { return m_srv.Get(); }
 		ID3D11ShaderResourceView* const* GetAddressOf() const { return m_srv.GetAddressOf(); }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

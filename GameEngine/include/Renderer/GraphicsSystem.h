@@ -15,10 +15,13 @@
 #include "Command/DrawCommandExecutor.h"
 
 // Material
-#include "Assets/Types/MaterialAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Objects/Handle.h"
 
-namespace REngine
+#include "Scene/SceneInfo.h"
+#include "Renderer/RendererInfo.h"
+
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -33,8 +36,8 @@ namespace REngine
 
 		// 各行列
 		DirectX::SimpleMath::Matrix m_world;
-		DirectX::SimpleMath::Matrix m_view;
-		DirectX::SimpleMath::Matrix m_projection;
+
+		SceneData m_sceneData;
 
 		// マテリアルハンドル
 		Handle<MaterialAsset> m_material;
@@ -50,13 +53,11 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		GraphicsSystem(AssetManager& am)
+		GraphicsSystem(AssetManager& am, RenderInfoManager& im)
 			: m_world		{ DirectX::SimpleMath::Matrix::Identity }
-			, m_view		{ DirectX::SimpleMath::Matrix::Identity }
-			, m_projection	{ DirectX::SimpleMath::Matrix::Identity }
 			, m_material	{ ERROR_HANDLE<MaterialAsset> }
 			, m_drawCommandContainer{}
-			, m_drawCommandExecutor{ am }
+			, m_drawCommandExecutor{ am, im }
 		{
 		};
 		~GraphicsSystem() = default;
@@ -80,10 +81,6 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		const DirectX::SimpleMath::Matrix& GetWorld() const { return m_world; }
-		const DirectX::SimpleMath::Matrix& GetView() const { return m_view; }
-		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_projection; }
-
 		Handle<MaterialAsset> GetMaterial() const { return m_material; }
 
 		DrawCommandContainer& GetCommandContainer() { return m_drawCommandContainer; }
@@ -104,18 +101,7 @@ namespace REngine
 				p.material = m_material;
 			}
 		}
-		void SetVPMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
-		{
-			if (view != m_view || proj != m_projection)
-			{
-				// コマンド実行
-				ExecuteCommands();
 
-				// 行列の更新
-				m_view = view;
-				m_projection = proj;
-			}
-		}
 		void SetMaterial(Handle<MaterialAsset> handle)
 		{
 			// 違うマテリアルを設定するとき
@@ -134,7 +120,7 @@ namespace REngine
 		void ExecuteCommands()
 		{
 			// 貯めたコマンドを実行
-			m_drawCommandExecutor.DrawCommandExecute(m_drawCommandContainer, m_view, m_projection);
+			m_drawCommandExecutor.DrawCommandExecute(m_drawCommandContainer);
 
 			// コマンドのリセット
 			m_drawCommandContainer.Clear();
@@ -145,4 +131,4 @@ namespace REngine
 			p.material = m_material;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

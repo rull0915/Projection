@@ -18,7 +18,7 @@
 #include "Components/World/Collider/2D/Shapes/2DColliders.h"
 #include "Physics/HitInfomation2D.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数宣言
@@ -56,4 +56,4 @@ namespace REngine
 		/// </summary>
 		bool CheckHit_Box_Box(ColliderBase2D* colA, ColliderBase2D* colB, HitInfomation2D* info);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

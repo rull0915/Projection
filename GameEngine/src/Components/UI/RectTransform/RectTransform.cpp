@@ -16,7 +16,7 @@
 
 using namespace DirectX;
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -231,4 +231,4 @@ namespace REngine
 		// 変化フラグを立てる
 		SetDirty();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

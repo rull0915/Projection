@@ -17,7 +17,7 @@
 
 #include <vector>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -64,4 +64,4 @@ namespace REngine
 		//-----------------------------------------------------
 		void SetTimeScale(float scale) { m_timeScale = scale; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

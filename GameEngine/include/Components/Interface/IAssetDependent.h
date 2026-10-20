@@ -15,7 +15,7 @@
 // インクルードファイル
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 
@@ -31,4 +31,4 @@ namespace REngine
 		// AssetManagerを受け取るクラス
 		virtual void ReceiveAssetManager(AssetManager& assets) = 0;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

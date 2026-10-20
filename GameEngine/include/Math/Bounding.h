@@ -16,7 +16,7 @@
 //====================================================//
 #include <SimpleMath.h>
 
-namespace REngine
+namespace RHEngine
 {
 	/// <summary>
 	/// 境界ボックス

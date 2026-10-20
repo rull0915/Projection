@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -93,4 +93,4 @@ namespace REngine
 		// ShaderResourceView
 		ID3D11ShaderResourceView* GetShaderResourceView() const { return m_srv.Get(); }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

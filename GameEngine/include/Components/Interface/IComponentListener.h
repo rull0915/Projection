@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -41,4 +41,4 @@ namespace REngine
 		// コンポーネント削除時に通知される関数
 		virtual void OnComponentRemoved(ComponentBase*) {}
 	};
-} // namespace REngine
+} // namespace RHEngine

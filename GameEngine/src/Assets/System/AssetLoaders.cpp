@@ -12,7 +12,12 @@
 #include "pch.h"
 #include "AssetLoaders.h"
 
-#include "System/GraphicsManager.h"
+#include "Assets/Types/Texture.h"
+#include "Assets/Types/Font.h"
+#include "Assets/Types/Prefab.h"
+#include "Assets/Types/AudioClip.h"
+
+#include "System/Render/GraphicsManager.h"
 #include "System/ResourceManager.h"
 
 #include "WICTextureLoader.h"
@@ -22,9 +27,9 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
-	std::unique_ptr<Texture> REngine::Loader::TextureLoader(const std::filesystem::path& path)
+	LoadResult RHEngine::Loader::TextureLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -58,46 +63,27 @@ namespace REngine
 			);
 		}
 
+		// ロードリザルトを作成
+		LoadResult result{};
+
 		// 失敗したら
 		if (FAILED(hr))
 		{
-			// nullを返す
-			return nullptr;
+			// 失敗フラグを立てる
+			result.success = false;
+		}
+		else
+		{
+			// Textureの生成
+			result.asset = std::make_unique<Texture>(std::move(texture));
 		}
 
-		// Textureの生成
-		return std::make_unique<Texture>(std::move(texture));
+		result.success = true;
+
+		return result;
 	}
 
-	std::unique_ptr<Model> Loader::ModelLoader(const std::filesystem::path& path)
-	{
-		// デバイスを取得
-		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
-
-		// EffectFactoryを取得
-		auto fx = ResourceManager::Instance().GetEffectFactory();
-
-		// キーの拡張子を取得
-		std::string extension = path.extension().string();
-
-		std::unique_ptr<DirectX::Model> model;
-
-		// CMOファイルの場合
-		if (extension == ".cmo")
-		{
-			model = DirectX::Model::CreateFromCMO(device, path.c_str(), *fx);
-		}
-		// SDKMESHファイルの場合
-		else if (extension == ".sdkmesh")
-		{
-			model = DirectX::Model::CreateFromSDKMESH(device, path.c_str(), *fx);
-		}
-
-		// Modelの生成
-		return std::make_unique<Model>(std::move(model));
-	}
-
-	std::unique_ptr<Font> Loader::FontLoader(const std::filesystem::path& path)
+	LoadResult Loader::FontLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
 		// デバイスを取得
 		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
@@ -113,25 +99,43 @@ namespace REngine
 		RECT result = font->MeasureDrawBounds(L"A", DirectX::XMFLOAT2(0.f, 0.f));
 		height = std::fabsf(static_cast<float>(result.bottom - result.top));
 
+		// リザルトの作成
+		LoadResult loadResult{};
+
+		loadResult.success = true;
+
 		// 返す
-		return std::make_unique<Font>(std::move(font), height);
+		loadResult.asset = std::make_unique<Font>(std::move(font), height);
+
+		return loadResult;
 	}
 
-	std::unique_ptr<Prefab> Loader::PrefabLoader(const std::filesystem::path& path)
+	LoadResult Loader::PrefabLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
-		// 返す
-		return std::make_unique<Prefab>(std::filesystem::path(path));
+		LoadResult result{};
+
+		result.asset = std::make_unique<Prefab>(std::filesystem::path(path));
+
+		result.success = true;
+
+		return result;
 	}
 
-	std::unique_ptr<AudioClip> Loader::AudioClipLoader(const std::filesystem::path& path)
+	LoadResult Loader::AudioClipLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
+		LoadResult result{};
+
 		// AudioEngineを取得
 		auto ae = ResourceManager::Instance().GetAudioEngine();
 
 		// 生成
 		auto sound = std::make_unique<DirectX::SoundEffect>(ae, path.c_str());
 
+		result.asset = std::make_unique<AudioClip>(std::move(sound));
+
+		result.success = true;
+
 		// 返す
-		return std::make_unique<AudioClip>(std::move(sound));
+		return result;
 	}
 }

@@ -18,7 +18,7 @@
 #include "../ReserveContainer.h"
 #include "Components/World/Renderer/RendererBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -46,4 +46,4 @@ namespace REngine
 		// 描画処理
 		void DrawAll(Renderer& renderer);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

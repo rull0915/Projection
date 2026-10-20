@@ -1,0 +1,644 @@
+{
+    "World": {
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -4.393873691558838,
+                                2.0671539306640625,
+                                3.1787962913513184
+                            ],
+                            "m_localRotation": [
+                                -0.3103037476539612,
+                                0.00186894868966192,
+                                0.007787024602293968,
+                                0.950603723526001
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                0.9999998807907104,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 16032107892283237882
+                    },
+                    {
+                        "Data": {
+                            "m_aspect": 1.7777777910232544,
+                            "m_backColor": [
+                                0.0,
+                                0.3529411852359772,
+                                0.0,
+                                1.0
+                            ],
+                            "m_farZ": 50.0,
+                            "m_fov": 0.7853981852531433,
+                            "m_isActive": true,
+                            "m_materialHandle": 0,
+                            "m_nearZ": 0.0010000000474974513
+                        },
+                        "Type": "StandardCamera",
+                        "UUID": 5766962533219240220
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 5841945044368571313,
+                "m_isActive": true,
+                "m_name": "MainCamera",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                7.0
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 10651375284141270780
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 10710928390516439349,
+                "m_isActive": true,
+                "m_name": "",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                6.5574838892246134e-09,
+                                -1.063143173496428e-07
+                            ],
+                            "m_localRotation": [
+                                -0.3308594226837158,
+                                -0.3663519322872162,
+                                -0.8581178188323975,
+                                0.14125220477581024
+                            ],
+                            "m_localScale": [
+                                9.999932289123535,
+                                9.999994277954102,
+                                10.0000581741333
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 17166991486679700465
+                    },
+                    {
+                        "Data": {
+                            "m_color": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_intensity": 1.0,
+                            "m_isActive": true,
+                            "m_lightType": "Directional"
+                        },
+                        "Type": "LightComponent",
+                        "UUID": 7653377372870121214
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14319028006406936465,
+                "m_isActive": true,
+                "m_name": "DirectionalLight",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -2.65625,
+                                -0.48494505882263184,
+                                2.871978759765625
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                0.6000000238418579,
+                                0.5,
+                                0.8999999761581421
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 16652700552849229995
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 3960837701782852154
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 13251215513945151575
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    13167894609641853879
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 18294662567946039658
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 4713690653653763982,
+                "m_isActive": true,
+                "m_name": "Floor",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.06493420898914337,
+                                0.8840247988700867,
+                                0.4834352731704712
+                            ],
+                            "m_localRotation": [
+                                -0.3731260895729065,
+                                0.20329658687114716,
+                                -0.08416076004505157,
+                                0.901312530040741
+                            ],
+                            "m_localScale": [
+                                0.049999985843896866,
+                                0.05000002682209015,
+                                0.04999992996454239
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 1685997366307584817
+                    },
+                    {
+                        "Data": {
+                            "m_color": [
+                                0.0235294122248888,
+                                1.0,
+                                0.9607843160629272,
+                                1.0
+                            ],
+                            "m_intensity": 1.7000000476837158,
+                            "m_isActive": true,
+                            "m_lightType": "Point",
+                            "radius": 6.0
+                        },
+                        "Type": "LightComponent",
+                        "UUID": 11155950298342473367
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 3960837701782852154
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 16784757873372262543
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    13167894609641853879
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 4681161254923193518
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14851800184510239779,
+                "m_isActive": true,
+                "m_name": "PointLight",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_anchor": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_anchoredPosition": [
+                                0.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_pivot": [
+                                0.5,
+                                0.5
+                            ],
+                            "m_rotation": 0.0,
+                            "m_scale": [
+                                1.0,
+                                1.0
+                            ],
+                            "m_size": [
+                                1280.0,
+                                720.0
+                            ]
+                        },
+                        "Type": "RectTransform",
+                        "UUID": 10362348409028887454
+                    },
+                    {
+                        "Data": {
+                            "m_drawOrder": 0,
+                            "m_isActive": true
+                        },
+                        "Type": "Canvas",
+                        "UUID": 10139104059187358603
+                    }
+                ],
+                "IsWorld": false,
+                "UUID": 1462900509858288559,
+                "m_isActive": true,
+                "m_name": "Canvas",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 6981724448833154795
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 15668903534453252829
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 12678103616321961115
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            4301967339137853035,
+                                            4301967339137853035
+                                        ],
+                                        "size": 2
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 17746136176282227344
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 4414266806305449804,
+                        "m_isActive": true,
+                        "m_name": "Mesh0",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                -1.0506017208099365,
+                                -0.1142851710319519
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 1846942487180232776
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 2088147504225629636,
+                "m_isActive": true,
+                "m_name": "arrow",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 995756241306575364
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 8773741352629680973
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 4350022999719130311
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            5177547561183373090,
+                                            3672030463970861865
+                                        ],
+                                        "size": 2
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 16246291267254634092
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 8533609723319112100,
+                        "m_isActive": true,
+                        "m_name": "Coin_Cylinder.012",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                -1.0747079849243164,
+                                0.04266515374183655,
+                                -1.0288289785385132
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 11624473714141932337
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 3962668717941340748,
+                "m_isActive": true,
+                "m_name": "Coin",
+                "m_tag": ""
+            },
+            {
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 17111160798932621928
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 6359301453409171622
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 3518227822959732443
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            13080650984172867582
+                                        ],
+                                        "size": 1
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 2987230565714962615
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 16490130884076380103,
+                        "m_isActive": true,
+                        "m_name": "Cube",
+                        "m_tag": ""
+                    }
+                ],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                -1.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 9085947540664861225
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 13154805239767330484,
+                "m_isActive": true,
+                "m_name": "GridFloor",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                1.107591986656189,
+                                0.48393261432647705,
+                                -0.33025527000427246
+                            ],
+                            "m_localRotation": [
+                                -0.3731260895729065,
+                                0.20329658687114716,
+                                -0.08416076004505157,
+                                0.901312530040741
+                            ],
+                            "m_localScale": [
+                                0.049999985843896866,
+                                0.05000002682209015,
+                                0.04999992996454239
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 1685997366307584817
+                    },
+                    {
+                        "Data": {
+                            "m_color": [
+                                1.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_intensity": 1.7000000476837158,
+                            "m_isActive": true,
+                            "m_lightType": "Point",
+                            "radius": 6.0
+                        },
+                        "Type": "LightComponent",
+                        "UUID": 11155950298342473367
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 3960837701782852154
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 16784757873372262543
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    13167894609641853879
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 4681161254923193518
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14851800184510239779,
+                "m_isActive": true,
+                "m_name": "PointLight",
+                "m_tag": ""
+            }
+        ]
+    }
+}

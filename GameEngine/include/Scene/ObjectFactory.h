@@ -15,10 +15,13 @@
 // インクルードファイル
 //====================================================//
 #include "GameObject/GameObject.h"
+#include "Assets/Types/Prefab.h"
+#include "Assets/Objects/Handle.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
+	class AssetManager;
 
 	//====================================================//
 	// クラス宣言
@@ -33,12 +36,15 @@ namespace REngine
 		// シーンポインタ
 		Scene* m_pScene;
 
+		// アセットマネージャー
+		AssetManager& m_assetManager;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ObjectFactory(Scene* pScene);
+		ObjectFactory(Scene* pScene, AssetManager& assetManager);
 		~ObjectFactory() = default;
 
 		//-----------------------------------------------------
@@ -48,7 +54,12 @@ namespace REngine
 		// オブジェクトを生成する関数
 		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
+		// プレハブからオブジェクトを生成する関数
+		GameObject* Instantiate(Prefab* prefab) const;
+
+		GameObject* Instantiate(Handle<Prefab> prefab) const;
+
 		// UIオブジェクトを生成する関数
 		GameObject* GenerateUI();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

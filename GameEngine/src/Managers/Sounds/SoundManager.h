@@ -19,7 +19,7 @@
 #include "Components/Both/Sounds/AudioSource.h"
 #include "Components/World/Sounds/AudioListener.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -62,4 +62,4 @@ namespace REngine
 		// リスナーの削除
 		void RemoveListener(AudioListener* l) { if (m_listener == l) m_listener = nullptr; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

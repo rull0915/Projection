@@ -23,7 +23,7 @@
 
 #include "Common/Property/PropertyObject.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -191,26 +191,26 @@ namespace REngine
 
 	// コンポーネントのTypeを作成するマクロ
 #define COMPONENT_TYPE(Type, Base)														\
-	static REngine::Component::TypeId StaticTypeId()									\
+	static RHEngine::Component::TypeId StaticTypeId()									\
 	{																					\
 		static char id;																	\
 		return &id;																		\
 	}																					\
 																						\
-	virtual REngine::Component::TypeId TypeId()											\
+	virtual RHEngine::Component::TypeId TypeId()											\
 	{																					\
 		return StaticTypeId();															\
 	}																					\
 																						\
-	bool IsTypeOf(REngine::Component::TypeId id) const override							\
+	bool IsTypeOf(RHEngine::Component::TypeId id) const override							\
 	{																					\
 		return id == StaticTypeId() || Base::IsTypeOf(id);								\
 	}																					\
 																						\
-	void CollectTypeIds(std::vector<REngine::Component::TypeId>& out) const override	\
+	void CollectTypeIds(std::vector<RHEngine::Component::TypeId>& out) const override	\
 	{																					\
 		out.push_back(StaticTypeId());													\
 		Base::CollectTypeIds(out);														\
 	}
 
-} // namespace REngine
+} // namespace RHEngine

@@ -21,7 +21,7 @@
 #include <variant>
 #include <optional>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -98,4 +98,4 @@ namespace REngine
 			static float GetAxisState(const std::vector<AxisBinding>& bindings);
 		};
 	}
-}	// namespace REngine
+}	// namespace RHEngine

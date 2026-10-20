@@ -1,0 +1,284 @@
+{
+    "World": {
+        "GameObjects": [
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                10.0
+                            ],
+                            "m_localRotation": [
+                                5.551115123125783e-17,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 17460988245892131427
+                    },
+                    {
+                        "Data": {
+                            "m_aspect": 1.7777777910232544,
+                            "m_backColor": [
+                                0.0,
+                                0.5742670297622681,
+                                0.8101266026496887,
+                                1.0
+                            ],
+                            "m_farZ": 30.0,
+                            "m_fov": 0.7853981852531433,
+                            "m_isActive": true,
+                            "m_materialHandle": 0,
+                            "m_nearZ": 0.10000000149011612
+                        },
+                        "Type": "StandardCamera",
+                        "UUID": 9592256411421457474
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 5361277539100568359,
+                "m_isActive": true,
+                "m_name": "MainCamera",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -0.34843358397483826,
+                                0.2932974398136139,
+                                -0.008107307367026806,
+                                0.8902274370193481
+                            ],
+                            "m_localScale": [
+                                0.9999996423721313,
+                                0.9999998807907104,
+                                0.9999997615814209
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 10546629014258714428
+                    },
+                    {
+                        "Data": {
+                            "m_color": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_intensity": 1.0,
+                            "m_isActive": true,
+                            "m_lightType": "Directional"
+                        },
+                        "Type": "LightComponent",
+                        "UUID": 12789245383627252364
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 444337501223281088,
+                "m_isActive": true,
+                "m_name": "DirectinonalLight",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 4725866049357888062
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 3960837701782852154
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 13426188380042015337
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    13167894609641853879
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 15793451262901605921
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": false,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": true
+                        },
+                        "Type": "RigidBody",
+                        "UUID": 10357431075004759709
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                2.0,
+                                2.0,
+                                2.0
+                            ],
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 11753744097066726351
+                        },
+                        "Type": "BoxCollider",
+                        "UUID": 10880228437213363582
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true
+                        },
+                        "Type": "JumpComponent",
+                        "UUID": 6659994197333766327
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 10842010312702146999,
+                "m_isActive": true,
+                "m_name": "GameObject",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                -5.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                5.0,
+                                1.0,
+                                5.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 6897613815248519345
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_mesh": 3960837701782852154
+                        },
+                        "Type": "MeshFilter",
+                        "UUID": 10304296948771399545
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_materials": {
+                                "array": [
+                                    12372440001830070568
+                                ],
+                                "size": 1
+                            }
+                        },
+                        "Type": "MeshRenderer",
+                        "UUID": 15291445415005119915
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                2.0,
+                                2.0,
+                                2.0
+                            ],
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 11753744097066726351
+                        },
+                        "Type": "BoxCollider",
+                        "UUID": 17779156902002410963
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": true,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": true
+                        },
+                        "Type": "RigidBody",
+                        "UUID": 263313108583492952
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 2270363912784456152,
+                "m_isActive": true,
+                "m_name": "Cube",
+                "m_tag": ""
+            }
+        ]
+    }
+}

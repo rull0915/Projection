@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	class EngineInitializer
 	{
@@ -51,4 +51,4 @@ namespace REngine
 		// デフォルトのカスタムキーの登録
 		static void RegistCustomKeys();
 	};
-} // namespace REngine
+} // namespace RHEngine

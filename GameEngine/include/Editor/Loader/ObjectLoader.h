@@ -19,7 +19,7 @@
 #include "Common/Property/PropertyObject.h"
 #include "Assets/Managers/AssetManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class GameObject;
 	class Scene;
@@ -69,4 +69,4 @@ namespace REngine
 
 		void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
 	};
-} // namespace REngine
+} // namespace RHEngine

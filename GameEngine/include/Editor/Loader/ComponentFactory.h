@@ -21,7 +21,7 @@
 #include "Components/ComponentBase.h"
 #include "Components/ComponentInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class GameObject;
 
@@ -48,4 +48,4 @@ namespace REngine
 		// 作成を実行
 		static ComponentBase* Create(const std::string& id, GameObject* owner);
 	};
-} // namespace REngine
+} // namespace RHEngine

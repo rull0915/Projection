@@ -13,15 +13,15 @@
 
 #ifdef ENGINE_GUI
 
-#include "Components/World/Camera/CameraBase.h"
 #include "GuizmoManager.h"
 #include "SelectedOnGUI.h"
+#include "SceneCamera.h"
 
 //====================================================//
 // インクルードファイル
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -96,7 +96,7 @@ namespace REngine
 		void DrawWindows();
 
 		// ビューの描画をする関数
-		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera);
+		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, SceneCamera* sceneViewCamera);
 
 		// ウィンドウをセットする関数
 		void SetWindowType(WindowType type) { m_nowType = type; }
@@ -106,6 +106,9 @@ namespace REngine
 
 		// 描画設定を取得する関数
 		unsigned char GetDrawSetting() const { return m_sceneDrawSetting; }
+
+		// Imageのデバッグ表示をする関数
+		void DrawImageDebugWindow(std::string_view title, ID3D11ShaderResourceView* image) const;
 
 	private:
 
@@ -123,8 +126,8 @@ namespace REngine
 		void StartGameView();
 
 		// シーンビューの描画
-		void DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera);
+		void DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera);
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

@@ -1,0 +1,56 @@
+{
+    "ComputeShader": null,
+    "DomainShader": null,
+    "GeometryShader": null,
+    "HullShader": null,
+    "PSHandle": 2,
+    "PixelShader": [
+        {
+            "Name": "BaseColorMap",
+            "Type": "Texture2D",
+            "Value": 0
+        },
+        {
+            "Name": "SpecularColor",
+            "Type": "Color",
+            "Value": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "BaseColor",
+            "Type": "Color",
+            "Value": [
+                0.8565400838851929,
+                0.8565400838851929,
+                0.8565400838851929,
+                1.0
+            ]
+        },
+        {
+            "Name": "DiffuseIntensity",
+            "Type": "Float",
+            "Value": 1.0
+        },
+        {
+            "Name": "SpecularIntensity",
+            "Type": "Float",
+            "Value": 1.0
+        },
+        {
+            "Name": "Shininess",
+            "Type": "Float",
+            "Value": 250.0
+        },
+        {
+            "Name": "BaseColorSampler",
+            "Type": "Sampler",
+            "Value": "None"
+        }
+    ],
+    "VSHandle": 1,
+    "VertexShader": null
+}

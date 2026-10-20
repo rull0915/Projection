@@ -17,7 +17,7 @@
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -64,4 +64,4 @@ namespace REngine
 		Transform* GetTransform() const { return m_pTransform; }
 
 	};
-} // namespace REngine
+} // namespace RHEngine

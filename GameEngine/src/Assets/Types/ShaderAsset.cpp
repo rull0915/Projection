@@ -16,7 +16,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	ShaderAsset::ShaderAsset()
 		: m_type{ ShaderType::Vertex }

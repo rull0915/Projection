@@ -17,7 +17,7 @@
 #include "Components/ComponentBase.h"
 #include "Components/ComponentInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -45,4 +45,4 @@ namespace REngine
 
 		COMPONENT_TYPE(UIComponentBase, ComponentBase)
 	};
-} // namespace REngine
+} // namespace RHEngine

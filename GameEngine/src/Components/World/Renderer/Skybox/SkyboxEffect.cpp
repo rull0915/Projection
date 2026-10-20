@@ -24,7 +24,7 @@ namespace
 	constexpr uint32_t DirtyWVPMatrix = 0x2;
 }
 
-namespace REngine
+namespace RHEngine
 {
 	SkyboxEffect::SkyboxEffect(ID3D11Device* device) :
 		m_dirtyFlags(uint32_t(-1)),
@@ -119,4 +119,4 @@ namespace REngine
 
 		m_dirtyFlags |= DirtyWVPMatrix;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

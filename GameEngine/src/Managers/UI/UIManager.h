@@ -18,7 +18,7 @@
 #include "../ReserveContainer.h"
 #include "Components/UI/Canvas.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -68,4 +68,4 @@ namespace REngine
 		// キャンバスの並び順をソートする関数
 		void SortCanvas();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

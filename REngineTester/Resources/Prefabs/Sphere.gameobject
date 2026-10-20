@@ -1,0 +1,116 @@
+{
+    "Children": [
+        {
+            "Children": [],
+            "Components": [
+                {
+                    "Data": {
+                        "m_isActive": true,
+                        "m_localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "m_localRotation": [
+                            -0.0,
+                            0.0,
+                            -0.0,
+                            1.0
+                        ],
+                        "m_localScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "Type": "Transform",
+                    "UUID": 17788741286262297524
+                },
+                {
+                    "Data": {
+                        "m_isActive": true,
+                        "m_mesh": 6227687678173691157
+                    },
+                    "Type": "MeshFilter",
+                    "UUID": 16083687960032886075
+                },
+                {
+                    "Data": {
+                        "m_isActive": true,
+                        "m_materials": {
+                            "array": [
+                                8473082725554792708
+                            ],
+                            "size": 1
+                        }
+                    },
+                    "Type": "MeshRenderer",
+                    "UUID": 1970196310979952535
+                }
+            ],
+            "IsWorld": true,
+            "UUID": 9195982511944378193,
+            "m_isActive": true,
+            "m_name": "Sphere",
+            "m_tag": ""
+        }
+    ],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    0.0,
+                    4.518877983093262,
+                    0.9204665422439575
+                ],
+                "m_localRotation": [
+                    -0.0,
+                    0.0,
+                    -0.0,
+                    1.0
+                ],
+                "m_localScale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 9246974115550057816
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isTrigger": false,
+                "m_layerNum": 0,
+                "m_localCenterPos": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_needInfo": false,
+                "m_physicsMaterial": 11753744097066726351,
+                "m_radius": 0.5
+            },
+            "Type": "SphereCollider",
+            "UUID": 1211607030541632799
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isStatic": false,
+                "m_linearDamping": 0.0,
+                "m_mass": 1.0,
+                "m_useGravity": true
+            },
+            "Type": "RigidBody",
+            "UUID": 8880695342898362297
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 12636869099003406332,
+    "m_isActive": true,
+    "m_name": "Sphere",
+    "m_tag": ""
+}

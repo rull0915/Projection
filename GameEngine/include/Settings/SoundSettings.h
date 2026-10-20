@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -88,4 +88,4 @@ namespace REngine
 		// SE
 		void SetSEVolume(float v) { m_seVolume = v; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "RendererManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -40,4 +40,4 @@ namespace REngine
 			component->Draw(renderer);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

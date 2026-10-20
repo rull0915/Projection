@@ -19,14 +19,14 @@
 
 #include "System/WindowManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
 	//====================================================//
 
 	// コンストラクタ
-	Canvas::Canvas(REngine::IComponentOwner* own)
+	Canvas::Canvas(RHEngine::IComponentOwner* own)
 		: UIComponentBase(own)
 		, m_drawOrder{ 0 }
 	{
@@ -51,11 +51,11 @@ namespace REngine
 	{}
 
 	// 毎フレーム呼ばれます
-	void Canvas::Update(const REngine::GameTimer& gameTimer)
+	void Canvas::Update(const RHEngine::GameTimer& gameTimer)
 	{}
 
 	// 毎フレームUpdate及び物理挙動の後に呼ばれます
-	void Canvas::LateUpdate(const REngine::GameTimer& gameTimer)
+	void Canvas::LateUpdate(const RHEngine::GameTimer& gameTimer)
 	{}
 
 	void Canvas::Draw(Renderer& renderer)
@@ -163,10 +163,10 @@ namespace REngine
 				// イベント別処理
 				switch (event)
 				{
-				case REngine::Canvas::MouseEvent::Down:
+				case RHEngine::Canvas::MouseEvent::Down:
 					static_cast<UIBehaviorBase*>(behavior)->OnMouseDown();
 					break;
-				case REngine::Canvas::MouseEvent::Up:
+				case RHEngine::Canvas::MouseEvent::Up:
 					static_cast<UIBehaviorBase*>(behavior)->OnMouseUp();
 					break;
 				default:

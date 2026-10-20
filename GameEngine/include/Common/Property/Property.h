@@ -22,7 +22,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// 型の列挙型
 	enum class PropertyType
@@ -85,4 +85,4 @@ namespace REngine
 			return Property{ name, type, getAddress ? getAddress(obj) : nullptr, typeIndex };
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

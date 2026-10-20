@@ -14,7 +14,7 @@
 
 #include "Components/World/Collider/3D/ColliderBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -97,4 +97,4 @@ namespace REngine
 		// コライダーがnullでなければ少なくとも何かに当たっている
 		return hit->collider != nullptr;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -21,7 +21,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void REngine::GuizmoManager::DrawTransformGuizmo(CameraBase* camera, Transform* transform, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 size)
+void RHEngine::GuizmoManager::DrawTransformGuizmo(SceneCamera* camera, Transform* transform, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 size)
 {
 	// ワールド行列を取得
 	auto world = transform->GetWorldMatrix();

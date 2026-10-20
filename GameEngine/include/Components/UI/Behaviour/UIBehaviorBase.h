@@ -17,7 +17,7 @@
 #include "Components/UI/UIComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -67,4 +67,4 @@ namespace REngine
 
 		bool IsHovered() const { return m_isHovered; }
 	};
-} // namespace REngine
+} // namespace RHEngine

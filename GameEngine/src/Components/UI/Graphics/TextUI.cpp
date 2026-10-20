@@ -16,7 +16,7 @@
 #include "Assets/Managers/AssetManager.h"
 #include "Common/CastString.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -61,4 +61,4 @@ namespace REngine
 			drawPos, scale * fontScale, transform->GetWorldRotation(), m_origin, GetColor() * GetMulColor()
 		);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

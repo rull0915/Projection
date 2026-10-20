@@ -1,0 +1,186 @@
+﻿//====================================================//
+// ファイル名  : ShadowRenderer.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/10/14
+//
+// 概要       : 
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "Renderer/Shadow/ShadowRenderer.h"
+#include "Assets/Types/Vertex/VertexTypes.h"
+
+#include "Assets/EngineDefaultAssets.h"
+#include "Assets/Managers/AssetManager.h"
+#include "System/Render/GraphicsManager.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+RHEngine::ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
+	: m_usable{ false }
+	, m_drawMeshCommands{}
+	, m_vsShaderHandle{}
+	, m_assetManager{ assetManager }
+	, m_pDevice{ nullptr }
+	, m_pContext{ nullptr }
+	, m_pStates{ nullptr }
+	, m_currentShadowMap{ nullptr }
+	, m_depthStencilState{}
+	, m_infoManager{}
+{
+}
+
+void RHEngine::ShadowRenderer::Initialize()
+{
+	// ゲームエンジンデフォルトのShadowPass用vsを取得
+	m_vsShaderHandle = m_assetManager.LoadFromUUID(DefaultAsset::SHADOW_PASS_VS).As<ShaderAsset>();
+
+	// デバイスリソースの取得
+	DX::DeviceResources* dr = GraphicsManager::Instance().GetDeviceResources();
+
+	m_pDevice = dr->GetD3DDevice();
+
+	m_pContext = dr->GetD3DDeviceContext();
+
+	m_pStates = dr->GetCommonStates();
+
+	// 情報マネージャーを初期化
+	m_infoManager.Initialize(m_pDevice, m_pContext);
+
+	// DepthStencilStateの作成
+	D3D11_DEPTH_STENCIL_DESC desc{};
+	desc.DepthEnable = TRUE;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	desc.DepthFunc = D3D11_COMPARISON_LESS;
+	desc.StencilEnable = FALSE;
+	HRESULT hr = m_pDevice->CreateDepthStencilState(&desc, m_depthStencilState.GetAddressOf());
+
+	if (FAILED(hr)) return;
+
+	// 全て成功したら使用可能に
+	m_usable = true;
+}
+
+void RHEngine::ShadowRenderer::Begin(ShadowMap* shadowMap)
+{
+	// 使用不可ならスキップ
+	if (!m_usable) return;
+
+	// 既に描画中かShadowMapが指定されていないならスキップ
+	if (m_currentShadowMap || !shadowMap) return;
+
+	// 指定されたシャドウマップへの描画を開始
+	shadowMap->Begin(m_pContext);
+
+	// 使用中のシャドウマップとして保存
+	m_currentShadowMap = shadowMap;
+}
+
+void RHEngine::ShadowRenderer::End()
+{
+	if (!m_currentShadowMap || !m_usable) return;
+
+	// シャドウマップへの描画を終了
+	m_currentShadowMap->End(m_pContext);
+
+	// 使用を解除
+	m_currentShadowMap = nullptr;
+}
+
+void RHEngine::ShadowRenderer::ExecuteCommands(const SceneCameraData& data)
+{
+	// 使用不可ならスキップ
+	if (!m_usable) return;
+
+	// シャドウマップを使用していない場合スキップ
+	if (!m_currentShadowMap)
+	{
+		// 描画コマンドのクリア
+		m_drawMeshCommands.clear();
+
+		return;
+	}
+
+	// 各ステージの設定
+
+	// VSの取得
+	ShaderAsset* vs = m_assetManager.Get(m_vsShaderHandle);
+
+	// 取得できなければ描画不可
+	if (!vs)
+	{
+		// 描画コマンドのクリア
+		m_drawMeshCommands.clear();
+
+		return;
+	}
+
+	// InputLayoutを取得
+	auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+		m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
+		vs->GetBlob(), VertexPositionNormalTexture::GetLayout()
+	);
+
+	// 入力レイアウトの設定 
+	m_pContext->IASetInputLayout(inputLayout.Get());
+
+	// トポロジーの設定 
+	m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// 頂点シェーダの設定
+	vs->Bind(m_pContext);
+
+	// ピクセルシェーダーを明示的にNULLにする
+	m_pContext->PSSetShader(nullptr, nullptr, 0);
+
+	// カメラの設定 (ライトのVP)
+	m_infoManager.UpdatePerCamera(data);
+	m_infoManager.BindPerCamera();
+	
+	// カリング
+	m_pContext->RSSetState(m_pStates->CullClockwise());
+
+	// デプスステンシルステートを設定
+	m_pContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+
+	for (auto& command : m_drawMeshCommands)
+	{
+		// 描画するメッシュを取得
+		Mesh* mesh = command.pMesh;
+
+		// なければ次へ
+		if (!mesh) continue;
+
+		// 頂点バッファの作成
+		ID3D11Buffer* vsBuffers[] = { mesh->GetVertexBuffer() };
+		UINT strides[] = { sizeof(VertexPositionNormalTexture) };
+		UINT offsets[] = { 0 };
+
+		// ワールド行列のセット
+		m_infoManager.UpdatePerObject(command.world);
+		m_infoManager.BindPerObject();
+
+		// 頂点バッファの設定
+		m_pContext->IASetVertexBuffers(0, 1, vsBuffers, strides, offsets);
+
+		// インデックスバッファの設定
+		m_pContext->IASetIndexBuffer(mesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+		// 範囲外サブメッシュの場合次へ
+		if (command.subMeshIndex >= mesh->GetSubMeshes().size()) continue;
+
+		// サブメッシュの取得
+		auto& subMesh = mesh->GetSubMeshes()[command.subMeshIndex];
+
+		// 描画命令
+		m_pContext->DrawIndexed(subMesh.indexCount, subMesh.indexOffset, subMesh.vertexOffset);
+	}
+
+	// 描画コマンドのクリア
+	m_drawMeshCommands.clear();
+}

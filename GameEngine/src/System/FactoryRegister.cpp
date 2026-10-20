@@ -22,7 +22,7 @@
 
 #define ADD_FACTORY(type) ComponentFactory::Register(#type, { ComponentProject::Engine, type::SPACE }, [](GameObject* o) { return o->AddComponent<type>(); });
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -48,7 +48,7 @@ namespace REngine
 		ADD_FACTORY(RigidBody2D);
 
 		// Renderer
-		ADD_FACTORY(ModelComponent);
+		ADD_FACTORY(MeshRenderer);
 		ADD_FACTORY(SkyboxComponent);
 
 		// Camera
@@ -65,5 +65,11 @@ namespace REngine
 		ADD_FACTORY(ImageUI);
 		ADD_FACTORY(TextUI);
 		ADD_FACTORY(ButtonUI);
+
+		// MeshFilter
+		ADD_FACTORY(MeshFilter);
+
+		// Light
+		ADD_FACTORY(LightComponent);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

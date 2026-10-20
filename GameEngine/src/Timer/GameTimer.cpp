@@ -14,7 +14,7 @@
 
 #include "Settings/TimeSettings.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -24,5 +24,8 @@ namespace REngine
 	{
 		m_elapsedTime = elapsedTime * TimeSettings::Instance().GetTimeScale();
 		m_unscaledElapsedTime = elapsedTime;
+
+		m_time += m_elapsedTime;
+		m_unscaledTime += m_unscaledElapsedTime;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

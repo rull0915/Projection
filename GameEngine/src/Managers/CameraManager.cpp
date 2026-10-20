@@ -12,10 +12,7 @@
 #include "pch.h"
 #include "CameraManager.h"
 
-#include "Components/World/Camera/Derived/StandardCamera.h"
-#include "Scene/Scene.h"
-
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -23,19 +20,10 @@ namespace REngine
 
 	CameraManager::CameraManager()
 		: m_mainCamera{ nullptr }
-		, m_spareCamera{ nullptr }
 	{
 
 	}
 
 	CameraManager::~CameraManager()
 	{}
-
-	void CameraManager::Initialize(Scene* pScene)
-	{
-		// 予備カメラの作成
-		m_spareCamera = pScene->GetFactory()->Generate({ 0, 0, 10 });
-		m_spareCamera->AddComponent<StandardCamera>();
-		m_spareCamera->SetInvincible(true);
-	}
-}	// namespace REngine
+}	// namespace RHEngine

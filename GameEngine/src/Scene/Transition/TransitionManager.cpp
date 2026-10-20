@@ -15,7 +15,7 @@
 
 #include <utility>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -129,4 +129,4 @@ namespace REngine
 		// モードがNoneなら演出中ではない
 		return m_nowMode != Transition::Mode::None;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

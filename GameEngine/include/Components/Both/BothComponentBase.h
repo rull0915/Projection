@@ -26,7 +26,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class BothComponentBase : public ComponentBase
 	{
@@ -51,4 +51,4 @@ namespace REngine
 
 		COMPONENT_TYPE(BothComponentBase, ComponentBase)
 	};
-} // namespace REngine
+} // namespace RHEngine

@@ -14,16 +14,19 @@
 
 #include <fstream>
 #include "Assets/Types/PrefabImpl.h"
+#include "Assets/Managers/AssetContext.h"
+#include "Assets/Managers/AssetManager.h"
+#include "Editor/Saver/ObjectSaver.h"
 
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Saver
 	{
-		void PrefabSaver(AssetBase* base, const std::filesystem::path& path)
+		void PrefabSaver(AssetBase* base, const std::filesystem::path& path, AssetContext& ctx)
 		{
 			Prefab* prefab = static_cast<Prefab*>(base);
 
@@ -44,7 +47,7 @@ namespace REngine
 			ofs.close();
 		}
 
-		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, AssetManager& assetManager)
+		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, const AssetManager& assetManager)
 		{
 			// セーバーを生成
 			ObjectSaver saver(assetManager);
@@ -53,4 +56,4 @@ namespace REngine
 			saver.SavePropertyToFile(path, asset);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

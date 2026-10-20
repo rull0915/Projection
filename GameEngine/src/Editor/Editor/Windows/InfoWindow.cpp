@@ -19,7 +19,7 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_internal.h"
 #include "System/WindowManager.h"
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 
 #include "Input/MouseInput.h"
 
@@ -30,7 +30,7 @@
 #include "Editor/Editor/EditGUI.h"
 #include "Scene/Scene.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -144,6 +144,6 @@ namespace REngine
 			);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

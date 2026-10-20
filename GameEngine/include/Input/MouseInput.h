@@ -17,7 +17,7 @@
 
 #include <Mouse.h>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Input
 	{
@@ -82,9 +82,9 @@ namespace REngine
 			{
 				switch (axis)
 				{
-				case REngine::Input::Mouse::Axis::X:
+				case RHEngine::Input::Mouse::Axis::X:
 					return GetMouseMoveValue().x;
-				case REngine::Input::Mouse::Axis::Y:
+				case RHEngine::Input::Mouse::Axis::Y:
 					return GetMouseMoveValue().y;
 				default:
 					return 0;
@@ -95,9 +95,9 @@ namespace REngine
 			{
 				switch (axis)
 				{
-				case REngine::Input::Mouse::Axis::X:
+				case RHEngine::Input::Mouse::Axis::X:
 					return m_oldMouseMove.x;
-				case REngine::Input::Mouse::Axis::Y:
+				case RHEngine::Input::Mouse::Axis::Y:
 					return m_oldMouseMove.y;
 				default:
 					return 0;
@@ -149,4 +149,4 @@ namespace REngine
 			}
 		};
 	}
-}	// namespace REngine
+}	// namespace RHEngine

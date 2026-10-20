@@ -15,7 +15,7 @@
 #include "Settings/WorldSetting2D.h"
 #include "Renderer/Renderer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -55,4 +55,4 @@ namespace REngine
 		float rad = GetRadius();
 		renderer.Draw().Primitive().DrawCircle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

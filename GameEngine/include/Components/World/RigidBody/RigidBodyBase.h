@@ -17,7 +17,7 @@
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 列挙型宣言
@@ -158,4 +158,4 @@ namespace REngine
 		void AddStoppingTime(float time) { m_stoppingTime += time; }
 		void SetStoppingTime(float time) { m_stoppingTime = time; }
 	};
-} // namespace REngine
+} // namespace RHEngine

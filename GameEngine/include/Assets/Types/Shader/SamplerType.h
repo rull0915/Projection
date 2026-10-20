@@ -11,15 +11,15 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	enum class SamplerType
 	{
 		None,
-		Linear,
-		Point,
+		LinearWrap,
+		PointWrap,
 		LinearClamp,
 		PointClamp,
 		Anisotropic,
 	};
-}	// namespace REngine
+}	// namespace RHEngine

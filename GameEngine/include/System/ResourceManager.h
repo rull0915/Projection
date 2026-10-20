@@ -21,7 +21,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	class ResourceManager
 	{
@@ -32,9 +32,6 @@ namespace REngine
 
 		// 音管理クラス
 		std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
-
-		// エフェクトファクトリ
-		std::unique_ptr<DirectX::EffectFactory> m_effect;
 
 	private:
 
@@ -64,10 +61,7 @@ namespace REngine
 		void Update();
 
 		// ゲッター
-		DirectX::EffectFactory* GetEffectFactory() { return m_effect.get(); }
-
-		// ゲッター
 		DirectX::AudioEngine* GetAudioEngine() { return m_audioEngine.get(); }
 	};
 
-} // namespace REngine
+} // namespace RHEngine

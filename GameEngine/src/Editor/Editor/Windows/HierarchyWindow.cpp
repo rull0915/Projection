@@ -23,7 +23,11 @@
 #include "Managers/ObjectManager.h"
 #include "Scene/Scene.h"
 
-namespace REngine
+#include "Assets/Managers/AssetManager.h"
+#include "Editor/Editor/HandlePayload.h"
+#include "Assets/Types/Prefab.h"
+
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -115,6 +119,22 @@ namespace REngine
 				}
 			}
 
+			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET"))
+			{
+				// 受け渡し構造体を生成
+				HandlePayload* handlePay = (HandlePayload*)payload->Data;
+
+				// Prefabの時
+				if (handlePay && handlePay->type == std::type_index(typeid(Prefab)))
+				{
+					// プレハブハンドルを取得
+					auto handle = handlePay->handle.As<Prefab>();
+
+					// 生成
+					if (m_pScene) m_pScene->GetFactory()->Instantiate(m_pScene->GetAssetManager().Get(handle));
+				}
+			}
+
 			ImGui::EndDragDropTarget();
 		}
 
@@ -122,13 +142,35 @@ namespace REngine
 		ImGui::PopID();
 	}
 
+	bool HierarchyWindow::SelectCancel(GameObject* root)
+	{
+		// 選択中のオブジェクトを取得
+		PropertyObject* selected = m_selected.GetSelected();
+
+		// もし自身が選択されていればリセット
+		if (root == selected)
+		{
+			m_selected.SetSelected(nullptr);
+
+			return true;
+		}
+
+		// 子オブジェクトも調べる
+		for (auto child : root->GetChildren())
+		{
+			if (SelectCancel(child)) return true;
+		}
+
+		return false;
+	}
+
 	void HierarchyWindow::DrawGameObject(GameObject* object)
 	{
 		// nullなら何もしない
 		if (!object) return;
 
-		// 削除不可なら何もしない
-		if (object->IsInvincible()) return;
+		// シリアライズしない設定なら何もしない
+		if (!object->IsSerializable()) return;
 
 		// 名前を取得
 		std::string name = object->GetName();
@@ -140,7 +182,7 @@ namespace REngine
 		}
 
 		// 初期状態のフラグ
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
 
 		// 選択中オブジェクトを取得
 		PropertyObject* selected = m_selected.GetSelected();
@@ -180,11 +222,8 @@ namespace REngine
 				// 削除
 				object->Destroy();
 
-				// 選択中ならnullにする
-				if (selected == object)
-				{
-					m_selected.SetSelected(nullptr);
-				}
+				// 選択解除
+				SelectCancel(object);
 			}
 			// Generate
 			if (ImGui::MenuItem("Generate"))
@@ -266,25 +305,11 @@ namespace REngine
 		// 開いていたら
 		if (open)
 		{
-			// Transformを取得
-			if (Transform* t = object->GetComponent<Transform>())
+			// 全子供を調べる
+			for (auto* child : object->GetChildren())
 			{
-				// 全子供を調べる
-				for (auto* child : t->GetChildren())
-				{
-					// 子供を描画
-					DrawGameObject(static_cast<GameObject*>(child->GetOwn()));
-				}
-			}
-			// RectTransformを取得
-			else if (RectTransform* t = object->GetComponent<RectTransform>())
-			{
-				// 全子供を調べる
-				for (auto* child : t->GetChildren())
-				{
-					// 子供を描画
-					DrawGameObject(static_cast<GameObject*>(child->GetOwn()));
-				}
+				// 子供を描画
+				DrawGameObject(child);
 			}
 
 			// ツリーを終了
@@ -293,6 +318,6 @@ namespace REngine
 
 		ImGui::PopID();
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

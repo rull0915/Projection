@@ -18,7 +18,7 @@
 #include "Physics/Ray.h"
 #include "Components/ComponentTypeId.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -61,4 +61,4 @@ namespace REngine
 		// 判定
 		static bool RayCast(const std::vector<ColliderBase*>& colliders, const Ray& ray, float maxDistance, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
 	};
-}	// namespace REngine
+}	// namespace RHEngine
