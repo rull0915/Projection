@@ -193,11 +193,13 @@
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Components\JumpComponent.h" />
     <ClInclude Include="Game\Components\RandomGenerator.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Components\JumpComponent.cpp" />
     <ClCompile Include="Game\Components\RandomGenerator.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="pch.cpp">

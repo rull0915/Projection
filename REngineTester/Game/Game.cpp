@@ -15,6 +15,7 @@
 
 #include "Scene/SceneManager.h"
 #include "Components/RandomGenerator.h"
+#include "Components/JumpComponent.h"
 
 #include "GameObject/GameObject.h"
 #include "Editor/Loader/ComponentFactory.h"
@@ -25,6 +26,7 @@ void Game::OnInitialize()
 {
 	// コンポーネントの登録
 	REGIST_TO_FACTORY(RandomGenerator);
+	REGIST_TO_FACTORY(JumpComponent);
 
 	// ====== シーンの登録 ====== //
 	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
@@ -32,5 +34,5 @@ void Game::OnInitialize()
 	RHEngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
 
 	// 開始時のシーンを設定
-	RHEngine::SceneManager::Instance().SetStartScene("Title");
+	RHEngine::SceneManager::Instance().SetStartScene("GUITest");
 }
