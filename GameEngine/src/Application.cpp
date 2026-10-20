@@ -14,6 +14,7 @@
 
 #include "GameEngine.h"
 #include "System/Render/GraphicsManager.h"
+#include "Scene/SceneManager.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -56,6 +57,13 @@ void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 
 	// アプリ側の初期化
 	OnInitialize();
+}
+
+void RHEngine::Application::Finalize()
+{
+	SceneManager::Instance().Finalize();
+
+	OnFinalize();
 }
 
 void RHEngine::Application::Tick()

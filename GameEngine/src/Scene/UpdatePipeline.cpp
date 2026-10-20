@@ -126,5 +126,6 @@ namespace RHEngine
 		m_physicsManager2D->GetCollideManager()->ReflectReserves();
 
 		m_colEvent->ResetEvent();
+		m_cameraManager->RemoveReserved();
 	}
 }	// namespace RHEngine

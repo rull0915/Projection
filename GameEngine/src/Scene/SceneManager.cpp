@@ -81,7 +81,7 @@ namespace RHEngine
 	void SceneManager::Finalize()
 	{
 		// シーンの解放
-		m_currentScene = nullptr;
+		m_currentScene.reset();
 	}
 
 	// 開始シーンの設定

@@ -124,7 +124,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	}
 
 	// 終了時処理
-	g_app->OnFinalize();
+	g_app->Finalize();
 
 	// アプリケーションのリセット
 	g_app.reset();

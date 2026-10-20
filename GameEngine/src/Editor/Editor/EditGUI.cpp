@@ -104,6 +104,14 @@ namespace RHEngine
 		ImGui::End();
 	}
 
+	void EditGUI::DrawStyleEditor()
+	{
+		// テスト用
+		ImGui::Begin("StyleEditor");
+		ImGui::ShowStyleEditor();
+		ImGui::End();
+	}
+
 	void EditGUI::DrawImage(ID3D11ShaderResourceView* img)
 	{
 		// 有効サイズ
