@@ -34,7 +34,7 @@ namespace RHEngine
 		struct Slot
 		{
 			// Asset本体
-			std::unique_ptr<AssetBase> asset;
+			std::unique_ptr<AssetBase> asset{};
 
 			// 世代
 			uint32_t generation = 1;

@@ -109,10 +109,10 @@ RHEngine::AssetFileDrawer::Result RHEngine::AssetFileDrawer::DrawAssetFile(const
 		for (auto& subAsset : aux.subAssets)
 		{
 			// 選択されたら
-			if (ImGui::Selectable(subAsset.name.c_str(), subAsset.uuid == selected))
+			if (ImGui::Selectable((subAsset.assetType + ":" + subAsset.name).c_str(), subAsset.uuid == selected))
 			{
 				r.select = subAsset.uuid;
-			}
+			}		
 
 			// 左ボタンがダブルクリックされていれば
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))

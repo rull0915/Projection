@@ -93,6 +93,9 @@ namespace RHEngine
 
 				// 保存
 				saver.SaveObjectToFile(file, data);
+
+				// スキャンさせる
+				m_assetManager.GetDataBase().ScanOnceFile(file);
 			}
 
 			ImGui::EndDragDropTarget();
