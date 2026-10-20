@@ -131,7 +131,8 @@ namespace RHEngine
 		{
 			showShadowMap = !showShadowMap;
 		}
-		if (showShadowMap) m_gui.DrawImageDebugWindow("ShadowMap", m_pScene->GetShadowMapTexture());
+		//if (showShadowMap) m_gui.DrawImageDebugWindow("ShadowMap", m_pScene->GetShadowMapTexture());
+		if (showShadowMap) m_gui.DrawStyleEditor();
 	}
 
 	void SceneEditor::Render(Renderer& renderer)

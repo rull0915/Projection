@@ -110,6 +110,9 @@ namespace RHEngine
 		// Imageのデバッグ表示をする関数
 		void DrawImageDebugWindow(std::string_view title, ID3D11ShaderResourceView* image) const;
 
+		// スタイルエディタウィンドウを表示する関数
+		void DrawStyleEditor();
+
 	private:
 
 		//-----------------------------------------------------

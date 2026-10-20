@@ -42,6 +42,9 @@ namespace RHEngine
 		static void Finalize();
 
 		static bool ProcessMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
+
+		// ImGUIのスタイルを変更する関数
+		static void ChangeGUIStyle();
 	};
 } // namespace RHEngine
 

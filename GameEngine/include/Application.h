@@ -75,6 +75,7 @@ namespace RHEngine
 
 		// エンジン内部で使用する関数
 		void Initialize(HWND hwnd, int width, int height);
+		void Finalize();
 		void Tick();
 
 		const ApplicationProps& GetProps() const { return m_props; }
