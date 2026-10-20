@@ -36,6 +36,8 @@ namespace RHEngine
 		// 走査
 		for (auto& light : lights)
 		{
+			if (!light->IsActive() || !light->GetOwn()->IsActive()) continue;
+
 			// タイプを取得
 			LightType type = light->GetLightType();
 

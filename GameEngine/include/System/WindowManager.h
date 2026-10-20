@@ -109,6 +109,11 @@ namespace RHEngine
 
 		void SetWidth(unsigned int value) { m_width = value; }    // 幅
 		void SetHeight(unsigned int value) { m_height = value; }  // 高さ
+		void SetSize(DirectX::SimpleMath::Vector2 value) 
+		{ 
+			m_width = static_cast<unsigned int>(value.x); 
+			m_height = static_cast<unsigned int>(value.y); 
+		} 
 
 		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
 	};

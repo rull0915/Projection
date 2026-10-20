@@ -13,9 +13,6 @@
 #include "System/ResourceManager.h"
 #include "System/Render/GraphicsManager.h"
 
-#include <WICTextureLoader.h>
-#include <DDSTextureLoader.h>
-
 using namespace DirectX;
 
 //====================================================//
@@ -25,8 +22,7 @@ using namespace DirectX;
 namespace RHEngine
 {
 	ResourceManager::ResourceManager()
-		: m_effect{}
-		, m_audioEngine{}
+		: m_audioEngine{}
 	{}
 
 	ResourceManager::~ResourceManager()
@@ -37,9 +33,6 @@ namespace RHEngine
 		auto* deviceResources = GraphicsManager::Instance().GetDeviceResources();
 
 		auto device = deviceResources->GetD3DDevice();
-
-		m_effect = std::make_unique<EffectFactory>(device);
-		m_effect->SetDirectory(L"Resources/Models");
 
 		m_audioEngine = std::make_unique<DirectX::AudioEngine>();
 	}

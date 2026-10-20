@@ -100,6 +100,8 @@ namespace RHEngine
 		// リセット
 		m_renderContexts.clear();
 
+		m_updatePipeline->GetCameraManager()->ReflectReserves();
+
 		// 全カメラを取得
 		for (auto& camera : m_updatePipeline->GetCameraManager()->GetObjects())
 		{
@@ -171,13 +173,9 @@ namespace RHEngine
 		renderer.Begin(m_sceneData);
 
 		// ワールドパスの描画
+		for (auto& ctx : m_renderContexts)
 		{
-			// 全ての描画コンテキストを走査
-			for (auto& ctx : m_renderContexts)
-			{
-				// ワールドパスの描画
-				m_sceneRenderer->DrawWorldPass(ctx, renderer);
-			}
+			m_sceneRenderer->DrawWorldPass(ctx, renderer);
 		}
 			
 		// Test: シャドウマップ用スロットをアンバインド
@@ -198,7 +196,6 @@ namespace RHEngine
 			ctx.cameraData = {};
 
 			m_sceneRenderer->DrawUIPass(ctx, renderer);
-
 		}
 
 		// シーンの描画

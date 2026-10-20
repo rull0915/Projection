@@ -33,9 +33,6 @@ namespace RHEngine
 		// 音管理クラス
 		std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
 
-		// エフェクトファクトリ
-		std::unique_ptr<DirectX::EffectFactory> m_effect;
-
 	private:
 
 		//-----------------------------------------------------
@@ -62,9 +59,6 @@ namespace RHEngine
 
 		// 更新
 		void Update();
-
-		// ゲッター
-		DirectX::EffectFactory* GetEffectFactory() { return m_effect.get(); }
 
 		// ゲッター
 		DirectX::AudioEngine* GetAudioEngine() { return m_audioEngine.get(); }

@@ -43,6 +43,10 @@ void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 	// デバイスリソースにウィンドウを渡す
 	m_deviceResources->SetWindow(hwnd, width, height);
 
+	// ウィンドウマネージャーにサイズを渡す
+	WindowManager::Instance().SetWidth(width);
+	WindowManager::Instance().SetHeight(height);
+
 	// デバイスの作成
 	m_deviceResources->CreateDeviceResources();
 	m_deviceResources->CreateWindowSizeDependentResources();

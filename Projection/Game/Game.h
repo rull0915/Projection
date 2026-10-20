@@ -23,7 +23,7 @@
 class Game : public RHEngine::Application {
 public:
     Game()
-        : Application({ L"My Game Project", 1280, 720 }) {}
+        : Application({ L"Projection", 1280, 720 }) {}
 
 	void OnInitialize() override;
 	void OnFinalize() override {};
