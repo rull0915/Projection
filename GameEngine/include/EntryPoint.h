@@ -21,7 +21,6 @@
 #include <DirectXMath.h>
 
 // 標準ライブラリ
-#include <iterator>
 #include <memory>
 
 // DirectXTK Input
@@ -32,7 +31,7 @@
 // RHEngine
 #include "Application.h"
 #include "System/WindowManager.h"
-#include "Editor/Editor/ImguiManager.h"
+#include "WinProc.h"
 
 //====================================================//
 // 関数宣言
@@ -44,9 +43,6 @@ extern RHEngine::Application* RHEngine::CreateApplication();
 namespace {
     std::unique_ptr<RHEngine::Application> g_app;
 }
-
-// Windows Procedure 前方宣言
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 // エントリポイント
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
@@ -77,7 +73,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		WNDCLASSEXW wcex = {};
 		wcex.cbSize = sizeof(WNDCLASSEXW);
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
-		wcex.lpfnWndProc = WndProc;
+		wcex.lpfnWndProc = RHEngine::WndProc;
 		wcex.hInstance = hInstance;
 		wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
 		wcex.lpszClassName = L"RHEngine_Window";
@@ -110,14 +106,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	MSG msg = {};
 
 	// 終了メッセージが読み込まれるまでループ
-	while (WM_QUIT != msg.message) 
+	while (WM_QUIT != msg.message)
 	{
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) 
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else 
+		else
 		{
 			g_app->Tick();
 		}
@@ -130,57 +126,4 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	g_app.reset();
 
 	return static_cast<int>(msg.wParam);
-}
-
-// Windows procedure
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-#ifdef ENGINE_GUI
-	if (RHEngine::ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
-	{
-		return true;
-	}
-#endif // USE_IMGUi
-
-	// 受け取ったメッセージによって処理を分岐
-	switch (message)
-	{
-
-		// Window破棄時
-	case WM_DESTROY:
-
-		// ゲームを終了
-		PostQuitMessage(0);
-		break;
-	case WM_ACTIVATE:
-		DirectX::Keyboard::ProcessMessage(message, wParam, lParam);
-		DirectX::Mouse::ProcessMessage(message, wParam, lParam);
-		break;
-
-		// キーボードの状態変化時
-	case WM_KEYDOWN:
-	case WM_KEYUP:
-	case WM_SYSKEYDOWN:
-	case WM_SYSKEYUP:
-		DirectX::Keyboard::ProcessMessage(message, wParam, lParam);
-		break;
-
-		// マウスの状態変化時
-	case WM_INPUT:
-	case WM_MOUSEMOVE:
-	case WM_LBUTTONDOWN:
-	case WM_LBUTTONUP:
-	case WM_RBUTTONDOWN:
-	case WM_RBUTTONUP:
-	case WM_MBUTTONDOWN:
-	case WM_MBUTTONUP:
-	case WM_MOUSEWHEEL:
-	case WM_XBUTTONDOWN:
-	case WM_XBUTTONUP:
-	case WM_MOUSEHOVER:
-		DirectX::Mouse::ProcessMessage(message, wParam, lParam);
-		break;
-	}
-
-	return DefWindowProc(hWnd, message, wParam, lParam);
 }

@@ -74,6 +74,8 @@ namespace RHEngine
 				return m_assetClassMap.at(map.first);
 			}
 		}
+
+		return std::type_index(typeid(void));
 	}
 
 	std::wstring AssetTypeManager::GetExtention(const std::string& type) const

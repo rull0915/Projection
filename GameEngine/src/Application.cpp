@@ -53,7 +53,7 @@ void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 
 	// ゲームエンジンの初期化
-	m_gameEngine->Initialize(m_deviceResources, hwnd, false);
+	m_gameEngine->Initialize(m_deviceResources, hwnd, true);
 
 	// アプリ側の初期化
 	OnInitialize();

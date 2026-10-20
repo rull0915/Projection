@@ -355,6 +355,10 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\ThirdParty\imgui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\WinProc.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
@@ -437,6 +441,10 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\System\Render\InputLayoutCache.h" />
     <ClInclude Include="include\System\Render\SamplerList.h" />
+    <ClInclude Include="include\WinProc.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="src\Assets\EngineDefaultAssets.h">
       <SubType>
       </SubType>

@@ -96,7 +96,7 @@ namespace RHEngine
 		// Prefab本体を取得
 		Prefab* p = m_assetManager.Get(prefab);
 
-		return Instantiate(prefab);
+		return Instantiate(p);
 	}
 
 	GameObject* ObjectFactory::GenerateUI()

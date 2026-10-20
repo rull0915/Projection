@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Game">
@@ -264,26 +264,7 @@
     <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="imgui.ini" />
-    <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\SkyboxEffect_PS.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\SkyboxEffect_VS.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Shaders\BasicPixelShader.ps.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\BasicShader.hlsli">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\BasicVertexShader.vs.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\ImagePixelShader.ps.hlsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\InputStructure.hlsli">
@@ -295,20 +276,23 @@
     <None Include="Shaders\LightStructure.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\PrimitiveShader.ps.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\PrimitiveShader.vs.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\Shadowing.hlsli">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\ShadowMap.vs.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Tools\.vscode\settings.json">
-      <Filter>Tools\.vscode</Filter>
-    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\BasicPixelShader.ps.hlsl" />
+    <FxCompile Include="Shaders\BasicVertexShader.vs.hlsl" />
+    <FxCompile Include="Shaders\ImagePixelShader.ps.hlsl" />
+    <FxCompile Include="Shaders\PrimitiveShader.ps.hlsl" />
+    <FxCompile Include="Shaders\PrimitiveShader.vs.hlsl" />
+    <FxCompile Include="Shaders\ShadowMap.vs.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="directx.ico" />
   </ItemGroup>
 </Project>
