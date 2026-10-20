@@ -23,7 +23,7 @@
 #include "Common/Property/AssetPropertyRegistry.h"
 #include "Common/ObjectReference.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -215,7 +215,8 @@ namespace REngine
 		// 保存
 		for (auto& object : objManager->GetAllObject())
 		{
-			if (!object->IsInvincible())
+			// シリアライズ可能なら
+			if (object->IsSerializable())
 			{
 				// 親がnullの場合
 				if (auto* t = object->GetComponent<Transform>())
@@ -287,4 +288,4 @@ namespace REngine
 		// 閉じる
 		ofs.close();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

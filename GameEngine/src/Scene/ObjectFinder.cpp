@@ -15,7 +15,7 @@
 #include "Scene/Scene.h"
 #include "Managers/ObjectManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -104,4 +104,4 @@ namespace REngine
 		// 見つからなかった場合null
 		return nullptr;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

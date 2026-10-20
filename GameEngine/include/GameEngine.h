@@ -17,9 +17,12 @@
 #include <memory>
 
 #include "Renderer/Renderer.h"
-#include "Assets/Managers/AssetManager.h"
 #include "Timer/GameTimer.h"
 #include "System/DeviceResources.h"
+
+#include "Renderer/Renderer.h"
+#include "Assets/Managers/AssetManager.h"
+#include "Renderer/Shadow/ShadowRenderer.h"
 
 #ifdef ENGINE_GUI
 
@@ -27,7 +30,7 @@
 
 #endif // ENGINE_GUI
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -46,11 +49,12 @@ namespace REngine
 		// ゲームタイマー
 		std::unique_ptr<GameTimer> m_gameTimer;
 
-		// 描画担当
-		std::unique_ptr<Renderer> m_renderer;
-
 		// アセット管理
-		std::unique_ptr<AssetManager> m_assetManager;
+		AssetManager m_assetManager;
+
+		// 描画担当
+		Renderer m_renderer;
+		ShadowRenderer m_shadowRenderer;
 
 #ifdef ENGINE_GUI
 
@@ -104,7 +108,7 @@ namespace REngine
 		//-----------------------------------------------------
 
 		GameTimer& GetTimer() { return *m_gameTimer; }
-		Renderer& GetRenderer() { return *m_renderer; }
+		Renderer& GetRenderer() { return m_renderer; }
 
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -12,12 +12,12 @@
 #include "pch.h"
 #include "Components/World/Renderer/Skybox/SkyboxComponent.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "Renderer/Renderer.h"
 #include "Assets/Managers/AssetManager.h"
 #include "SkyboxEffect.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -29,6 +29,7 @@ namespace REngine
 		, m_sky{}
 		, m_effect{}
 		, m_skyInputLayout{ nullptr }
+		, m_assetManager{ nullptr }
 	{
 		ADD_PROPERTY(SkyboxComponent, m_textureHandle);
 
@@ -86,4 +87,4 @@ namespace REngine
 		}
 	}
 
-}	// namespace REngine
+}	// namespace RHEngine

@@ -17,7 +17,7 @@
 #include <type_traits>
 #include <SimpleMath.h>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Math
 	{
@@ -54,4 +54,4 @@ namespace REngine
 			return DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(cross, angle);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

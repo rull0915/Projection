@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -47,4 +47,4 @@ namespace REngine
 		virtual void BaseOnTriggerStay2D(HitContact2D& contact) = 0;
 		virtual void BaseOnTriggerExit2D(HitContact2D& contact) = 0;
 	};
-} // namespace REngine
+} // namespace RHEngine

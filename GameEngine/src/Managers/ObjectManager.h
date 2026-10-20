@@ -17,7 +17,7 @@
 #include "GameObject/GameObject.h"
 #include <vector>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -98,4 +98,4 @@ namespace REngine
 		// 予約されているオブジェクトを全てリストへ追加する関数
 		void AddReservedObject();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

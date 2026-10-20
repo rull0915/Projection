@@ -25,7 +25,7 @@
 					 WS_SYSMENU        | \
 					 WS_MINIMIZEBOX )
 
-namespace REngine
+namespace RHEngine
 {
 
 //====================================================//
@@ -38,8 +38,8 @@ namespace REngine
 		//-----------------------------------------------------
 	private:
 
-		int m_width;
-		int m_height;
+		unsigned int m_width;
+		unsigned int m_height;
 
 		// 背景色
 		DirectX::SimpleMath::Color m_backGroundColor;
@@ -91,8 +91,8 @@ namespace REngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		int GetWidth() const { return m_width; }    // 幅
-		int GetHeight() const { return m_height; }  // 高さ
+		unsigned int GetWidth() const { return m_width; }    // 幅
+		unsigned int GetHeight() const { return m_height; }  // 高さ
 
 		float GetWidthF() const { return static_cast<float>(m_width); }    // 幅
 		float GetHeightF() const { return static_cast<float>(m_height); }  // 高さ
@@ -107,9 +107,14 @@ namespace REngine
 		// セッター
 		//-----------------------------------------------------
 
-		void SetWidth(int value) { m_width = value; }    // 幅
-		void SetHeight(int value) { m_height = value; }  // 高さ
+		void SetWidth(unsigned int value) { m_width = value; }    // 幅
+		void SetHeight(unsigned int value) { m_height = value; }  // 高さ
+		void SetSize(DirectX::SimpleMath::Vector2 value) 
+		{ 
+			m_width = static_cast<unsigned int>(value.x); 
+			m_height = static_cast<unsigned int>(value.y); 
+		} 
 
 		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
 	};
-}	// namespace REngine
+}	// namespace RHEngine

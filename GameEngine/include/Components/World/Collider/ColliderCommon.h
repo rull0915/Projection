@@ -24,7 +24,7 @@
 #include "Assets/Types/PhysicsMaterial.h"
 #include "Assets/Objects/Handle.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -128,4 +128,4 @@ namespace REngine
 		inline void SetChanged(bool flag) const { m_isChanged = flag; }
 		inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
 	};
-} // namespace REngine
+} // namespace RHEngine

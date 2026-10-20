@@ -19,8 +19,9 @@
 #include "Scene/Scene.h"
 #include "Editor/Editor/EditGUI.h"
 #include "Editor/Editor/SceneCamera.h"
+#include "System/Render/RenderTarget.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class AssetManager;
 
@@ -50,7 +51,7 @@ namespace REngine
 		std::unique_ptr<RenderTarget> m_sceneView;
 
 		// シーンビューカメラ
-		SceneCamera* m_sceneViewCamera;
+		SceneCamera m_sceneViewCamera;
 
 		// アセットマネージャー
 		AssetManager& m_assetManager;
@@ -88,6 +89,6 @@ namespace REngine
 
 		void TestPlay();
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

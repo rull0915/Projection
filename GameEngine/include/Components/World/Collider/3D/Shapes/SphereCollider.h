@@ -17,7 +17,7 @@
 #include "../ColliderBase.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -90,4 +90,4 @@ namespace REngine
 			SetDirty();
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

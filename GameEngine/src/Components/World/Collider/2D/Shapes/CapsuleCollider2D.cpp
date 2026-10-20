@@ -15,7 +15,7 @@
 #include "Settings/WorldSetting2D.h"
 #include "Renderer/Renderer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -127,4 +127,4 @@ namespace REngine
 			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,10 +16,11 @@
 //====================================================//
 #include <functional>
 #include <typeindex>
-#include "Property.h"
-#include "Common/CheckVector.h"
 
-namespace REngine
+#include "Property.h"
+#include "PropertyTypeIndex.h"
+
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -141,7 +142,7 @@ namespace REngine
 			m_propertyTypeMap[idx] = type;
 
 			// 管理対象の型を持つマップ
-			m_typeMap.emplace(idx, std::type_index(typeid(ArrayType::value_type)));
+			m_typeMap.emplace(idx, PropertyTypeIndex::GetTypeIndex<typename ArrayType::value_type>());
 		}
 
 		// 配列サイズを返す関数
@@ -177,4 +178,4 @@ namespace REngine
 			return pro;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

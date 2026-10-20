@@ -10,11 +10,14 @@
 
 #include "Transition/TransitionManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	// 前方参照
 	class Scene;
 	class AssetManager;
+	
+	class Renderer;
+	class ShadowRenderer;
 
 	// シーンマネージャークラス
 	class SceneManager
@@ -64,7 +67,7 @@ namespace REngine
 		void Update(const GameTimer& gameTimer);
 
 		// 描画処理
-		void Render(Renderer& renderer);
+		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);
 
 		// 終了処理
 		void Finalize();
@@ -87,4 +90,4 @@ namespace REngine
 		// シーンの変更
 		void ChangeScene();
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -16,9 +16,11 @@
 // インクルードファイル
 //====================================================//
 #include "ThirdParty/nlohmann/json.hpp"
-#include "Assets/Managers/AssetManager.h"
+#include "Assets/Managers/IAssetResolver.h"
+#include "Common/Property/Property.h"
+#include "Common/Property/PropertyObject.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class GameObject;
 	class ObjectManager;
@@ -31,14 +33,14 @@ namespace REngine
 	{
 	private:
 
-		AssetManager& m_assetManager;
+		const IAssetResolver& m_assetManager;
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ObjectSaver(AssetManager& assetManager)
+		ObjectSaver(const IAssetResolver& assetManager)
 			: m_assetManager{ assetManager }
 		{
 		}
@@ -66,4 +68,4 @@ namespace REngine
 		void SaveSceneToFile(const std::wstring& filePath, Scene* scene);
 		void SavePropertyToFile(const std::wstring& filePath, PropertyObject* scene);
 	};
-} // namespace REngine
+} // namespace RHEngine

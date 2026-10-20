@@ -1,0 +1,464 @@
+﻿//====================================================//
+// ファイル名  : MaterialAsset.cpp
+// 作成者      : Hoshino Ryunosuke
+// 作成日       : 2026/08/05
+//
+// 概要       : 
+//====================================================//
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "pch.h"
+#include "Assets/Types/Material/MaterialAsset.h"
+#include "Assets/Managers/AssetManager.h"
+
+#include "System/Render/GraphicsManager.h"
+#include "Assets/EngineDefaultAssets.h"
+
+//====================================================//
+// 関数の実体宣言
+//====================================================//
+
+namespace RHEngine
+{
+	MaterialAsset::MaterialAsset()
+		: m_pixelShader{}
+		, m_vertexShader{}
+		, m_oldPixelShader{}
+		, m_oldVertexShader{}
+		, m_constantBuffers{}
+		, m_isDirty{ true }
+		, m_assetManager{ nullptr }
+		, m_samplerList{ nullptr }
+	{
+		ADD_PROPERTY(MaterialAsset, m_vertexShader);
+		ADD_PROPERTY(MaterialAsset, m_pixelShader);
+
+		// サンプラーリストの取得
+		m_samplerList = &GraphicsManager::Instance().GetSamplerList();
+	}
+
+	// 定数バッファを更新する関数
+	void MaterialAsset::UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context)
+	{
+		// 再構築のチェック
+		CheckAndDoRebuild();
+
+		// 1つのステージのバッファを更新するラムダ
+		auto updateStage = [&](ShaderAsset* asset, ShaderType type)
+			{
+				// nullptrなら何もしない
+				if (!asset) return;
+
+				// バッファをループ
+				for (auto& cBuffer : asset->GetBuffers())
+				{
+					// マップのキーを生成
+					auto key = std::make_pair(type, cBuffer.slot);
+
+					// まだ存在しなければ
+					if (!m_constantBuffers.contains(key))
+					{
+						// 新たに生成
+						D3D11_BUFFER_DESC bd{};
+						ZeroMemory(&bd, sizeof(bd));	// 0で埋める
+						bd.Usage = D3D11_USAGE_DYNAMIC;		// 頻繁に更新されるためDYNAMIC
+						bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+						bd.ByteWidth = cBuffer.size;		// バッファ全体のサイズを渡す
+						bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;	// 定数バッファとしてバインド
+
+						// 作成
+						device->CreateBuffer(&bd, nullptr, m_constantBuffers[key].GetAddressOf());	// バッファのComPtrのアドレスを渡す
+					}
+
+					// バッファが変更されていなければ何もしない
+					if (!m_isDirty) continue;
+
+					// バッファの更新
+
+					// バッファを格納する配列
+					std::vector<uint8_t> buf(cBuffer.size, 0);	// 1byteで1つの領域とするため8bit整数型を使用
+
+					const auto& map = m_params[type];
+
+					// 全パラメータを調べる
+					for (auto& [name, value] : map)
+					{
+						// 対応するパラメータをShaderから取得
+						const ShaderParam* p = asset->FindParam(name);
+
+						if (!p ||									// 取得できなかった場合	
+							p->slot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
+							p->type == ShaderParamType::Texture2D	// 定数バッファでなかった場合
+							) continue;	// 何もしない
+
+						// visitでどの型でも処理する
+						std::visit([&](auto&& v) {
+
+							// decay_tを使用して参照を外した素の型を取得
+							using V = std::decay_t<decltype(v)>;
+
+							// 定数バッファなら
+							if constexpr (!std::is_same_v<V, Handle<Texture>> && !std::is_same_v<V, SamplerType>)
+							{
+								// データを配列内のメモリにコピーする
+								// vのアドレスからサイズまでの領域を
+								// バッファの先頭アドレスからオフセット分ずらしたメモリ領域にコピーします
+								std::memcpy(buf.data() + p->offset, &v, p->size);
+							}
+						}, value.value);
+					}
+
+					// DYNAMICなのでmapで書き換える
+					D3D11_MAPPED_SUBRESOURCE mapped;
+
+					// CPUがアクセスできる領域を取得
+					context->Map(
+						m_constantBuffers[key].Get(), // 書き換え対象のバッファ
+						0,	// SubResource番号 Bufferの場合は0
+						D3D11_MAP_WRITE_DISCARD,	// 既存の内容を破棄し新しい領域を確保
+						0, &mapped
+					);
+
+					// メモリを書き換える
+					std::memcpy(mapped.pData, buf.data(), buf.size());
+
+					// アクセス終了を通知
+					context->Unmap(m_constantBuffers[key].Get(), 0);
+				}
+			};
+
+		// アセットマネージャーが設定されていなければ更新不可
+		if (!m_assetManager) return;
+
+		// 各ステージを更新
+		updateStage(m_assetManager->Get<ShaderAsset>(m_pixelShader), ShaderType::Pixel);
+		updateStage(m_assetManager->Get<ShaderAsset>(m_vertexShader), ShaderType::Vertex);
+
+		// 変更済みフラグをリセット
+		m_isDirty = false;
+	}
+
+	ID3DBlob* MaterialAsset::GetBlob(ShaderType type)
+	{
+		ShaderAsset* shader = GetShaderAsset(type);
+
+		return shader ? shader->GetBlob() : nullptr;
+	}
+
+	bool MaterialAsset::Apply(ID3D11DeviceContext* context)
+	{
+		// 参照が設定されていなければ解決不可
+		if (!(m_assetManager && m_samplerList)) return false;
+
+		// 頂点シェーダー
+		if (!BindShader(context, ShaderType::Vertex))
+		{
+			// 失敗した場合リセット
+			context->VSSetShader(nullptr, nullptr, 0);
+
+			// vsがない場合不可
+			return false;
+		}
+
+		// ピクセルシェーダー
+		if (!BindShader(context, ShaderType::Pixel))
+		{
+			context->PSSetShader(nullptr, nullptr, 0);	
+		}
+
+		return true;
+	}
+
+	bool MaterialAsset::BindShader(ID3D11DeviceContext* context, ShaderType type)
+	{
+		// シェーダーを取得
+		auto* shader = GetShaderAsset(type);
+
+		// なければ失敗
+		if (!shader || shader->GetStatus() != LoadStatus::Loaded)
+		{
+			return false;
+		}
+
+		// バインド
+		shader->Bind(context);
+
+		// 全定数バッファを走査
+		for (auto& [key, buf] : m_constantBuffers)
+		{
+			// ステージごとに処理
+			switch (key.first)
+			{
+				// 頂点シェーダ
+			case ShaderType::Vertex:
+				context->VSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
+				break;
+			case ShaderType::Pixel:
+				context->PSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
+				break;
+			default:
+				break;
+			}
+		}
+
+		// リソースのバインド
+		for (auto& [name, value] : m_params[type])
+		{
+			// なければ次へ
+			if (!shader) continue;
+
+			// Handle<Texture>として取得
+			if (auto* t = std::get_if<Handle<Texture>>(&value.value))
+			{
+				// テクスチャを取得
+				auto* tex = m_assetManager->Get<Texture>(*t);
+
+				// バインド
+				BindTexture(context, shader, tex, name, type);
+			}
+			// SamplerTypeとして取得
+			else if (auto* s = std::get_if<SamplerType>(&value.value))
+			{
+				// サンプラーを取得
+				auto& sampler = m_samplerList->GetSampler(*s);
+
+				// バインド
+				BindSampler(context, shader, sampler, name, type);
+			}
+		}
+
+		// 成功
+		return true;
+	}
+
+	std::vector<Property> MaterialAsset::GetProperties()
+	{
+		// 再構築のチェック
+		CheckAndDoRebuild();
+
+		// デフォルトのプロパティを取得
+		std::vector<Property> properties = PropertyObject::GetProperties();
+
+		// ヘッダー装飾を追加する関数
+		auto addHeader = [&](const std::string& name)
+			{
+				Property prop{};
+				prop.name = name;
+				prop.type = PropertyType::Header;
+
+				properties.push_back(prop);
+			};
+
+		// 各ステージの全パラメータを追加するラムダ式
+		auto addParams = [&](ShaderType type)
+			{
+				// パラメータを取得
+				if (!m_params.contains(type)) return;
+
+				auto& params = m_params[type];
+
+				for (auto& param : params)
+				{
+					properties.push_back(CreatePropertyFromParameter(param.first, param.second));
+				}
+			};
+
+		// VS
+		addHeader("VertexShader");
+		addParams(ShaderType::Vertex);
+
+		// PS
+		addHeader("PixelShader");
+		addParams(ShaderType::Pixel);
+
+		return properties;
+	}
+
+	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type)
+	{
+		// テクスチャがなけデフォルトテクスチャを使用
+		if (!texture)
+		{
+			texture = m_assetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
+
+			// デフォルトが取得できなければバインドしない
+			if (!texture) return;
+		}
+
+		// パラメータを取得
+		auto* param = shader->FindParam(name);
+
+		// 対応していなければ何もしない
+		if (!param || param->type != ShaderParamType::Texture2D) return;
+
+		// 取得できたら対応するステージを調べる
+		switch (type)
+		{
+			// PS
+		case ShaderType::Pixel:
+		{
+			context->PSSetShaderResources(param->slot, 1, texture->GetAddressOf());
+			break;
+		}
+			// VS
+		case ShaderType::Vertex:
+		{
+			context->VSSetShaderResources(param->slot, 1, texture->GetAddressOf());
+			break;
+		} 
+		default:
+			break;
+		}
+	}
+
+	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
+	{
+		// サンプラーがなければリニアラップを使用
+		if (!sampler)
+		{
+			sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap).Get();
+		}
+
+		// パラメータを取得
+		auto* param = shader->FindParam(name);
+
+		// 対応していなければ何もしない
+		if (!param || param->type != ShaderParamType::Sampler) return;
+
+		// 取得できたら対応するステージを調べる
+		switch (type)
+		{
+			// PS
+		case ShaderType::Pixel:
+		{
+			context->PSSetSamplers(param->slot, 1, sampler.GetAddressOf());
+			break;
+		}
+			// VS
+		case ShaderType::Vertex:
+		{
+			context->VSSetSamplers(param->slot, 1, sampler.GetAddressOf());
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	void MaterialAsset::RebuildParams()
+	{
+		// 新しいパラメータマップを用意
+		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> newParams;
+
+		// 1つのステージを作り直すラムダ式
+		auto processShader = [&](ShaderAsset* shader, ShaderType stage)
+			{
+				if (!shader) return;
+
+				auto& oldParams = m_params[stage];
+				auto& pending = m_pendingParams[stage]; // ローダーで設定された未解決のパラメータを取得
+
+				auto& newOnceParams = newParams[stage];
+
+				for (const auto& param : shader->GetParams())
+				{
+					// 未解決パラメータに存在していれば優先して取得
+					if (pending.contains(param.name))
+					{
+						newOnceParams[param.name] = pending[param.name];
+					}
+					// すでに旧パラメータに存在していればその値を引き継ぐ
+					else if (oldParams.contains(param.name))
+					{
+						newOnceParams[param.name] = oldParams[param.name];
+					}
+					// 新しいパラメータなら型に応じたデフォルト値を設定
+					else
+					{
+						newOnceParams[param.name] = { param.type, MaterialParams::GetDefaultParam(param.type) };
+					}
+				}
+			};
+
+		// 全シェーダーから最新パラメータを作り直す
+		if (m_assetManager)
+		{
+			processShader(m_assetManager->Get(m_vertexShader), ShaderType::Vertex);
+			processShader(m_assetManager->Get(m_pixelShader), ShaderType::Pixel);
+		}
+
+		// 古いパラメータを新しいパラメータで上書き
+		m_params = std::move(newParams);
+
+		// 未解決パラメータをクリア
+		m_pendingParams.clear();
+
+		// プロパティ変更
+		m_isDirty = true;
+	}
+
+	Property MaterialAsset::CreatePropertyFromParameter(const std::string& name, Parameter& parameter)
+	{
+		Property prop;
+		prop.name = name;	// 名前を取得
+
+		// variantの中身のアドレスを取得
+		std::visit([&](auto&& val) {
+			using T = std::decay_t<decltype(val)>;
+			prop.value = static_cast<void*>(std::get_if<T>(&parameter.value));	// void*に変換して格納
+			prop.type = GetPropertyType<T>();		// 型をPropertyTypeに変換
+			prop.typeIndex = PropertyTypeIndex::GetTypeIndex<T>();		// type_indexを取得
+			}, parameter.value
+		);
+
+		return prop;
+	}
+
+	void MaterialAsset::CheckAndDoRebuild()
+	{
+		// アセットマネージャーがなければ再構築不可
+		if (!m_assetManager) return;
+
+		// 再構築の必要があるか調べる
+		bool needRebuild =
+			m_vertexShader != m_oldVertexShader ||
+			m_pixelShader != m_oldPixelShader;
+
+		if (!needRebuild) return;
+
+		// 各ステージのシェーダーを取得
+		auto* vs = m_assetManager->Get(m_vertexShader);
+		auto* ps = m_assetManager->Get(m_pixelShader);
+
+		// VSが存在し、かつロードが終わっているかチェック
+		bool vsReady = !m_vertexShader.IsValid() || (vs && vs->GetStatus() == LoadStatus::Loaded);
+
+		// PSは設定されていないか、設定されている場合はロードが終わっているかチェック
+		bool psReady = !m_pixelShader.IsValid() || (ps && ps->GetStatus() == LoadStatus::Loaded);
+
+		// 両方問題がなければ
+		if (vsReady && psReady) {
+			RebuildParams();		// 再構築
+
+			m_oldPixelShader = m_pixelShader;
+			m_oldVertexShader = m_vertexShader;
+		}
+	}
+
+	ShaderAsset* MaterialAsset::GetShaderAsset(ShaderType type)
+	{
+		switch (type)
+		{
+			// 頂点シェーダ
+		case RHEngine::ShaderType::Vertex:
+			return m_assetManager->Get<ShaderAsset>(m_vertexShader);
+			// ピクセルシェーダ
+		case RHEngine::ShaderType::Pixel:
+			return m_assetManager->Get<ShaderAsset>(m_pixelShader);
+		default:
+			return nullptr;
+		}
+	}
+}

@@ -22,7 +22,7 @@
 
 #include "ThirdParty/imgui/imgui.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -96,7 +96,7 @@ namespace REngine
 			// ID衝突防止
 			ImGui::PushID(component);
 
-			bool open = ImGui::TreeNode(name.data());
+			bool open = ImGui::TreeNodeEx(name.data(), ImGuiTreeNodeFlags_DefaultOpen);
 
 			// 右クリック時のメニュー
 			if (ImGui::BeginPopupContextItem())
@@ -223,24 +223,20 @@ namespace REngine
 
 	void InspectorWindow::DrawAsset(AssetBase* asset)
 	{
-		// Handleを取得
-		UnTypeHandle* handle = m_selected.GetSelectedHandle();
-
-		// Handleからパスへ
-		auto& path = m_assetManager.GetDataBase().GetPath(m_assetManager.GetUUID(*handle));
-
 		// fs::pathに変換しファイル名を取得
-		std::string stem = std::filesystem::path(path).stem().string();
+		std::string name = asset->GetName();
 
-		ImGui::Text(stem.c_str());
+		ImGui::Text(name.c_str());
 
 		// 本体を表示
-		if (m_propertyOnInspector.DrawPropertyObject(asset))
+		if (m_propertyOnInspector.DrawPropertyObject(asset, asset->IsReadOnly()))
 		{
 			asset->OnValidate();
 		}
 
 		// セーブ可能かどうか
+		auto& path = m_assetManager.GetDataBase().GetPath(asset->GetUUID());
+
 		if (m_assetManager.CanSave(path))
 		{
 			// ボタンを表示
@@ -251,6 +247,6 @@ namespace REngine
 			}
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

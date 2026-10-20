@@ -15,12 +15,14 @@
 // インクルードファイル
 //====================================================//
 #include <variant>
+#include <filesystem>
+
 #include "Assets/Objects/AssetBase.h"
 #include "ShaderParam.h"
 #include "ShaderLoader.h"
-#include <filesystem>
+#include "Assets/Managers/AssetLoadResult.h"
 
-namespace REngine
+namespace RHEngine
 {
 	/// <summary>
 	/// シェーダーのタイプ
@@ -124,6 +126,6 @@ namespace REngine
 		// 内部実装
 		//-----------------------------------------------------
 
-		friend std::unique_ptr<ShaderAsset> Loader::ShaderLoader(const std::filesystem::path& path);
+		friend LoadResult Loader::ShaderLoader(const std::filesystem::path& path, AssetContext& ctx);
 	};
 }

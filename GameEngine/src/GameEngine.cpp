@@ -22,28 +22,29 @@
 #include "Assets/System/AssetInitializer.h"
 #include "System/WindowManager.h"
 #include "System/ResourceManager.h"
+#include "System/Render/GraphicsManager.h"
 #include "Debug/DebugManager.h"
 #include "Input/KeyInput.h"
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
 	//====================================================//
 
 	GameEngine::GameEngine()
-		: m_gameTimer{ std::make_unique<GameTimer>() }
-		, m_renderer{ nullptr }
-		, m_assetManager{ std::make_unique<AssetManager>() }
-		, m_modeChange{ false }
+		: m_modeChange{ false }
+		, m_gameTimer{ std::make_unique<GameTimer>() }
+		, m_assetManager{}
+		, m_renderer{ m_assetManager }
+		, m_shadowRenderer{ m_assetManager }
 #ifdef ENGINE_GUI
 		, m_editor{}
-		, m_sceneEdit{ false }
+		, m_sceneEdit{}
 #endif // ENGINE_GUI
 	{
-		m_renderer = std::make_unique<Renderer>(*m_assetManager);
 	}
 
 	void GameEngine::Initialize(DX::DeviceResources* deviceResources, HWND window, bool edit)
@@ -54,7 +55,10 @@ namespace REngine
 		auto* states = deviceResources->GetCommonStates();
 
 		// シーンマネージャーの初期化
-		SceneManager::Instance().Initialize(*m_assetManager);
+		SceneManager::Instance().Initialize(m_assetManager);
+
+		// グラフィックマネージャーの初期化
+		GraphicsManager::Instance().Initialize();
 
 		// ゲームエンジンの初期化
 		EngineInitializer::EngineInitialize();
@@ -69,22 +73,23 @@ namespace REngine
 
 #endif // ENGINE_GUI
 
-		// 描画クラスの初期化
-		m_renderer->Initialize();
-
 		// リソースマネージャの初期化
 		ResourceManager::Instance().Initialize();
 
 		// アセットの初期化
-		AssetInitializer::AssetInitialize(*m_assetManager);
+		AssetInitializer::AssetInitialize(m_assetManager);
 
 		// アセット管理クラスの初期化
-		m_assetManager->Initialize(L"Resources");
+		m_assetManager.Initialize(L"Resources");
+
+		// 描画クラスの初期化
+		m_renderer.Initialize();
+		m_shadowRenderer.Initialize();
 
 #ifdef ENGINE_GUI
 
 		// エディターの生成
-		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), *m_assetManager);
+		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), m_assetManager);
 
 		m_sceneEdit = edit;
 
@@ -131,7 +136,7 @@ namespace REngine
 		Input::Pad::Update();
 
 		// アセットマネージャーの更新
-		m_assetManager->Update();
+		m_assetManager.Update();
 
 		// デバッグマネージャーの更新
 		DebugManager::Instance().Update(elapsedTime);
@@ -179,14 +184,14 @@ namespace REngine
 	void GameEngine::Render()
 	{
 		// 現在のシーンの描画
-		SceneManager::Instance().Render(*m_renderer);
+		SceneManager::Instance().Render(m_renderer, m_shadowRenderer);
 
 #ifdef ENGINE_GUI
 
 		if (m_sceneEdit)
 		{
 			// エディターの描画
-			m_editor->Render(*m_renderer);
+			m_editor->Render(m_renderer);
 		}
 
 #endif // ENGINE_GUI
@@ -196,7 +201,7 @@ namespace REngine
 		if (m_sceneEdit)
 		{
 			// Imguiの描画
-			REngine::ImguiManager::Render();
+			RHEngine::ImguiManager::Render();
 		}
 
 #endif // ENGINE_GUI
@@ -236,4 +241,4 @@ namespace REngine
 
 #endif // ENGINE_GUI
 
-}	// namespace REngine
+}	// namespace RHEngine

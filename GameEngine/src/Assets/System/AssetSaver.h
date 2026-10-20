@@ -19,18 +19,18 @@
 #include "Assets/Types/Texture.h"
 #include "Assets/Types/Prefab.h"
 
-#include "Editor/Saver/ObjectSaver.h"
-
-namespace REngine
+namespace RHEngine
 {
+	class AssetContext;
+
 	namespace Saver
 	{		
 		// 各ロード関数
 
 		// Prefab
-		void PrefabSaver(AssetBase* prefab, const std::filesystem::path& path);
+		void PrefabSaver(AssetBase* prefab, const std::filesystem::path& path, AssetContext& ctx);
 
 		// Propertyとして扱う場合
-		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, AssetManager& assetManager);
+		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, const AssetManager& assetManager);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

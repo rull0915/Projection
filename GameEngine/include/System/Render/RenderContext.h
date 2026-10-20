@@ -14,10 +14,11 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/Camera/CameraBase.h"
 #include "RenderTarget.h"
+#include "Renderer/Shadow/ShadowMap.h"
+#include "Scene/SceneInfo.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -34,16 +35,29 @@ namespace REngine
 	// 描画の情報
 	struct RenderContext
 	{
-		// 使用するカメラ
-		CameraBase* camera = nullptr;
+		// 描画するカメラのデータ
+		SceneCameraData cameraData;
+
+		// 背景色
+		DirectX::SimpleMath::Color backColor = { 0, 0, 0, 0 };
 
 		// 描画先
 		RenderTarget* target = nullptr;
 
-		// 背景色
-		DirectX::SimpleMath::Color back = { 0, 0, 0, 0 };
-
 		// 描画フラグ
 		uint8_t flags = DrawFlag::World | DrawFlag::UI;
+
+		// 描画時書かれている情報をリセットするかどうか
+		bool clearTarget = true;
 	};
-}	// namespace REngine
+
+	// 影用描画の情報
+	struct ShadowRenderContext
+	{
+		// 影を作るライトをカメラとみなしたときのデータ
+		SceneCameraData cameraData;
+		
+		// 描画対象
+		ShadowMap* pShadowMap;
+	};
+}	// namespace RHEngine

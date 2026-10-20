@@ -21,6 +21,8 @@
 #include <vector>
 
 #include "Property.h"
+#include "PropertyTypeIndex.h"
+
 #include "Common/CheckVector.h"
 #include "Assets/Objects/Handle.h"
 #include "Common/ObjectReference.h"
@@ -30,13 +32,13 @@
 
 // マクロ
 #define ADD_PROPERTY(Class, Property) (AddProperty(#Property, &Class::Property))
-#define ADD_HEADER(Name) (AddDecoration(Name, REngine::PropertyType::Header))
+#define ADD_HEADER(Name) (AddDecoration(Name, RHEngine::PropertyType::Header))
 
 //====================================================//
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// プロパティを扱うオブジェクトの基底クラス
 	class PropertyObject
@@ -80,7 +82,10 @@ namespace REngine
 			PropertyDiscripter prop;
 			prop.name = name;
 			prop.type = GetPropertyType<T>();
-			prop.typeIndex = RegisterType<T>();
+			prop.typeIndex = PropertyTypeIndex::GetTypeIndex<T>();
+
+			// 型の登録
+			RegisterType<T>();
 
 			// ラムダ式の登録
 			prop.getAddress = [memberPtr](PropertyObject* obj) -> void*
@@ -108,25 +113,19 @@ namespace REngine
 
 		// 型登録関数
 		template<typename T>
-		std::type_index RegisterType()
+		void RegisterType()
 		{
 			// 列挙型なら
 			if constexpr (std::is_enum_v<T>)
 			{
 				// 登録
 				EnumRegistry::Instance().Register<T>();
-
-				// タイプインデックスを保存
-				return std::type_index(typeid(T));
 			}
 			// AssetHandleなら
 			else if constexpr (IsHandle_v<T>)
 			{
 				// 登録
-				AssetPropertyRegistry::Instance().Register<typename T::value_type>();
-
-				// タイプインデックスを返す
-				return std::type_index(typeid(typename T::value_type));
+				AssetPropertyRegistry::Instance().Register<typename T::value_type> ();
 			}
 			// vectorなら
 			else if constexpr (is_vector<T>::value)
@@ -139,11 +138,7 @@ namespace REngine
 
 				// 管理対象の型も登録
 				RegisterType<ElementType>();
-
-				// タイプインデックスを返す
-				return std::type_index(typeid(T));
 			}
-			else return std::type_index(typeid(void));
 		}
 
 		// 型からタイプを取得する関数
@@ -183,4 +178,4 @@ namespace REngine
 			else return PropertyType::None;
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

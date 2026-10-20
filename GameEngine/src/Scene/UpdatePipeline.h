@@ -17,6 +17,7 @@
 #include "Managers/ObjectManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/Renderer/RendererManager.h"
+#include "Managers/Renderer/LightManager.h"
 #include "Managers/2DManagers/PhysicsManager2D.h"
 #include "Managers/2DManagers/Collider/CollideManager2D.h"
 #include "Managers/3DManagers/PhysicsManager.h"
@@ -27,7 +28,7 @@
 
 #include "Scene/UpdateMode.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class Scene;
 
@@ -51,6 +52,7 @@ namespace REngine
 		std::unique_ptr<CollideEventSystem> m_colEvent;			// 衝突時のイベント
 		std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
 		std::unique_ptr<RendererManager> m_rendererManager;	// 描画
+		std::unique_ptr<LightManager> m_lightManager;		// ライト
 		std::unique_ptr<SoundManager> m_soundManager;		// 音
 		std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
 		std::unique_ptr<UIManager> m_uiManager;				// UI
@@ -66,8 +68,6 @@ namespace REngine
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
-
-		void Initialize();
 
 		void Update(const GameTimer& timer, UpdateMode mode);
 
@@ -86,15 +86,17 @@ namespace REngine
 		// 管理クラスの取得
 
 		// オブジェクト
-		ObjectManager* GetObjectManager() const { return m_objectManager.get(); }
+		ObjectManager* GetObjectManager() { return m_objectManager.get(); }
 		// 3D物理
-		PhysicsManager* GetPhysicsManager() const { return m_physicsManager.get(); };
+		PhysicsManager* GetPhysicsManager() { return m_physicsManager.get(); };
 		// 描画
-		RendererManager* GetRendererManager() const { return m_rendererManager.get(); }
+		RendererManager* GetRendererManager() { return m_rendererManager.get(); }
 		// UI
-		UIManager* GetUIManager() const { return m_uiManager.get(); }
+		UIManager* GetUIManager() { return m_uiManager.get(); }
 		// Camera
-		CameraManager* GetCameraManager() const { return m_cameraManager.get(); }
+		CameraManager* GetCameraManager() { return m_cameraManager.get(); }
+		// ライト
+		LightManager* GetLightManager() { return m_lightManager.get(); }
 
 		//-----------------------------------------------------
 		// セッター
@@ -107,4 +109,4 @@ namespace REngine
 		//-----------------------------------------------------
 
 	};
-}	// namespace REngine
+}	// namespace RHEngine

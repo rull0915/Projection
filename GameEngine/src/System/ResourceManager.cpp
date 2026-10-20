@@ -11,10 +11,7 @@
 //====================================================//
 #include "pch.h"
 #include "System/ResourceManager.h"
-#include "System/GraphicsManager.h"
-
-#include <WICTextureLoader.h>
-#include <DDSTextureLoader.h>
+#include "System/Render/GraphicsManager.h"
 
 using namespace DirectX;
 
@@ -22,11 +19,10 @@ using namespace DirectX;
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	ResourceManager::ResourceManager()
-		: m_effect{}
-		, m_audioEngine{}
+		: m_audioEngine{}
 	{}
 
 	ResourceManager::~ResourceManager()
@@ -37,9 +33,6 @@ namespace REngine
 		auto* deviceResources = GraphicsManager::Instance().GetDeviceResources();
 
 		auto device = deviceResources->GetD3DDevice();
-
-		m_effect = std::make_unique<EffectFactory>(device);
-		m_effect->SetDirectory(L"Resources/Models");
 
 		m_audioEngine = std::make_unique<DirectX::AudioEngine>();
 	}
@@ -54,4 +47,4 @@ namespace REngine
 			}
 		}
 	}
-} // namespace REngine
+} // namespace RHEngine

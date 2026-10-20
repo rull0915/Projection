@@ -15,20 +15,18 @@
 #ifdef ENGINE_GUI
 
 #include "Editor/Editor/EditGUI.h"
-#include "ThirdParty/imgui/imgui_internal.h"
 
 #include "ThirdParty/imgui/imgui.h"
 #include "Input/KeyInput.h"
 
 #include "System/WindowManager.h"
-#include "System/Render/RenderContext.h"
 
 #include "Windows/HierarchyWindow.h"
-#include "Windows/ProjectWindow.h"
+#include "Windows/Project/ProjectWindow.h"
 #include "Windows/InfoWindow.h"
 #include "Windows/Inspector/InspectorWindow.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -71,7 +69,7 @@ namespace REngine
 		if (m_inspector->DrawInspector()) m_nowType = WindowType::Inspector;
 	}
 
-	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, CameraBase* sceneViewCamera)
+	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, SceneCamera* sceneViewCamera)
 	{
 		// キー入力を取得し描画するギズモを変える
 		if (Input::Key::GetDown(Input::Key::Code::W)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
@@ -94,6 +92,15 @@ namespace REngine
 		DrawImage(gameView);
 
 		// 終了
+		ImGui::End();
+	}
+
+	void EditGUI::DrawImageDebugWindow(std::string_view title, ID3D11ShaderResourceView* image) const
+	{
+		ImGui::Begin(title.data());
+
+		ImGui::Image(image, ImGui::GetContentRegionAvail());
+
 		ImGui::End();
 	}
 
@@ -126,9 +133,9 @@ namespace REngine
 	{
 		// 位置を固定
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		//	ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
+		ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
 
-		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove);
 
 		// ウィンドウへのクリックを検知
 		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
@@ -154,51 +161,8 @@ namespace REngine
 		}
 	}
 
-	void EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, CameraBase* sceneViewCamera)
+	void EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera)
 	{
-		// 描画
-		ImGui::Text("SceneView");
-
-		// 同ライン
-		ImGui::SameLine();
-		ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical, 3.0f);
-
-		ImGui::SameLine();
-
-		// 右側に並べる要素の合計幅を計算
-		const ImGuiStyle& style = ImGui::GetStyle();
-
-		float totalWidth = 0.0f;
-
-		totalWidth += ImGui::CalcTextSize("World").x + ImGui::GetFrameHeight();
-		totalWidth += style.ItemInnerSpacing.x;
-
-		totalWidth += ImGui::CalcTextSize("UI").x + ImGui::GetFrameHeight();
-		totalWidth += style.ItemInnerSpacing.x;
-
-		totalWidth += ImGui::CalcTextSize("Debug").x + ImGui::GetFrameHeight();
-		totalWidth += style.ItemInnerSpacing.x;
-
-		// 右寄せ
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - totalWidth - 30);
-
-		bool drawWorld = m_sceneDrawSetting & DrawFlag::World;
-		bool drawUI = m_sceneDrawSetting & DrawFlag::UI;
-		bool drawDebug = m_sceneDrawSetting & DrawFlag::WorldDebug;
-
-		// 描画
-		ImGui::Checkbox("World", &drawWorld);
-
-		ImGui::SameLine();
-		ImGui::Checkbox("UI", &drawUI);
-
-		ImGui::SameLine();
-		ImGui::Checkbox("Debug", &drawDebug);
-
-		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::World) | (drawWorld ? DrawFlag::World : 0);
-		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::UI) | (drawUI ? DrawFlag::UI : 0);
-		m_sceneDrawSetting = (m_sceneDrawSetting & ~DrawFlag::WorldDebug) | (drawDebug ? DrawFlag::WorldDebug : 0);
-
 		// 描画
 		DrawImage(sceneView);
 
@@ -215,6 +179,6 @@ namespace REngine
 			}
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

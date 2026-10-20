@@ -16,7 +16,7 @@
 //====================================================//
 #include <SimpleMath.h>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -123,4 +123,4 @@ namespace REngine
 
 		void ResetDirty() { m_isDirty = false; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -18,7 +18,7 @@
 //====================================================//
 #include <cmath>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 構造体宣言
@@ -246,4 +246,4 @@ namespace REngine
 				: (1 + EaseOutBounce(2 * t - 1)) / 2;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

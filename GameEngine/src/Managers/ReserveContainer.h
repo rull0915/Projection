@@ -20,7 +20,7 @@
 //====================================================//
 // クラス宣言
 //====================================================//
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -72,6 +72,16 @@ namespace REngine
 
 		// オブジェクトの削除
 		void RemoveObject(T* c) { m_removeReserves.insert(c); }
+
+		// 管理中のオブジェクト取得関数
+		const std::vector<T*>& GetObjects() const
+		{
+			return m_objectList;
+		}
+		std::vector<T*>& GetObjects()
+		{
+			return m_objectList;
+		}
 
 		// 予約済みポインタの追加
 		virtual void AddReserved()
@@ -130,15 +140,5 @@ namespace REngine
 		{
 			return m_removeReserves;
 		}
-
-		// オブジェクトリストを取得する関数
-		std::vector<T*>& GetObjects()
-		{
-			return m_objectList;
-		}
-		const std::vector<T*>& GetConstObjects() const
-		{
-			return m_objectList;
-		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

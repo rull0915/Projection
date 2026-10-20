@@ -20,7 +20,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine 
+namespace RHEngine 
 {
 	/// <summary>
 	/// コンストラクタ
@@ -33,8 +33,8 @@ namespace REngine
 		, m_pScene{ nullptr }
 		, m_components{ this }
 		, m_tag{}
-		, m_name{}
-		, m_isInvincible{ false }
+		, m_name{ "GameObject" }
+		, m_isSerializable{ true }
 		, m_uuid{ 0 }
 	{
 		ADD_PROPERTY(GameObject, m_isActive);
@@ -45,7 +45,7 @@ namespace REngine
 	void GameObject::Finalize()
 	{
 		// シーンに通知
-		m_pScene->OnGameObjectDestroy(this);
+		if (m_pScene) m_pScene->OnGameObjectDestroy(this);
 
 		// コンポーネント削除
 		RemoveComponents();
@@ -86,7 +86,11 @@ namespace REngine
 
 	GameObject* GameObject::Generate(DirectX::SimpleMath::Vector3 position)
 	{
-		return m_pScene->GetFactory()->Generate(position);
+		if (m_pScene)
+		{
+			return m_pScene->GetFactory()->Generate(position);
+		}
+		return nullptr;
 	}
 
 	GameObject* GameObject::GetParent() const
@@ -117,6 +121,36 @@ namespace REngine
 		else if (auto* t = GetComponent<RectTransform>()) return t->GetChildren().size();
 
 		return 0;	
+	}
+
+	std::vector<GameObject*> GameObject::GetChildren()
+	{
+		// 子オブジェクトを保持する配列を用意
+		std::vector<GameObject*> children{};
+
+		// Transformを持っているとき
+		if (auto* t = GetComponent<Transform>())
+		{
+			// 子を走査
+			for (auto& child : t->GetChildren())
+			{
+				// 配列に追加
+				children.push_back(static_cast<GameObject*>(child->GetOwn()));
+			}
+		}
+
+		// RectTransformを持っているとき
+		else if (auto* t = GetComponent<RectTransform>())
+		{
+			// 子を走査
+			for (auto& child : t->GetChildren())
+			{
+				// 配列に追加
+				children.push_back(static_cast<GameObject*>(child->GetOwn()));
+			}
+		}
+
+		return children;
 	}
 
 	void GameObject::SetParentActive(bool value)
@@ -160,6 +194,18 @@ namespace REngine
 		}
 	}
 
+	void GameObject::Destroy()
+	{
+		// 自身の死亡フラグをオンに
+		m_isDead = true;
+
+		// 子オブジェクトも消す
+		for (auto child : GetChildren())
+		{
+			child->Destroy();
+		}
+	}
+
 	void GameObject::OnActiveChanged(bool f)
 	{
 		// 子に通知する
@@ -192,4 +238,4 @@ namespace REngine
 			component->SetOwnerActive(f);
 		}
 	}
-} // namespace REngine
+} // namespace RHEngine

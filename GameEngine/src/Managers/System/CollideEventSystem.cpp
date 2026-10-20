@@ -17,7 +17,7 @@
 #include "Components/World/Collider/3D/ColliderBase.h"
 #include "Components/World/Collider/2D/ColliderBase2D.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -242,4 +242,4 @@ namespace REngine
 			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionExit2D(hit);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

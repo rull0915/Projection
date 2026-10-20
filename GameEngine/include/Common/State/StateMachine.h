@@ -30,7 +30,7 @@
 // クラス宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	template<typename T, typename = std::enable_if_t<std::is_enum_v<T>>>
 	class StateMachine
@@ -164,4 +164,4 @@ namespace REngine
 			return true;
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

@@ -14,7 +14,7 @@
 
 #include <type_traits>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -318,4 +318,4 @@ namespace REngine
 			return result * scale;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

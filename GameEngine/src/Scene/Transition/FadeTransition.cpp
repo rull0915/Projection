@@ -15,7 +15,7 @@
 #include "Renderer/Renderer.h"
 #include "System/WindowManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -76,4 +76,4 @@ namespace REngine
 			renderer.Draw().UI().DrawBox({ 0, 0 }, { WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() }, m_fadeColor, true);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

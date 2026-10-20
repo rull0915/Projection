@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -21,6 +21,12 @@ namespace REngine
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
+
+		// スケールされた総経過時間
+		float m_time;
+
+		// 本当の総経過時間
+		float m_unscaledTime;
 
 		// スケールされた経過時間
 		float m_elapsedTime;
@@ -34,7 +40,9 @@ namespace REngine
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		GameTimer()
-			: m_elapsedTime{ 0.0f }
+			: m_time{ 0.0f }
+			, m_unscaledTime{ 0.0f }
+			, m_elapsedTime{ 0.0f }
 			, m_unscaledElapsedTime{ 0.0f }
 		{}
 		~GameTimer() = default;
@@ -50,5 +58,8 @@ namespace REngine
 		//-----------------------------------------------------
 		float GetElapsedTime() const { return m_elapsedTime; }
 		float GetUnScaledElapsedTime() const { return m_unscaledElapsedTime; }
+
+		float GetTime() const { return m_time; }
+		float GetUnScaledTime() const { return m_unscaledTime; }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

@@ -25,7 +25,7 @@
 #include "Editor/Editor/HandlePayload.h"
 #include "Common/ObjectReference.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -255,8 +255,11 @@ namespace REngine
 		// UUIDを取得
 		UUID uuid = AssetPropertyRegistry::Instance().GetUUID(property->typeIndex, property->value, m_assetManager);
 
+		// 本体を取得
+		AssetBase* asset = m_assetManager.GetFromUnTypeHandle(m_assetManager.GetHandle(uuid));
+
 		// UUIDから名前を取得
-		std::string name = uuid == 0 ? "" : std::filesystem::path(m_assetManager.GetDataBase().GetPath(uuid)).stem().string();
+		std::string name = (uuid == 0 || !asset) ? "" : asset->GetName();
 
 		ImGui::Text(property->name.c_str());
 

@@ -17,7 +17,7 @@
 #include <string>
 #include <dxgiformat.h>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言

@@ -1,0 +1,86 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    -0.44182541966438293,
+                    1.3530170917510986,
+                    0.0
+                ],
+                "m_localRotation": [
+                    0.46266767382621765,
+                    0.1777592897415161,
+                    0.14543896913528442,
+                    0.8562638163566589
+                ],
+                "m_localScale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 6897613815248519345
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_mesh": 3960837701782852154
+            },
+            "Type": "MeshFilter",
+            "UUID": 10304296948771399545
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_materials": {
+                    "array": [
+                        12372440001830070568
+                    ],
+                    "size": 1
+                }
+            },
+            "Type": "MeshRenderer",
+            "UUID": 15291445415005119915
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isTrigger": false,
+                "m_layerNum": 0,
+                "m_localCenterPos": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_localSize": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "m_needInfo": false,
+                "m_physicsMaterial": 11753744097066726351
+            },
+            "Type": "BoxCollider",
+            "UUID": 17779156902002410963
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isStatic": false,
+                "m_linearDamping": 0.0,
+                "m_mass": 1.0,
+                "m_useGravity": true
+            },
+            "Type": "RigidBody",
+            "UUID": 263313108583492952
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 2270363912784456152,
+    "m_isActive": true,
+    "m_name": "Cube",
+    "m_tag": ""
+}

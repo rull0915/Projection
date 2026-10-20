@@ -16,7 +16,7 @@
 //====================================================//
 #include "../CameraBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -111,6 +111,15 @@ namespace REngine
 			SetNeedUpdateProj(true);
 		}
 
+		void OnValidate() override
+		{
+			if (m_nearZ < 0.001f) m_nearZ = 0.001f;
+			if (m_farZ < 0.002f) m_farZ = 0.002f;
+			if (m_nearZ > m_farZ - 0.001f) m_nearZ = m_farZ - 0.001f;
+
+			CameraBase::OnValidate();
+		}
+
 	private:
 
 		//-----------------------------------------------------
@@ -118,4 +127,4 @@ namespace REngine
 		//-----------------------------------------------------
 
 	};
-} // namespace REngine
+} // namespace RHEngine

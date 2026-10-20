@@ -12,9 +12,9 @@
 #include "pch.h"
 #include "Renderer/Renderer.h"
 
-#include "System/GraphicsManager.h"
+#include "System/Render/GraphicsManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -25,7 +25,7 @@ namespace REngine
 	/// </summary>
 	Renderer::Renderer(AssetManager& am)
 		: m_renderProxy{}
-		, m_graphicSystem{ am }
+		, m_graphicSystem{ am, m_infoManager }
 		, m_isInitialized{ false }
 	{
 	}
@@ -47,8 +47,38 @@ namespace REngine
 		// 描画システムの初期化
 		m_graphicSystem.Initialize();
 
+		// 情報マネージャーの初期化
+		m_infoManager.Initialize(dr->GetD3DDevice(), dr->GetD3DDeviceContext());
+
 		// フラグのセット
 		m_isInitialized = true;
+	}
+
+	void Renderer::Begin(const SceneData& data)
+	{
+		// PerFrameバッファを更新
+		m_infoManager.UpdatePerFrame(data);
+
+		// バインド
+		m_infoManager.BindPerFrame();
+	}
+
+	void Renderer::ChangeCamera(const SceneCameraData& data)
+	{
+		// PerFrameバッファを更新
+		m_infoManager.UpdatePerCamera(data);
+
+		// バインド
+		m_infoManager.BindPerCamera();
+
+		// 保存
+		m_currentCamera = data;
+	}
+
+	void Renderer::ExecuteCommands()
+	{
+		// ため込んでいた描画を行う
+		m_graphicSystem.ExecuteCommands();
 	}
 
 	void Renderer::End()
@@ -56,5 +86,4 @@ namespace REngine
 		// ため込んでいた描画を行う
 		m_graphicSystem.ExecuteCommands();
 	}
-
-}	// namespace REngine
+}	// namespace RHEngine

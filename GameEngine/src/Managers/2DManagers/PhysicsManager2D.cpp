@@ -16,7 +16,7 @@
 #include "Settings/WorldSetting2D.h"
 #include "Settings/PhysicsSettings.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -240,4 +240,4 @@ namespace REngine
 			if (bRigid) bRigid->AddForce(tangentImpulse + normalImpulse, ForceMode::Impulse, false);
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

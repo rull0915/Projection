@@ -16,7 +16,7 @@
 // 列挙型宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// コンポーネントの所属プロジェクト
 	enum class ComponentProject : unsigned char
@@ -40,4 +40,4 @@ namespace REngine
 		ComponentProject project;
 		ComponentSpace space;
 	};
-} // namespace REngine
+} // namespace RHEngine

@@ -14,7 +14,7 @@
 
 #include "Renderer/Renderer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -61,4 +61,4 @@ namespace REngine
 		renderer.Draw().Primitive().DrawCircle(pos, pT->GetRight(), rad, 16, color, false);
 		renderer.Draw().Primitive().DrawCircle(pos, pT->GetForward(), rad, 16, color, false);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

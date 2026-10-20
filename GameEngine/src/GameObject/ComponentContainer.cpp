@@ -18,7 +18,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	// シーンにコンポーネントを登録する
 	void ComponentContainer::RegisterComponentToScene(ComponentBase* component)
@@ -96,4 +96,4 @@ namespace REngine
 
 		m_pDestroyReserves.clear();
 	}
-} // namespace REngine
+} // namespace RHEngine

@@ -11,6 +11,7 @@
 //====================================================//
 #include "pch.h"
 #include "ShaderReflection.h"
+#include "Renderer/CBufferSlot.h"
 
 #include <iostream>
 #include <d3dcompiler.h>
@@ -21,7 +22,7 @@
 // 関数の実体宣言
 //====================================================//
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Reflection
 	{
@@ -158,6 +159,9 @@ namespace REngine
 				// スロット番号の取得
 				UINT slotNum = bindDesc.BindPoint;
 
+				// マテリアル管轄でなければスキップ
+				if (!IsMaterialManagedCSlot(slotNum)) continue;
+
 				// 定数バッファ情報を作成
 				ConstantBufferInfo info{};
 
@@ -198,16 +202,29 @@ namespace REngine
 				D3D11_SHADER_INPUT_BIND_DESC bindDesc;
 				if (FAILED(reflection->GetResourceBindingDesc(i, &bindDesc))) continue;
 
-				// テクスチャなら
-				if (bindDesc.Type == D3D_SIT_TEXTURE || bindDesc.Type == D3D_SIT_SAMPLER)
-				{
-					// パラメータを作成
-					ShaderParam param{};
+				// パラメータを作成
+				ShaderParam param{};
 
-					param.name = bindDesc.Name;
-					param.slot = bindDesc.BindPoint;
-					param.type = bindDesc.Type == D3D_SIT_TEXTURE ? 
-						ShaderParamType::Texture2D : ShaderParamType::Sampler;
+				param.name = bindDesc.Name;
+				param.slot = bindDesc.BindPoint;
+
+				// テクスチャなら
+				if (bindDesc.Type == D3D_SIT_TEXTURE)
+				{
+					// マテリアル管轄でなければスキップ
+					if (!IsMaterialManagedTSlot(bindDesc.BindPoint)) continue;
+
+					param.type = ShaderParamType::Texture2D;
+
+					// 配列に追加
+					params.push_back(param);
+				}
+				else if (bindDesc.Type == D3D_SIT_SAMPLER)
+				{
+					// マテリアル管轄でなければスキップ
+					if (!IsMaterialManagedSSlot(bindDesc.BindPoint)) continue;
+
+					param.type = ShaderParamType::Sampler;
 
 					// 配列に追加
 					params.push_back(param);
@@ -288,4 +305,4 @@ namespace REngine
 			return ShaderParamType::None;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

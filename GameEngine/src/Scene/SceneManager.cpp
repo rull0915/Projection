@@ -16,7 +16,7 @@
 
 #include "Editor/Loader/ObjectLoader.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -63,13 +63,10 @@ namespace REngine
 	}
 
 	// 描画処理
-	void SceneManager::Render(Renderer& renderer)
+	void SceneManager::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
 		// シーンの描画処理
-		if (m_currentScene) m_currentScene->Render(renderer);
-
-		// シーンのスクリーンへの描画処理
-		if (m_currentScene) m_currentScene->RenderOnScreen(renderer);
+		if (m_currentScene) m_currentScene->Render(renderer, shadowRenderer);
 
 		// 描画終了
 		renderer.End();
@@ -138,4 +135,4 @@ namespace REngine
 		// リクエスト要求をクリア
 		m_pRequestedScene = "";
 	}
-}	// namespace REngine
+}	// namespace RHEngine

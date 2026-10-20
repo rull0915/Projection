@@ -16,14 +16,15 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
-#include "Components/World/Camera/CameraBase.h"
 
-namespace REngine
+#include "Scene/SceneInfo.h"
+
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class SceneCamera : public CameraBase
+	class SceneCamera
 	{
 	private:
 
@@ -41,8 +42,15 @@ namespace REngine
 		// 注視点の位置
 		DirectX::SimpleMath::Vector3 m_targetPoint;
 
-		// クォータニオン
-		DirectX::SimpleMath::Quaternion m_rot;
+		// 自分の位置
+		DirectX::SimpleMath::Vector3 m_position;
+
+		// 角度
+		DirectX::SimpleMath::Quaternion m_rotation;
+
+		// 行列
+		DirectX::SimpleMath::Matrix m_view;
+		DirectX::SimpleMath::Matrix m_proj;
 
 		// 半径
 		float m_radius;
@@ -65,42 +73,44 @@ namespace REngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		SceneCamera(IComponentOwner* own);
+		SceneCamera();
 		~SceneCamera() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
-		void Awake() override;
-		void Start() override;
+		void Start();
 
-		void Update(const GameTimer& gameTimer) override;
-		void LateUpdate(const GameTimer& gameTimer) override;
+		void Update(const GameTimer& gameTimer);
 
-		void UpdateView() override;
-		void UpdateProj() override;
+		void UpdateView();
+		void UpdateProj();
 
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
 
-		// ID取得
-		COMPONENT_TYPE(SceneCamera, ComponentBase)
+		const DirectX::SimpleMath::Matrix GetView() const { return m_view; }
+		const DirectX::SimpleMath::Matrix GetProj() const { return m_proj; }
+
+		const SceneCameraData GetData() const
+		{
+			SceneCameraData data;
+
+			data.view = m_view;
+			data.proj = m_proj;
+			data.pos = m_position;
+
+			return data;
+		}
 
 		//-----------------------------------------------------
 		// セッター
 		//-----------------------------------------------------
 
 		void SetMovable(bool f) { m_movable = f; }
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	};
-} // namespace REngine
+} // namespace RHEngine
 
 #endif // ENGINE_GUI

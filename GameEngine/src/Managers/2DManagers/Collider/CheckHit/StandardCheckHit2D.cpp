@@ -15,7 +15,7 @@
 
 using namespace DirectX;
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -443,4 +443,4 @@ namespace REngine
 			return true;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

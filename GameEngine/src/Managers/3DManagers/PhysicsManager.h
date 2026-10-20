@@ -22,7 +22,7 @@
 
 #include <unordered_map>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -70,6 +70,8 @@ namespace REngine
 
 		CollideManager* GetCollideManager() { return m_collideManager.get(); }
 
+		const CollideManager* GetCollideManager() const { return m_collideManager.get(); }
+
 		//-----------------------------------------------------
 		// 内部実装
 		//-----------------------------------------------------
@@ -81,4 +83,4 @@ namespace REngine
 		void PositionCorrection(HitContact& contact);
 		void VelocityCorrection(HitContact& contact);
 	};
-}	// namespace REngine
+}	// namespace RHEngine

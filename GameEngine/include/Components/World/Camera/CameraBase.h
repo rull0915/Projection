@@ -15,10 +15,16 @@
 // インクルードファイル
 //====================================================//
 #include "Components/World/WorldComponentBase.h"
+#include "System/Render/RenderTarget.h"
 
 #include "Physics/Ray.h"
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 
-namespace REngine
+#include "Scene/SceneInfo.h"
+#include "Components/Interface/IDebugRenderable.h"
+
+namespace RHEngine
 {
 	//====================================================//
 	// 列挙型宣言
@@ -33,7 +39,7 @@ namespace REngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class CameraBase : public WorldComponentBase
+	class CameraBase : public WorldComponentBase, public IDebugRenderable
 	{
 	private:
 		//-----------------------------------------------------
@@ -48,6 +54,15 @@ namespace REngine
 
 		bool m_needUpdateProj;
 
+		// マテリアル
+		Handle<MaterialAsset> m_materialHandle;
+
+		// 描画対象
+		RenderTarget* m_pRenderTarget;
+
+		// 背景カラー
+		DirectX::SimpleMath::Color m_backColor;
+
 	public:
 
 		//-----------------------------------------------------
@@ -60,7 +75,12 @@ namespace REngine
 			, m_inverseView{}
 			, m_inverseProj{}
 			, m_needUpdateProj{ true }
-		{}
+			, m_pRenderTarget{ nullptr }
+			, m_backColor{}
+		{
+			ADD_PROPERTY(CameraBase, m_materialHandle);
+			ADD_PROPERTY(CameraBase, m_backColor);
+		}
 
 		virtual ~CameraBase() = default;
 
@@ -72,6 +92,29 @@ namespace REngine
 
 		//-----------------------------------------------------
 		// 公開関数
+		//-----------------------------------------------------
+
+		// 各行列を更新する関数
+		virtual void UpdateView() {};
+		virtual void UpdateProj() {};
+
+		// カメラから指定したスクリーン座標へのRayを作る関数
+		Ray GetRayToScreenPoint(const DirectX::SimpleMath::Vector2& point);
+
+		// 値変更時
+		void OnValidate() override
+		{
+			m_needUpdateProj = true;
+		}
+
+		// カメラデータを構築する関数
+		SceneCameraData CreateCameraData();
+		
+		// デバッグ表示
+		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+		
+		//-----------------------------------------------------
+		// ゲッター
 		//-----------------------------------------------------
 
 		const DirectX::SimpleMath::Matrix& GetView()
@@ -88,17 +131,37 @@ namespace REngine
 			}
 			return m_proj;
 		}
-		const DirectX::SimpleMath::Matrix& GetInverseView() { return m_inverseView; }
-		const DirectX::SimpleMath::Matrix& GetInverseProj() { return m_inverseProj; }
+		const DirectX::SimpleMath::Matrix& GetInverseView() const { return m_inverseView; }
 
-		bool IsNeedUpdateProj() const { return m_needUpdateProj; }
+		const DirectX::SimpleMath::Matrix& GetInverseProj() const { return m_inverseProj; }
 
-		// 各行列を更新する関数
-		virtual void UpdateView() {};
-		virtual void UpdateProj() {};
+		Handle<MaterialAsset> GetMaterial() const { return m_materialHandle; }
 
-		// カメラから指定したスクリーン座標へのRayを作る関数
-		Ray GetRayToScreenPoint(const DirectX::SimpleMath::Vector2& point);
+		RenderTarget* GetRenderTarget() const { return m_pRenderTarget; }
+
+		DirectX::SimpleMath::Color GetBackColor() const { return m_backColor; }
+
+		//-----------------------------------------------------
+		// セッター
+		//-----------------------------------------------------
+
+		// マテリアルのセット
+		void SetMaterial(Handle<MaterialAsset> mat)
+		{
+			m_materialHandle = mat;
+		}
+
+		// 描画対象のセット
+		void SetTarget(RenderTarget* target)
+		{
+			m_pRenderTarget = target;
+		}
+
+		// 背景色のセット
+		void SetBackColor(DirectX::SimpleMath::Color color)
+		{
+			m_backColor = color;
+		}
 
 		// 各行列を設定する関数
 	protected:
@@ -117,4 +180,4 @@ namespace REngine
 		}
 		void SetNeedUpdateProj(bool f) { m_needUpdateProj = f; }
 	};
-} // namespace REngine
+} // namespace RHEngine

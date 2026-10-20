@@ -1,0 +1,81 @@
+﻿//====================================================//
+// ファイル名   : CatmullRomComponent.h
+// 作成者       : Hoshino Ryunosuke
+// 作成日       : 2026/05/27
+//
+// 概要 : Catmull–Romスプライン補間をするコンポーネント
+//
+// 更新履歴 :
+// 2026/05/27 新規作成
+//====================================================//
+
+#pragma once
+
+#define IS_COMPONENT(CatmullRomComponent)
+
+//====================================================//
+// インクルードファイル
+//====================================================//
+#include "Components/World/WorldComponentBase.h"
+#include "GameObject/Interface/IComponentOwner.h"
+
+#include "Components/Interface/IDebugRenderable.h"
+
+//====================================================//
+// 前方宣言
+//====================================================//
+
+
+//====================================================//
+// クラス宣言
+//====================================================//
+class CatmullRomComponent : public RHEngine::WorldComponentBase, public RHEngine::IDebugRenderable
+{
+private:
+
+	//-----------------------------------------------------
+	// メンバ変数
+	//-----------------------------------------------------
+
+	// ループフラグ
+	bool m_isLoop;
+
+	// オフセット
+	DirectX::SimpleMath::Vector3 m_offset;
+
+	// 各点
+	DirectX::SimpleMath::Vector3 m_p0;
+	DirectX::SimpleMath::Vector3 m_p1;
+	DirectX::SimpleMath::Vector3 m_p2;
+	DirectX::SimpleMath::Vector3 m_p3;
+
+public:
+
+	//-----------------------------------------------------
+	// コンストラクタ / デストラクタ
+	//-----------------------------------------------------
+	CatmullRomComponent(RHEngine::IComponentOwner* own);
+	~CatmullRomComponent() = default;
+
+	//-----------------------------------------------------
+	// Type
+	//-----------------------------------------------------
+	
+	COMPONENT_TYPE(CatmullRomComponent, RHEngine::WorldComponentBase)
+
+	//-----------------------------------------------------
+	// 公開関数
+	//-----------------------------------------------------
+
+	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color);
+
+	//-----------------------------------------------------
+	// ゲッター
+	//-----------------------------------------------------
+
+	// 値を取得する関数
+	DirectX::SimpleMath::Vector3 GetValue(float ratio);
+
+	// 接線ベクトルを返す関数
+	DirectX::SimpleMath::Vector3 GetTangent(float ratio);
+};

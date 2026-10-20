@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Components/World/Sounds/AudioListener.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -69,4 +69,4 @@ namespace REngine
 			m_nowVersion = version;
 		}
 	}
-}	// namespace REngine
+}	// namespace RHEngine

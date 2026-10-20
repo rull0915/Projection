@@ -18,7 +18,7 @@
 #include <filesystem>
 #include "Assets/Objects/AssetBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	class PrefabImpl;
 
@@ -42,6 +42,8 @@ namespace REngine
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		Prefab(std::filesystem::path path);
+		Prefab(std::unique_ptr<PrefabImpl> impl);
+
 		~Prefab() = default;
 
 		//-----------------------------------------------------
@@ -51,4 +53,4 @@ namespace REngine
 		// Implのゲッター
 		PrefabImpl* GetImpl() const { return m_impl.get(); }
 	};
-}	// namespace REngine
+}	// namespace RHEngine

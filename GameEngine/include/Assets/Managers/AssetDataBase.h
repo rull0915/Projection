@@ -19,7 +19,7 @@
 #include "AuxFileRepository.h"
 #include "AssetTypeManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -46,6 +46,12 @@ namespace REngine
 		// ファイルパスからuuid
 		std::unordered_map<std::filesystem::path, UUID> m_pathToUuid;
 
+		// UUIDからAux
+		std::unordered_map<UUID, AssetAux> m_uuidToAux;
+
+		// サブアセットIDからメインアセットIDを取得するマップ
+		std::unordered_map<UUID, UUID> m_subIdToMainId;
+
 	public:
 
 		//-----------------------------------------------------
@@ -67,6 +73,33 @@ namespace REngine
 		// 特定のファイルに対してauxの生成を行う関数
 		void ScanOnceFile(const std::filesystem::path& path);
 
+		// auxファイルを保存する関数
+		void SaveAux(AssetAux& asset, const std::filesystem::path& path)
+		{
+			m_auxFileRepository.SaveAux(asset, path.wstring() + L".aux");
+
+			// 変換表のAuxも更新
+			auto uuid = GetUUID(path);
+
+			m_uuidToAux[uuid] = asset;
+
+			// 再スキャン
+			ScanOnceFile(path);
+		}
+
+		// MainAssetのUUIDを取得する関数
+		UUID GetMainUUID(UUID id)
+		{
+			// SubAssetならMainIDを取得し返す
+			if (m_subIdToMainId.find(id) != m_subIdToMainId.end())
+			{
+				return m_subIdToMainId[id];
+			}
+
+			// MainAssetならそのまま返す
+			return id;
+		}
+
 		// 相互変換を行う関数
 		UUID GetUUID(const std::filesystem::path& path) const
 		{
@@ -82,6 +115,14 @@ namespace REngine
 
 			return m_uuidToPath.at(uuid);
 		}
+		
+		// 相互変換を行う関数
+		AssetAux GetAux(UUID uuid) const
+		{
+			if (m_uuidToAux.find(uuid) == m_uuidToAux.end()) return {};
+
+			return m_uuidToAux.at(uuid);
+		}
 
 		//------- ファイル操作関数 -------//
 
@@ -94,15 +135,14 @@ namespace REngine
 		// 削除
 		void Delete(const std::filesystem::path& path);
 
+		// 新しくUUIDの生成を行う関数
+		UUID GenerateUUID();
+
 	private:
 
 		//-----------------------------------------------------
 		// 内部実装
 		//-----------------------------------------------------
-
-		// 新しくUUIDの生成を行う関数
-		UUID GenerateUUID();
-
 		// UUIDとパスの登録をする関数
 		void Register(UUID uuid, const std::filesystem::path& path)
 		{
@@ -113,4 +153,4 @@ namespace REngine
 			m_pathToUuid[path] = uuid;
 		}
 	};
-}	// namespace REngine
+}	// namespace RHEngine

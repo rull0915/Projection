@@ -27,7 +27,7 @@
 
 #include "ComponentContainer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -53,7 +53,7 @@ namespace REngine
 
 			// 作成可能クラスをfriendに指定
 			friend class ObjectFactory;
-			friend class Canvas;
+			friend class PrefabBuilder;
 		};
 
 		//-----------------------------------------------------
@@ -81,8 +81,8 @@ namespace REngine
 		// 削除フラグ
 		bool m_isDead;
 
-		// 削除不可フラグ
-		bool m_isInvincible;
+		// シリアライズ可能フラグ
+		bool m_isSerializable;	// オフにすると保存されず、GUIに表示されません
 
 	public:
 		// タグ
@@ -117,6 +117,9 @@ namespace REngine
 		// 子供の数を取得する関数
 		size_t GetChildCount() const;
 
+		// 子供を全て取得する関数
+		std::vector<GameObject*> GetChildren();
+
 		//-----------------------------------------------------
 		// ゲッター
 		//-----------------------------------------------------
@@ -129,7 +132,7 @@ namespace REngine
 
 		Scene* GetScene() const { return m_pScene; }
 
-		bool IsInvincible() const { return m_isInvincible; }
+		bool IsSerializable() const { return m_isSerializable; }
 
 		const std::string& GetTag() const override { return m_tag; }
 
@@ -145,7 +148,7 @@ namespace REngine
 
 		void SetActive(bool f);
 
-		void SetInvincible(bool f) { m_isInvincible = f; }
+		void SetSerializble(bool f) { m_isSerializable = f; }
 
 		void SetScene(Scene* scene)
 		{
@@ -157,7 +160,7 @@ namespace REngine
 
 		void SetName(const std::string& name) override { m_name = name; }
 
-		void Destroy() override { m_isDead = true; }
+		void Destroy() override;
 
 	public:
 		// 衝突関連
@@ -305,4 +308,4 @@ namespace REngine
 			return m_components.Gets(id);
 		}
 	};
-} // namespace REngine
+} // namespace RHEngine

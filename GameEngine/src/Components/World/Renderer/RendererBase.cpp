@@ -14,7 +14,7 @@
 
 #include "Components/World/Transform/Transform.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -25,4 +25,4 @@ namespace REngine
 		, m_pTransform{ GetComponent<Transform>() }
 	{
 	};
-}	// namespace REngine
+}	// namespace RHEngine

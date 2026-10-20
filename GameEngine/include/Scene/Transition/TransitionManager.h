@@ -19,7 +19,7 @@
 #include <memory>
 #include <functional>
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -83,4 +83,4 @@ namespace REngine
 		// 演出中かどうかを返す関数
 		bool IsTransitioning() const;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

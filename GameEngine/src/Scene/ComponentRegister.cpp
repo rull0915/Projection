@@ -15,7 +15,7 @@
 
 #include "Scene/UpdatePipeline.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 前方宣言
@@ -80,7 +80,7 @@ namespace REngine
 
 		// カメラコンポーネントの場合
 		if (component->IsTypeOf(CameraBase::StaticTypeId())) {
-			m_pPipeline->m_cameraManager->SetMainCamera(static_cast<CameraBase*>(component));
+			m_pPipeline->m_cameraManager->AddObject(static_cast<CameraBase*>(component));
 		}
 
 		// 3Dコライダーの場合
@@ -99,6 +99,12 @@ namespace REngine
 		if (component->IsTypeOf(RendererBase::StaticTypeId()))
 		{
 			m_pPipeline->m_rendererManager->AddObject(static_cast<RendererBase*>(component));
+		}
+
+		// ライトコンポーネントの場合
+		if (component->IsTypeOf(LightComponent::StaticTypeId()))
+		{
+			m_pPipeline->m_lightManager->AddObject(static_cast<LightComponent*>(component));
 		}
 
 		// 読み取りコンポーネントに通知
@@ -162,7 +168,7 @@ namespace REngine
 
 		// カメラコンポーネントの場合
 		if (component->IsTypeOf(CameraBase::StaticTypeId())) {
-			m_pPipeline->m_cameraManager->UnSetMainCamera(static_cast<CameraBase*>(component));
+			m_pPipeline->m_cameraManager->RemoveObject(static_cast<CameraBase*>(component));
 		}
 
 		// 3Dコライダーの場合
@@ -185,7 +191,13 @@ namespace REngine
 			m_pPipeline->m_rendererManager->RemoveObject(static_cast<RendererBase*>(component));
 		}
 
+		// ライトコンポーネントの場合
+		if (component->IsTypeOf(LightComponent::StaticTypeId()))
+		{
+			m_pPipeline->m_lightManager->RemoveObject(static_cast<LightComponent*>(component));
+		}
+
 		// 読み取りコンポーネントに通知
 		for (auto& listener : m_listeners) listener->OnComponentRemoved(component);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

@@ -17,7 +17,7 @@
 // 関数の実体宣言
 //====================================================//
 
-void REngine::GameController::Quit()
+void RHEngine::GameController::Quit()
 {
 	PostQuitMessage(0);
 }

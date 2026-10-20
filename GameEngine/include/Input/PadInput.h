@@ -17,7 +17,7 @@
 
 #include <GamePad.h>
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Input
 	{
@@ -109,4 +109,4 @@ namespace REngine
 			static float GetAxis(const DirectX::GamePad::State& state, Axis stick);
 		};
 	}
-}	// namespace REngine
+}	// namespace RHEngine

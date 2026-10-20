@@ -1,0 +1,48 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_localRotation": [
+                    -0.2999356687068939,
+                    0.11648061871528625,
+                    0.03692701831459999,
+                    0.9461010694503784
+                ],
+                "m_localScale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 11259400656093322127
+        },
+        {
+            "Data": {
+                "m_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "m_intensity": 1.0,
+                "m_isActive": true,
+                "m_lightType": "Directional"
+            },
+            "Type": "LightComponent",
+            "UUID": 13644947517534406317
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 12637138828153648877,
+    "m_isActive": true,
+    "m_name": "DirectionalLight",
+    "m_tag": ""
+}

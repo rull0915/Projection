@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace REngine
+namespace RHEngine
 {
 	namespace Component
 	{

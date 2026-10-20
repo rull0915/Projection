@@ -13,7 +13,7 @@
 #include "Assets/Managers/AssetDataBase.h"
 #include "Common/Random.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -41,7 +41,7 @@ namespace REngine
 		auto auxPath = path.wstring() + L".aux";
 
 		// 対応するaux
-		AssetAux aux;
+		AssetAux aux{};
 
 		// 存在しなければ
 		if (!std::filesystem::exists(auxPath))
@@ -60,10 +60,27 @@ namespace REngine
 		{
 			// .auxファイルから読み取る
 			m_auxFileRepository.LoadAux(aux, auxPath);
+
+			// サブアセットをデータベースに登録する
+			for (auto& subAsset : aux.subAssets)
+			{
+				// 仮想パスを作成
+				// サブアセットの仮想パスはメインアセットのパスの末尾に、# + アセット名 を追加したものとします。
+				// 例 : Model.obj#Mesh2
+				std::filesystem::path vPath = path.string() + "#" + subAsset.assetType + "#" + subAsset.name;
+
+				// 変換表へ登録
+				Register(subAsset.uuid, vPath);
+
+				// SubIDとMainIDを保存
+				m_subIdToMainId[subAsset.uuid] = aux.uuid;
+			}
 		}
 
 		// 変換表へ登録
 		Register(aux.uuid, path);
+
+		m_uuidToAux[aux.uuid] = aux;
 	}
 
 	void AssetDataBase::ReName(const std::filesystem::path& old, const std::filesystem::path& next)
@@ -72,8 +89,8 @@ namespace REngine
 		namespace fs = std::filesystem;
 		
 		// 本体ファイルとauxファイルの両方を変更することでUUIDが変更されないようにします
-		std::filesystem::rename(old, next);
-		std::filesystem::rename(fs::path(old.string() + ".aux"), fs::path(next.string() + ".aux"));
+		fs::rename(old, next);
+		fs::rename(fs::path(old.string() + ".aux"), fs::path(next.string() + ".aux"));
 
 		// 以前のファイルのUUIDを取得
 		UUID uuid = GetUUID(old);
@@ -97,16 +114,17 @@ namespace REngine
 
 	UUID AssetDataBase::GenerateUUID()
 	{
-		UUID uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
+		// 0~10000はEngineのデフォルトで使用するAssetのIDとする
+		UUID uuid = Random::Get<UUID>(10000, std::numeric_limits<UUID>::max());
 
 		// リストにないUUIDが生成されるまでループ
 		while(m_uuidToPath.contains(uuid))
 		{
 			// ランダム生成
-			uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
+			uuid = Random::Get<UUID>(10000, std::numeric_limits<UUID>::max());
 		}
 
 		// UUIDを返す
 		return uuid;
 	}
-}	// namespace REngine
+}	// namespace RHEngine

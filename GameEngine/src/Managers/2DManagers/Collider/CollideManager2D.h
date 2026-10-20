@@ -20,7 +20,7 @@
 #include "SpaceDivision/TreeManager2D.h"
 #include "Physics/HitContact.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -68,16 +68,6 @@ namespace REngine
 		// コライダーの衝突チェック
 		bool CheckHitPair(ColliderBase2D*, ColliderBase2D*, HitContact2D& contact);
 
-		// 全コライダーの取得関数
-		const std::vector<ColliderBase2D*>& GetAllColliders()
-		{
-			// 予約を反映
-			AddReserved();
-			RemoveReserved();
-
-			return GetObjects();
-		}
-
 	private:
 
 		// 登録予約済みのコライダーを追加する関数
@@ -86,4 +76,4 @@ namespace REngine
 		// 削除予約済みのコライダーを削除する関数
 		void RemoveReserved() override;
 	};
-}	// namespace REngine
+}	// namespace RHEngine

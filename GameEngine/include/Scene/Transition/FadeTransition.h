@@ -16,7 +16,7 @@
 //====================================================//
 #include "TransitionBase.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// クラス宣言
@@ -62,4 +62,4 @@ namespace REngine
 			void OutRender(Renderer& renderer) override;	// Outの場合	
 		};
 	}
-}	// namespace REngine
+}	// namespace RHEngine

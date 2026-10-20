@@ -14,7 +14,7 @@
 
 #include "Renderer/Renderer.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -202,4 +202,4 @@ namespace REngine
 
 		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 	}
-}	// namespace REngine
+}	// namespace RHEngine

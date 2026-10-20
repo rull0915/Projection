@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "Assets/Managers/AssetTypeManager.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -65,6 +65,17 @@ namespace REngine
 		return std::type_index(typeid(void));
 	}
 
+	std::type_index AssetTypeManager::GetAssetClassFromType(const std::string& type) const
+	{
+		for (auto& map : m_assetTypeMap)
+		{
+			if (map.second == type)
+			{
+				return m_assetClassMap.at(map.first);
+			}
+		}
+	}
+
 	std::wstring AssetTypeManager::GetExtention(const std::string& type) const
 	{
 		// ループ
@@ -77,4 +88,4 @@ namespace REngine
 		// なければ空文字を返す
 		return L"";
 	}
-}	// namespace REngine
+}	// namespace RHEngine

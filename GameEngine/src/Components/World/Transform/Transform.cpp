@@ -14,7 +14,7 @@
 
 using namespace DirectX;
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 関数の実体宣言
@@ -193,4 +193,4 @@ namespace REngine
 		// 子オブジェクトのフラグもセット
 		for (auto* child : m_children) child->SetDirty();
 	}
-}	// namespace REngine
+}	// namespace RHEngine

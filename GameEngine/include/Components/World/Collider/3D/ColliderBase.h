@@ -17,7 +17,7 @@
 #include "../ColliderCommon.h"
 #include "Math/Bounding.h"
 
-namespace REngine
+namespace RHEngine
 {
 	//====================================================//
 	// 列挙型宣言
@@ -119,4 +119,4 @@ namespace REngine
 		inline void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos) const { m_worldCenterPos = pos; }
 		inline void SetBoundingBox(const BoundingBox& box) const { m_boundingBox = box; }
 	};
-} // namespace REngine
+} // namespace RHEngine

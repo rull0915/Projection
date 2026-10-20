@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Game">
+      <UniqueIdentifier>{8012FFB0-607E-58BC-B7E9-5A55FAD736C2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ClearScene">
+      <UniqueIdentifier>{63658677-CBA4-51E0-8D4C-F333A88DB425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Common">
+      <UniqueIdentifier>{F4BB2493-B925-58DE-B512-FBC91A1AB710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene">
+      <UniqueIdentifier>{B047B98B-5560-5005-B13F-FF47CFC474E2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Camera">
+      <UniqueIdentifier>{2C9987F7-A6D6-5B1D-9E48-1CA61FF26317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\ChangeDimention">
+      <UniqueIdentifier>{8D6C22F1-2980-54E5-A825-297FC5748D2F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Effect">
+      <UniqueIdentifier>{91D6752E-AACD-5F0F-8326-4F409E093776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Player">
+      <UniqueIdentifier>{ADCC7AF3-AE32-576A-8BC9-5D05A1E5288D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Stage">
+      <UniqueIdentifier>{AA716090-00F4-5E94-A204-F2DBEDB9B85B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GamePlayScene\Stage\Components">
+      <UniqueIdentifier>{710A17F9-E793-54CE-9A33-D2FA5C99DBA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\SelectScene">
+      <UniqueIdentifier>{0D555838-3565-57CD-9A72-B0B496E179D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TitleScene">
+      <UniqueIdentifier>{F30712BB-560C-5C29-9665-605D1C44D3EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib">
+      <UniqueIdentifier>{FE536B78-CE21-5BB4-BB24-532B98B00A2A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Colliders">
+      <UniqueIdentifier>{13C4E22D-2965-5058-A106-8219AB55560E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Components">
+      <UniqueIdentifier>{23245B0C-3AFF-5896-AF74-8BF0473596F8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\GameMath">
+      <UniqueIdentifier>{4874B732-B313-54F1-B851-697615A656E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\Transition">
+      <UniqueIdentifier>{44B77D7A-7F72-5896-A931-AE095674ED6E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLib\UI">
+      <UniqueIdentifier>{D9454785-AB55-51E6-8ADE-C7ACB023B5A7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{7AC1FE96-184E-5936-9C2E-CC54E4CAD2DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{2D2AFE0B-33A8-57F7-AC5A-54A59ACC001B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{3A29E770-BA32-5691-B8AD-450F2DCDF42A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{B3EFAD92-ED71-5FE8-B386-03135344E224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\.vscode">
+      <UniqueIdentifier>{2A2FDC2A-AF85-5FFC-B7C4-CFB108149D64}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game\ClearScene\SwingComponent.cpp">
+      <Filter>Game\ClearScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Common\ChangeSceneComponent.cpp">
+      <Filter>Game\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ComponentRegister.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameInitializer.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Camera\CameraCorrection.cpp">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.cpp">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Camera\StartCamera.cpp">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Camera\TPSCamera.cpp">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.cpp">
+      <Filter>Game\GamePlayScene\ChangeDimention</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.cpp">
+      <Filter>Game\GamePlayScene\ChangeDimention</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\ChangeDimention\DimentionManager.cpp">
+      <Filter>Game\GamePlayScene\ChangeDimention</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Effect\ClearEffect.cpp">
+      <Filter>Game\GamePlayScene\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\GameOverComponent.cpp">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Player\Player.cpp">
+      <Filter>Game\GamePlayScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\PlaySceneManager.cpp">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GamePlayScene\Stage\Components\GoalComponent.cpp">
+      <Filter>Game\GamePlayScene\Stage\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\SelectScene\SelectBlock.cpp">
+      <Filter>Game\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\TitleManager.cpp">
+      <Filter>Game\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Colliders\CheckHit.cpp">
+      <Filter>GameLib\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Colliders\ConvexPolygonCollider2D.cpp">
+      <Filter>GameLib\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp">
+      <Filter>GameLib\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Components\PathMover.cpp">
+      <Filter>GameLib\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp">
+      <Filter>GameLib\GameMath</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\GameMath\GameMath.cpp">
+      <Filter>GameLib\GameMath</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Transition\SlideTransition.cpp">
+      <Filter>GameLib\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UI\Dialog.cpp">
+      <Filter>GameLib\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UI\DialogController.cpp">
+      <Filter>GameLib\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\UI\PauseDialog.cpp">
+      <Filter>GameLib\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\ClearScene\SwingComponent.h">
+      <Filter>Game\ClearScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Common\ChangeSceneComponent.h">
+      <Filter>Game\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ComponentRegister.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameInitializer.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Camera\CameraCorrection.h">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Camera\ProjectionSmoothCamera.h">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Camera\StartCamera.h">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Camera\TPSCamera.h">
+      <Filter>Game\GamePlayScene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\ChangeColliderComponent.h">
+      <Filter>Game\GamePlayScene\ChangeDimention</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\DepthCorrection.h">
+      <Filter>Game\GamePlayScene\ChangeDimention</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\ChangeDimention\DimentionManager.h">
+      <Filter>Game\GamePlayScene\ChangeDimention</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Effect\ClearEffect.h">
+      <Filter>Game\GamePlayScene\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\GameOverComponent.h">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\GamePlayEvent.h">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Player\Player.h">
+      <Filter>Game\GamePlayScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\PlaySceneManager.h">
+      <Filter>Game\GamePlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePlayScene\Stage\Components\GoalComponent.h">
+      <Filter>Game\GamePlayScene\Stage\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\SelectScene\SelectBlock.h">
+      <Filter>Game\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene\TitleManager.h">
+      <Filter>Game\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Colliders\CheckHit.h">
+      <Filter>GameLib\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Colliders\CollisionAuxiliary.h">
+      <Filter>GameLib\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Colliders\ConvexPolygonCollider2D.h">
+      <Filter>GameLib\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Components\CatmullRomComponent.h">
+      <Filter>GameLib\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Components\PathMover.h">
+      <Filter>GameLib\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\EasingConfig.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\GameMath\GameMath.h">
+      <Filter>GameLib\GameMath</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Transition\SlideTransition.h">
+      <Filter>GameLib\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UI\Dialog.h">
+      <Filter>GameLib\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UI\DialogController.h">
+      <Filter>GameLib\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\UI\PauseDialog.h">
+      <Filter>GameLib\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="imgui.ini" />
+    <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\SkyboxEffect_PS.hlsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\SkyboxEffect_VS.hlsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Shaders\BasicPixelShader.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\BasicShader.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\BasicVertexShader.vs.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\ImagePixelShader.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\InputStructure.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Lighting.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\LightStructure.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\PrimitiveShader.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\PrimitiveShader.vs.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Shadowing.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\ShadowMap.vs.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Tools\.vscode\settings.json">
+      <Filter>Tools\.vscode</Filter>
+    </None>
+  </ItemGroup>
+</Project>
