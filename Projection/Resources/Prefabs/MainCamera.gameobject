@@ -1,0 +1,102 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    -6.425350666046143,
+                    5.214536190032959,
+                    -6.368445873260498
+                ],
+                "m_localRotation": [
+                    0.01687474548816681,
+                    0.8752011656761169,
+                    0.013491450808942318,
+                    -0.4832763969898224
+                ],
+                "m_localScale": [
+                    0.9999992251396179,
+                    1.0,
+                    0.9999994039535522
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 7420760849011879344
+        },
+        {
+            "Data": {
+                "m_backColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "m_farZ": 50.0,
+                "m_isActive": true,
+                "m_materialHandle": 0,
+                "m_nearZ": 0.10000000149011612,
+                "m_negativeNearClip": -100.0
+            },
+            "Type": "ProjectionSmoothCamera",
+            "UUID": 14834744959812529169
+        },
+        {
+            "Data": {
+                "m_distance": 5.0,
+                "m_isActive": false,
+                "m_pTargetTransform": 9817638076035830732,
+                "m_sensitivity": 0.5
+            },
+            "Type": "TPSCamera",
+            "UUID": 7106368356783589696
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_textureHandle": 10350532250775094671
+            },
+            "Type": "SkyboxComponent",
+            "UUID": 14669764373506109476
+        },
+        {
+            "Data": {
+                "m_angleVelocity": 0.800000011920929,
+                "m_fallVelocity": 2.799999952316284,
+                "m_finalAngle": 0.0,
+                "m_initialHeight": 9.300000190734863,
+                "m_isActive": true,
+                "m_offset": [
+                    0.0,
+                    0.0,
+                    -2.5
+                ],
+                "m_radius": 7.5,
+                "m_targetName": "Player"
+            },
+            "Type": "StartCamera",
+            "UUID": 725856033158121202
+        },
+        {
+            "Data": {
+                "m_isActive": true
+            },
+            "Type": "AudioListener",
+            "UUID": 469784483505241153
+        },
+        {
+            "Data": {
+                "m_isActive": false,
+                "m_player": 9223197463085659886,
+                "m_playerLayer": 10
+            },
+            "Type": "CameraCorrection",
+            "UUID": 2413259782108509379
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 14345861942996533245,
+    "m_isActive": true,
+    "m_name": "MainCamera",
+    "m_tag": ""
+}

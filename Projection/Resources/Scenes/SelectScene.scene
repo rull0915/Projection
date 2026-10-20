@@ -147,7 +147,7 @@
                 "UUID": 2146755366519780093,
                 "m_isActive": true,
                 "m_name": "Floor",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -395,7 +395,7 @@
                 "UUID": 7273700145372167726,
                 "m_isActive": true,
                 "m_name": "Floor",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -660,6 +660,12 @@
                     {
                         "Data": {
                             "m_aspect": 1.7777777910232544,
+                            "m_backColor": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
                             "m_farZ": 40.0,
                             "m_fov": 0.7853981852531433,
                             "m_isActive": true,
@@ -830,7 +836,7 @@
                 "UUID": 14226298787451238990,
                 "m_isActive": true,
                 "m_name": "Stairs",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -941,7 +947,7 @@
                 "UUID": 15368536847258249707,
                 "m_isActive": true,
                 "m_name": "Bridge",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -1109,7 +1115,7 @@
                 "UUID": 16729812516296350101,
                 "m_isActive": true,
                 "m_name": "Floor3",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -1246,7 +1252,7 @@
                         "UUID": 16882213532445501888,
                         "m_isActive": true,
                         "m_name": "Bottom",
-                        "m_tag": ""
+                        "m_tag": "Floor"
                     },
                     {
                         "Children": [
@@ -1515,7 +1521,7 @@
                         "UUID": 8602833769827093346,
                         "m_isActive": true,
                         "m_name": "Top",
-                        "m_tag": ""
+                        "m_tag": "Floor"
                     }
                 ],
                 "Components": [
@@ -1795,7 +1801,7 @@
                 "UUID": 10216804117038076554,
                 "m_isActive": true,
                 "m_name": "Floor",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [
@@ -1906,7 +1912,7 @@
                 "UUID": 5804898343075696621,
                 "m_isActive": true,
                 "m_name": "Stairs",
-                "m_tag": ""
+                "m_tag": "Floor"
             },
             {
                 "Children": [

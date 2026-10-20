@@ -13,36 +13,46 @@
                                 -6.368445873260498
                             ],
                             "m_localRotation": [
-                                0.0,
-                                -0.8705724477767944,
-                                0.0,
-                                0.4920402765274048
+                                0.01687474548816681,
+                                0.8752011656761169,
+                                0.013491450808942318,
+                                -0.4832763969898224
                             ],
                             "m_localScale": [
+                                0.9999992251396179,
                                 1.0,
-                                1.0,
-                                1.0
+                                0.9999994039535522
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 5996397114280629535
+                        "UUID": 7420760849011879344
                     },
                     {
                         "Data": {
-                            "m_isActive": true
+                            "m_backColor": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_farZ": 50.0,
+                            "m_isActive": true,
+                            "m_materialHandle": 0,
+                            "m_nearZ": 0.10000000149011612,
+                            "m_negativeNearClip": -100.0
                         },
                         "Type": "ProjectionSmoothCamera",
-                        "UUID": 18425996711996072648
+                        "UUID": 14834744959812529169
                     },
                     {
                         "Data": {
                             "m_distance": 5.0,
                             "m_isActive": false,
-                            "m_pTargetTransform": 1067342899794176933,
+                            "m_pTargetTransform": 9817638076035830732,
                             "m_sensitivity": 0.5
                         },
                         "Type": "TPSCamera",
-                        "UUID": 8901786967295669592
+                        "UUID": 7106368356783589696
                     },
                     {
                         "Data": {
@@ -50,7 +60,7 @@
                             "m_textureHandle": 10350532250775094671
                         },
                         "Type": "SkyboxComponent",
-                        "UUID": 17643348954786272224
+                        "UUID": 14669764373506109476
                     },
                     {
                         "Data": {
@@ -68,33 +78,176 @@
                             "m_targetName": "Player"
                         },
                         "Type": "StartCamera",
-                        "UUID": 15394508494601590452
+                        "UUID": 725856033158121202
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
                         "Type": "AudioListener",
-                        "UUID": 7021519109091097475
+                        "UUID": 469784483505241153
                     },
                     {
                         "Data": {
                             "m_isActive": false,
-                            "m_player": 7160215253068007918,
+                            "m_player": 9223197463085659886,
                             "m_playerLayer": 10
                         },
                         "Type": "CameraCorrection",
-                        "UUID": 671442728275280642
+                        "UUID": 2413259782108509379
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 2622201230363222473,
+                "UUID": 14345861942996533245,
                 "m_isActive": true,
                 "m_name": "MainCamera",
                 "m_tag": ""
             },
             {
-                "Children": [],
+                "Children": [
+                    {
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_localPosition": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_localRotation": [
+                                                -0.0,
+                                                0.0,
+                                                -0.0,
+                                                1.0
+                                            ],
+                                            "m_localScale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "Transform",
+                                        "UUID": 7721003832461264186
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_mesh": 10713994547369882903
+                                        },
+                                        "Type": "MeshFilter",
+                                        "UUID": 16257286840272048241
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_materials": {
+                                                "array": [
+                                                    17249904409961210851
+                                                ],
+                                                "size": 1
+                                            }
+                                        },
+                                        "Type": "MeshRenderer",
+                                        "UUID": 1647433385424310203
+                                    }
+                                ],
+                                "IsWorld": true,
+                                "UUID": 17218043847883131583,
+                                "m_isActive": true,
+                                "m_name": "Cube",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_localPosition": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_localRotation": [
+                                                -0.0,
+                                                0.0,
+                                                -0.0,
+                                                1.0
+                                            ],
+                                            "m_localScale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "Transform",
+                                        "UUID": 190020197781491357
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_mesh": 835734645226916863
+                                        },
+                                        "Type": "MeshFilter",
+                                        "UUID": 14476005830591104847
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_materials": {
+                                                "array": [
+                                                    17249904409961210851
+                                                ],
+                                                "size": 1
+                                            }
+                                        },
+                                        "Type": "MeshRenderer",
+                                        "UUID": 15301744893910301967
+                                    }
+                                ],
+                                "IsWorld": true,
+                                "UUID": 2667574358698077089,
+                                "m_isActive": true,
+                                "m_name": "Cube.001",
+                                "m_tag": ""
+                            }
+                        ],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 9992647970998225464
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 3681524969821185115,
+                        "m_isActive": true,
+                        "m_name": "Player",
+                        "m_tag": ""
+                    }
+                ],
                 "Components": [
                     {
                         "Data": {
@@ -117,14 +270,14 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 1067342899794176933
+                        "UUID": 9817638076035830732
                     },
                     {
                         "Data": {
                             "m_isActive": false
                         },
                         "Type": "Player",
-                        "UUID": 12136645415114440693
+                        "UUID": 6143371069235020632
                     },
                     {
                         "Data": {
@@ -145,7 +298,7 @@
                             "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider",
-                        "UUID": 12666292360896554250
+                        "UUID": 4881966146224764556
                     },
                     {
                         "Data": {
@@ -166,16 +319,7 @@
                             "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider",
-                        "UUID": 13073177164060844171
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_materialHandle": 0,
-                            "m_modelHandle": 2509680242320578614
-                        },
-                        "Type": "ModelComponent",
-                        "UUID": 2458149279668189851
+                        "UUID": 15343749207230312251
                     },
                     {
                         "Data": {
@@ -186,31 +330,88 @@
                             "m_useGravity": true
                         },
                         "Type": "RigidBody",
-                        "UUID": 4109990666972910567
+                        "UUID": 6024552440612492593
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
                         "Type": "ChangeColliderComponent",
-                        "UUID": 12501009321941491252
+                        "UUID": 14515062370299847153
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
                         "Type": "DepthCorrection",
-                        "UUID": 5140038867488509544
+                        "UUID": 15339151388561460313
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 7160215253068007918,
+                "UUID": 9223197463085659886,
                 "m_isActive": true,
                 "m_name": "Player",
                 "m_tag": "Player"
             },
             {
-                "Children": [],
+                "Children": [
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 13194998185088875710
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 7651707918017028384
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 13157490784351616956
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            10371765323063703645,
+                                            18368020068186016594,
+                                            17088879101332113244
+                                        ],
+                                        "size": 3
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 11471707993739500198
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 13266196365072416445,
+                        "m_isActive": true,
+                        "m_name": "Mesh",
+                        "m_tag": ""
+                    }
+                ],
                 "Components": [
                     {
                         "Data": {
@@ -233,7 +434,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 12044490946207352763
+                        "UUID": 1787183812740204311
                     },
                     {
                         "Data": {
@@ -254,41 +455,18 @@
                             "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider",
-                        "UUID": 9218969408194939161
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_materialHandle": 0,
-                            "m_modelHandle": 10911042900965025499
-                        },
-                        "Type": "ModelComponent",
-                        "UUID": 6125079960910584833
+                        "UUID": 2435284281726414516
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
                         "Type": "ChangeColliderComponent",
-                        "UUID": 10704324406404918800
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints",
-                        "UUID": 6812455142087478245
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints2D",
-                        "UUID": 13981653717165439432
+                        "UUID": 18380023291802050274
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 16885775768912453554,
+                "UUID": 11238669093105459884,
                 "m_isActive": true,
                 "m_name": "Cube1",
                 "m_tag": "Floor"
@@ -296,7 +474,170 @@
             {
                 "Children": [
                     {
-                        "Children": [],
+                        "Children": [
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_localPosition": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_localRotation": [
+                                                -0.0,
+                                                0.0,
+                                                -0.0,
+                                                1.0
+                                            ],
+                                            "m_localScale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "Transform",
+                                        "UUID": 12012565384357940514
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_mesh": 296691015903813076
+                                        },
+                                        "Type": "MeshFilter",
+                                        "UUID": 12461407878985831127
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_materials": {
+                                                "array": [
+                                                    13722661967874961706
+                                                ],
+                                                "size": 1
+                                            }
+                                        },
+                                        "Type": "MeshRenderer",
+                                        "UUID": 17021927573572997822
+                                    }
+                                ],
+                                "IsWorld": true,
+                                "UUID": 9940242067086317951,
+                                "m_isActive": true,
+                                "m_name": "Cylinder",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_localPosition": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_localRotation": [
+                                                -0.0,
+                                                0.0,
+                                                -0.0,
+                                                1.0
+                                            ],
+                                            "m_localScale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "Transform",
+                                        "UUID": 10593845799680685267
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_mesh": 875223887165493644
+                                        },
+                                        "Type": "MeshFilter",
+                                        "UUID": 13849818122196351526
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_materials": {
+                                                "array": [
+                                                    11548832367580032911
+                                                ],
+                                                "size": 1
+                                            }
+                                        },
+                                        "Type": "MeshRenderer",
+                                        "UUID": 9406229162945766233
+                                    }
+                                ],
+                                "IsWorld": true,
+                                "UUID": 4332128903466818856,
+                                "m_isActive": true,
+                                "m_name": "Cube",
+                                "m_tag": ""
+                            },
+                            {
+                                "Children": [],
+                                "Components": [
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_localPosition": [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            "m_localRotation": [
+                                                -0.0,
+                                                0.0,
+                                                -0.0,
+                                                1.0
+                                            ],
+                                            "m_localScale": [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        },
+                                        "Type": "Transform",
+                                        "UUID": 4834141571165005798
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_mesh": 16540358388266832529
+                                        },
+                                        "Type": "MeshFilter",
+                                        "UUID": 15054254654194615281
+                                    },
+                                    {
+                                        "Data": {
+                                            "m_isActive": true,
+                                            "m_materials": {
+                                                "array": [
+                                                    7547174432067223749
+                                                ],
+                                                "size": 1
+                                            }
+                                        },
+                                        "Type": "MeshRenderer",
+                                        "UUID": 10777573522694369
+                                    }
+                                ],
+                                "IsWorld": true,
+                                "UUID": 2173449069120333255,
+                                "m_isActive": true,
+                                "m_name": "Sphere",
+                                "m_tag": ""
+                            }
+                        ],
                         "Components": [
                             {
                                 "Data": {
@@ -313,22 +654,13 @@
                                         1.0
                                     ],
                                     "m_localScale": [
-                                        0.9999998807907104,
-                                        1.025640845298767,
-                                        0.9999998807907104
+                                        0.4000000059604645,
+                                        0.4000000059604645,
+                                        0.4000000059604645
                                     ]
                                 },
                                 "Type": "Transform",
-                                "UUID": 17874493194017828776
-                            },
-                            {
-                                "Data": {
-                                    "m_isActive": true,
-                                    "m_materialHandle": 0,
-                                    "m_modelHandle": 6409026790604341907
-                                },
-                                "Type": "ModelComponent",
-                                "UUID": 15253636427903711298
+                                "UUID": 10064121801806057261
                             },
                             {
                                 "Data": {
@@ -337,26 +669,26 @@
                                     "m_layerNum": 0,
                                     "m_localCenterPos": [
                                         0.0,
-                                        0.5,
+                                        1.0,
                                         0.0
                                     ],
                                     "m_localSize": [
                                         0.10000000149011612,
-                                        0.8999999761581421,
+                                        2.0,
                                         0.10000000149011612
                                     ],
                                     "m_needInfo": false,
                                     "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider",
-                                "UUID": 12018471820731064805
+                                "UUID": 14084053391934375997
                             },
                             {
                                 "Data": {
                                     "m_isActive": true
                                 },
                                 "Type": "GoalComponent",
-                                "UUID": 3390899938401132106
+                                "UUID": 463647347852682721
                             },
                             {
                                 "Data": {
@@ -364,26 +696,82 @@
                                     "m_isTrigger": true,
                                     "m_layerNum": 0,
                                     "m_localCenterPos": [
-                                        0.23000000417232513,
-                                        0.699999988079071,
+                                        0.33000001311302185,
+                                        1.4500000476837158,
                                         0.0
                                     ],
                                     "m_localSize": [
-                                        0.30000001192092896,
-                                        0.33000001311302185,
+                                        0.699999988079071,
+                                        0.5299999713897705,
                                         0.10000000149011612
                                     ],
                                     "m_needInfo": false,
                                     "m_physicsMaterial": 0
                                 },
                                 "Type": "BoxCollider",
-                                "UUID": 7810922336960199066
+                                "UUID": 8208448374639464202
                             }
                         ],
                         "IsWorld": true,
-                        "UUID": 17398266944440182633,
+                        "UUID": 8816795592313380974,
                         "m_isActive": true,
                         "m_name": "Goal",
+                        "m_tag": ""
+                    },
+                    {
+                        "Children": [],
+                        "Components": [
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_localPosition": [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "m_localRotation": [
+                                        -0.0,
+                                        0.0,
+                                        -0.0,
+                                        1.0
+                                    ],
+                                    "m_localScale": [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                },
+                                "Type": "Transform",
+                                "UUID": 2680318901825052869
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_mesh": 680756739576449824
+                                },
+                                "Type": "MeshFilter",
+                                "UUID": 1627331258591821786
+                            },
+                            {
+                                "Data": {
+                                    "m_isActive": true,
+                                    "m_materials": {
+                                        "array": [
+                                            3732309021315686830,
+                                            11242920461976710942,
+                                            9499417118734021292
+                                        ],
+                                        "size": 3
+                                    }
+                                },
+                                "Type": "MeshRenderer",
+                                "UUID": 10660239000878354714
+                            }
+                        ],
+                        "IsWorld": true,
+                        "UUID": 9232672990727921867,
+                        "m_isActive": true,
+                        "m_name": "Platform_1x1_Empty_Cube.100",
                         "m_tag": ""
                     }
                 ],
@@ -409,7 +797,7 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 17914370984253125505
+                        "UUID": 17675402609121097306
                     },
                     {
                         "Data": {
@@ -430,41 +818,18 @@
                             "m_physicsMaterial": 0
                         },
                         "Type": "BoxCollider",
-                        "UUID": 14837707078676869846
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true,
-                            "m_materialHandle": 0,
-                            "m_modelHandle": 710819452532585730
-                        },
-                        "Type": "ModelComponent",
-                        "UUID": 11805311591853705731
+                        "UUID": 4651300634766595961
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
                         "Type": "ChangeColliderComponent",
-                        "UUID": 16935074799681362497
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints",
-                        "UUID": 12032073623959285599
-                    },
-                    {
-                        "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "LandingCandidatePoints2D",
-                        "UUID": 12465967130732501800
+                        "UUID": 14534818076516285971
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 10220042010766487176,
+                "UUID": 13884524186107059994,
                 "m_isActive": true,
                 "m_name": "Cube2",
                 "m_tag": "Floor"
@@ -493,30 +858,24 @@
                             ]
                         },
                         "Type": "Transform",
-                        "UUID": 13621088879359887134
+                        "UUID": 1010599769472231276
                     },
                     {
                         "Data": {
                             "m_isActive": true
                         },
                         "Type": "DimentionManager",
-                        "UUID": 11457975213774466667
+                        "UUID": 2302848923933068667
                     },
                     {
                         "Data": {
-                            "m_isActive": true
-                        },
-                        "Type": "EnemyManager",
-                        "UUID": 17144793972614889728
-                    },
-                    {
-                        "Data": {
-                            "m_cameraName": "MainCamera",
+                            "m_camera": 14345861942996533245,
+                            "m_dimentionManager": 2302848923933068667,
                             "m_isActive": true,
-                            "m_playerName": "Player"
+                            "m_player": 9223197463085659886
                         },
                         "Type": "PlaySceneManager",
-                        "UUID": 6826356748866246932
+                        "UUID": 2871725337555201163
                     },
                     {
                         "Data": {
@@ -530,18 +889,18 @@
                             "m_volume": 1.0
                         },
                         "Type": "AudioSource",
-                        "UUID": 3252306967383523717
+                        "UUID": 2585655987090600582
                     },
                     {
                         "Data": {
                             "m_claerTimeScale": 0.20000000298023224,
-                            "m_clearDialog": 17687806762990345503,
+                            "m_clearDialog": 2968261440911157493,
                             "m_clearUIName": "ClearUI",
                             "m_isActive": false,
                             "m_toClearTime": 1.0
                         },
                         "Type": "ClearEffect",
-                        "UUID": 17380787976262594682
+                        "UUID": 1879511817992856719
                     },
                     {
                         "Data": {
@@ -552,11 +911,11 @@
                             "m_playerName": "Player"
                         },
                         "Type": "GameOverComponent",
-                        "UUID": 11545332724383736230
+                        "UUID": 811447796751181873
                     }
                 ],
                 "IsWorld": true,
-                "UUID": 6718459953413087467,
+                "UUID": 9170411282758126130,
                 "m_isActive": true,
                 "m_name": "Manager",
                 "m_tag": ""
@@ -592,7 +951,7 @@
                                     ]
                                 },
                                 "Type": "RectTransform",
-                                "UUID": 16364434640433144690
+                                "UUID": 451306608161232471
                             },
                             {
                                 "Data": {
@@ -618,12 +977,12 @@
                                     "m_text": "クリア"
                                 },
                                 "Type": "TextUI",
-                                "UUID": 16942584204333473226
+                                "UUID": 15187855612244189591
                             },
                             {
                                 "Data": {
                                     "m_closeEasing": {
-                                        "m_kind": "Linear",
+                                        "m_kind": "Cubic",
                                         "m_type": "In"
                                     },
                                     "m_expType": "XY",
@@ -635,13 +994,13 @@
                                     "m_transTime": 0.05000000074505806
                                 },
                                 "Type": "PauseDialog",
-                                "UUID": 17687806762990345503
+                                "UUID": 2968261440911157493
                             }
                         ],
                         "IsWorld": false,
-                        "UUID": 21689428333042982,
+                        "UUID": 15674141709594852426,
                         "m_isActive": true,
-                        "m_name": "Text",
+                        "m_name": "ClearUI",
                         "m_tag": ""
                     }
                 ],
@@ -672,7 +1031,7 @@
                             ]
                         },
                         "Type": "RectTransform",
-                        "UUID": 9993864914453005932
+                        "UUID": 13711006800793214279
                     },
                     {
                         "Data": {
@@ -680,13 +1039,61 @@
                             "m_isActive": true
                         },
                         "Type": "Canvas",
-                        "UUID": 12974606028706138530
+                        "UUID": 12485657883906474924
                     }
                 ],
                 "IsWorld": false,
-                "UUID": 5312794606947112098,
+                "UUID": 15663685285470697736,
                 "m_isActive": true,
                 "m_name": "Canvas",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                -0.2999356687068939,
+                                0.11648061871528625,
+                                0.03692701831459999,
+                                0.9461010694503784
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 11259400656093322127
+                    },
+                    {
+                        "Data": {
+                            "m_color": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_intensity": 1.0,
+                            "m_isActive": true,
+                            "m_lightType": "Directional"
+                        },
+                        "Type": "LightComponent",
+                        "UUID": 13644947517534406317
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 12637138828153648877,
+                "m_isActive": true,
+                "m_name": "DirectionalLight",
                 "m_tag": ""
             }
         ]
