@@ -43,6 +43,7 @@ namespace RHEngine
 
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // ドッキング可能に
 
 		//  Win32用の初期化
 		ImGui_ImplWin32_Init(hwnd);
