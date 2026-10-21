@@ -30,6 +30,12 @@
                     {
                         "Data": {
                             "m_aspect": 1.777999997138977,
+                            "m_backColor": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
                             "m_farZ": 50.0,
                             "m_fov": 0.7850000262260437,
                             "m_isActive": true,
@@ -132,7 +138,7 @@
                     },
                     {
                         "Data": {
-                            "m_audioClip": 0,
+                            "m_audioClip": 8595878006663215280,
                             "m_isActive": true,
                             "m_loop": true,
                             "m_pan": 0.0,
@@ -146,6 +152,7 @@
                     },
                     {
                         "Data": {
+                            "m_audioSource": 12830094089929852614,
                             "m_exitAcceptButton": 16394497281606053557,
                             "m_exitButton": 1143490978386297670,
                             "m_exitCancelButton": 16135387645457378905,

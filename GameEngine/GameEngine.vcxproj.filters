@@ -786,7 +786,9 @@
     <ClCompile Include="src\Debug\RectDebugRenderer.cpp">
       <Filter>src\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="src\WinProc.cpp" />
+    <ClCompile Include="src\WinProc.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1491,7 +1493,9 @@
     <ClInclude Include="src\Debug\RectDebugRenderer.h">
       <Filter>src\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="include\WinProc.h" />
+    <ClInclude Include="include\WinProc.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

@@ -126,7 +126,7 @@ namespace RHEngine
 	void InfoWindow::Load()
 	{
 		// シーンのリセット
-		m_pScene->ResetObjects();
+		m_pScene->Finalize();
 
 		// GUIのリセット
 		m_pGUI->Reset();
@@ -143,6 +143,9 @@ namespace RHEngine
 				m_pScene
 			);
 		}
+
+		// 初期化
+		m_pScene->Initialize();
 	}
 }	// namespace RHEngine
 
