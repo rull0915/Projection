@@ -37,5 +37,6 @@ namespace RHEngine
 
 		//-------- Sprite --------//
 		const UUID DEFAULT_SPRITE = 21;
+		const UUID ENGINE_LOGO_SPRITE = 22;
 	}
 }

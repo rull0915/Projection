@@ -45,8 +45,7 @@ namespace RHEngine
 			// UUID 
 			UUID uuid = 0;
 
-			// type_index
-			std::type_index type = std::type_index(typeid(void));
+			const std::type_info* type = &typeid(void);
 		};
 
 	private:
@@ -60,6 +59,10 @@ namespace RHEngine
 		std::unordered_map<UUID, uint32_t> m_uuidToIndex;
 
 	public:
+
+		AssetRegistry();
+		~AssetRegistry();
+
 		// アセットを登録する関数
 		UnTypeHandle Register(UUID uuid)
 		{
@@ -131,13 +134,13 @@ namespace RHEngine
 		{
 			if (newAsset)
 			{
-				m_slots[index].type = std::type_index(typeid(*newAsset));
+				m_slots[index].type = &typeid(*newAsset);
 				m_slots[index].asset = std::move(newAsset);
 				m_slots[index].asset->SetUUID(m_slots[index].uuid);
 			}
 			else
 			{
-				m_slots[index].type = std::type_index(typeid(void));
+				m_slots[index].type = &typeid(void);
 				m_slots[index].asset = nullptr;
 			}
 		}
@@ -147,7 +150,7 @@ namespace RHEngine
 		T* Get(Handle<T> handle) const
 		{
 			// タイプ
-			static std::type_index type = std::type_index(typeid(T));
+			static const std::type_info* type = &typeid(T);
 
 			// 無効なインデックスを指していた場合nullptrを返す
 			if (handle.index >= m_slots.size()) return nullptr;
@@ -218,5 +221,8 @@ namespace RHEngine
 			// UUIDを取得し返す
 			return slot.uuid;
 		}
+
+		// リセット
+		void Reset();
 	};
 }	// namespace RHEngine
