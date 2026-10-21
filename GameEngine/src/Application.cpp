@@ -15,6 +15,8 @@
 #include "GameEngine.h"
 #include "System/Render/GraphicsManager.h"
 #include "Scene/SceneManager.h"
+#include "System/WindowManager.h"
+#include "Input/KeyInput.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -88,6 +90,12 @@ void RHEngine::Application::Update()
 
 	// アプリ側の更新
 	OnUpdate(elapsedTime);
+
+	// Alt+Enterでフルスクリーン化
+	if (Input::Key::Get(Input::Key::Code::LeftAlt) && Input::Key::GetDown(Input::Key::Code::Enter))
+	{
+		WindowManager::Instance().SwitchScreenMode(GraphicsManager::Instance().GetDeviceResources()->GetWindow());
+	}
 }
 
 void RHEngine::Application::Render()

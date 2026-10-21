@@ -41,7 +41,7 @@
 extern RHEngine::Application* RHEngine::CreateApplication();
 
 namespace {
-    std::unique_ptr<RHEngine::Application> g_app;
+	std::unique_ptr<RHEngine::Application> g_app;
 }
 
 // エントリポイント
