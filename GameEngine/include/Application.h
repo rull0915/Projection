@@ -84,6 +84,10 @@ namespace RHEngine
 		void OnDeviceLost() override {}
 		void OnDeviceRestored() override {}
 
+		//------ WndProcからメッセージを受け取る関数 -------//
+
+		void OnWindowSizeChanged(int width, int height);	// ウィンドウサイズ変更時
+
 	private:
 
 		// 更新関数

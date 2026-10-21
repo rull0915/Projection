@@ -558,9 +558,6 @@
     <ClCompile Include="src\Editor\Editor\Windows\HierarchyWindow.cpp">
       <Filter>src\Editor\Editor\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp">
-      <Filter>src\Editor\Editor\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp">
       <Filter>src\Editor\Editor\Windows\Inspector</Filter>
     </ClCompile>
@@ -789,6 +786,9 @@
     <ClCompile Include="src\WinProc.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
+    <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1349,9 +1349,6 @@
     <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h">
       <Filter>src\Editor\Editor\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h">
-      <Filter>src\Editor\Editor\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h">
       <Filter>src\Editor\Editor\Windows\Inspector</Filter>
     </ClInclude>
@@ -1496,6 +1493,8 @@
     <ClInclude Include="include\WinProc.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="src\Editor\Editor\Windows\ImageWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

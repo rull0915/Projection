@@ -47,6 +47,7 @@ void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 	m_deviceResources->SetWindow(hwnd, width, height);
 
 	// ウィンドウマネージャーにサイズを渡す
+	WindowManager::Instance().SetWindow(hwnd);
 	WindowManager::Instance().SetWidth(width);
 	WindowManager::Instance().SetHeight(height);
 
@@ -55,7 +56,7 @@ void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 
 	// ゲームエンジンの初期化
-	m_gameEngine->Initialize(m_deviceResources, hwnd, true);
+	m_gameEngine->Initialize(m_deviceResources, hwnd, false);
 
 	// アプリ側の初期化
 	OnInitialize();
@@ -80,6 +81,15 @@ void RHEngine::Application::Tick()
 	Render();
 }
 
+void RHEngine::Application::OnWindowSizeChanged(int width, int height)
+{
+	// デバイスリソースに通知
+	m_deviceResources->WindowSizeChanged(width, height);
+
+	// ウィンドウマネージャーに通知
+	WindowManager::Instance().SetSize(width, height);
+}
+
 void RHEngine::Application::Update()
 {
 	// 経過時間を取得
@@ -94,7 +104,7 @@ void RHEngine::Application::Update()
 	// Alt+Enterでフルスクリーン化
 	if (Input::Key::Get(Input::Key::Code::LeftAlt) && Input::Key::GetDown(Input::Key::Code::Enter))
 	{
-		WindowManager::Instance().SwitchScreenMode(GraphicsManager::Instance().GetDeviceResources()->GetWindow());
+		WindowManager::Instance().SwitchScreenMode();
 	}
 }
 

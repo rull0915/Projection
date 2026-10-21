@@ -20,6 +20,7 @@
 #include "Editor/Editor/EditGUI.h"
 #include "Editor/Editor/SceneCamera.h"
 #include "System/Render/RenderTarget.h"
+#include "Mouse.h"
 
 namespace RHEngine
 {
@@ -56,6 +57,9 @@ namespace RHEngine
 		// アセットマネージャー
 		AssetManager& m_assetManager;
 
+		// 以前のマウスモード
+		DirectX::Mouse::Mode m_oldMouseMode;
+
 	public:
 
 		//-----------------------------------------------------
@@ -73,14 +77,6 @@ namespace RHEngine
 		void Update(const GameTimer& gameTimer);
 		void Render(Renderer& renderer);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
 	private:
 
 		//-----------------------------------------------------
@@ -88,6 +84,8 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		void TestPlay();
+
+		void PlayStop();
 	};
 } // namespace RHEngine
 

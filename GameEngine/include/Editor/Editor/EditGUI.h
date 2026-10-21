@@ -13,7 +13,6 @@
 
 #ifdef ENGINE_GUI
 
-#include "GuizmoManager.h"
 #include "SelectedOnGUI.h"
 #include "SceneCamera.h"
 
@@ -28,7 +27,8 @@ namespace RHEngine
 	class HierarchyWindow;
 	class InspectorWindow;
 	class ProjectWindow;
-	class InfoWindow;
+	class ToolBarWindow;
+	class ImageWindow;
 	class AssetManager;
 
 	//====================================================//
@@ -36,19 +36,6 @@ namespace RHEngine
 	//====================================================//
 	class EditGUI
 	{
-	public:
-		// ウィンドウタイプ
-		enum class WindowType
-		{
-			None,
-			Hieraychy,
-			Inspector,
-			Project,
-			Info,
-			GameView,
-			SceneView,
-		};
-
 	private:
 
 		//-----------------------------------------------------
@@ -58,22 +45,17 @@ namespace RHEngine
 		// 所属先のシーン
 		Scene* m_pScene;
 
+		std::unique_ptr<ToolBarWindow> m_toolbar;			// ツールバーウィンドウ
 		std::unique_ptr<HierarchyWindow> m_hierarchy;	// ヒエラルキーウィンドウ
 		std::unique_ptr<InspectorWindow> m_inspector;	// インスペクターウィンドウ
 		std::unique_ptr<ProjectWindow> m_project;		// プロジェクトウィンドウ
-		std::unique_ptr<InfoWindow> m_info;				// インフォウィンドウ
-
-		// クリックされているウィンドウ
-		WindowType m_nowType;
+		std::unique_ptr<ImageWindow> m_images;			// 画像用ウィンドウ
 
 		// シーンビューの描画設定
 		unsigned char m_sceneDrawSetting;
 
 		// アセットマネージャー
 		AssetManager& m_assetmanager;
-
-		// ギズモ管理クラス
-		GuizmoManager m_guizmoManager;
 
 		// 選択中オブジェクト
 		SelectedOnGUI m_selected;
@@ -83,7 +65,7 @@ namespace RHEngine
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc);
+		EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc, std::function<void()> stopFunc);
 		~EditGUI();
 
 		//-----------------------------------------------------
@@ -95,23 +77,22 @@ namespace RHEngine
 		// ウィンドウの描画をする関数
 		void DrawWindows();
 
-		// ビューの描画をする関数
-		void DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, SceneCamera* sceneViewCamera);
+		// シーンビューの描画をする関数
+		bool DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera);
 
-		// ウィンドウをセットする関数
-		void SetWindowType(WindowType type) { m_nowType = type; }
-
-		// ウィンドウを取得する関数
-		WindowType GetWindowType() { return m_nowType; }
+		bool DrawGameView(ID3D11ShaderResourceView* gameView);
 
 		// 描画設定を取得する関数
 		unsigned char GetDrawSetting() const { return m_sceneDrawSetting; }
 
-		// Imageのデバッグ表示をする関数
-		void DrawImageDebugWindow(std::string_view title, ID3D11ShaderResourceView* image) const;
-
 		// スタイルエディタウィンドウを表示する関数
 		void DrawStyleEditor();
+
+		// ツールバーを表示する関数
+		void DrawToolBar(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
+
+		// ドッキング領域を描画する関数
+		void DrawDockingArea();
 
 	private:
 
@@ -119,17 +100,6 @@ namespace RHEngine
 		// 内部実装
 		//-----------------------------------------------------
 
-		// 画像の表示
-		void DrawImage(ID3D11ShaderResourceView* img);
-
-		// シーンビュー描画の開始
-		void StartSceneView();
-
-		// ゲームビュー描画の開始
-		void StartGameView();
-
-		// シーンビューの描画
-		void DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera);
 	};
 } // namespace RHEngine
 

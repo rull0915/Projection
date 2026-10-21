@@ -159,17 +159,8 @@ namespace RHEngine
 		{
 			// エディターの更新
 			m_editor->Update(*m_gameTimer);
-
-			// Ctrl + Eキーでエディット
-			if (
-				Input::Key::Get(Input::Key::Code::LeftControl) &&
-				!Input::Key::Get(Input::Key::Code::LeftShift) &&
-				Input::Key::GetDown(Input::Key::Code::E))
-			{
-				m_editor->Initialize();
-			}
 		}
-		// Ctrl + Eキーでエディットとプレイの切り替え
+		// Ctrl + Shift + Eキーでエディットとプレイの切り替え
 		if (
 			Input::Key::Get(Input::Key::Code::LeftControl) &&
 			Input::Key::Get(Input::Key::Code::LeftShift) &&
@@ -192,14 +183,7 @@ namespace RHEngine
 		{
 			// エディターの描画
 			m_editor->Render(m_renderer);
-		}
 
-#endif // ENGINE_GUI
-
-#ifdef ENGINE_GUI
-
-		if (m_sceneEdit)
-		{
 			// Imguiの描画
 			RHEngine::ImguiManager::Render();
 		}

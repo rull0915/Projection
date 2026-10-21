@@ -16,6 +16,7 @@
 #include <Keyboard.h>
 
 #include "Editor/Editor/ImguiManager.h"
+#include "Application.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -23,6 +24,8 @@
 
 LRESULT CALLBACK RHEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	auto app = reinterpret_cast<Application*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+
 #ifdef ENGINE_GUI
 	if (RHEngine::ImguiManager::ProcessMessage(hWnd, message, wParam, lParam))
 	{
@@ -67,6 +70,16 @@ LRESULT CALLBACK RHEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	case WM_XBUTTONUP:
 	case WM_MOUSEHOVER:
 		DirectX::Mouse::ProcessMessage(message, wParam, lParam);
+		break;
+
+	case WM_SIZE:
+		UINT width = LOWORD(lParam);
+		UINT height = HIWORD(lParam);
+
+		if (width == 0 || height == 0) break;
+
+		// app->OnWindowSizeChanged(width, height);
+
 		break;
 	}
 

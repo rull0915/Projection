@@ -39,6 +39,9 @@ namespace RHEngine
 		// アセットマネージャー
 		AssetManager* m_assetManager;
 
+		// シーンを画面に描画するかどうか
+		bool m_drawScene;
+
 	private:
 
 		// コンストラクタ
@@ -84,6 +87,9 @@ namespace RHEngine
 
 		// シーンを取得する関数
 		Scene* GetCurrentScene() const { return m_currentScene.get(); }
+
+		// シーン描画設定の変更
+		void SetDrawScene(bool flag) { m_drawScene = flag; }
 
 	private:
 

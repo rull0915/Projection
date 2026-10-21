@@ -197,9 +197,6 @@ namespace RHEngine
 
 			m_sceneRenderer->DrawUIPass(ctx, renderer);
 		}
-
-		// シーンの描画
-		renderer.Draw().Sprite().DrawFullScreen(m_gameView.GetShaderResourceView());
 	}
 
 	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow)

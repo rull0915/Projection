@@ -52,7 +52,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	if (!DirectX::XMVerifyCPUSupport()) return 1;
-	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+
+	if (FAILED(hr)) return -1;
 
 	// アプリケーションインスタンスを生成
 	g_app.reset(RHEngine::CreateApplication());

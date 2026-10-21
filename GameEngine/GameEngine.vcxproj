@@ -164,7 +164,13 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Assets\Managers\DefaultAssetManager.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
     <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
@@ -249,7 +255,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\EditGUI.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
-    <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\SceneCamera.cpp" />
@@ -604,8 +609,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\ImageWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
     <ClInclude Include="src\Managers\Renderer\LightManager.h" />
     <ClInclude Include="src\Managers\ReserveContainer.h" />
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
@@ -722,7 +729,6 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h" />
-    <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindow.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />

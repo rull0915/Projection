@@ -22,7 +22,10 @@
 #include "Scene/SceneManager.h"
 
 #include "Input/MouseInput.h"
+#include "Input/KeyInput.h"
 #include "Editor/Saver/ObjectSaver.h"
+
+#include "Assets/EngineDefaultAssets.h"
 
 namespace RHEngine
 {
@@ -35,10 +38,11 @@ namespace RHEngine
 		: m_pScene{ pScene }
 		, m_isActive{ false }
 		, m_isPlaying{ false }
-		, m_gui{ m_pScene, am, [this]() { TestPlay(); } }
+		, m_gui{ m_pScene, am, [this]() { TestPlay(); }, [this]() { PlayStop(); } }
 		, m_sceneView{ std::make_unique<RenderTarget>() }
 		, m_sceneViewCamera{}
 		, m_assetManager{ am }
+		, m_oldMouseMode{}
 	{
 		// ゲームビューの作成
 		m_sceneView->Create(
@@ -81,6 +85,9 @@ namespace RHEngine
 		// マウスの表示を設定
 		Input::Mouse::SetMouseVisible(true);
 		Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+
+		// シーン描画のオフ
+		SceneManager::Instance().SetDrawScene(false);
 	}
 
 	void SceneEditor::Finalize()
@@ -100,6 +107,9 @@ namespace RHEngine
 		// マウスの表示を設定
 		Input::Mouse::SetMouseVisible(true);
 		Input::Mouse::SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+
+		// シーン描画のオン
+		SceneManager::Instance().SetDrawScene(true);
 	}
 
 	// 更新関数
@@ -109,14 +119,28 @@ namespace RHEngine
 
 		gameTimer;
 
+		// ロゴアセットを取得
+		auto logo = m_assetManager.GetAssetFromUUID<Texture>(DefaultAsset::ENGINE_LOGO_SPRITE);
+
+		// ツールバーの表示
+		m_gui.DrawToolBar(logo->Get(), m_isPlaying);
+
+		// ドッキング領域の描画
+		m_gui.DrawDockingArea();
+
+		m_gui.DrawStyleEditor();
+
 		// 3つのウィンドウを描画
 		m_gui.DrawWindows();
 
-		// 2つのビューを描画
-		m_gui.DrawViews(m_sceneView->GetShaderResourceView(), m_pScene->GetGameView(), &m_sceneViewCamera);
+		// シーンビューを描画
+		bool canMove = m_gui.DrawSceneView(m_sceneView->GetShaderResourceView(), &m_sceneViewCamera);
+		
+		// ゲームビューを描画
+		bool clickedGameView = m_gui.DrawGameView(m_pScene->GetGameView());
 
 		// シーンビューカメラ
-		m_sceneViewCamera.SetMovable(m_gui.GetWindowType() == EditGUI::WindowType::SceneView);
+		m_sceneViewCamera.SetMovable(canMove);
 
 		// カメラの更新
 		m_sceneViewCamera.Update(gameTimer);
@@ -124,15 +148,25 @@ namespace RHEngine
 		// ビュー行列の更新
 		m_sceneViewCamera.UpdateView();
 
-		static bool showShadowMap = false;
-
-		// ToDelete
-		if (Input::Mouse::Get(Input::Mouse::Button::Right) && Input::Mouse::GetDown(Input::Mouse::Button::Left))
+		// 実行中なら
+		if (m_isPlaying)
 		{
-			showShadowMap = !showShadowMap;
+			// Escapeが入力されたらマウスを絶対モードに
+			if (Input::Key::GetDown(Input::Key::Code::Escape))
+			{
+				// 今の状態を保持
+				m_oldMouseMode = Input::Mouse::GetMode();
+
+				// 変更
+				Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
+			}
+
+			// ゲームビューがクリックされたら元に戻す
+			if (clickedGameView)
+			{
+				Input::Mouse::SetMode(m_oldMouseMode);
+			}
 		}
-		//if (showShadowMap) m_gui.DrawImageDebugWindow("ShadowMap", m_pScene->GetShadowMapTexture());
-		if (showShadowMap) m_gui.DrawStyleEditor();
 	}
 
 	void SceneEditor::Render(Renderer& renderer)
@@ -173,6 +207,12 @@ namespace RHEngine
 
 		// プレイモードへ
 		m_pScene->SetUpdateMode(UpdateMode::Play);
+	}
+
+	void SceneEditor::PlayStop()
+	{
+		// エディタ－を初期化
+		Initialize();
 	}
 }	// namespace RHEngine
 
