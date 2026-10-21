@@ -112,6 +112,12 @@ namespace RHEngine
 		
 		// デバッグ表示
 		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+
+		// ウィンドウサイズの変更を検知
+		virtual void OnWindowSizeChanged(int width, int height)
+		{
+			m_needUpdateProj = true;
+		}
 		
 		//-----------------------------------------------------
 		// ゲッター

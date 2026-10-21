@@ -69,6 +69,9 @@ namespace RHEngine
 		// 更新処理
 		void Update(const GameTimer& gameTimer);
 
+		// ウィンドウサイズ変化時処理
+		void OnWindowSizeChanged(int width, int height);
+
 		// 描画処理
 		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);
 

@@ -95,6 +95,25 @@ namespace RHEngine
 		PrepareRender();
 	}
 
+	void Scene::OnWindowSizeChanged(int width, int height)
+	{
+		// 画面全体に描画するRenderTargetのリサイズ
+		m_mainWorld.Resize(width, height);
+		m_gameView.Resize(width, height);
+
+		// Canvasに通知
+		for (Canvas* canvas : m_updatePipeline->GetUIManager()->GetObjects())
+		{
+			canvas->OnWindowSizeChanged(width, height);
+		}
+
+		// Cameraに通知
+		for (CameraBase* camera : m_updatePipeline->GetCameraManager()->GetObjects())
+		{
+			camera->OnWindowSizeChanged(width, height);
+		}
+	}
+
 	void Scene::PrepareRender()
 	{
 		// リセット

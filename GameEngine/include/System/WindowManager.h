@@ -39,6 +39,11 @@ namespace RHEngine
 		//-----------------------------------------------------
 	private:
 
+		// デフォルトサイズ
+		unsigned int m_defaultWidth;
+		unsigned int m_defaultHeight;
+
+		// サイズ
 		unsigned int m_width;
 		unsigned int m_height;
 
@@ -53,7 +58,9 @@ namespace RHEngine
 		//-----------------------------------------------------
 	private:
 		WindowManager()
-			: m_width{}
+			: m_defaultWidth{}
+			, m_defaultHeight{}
+			, m_width{}
 			, m_height{}
 			, m_backGroundColor{ 0.3f, 0.6f, 0.8f, 1.0f }
 			, m_window{}
@@ -70,6 +77,13 @@ namespace RHEngine
 		{
 			static WindowManager instance;
 			return instance;
+		}
+
+		// デフォルトウィンドウサイズの設定
+		void SetDefaultWindowSize(int width, int height)
+		{
+			m_defaultWidth = static_cast<unsigned int>(width);
+			m_defaultHeight = static_cast<unsigned int>(height);
 		}
 
 		// ウィンドウをセットする関数
@@ -119,8 +133,8 @@ namespace RHEngine
 		void SetHeight(unsigned int value) { m_height = value; }  // 高さ
 		void SetSize(unsigned int width, unsigned int height) 
 		{ 
-			m_width = height; 
-			m_height = width; 
+			m_width = width; 
+			m_height = height; 
 		} 
 
 		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色

@@ -20,6 +20,7 @@ RHEngine::AssetRegistry::AssetRegistry()
 	: m_slots{}
 	, m_freeIndexList{}
 	, m_uuidToIndex{}
+	, m_mutex{}
 {}
 
 RHEngine::AssetRegistry::~AssetRegistry()

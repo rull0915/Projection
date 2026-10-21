@@ -63,6 +63,12 @@ namespace RHEngine
 		if (m_currentScene) m_currentScene->Update(gameTimer);
 	}
 
+	void SceneManager::OnWindowSizeChanged(int width, int height)
+	{
+		// 現在のシーンが設定されていれば通知
+		if (m_currentScene) m_currentScene->OnWindowSizeChanged(width, height);
+	}
+
 	// 描画処理
 	void SceneManager::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{

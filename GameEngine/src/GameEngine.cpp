@@ -146,6 +146,7 @@ namespace RHEngine
 
 		// タイマーの更新
 		m_gameTimer->Update(elapsedTime);
+
 		// 各シーンの更新
 		if (
 			!DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
@@ -170,6 +171,12 @@ namespace RHEngine
 		}
 
 #endif // ENGINE_GUI
+	}
+
+	void GameEngine::OnWindowSizeChanged(int width, int height)
+	{
+		// シーンマネージャーに通知
+		SceneManager::Instance().OnWindowSizeChanged(width, height);
 	}
 
 	void GameEngine::Render()

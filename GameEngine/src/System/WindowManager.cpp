@@ -31,7 +31,7 @@ namespace RHEngine
 
 			ShowWindow(m_window, SW_SHOWNORMAL);
 
-			RECT rc = { 0,0,static_cast<LONG>(m_width),static_cast<LONG>(m_height) };
+			RECT rc = { 0,0,static_cast<LONG>(m_defaultWidth),static_cast<LONG>(m_defaultHeight) };
 			AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
 
 			SetWindowPos(

@@ -151,6 +151,10 @@ namespace RHEngine
 		context->RSSetViewports(
 			1,
 			&m_prevViewport);
+
+		// 保存していたCOM参照を解放
+		m_prevRTV.Reset();
+		m_prevDSV.Reset();
 	}
 
 	void RenderTarget::Clear(ID3D11DeviceContext* context, const DirectX::SimpleMath::Color& color)

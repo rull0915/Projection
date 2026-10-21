@@ -63,6 +63,8 @@ namespace RHEngine
 
 	bool EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera)
 	{
+		if (!sceneView) return false;
+
 		GameObject* obj = dynamic_cast<GameObject*>(m_selected.GetSelected());
 
 		// シーンビューの描画

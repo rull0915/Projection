@@ -76,6 +76,11 @@ namespace RHEngine
 		MouseEventChild(GetComponent<RectTransform>(), event);
 	}
 
+	void Canvas::OnWindowSizeChanged(int width, int height)
+	{
+		GetComponent<RectTransform>()->SetSize(WindowManager::Instance().GetSize());
+	}
+
 	void Canvas::DrawChild(RectTransform* rectTransform, Renderer& renderer)
 	{
 		// GameObjectを取得

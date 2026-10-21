@@ -24,6 +24,11 @@
 
 LRESULT CALLBACK RHEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	static bool s_in_sizemove = false;
+	static bool s_in_suspend = false;
+	static bool s_minimized = false;
+	static bool s_fullscreen = false;
+
 	auto app = reinterpret_cast<Application*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
 #ifdef ENGINE_GUI
@@ -36,6 +41,20 @@ LRESULT CALLBACK RHEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	// 受け取ったメッセージによって処理を分岐
 	switch (message)
 	{
+	case WM_CREATE:
+
+		if (lParam)
+		{
+			auto params = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+
+			SetWindowLongPtr(
+				hWnd,
+				GWLP_USERDATA,
+				reinterpret_cast<LONG_PTR>(params->lpCreateParams)
+			);
+		}
+
+		break;
 
 		// Window破棄時
 	case WM_DESTROY:
@@ -73,13 +92,48 @@ LRESULT CALLBACK RHEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		break;
 
 	case WM_SIZE:
-		UINT width = LOWORD(lParam);
-		UINT height = HIWORD(lParam);
+		if (wParam == SIZE_MINIMIZED)
+		{
+			if (!s_minimized)
+			{
+				s_minimized = true;
+				if (!s_in_suspend && app)
+					//app->OnSuspending();
+					s_in_suspend = true;
+			}
+		}
+		else if (s_minimized)
+		{
+			s_minimized = false;
+			if (s_in_suspend && app)
+				//app->OnResuming();
+				s_in_suspend = false;
+		}
+		else if (!s_in_sizemove && app)
+		{
+			app->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+		}
+		break;
 
-		if (width == 0 || height == 0) break;
+	case WM_MOVE:
+		if (app)
+		{
+			// app->OnWindowMoved();
+		}
+		break;
+	case WM_ENTERSIZEMOVE:
+		s_in_sizemove = true;
+		break;
 
-		// app->OnWindowSizeChanged(width, height);
+	case WM_EXITSIZEMOVE:
+		s_in_sizemove = false;
+		if (app)
+		{
+			RECT rc;
+			GetClientRect(hWnd, &rc);
 
+			app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+		}
 		break;
 	}
 

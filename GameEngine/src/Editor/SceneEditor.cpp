@@ -161,11 +161,11 @@ namespace RHEngine
 				Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 			}
 
-			// ゲームビューがクリックされたら元に戻す
-			if (clickedGameView)
-			{
-				Input::Mouse::SetMode(m_oldMouseMode);
-			}
+			//// ゲームビューがクリックされたら元に戻す
+			//if (clickedGameView)
+			//{
+			//	Input::Mouse::SetMode(m_oldMouseMode);
+			//}
 		}
 	}
 
