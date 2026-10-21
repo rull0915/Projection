@@ -57,12 +57,12 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		// ヒエラルキーの描画
-		bool DrawHierarchy();
+		void DrawHierarchy();
 
 	private:
 
 		// ヒエラルキー描画の開始
-		bool StartHierarchy();
+		void StartHierarchy();
 
 		// GameObjectの表示関数
 		void DrawGameObject(GameObject* object);

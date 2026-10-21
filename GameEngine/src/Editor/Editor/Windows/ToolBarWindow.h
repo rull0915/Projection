@@ -1,12 +1,12 @@
 ﻿//====================================================//
-// ファイル名   : InfoWindow.h
+// ファイル名   : ToolBarWindow.h
 // 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/07
+// 作成日       : 2026/10/21
 //
-// 概要 : 情報を表示するウィンドウ
+// 概要 : GUIのツールバーを表示するクラス
 //
 // 更新履歴 :
-// 2026/07/07 新規作成
+// 2026/10/21 新規作成
 //====================================================//
 
 #pragma once
@@ -16,56 +16,52 @@
 //====================================================//
 // インクルードファイル
 //====================================================//
+
 #include <functional>
 
 namespace RHEngine
 {
-	class Scene;
-	class EditGUI;
-	class AssetManager;
-
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class InfoWindow
+	class ToolBarWindow
 	{
+	public:
+
+		//-----------------------------------------------------
+		// 定数
+		//-----------------------------------------------------
+
+		static constexpr float TOOL_BAR_HEIGHT = 30.0f;
+
 	private:
 
 		//-----------------------------------------------------
 		// メンバ変数
 		//-----------------------------------------------------
 
-		// シーンポインタ
-		Scene* m_pScene;
+		std::function<void()> m_playFunc;	// プレイ関数
 
-		// GUIポインタ
-		EditGUI* m_pGUI;
-
-		// 再生関数
-		std::function<void()> m_playFunc;
-
-		// アセットマネージャー
-		AssetManager& m_assetManager;
+		std::function<void()> m_stopFunc;	// ストップ関数
 
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		InfoWindow(AssetManager& as, Scene* pScene, EditGUI* pGUI, std::function<void()> playFunc)
-			: m_pScene{ pScene }
-			, m_pGUI{ pGUI }
-			, m_playFunc{ playFunc }
-			, m_assetManager{ as }
-		{}
-		~InfoWindow() = default;
+		ToolBarWindow(std::function<void()> play, std::function<void()> stop)
+			: m_playFunc{ play }
+			, m_stopFunc{ stop }
+		{
+		}
+		~ToolBarWindow() = default;
 
 		//-----------------------------------------------------
 		// 公開関数
 		//-----------------------------------------------------
 
-		// 描画
-		bool DrawInfo();
+		// ツールバーを表示する関数
+		void DrawToolbar(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
 
 	private:
 
@@ -73,17 +69,12 @@ namespace RHEngine
 		// 内部実装
 		//-----------------------------------------------------
 
-		bool StartInfo();
+		// ツールバーウィンドウを開始する関数
+		void StartToolBarWindow();
 
-		// 描画
-		void Draw();
-
-		// 保存
-		void Save();
-
-		// ロード
-		void Load();
+		// ツールバーウィンドウを表示する関数
+		void DrawToolBarWindow(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
 	};
-}	// namespace RHEngine
+}
 
-#endif // ENGINE_GUI
+#endif

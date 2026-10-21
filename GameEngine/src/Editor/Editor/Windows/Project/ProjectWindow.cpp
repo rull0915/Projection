@@ -28,32 +28,21 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool ProjectWindow::DrawProject()
+	void ProjectWindow::DrawProject()
 	{
 		// 描画開始
-		bool clicked = StartProject();
+		StartProject();
 
 		// 描画
 		DrawResources();
 
 		// 終了
 		ImGui::End();
-
-		return clicked;
 	}
 
-	bool ProjectWindow::StartProject()
+	void ProjectWindow::StartProject()
 	{
-		// 位置とサイズを固定
-		ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (229.0f / 378), WindowManager::Instance().GetHeightF() / 12));
-		ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (109.0f / 756), WindowManager::Instance().GetHeightF() * (11.0f / 12)));
-
-		ImGui::Begin("Project", nullptr,
-			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-
-		// ウィンドウへのクリックを検知
-		return (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-			&& ImGui::IsMouseClicked(0));
+		ImGui::Begin("Project", nullptr);
 	}
 
 	void ProjectWindow::DrawResources()
