@@ -61,6 +61,7 @@ namespace RHEngine
 
 		// UI
 		ADD_FACTORY(Canvas);
+		ADD_FACTORY(CanvasScaler);
 		ADD_FACTORY(RectTransform);
 		ADD_FACTORY(ImageUI);
 		ADD_FACTORY(TextUI);

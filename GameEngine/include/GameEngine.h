@@ -87,6 +87,9 @@ namespace RHEngine
 		// 更新関数
 		void Update(float elapsedTime);
 
+		// ウィンドウサイズ変化時処理
+		void OnWindowSizeChanged(int width, int height);
+
 		// 描画関数
 		void Render();
 

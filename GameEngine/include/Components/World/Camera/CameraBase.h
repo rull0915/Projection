@@ -23,6 +23,7 @@
 
 #include "Scene/SceneInfo.h"
 #include "Components/Interface/IDebugRenderable.h"
+#include "Components/Interface/IWindowSizeDependent.h"
 
 namespace RHEngine
 {
@@ -39,7 +40,7 @@ namespace RHEngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class CameraBase : public WorldComponentBase, public IDebugRenderable
+	class CameraBase : public WorldComponentBase, public IDebugRenderable, public IWindowSizeDependent
 	{
 	private:
 		//-----------------------------------------------------
@@ -112,6 +113,12 @@ namespace RHEngine
 		
 		// デバッグ表示
 		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+
+		// ウィンドウサイズの変更を検知
+		virtual void OnWindowSizeChanged(int width, int height) override
+		{
+			m_needUpdateProj = true;
+		}
 		
 		//-----------------------------------------------------
 		// ゲッター

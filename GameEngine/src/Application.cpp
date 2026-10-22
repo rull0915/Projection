@@ -15,6 +15,8 @@
 #include "GameEngine.h"
 #include "System/Render/GraphicsManager.h"
 #include "Scene/SceneManager.h"
+#include "System/WindowManager.h"
+#include "Input/KeyInput.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -44,16 +46,17 @@ void RHEngine::Application::Initialize(HWND hwnd, int width, int height)
 	// デバイスリソースにウィンドウを渡す
 	m_deviceResources->SetWindow(hwnd, width, height);
 
-	// ウィンドウマネージャーにサイズを渡す
-	WindowManager::Instance().SetWidth(width);
-	WindowManager::Instance().SetHeight(height);
-
 	// デバイスの作成
 	m_deviceResources->CreateDeviceResources();
 	m_deviceResources->CreateWindowSizeDependentResources();
 
+	// ウィンドウマネージャーにサイズを渡す
+	WindowManager::Instance().SetWindow(hwnd);
+	WindowManager::Instance().SetSize(width, height);
+	WindowManager::Instance().SetDefaultWindowSize(width, height);
+
 	// ゲームエンジンの初期化
-	m_gameEngine->Initialize(m_deviceResources, hwnd, true);
+	m_gameEngine->Initialize(m_deviceResources, hwnd, false);
 
 	// アプリ側の初期化
 	OnInitialize();
@@ -78,10 +81,28 @@ void RHEngine::Application::Tick()
 	Render();
 }
 
+void RHEngine::Application::OnWindowSizeChanged(int width, int height)
+{
+	// デバイスリソースに通知
+	m_deviceResources->WindowSizeChanged(width, height);
+
+	// ウィンドウマネージャーに通知
+	WindowManager::Instance().SetSize(width, height);
+
+	// ゲームエンジンに通知
+	m_gameEngine->OnWindowSizeChanged(width, height);
+}
+
 void RHEngine::Application::Update()
 {
 	// 経過時間を取得
 	float elapsedTime = float(m_timer.GetElapsedSeconds());
+	
+	// Alt+Enterでフルスクリーン化
+	if (Input::Key::Get(Input::Key::Code::LeftAlt) && Input::Key::GetDown(Input::Key::Code::Enter))
+	{
+		WindowManager::Instance().SwitchScreenMode();
+	}
 
 	// ゲームエンジンの更新
 	m_gameEngine->Update(elapsedTime);

@@ -16,14 +16,16 @@
 #include "Scene/SceneManager.h"
 #include "GameInitializer.h"
 
+#include "System/WindowManager.h"
+#include "System/Render/GraphicsManager.h"
+
 void Game::OnInitialize()
 {
 	// ゲーム部分の初期化
 	GameInitializer::Initialize();
 
-	// ゲームの初期化
-	GameInitializer::Initialize();
-
+	auto dr = RHEngine::GraphicsManager::Instance().GetDeviceResources();
+	
 	// ====== シーンの登録 ====== //
 	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
 	RHEngine::SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");

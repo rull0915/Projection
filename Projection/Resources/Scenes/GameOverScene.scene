@@ -29,7 +29,6 @@
                     },
                     {
                         "Data": {
-                            "m_aspect": 1.7777777910232544,
                             "m_backColor": [
                                 0.0,
                                 0.0,
@@ -470,8 +469,8 @@
                             ],
                             "m_rotation": 0.0,
                             "m_scale": [
-                                1.0,
-                                1.0
+                                1.5,
+                                1.5
                             ],
                             "m_size": [
                                 1280.0,
@@ -488,6 +487,20 @@
                         },
                         "Type": "Canvas",
                         "UUID": 7020601441573700282
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_matchWidthOrHeight": 0.0,
+                            "m_mode": "ScaleWithScreenSize",
+                            "m_referenceResolution": [
+                                1280.0,
+                                720.0
+                            ],
+                            "m_screenMatchMode": "MatchWidthOrHeight"
+                        },
+                        "Type": "CanvasScaler",
+                        "UUID": 15022337227845971479
                     }
                 ],
                 "IsWorld": false,

@@ -41,7 +41,7 @@
 extern RHEngine::Application* RHEngine::CreateApplication();
 
 namespace {
-    std::unique_ptr<RHEngine::Application> g_app;
+	std::unique_ptr<RHEngine::Application> g_app;
 }
 
 // エントリポイント
@@ -52,7 +52,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	if (!DirectX::XMVerifyCPUSupport()) return 1;
-	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+
+	if (FAILED(hr)) return 1;
 
 	// アプリケーションインスタンスを生成
 	g_app.reset(RHEngine::CreateApplication());
@@ -81,10 +83,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 		// ウィンドウサイズの指定
 		RECT rc = { 0, 0, static_cast<LONG>(props.width), static_cast<LONG>(props.height) };
-		AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
+		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 		// ウィンドウの作成
-		HWND hwnd = CreateWindowExW(0, L"RHEngine_Window", props.title.c_str(), WS_MYSTYLE,
+		HWND hwnd = CreateWindowExW(0, L"RHEngine_Window", props.title.c_str(), WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
 			nullptr, nullptr, hInstance,
 			g_app.get());

@@ -10,6 +10,7 @@
 //====================================================//
 
 #pragma once
+#include "dxgiformat.h"
 
 namespace RHEngine
 {
@@ -42,6 +43,12 @@ namespace RHEngine
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_prevDSV;
 		D3D11_VIEWPORT m_prevViewport;
 
+		// リサイズ時用
+		ID3D11Device* m_pDevice;
+		bool m_useDepth;
+		DXGI_FORMAT m_colorFormat;
+		DXGI_FORMAT m_depthFormat;
+
 	public:
 
 		//-----------------------------------------------------
@@ -59,6 +66,10 @@ namespace RHEngine
 			, m_prevRTV{}
 			, m_prevDSV{}
 			, m_prevViewport{}
+			, m_pDevice{ nullptr }
+			, m_useDepth{}
+			, m_colorFormat{}
+			, m_depthFormat{}
 		{};
 
 		~RenderTarget() = default;
@@ -85,6 +96,9 @@ namespace RHEngine
 
 		// 描画リセット
 		void Clear(ID3D11DeviceContext* context, const DirectX::SimpleMath::Color& color);
+
+		// サイズ変更
+		void Resize(int width, int height);
 
 		//-----------------------------------------------------
 		// ゲッター

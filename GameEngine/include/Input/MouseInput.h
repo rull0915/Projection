@@ -47,6 +47,7 @@ namespace RHEngine
 			inline static DirectX::Mouse::State m_oldMouseState;
 
 			inline static DirectX::SimpleMath::Vector2 m_oldMouseMove;	// 前フレームのマウスの移動量
+			inline static DirectX::Mouse::Mode m_requestedMode;	// 切り替え要請があったモード
 
 		public:
 			// ----- 関数宣言 ----- //
@@ -116,7 +117,7 @@ namespace RHEngine
 			static int GetWheelMoveValue();
 
 			// モードの取得
-			static DirectX::Mouse::Mode GetMode();
+			static DirectX::Mouse::Mode GetMode() { return m_requestedMode; }
 
 			// モードの変更
 			static void SetMode(DirectX::Mouse::Mode mode);

@@ -164,7 +164,14 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
+    <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Assets\Managers\DefaultAssetManager.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
     <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
@@ -176,7 +183,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
     <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp" />
-    <ClCompile Include="src\Components\UI\Canvas.cpp" />
+    <ClCompile Include="src\Components\UI\Canvas\Canvas.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
@@ -249,7 +256,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\EditGUI.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\HierarchyWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\ImguiManager.cpp" />
-    <ClCompile Include="src\Editor\Editor\Windows\InfoWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\Project\ProjectWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\SceneCamera.cpp" />
@@ -413,6 +419,11 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\Interface\IWindowSizeDependent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Components\UI\Canvas\CanvasScaler.h" />
     <ClInclude Include="include\Components\World\Light\LightComponent.h">
       <SubType>
       </SubType>
@@ -538,7 +549,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Components\UI\Canvas.h" />
+    <ClInclude Include="include\Components\UI\Canvas\Canvas.h" />
     <ClInclude Include="include\Components\World\Camera\CameraBase.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\TargetCamera.h" />
@@ -604,8 +615,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Scene\ObjectFactory.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\ImageWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
     <ClInclude Include="src\Managers\Renderer\LightManager.h" />
     <ClInclude Include="src\Managers\ReserveContainer.h" />
     <ClInclude Include="src\Scene\ReferenceRegistry.h">
@@ -722,7 +735,6 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h" />
-    <ClInclude Include="src\Editor\Editor\Windows\InfoWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindow.h" />
     <ClInclude Include="src\Managers\2DManagers\Collider\CheckHit\CheckHitAuxiliary2D.h" />

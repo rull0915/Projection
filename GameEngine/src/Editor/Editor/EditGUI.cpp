@@ -15,16 +15,12 @@
 #ifdef ENGINE_GUI
 
 #include "Editor/Editor/EditGUI.h"
-
 #include "ThirdParty/imgui/imgui.h"
-#include "Input/KeyInput.h"
-
-#include "System/WindowManager.h"
-
 #include "Windows/HierarchyWindow.h"
 #include "Windows/Project/ProjectWindow.h"
-#include "Windows/InfoWindow.h"
 #include "Windows/Inspector/InspectorWindow.h"
+#include "Windows/ToolBarWindow.h"
+#include "Windows/ImageWindow.h"
 
 namespace RHEngine
 {
@@ -32,16 +28,15 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
-	EditGUI::EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc)
+	EditGUI::EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc, std::function<void()> stopFunc)
 		: m_pScene{ pScene }
 		, m_assetmanager{ assetManager }
 		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene, m_selected) }
 		, m_inspector{ std::make_unique<InspectorWindow>(pScene, assetManager, m_selected) }
 		, m_project{ std::make_unique<ProjectWindow>(assetManager, m_selected) }
-		, m_info{ std::make_unique<InfoWindow>(assetManager, pScene, this, playFunc) }
-		, m_nowType{ WindowType::None }
+		, m_toolbar{ std::make_unique<ToolBarWindow>(pScene, assetManager, playFunc, stopFunc) }
+		, m_images{ std::make_unique<ImageWindow>() }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
-		, m_guizmoManager{}
 		, m_selected{ m_assetmanager }
 	{}
 
@@ -56,52 +51,30 @@ namespace RHEngine
 
 	void EditGUI::DrawWindows()
 	{
-		// Infoの描画
-		if (m_info->DrawInfo()) m_nowType = WindowType::Info;
-
 		// Hierarchyの描画
-		if (m_hierarchy->DrawHierarchy()) m_nowType = WindowType::Hieraychy;
+		m_hierarchy->DrawHierarchy();
 
 		// Projectの描画
-		if (m_project->DrawProject()) m_nowType = WindowType::Project;
+		m_project->DrawProject();
 
 		// Inspectorの描画
-		if (m_inspector->DrawInspector()) m_nowType = WindowType::Inspector;
+		m_inspector->DrawInspector();
 	}
 
-	void EditGUI::DrawViews(ID3D11ShaderResourceView* sceneView, ID3D11ShaderResourceView* gameView, SceneCamera* sceneViewCamera)
+	bool EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera)
 	{
-		// キー入力を取得し描画するギズモを変える
-		if (Input::Key::GetDown(Input::Key::Code::W)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_TRANSLATION);
-		if (Input::Key::GetDown(Input::Key::Code::E)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_ROTATION);
-		if (Input::Key::GetDown(Input::Key::Code::R)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_SCALE);
+		if (!sceneView) return false;
 
-		// Sceneビューの開始
-		StartSceneView();
+		GameObject* obj = dynamic_cast<GameObject*>(m_selected.GetSelected());
 
-		// 描画
-		DrawSceneView(sceneView, sceneViewCamera);
-
-		// 終了
-		ImGui::End();
-
-		// Gameビューの開始
-		StartGameView();
-
-		// 描画
-		DrawImage(gameView);
-
-		// 終了
-		ImGui::End();
+		// シーンビューの描画
+		return m_images->DrawSceneViewWindow(sceneView, sceneViewCamera, obj ? obj->GetComponent<Transform>() : nullptr);
 	}
 
-	void EditGUI::DrawImageDebugWindow(std::string_view title, ID3D11ShaderResourceView* image) const
+	bool EditGUI::DrawGameView(ID3D11ShaderResourceView* gameView)
 	{
-		ImGui::Begin(title.data());
-
-		ImGui::Image(image, ImGui::GetContentRegionAvail());
-
-		ImGui::End();
+		// ゲームビューの描画
+		return m_images->DrawGameViewWindow(gameView);
 	}
 
 	void EditGUI::DrawStyleEditor()
@@ -112,80 +85,68 @@ namespace RHEngine
 		ImGui::End();
 	}
 
-	void EditGUI::DrawImage(ID3D11ShaderResourceView* img)
+	void EditGUI::DrawToolBar(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
 	{
-		// 有効サイズ
-		ImVec2 avail = ImGui::GetContentRegionAvail();
-
-		// アスペクト比
-		float aspect = WindowManager::Instance().GetAspect();
-
-		// 小さい方に合わせる
-		float correction = avail.x / aspect;
-
-		if (correction > avail.y)
+		switch (m_toolbar->DrawToolbar(engineLogo, isPlaying))
 		{
-			avail.x = avail.y * aspect;
-		}
-		else if (correction < avail.y)
-		{
-			avail.y = avail.x / aspect;
-		}
-
-		ImGui::Image(
-			(ImTextureID)img,
-			avail);
+		case ToolBarWindow::Result::PressLoadButton:
+			Reset();
+			break;
+		default:
+			break;
+		} 
 	}
 
-	void EditGUI::StartSceneView()
+	void EditGUI::DrawDockingArea()
 	{
-		// 位置を固定
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
-		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove);
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
 
-		// ウィンドウへのクリックを検知
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-			&& ImGui::IsMouseClicked(0))
-		{
-			m_nowType = WindowType::SceneView;
-		}
-	}
+		ImGui::SetNextWindowPos(ImVec2(
+			viewport->Pos.x,
+			viewport->Pos.y + ToolBarWindow::TOOL_BAR_HEIGHT
+		));
 
-	void EditGUI::StartGameView()
-	{
-		// 位置とサイズを固定
-		ImGui::SetNextWindowPos(ImVec2(0, WindowManager::Instance().GetHeightF() / 2));
-		ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (25.0f / 54), WindowManager::Instance().GetHeightF() / 2));
+		ImGui::SetNextWindowSize(ImVec2(
+			viewport->Size.x,
+			viewport->Size.y - ToolBarWindow::TOOL_BAR_HEIGHT
+		));
 
-		ImGui::Begin("GameView", nullptr, ImGuiWindowFlags_NoMove);
+		ImGuiWindowFlags flags =
+			ImGuiWindowFlags_NoDocking |		// ドッキング対象外
+			ImGuiWindowFlags_NoTitleBar |		// タイトルバーなし
+			ImGuiWindowFlags_NoCollapse |		// 最小化不可
+			ImGuiWindowFlags_NoResize |			// サイズ変更不可
+			ImGuiWindowFlags_NoMove |			// 移動不可
+			ImGuiWindowFlags_NoBringToFrontOnFocus |	// クリック時も前面に来ないように
+			ImGuiWindowFlags_NoNavFocus |		// ナビゲーション対象外
+			ImGuiWindowFlags_NoBackground;		// 背景なし
 
-		// ウィンドウへのクリックを検知
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-			&& ImGui::IsMouseClicked(0))
-		{
-			m_nowType = WindowType::GameView;
-		}
-	}
+		ImGui::PushStyleVar(
+			ImGuiStyleVar_WindowRounding, 0.0f);
 
-	void EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera)
-	{
-		// 描画
-		DrawImage(sceneView);
+		ImGui::PushStyleVar(
+			ImGuiStyleVar_WindowPadding, { 0.0f, 0.0f });
 
-		if (auto* g = dynamic_cast<GameObject*>(m_selected.GetSelected()))
-		{
-			// ギズモ描画
-			if (auto* t = g->GetComponent<Transform>())
-			{
-				// スクリーンサイズを取得
-				ImVec2 pos = ImGui::GetWindowPos();
-				ImVec2 size = ImGui::GetWindowSize();
+		ImGui::PushStyleVar(
+			ImGuiStyleVar_WindowBorderSize, 0.0f);
 
-				m_guizmoManager.DrawTransformGuizmo(sceneViewCamera, t, { pos.x, pos.y }, { size.x, size.y });
-			}
-		}
+		ImGui::Begin("DockSpaceWindow", nullptr, flags);
+
+		ImGui::PopStyleVar(3);
+
+		ImGuiID dockspaceId = ImGui::GetID("MainDockSpace");
+
+		ImGui::DockSpace(
+			dockspaceId,
+			ImVec2(0.0f, 0.0f),
+			ImGuiDockNodeFlags_None
+		);
+
+		ImGui::End();
 	}
 }	// namespace RHEngine
 

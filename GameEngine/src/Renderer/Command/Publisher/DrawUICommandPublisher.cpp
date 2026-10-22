@@ -29,9 +29,9 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		DirectX::VertexPositionColorTexture v1(m_windowManager.ScreenToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.ScreenToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v3(m_windowManager.ScreenToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
@@ -51,10 +51,10 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		DirectX::VertexPositionColorTexture v1(m_windowManager.ScreenToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.ScreenToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v3(m_windowManager.ScreenToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v4(m_windowManager.ScreenToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
@@ -76,8 +76,8 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawLine(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, DirectX::SimpleMath::Color color)
 	{
-		DirectX::VertexPositionColorTexture v1(m_windowManager.ScreenToPixel(start), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.ScreenToPixel(end), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(start), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(end), color, DirectX::SimpleMath::Vector2::Zero);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{
@@ -94,10 +94,10 @@ namespace RHEngine
 		float step = 2.0f * PI_F / static_cast<float>(division);
 
 		// 中心点
-		DirectX::VertexPositionColorTexture c(m_windowManager.ScreenToPixel(centerPos), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture c(m_windowManager.NDCToPixel(centerPos), color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 最初の点
-		DirectX::VertexPositionColorTexture prev(m_windowManager.ScreenToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture prev(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }), color, DirectX::SimpleMath::Vector2::Zero);
 
 		// コマンドコンテナを取得
 		auto* cmd = m_container.GetLatestPrimitiveCommand();
@@ -109,7 +109,7 @@ namespace RHEngine
 			float theta = step * i;
 
 			// 頂点情報を計算
-			DirectX::VertexPositionColorTexture v(m_windowManager.ScreenToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), color, DirectX::SimpleMath::Vector2::Zero);
+			DirectX::VertexPositionColorTexture v(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), color, DirectX::SimpleMath::Vector2::Zero);
 
 			// 追加
 			if (fillFlag) cmd->triangles.emplace_back(c, prev, v);
@@ -128,10 +128,10 @@ namespace RHEngine
 		DirectX::SimpleMath::Vector2 p3{ max.x, max.y };
 		DirectX::SimpleMath::Vector2 p4{ max.x, min.y };
 
-		DirectX::VertexPositionColorTexture v1(m_windowManager.ScreenToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.ScreenToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v3(m_windowManager.ScreenToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v4(m_windowManager.ScreenToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
+		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
 
 		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
 		{

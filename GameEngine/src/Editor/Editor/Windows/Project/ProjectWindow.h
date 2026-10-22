@@ -62,7 +62,7 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		// 描画
-		bool DrawProject();
+		void DrawProject();
 
 	private:
 
@@ -70,7 +70,7 @@ namespace RHEngine
 		// 内部実装
 		//-----------------------------------------------------
 
-		bool StartProject();
+		void StartProject();
 
 		// 各リソースの描画
 		void DrawResources();

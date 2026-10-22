@@ -98,6 +98,12 @@ namespace RHEngine
 				m_dsv.GetAddressOf()
 			);
 		}
+
+		// 設定の保持
+		m_pDevice = device;
+		m_useDepth = useDepth;
+		m_colorFormat = colorFormat;
+		m_depthFormat = depthFormat;
 	}
 
 	void RenderTarget::Begin(ID3D11DeviceContext* context)
@@ -145,6 +151,10 @@ namespace RHEngine
 		context->RSSetViewports(
 			1,
 			&m_prevViewport);
+
+		// 保存していたCOM参照を解放
+		m_prevRTV.Reset();
+		m_prevDSV.Reset();
 	}
 
 	void RenderTarget::Clear(ID3D11DeviceContext* context, const DirectX::SimpleMath::Color& color)
@@ -163,5 +173,27 @@ namespace RHEngine
 				1.0f,
 				0);
 		}
+	}
+
+	void RenderTarget::Resize(int width, int height)
+	{
+		// 無効なサイズだったら再構築しない
+		if (width <= 0 || height <= 0) return;
+
+		// 同じサイズなら再構築しない
+		if (m_width == static_cast<unsigned int>(width) && m_height == static_cast<unsigned int>(height))
+		{
+			return;
+		}
+
+		// 既存リソースを解放して再生成する
+		Create(
+			m_pDevice,
+			static_cast<unsigned int>(width),
+			static_cast<unsigned int>(height),
+			m_useDepth,
+			m_colorFormat,
+			m_depthFormat
+		);
 	}
 }	// namespace RHEngine

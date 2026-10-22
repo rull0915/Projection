@@ -18,22 +18,24 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
-	void WindowManager::SwitchScreenMode(HWND hWnd)
+	void WindowManager::SwitchScreenMode()
 	{
+		if (!m_window) return;
+
 		static bool s_fullscreen = false;
 
 		if (s_fullscreen)
 		{
-			SetWindowLongPtr(hWnd, GWL_STYLE, WS_MYSTYLE);
-			SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
+			SetWindowLongPtr(m_window, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+			SetWindowLongPtr(m_window, GWL_EXSTYLE, 0);
 
-			ShowWindow(hWnd, SW_SHOWNORMAL);
+			ShowWindow(m_window, SW_SHOWNORMAL);
 
-			RECT rc = { 0,0,static_cast<LONG>(m_width),static_cast<LONG>(m_height) };
-			AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
+			RECT rc = { 0,0,static_cast<LONG>(m_defaultWidth),static_cast<LONG>(m_defaultHeight) };
+			AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 			SetWindowPos(
-				hWnd,
+				m_window,
 				HWND_TOP,
 				0, 0,
 				rc.right - rc.left,
@@ -43,17 +45,17 @@ namespace RHEngine
 		}
 		else
 		{
-			SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP);
-			SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+			SetWindowLongPtr(m_window, GWL_STYLE, WS_POPUP);
+			SetWindowLongPtr(m_window, GWL_EXSTYLE, WS_EX_TOPMOST);
 
 			SetWindowPos(
-				hWnd,
+				m_window,
 				HWND_TOP,
 				0, 0, 0, 0,
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED
 			);
 
-			ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+			ShowWindow(m_window, SW_SHOWMAXIMIZED);
 		}
 
 		s_fullscreen = !s_fullscreen;

@@ -41,8 +41,6 @@ namespace RHEngine
 		// 日本語
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // ドッキング可能に
 
 		//  Win32用の初期化

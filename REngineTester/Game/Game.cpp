@@ -29,10 +29,10 @@ void Game::OnInitialize()
 	REGIST_TO_FACTORY(JumpComponent);
 
 	// ====== シーンの登録 ====== //
-	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
+	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/Title.scene");
 
 	RHEngine::SceneManager::Instance().RegisterScene("GUITest", L"Resources/Scenes/GUITest.scene");
 
 	// 開始時のシーンを設定
-	RHEngine::SceneManager::Instance().SetStartScene("GUITest");
+	RHEngine::SceneManager::Instance().SetStartScene("Title");
 }

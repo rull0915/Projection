@@ -109,6 +109,9 @@ namespace RHEngine
 		// 更新処理
 		void Update(const GameTimer& gameTimer);
 
+		// ウィンドウサイズ変更時処理
+		void OnWindowSizeChanged(int width, int height);
+
 		// 描画準備処理
 		void PrepareRender();
 
@@ -123,8 +126,6 @@ namespace RHEngine
 
 		// 全オブジェクトの削除関数
 		void ResetObjects();
-
-	public:
 
 		// コンポーネントを登録する関数
 		void RegisterComponent(ComponentBase* component);

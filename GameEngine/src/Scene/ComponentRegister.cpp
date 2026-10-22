@@ -31,6 +31,8 @@ namespace RHEngine
 		: m_pPipeline{ pipeline }
 		, m_componentsMap{}
 		, m_listeners{}
+		, m_debugRenders{}
+		, m_screenSizeDependents{}
 	{}
 
 	void ComponentRegister::RegisterComponent(ComponentBase* component)
@@ -48,6 +50,8 @@ namespace RHEngine
 		if (IComponentListener* listener = dynamic_cast<IComponentListener*>(component)) m_listeners.push_back(listener);
 		// デバッグ描画コンポーネントなら追加
 		if (IDebugRenderable* render = dynamic_cast<IDebugRenderable*>(component)) m_debugRenders.push_back(render);
+		// スクリーン依存コンポーネントなら追加
+		if (IWindowSizeDependent* cmp = dynamic_cast<IWindowSizeDependent*>(component)) m_screenSizeDependents.push_back(cmp);
 
 		// IDで識別
 
@@ -135,7 +139,8 @@ namespace RHEngine
 		if (IComponentListener* listener = dynamic_cast<IComponentListener*>(component)) { std::erase(m_listeners, listener); }
 		// デバッグ描画コンポーネントなら削除
 		if (IDebugRenderable* debugRender = dynamic_cast<IDebugRenderable*>(component)) { std::erase(m_debugRenders, debugRender); }
-
+		// スクリーン依存コンポーネントなら削除
+		if (IWindowSizeDependent* cmp = dynamic_cast<IWindowSizeDependent*>(component)) { std::erase(m_screenSizeDependents, cmp); }
 		
 		// IDで識別
 

@@ -17,7 +17,6 @@
 #include "InspectorWindow.h"
 
 #include "ThirdParty/nameof/nameof.hpp"
-#include "System/WindowManager.h"
 #include "Editor/Loader/ComponentFactory.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -28,10 +27,10 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
-	bool InspectorWindow::DrawInspector()
+	void InspectorWindow::DrawInspector()
 	{
 		// 描画開始
-		bool clicked = StartInspector();
+		StartInspector();
 
 		// 選択中オブジェクトを取得
 		PropertyObject* selected = m_selected.GetSelected();
@@ -44,22 +43,11 @@ namespace RHEngine
 
 		// 描画終了
 		ImGui::End();
-
-		return clicked;
 	}
 
-	bool InspectorWindow::StartInspector()
+	void InspectorWindow::StartInspector()
 	{
-		// 位置とサイズを固定
-		ImGui::SetNextWindowPos(ImVec2(WindowManager::Instance().GetWidthF() * (3.0f / 4), WindowManager::Instance().GetHeightF() / 12));
-		ImGui::SetNextWindowSize(ImVec2(WindowManager::Instance().GetWidthF() * (1.0f / 4), WindowManager::Instance().GetHeightF() * (11.0f / 12)));
-
-		ImGui::Begin("Inspector", nullptr,
-			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-
-		// ウィンドウへのクリックを検知
-		return (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_RootWindow)		// 自身のクリックと子ウィンドウのクリックを両方検知
-			&& ImGui::IsMouseClicked(0));
+		ImGui::Begin("Inspector", nullptr);
 	}
 
 	void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)

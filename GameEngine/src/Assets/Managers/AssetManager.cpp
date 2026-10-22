@@ -33,6 +33,11 @@ namespace RHEngine
 		, m_creatableAssets{}
 	{}
 
+	AssetManager::~AssetManager()
+	{
+		m_registry.Reset();
+	}
+
 	void AssetManager::Initialize(const std::filesystem::path& root)
 	{
 		// スキャン
