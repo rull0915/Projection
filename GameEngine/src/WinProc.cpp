@@ -115,6 +115,14 @@ LRESULT CALLBACK RHEngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		}
 		break;
 
+	case WM_GETMINMAXINFO:
+	{
+		MINMAXINFO* info = reinterpret_cast<MINMAXINFO*>(lParam);
+		info->ptMinTrackSize.x = 200l;
+		info->ptMinTrackSize.y = 200l;
+	}
+		break;
+
 	case WM_MOVE:
 		if (app)
 		{

@@ -30,7 +30,6 @@
 
 // RHEngine
 #include "Application.h"
-#include "System/WindowManager.h"
 #include "WinProc.h"
 
 //====================================================//

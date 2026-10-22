@@ -115,7 +115,7 @@ namespace RHEngine
 		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
 
 		// ウィンドウサイズの変更を検知
-		virtual void OnWindowSizeChanged(int width, int height) override
+		virtual void OnWindowSizeChanged(int, int) override
 		{
 			m_needUpdateProj = true;
 		}

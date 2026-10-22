@@ -141,9 +141,6 @@
     <ClCompile Include="GameLib\Components\PathMover.cpp">
       <Filter>GameLib\Components</Filter>
     </ClCompile>
-    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp">
-      <Filter>GameLib\GameMath</Filter>
-    </ClCompile>
     <ClCompile Include="GameLib\GameMath\GameMath.cpp">
       <Filter>GameLib\GameMath</Filter>
     </ClCompile>
@@ -160,6 +157,7 @@
       <Filter>GameLib\UI</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\ClearScene\SwingComponent.h">
@@ -240,9 +238,6 @@
     <ClInclude Include="GameLib\GameMath\EasingConfig.h">
       <Filter>GameLib\GameMath</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h">
-      <Filter>GameLib\GameMath</Filter>
-    </ClInclude>
     <ClInclude Include="GameLib\GameMath\GameMath.h">
       <Filter>GameLib\GameMath</Filter>
     </ClInclude>
@@ -259,6 +254,7 @@
       <Filter>GameLib\UI</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
