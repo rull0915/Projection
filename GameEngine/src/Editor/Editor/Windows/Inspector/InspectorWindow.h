@@ -58,7 +58,7 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		// インスペクターの描画
-		bool DrawInspector();
+		void DrawInspector();
 
 	private:
 
@@ -67,7 +67,7 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		// インスペクター描画の開始
-		bool StartInspector();
+		void StartInspector();
 
 		// PropertyObjectの情報をInspectorに表示する関数
 		void DrawPropertyObjectOnInspector(PropertyObject* object);

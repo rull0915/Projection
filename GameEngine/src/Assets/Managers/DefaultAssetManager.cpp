@@ -20,6 +20,7 @@
 
 // 埋め込みアセットファイルの読み込み
 #include "Assets/Embedded/DefaultTexture.h"
+#include "Assets/Embedded/RHEngine_Logo.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -34,6 +35,10 @@ namespace RHEngine
 		// デフォルトテクスチャの追加登録
 		auto handle = registry.Register(DefaultAsset::DEFAULT_SPRITE);
 		registry.Replace(handle.index, CreateTextureAsset(AssetData::g_DefaultTexture_data, AssetData::g_DefaultTexture_size));
+
+		// ロゴの追加登録
+		handle = registry.Register(DefaultAsset::ENGINE_LOGO_SPRITE);
+		registry.Replace(handle.index, CreateTextureAsset(AssetData::g_RHEngine_Logo_data, AssetData::g_RHEngine_Logo_size));
 	}
 
 	std::unique_ptr<Texture> DefaultAssetManager::CreateTextureAsset(const unsigned char* data, const unsigned int size)

@@ -20,6 +20,7 @@
 #include "Components/UI/Behaviour/ButtonUI.h"
 #include "GameObject/GameObject.h"
 #include "GameLib/UI/Dialog.h"
+#include "Components/Both/Sounds/AudioSource.h"
 
 //====================================================//
 // クラス宣言
@@ -53,6 +54,9 @@ private:
 
 	// 終了ダイアログ
 	RHEngine::Ref<Dialog> m_quitDialog;
+
+	// 音楽
+	RHEngine::Ref<RHEngine::AudioSource> m_audioSource;
 
 public:
 

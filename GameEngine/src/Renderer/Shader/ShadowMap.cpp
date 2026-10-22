@@ -97,9 +97,9 @@ void RHEngine::ShadowMap::Begin(ID3D11DeviceContext* context)
 		m_prevDSV.ReleaseAndGetAddressOf());	// DepthStencilView
 
 	UINT count = 1;
-		context->RSGetViewports(
-			&count,
-			&m_prevViewport);	// ViewPort
+	context->RSGetViewports(
+		&count,
+		&m_prevViewport);	// ViewPort
 
 	// 描画先を指定 
 	// ShadowMapのため深度のみ書き込み先を指定
@@ -132,6 +132,10 @@ void RHEngine::ShadowMap::End(ID3D11DeviceContext* context)
 	context->RSSetViewports(
 		1,
 		&m_prevViewport);
+
+	// 保存していたCOM参照を解放
+	m_prevRTV.Reset();
+	m_prevDSV.Reset();
 }
 
 ID3D11ShaderResourceView* RHEngine::ShadowMap::GetSRV() const

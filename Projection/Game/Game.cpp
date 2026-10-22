@@ -20,10 +20,7 @@ void Game::OnInitialize()
 {
 	// ゲーム部分の初期化
 	GameInitializer::Initialize();
-
-	// ゲームの初期化
-	GameInitializer::Initialize();
-
+	
 	// ====== シーンの登録 ====== //
 	RHEngine::SceneManager::Instance().RegisterScene("Title", L"Resources/Scenes/TitleScene.scene");
 	RHEngine::SceneManager::Instance().RegisterScene("Stage1", L"Resources/Scenes/Stage1.scene");

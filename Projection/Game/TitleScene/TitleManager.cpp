@@ -34,6 +34,7 @@ TitleManager::TitleManager(RHEngine::IComponentOwner* own)
 	, m_padUI{}
 	, m_padUIOnDialog{}
 	, m_quitDialog{}
+	, m_audioSource{}
 {
 	ADD_PROPERTY(TitleManager, m_targetScene);
 	ADD_PROPERTY(TitleManager, m_playButton);
@@ -43,6 +44,7 @@ TitleManager::TitleManager(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(TitleManager, m_padUI);
 	ADD_PROPERTY(TitleManager, m_padUIOnDialog);
 	ADD_PROPERTY(TitleManager, m_quitDialog);
+	ADD_PROPERTY(TitleManager, m_audioSource);
 }
 
 // 最初のUpdate関数の直線に一度呼ばれます
@@ -60,6 +62,9 @@ void TitleManager::Start()
 	{
 		m_exitEventToken = m_exitAcceptButton->AddOnClicked([]() { RHEngine::GameController::Instance().Quit(); });
 	}
+
+	// 音楽の再生
+	if (m_audioSource) m_audioSource->Play();
 }
 
 // 毎フレーム呼ばれます

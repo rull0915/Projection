@@ -95,6 +95,19 @@ namespace RHEngine
 		PrepareRender();
 	}
 
+	void Scene::OnWindowSizeChanged(int width, int height)
+	{
+		// 画面全体に描画するRenderTargetのリサイズ
+		m_mainWorld.Resize(width, height);
+		m_gameView.Resize(width, height);
+
+		// スクリーンサイズに依存するコンポーネントに通知
+		for (auto i : m_componentRegister->GetScreenSizeDependents())
+		{
+			i->OnWindowSizeChanged(width, height);
+		}
+	}
+
 	void Scene::PrepareRender()
 	{
 		// リセット
@@ -197,9 +210,6 @@ namespace RHEngine
 
 			m_sceneRenderer->DrawUIPass(ctx, renderer);
 		}
-
-		// シーンの描画
-		renderer.Draw().Sprite().DrawFullScreen(m_gameView.GetShaderResourceView());
 	}
 
 	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow)

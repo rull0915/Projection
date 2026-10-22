@@ -10,6 +10,7 @@
 //====================================================//
 
 #pragma once
+#include "Windows.h"
 
 //====================================================//
 // インクルードファイル
@@ -38,20 +39,31 @@ namespace RHEngine
 		//-----------------------------------------------------
 	private:
 
+		// デフォルトサイズ
+		unsigned int m_defaultWidth;
+		unsigned int m_defaultHeight;
+
+		// サイズ
 		unsigned int m_width;
 		unsigned int m_height;
 
 		// 背景色
 		DirectX::SimpleMath::Color m_backGroundColor;
 
+		// ウィンドウ
+		HWND m_window;
+
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 	private:
 		WindowManager()
-			: m_width{ 1280 }
-			, m_height{ 720 }
+			: m_defaultWidth{}
+			, m_defaultHeight{}
+			, m_width{}
+			, m_height{}
 			, m_backGroundColor{ 0.3f, 0.6f, 0.8f, 1.0f }
+			, m_window{}
 		{};
 		~WindowManager() = default;
 
@@ -67,19 +79,29 @@ namespace RHEngine
 			return instance;
 		}
 
-		// フルスクリーンとウィンドウを切り替える関数
-		void SwitchScreenMode(HWND hWnd);
+		// デフォルトウィンドウサイズの設定
+		void SetDefaultWindowSize(int width, int height)
+		{
+			m_defaultWidth = static_cast<unsigned int>(width);
+			m_defaultHeight = static_cast<unsigned int>(height);
+		}
 
-		// -1 ~ +1 の座標系からピクセル座標に変換する関数
-		DirectX::SimpleMath::Vector2 PixelToScreen(DirectX::SimpleMath::Vector2 pos)
+		// ウィンドウをセットする関数
+		void SetWindow(HWND hwnd) { m_window = hwnd; }
+
+		// フルスクリーンとウィンドウを切り替える関数
+		void SwitchScreenMode();
+		
+		// NDCの座標系からピクセル座標に変換する関数
+		DirectX::SimpleMath::Vector2 PixelToNDC(DirectX::SimpleMath::Vector2 pos)
 		{
 			float xRatio = (pos.x + 1) / 2;
 			float yRatio = (pos.y + 1) / 2;
 
 			return { m_width * xRatio, m_height * yRatio };
 		}
-		// ピクセル座標から -1 ~ +1 の座標系に変換する関数
-		DirectX::SimpleMath::Vector2 ScreenToPixel(DirectX::SimpleMath::Vector2 pos)
+		// ピクセル座標からNDCの座標系に変換する関数
+		DirectX::SimpleMath::Vector2 NDCToPixel(DirectX::SimpleMath::Vector2 pos)
 		{
 			float xRatio = pos.x / m_width;
 			float yRatio = pos.y / m_height;
@@ -97,10 +119,10 @@ namespace RHEngine
 		float GetWidthF() const { return static_cast<float>(m_width); }    // 幅
 		float GetHeightF() const { return static_cast<float>(m_height); }  // 高さ
 
-		DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }    // サイズ
-
+		DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }   // サイズ
 		float GetAspect() const { return GetWidthF() / GetHeightF(); }	// アスペクト比
 
+		// 背景色
 		DirectX::SimpleMath::Color GetBackGroundColor() const { return m_backGroundColor; }
 
 		//-----------------------------------------------------
@@ -109,10 +131,10 @@ namespace RHEngine
 
 		void SetWidth(unsigned int value) { m_width = value; }    // 幅
 		void SetHeight(unsigned int value) { m_height = value; }  // 高さ
-		void SetSize(DirectX::SimpleMath::Vector2 value) 
+		void SetSize(unsigned int width, unsigned int height) 
 		{ 
-			m_width = static_cast<unsigned int>(value.x); 
-			m_height = static_cast<unsigned int>(value.y); 
+			m_width = width; 
+			m_height = height; 
 		} 
 
 		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色

@@ -16,6 +16,7 @@
 //====================================================//
 #include <vector>
 #include <memory>
+#include <mutex>
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Objects/AssetBase.h"
@@ -45,8 +46,7 @@ namespace RHEngine
 			// UUID 
 			UUID uuid = 0;
 
-			// type_index
-			std::type_index type = std::type_index(typeid(void));
+			const std::type_info* type = &typeid(void);
 		};
 
 	private:
@@ -59,10 +59,20 @@ namespace RHEngine
 		// UUIDからインデックスへの変換マップ
 		std::unordered_map<UUID, uint32_t> m_uuidToIndex;
 
+		// mutex
+		std::mutex m_mutex;
+
 	public:
+
+		AssetRegistry();
+		~AssetRegistry();
+
 		// アセットを登録する関数
 		UnTypeHandle Register(UUID uuid)
 		{
+			// 非同期実行されるためロック
+			std::lock_guard<std::mutex> lock(m_mutex);
+
 			// インデックス
 			uint32_t index = 0;
 
@@ -104,6 +114,9 @@ namespace RHEngine
 		// アセットを破棄する関数
 		void Release(uint32_t index)
 		{
+			// 非同期実行されるためロック
+			std::lock_guard<std::mutex> lock(m_mutex);
+
 			// 無効インデックスならスキップ
 			if (index >= m_slots.size() || !m_slots[index].isValid) return;
 
@@ -129,15 +142,18 @@ namespace RHEngine
 		// アセットを置き換える関数 (既存のハンドルを無効化しない)
 		void Replace(uint32_t index, std::unique_ptr<AssetBase> newAsset)
 		{
+			// 非同期実行されるためロック
+			std::lock_guard<std::mutex> lock(m_mutex);
+
 			if (newAsset)
 			{
-				m_slots[index].type = std::type_index(typeid(*newAsset));
+				m_slots[index].type = &typeid(*newAsset);
 				m_slots[index].asset = std::move(newAsset);
 				m_slots[index].asset->SetUUID(m_slots[index].uuid);
 			}
 			else
 			{
-				m_slots[index].type = std::type_index(typeid(void));
+				m_slots[index].type = &typeid(void);
 				m_slots[index].asset = nullptr;
 			}
 		}
@@ -147,7 +163,7 @@ namespace RHEngine
 		T* Get(Handle<T> handle) const
 		{
 			// タイプ
-			static std::type_index type = std::type_index(typeid(T));
+			static const std::type_info* type = &typeid(T);
 
 			// 無効なインデックスを指していた場合nullptrを返す
 			if (handle.index >= m_slots.size()) return nullptr;
@@ -218,5 +234,8 @@ namespace RHEngine
 			// UUIDを取得し返す
 			return slot.uuid;
 		}
+
+		// リセット
+		void Reset();
 	};
 }	// namespace RHEngine

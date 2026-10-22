@@ -55,21 +55,26 @@
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\GameEngine\REnginePropertySeet.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\GameEngine\REnginePropertySeet.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\GameEngine\REnginePropertySeet.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\GameEngine\REnginePropertySeet.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -108,9 +113,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);
-$(ProjectDir)
-%(AdditionalIncludeDirectories);$(SolutionDir)/GameEngine/include/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -144,7 +147,8 @@ $(ProjectDir)
       <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /E /Y /I "$(SolutionDir)GameEngine\Resources" "$(ProjectDir)Resources"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -175,9 +179,7 @@ $(ProjectDir)
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);
-$(ProjectDir)
-%(AdditionalIncludeDirectories);$(SolutionDir)/GameEngine/include/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -208,7 +210,8 @@ $(ProjectDir)
       <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /E /Y /I "$(SolutionDir)GameEngine\Resources" "$(ProjectDir)Resources"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <FxCompile>
       <AdditionalIncludeDirectories>
@@ -220,7 +223,6 @@ $(ProjectDir)
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h" />
     <ClInclude Include="GameLib\Colliders\CheckHit.h">
       <SubType>
       </SubType>
@@ -231,6 +233,7 @@ $(ProjectDir)
     </ClInclude>
     <ClInclude Include="GameLib\Colliders\ConvexPolygonCollider2D.h" />
     <ClInclude Include="GameLib\Components\CatmullRomComponent.h" />
+    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h" />
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
     <ClInclude Include="GameLib\Components\PathMover.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
@@ -266,13 +269,13 @@ $(ProjectDir)
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp" />
     <ClCompile Include="GameLib\Colliders\CheckHit.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GameLib\Colliders\ConvexPolygonCollider2D.cpp" />
     <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp" />
+    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp" />
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
     <ClCompile Include="GameLib\Components\PathMover.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />
@@ -324,11 +327,6 @@ $(ProjectDir)
     <None Include="Shaders\Lighting.hlsli" />
     <None Include="Shaders\LightStructure.hlsli" />
     <None Include="Shaders\Shadowing.hlsli" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
-      <Project>{92af323a-9cde-4d83-ac9a-a51566f408ed}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BasicPixelShader.ps.hlsl">

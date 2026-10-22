@@ -11,7 +11,6 @@
 //====================================================//
 #include "pch.h"
 #include "Input/MouseInput.h"
-#include "System/ResourceManager.h"
 #include "System/Render/GraphicsManager.h"
 #include "System/WindowManager.h"
 
@@ -41,7 +40,11 @@ namespace RHEngine
 			m_oldMouseState = m_nowMouseState;
 
 			// 最新の状態を取得
-			m_nowMouseState = DirectX::Mouse::Get().GetState();
+			auto& mouse = DirectX::Mouse::Get();
+			m_nowMouseState = mouse.GetState();
+
+			// モードの切り替え
+			mouse.SetMode(m_requestedMode);
 		}
 
 		// マウスの位置を取得
@@ -104,16 +107,10 @@ namespace RHEngine
 			return m_nowMouseState.scrollWheelValue - m_oldMouseState.scrollWheelValue;
 		}
 
-		// マウスのモードを取得
-		DirectX::Mouse::Mode Mouse::GetMode()
-		{
-			return m_nowMouseState.positionMode;
-		}
-
 		// マウスのモードをセット
 		void Mouse::SetMode(DirectX::Mouse::Mode mode)
 		{
-			DirectX::Mouse::Get().SetMode(mode);
+			m_requestedMode = mode;
 		}
 
 		// マウスカーソルの位置をセットする関数

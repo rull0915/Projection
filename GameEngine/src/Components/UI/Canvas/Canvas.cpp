@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Components/UI/Canvas.h"
+#include "Components/UI/Canvas/Canvas.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/UI/Graphics/UIGraphicBase.h"
@@ -36,7 +36,7 @@ namespace RHEngine
 		auto* rectTransform = GetComponent<RectTransform>();
 
 		rectTransform->SetAnchor({ 0.5f, 0.5f });
-		rectTransform->SetSize({ WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() });
+		rectTransform->SetSize(WindowManager::Instance().GetSize());
 		rectTransform->SetAnchoredPosition({ 0, 0 });
 		rectTransform->SetPivot({ 0.5f, 0.5f });
 	}
@@ -74,6 +74,11 @@ namespace RHEngine
 	{
 		// 自分をルートとして再帰的に調べる
 		MouseEventChild(GetComponent<RectTransform>(), event);
+	}
+
+	void Canvas::OnWindowSizeChanged(int width, int height)
+	{
+		GetComponent<RectTransform>()->SetSize(WindowManager::Instance().GetSize());
 	}
 
 	void Canvas::DrawChild(RectTransform* rectTransform, Renderer& renderer)

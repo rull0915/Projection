@@ -27,6 +27,7 @@ namespace RHEngine
 		, m_pRequestedScene{ "" }
 		, m_transitionManager{}
 		, m_assetManager{}
+		, m_drawScene{ true }
 	{}
 
 	// デストラクタ
@@ -62,11 +63,23 @@ namespace RHEngine
 		if (m_currentScene) m_currentScene->Update(gameTimer);
 	}
 
+	void SceneManager::OnWindowSizeChanged(int width, int height)
+	{
+		// 現在のシーンが設定されていれば通知
+		if (m_currentScene) m_currentScene->OnWindowSizeChanged(width, height);
+	}
+
 	// 描画処理
 	void SceneManager::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
 		// シーンの描画処理
-		if (m_currentScene) m_currentScene->Render(renderer, shadowRenderer);
+		if (m_currentScene)
+		{
+			m_currentScene->Render(renderer, shadowRenderer);
+
+			// ゲームビューの描画
+			if (m_drawScene) renderer.Draw().Sprite().DrawFullScreen(m_currentScene->GetGameView());
+		}
 
 		// 描画終了
 		renderer.End();

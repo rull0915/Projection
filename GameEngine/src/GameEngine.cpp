@@ -146,6 +146,7 @@ namespace RHEngine
 
 		// タイマーの更新
 		m_gameTimer->Update(elapsedTime);
+
 		// 各シーンの更新
 		if (
 			!DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
@@ -159,17 +160,8 @@ namespace RHEngine
 		{
 			// エディターの更新
 			m_editor->Update(*m_gameTimer);
-
-			// Ctrl + Eキーでエディット
-			if (
-				Input::Key::Get(Input::Key::Code::LeftControl) &&
-				!Input::Key::Get(Input::Key::Code::LeftShift) &&
-				Input::Key::GetDown(Input::Key::Code::E))
-			{
-				m_editor->Initialize();
-			}
 		}
-		// Ctrl + Eキーでエディットとプレイの切り替え
+		// Ctrl + Shift + Eキーでエディットとプレイの切り替え
 		if (
 			Input::Key::Get(Input::Key::Code::LeftControl) &&
 			Input::Key::Get(Input::Key::Code::LeftShift) &&
@@ -179,6 +171,12 @@ namespace RHEngine
 		}
 
 #endif // ENGINE_GUI
+	}
+
+	void GameEngine::OnWindowSizeChanged(int width, int height)
+	{
+		// シーンマネージャーに通知
+		SceneManager::Instance().OnWindowSizeChanged(width, height);
 	}
 
 	void GameEngine::Render()
@@ -192,14 +190,7 @@ namespace RHEngine
 		{
 			// エディターの描画
 			m_editor->Render(m_renderer);
-		}
 
-#endif // ENGINE_GUI
-
-#ifdef ENGINE_GUI
-
-		if (m_sceneEdit)
-		{
 			// Imguiの描画
 			RHEngine::ImguiManager::Render();
 		}

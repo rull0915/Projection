@@ -16,7 +16,7 @@
 // インクルードファイル
 //====================================================//
 #include "../ReserveContainer.h"
-#include "Components/UI/Canvas.h"
+#include "Components/UI/Canvas/Canvas.h"
 
 namespace RHEngine
 {
