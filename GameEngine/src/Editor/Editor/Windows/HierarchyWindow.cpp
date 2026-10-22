@@ -19,7 +19,6 @@
 #include "ThirdParty/imgui/imgui.h"
 
 #include "Common/Property/PropertyObject.h"
-#include "System/WindowManager.h"
 #include "Managers/ObjectManager.h"
 #include "Scene/Scene.h"
 

@@ -25,12 +25,10 @@ namespace RHEngine
 		: CameraBase(own)
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
-		, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 		, m_fov{ PI_F / 4 }
 	{
 		ADD_PROPERTY(StandardCamera, m_nearZ);
 		ADD_PROPERTY(StandardCamera, m_farZ);
-		ADD_PROPERTY(StandardCamera, m_aspect);
 		ADD_PROPERTY(StandardCamera, m_fov);
 
 		UpdateView();
@@ -53,12 +51,15 @@ namespace RHEngine
 	/// </summary>
 	void StandardCamera::UpdateProj()
 	{
+		// アスペクト比を取得
+		float aspect = WindowManager::Instance().GetAspect();
+
 		// 各設定から射影行列を作成
 		SetProj
 		(
 			DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 				m_fov,
-				m_aspect,
+				aspect,
 				m_nearZ,
 				m_farZ
 			)

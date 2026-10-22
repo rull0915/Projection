@@ -471,7 +471,7 @@
     <ClCompile Include="src\Components\UI\Behaviour\ButtonUI.cpp">
       <Filter>src\Components\UI\Behaviour</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\UI\Canvas.cpp">
+    <ClCompile Include="src\Components\UI\Canvas\Canvas.cpp">
       <Filter>src\Components\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\UI\Graphics\ImageUI.cpp">
@@ -789,6 +789,7 @@
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
+    <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -968,7 +969,7 @@
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h">
       <Filter>include\Components\UI\Behaviour</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\UI\Canvas.h">
+    <ClInclude Include="include\Components\UI\Canvas\Canvas.h">
       <Filter>include\Components\UI</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Graphics\ImageUI.h">
@@ -1495,6 +1496,8 @@
     </ClInclude>
     <ClInclude Include="src\Editor\Editor\Windows\ImageWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
+    <ClInclude Include="include\Components\UI\Canvas\CanvasScaler.h" />
+    <ClInclude Include="include\Components\Interface\IWindowSizeDependent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

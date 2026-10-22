@@ -34,7 +34,7 @@ namespace RHEngine
 		, m_hierarchy{ std::make_unique<HierarchyWindow>(pScene, m_selected) }
 		, m_inspector{ std::make_unique<InspectorWindow>(pScene, assetManager, m_selected) }
 		, m_project{ std::make_unique<ProjectWindow>(assetManager, m_selected) }
-		, m_toolbar{ std::make_unique<ToolBarWindow>(playFunc, stopFunc) }
+		, m_toolbar{ std::make_unique<ToolBarWindow>(pScene, assetManager, playFunc, stopFunc) }
 		, m_images{ std::make_unique<ImageWindow>() }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 		, m_selected{ m_assetmanager }
@@ -87,7 +87,14 @@ namespace RHEngine
 
 	void EditGUI::DrawToolBar(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
 	{
-		m_toolbar->DrawToolbar(engineLogo, isPlaying);
+		switch (m_toolbar->DrawToolbar(engineLogo, isPlaying))
+		{
+		case ToolBarWindow::Result::PressLoadButton:
+			Reset();
+			break;
+		default:
+			break;
+		} 
 	}
 
 	void EditGUI::DrawDockingArea()

@@ -21,11 +21,23 @@
 
 namespace RHEngine
 {
+	class Scene;
+	class AssetManager;
+
 	//====================================================//
 	// クラス宣言
 	//====================================================//
 	class ToolBarWindow
 	{
+	public:
+		// 表示結果
+
+		enum class Result
+		{
+			None,
+			PressLoadButton, // ロードボタン押下
+		};
+
 	public:
 
 		//-----------------------------------------------------
@@ -44,14 +56,20 @@ namespace RHEngine
 
 		std::function<void()> m_stopFunc;	// ストップ関数
 
+		Scene* m_pScene;	// シーンポインタ
+
+		AssetManager& m_assetManager;	// アセットマネージャー
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ToolBarWindow(std::function<void()> play, std::function<void()> stop)
+		ToolBarWindow(Scene* pScene, AssetManager& assetManager, std::function<void()> play, std::function<void()> stop)
 			: m_playFunc{ play }
 			, m_stopFunc{ stop }
+			, m_pScene{ pScene }
+			, m_assetManager{ assetManager }
 		{
 		}
 		~ToolBarWindow() = default;
@@ -61,7 +79,7 @@ namespace RHEngine
 		//-----------------------------------------------------
 
 		// ツールバーを表示する関数
-		void DrawToolbar(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
+		Result DrawToolbar(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
 
 	private:
 
@@ -73,7 +91,13 @@ namespace RHEngine
 		void StartToolBarWindow();
 
 		// ツールバーウィンドウを表示する関数
-		void DrawToolBarWindow(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
+		Result DrawToolBarWindow(ID3D11ShaderResourceView* engineLogo, bool isPlaying);
+
+		// 保存関数
+		void Save();
+
+		// ロード関数
+		void Load();
 	};
 }
 

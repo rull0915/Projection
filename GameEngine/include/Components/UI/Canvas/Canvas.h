@@ -19,6 +19,8 @@
 #include "Components/UI/UIComponentBase.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
+#include "Components/Interface/IWindowSizeDependent.h"
+
 namespace RHEngine
 {
 	//====================================================//
@@ -29,7 +31,7 @@ namespace RHEngine
 	//====================================================//
 	// クラス宣言
 	//====================================================//
-	class Canvas : public UIComponentBase
+	class Canvas : public UIComponentBase, public IWindowSizeDependent
 	{
 	public:
 		enum class MouseEvent
@@ -80,7 +82,7 @@ namespace RHEngine
 		void NotifyMouseEvent(MouseEvent event);
 
 		// ウィンドウサイズ変化時処理
-		void OnWindowSizeChanged(int width, int height);
+		void OnWindowSizeChanged(int width, int height) override;
 
 		//-----------------------------------------------------
 		// ゲッター

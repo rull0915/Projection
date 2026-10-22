@@ -38,8 +38,6 @@ namespace RHEngine
 
 		float m_nearZ;  // ニアクリップ
 		float m_farZ;   // ファークリップ
-		float m_aspect; // アスペクト比
-
 		float m_fov;    // 画角
 
 	public:
@@ -69,10 +67,6 @@ namespace RHEngine
 		// ゲッター
 		//-----------------------------------------------------
 
-		float GetAspect() const
-		{
-			return m_aspect;
-		}
 		float GetFov() const
 		{
 			return m_fov;
@@ -90,11 +84,6 @@ namespace RHEngine
 		// セッター
 		//-----------------------------------------------------
 
-		void SetAspect(float r)
-		{
-			m_aspect = r;
-			SetNeedUpdateProj(true);
-		}
 		void SetFov(float f)
 		{
 			m_fov = f;

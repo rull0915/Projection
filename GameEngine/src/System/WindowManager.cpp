@@ -26,13 +26,13 @@ namespace RHEngine
 
 		if (s_fullscreen)
 		{
-			SetWindowLongPtr(m_window, GWL_STYLE, WS_MYSTYLE);
+			SetWindowLongPtr(m_window, GWL_STYLE, WS_OVERLAPPEDWINDOW);
 			SetWindowLongPtr(m_window, GWL_EXSTYLE, 0);
 
 			ShowWindow(m_window, SW_SHOWNORMAL);
 
 			RECT rc = { 0,0,static_cast<LONG>(m_defaultWidth),static_cast<LONG>(m_defaultHeight) };
-			AdjustWindowRect(&rc, WS_MYSTYLE, FALSE);
+			AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 			SetWindowPos(
 				m_window,

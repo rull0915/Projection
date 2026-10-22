@@ -15,19 +15,27 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_internal.h"
 
+#include "Editor/Loader/ObjectLoader.h"
+#include "Editor/Saver/ObjectSaver.h"
+#include "Common/OpenFileDialog.h"
+
+#include "Scene/Scene.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
 
-void RHEngine::ToolBarWindow::DrawToolbar(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
+RHEngine::ToolBarWindow::Result RHEngine::ToolBarWindow::DrawToolbar(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
 {
 	StartToolBarWindow();
 
-	DrawToolBarWindow(engineLogo, isPlaying);
+	Result r = DrawToolBarWindow(engineLogo, isPlaying);
 
 	ImGui::PopStyleVar(1);
 
 	ImGui::End();
+
+	return r;
 }
 
 void RHEngine::ToolBarWindow::StartToolBarWindow()
@@ -55,7 +63,7 @@ void RHEngine::ToolBarWindow::StartToolBarWindow()
 	ImGui::Begin("Toolbar", nullptr, flags);
 }
 
-void RHEngine::ToolBarWindow::DrawToolBarWindow(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
+RHEngine::ToolBarWindow::Result RHEngine::ToolBarWindow::DrawToolBarWindow(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
 {
 	// ロゴを表示
 	ImGui::Image((ImTextureID)engineLogo, { 25.0f, 25.0f });
@@ -98,4 +106,64 @@ void RHEngine::ToolBarWindow::DrawToolBarWindow(ID3D11ShaderResourceView* engine
 			m_stopFunc();
 		}
 	}
+
+	ImGui::SameLine();
+
+	// セーブボタン
+	if (ImGui::Button("Save"))
+	{
+		// テストプレイ終了
+		Save();
+	}
+
+	ImGui::SameLine();
+
+	// ロードボタン
+	if (ImGui::Button("Load"))
+	{
+		// テストプレイ終了
+		Load();
+
+		return Result::PressLoadButton;
+	}
+
+	return Result::None;
+}
+
+void RHEngine::ToolBarWindow::Save()
+{
+	auto path = FileDialog::Open(FileDialog::Mode::Save, L"Resources/Scenes/", L".scene");
+
+	// セーブ
+	if (!path.empty())
+	{
+		ObjectSaver saver(m_assetManager);
+
+		saver.SaveSceneToFile(
+			path,
+			m_pScene
+		);
+	}
+}
+
+void RHEngine::ToolBarWindow::Load()
+{
+	// シーンのリセット
+	m_pScene->Finalize();
+
+	auto path = FileDialog::Open(FileDialog::Mode::Open, L"Resources/Scenes", L".scene");
+
+	// ロード
+	if (!path.empty())
+	{
+		ObjectLoader loader(m_assetManager);
+
+		loader.LoadSceneFromFile(
+			path,
+			m_pScene
+		);
+	}
+
+	// 初期化
+	m_pScene->Initialize();
 }

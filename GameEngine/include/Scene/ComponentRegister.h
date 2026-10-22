@@ -19,6 +19,7 @@
 
 #include "Components/Interface/IComponentListener.h"
 #include "Components/Interface/IDebugRenderable.h"
+#include "Components/Interface/IWindowSizeDependent.h"
 
 namespace RHEngine
 {
@@ -46,6 +47,9 @@ namespace RHEngine
 
 		// デバッグ描画のリスト
 		std::vector<IDebugRenderable*> m_debugRenders;
+
+		// スクリーンサイズ依存コンポーネントのリスト
+		std::vector<IWindowSizeDependent*> m_screenSizeDependents;
 
 		// 全コンポーネントのマップ
 		std::unordered_map<Component::TypeId, std::vector<ComponentBase*>> m_componentsMap;
@@ -121,5 +125,8 @@ namespace RHEngine
 			// 見つからなければnullptr
 			return nullptr;
 		}
+
+		// スクリーンサイズ依存のコンポーネントを全て取得する関数
+		std::vector<IWindowSizeDependent*>& GetScreenSizeDependents() { return m_screenSizeDependents; }
 	};
 }	// namespace RHEngine

@@ -164,6 +164,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>
       </SubType>
@@ -182,7 +183,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Assets\System\Material\MaterialLoader.cpp" />
     <ClCompile Include="src\Assets\System\Material\MaterialSaver.cpp" />
     <ClCompile Include="src\Assets\System\Model\OBJLoader.cpp" />
-    <ClCompile Include="src\Components\UI\Canvas.cpp" />
+    <ClCompile Include="src\Components\UI\Canvas\Canvas.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetDataBase.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetTypeManager.cpp" />
@@ -418,6 +419,11 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Components\Interface\IWindowSizeDependent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Components\UI\Canvas\CanvasScaler.h" />
     <ClInclude Include="include\Components\World\Light\LightComponent.h">
       <SubType>
       </SubType>
@@ -543,7 +549,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Components\UI\Canvas.h" />
+    <ClInclude Include="include\Components\UI\Canvas\Canvas.h" />
     <ClInclude Include="include\Components\World\Camera\CameraBase.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\StandardCamera.h" />
     <ClInclude Include="include\Components\World\Camera\Derived\TargetCamera.h" />

@@ -101,16 +101,10 @@ namespace RHEngine
 		m_mainWorld.Resize(width, height);
 		m_gameView.Resize(width, height);
 
-		// Canvasに通知
-		for (Canvas* canvas : m_updatePipeline->GetUIManager()->GetObjects())
+		// スクリーンサイズに依存するコンポーネントに通知
+		for (auto i : m_componentRegister->GetScreenSizeDependents())
 		{
-			canvas->OnWindowSizeChanged(width, height);
-		}
-
-		// Cameraに通知
-		for (CameraBase* camera : m_updatePipeline->GetCameraManager()->GetObjects())
-		{
-			camera->OnWindowSizeChanged(width, height);
+			i->OnWindowSizeChanged(width, height);
 		}
 	}
 

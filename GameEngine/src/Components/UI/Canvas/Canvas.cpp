@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "Components/UI/Canvas.h"
+#include "Components/UI/Canvas/Canvas.h"
 #include "GameObject/GameObject.h"
 
 #include "Components/UI/Graphics/UIGraphicBase.h"
@@ -36,7 +36,7 @@ namespace RHEngine
 		auto* rectTransform = GetComponent<RectTransform>();
 
 		rectTransform->SetAnchor({ 0.5f, 0.5f });
-		rectTransform->SetSize({ WindowManager::Instance().GetWidthF(), WindowManager::Instance().GetHeightF() });
+		rectTransform->SetSize(WindowManager::Instance().GetSize());
 		rectTransform->SetAnchoredPosition({ 0, 0 });
 		rectTransform->SetPivot({ 0.5f, 0.5f });
 	}
