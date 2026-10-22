@@ -55,7 +55,7 @@
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -223,7 +223,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h" />
     <ClInclude Include="GameLib\Colliders\CheckHit.h">
       <SubType>
       </SubType>
@@ -234,6 +233,7 @@
     </ClInclude>
     <ClInclude Include="GameLib\Colliders\ConvexPolygonCollider2D.h" />
     <ClInclude Include="GameLib\Components\CatmullRomComponent.h" />
+    <ClInclude Include="GameLib\GameMath\EasingTestComponent.h" />
     <ClInclude Include="GameLib\GameMath\GameMath.h" />
     <ClInclude Include="GameLib\Components\PathMover.h" />
     <ClInclude Include="GameLib\Transition\SlideTransition.h" />
@@ -269,13 +269,13 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp" />
     <ClCompile Include="GameLib\Colliders\CheckHit.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GameLib\Colliders\ConvexPolygonCollider2D.cpp" />
     <ClCompile Include="GameLib\Components\CatmullRomComponent.cpp" />
+    <ClCompile Include="GameLib\GameMath\EasingTestComponent.cpp" />
     <ClCompile Include="GameLib\GameMath\GameMath.cpp" />
     <ClCompile Include="GameLib\Components\PathMover.cpp" />
     <ClCompile Include="GameLib\Transition\SlideTransition.cpp" />

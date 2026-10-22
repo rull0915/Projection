@@ -40,7 +40,7 @@ void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 		if (collider->IsTrigger()) continue;
 
 		// 2Dコライダーを生成
-		auto cl2D = Create2DColliderFrom3D(pCamera, collider);
+		Create2DColliderFrom3D(pCamera, collider);
 
 		// 物理マテリアルを共有
 		// cl2D->SetPhysicsMaterial(collider->GetPhysicsMaterial());

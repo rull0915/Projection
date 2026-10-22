@@ -10,6 +10,9 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "ToolBarWindow.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -167,3 +170,5 @@ void RHEngine::ToolBarWindow::Load()
 	// 初期化
 	m_pScene->Initialize();
 }
+
+#endif

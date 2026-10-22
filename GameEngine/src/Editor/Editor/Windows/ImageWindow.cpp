@@ -6,10 +6,14 @@
 // 概要       : 
 //====================================================//
 
+
 //====================================================//
 // インクルードファイル
 //====================================================//
 #include "pch.h"
+
+#ifdef ENGINE_GUI
+
 #include "ImageWindow.h"
 
 #include "ThirdParty/imgui/imgui.h"
@@ -121,3 +125,5 @@ namespace RHEngine
 		return canControlCamera;
 	}
 }
+
+#endif

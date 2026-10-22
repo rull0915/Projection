@@ -10,8 +10,8 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "EasingTestComponent.h"
 
+#include "EasingTestComponent.h"
 #include "Renderer/Renderer.h"
 
 //====================================================//
