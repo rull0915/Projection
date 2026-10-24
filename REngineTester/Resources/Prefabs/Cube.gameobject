@@ -5,20 +5,20 @@
             "Data": {
                 "m_isActive": true,
                 "m_localPosition": [
-                    -0.44182541966438293,
-                    1.3530170917510986,
+                    0.0,
+                    -3.0,
                     0.0
                 ],
                 "m_localRotation": [
-                    0.46266767382621765,
-                    0.1777592897415161,
-                    0.14543896913528442,
-                    0.8562638163566589
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
                 ],
                 "m_localScale": [
+                    5.0,
                     1.0,
-                    1.0,
-                    1.0
+                    5.0
                 ]
             },
             "Type": "Transform",
@@ -69,7 +69,7 @@
         {
             "Data": {
                 "m_isActive": true,
-                "m_isStatic": false,
+                "m_isStatic": true,
                 "m_linearDamping": 0.0,
                 "m_mass": 1.0,
                 "m_useGravity": true

@@ -29,14 +29,13 @@
                     },
                     {
                         "Data": {
-                            "m_aspect": 1.7777777910232544,
                             "m_backColor": [
                                 0.0,
                                 0.5742670297622681,
                                 0.8101266026496887,
                                 1.0
                             ],
-                            "m_farZ": 30.0,
+                            "m_farZ": 50.0,
                             "m_fov": 0.7853981852531433,
                             "m_isActive": true,
                             "m_materialHandle": 0,
@@ -108,19 +107,19 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 0.0,
-                                0.0,
+                                19.461252212524414,
                                 0.0
                             ],
                             "m_localRotation": [
+                                -0.0,
                                 0.0,
-                                0.0,
-                                0.0,
+                                -0.0,
                                 1.0
                             ],
                             "m_localScale": [
-                                0.9999992251396179,
-                                0.9999979138374329,
-                                0.9999993443489075
+                                5.0,
+                                5.0,
+                                5.0
                             ]
                         },
                         "Type": "Transform",
@@ -150,7 +149,7 @@
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_isStatic": false,
+                            "m_isStatic": true,
                             "m_linearDamping": 0.0,
                             "m_mass": 1.0,
                             "m_useGravity": true
@@ -211,9 +210,9 @@
                                 1.0
                             ],
                             "m_localScale": [
-                                5.0,
-                                1.0,
-                                5.0
+                                20.0,
+                                0.5,
+                                20.0
                             ]
                         },
                         "Type": "Transform",
@@ -277,6 +276,69 @@
                 "UUID": 2270363912784456152,
                 "m_isActive": true,
                 "m_name": "Cube",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 6689613887127735713
+                    },
+                    {
+                        "Data": {
+                            "m_generateCount": 1000,
+                            "m_generateType": "All",
+                            "m_isActive": true,
+                            "m_maxPos": [
+                                5.0,
+                                100.0,
+                                5.0
+                            ],
+                            "m_maxScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_minPos": [
+                                -5.0,
+                                -3.0,
+                                -5.0
+                            ],
+                            "m_minScale": [
+                                0.5,
+                                0.5,
+                                0.5
+                            ],
+                            "m_prefab": 1197777221721979966
+                        },
+                        "Type": "RandomGenerator",
+                        "UUID": 9016426540756680820
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14963619113368714462,
+                "m_isActive": true,
+                "m_name": "RandomGenerator",
                 "m_tag": ""
             }
         ]

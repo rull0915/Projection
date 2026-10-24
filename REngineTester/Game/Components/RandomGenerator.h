@@ -46,8 +46,11 @@ private:
 	RHEngine::Handle<RHEngine::Prefab> m_prefab;
 
 	// 生成範囲
-	DirectX::SimpleMath::Vector3 m_min;
-	DirectX::SimpleMath::Vector3 m_max;
+	DirectX::SimpleMath::Vector3 m_minPos;
+	DirectX::SimpleMath::Vector3 m_maxPos;
+
+	DirectX::SimpleMath::Vector3 m_minScale;
+	DirectX::SimpleMath::Vector3 m_maxScale;
 
 	// 生成方法
 	RandomType m_generateType;
