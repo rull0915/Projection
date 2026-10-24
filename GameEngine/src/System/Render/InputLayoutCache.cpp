@@ -19,10 +19,12 @@
 
 namespace RHEngine
 {
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> InputLayoutCache::GetOrCreate(ID3D11Device* device, uint32_t vertexId, ID3DBlob* vsBlob, const std::vector<VertexElementInfo>& layoutInfo)
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> InputLayoutCache::GetOrCreate(ID3D11Device* device, uint32_t vertexId, ShaderAsset* vs, const std::vector<VertexElementInfo>& layoutInfo)
 	{
+		if (!vs) return nullptr;
+
 		// キーを生成
-		uint64_t key = (static_cast<uint64_t>(vertexId) << 32 | static_cast<uint64_t>(GetHash(vsBlob)));
+		uint64_t key = (static_cast<uint64_t>(vertexId) << 32 | static_cast<uint64_t>(vs->GetShaderID()));
 
 		// キーを検索
 		auto it = m_inputLayoutCache.find(key);
@@ -36,7 +38,7 @@ namespace RHEngine
 
 		// まだ存在しないキーなら作成
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> newLayout;
-		HRESULT hr = Reflection::CreateInputLayout(device, vsBlob, layoutInfo, newLayout);
+		HRESULT hr = Reflection::CreateInputLayout(device, vs->GetBlob(), layoutInfo, newLayout);
 
 		// 成功すれば
 		if (SUCCEEDED(hr))

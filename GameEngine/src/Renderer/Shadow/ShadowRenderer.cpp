@@ -123,7 +123,7 @@ void RHEngine::ShadowRenderer::ExecuteCommands(const SceneCameraData& data)
 	// InputLayoutを取得
 	auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
 		m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
-		vs->GetBlob(), VertexPositionNormalTexture::GetLayout()
+		vs, VertexPositionNormalTexture::GetLayout()
 	);
 
 	// 入力レイアウトの設定 

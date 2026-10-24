@@ -29,12 +29,16 @@ namespace RHEngine
 	{
 		LoadResult ShaderLoader(const std::filesystem::path& path, AssetContext& ctx)
 		{
+			// 現在のID
+			static uint32_t currentID = 0;
+			currentID++;
+
 			LoadResult result{};
 
 			// シェーダーアセットを生成
 			result.asset;
 
-			std::unique_ptr<ShaderAsset> shader = std::make_unique<ShaderAsset>();
+			std::unique_ptr<ShaderAsset> shader = std::make_unique<ShaderAsset>(currentID);
 
 			// サブ拡張子を取得
 			// シェーダーファイルは.ps.csoのように扱います。

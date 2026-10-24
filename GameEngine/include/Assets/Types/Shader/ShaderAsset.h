@@ -73,12 +73,15 @@ namespace RHEngine
 		// 定数バッファ一覧
 		std::vector<ConstantBufferInfo> m_cBuffers;
 
+		// InputLayoutCache識別用ID
+		uint32_t m_shaderID;
+
 	public:
 
 		//-----------------------------------------------------
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
-		ShaderAsset();
+		ShaderAsset(uint32_t id);
 		~ShaderAsset() = default;
 
 		//-----------------------------------------------------
@@ -106,6 +109,9 @@ namespace RHEngine
 
 		// タイプ
 		ShaderType GetType() const { return m_type; }
+
+		// ID
+		uint32_t GetShaderID() const { return m_shaderID; }
 
 		// パラメータ一覧
 		const std::vector<ShaderParam>& GetParams() const { return m_params; }

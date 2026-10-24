@@ -103,7 +103,7 @@ void RHEngine::DrawCommandExecutor::DrawPrimitiveCommandExecute(const std::vecto
 			// InputLayoutを取得
 			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
 				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionColorTexture).hash_code()),
-				material->GetBlob(ShaderType::Vertex), VertexPositionColorTexture::GetLayout()
+				material->GetShaderAsset(ShaderType::Vertex), VertexPositionColorTexture::GetLayout()
 			);
 
 			// 取得したInputLayoutを設定
@@ -221,7 +221,7 @@ void RHEngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<Dr
 			// InputLayoutを取得
 			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
 				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
-				material->GetBlob(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout()
+				material->GetShaderAsset(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout()
 			);
 
 			// なければスキップ

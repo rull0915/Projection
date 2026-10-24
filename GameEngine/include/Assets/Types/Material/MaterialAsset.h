@@ -128,9 +128,6 @@ namespace RHEngine
 			return m_vertexShader != ERROR_HANDLE<ShaderAsset>;
 		}
 
-		// 各シェーダーのコンパイル済みバイナリを取得する関数
-		ID3DBlob* GetBlob(ShaderType type);
-
 		// 各シェーダーのパラメータ一覧を取得する関数
 		const std::unordered_map<std::string, Parameter>& GetParams(ShaderType type) const
 		{
@@ -196,6 +193,9 @@ namespace RHEngine
 				break;
 			}
 		}
+		
+		// タイプからシェーダー本体を取得する関数
+		ShaderAsset* GetShaderAsset(ShaderType type);
 
 		//----- PropertyObjectの実装 -----//
 
@@ -218,8 +218,5 @@ namespace RHEngine
 
 		// パラメータのリビルドが必要かを調べ、実行する関数
 		void CheckAndDoRebuild();
-
-		// タイプからシェーダー本体を取得する関数
-		ShaderAsset* GetShaderAsset(ShaderType type);
 	};
 }	// namespace RHEngine

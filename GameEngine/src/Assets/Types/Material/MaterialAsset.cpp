@@ -140,13 +140,6 @@ namespace RHEngine
 		m_isDirty = false;
 	}
 
-	ID3DBlob* MaterialAsset::GetBlob(ShaderType type)
-	{
-		ShaderAsset* shader = GetShaderAsset(type);
-
-		return shader ? shader->GetBlob() : nullptr;
-	}
-
 	bool MaterialAsset::Apply(ID3D11DeviceContext* context)
 	{
 		// 参照が設定されていなければ解決不可

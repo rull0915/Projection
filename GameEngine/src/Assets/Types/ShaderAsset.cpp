@@ -18,12 +18,13 @@
 
 namespace RHEngine
 {
-	ShaderAsset::ShaderAsset()
+	ShaderAsset::ShaderAsset(uint32_t id)
 		: m_type{ ShaderType::Vertex }
 		, m_shader{}
 		, m_byteCode{ nullptr }
 		, m_params{}
 		, m_cBuffers{}
+		, m_shaderID{ id }
 	{
 	}
 
