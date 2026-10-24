@@ -17,6 +17,7 @@
 #include "System/UUIDRegistry.h"
 #include "Editor/Loader/ObjectLoader.h"
 #include "Assets/Types/PrefabImpl.h"
+#include "Assets/Managers/AssetManager.h"
 
 namespace RHEngine
 {

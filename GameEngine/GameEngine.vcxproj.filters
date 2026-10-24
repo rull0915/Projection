@@ -790,6 +790,9 @@
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
     <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
+    <ClCompile Include="include\Components\World\Particle\ParticleComponent.cpp" />
+    <ClCompile Include="src\System\PerformanceStats.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -900,9 +903,6 @@
     <ClInclude Include="include\Common\ObjectReference.h">
       <Filter>include\Common</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\Origin.h">
-      <Filter>include\Common</Filter>
-    </ClInclude>
     <ClInclude Include="include\Common\Property\ArrayRegistry.h">
       <Filter>include\Common\Property</Filter>
     </ClInclude>
@@ -929,9 +929,6 @@
     </ClInclude>
     <ClInclude Include="include\Common\State\StateMachine.h">
       <Filter>include\Common\State</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Common\TypeIdGenerator.h">
-      <Filter>include\Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\UUID.h">
       <Filter>include\Common</Filter>
@@ -1498,6 +1495,10 @@
     <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
     <ClInclude Include="include\Components\UI\Canvas\CanvasScaler.h" />
     <ClInclude Include="include\Components\Interface\IWindowSizeDependent.h" />
+    <ClInclude Include="include\Components\World\Particle\ParticleComponent.h" />
+    <ClInclude Include="include\Math\Range.h" />
+    <ClInclude Include="include\System\PerformanceStats.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

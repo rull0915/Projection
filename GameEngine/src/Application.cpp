@@ -18,6 +18,8 @@
 #include "System/WindowManager.h"
 #include "Input/KeyInput.h"
 
+#include "System/PerformanceStats.h"
+
 //====================================================//
 // 関数の実体宣言
 //====================================================//
@@ -103,6 +105,9 @@ void RHEngine::Application::Update()
 	{
 		WindowManager::Instance().SwitchScreenMode();
 	}
+
+	// パフォーマンスの更新
+	PerformanceStats::Instance().Update(elapsedTime);
 
 	// ゲームエンジンの更新
 	m_gameEngine->Update(elapsedTime);

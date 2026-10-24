@@ -133,6 +133,9 @@ namespace RHEngine
 		// 3つのウィンドウを描画
 		m_gui.DrawWindows();
 
+		// パフォーマンスウィンドウを描画
+		m_gui.DrawPerformanceWindow();
+
 		// シーンビューを描画
 		bool canMove = m_gui.DrawSceneView(m_sceneView->GetShaderResourceView(), &m_sceneViewCamera);
 		

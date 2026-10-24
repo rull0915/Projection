@@ -29,6 +29,7 @@ namespace RHEngine
 	class ProjectWindow;
 	class ToolBarWindow;
 	class ImageWindow;
+	class PerformanceWindow;
 	class AssetManager;
 
 	//====================================================//
@@ -45,11 +46,12 @@ namespace RHEngine
 		// 所属先のシーン
 		Scene* m_pScene;
 
-		std::unique_ptr<ToolBarWindow> m_toolbar;			// ツールバーウィンドウ
+		std::unique_ptr<ToolBarWindow> m_toolbar;		// ツールバーウィンドウ
 		std::unique_ptr<HierarchyWindow> m_hierarchy;	// ヒエラルキーウィンドウ
 		std::unique_ptr<InspectorWindow> m_inspector;	// インスペクターウィンドウ
 		std::unique_ptr<ProjectWindow> m_project;		// プロジェクトウィンドウ
 		std::unique_ptr<ImageWindow> m_images;			// 画像用ウィンドウ
+		std::unique_ptr<PerformanceWindow> m_performance;	// パフォーマンスウィンドウ
 
 		// シーンビューの描画設定
 		unsigned char m_sceneDrawSetting;
@@ -93,6 +95,9 @@ namespace RHEngine
 
 		// ドッキング領域を描画する関数
 		void DrawDockingArea();
+
+		// パフォーマンスウィンドウを描画する関数
+		void DrawPerformanceWindow();
 
 	private:
 

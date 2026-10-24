@@ -21,6 +21,7 @@
 #include "Windows/Inspector/InspectorWindow.h"
 #include "Windows/ToolBarWindow.h"
 #include "Windows/ImageWindow.h"
+#include "Windows/PerformanceWindow.h"
 
 namespace RHEngine
 {
@@ -36,6 +37,7 @@ namespace RHEngine
 		, m_project{ std::make_unique<ProjectWindow>(assetManager, m_selected) }
 		, m_toolbar{ std::make_unique<ToolBarWindow>(pScene, assetManager, playFunc, stopFunc) }
 		, m_images{ std::make_unique<ImageWindow>() }
+		, m_performance{ std::make_unique<PerformanceWindow>() }
 		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 		, m_selected{ m_assetmanager }
 	{}
@@ -147,6 +149,11 @@ namespace RHEngine
 		);
 
 		ImGui::End();
+	}
+
+	void EditGUI::DrawPerformanceWindow()
+	{
+		m_performance->DrawWindow();
 	}
 }	// namespace RHEngine
 

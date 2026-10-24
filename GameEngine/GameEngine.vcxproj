@@ -140,7 +140,7 @@ $(ProjectDir)ThirdParty;
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);ENGINE_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);
@@ -165,12 +165,14 @@ $(ProjectDir)ThirdParty;
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
+    <ClCompile Include="include\Components\World\Particle\ParticleComponent.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="src\Assets\Managers\DefaultAssetManager.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
     <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -322,6 +324,10 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Scene\UpdatePipeline.cpp" />
     <ClCompile Include="src\System\DeviceResources.cpp" />
     <ClCompile Include="src\System\EngineInitializer.cpp" />
+    <ClCompile Include="src\System\PerformanceStats.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\System\Render\InputLayoutCache.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
     <ClCompile Include="src\System\Render\SamplerList.cpp" />
@@ -429,7 +435,12 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
+    <ClInclude Include="include\Components\World\Particle\ParticleComponent.h" />
     <ClInclude Include="include\EntryPoint.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\Math\Range.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -447,6 +458,10 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Renderer\Shadow\ShadowRenderer.h" />
     <ClInclude Include="include\Scene\SceneInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\System\PerformanceStats.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -505,10 +520,6 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Common\EventBus.h" />
     <ClInclude Include="include\Common\ObjectReference.h" />
-    <ClInclude Include="include\Common\Origin.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\Common\Property\ArrayRegistry.h">
       <SubType>
       </SubType>
@@ -616,6 +627,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\ObjectFactory.h" />
     <ClInclude Include="src\Editor\Editor\Windows\ImageWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />
     <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
@@ -787,7 +799,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\System\DeviceResources.h" />
     <ClInclude Include="include\System\EngineInitializer.h" />
     <ClInclude Include="include\System\ResourceManager.h" />
-    <ClInclude Include="include\Common\TypeIdGenerator.h" />
     <ClInclude Include="include\System\WindowManager.h" />
     <ClInclude Include="include\Timer\GameTimer.h" />
     <ClInclude Include="include\Timer\StepTimer.h" />
