@@ -126,6 +126,10 @@ namespace RHEngine
 			}
 			break;
 		}
+			// Range
+		case PropertyType::Range:
+			js = static_cast<Range*>(property.value)->GetValue();
+			break;
 		default:
 			break;
 		}

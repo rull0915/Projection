@@ -44,6 +44,7 @@ namespace RHEngine
 		AssetHandle,// アセットハンドル
 		ObjectRef,	// オブジェクト参照
 		Array,		// 配列
+		Range,		// 範囲
 
 		//----- 装飾システム -----//
 

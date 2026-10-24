@@ -24,6 +24,7 @@
 
 #include "Editor/Editor/HandlePayload.h"
 #include "Common/ObjectReference.h"
+#include "Math/Range.h"
 
 namespace RHEngine
 {
@@ -139,10 +140,19 @@ namespace RHEngine
 			changed = DrawArray(property);
 			break;
 
+			// 範囲
+		case PropertyType::Range:
+			changed = DrawRange(property);
+			break;
+
+			// ヘッダ
 		case PropertyType::Header:
 			ImGui::Spacing();
 			ImGui::SeparatorText(property->name.c_str());
 			break;
+
+			// 範囲
+			//ImGui::slider
 
 		default:
 			break;
@@ -444,6 +454,20 @@ namespace RHEngine
 			// ツリーの終了
 			ImGui::TreePop();
 		}
+
+		return changed;
+	}
+	bool PropertyOnInspector::DrawRange(Property* property)
+	{
+		// Rangeに変換
+		Range* range = static_cast<Range*>(property->value);
+
+		// 値変更用の変数
+		float value = *range;
+
+		bool changed = ImGui::SliderFloat(property->name.c_str(), &value, range->GetMin(), range->GetMax());
+
+		*range = value;
 
 		return changed;
 	}

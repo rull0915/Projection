@@ -23,6 +23,7 @@
 #include "Common/Property/EnumRegistry.h"
 #include "Common/ObjectReference.h"
 #include "Common/UUID.h"
+#include "Math/Range.h"
 
 namespace RHEngine
 {
@@ -37,22 +38,22 @@ namespace RHEngine
 		{
 			// int
 		case PropertyType::Int:
-			*(static_cast<int*>(property.value)) = json;
+			*(static_cast<int*>(property.value)) = json.get<int>();
 			break;
 
 			// float
 		case PropertyType::Float:
-			*(static_cast<float*>(property.value)) = json;
+			*(static_cast<float*>(property.value)) = json.get<float>();
 			break;
 
 			// bool
 		case PropertyType::Bool:
-			*(static_cast<bool*>(property.value)) = json;
+			*(static_cast<bool*>(property.value)) = json.get<bool>();
 			break;
 
 			// string
 		case PropertyType::String:
-			*(static_cast<std::string*>(property.value)) = json;
+			*(static_cast<std::string*>(property.value)) = json.get<std::string>();
 			break;
 
 			// Vector2
@@ -122,6 +123,11 @@ namespace RHEngine
 			}
 			break;
 		}
+			// Range
+		case PropertyType::Range:
+			*(static_cast<Range*>(property.value)) = json.get<float>();
+			break;
+
 		default:
 			break;
 		}

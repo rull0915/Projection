@@ -92,6 +92,9 @@ namespace RHEngine
 
 		// 配列のGUI表示を行う関数
 		bool DrawArray(Property* property);
+
+		// 範囲の表示を行う関数
+		bool DrawRange(Property* property);
 	};
 }
 

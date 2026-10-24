@@ -26,6 +26,8 @@
 #include "Common/CheckVector.h"
 #include "Assets/Objects/Handle.h"
 #include "Common/ObjectReference.h"
+#include "Math/Range.h"
+
 #include "EnumRegistry.h"
 #include "ArrayRegistry.h"
 #include "AssetPropertyRegistry.h"
@@ -173,6 +175,8 @@ namespace RHEngine
 			else if constexpr (IsRef_v<T>) return PropertyType::ObjectRef;
 			// vector
 			else if constexpr (is_vector<T>::value) return PropertyType::Array;
+			// Range
+			else if constexpr (std::is_same_v<T, Range>) return PropertyType::Range;
 
 			// その他
 			else return PropertyType::None;
