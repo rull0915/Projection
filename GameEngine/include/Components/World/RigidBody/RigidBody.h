@@ -1,116 +1,98 @@
-﻿//====================================================//
-// ファイル名   : RigidBody.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/06
-//
-// 概要 : RigidBodyクラス 質量や速度などを管理します
-//
-// 更新履歴 :
-// 2026/04/06 新規作成
-//====================================================//
+﻿/**
+ * @file    RigidBody.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/06
+ *
+ * @brief   3D物理挙動コンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "RigidBodyBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class GameObject;
 	class Transform;
+	class IComponentOwner;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 3D物理挙動コンポーネント
+	 */
 	class RigidBody : public RigidBodyBase
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(RigidBodyBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 速度 */
+		DirectX::SimpleMath::Vector3 m_velocity;
+			
+		/** @brief 加速度 */
+		DirectX::SimpleMath::Vector3 m_acceleration;
 
-		// 速度/加速度
-		DirectX::SimpleMath::Vector3 m_velocity, m_acceleration;
-
-		// かかっている力
+		/** @brief かかっている力 */
 		DirectX::SimpleMath::Vector3 m_force;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
 		RigidBody(IComponentOwner* own);
 
 		~RigidBody() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(RigidBody, RigidBodyBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief 力から位置・速度・加速度を時間で積分して求める
+		 * @param elapsedTime 1fの経過時間
+		 */
 		void Integrate(float elapsedTime) override;
 
-		void AddForce(DirectX::SimpleMath::Vector3 vec, ForceMode mode = ForceMode::Force, bool wakeUp = true)
-		{
-			switch (mode)
-			{
-			case ForceMode::Force:
-				m_force += vec;
-				break;
-			case ForceMode::Acceleration:
-				m_force += vec * GetMass();
-				break;
-			case ForceMode::Impulse:
-				m_velocity += vec * GetInvMass();
-				break;
-			case ForceMode::VelocityChange:
-				m_velocity += vec;
-				break;
-			default:
-				break;
-			}
+		/**
+		 * @brief 力を加える
+		 * @param vec 加える力ベクトル
+		 * @param mode 力の種類
+		 * @param wakeUp スリープ状態を解除するかどうか
+		 */
+		void AddForce(DirectX::SimpleMath::Vector3 vec, ForceMode mode = ForceMode::Force, bool wakeUp = true);
 
-			if (wakeUp) WakeUp();
-		}
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		DirectX::SimpleMath::Vector3 GetForce() const { return m_force; }
+		/// @name ゲッター
+		/// @{
+		
+		/** @brief 速度 */
 		DirectX::SimpleMath::Vector3 GetVelocity() const { return m_velocity; }
+
+		/** @brief 加速度 */
 		DirectX::SimpleMath::Vector3 GetAcceleration() const { return m_acceleration; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
-		void SetForce(DirectX::SimpleMath::Vector3 f)
-		{
-			m_force = f;
-			WakeUp();
-		}
+		/// @name セッター
+		/// @{
+
+		/** @brief 速度 */
 		void SetVelocity(DirectX::SimpleMath::Vector3 v)
 		{
 			m_velocity = v;
 			WakeUp();
 		}
+
+		/** @brief 加速度 */
 		void SetAcceleration(DirectX::SimpleMath::Vector3 a)
 		{
 			m_acceleration = a;
 			WakeUp();
 		}
+
+		/// @}
 	};
 } // namespace RHEngine

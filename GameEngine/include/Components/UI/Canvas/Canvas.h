@@ -1,120 +1,128 @@
-﻿//====================================================//
-// ファイル名   : Canvas.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/27
-//
-// 概要 : キャンバスコンポーネント
-//
-// 更新履歴 :
-// 2026/08/27 新規作成
-//====================================================//
+﻿/**
+ * @file    Canvas.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/27
+ *
+ * @brief   キャンバスコンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(Canvas)
+#include <SimpleMath.h>
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/UI/UIComponentBase.h"
-#include "Components/UI/RectTransform/RectTransform.h"
-
 #include "Components/Interface/IWindowSizeDependent.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
+	class IComponentOwner;
 	class Renderer;
+	class RectTransform;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief キャンバスコンポーネント
+	 */
 	class Canvas : public UIComponentBase, public IWindowSizeDependent
 	{
 	public:
+		DECLARE_COMPONENT_TYPE(UIComponentBase);
+
+		/**
+		 * @brief マウスのイベント列挙型
+		 */
 		enum class MouseEvent
 		{
-			Down, Up
+			Down,	///< クリック開始
+			Up		///< クリック終了
 		};
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 描画順
+		/** @brief 描画順 大きいほど手前 */
 		int m_drawOrder;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		Canvas(IComponentOwner* own);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
+		Canvas(IComponentOwner* pOwner);
+
 		~Canvas() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(Canvas, UIComponentBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		void Awake() override;
-		void Start() override;
-
-		void Update(const GameTimer& gameTimer) override;
-		void LateUpdate(const GameTimer& gameTimer) override;
-
-		// 描画関数
+		/**
+		 * @brief 描画関数 自身の子を再帰的に描画していく
+		 */
 		void Draw(Renderer& renderer);
 
-		// 自身の子供の中で当たっているオブジェクトを返す関数
+		/**
+		 * @brief 自身の子供の中で特定の点と重なるオブジェクトを取得する
+		 * @param point 調べるスクリーン座標
+		 * @return 当たっていたRectTransform
+		 */
 		RectTransform* CheckHit(DirectX::SimpleMath::Vector2 point);
 
-		// マウスイベントを通知する関数
+		/**
+		 * @brief マウスのイベントを子に通知する
+		 * @param event イベントタイプ
+		 */
 		void NotifyMouseEvent(MouseEvent event);
 
-		// ウィンドウサイズ変化時処理
+		/**
+		 * @brief ウィンドウサイズ変更時の処理
+		 * @details 自分のRectTransformのサイズを変更する
+		 * @param width 変更後の幅
+		 * @param height 変更後の高さ
+		 */
 		void OnWindowSizeChanged(int width, int height) override;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
+		/// @name ゲッター
+		/// @{
+		
+		/** @brief 描画順 */
 		int GetDrawOrder() const
 		{
 			return m_drawOrder;
 		}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
+		/// @name セッター
+		/// @{
+
+		/** @brief 描画順 */
 		void SetDrawOrder(int order)
 		{
 			m_drawOrder = order;
 		}
 
+		/// @}
+
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
+		/**
+		 * @brief 自身の子供を再帰的に描画する
+		 * @param rectTransform 親のRectTransform
+		 */
+		void DrawChild(RectTransform* pRectTransform, Renderer& renderer);
 
-		// 自身の子供を再帰的に描画する関数
-		void DrawChild(RectTransform* rectTransform, Renderer& renderer);
+		/**
+		 * @brief 特定の点が重なっているかどうかを再帰的に調べる
+		 * @param pRectTransform 親のRectTransform
+		 * @return 重なっているRect
+		 */
+		RectTransform* CheckHitPoint(RectTransform* pRectTransform, DirectX::SimpleMath::Vector2 point);
 
-		// 特定の点が当たるオブジェクトを走査する関数
-		RectTransform* CheckHitPoint(RectTransform* rectTransform, DirectX::SimpleMath::Vector2 point);
-
-		// マウスイベントを再帰的に通知する関数
-		void MouseEventChild(RectTransform* rectTransform, MouseEvent event);
+		/**
+		 * @brief マウスイベントを再帰的に通知する
+		 * @param pRectTransform 親のRect
+		 * @param event マウスイベント
+		 */
+		void MouseEventChild(RectTransform* pRectTransform, MouseEvent event);
 	};
-}
+}	// namespace RHEngine

@@ -1,23 +1,17 @@
-﻿//====================================================//
-// ファイル名   : ObjectLoader.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/29
-//
-// 概要 : オブジェクトをjsonファイルから読みとるクラス
-//
-// 更新履歴 :
-// 2026/06/29 新規作成
-// 2026/07/28 静的クラスから通常のクラスに変更
-//====================================================//
+﻿/**
+ * @file    ObjectLoader.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/29
+ *
+ * @brief   オブジェクトをjsonファイルから読み込むクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "ThirdParty/nlohmann/json.hpp"
 #include "Common/Property/PropertyObject.h"
 #include "Assets/Managers/AssetManager.h"
+#include "Common/Property/Property.h"
 
 namespace RHEngine
 {
@@ -25,48 +19,100 @@ namespace RHEngine
 	class Scene;
 	class ObjectManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief オブジェクトをjsonファイルから読み込むクラス
+	 */
 	class ObjectLoader
 	{
 	private:
 
-		// AssetManager
+		/** @brief アセットマネージャー (Handleの解決に使用) */
 		AssetManager& m_assetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param assetManager アセットマネージャー
+		 */
 		ObjectLoader(AssetManager& assetManager)
 			: m_assetManager{ assetManager }
 		{
 		}
+
 		~ObjectLoader() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// プロパティのロード
-		void LoadProperty(const nlohmann::json& json, Property& obj, Scene* pScene);
+		/// @name ロード関数
+		/// @{
+
+		/**
+		 * @brief プロパティのロード
+		 * @param json プロパティ情報を持つjson
+		 * @param property 読み込み対象のプロパティ
+		 * @param pScene 所属しているシーン
+		 */
+		void LoadProperty(const nlohmann::json& json, Property& property, Scene* pScene);
+
+		/**
+		 * @brief プロパティオブジェクトのロード
+		 * @param json プロパティオブジェクト情報を持つjson
+		 * @param obj 読み込み対象のオブジェクト
+		 * @param pScene 所属しているシーン
+		 */
 		void LoadPropertyObject(const nlohmann::json& json, PropertyObject& obj, Scene* pScene);
 
-		// Worldオブジェクトのロード
-		void LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene);
+		/**
+		 * @brief GameObjectのロード
+		 * @param json ゲームオブジェクト情報を持つjson
+		 * @param pObj 読み込み対象のオブジェクト
+		 * @param pScene 所属しているシーン
+		 */
+		void LoadObject(const nlohmann::json& json, GameObject* pObj, Scene* pScene);
 
-		// ObjectManagerのロード
+		/**
+		 * @brief オブジェクトマネージャーのロード
+		 * @param json 
+		 * @param pScene 
+		 */
 		void LoadObjectManager(const nlohmann::json& json, Scene* pScene);
 
-		// シーンのロード関数
+		/**
+		 * @brief シーンのロード
+		 * @param json シーン情報を持つjson
+		 * @param pScene 読み込み対象のシーン
+		 */
 		void LoadScene(const nlohmann::json& json, Scene* pScene);
 
-		// ロード関数
-		void LoadPropertyFromFile(const std::wstring& filePath, PropertyObject* obj);
-		void LoadFromFile(const std::wstring& filePath, GameObject* obj);
+		/// @}
+		
+		/// @name ファイルから直接読み込む関数
+		/// @{
 
-		void LoadSceneFromFile(const std::wstring& filePath, Scene* scene);
+		/**
+		 * @brief プロパティオブジェクトをファイルから直接読み込む
+		 * @param filePath jsonファイルのパス
+		 * @param pObj 読み込み対象のプロパティオブジェクト
+		 */
+		void LoadPropertyFromFile(const std::wstring& filePath, PropertyObject* pObj);
+
+		/**
+		 * @brief ゲームオブジェクトをファイルから直接読み込む
+		 * @param filePath jsonファイルのパス
+		 * @param pObj 読み込み対象のゲームオブジェクト
+		 */
+		void LoadObjectFromFile(const std::wstring& filePath, GameObject* pObj);
+
+		/**
+		 * @brief シーンをファイルから直接読み込む
+		 * @param filePath jsonファイルのパス
+		 * @param pScene 読み込み対象のシーン
+		 */
+		void LoadSceneFromFile(const std::wstring& filePath, Scene* pScene);
+
+		/// @}
 	};
 } // namespace RHEngine

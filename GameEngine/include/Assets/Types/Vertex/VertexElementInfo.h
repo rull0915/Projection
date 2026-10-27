@@ -1,34 +1,36 @@
-﻿//====================================================//
-// ファイル名   : VertexElementInfo.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/09/24
-//
-// 概要 : 入力レイアウトを作るための頂点情報をまとめた構造体
-//
-// 更新履歴 :
-// 2026/09/24 新規作成
-//====================================================//
+﻿/**
+ * @file    VertexElementInfo.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/24
+ *
+ * @brief   InputLayout作成時に使用する情報をまとめたヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <string>
 #include <dxgiformat.h>
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief InputLayout作成時に使用する構造体
+	 */
 	struct VertexElementInfo
 	{
-		std::string semanticName;		// セマンティック名	
-		unsigned int semanticIndex;		// セマンティックインデックス 同名セマンティックが複数ある場合の識別用番号
-		DXGI_FORMAT format;				// CPU側のメモリフォーマット
-		unsigned int byteOffset;		// バイトオフセット 基本的にoffsetofマクロを使って計算
-		unsigned int inputSlot = 0;		// VertexBufferのスロット番号
+		/** @brief セマンティック名 */
+		std::string semanticName;
+
+		/** @brief セマンティックインデックス (同名のセマンティックが複数ある場合の識別用番号) */
+		unsigned int semanticIndex;
+
+		/** @brief CPU側のメモリフォーマット */
+		DXGI_FORMAT format;
+
+		/** @brief バイトオフセット (基本的にoffsetofマクロを使って計算) */
+		unsigned int byteOffset;
+
+		/** @brief 頂点バッファのスロット番号 */
+		unsigned int inputSlot = 0;
 	};
-}
+}	// namespace RHEngine

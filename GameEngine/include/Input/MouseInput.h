@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : MouseInput.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/02/17
-//
-// 概要 : マウス入力管理クラス
-//
-// 更新履歴 :
-// 2026/02/17 新規作成
-//====================================================//
+﻿/**
+ * @file    MouseInput.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/17
+ *
+ * @brief   マウス入力管理クラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================// 
 
 #include <Mouse.h>
 
@@ -21,13 +14,15 @@ namespace RHEngine
 {
 	namespace Input
 	{
-		//====================================================//
-		// クラス宣言
-		//====================================================//
+		/**
+		 * @brief マウス入力管理クラス
+		 */
 		class Mouse
 		{
 		public:
-			// ボタンタイプ
+			/**
+			 * @brief マウスボタン
+			 */
 			enum class Button
 			{
 				Left,
@@ -35,119 +30,144 @@ namespace RHEngine
 				Middle,
 			};
 
-			// 軸タイプ
+			/**
+			 * @brief マウス移動の軸
+			 */
 			enum class Axis
 			{
 				X, Y
 			};
 
-			// マウスステート
 		private:
+
+			/** @brief 現在のマウス状態 */
 			inline static DirectX::Mouse::State m_nowMouseState;
+
+			/** @brief 前フレームのマウス状態 */
 			inline static DirectX::Mouse::State m_oldMouseState;
 
-			inline static DirectX::SimpleMath::Vector2 m_oldMouseMove;	// 前フレームのマウスの移動量
-			inline static DirectX::Mouse::Mode m_requestedMode;	// 切り替え要請があったモード
+			/** @brief 前フレームのマウス移動量 */
+			inline static DirectX::SimpleMath::Vector2 m_oldMouseMove;
+
+			/** @brief 切り替え要請中のモード */
+			inline static DirectX::Mouse::Mode m_requestedMode;
 
 		public:
-			// ----- 関数宣言 ----- //
-			Mouse();
 
-			// キー情報の更新
+			/// @name ライフサイクル
+			/// @{
+
+			/**
+			 * @details 静的クラスのためインスタンス化を禁止
+			 */
+			Mouse() = delete;
+
+			/// @}
+
+			/**
+			 * @brief マウス状態の更新x
+			 */
 			static void Update();
 
-			// --- マウス情報取得関数 --- //
-
-			// 押されたとき
+			/**
+			 * @brief 押されたフレームかどうか
+			 * @param key 対象のボタン
+			 */
 			static inline bool GetDown(Button key)
 			{
 				return !GetButtonState(m_oldMouseState, key) && GetButtonState(m_nowMouseState, key);
 			}
-			// 押されているとき
+			
+			/**
+			 * @brief 押されているかどうか
+			 * @param key 対象のボタン
+			 */
 			static inline bool Get(Button key)
 			{
 				return GetButtonState(m_nowMouseState, key);
 			}
+
+			/**
+			 * @brief 前フレームに押されていたかどうか
+			 * @param key 対象のボタン
+			 */
 			static inline bool GetOld(Button key)
 			{
 				return GetButtonState(m_oldMouseState, key);
 			}
-			// 離されたとき
+			
+			/**
+			 * @brief 離されたフレームかどうか
+			 * @param key 対象のボタン
+			 */
 			static inline bool GetUp(Button key)
 			{
 				return GetButtonState(m_oldMouseState, key) && !GetButtonState(m_nowMouseState, key);
 			}
 
-			// 移動量
-			static inline float GetMoveValue(Axis axis)
-			{
-				switch (axis)
-				{
-				case RHEngine::Input::Mouse::Axis::X:
-					return GetMouseMoveValue().x;
-				case RHEngine::Input::Mouse::Axis::Y:
-					return GetMouseMoveValue().y;
-				default:
-					return 0;
-				}
-			}
-			// 前フレームの移動量
-			static inline float GetOldMoveValue(Axis axis)
-			{
-				switch (axis)
-				{
-				case RHEngine::Input::Mouse::Axis::X:
-					return m_oldMouseMove.x;
-				case RHEngine::Input::Mouse::Axis::Y:
-					return m_oldMouseMove.y;
-				default:
-					return 0;
-				}
-			}
+			/**
+			 * @brief マウスの移動量を取得する
+			 * @param axis 取得する軸
+			 */
+			static inline float GetMoveValue(Axis axis);
 
-			// 位置
+			/**
+			 * @brief 前フレームの移動量を取得する
+			 * @param axis 取得する軸
+			 */
+			static inline float GetOldMoveValue(Axis axis);
+
+			/**
+			 * @brief マウスのピクセル座標を取得する
+			 */
 			static DirectX::SimpleMath::Vector2 GetMousePoint();
+
+			/**
+			 * @brief 前フレームのマウスのピクセル座標を取得する
+			 */
 			static DirectX::SimpleMath::Vector2 GetOldMousePoint();
 
-			// スケーリングされた位置
-			static DirectX::SimpleMath::Vector2 GetScaledMousePoint();
-
-			// 移動量
+			/**
+			 * @brief マウスの移動量を取得する
+			 */
 			static DirectX::SimpleMath::Vector2 GetMouseMoveValue();
+
+			/**
+			 * @brief ホイールの移動量を取得する
+			 */
 			static int GetWheelMoveValue();
 
-			// モードの取得
+			/**
+			 * @brief 現在のモードを取得する
+			 */
 			static DirectX::Mouse::Mode GetMode() { return m_requestedMode; }
 
-			// モードの変更
+			/**
+			 * @brief モードを変更する
+			 * @param mode 変更対象のモード
+			 */
 			static void SetMode(DirectX::Mouse::Mode mode);
 
-			// 位置のセット
+			/**
+			 * @brief 強制的に位置をセットする
+			 * @param x セットするピクセルX座標
+			 * @param y セットするピクセルY座標
+			 */
 			static void SetMousePoint(int x, int y);
 
-			// マウスが映るかどうかをセット
+			/**
+			 * @brief マウスが見えるかどうかをセットする
+			 */
 			static void SetMouseVisible(bool visible);
 
 		private:
 
-			// 補助関数
-			static bool GetButtonState(const DirectX::Mouse::State& state, Button button)
-			{
-				switch (button)
-				{
-				case Input::Mouse::Button::Left:
-					return state.leftButton;
-
-				case Input::Mouse::Button::Right:
-					return state.rightButton;
-
-				case Input::Mouse::Button::Middle:
-					return state.middleButton;
-
-				default:
-					return false;
-				}
-			}
+			/**
+			 * @brief ボタンの状態を取得する補助関数
+			 * @param state 現在の状態
+			 * @param button 取得するボタン
+			 */
+			static bool GetButtonState(const DirectX::Mouse::State& state, Button button);
 		};
 	}
 }	// namespace RHEngine

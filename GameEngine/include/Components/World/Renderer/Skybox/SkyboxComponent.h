@@ -1,82 +1,93 @@
-﻿//====================================================//
-// ファイル名   : SkyboxComponent.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : スカイボックスコンポーネント
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    SkyboxComponent.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   スカイボックスを描画するコンポーネント
+ * @TODO 自分のMaterialをシェーダーアセットを使用した描画形式に変更
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <memory>
 #include <GeometricPrimitive.h>
-#include "Components/World/Renderer/RendererBase.h"
+#include <wrl/client.h>
+#include <d3d11.h>
 
+#include "Components/World/Renderer/RendererBase.h"
 #include "Components/Interface/IAssetDependent.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Texture.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
+	class IComponentOwner;
+	class Renderer;
 	class SkyboxEffect;
+	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief スカイボックス描画コンポーネント
+	 */
 	class SkyboxComponent : public RendererBase, public IAssetDependent
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(RendererBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
+		/** @brief スカイボックスを張り付ける形状 */
 		std::unique_ptr<DirectX::GeometricPrimitive> m_sky;
+
+		/** @brief 描画時に使用するエフェクト */
 		std::unique_ptr<SkyboxEffect> m_effect;
 
+		/** @brief 描画時に使用するInputLayout */
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_skyInputLayout;
 
-		// テクスチャハンドル
+		/** @brief スカイボックスのテクスチャアセット */
 		Handle<Texture> m_textureHandle;
 
-		// AssetManager
-		AssetManager* m_assetManager;
+		/** @brief アセットマネージャーのポインタ */
+		AssetManager* m_pAssetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
 		SkyboxComponent(IComponentOwner* own);
+
 		~SkyboxComponent() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(SkyboxComponent, RendererBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief スカイボックスの描画を行う
+		 */
 		void Draw(Renderer& renderer) override;
 
+		/**
+		 * @brief テクスチャアセットをセットする
+		 * @param handle 変更後のテクスチャアセットハンドル
+		 */
 		void SetTexture(Handle<Texture> handle);
 
-		void ReceiveAssetManager(AssetManager& manager) override
+		/**
+		 * @brief アセットマネージャーを受け取る
+		 * @param assetManager 
+		 */
+		void ReceiveAssetManager(AssetManager& assetManager) override
 		{
-			m_assetManager = &manager;
+			m_pAssetManager = &assetManager;
 		}
 
+		/**
+		 * @brief GUI上での値変更時テクスチャを反映させる
+		 */
 		void OnValidate() override
 		{
 			SetTexture(m_textureHandle);

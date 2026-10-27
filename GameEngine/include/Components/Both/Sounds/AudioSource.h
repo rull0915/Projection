@@ -1,138 +1,147 @@
-﻿//====================================================//
-// ファイル名   : AudioSource.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : 音再生コンポーネント
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    AudioSource.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   音再生コンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <memory>
 #include <Audio.h>
 
+#include "Components/ComponentBase.h"
 #include "Components/Both/BothComponentBase.h"
 #include "Components/Interface/IAssetDependent.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/AudioClip.h"
 
-//====================================================//
-// クラス宣言
-//====================================================//
-
 namespace RHEngine
 {
+	class AssetManager;
+	class IComponentOwner;
+
+	/**
+	 * @brief 音を再生するコンポーネント
+	 */
 	class AudioSource : public BothComponentBase, public IAssetDependent
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(BothComponentBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// オーディオハンドル
+		/** @brief 音声データアセット */
 		Handle<AudioClip> m_audioClip;
 
-		// インスタンス
+		/** @brief サウンドインスタンス */
 		std::unique_ptr<DirectX::SoundEffectInstance> m_soundInstance;
 
-		// アセットマネージャー
-		AssetManager* m_assetManager;
+		/** @brief アセットマネージャーポインタ */
+		AssetManager* m_pAssetManager;
 
-		// 音量
+		/** @brief 音量 */
 		float m_volume;
 
-		// パン
+		/** @brief パン */
 		float m_pan;
 
-		// ピッチ
+		/** @brief ピッチ */
 		float m_pitch;
 
-		// ループ再生
+		/** @brief ループ再生するかどうか */
 		bool m_loop;
 
-		// 開始時に呼ぶかどうか
+		/** @brief 開始時に再生するかどうか */
 		bool m_playOnStart;
 
-		// 3Dオーディオにするかどうか
+		/** @brief 3D空間で再生するかどうか */
 		bool m_use3DAudio;
 
 	public:
+		
+		/// @name ライフサイクル
+		/// @{
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		AudioSource(IComponentOwner* own);
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		AudioSource(IComponentOwner* pOwner);
+
 		~AudioSource() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(AudioSource, BothComponentBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// オーディオ読み込み関数
+		/**
+		 * @brief オーディオを読み込む
+		 * @param handle 読み込み対象の音声アセットハンドル
+		 */
 		void Load(Handle<AudioClip> handle);
 
+		/**
+		 * @brief 開始時に一度呼ばれる
+		 */
 		void Start() override;
 
+		/**
+		 * @brief アセットマネージャーを受け取る
+		 */
 		void ReceiveAssetManager(AssetManager& assetManager) override
 		{
-			m_assetManager = &assetManager;
+			m_pAssetManager = &assetManager;
 		}
 
-		// 再生
+		/**
+		 * @brief サウンドを再生する
+		 */
 		void Play() const;
 
-		// 停止
+		/**
+		 * @brief 再生中のサウンドを停止する
+		 */
 		void Stop() const;
 
-		// GUI変更時
+		/**
+		 * @brief GUI上で値が変更された際に呼ばれる
+		 */
 		void OnValidate() override;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/**
+		 * @brief 設定を反映させる
+		 */
+		void ReflectSetting();
 
-		// インスタンス
+		/// @name ゲッター
+		/// @{
+
+		/** @brief サウンドインスタンス */
 		DirectX::SoundEffectInstance* GetSoundInstance() const { return m_soundInstance.get(); }
 
-		// 3Dかどうか
+		/** @brief 3D空間で再生するかどうか */
 		bool Is3D() const { return m_use3DAudio; }
 
-		// ボリューム
+		/** @brief ボリューム */
 		float GetVolume() const { return m_volume; };
 
-		// パン
+		/** @brief パン */
 		float GetPan() const { return m_pan; }
 
-		// ピッチ
+		/** @brief ピッチ */
 		float GetPitch() const { return m_pitch; }
 
-		// ループ
+		/** @brief ループ再生するかどうか */
 		bool GetLoop() const { return m_loop; }
 
-		// 開始時
+		/** @brief 開始時に再生するかどうか */
 		bool GetPlayOnStart() const { return m_loop; }
 
-		// 3Dオーディオ
-		bool GetUse3D() const { return m_use3DAudio; }
+		/// @}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @name セッター
+		/// @{
 
-		// ボリューム
+		/** @brief ボリューム */
 		void SetVolume(float volume)
 		{
 			m_volume = volume;
@@ -140,7 +149,7 @@ namespace RHEngine
 			ReflectSetting();
 		};
 
-		// パン
+		/** @brief パン */
 		void SetPan(float pan)
 		{
 			m_pan = pan;
@@ -148,7 +157,7 @@ namespace RHEngine
 			ReflectSetting();
 		}
 
-		// ピッチ
+		/** @brief ピッチ */
 		void SetPitch(float pitch)
 		{
 			m_pitch = pitch;
@@ -156,16 +165,15 @@ namespace RHEngine
 			ReflectSetting();
 		}
 
-		// ループ
+		/** @brief ループするかどうか */
 		void SetLoop(bool f) { m_loop = f; }
 
-		// 開始時
+		/** @brief 開始時再生するかどうか */
 		void SetPlayOnStart(bool f) { m_playOnStart = f; }
 
-		// 3Dオーディオ
+		/** @brief 3D空間で再生するかどうか */
 		void SetUse3D(bool f) { m_use3DAudio = f; }
 
-		// 設定の反映
-		void ReflectSetting();
+		/// @}
 	};
 } // namespace RHEngine

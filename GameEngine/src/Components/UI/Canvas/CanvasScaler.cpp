@@ -10,7 +10,7 @@
 // インクルードファイル
 //====================================================//
 #include "pch.h"
-#include "CanvasScaler.h"
+#include "Components/UI/Canvas/CanvasScaler.h"
 
 #include "System/WindowManager.h"
 
@@ -23,7 +23,7 @@ namespace RHEngine
 	// コンストラクタ
 	CanvasScaler::CanvasScaler(IComponentOwner* own)
 		: UIComponentBase(own)
-		, m_pRect{ nullptr }
+		, m_pRectTransform{ nullptr }
 		, m_mode{ CanvasMode::None }
 		, m_scaleFactor{ 1.0f }
 		, m_referenceResolution{ 1280.0f, 720.0f }
@@ -36,13 +36,19 @@ namespace RHEngine
 		EnumRegistry::Instance().Register<ScreenMatchMode>();
 	}
 
-	// 最初のUpdate関数の直線に一度呼ばれます
-	void CanvasScaler::Start()
-	{}
-
-	// 毎フレーム呼ばれます
-	void CanvasScaler::Update(const GameTimer& gameTimer)
-	{}
+	void CanvasScaler::OnValidate()
+	{
+		// アクティブなら
+		if (IsActive())
+		{
+			CorrectRectTransform();
+		}
+		// 非アクティブなら
+		else
+		{
+			ResetRectTransform();
+		}
+	}
 
 	std::vector<Property> CanvasScaler::GetProperties()
 	{
@@ -99,13 +105,13 @@ namespace RHEngine
 	void CanvasScaler::CorrectRectTransform()
 	{
 		// RectTransformがなかった場合取得
-		if (!m_pRect) m_pRect = GetComponent<RectTransform>();
+		if (!m_pRectTransform) m_pRectTransform = GetComponent<RectTransform>();
 
 		// 取得もできなかった場合処理しない
-		if (!m_pRect) return;
+		if (!m_pRectTransform) return;
 
 		// ルートじゃない場合対応しない
-		if (m_pRect->GetParent()) return;
+		if (m_pRectTransform->GetParent()) return;
 
 		// スケールの計算
 		float scale = CalcScale();
@@ -114,26 +120,26 @@ namespace RHEngine
 		DirectX::SimpleMath::Vector2 windowSize = WindowManager::Instance().GetSize();
 
 		// RectTransformに反映
-		m_pRect->SetScale({ scale, scale });
-		m_pRect->SetSize(windowSize / scale);
+		m_pRectTransform->SetScale({ scale, scale });
+		m_pRectTransform->SetSize(windowSize / scale);
 	}
 
 	void CanvasScaler::ResetRectTransform()
 	{
 		// RectTransformがなかった場合取得
-		if (!m_pRect) m_pRect = GetComponent<RectTransform>();
+		if (!m_pRectTransform) m_pRectTransform = GetComponent<RectTransform>();
 
 		// 取得もできなかった場合処理しない
-		if (!m_pRect) return;
+		if (!m_pRectTransform) return;
 
 		// ルートじゃない場合対応しない
-		if (m_pRect->GetParent()) return;
+		if (m_pRectTransform->GetParent()) return;
 
 		DirectX::SimpleMath::Vector2 windowSize = WindowManager::Instance().GetSize();
 
 		// RectTransformに反映
-		m_pRect->SetScale({ 1.0f, 1.0f });
-		m_pRect->SetSize(windowSize);
+		m_pRectTransform->SetScale({ 1.0f, 1.0f });
+		m_pRectTransform->SetSize(windowSize);
 	}
 
 	float CanvasScaler::CalcScale()

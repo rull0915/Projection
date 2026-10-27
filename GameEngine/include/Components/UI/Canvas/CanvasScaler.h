@@ -1,141 +1,137 @@
-﻿//====================================================//
-// ファイル名   : CanvasScaler.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/22
-//
-// 概要 : キャンバスのスケールを管理するコンポーネント
-//
-// 更新履歴 :
-// 2026/10/22 新規作成
-//====================================================//
+﻿/**
+ * @file    CanvasScaler.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/22
+ *
+ * @brief   キャンバスのスケールを管理するコンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(CanvasScaler)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+#include <vector>
 
 #include "Components/UI/UIComponentBase.h"
-#include "Components/UI/RectTransform/RectTransform.h"
 #include "Components/Interface/IWindowSizeDependent.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+	class RectTransform;
+	class Property;
+
+	/**
+	 * @brief キャンバスのスケールを管理するコンポーネント
+	 */
 	class CanvasScaler : public UIComponentBase, public IWindowSizeDependent
 	{
-		// タイプ
 	public:
+		DECLARE_COMPONENT_TYPE(UIComponentBase);
 
+		/**
+		 * @brief キャンバスのスケールのモード
+		 */
 		enum class CanvasMode
 		{
-			None,
-			ConstantPixelSize,
-			ScaleWithScreenSize
+			None,				///< エラー値
+			ConstantPixelSize,	///< 固定のピクセル
+			ScaleWithScreenSize	///< 基準解像度を使用する
 		};
 
+		/**
+		 * @brief ScaleWithScreenSize時のスケーリングモード
+		 */
 		enum class ScreenMatchMode
 		{
-			MatchWidthOrHeight,
-			Expand,
-			Shrink
+			MatchWidthOrHeight,	///< 割合を使用する
+			Expand,				///< 小さい方に合わせる
+			Shrink				///< 大きい方に合わせる
 		};
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 自身のRectTransformポインタ */
+		RectTransform* m_pRectTransform;
 
-		// RectTransform
-		RectTransform* m_pRect;
-
-		// モード
+		/** @brief スケールのモード */
 		CanvasMode m_mode;
 
-		//----- ConstactPixelSize ------//
+		/// @name ConstactPixelSizeの設定
+		/// @{
 
-		// 表示倍率
+		/** @brief 表示倍率 */
 		float m_scaleFactor;
 
-		//----- ScaleWithScreenSize ------//
+		/// @}
 
-		// 基準解像度
+		/// @name ScaleWithScreenSizeの設定
+		/// @{
+
+		/** @brief 基準解像度 */
 		DirectX::SimpleMath::Vector2 m_referenceResolution;
 
-		// 拡縮モード
+		/** @brief スケーリングモード */
 		ScreenMatchMode m_screenMatchMode;
 
-		// 画面の縦横どちらに合わせてUIを拡縮するか
-		// 0.0:横幅基準 1.0f 縦幅基準
+		/**
+		 * @brief 画面の縦横どちらに合わせてUIを拡縮するか
+		 * @details 0.0 : 幅基準
+		 *			1.0 : 高さ基準
+		 */
 		float m_matchWidthOrHeight;
+
+		/// @}
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		CanvasScaler(IComponentOwner* own);
+		/// @name ライフサイクル
+		/// @{
+
+		CanvasScaler(IComponentOwner* pOwner);
+
 		~CanvasScaler() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(CanvasScaler, UIComponentBase);
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		void Start() override;
-
-		void Update(const GameTimer& gameTimer) override;
-
-		// 値変更時処理
-		void OnValidate() override
-		{
-			// アクティブなら
-			if (IsActive())
-			{
-				CorrectRectTransform();
-			}
-			// 非アクティブなら
-			else
-			{
-				ResetRectTransform();
-			}
-		}
-
-		// 削除時処理
+		/**
+		 * @brief GUI上で値が変更された際の処理
+		 */
+		void OnValidate() override;
+		
+		/**
+		 * @brief 削除時の処理
+		 */
 		void OnDestroy() override
 		{
-			// 非アクティブなら
 			ResetRectTransform();
 		}
 
-		// ウィンドウサイズ変更時処理
+		/**
+		 * @brief ウィンドウサイズ変更時の処理
+		 * @param width 変更後のウィンドウ幅
+		 * @param height 変更後のウィンドウ高さ
+		 */
 		void OnWindowSizeChanged(int width, int height) override
 		{
 			CorrectRectTransform();
 		}
 
-		// プロパティ取得関数
+		/**
+		 * @brief プロパティリストを取得する
+		 * @details モードに応じてシリアライズするパラメータを変更する
+		 * @return プロパティリスト
+		 */
 		std::vector<Property> GetProperties() override;
 
 	private:
 
-		// RectTransformを補正する関数
+		/** @brief RectTransformの値をスケーリングモードに応じて補正する */
 		void CorrectRectTransform();
 
-		// RectTransformをリセットする関数
+		/** @brief RectTransformの値を初期状態にリセットする */
 		void ResetRectTransform();
 
-		// スケール計算関数
+		/** @brief スケールを計算する */
 		float CalcScale();
 	};
-}
+}	// namespace RHEngine

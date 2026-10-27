@@ -1,24 +1,18 @@
-﻿//====================================================//
-// ファイル名  : AssetDataBase.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要       : AssetとUUIDの双変換を行うクラス
-//====================================================//
+﻿/**
+ * @file    AssetDataBase.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   AssetとUUIDの双変換を行うクラス
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Managers/AssetDataBase.h"
+
 #include "Common/Random.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void AssetDataBase::ScanFile(const std::filesystem::path& root)
 	{
 		// rootディレクトリに含まれる全ファイル・ディレクトリを再帰的に調べる
@@ -83,6 +77,54 @@ namespace RHEngine
 		m_uuidToAux[aux.uuid] = aux;
 	}
 
+	void AssetDataBase::SaveAux(AssetAux& asset, const std::filesystem::path& path)
+	{
+		m_auxFileRepository.SaveAux(asset, path.wstring() + L".aux");
+
+		// 変換表のAuxも更新
+		auto uuid = GetUUID(path);
+
+		m_uuidToAux[uuid] = asset;
+
+		// 再スキャン
+		ScanOnceFile(path);
+	}
+
+	UUID AssetDataBase::GetMainUUID(UUID id)
+	{
+		// SubAssetならMainIDを取得し返す
+		if (m_subIdToMainId.find(id) != m_subIdToMainId.end())
+		{
+			return m_subIdToMainId[id];
+		}
+
+		// MainAssetならそのまま返す
+		return id;
+	}
+
+	UUID AssetDataBase::GetUUID(const std::filesystem::path& path) const
+	{
+		auto it = m_pathToUuid.find(path);
+
+		return it == m_pathToUuid.end() ? UUID_NONE : m_pathToUuid.at(path);
+	}
+
+	const std::filesystem::path& AssetDataBase::GetPath(UUID uuid) const
+	{
+		static std::filesystem::path errorPath{};
+
+		auto it = m_uuidToPath.find(uuid);
+
+		return it == m_uuidToPath.end() ? errorPath : m_uuidToPath.at(uuid);
+	}
+
+	AssetAux AssetDataBase::GetAux(UUID uuid) const
+	{
+		auto it = m_uuidToAux.find(uuid);
+
+		return it == m_uuidToAux.end() ? AssetAux{} : m_uuidToAux.at(uuid);
+	}
+
 	void AssetDataBase::ReName(const std::filesystem::path& old, const std::filesystem::path& next)
 	{
 		// 名前変更処理
@@ -126,5 +168,14 @@ namespace RHEngine
 
 		// UUIDを返す
 		return uuid;
+	}
+
+	void AssetDataBase::Register(UUID uuid, const std::filesystem::path& path)
+	{
+		// uuid->pathの変換表に追加
+		m_uuidToPath[uuid] = path;
+
+		// path->uuidの変換表に追加
+		m_pathToUuid[path] = uuid;
 	}
 }	// namespace RHEngine

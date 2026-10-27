@@ -1,75 +1,86 @@
-﻿//====================================================//
-// ファイル名   : Renderer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/29
-//
-// 概要 : 描画を統括するクラス
-//
-// 更新履歴 :
-// 2026/04/29 新規作成
-//====================================================//
+﻿/**
+ * @file    Renderer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/29
+ *
+ * @brief   描画を統括するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <cassert>
 
 #include "GraphicsSystem.h"
 #include "RenderProxy.h"
 #include "RenderInfoManager.h"
 #include "Scene/SceneInfo.h"
 
+#include "Assets/Objects/Handle.h"
+#include "Assets/Types/Material/MaterialAsset.h"
+
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class AssetManager;
+
+	/**
+	 * @brief 描画を統括する
+	 */
 	class Renderer
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 描画仲介クラス
+		/** @brief 描画仲介クラス */
 		RenderProxy m_renderProxy;
 
-		// 描画システム
+		/** @brief 描画システム */
 		GraphicsSystem m_graphicSystem;
 
-		// 描画情報
+		/** @brief 描画情報 */
 		RenderInfoManager m_infoManager;
 
-		// 初期化フラグ
+		/** @brief 初期化フラグ */
 		bool m_isInitialized;
 
-		// 使用中のカメラデータ
+		/** @brief 使用中のカメラデータ */
 		SceneCameraData m_currentCamera;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		Renderer(AssetManager& am);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param assetManager アセットマネージャー
+		 */
+		Renderer(AssetManager& assetManager);
+
 		~Renderer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 初期化
+		/**
+		 * @brief 初期化関数
+		 */
 		void Initialize();
 
-		// 描画開始
+		/**
+		 * @brief 描画を開始する
+		 * @param data 描画シーンのデータ
+		 */
 		void Begin(const SceneData& data);
 
-		// カメラを変更する関数
+		/**
+		 * @brief カメラを変更する
+		 * @detials カメラを変更し、PerCamera定数バッファの再バインドをする
+		 * @param data 変更後のカメラデータ
+		 */
 		void ChangeCamera(const SceneCameraData& data);
 
-		// 描画関数
+		/**
+		 * @brief 描画仲介クラスを取得する
+		 * @details renderer.Draw().Mesh() のように呼び出す
+		 * @return 描画仲介クラス
+		 */
 		RenderProxy& Draw()
 		{
 			// 初期化チェック
@@ -79,25 +90,36 @@ namespace RHEngine
 			return m_renderProxy;
 		}
 
-		// 描画コマンドの発行
+		/**
+		 * @brief 描画コマンドを実行する
+		 */
 		void ExecuteCommands();
 
-		// 描画終了
+		/**
+		 * @brief 描画を終了する
+		 */
 		void End();
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
+		/** @brief ビュー行列 */
 		const DirectX::SimpleMath::Matrix& GetView() const { return m_currentCamera.view; };
+
+		/** @brief 射影行列 */
 		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_currentCamera.proj; };
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
+		/// @name セッター
+		/// @{
+
+		/** @brief ワールド行列 */
 		void SetWorld(const DirectX::SimpleMath::Matrix& world) { m_graphicSystem.SetWorld(world); }
 
+		/** @brief マテリアルハンドル */
 		void SetMaterial(Handle<MaterialAsset> handle) { m_graphicSystem.SetMaterial(handle); };
+
+		/// @}
 	};
 }	// namespace RHEngine

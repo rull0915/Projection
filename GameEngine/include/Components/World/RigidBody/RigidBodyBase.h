@@ -1,27 +1,23 @@
-﻿//====================================================//
-// ファイル名   : RigidBodyBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/22
-//
-// 概要 : リジッドボディ基底クラス
-//
-// 更新履歴 :
-// 2026/04/22 新規作成
-//====================================================//
+﻿/**
+ * @file    RigidBodyBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/22
+ *
+ * @brief   リジッドボディ基底クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <cstdint>
+
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 列挙型宣言
-	//====================================================//
+	/**
+	 * @brief 力のモード
+	 */
 	enum class ForceMode
 	{
 		Force,
@@ -30,44 +26,50 @@ namespace RHEngine
 		VelocityChange,
 	};
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 2D3D両方で使用するパラメータをまとめたRigidBodyの基底
+	 */
 	class RigidBodyBase : public WorldComponentBase
 	{
 	public:
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
+		DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
+		/** @brief スリープへ移行する時間 (秒) */
 		static constexpr float SLEEP_BORDER = 2.0f;
 
 	private:
-		// トランスフォームポインタ
+		/** @brief トランスフォームポインタ */
 		Transform* m_pTransform;
 
-		// 質量
-		float m_mass, m_invMass;    // 質量 / 質量の逆数
+		/** @brief 質量 */
+		float m_mass;
 
-		// 静止している時間
+		/** @brief 質量の逆数 力計算時などに使用 */
+		float m_invMass;
+
+		/** @brief 静止している時間 */
 		float m_stoppingTime;
 
-		// 減衰率
-		float m_linearDamping;  // 減衰率
+		/** @brief 速度の減衰率 (空気抵抗) */
+		float m_linearDamping;
 
-		// フラグ
-		bool m_isStatic;    // 固定
-		bool m_useGravity;  // 重力の影響
+		/** @brief 固定されているかどうか */
+		bool m_isStatic;
 
-		bool m_isSleep;     // スリープフラグ
+		/** @brief 重力の影響を受けるかどうか */
+		bool m_useGravity;
 
-		// 最新のバージョン
+		/** @brief スリープ状態かどうか */
+		bool m_isSleep;
+
+		/** @brief バージョン番号 */
 		mutable uint32_t m_latestVersion;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		RigidBodyBase(IComponentOwner* own)
 			: WorldComponentBase(own)
 			, m_pTransform{ GetComponent<Transform>() }
@@ -88,39 +90,34 @@ namespace RHEngine
 
 		virtual ~RigidBodyBase() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(RigidBodyBase, WorldComponentBase)
+		/**
+		 * @brief 位置・速度・加速度を積分する
+		 * @param elapsedTime 1fの経過時間
+		 */
+		virtual void Integrate(float elapsedTime) = 0;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-		inline float GetMass() const { return m_mass; }
-		inline float GetInvMass() const { return m_invMass; }
-		inline bool IsStatic() const { return m_isStatic; }
-		inline bool IsUseGravity() const { return m_useGravity; }
-		inline bool IsSleep() const { return m_isSleep; }
-		inline float GetLinearDamping() const { return m_linearDamping; }
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-		void SetMass(float mass)
+		/**
+		 * @brief スリープ状態を解除する
+		 */
+		void WakeUp()
 		{
-			m_mass = mass;
-			m_invMass = 1.0f / mass;
+			SetSleep(false);
+			SetStoppingTime(0);
 		}
-		void SetStatic(bool frag) { m_isStatic = frag; }
-		void SetUseGravity(bool frag)
-		{
-			m_useGravity = frag;
-			WakeUp();
-		}
-		void SetSleep(bool frag) { m_isSleep = frag; }
-		void SetLinearDamping(float r) { m_linearDamping = std::max(0.0f, r); }
 
+		/**
+		 * @brief 最新バージョンに更新する
+		 */
+		inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
+
+		/**
+		 * @brief GUI上での値変更時に逆数を再計算する
+		 */
+		void OnValidate() override { m_invMass = 1.0f / m_mass; }
+
+		/** @brief Transformの状態変更を検知し起こす */
 		void CheckWakeUp()
 		{
 			// トランスフォームの状態が変わっているか調べる
@@ -131,31 +128,67 @@ namespace RHEngine
 			}
 		}
 
-		//-----------------------------------------------------
-		// その他関数
-		//-----------------------------------------------------
-		virtual void Integrate(float elapsedTime) = 0;
+		/// @name ゲッター
+		/// @{
 
-		void WakeUp()
+		/** @brief 質量 */
+		inline float GetMass() const { return m_mass; }
+
+		/** @brief 質量の逆数 */
+		inline float GetInvMass() const { return m_invMass; }
+
+		/** @brief 固定かどうか */
+		inline bool IsStatic() const { return m_isStatic; }
+
+		/** @brief 重力の影響を受けるかどうか */
+		inline bool IsUseGravity() const { return m_useGravity; }
+
+		/** @brief スリープ状態かどうか */
+		inline bool IsSleep() const { return m_isSleep; }
+
+		/** @brief 速度の減衰率 (空気抵抗) */
+		inline float GetLinearDamping() const { return m_linearDamping; }
+
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief 質量 */
+		void SetMass(float mass)
 		{
-			SetSleep(false);
-			SetStoppingTime(0);
+			m_mass = mass;
+			m_invMass = 1.0f / mass;
 		}
 
-		inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
+		/** @brief 固定かどうか */
+		void SetStatic(bool frag) { m_isStatic = frag; }
 
-		void OnValidate() override
+		/** @brief 重力の影響を受けるかどうか */
+		void SetUseGravity(bool frag)
 		{
-			// 逆数の再計算
-			m_invMass = 1.0f / m_mass;
+			m_useGravity = frag;
+			WakeUp();
 		}
 
-		// protected関数群
+		/** @brief スリープかどうか */
+		void SetSleep(bool frag) { m_isSleep = frag; }
+
+		/** @brief 速度の減衰率 (空気抵抗) */
+		void SetLinearDamping(float r) { m_linearDamping = std::max(0.0f, r); }
+
 	protected:
+
+		/** @brief Transformポインタを取得する */
 		Transform* GetTransform() const { return m_pTransform; }
 
+		/** @brief 停止している時間を取得する */
 		float GetStoppingTime() const { return m_stoppingTime; }
+
+		/** @brief 停止している時間を加算する */
 		void AddStoppingTime(float time) { m_stoppingTime += time; }
+
+		/** @brief 停止している時間を変更する */
 		void SetStoppingTime(float time) { m_stoppingTime = time; }
 	};
 } // namespace RHEngine

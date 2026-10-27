@@ -1,97 +1,98 @@
-﻿//====================================================//
-// ファイル名   : ShadowRenderer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/14
-//
-// 概要 : 
-//
-// 更新履歴 :
-// 2026/10/14 新規作成
-//====================================================//
+﻿/**
+ * @file    ShadowRenderer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/14
+ *
+ * @brief   シャドウマップへ深度の書き込みを行う
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
 #include <vector>
 #include <CommonStates.h>
+#include <wrl/client.h>
+#include <d3d11.h>
 
 #include "Renderer/Command/DrawCommand.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Objects/Handle.h"
-
 #include "ShadowMap.h"
 #include "Renderer/RenderInfoManager.h"
+#include "Assets/Types/Model/Mesh.h"
+#include "Scene/SceneInfo.h"
 
 namespace RHEngine
 {
-	// 前方宣言
 	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief シャドウマップへ深度の書き込みを行う
+	 */
 	class ShadowRenderer
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 使用可能フラグ
+		/** @brief 使用可能フラグ */
 		bool m_usable;
 
-		// モデル描画コマンド配列
-		std::vector<DrawModelCommand> m_drawMeshCommands;
+		/** @brief モデル描画コマンド配列 */
+		std::vector<DrawMeshCommand> m_drawMeshCommands;
 
-		// VSハンドル
+		/** @brief VSハンドル */
 		Handle<ShaderAsset> m_vsShaderHandle;
 
-		// アセット解決クラス
+		/** @brief アセット解決クラス */
 		AssetManager& m_assetManager;
 
-		// デバイス
+		/** @brief デバイス */
 		ID3D11Device* m_pDevice;
 
-		// デバイスコンテキスト
+		/** @brief デバイスコンテキスト */
 		ID3D11DeviceContext* m_pContext;
 
-		// コモンステート
+		/** @brief コモンステート */
 		DirectX::CommonStates* m_pStates;
 
-		// 使用中のShadowMap
+		/** @brief 使用中のShadowMap */
 		ShadowMap* m_currentShadowMap;
 
-		// 描画情報マネージャー
+		/** @brief 描画情報マネージャー */
 		RenderInfoManager m_infoManager;
 
-		// ----- Buffer ----- //
-
-		// DepthStencilState
+		/** @brief DepthStencilState */
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_depthStencilState;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param assetManager アセットマネージャー
+		 */
 		ShadowRenderer(AssetManager& assetManager);
+
 		~ShadowRenderer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 初期化関数
+		/**
+		 * @brief DSVの作成を行う
+		 */
 		void Initialize();
 
-		// シャドウマップへの描画を開始する関数
+		/**
+		 * @brief シャドウパスの描画を開始する
+		 * @param shadowMap 描画対象のシャドウマップ
+		 */
 		void Begin(ShadowMap* shadowMap);
 
-		// メッシュ描画コマンドを発行する関数
+		/**
+		 * @brief メッシュ描画コマンドを発行する
+		 * @param mesh 描画するメッシュ
+		 * @param subMeshIndex サブメッシュインデックス
+		 * @param world ワールド行列
+		 */
 		void DrawMesh(Mesh* mesh, size_t subMeshIndex, DirectX::SimpleMath::Matrix world)
 		{
 			// コマンドの生成
@@ -103,10 +104,15 @@ namespace RHEngine
 			command.world = world;
 		}
 
-		// シャドウマップへの描画を終了する関数
+		/**
+		 * @brief シャドウパスの描画を終了する
+		 */
 		void End();
 
-		// 描画コマンドを実行する関数
+		/**
+		 * @brief 描画コマンドを実行する
+		 * @param data ライトをカメラとみなしたときのカメラデータ
+		 */
 		void ExecuteCommands(const SceneCameraData& data);
 	};
-}
+}	// namespace RHEngine

@@ -49,12 +49,6 @@ namespace RHEngine
 		defaultAssetManager.CreateAndRegister();
 	}
 
-	void AssetManager::ScanOnceFile(const std::filesystem::path& path)
-	{
-		// スキャン
-		m_dataBase.ScanOnceFile(path);
-	}
-
 	void AssetManager::Update()
 	{
 		//　ロードが完了したJobを取得する

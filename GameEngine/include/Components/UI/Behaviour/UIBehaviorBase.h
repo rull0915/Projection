@@ -1,70 +1,59 @@
-﻿//====================================================//
-// ファイル名   : UIBehaviorBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : 動きを持たせるUIの基盤
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    UIBehaviorBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   動きを持たせるUIの基盤
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/UI/UIComponentBase.h"
-#include "GameObject/Interface/IComponentOwner.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief 動きを持つUIコンポーネントの基底
+	 */
 	class UIBehaviorBase : public UIComponentBase
 	{
-	private:
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+	public:
+		DECLARE_COMPONENT_TYPE(UIComponentBase);
 
+	private:
+
+		/** @brief マウスカーソルが自身に重なっているかどうか */
 		bool m_isHovered;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		UIBehaviorBase(IComponentOwner* own)
-			: UIComponentBase(own)
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		UIBehaviorBase(IComponentOwner* pOwner)
+			: UIComponentBase(pOwner)
 			, m_isHovered{ false }
 		{}
+
 		~UIBehaviorBase() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(UIBehaviorBase, UIComponentBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// マウスクリック開始時
+		/** @brief マウスクリック開始時 */
 		virtual void OnMouseDown() {};
 
-		// マウスクリック終了時
+		/** @brief マウスクリック終了時 */
 		virtual void OnMouseUp() {};
 
-		// ホバーセット
+		/** @brief ホバー状態のセット */
 		void SetHovered(bool hovered) { m_isHovered = hovered; };
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
+		/** @brief ホバー中かどうかの取得 */
 		bool IsHovered() const { return m_isHovered; }
 	};
 } // namespace RHEngine

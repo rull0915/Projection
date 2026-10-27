@@ -22,14 +22,6 @@ namespace RHEngine
 
 	namespace Input
 	{
-		// コンストラクタ
-		Mouse::Mouse()
-		{
-			// 初期状態を取得
-			m_oldMouseState = m_nowMouseState;
-			m_nowMouseState = DirectX::Mouse::Get().GetState();
-		}
-
 		// 更新関数
 		void Mouse::Update()
 		{
@@ -45,6 +37,32 @@ namespace RHEngine
 
 			// モードの切り替え
 			mouse.SetMode(m_requestedMode);
+		}
+
+		inline float Mouse::GetMoveValue(Axis axis)
+		{
+			switch (axis)
+			{
+			case RHEngine::Input::Mouse::Axis::X:
+				return GetMouseMoveValue().x;
+			case RHEngine::Input::Mouse::Axis::Y:
+				return GetMouseMoveValue().y;
+			default:
+				return 0;
+			}
+		}
+
+		inline float Mouse::GetOldMoveValue(Axis axis)
+		{
+			switch (axis)
+			{
+			case RHEngine::Input::Mouse::Axis::X:
+				return m_oldMouseMove.x;
+			case RHEngine::Input::Mouse::Axis::Y:
+				return m_oldMouseMove.y;
+			default:
+				return 0;
+			}
 		}
 
 		// マウスの位置を取得
@@ -63,23 +81,6 @@ namespace RHEngine
 			int y = m_oldMouseState.y;
 
 			return { static_cast<float>(x), static_cast<float>(y) };
-		}
-
-		// スケールされたマウス座標を取得 (フルスクリーン化時に使用)
-		DirectX::SimpleMath::Vector2 Mouse::GetScaledMousePoint()
-		{
-			// 今の画面サイズを取得
-			RECT rc;
-			GetClientRect(GraphicsManager::Instance().GetDeviceResources()->GetWindow(), &rc);
-
-			int width = rc.right - rc.left;
-			int height = rc.bottom - rc.top;
-
-			// 割合を取得
-			float ratioX = WindowManager::Instance().GetWidthF() / width;
-			float ratioY = WindowManager::Instance().GetHeightF() / height;
-
-			return GetMousePoint() * DirectX::SimpleMath::Vector2{ ratioX, ratioY };
 		}
 
 		// マウスの移動量を取得
@@ -127,6 +128,24 @@ namespace RHEngine
 		void Mouse::SetMouseVisible(bool visible)
 		{
 			DirectX::Mouse::Get().SetVisible(visible);
+		}
+
+		bool Mouse::GetButtonState(const DirectX::Mouse::State& state, Button button)
+		{
+			switch (button)
+			{
+			case Input::Mouse::Button::Left:
+				return state.leftButton;
+
+			case Input::Mouse::Button::Right:
+				return state.rightButton;
+
+			case Input::Mouse::Button::Middle:
+				return state.middleButton;
+
+			default:
+				return false;
+			}
 		}
 	}
 }	// namespace RHEngine

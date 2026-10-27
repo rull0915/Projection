@@ -20,6 +20,14 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	SphereCollider::SphereCollider(IComponentOwner* pOwner)
+		: ColliderBase(pOwner)
+		, m_radius{ 0.5f }
+		, m_worldRadius{ 1.0f }
+	{
+		ADD_PROPERTY(SphereCollider, m_radius);
+	}
+
 	void SphereCollider::UpdateCache() const
 	{
 		Transform* pT = GetTransform();

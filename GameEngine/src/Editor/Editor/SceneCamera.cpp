@@ -33,7 +33,6 @@ namespace RHEngine
 		: m_movable{ false }
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
-		, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 		, m_fov{ DirectX::XM_PI / 4 }
 		, m_targetPoint{ 0, 0, 0 }
 		, m_rotation{ DirectX::SimpleMath::Quaternion::Identity }
@@ -45,8 +44,7 @@ namespace RHEngine
 		, m_scaleRatio{ 0.01f }
 	{}
 
-	// 最初のUpdate関数の直線に一度呼ばれます
-	void SceneCamera::Start()
+	void SceneCamera::Initialize()
 	{
 		// 行列を更新しておく
 		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rotation);
@@ -59,7 +57,7 @@ namespace RHEngine
 	}
 
 	// 毎フレームUpdate及び物理挙動の後に呼ばれます
-	void SceneCamera::Update(const GameTimer& gameTimer)
+	void SceneCamera::Update()
 	{
 		// 移動不可なら何もしない
 		if (!m_movable) return;
@@ -140,6 +138,17 @@ namespace RHEngine
 			m_nearZ,
 			m_farZ
 		);
+	}
+
+	const SceneCameraData SceneCamera::GetData() const
+	{
+		SceneCameraData data;
+
+		data.view = m_view;
+		data.proj = m_proj;
+		data.pos = m_position;
+
+		return data;
 	}
 }	// namespace RHEngine
 

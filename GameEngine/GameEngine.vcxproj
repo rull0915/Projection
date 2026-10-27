@@ -164,16 +164,28 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
-    <ClCompile Include="include\Components\World\Particle\ParticleComponent.cpp" />
+    <ClCompile Include="include\Editor\Editor\SelectedOnGUI.cpp" />
+    <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="src\Assets\Managers\DefaultAssetManager.cpp" />
+    <ClCompile Include="src\Assets\Types\Models\Mesh.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Types\Vertex\DynamicVertexBuffer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
+    <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetAsyncLoader.cpp">
@@ -390,10 +402,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\Assets\Types\Font.h">
       <SubType>
       </SubType>
@@ -417,6 +425,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Assets\Types\Vertex\DynamicVertexBuffer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Common\LightData.h">
       <SubType>
       </SubType>
@@ -435,7 +447,6 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
-    <ClInclude Include="include\Components\World\Particle\ParticleComponent.h" />
     <ClInclude Include="include\EntryPoint.h">
       <SubType>
       </SubType>

@@ -20,6 +20,18 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	CapsuleCollider::CapsuleCollider(IComponentOwner* pOwner)
+		: ColliderBase(pOwner)
+		, m_lineDir{ 1 }
+		, m_capsuleHeight{ 2.0f }
+		, m_radius{ 0.5f }
+		, m_cache{}
+	{
+		ADD_PROPERTY(CapsuleCollider, m_lineDir);
+		ADD_PROPERTY(CapsuleCollider, m_capsuleHeight);
+		ADD_PROPERTY(CapsuleCollider, m_radius);
+	}
+
 	void CapsuleCollider::UpdateCache() const
 	{
 		Transform* pT = GetTransform();

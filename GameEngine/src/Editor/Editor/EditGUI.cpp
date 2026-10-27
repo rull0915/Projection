@@ -38,7 +38,6 @@ namespace RHEngine
 		, m_toolbar{ std::make_unique<ToolBarWindow>(pScene, assetManager, playFunc, stopFunc) }
 		, m_images{ std::make_unique<ImageWindow>() }
 		, m_performance{ std::make_unique<PerformanceWindow>() }
-		, m_sceneDrawSetting{ static_cast<unsigned char>(-1) }	// 全フラグを立てる
 		, m_selected{ m_assetmanager }
 	{}
 
@@ -77,14 +76,6 @@ namespace RHEngine
 	{
 		// ゲームビューの描画
 		return m_images->DrawGameViewWindow(gameView);
-	}
-
-	void EditGUI::DrawStyleEditor()
-	{
-		// テスト用
-		ImGui::Begin("StyleEditor");
-		ImGui::ShowStyleEditor();
-		ImGui::End();
 	}
 
 	void EditGUI::DrawToolBar(ID3D11ShaderResourceView* engineLogo, bool isPlaying)

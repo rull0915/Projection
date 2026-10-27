@@ -1,56 +1,48 @@
-﻿//====================================================//
-// ファイル名   : DrawUICommandPublisher.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/09
-//
-// 概要 : UIの描画を担当するクラス
-//
-// 更新履歴 :
-// 2026/05/09 新規作成
-//====================================================//
+﻿/**
+ * @file    DrawUICommandPublisher.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/09
+ *
+ * @brief   UIの描画コマンドを発行する
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Renderer/Command/DrawCommandContainer.h"
-#include "System/WindowManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief UIの描画コマンドを発行する
+	 */
 	class DrawUICommandPublisher
 	{
 	private:
 
-		// コマンドコンテナ
-		DrawCommandContainer& m_container;
-
-		// ウィンドウマネージャー
-		WindowManager& m_windowManager;
+		/** @brief コマンドのコンテナ */
+		DrawCommandContainer& m_commandContainer;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param container コマンドコンテナ
+		 */
 		DrawUICommandPublisher(DrawCommandContainer& container);
+
 		~DrawUICommandPublisher() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
+
 	public:
 
-		//-----------------------------------------------------
-		// 描画関数
-		//-----------------------------------------------------
-
-		// ------ Triangle ------ //
-
+		/**
+		 * @brief 三角形描画コマンド
+		 * @param color 描画色
+		 * @param fillFlag 塗りつぶすかどうか
+		 */
 		void DrawTriangle	// 短縮版
 		(
 			DirectX::SimpleMath::Vector2 p1,
@@ -59,8 +51,11 @@ namespace RHEngine
 			DirectX::SimpleMath::Color color, bool fillFlag
 		);
 
-		// -------- Rect -------- //
-
+		/**
+		 * @brief 四角形描画コマンド
+		 * @param color 描画色
+		 * @param fillFlag 塗りつぶすかどうか
+		 */
 		void DrawRect
 		(
 			DirectX::SimpleMath::Vector2 p1,
@@ -70,8 +65,10 @@ namespace RHEngine
 			DirectX::SimpleMath::Color color, bool fillFlag
 		);
 
-		// -------- Line -------- //
-
+		/**
+		 * @brief 線描画コマンド
+		 * @param color 描画色
+		 */
 		void DrawLine
 		(
 			DirectX::SimpleMath::Vector2 start,
@@ -79,8 +76,14 @@ namespace RHEngine
 			DirectX::SimpleMath::Color color
 		);
 
-		// -------- Circle -------- //
-
+		/**
+		 * @brief 円描画
+		 * @param centerPos 中心座標
+		 * @param radius 半径
+		 * @param division 分割数
+		 * @param color 描画色
+		 * @param fillFlag 塗りつぶすかどうか
+		 */
 		void DrawCircle
 		(
 			DirectX::SimpleMath::Vector2 centerPos,
@@ -90,7 +93,13 @@ namespace RHEngine
 			bool fillFlag
 		);
 
-		// --------- Box ---------- //
+		/**
+		 * @brief 長方形描画コマンド
+		 * @param min 左上
+		 * @param max 右下
+		 * @param color 描画色
+		 * @param fillFlag 塗りつぶすかどうか
+		 */
 		void DrawBox
 		(
 			DirectX::SimpleMath::Vector2 min,

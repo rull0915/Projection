@@ -1,48 +1,37 @@
-﻿//====================================================//
-// ファイル名   : CollisionMap.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要 : 衝突判定のマップをもつクラス
-//
-// 更新履歴 :
-// 2026/06/26 新規作成
-//====================================================//
+﻿/**
+ * @file    CollisionMap.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ *
+ * @brief   衝突判定の関数マップを管理する
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <functional>
 #include <unordered_map>
 
 #include "Physics/HitInfomation.h"
 #include "Physics/HitInfomation2D.h"
-#include "Components/ComponentBase.h"
+#include "Components/ComponentTypeId.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class ColliderBase;
 	class ColliderBase2D;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
-	// 2つのIDを持ったキー
+	/**
+	 * @brief 2つのIDを持つキー
+	 */
 	struct CollisionKey
 	{
 		Component::TypeId type1;
 		Component::TypeId type2;
-
-		bool operator==(const CollisionKey&) const = default;
 	};
 
-	// ハッシュ
+	/**
+	 * @brief キーをunordered_mapで使用するためのハッシュ構造体
+	 */
 	struct CollisionKeyHash
 	{
 		size_t operator()(const CollisionKey& key) const
@@ -54,34 +43,48 @@ namespace RHEngine
 		}
 	};
 
-	// 3次元コライダー衝突マップ
+	/**
+	 * @brief 3次元衝突の関数マップ
+	 */
 	class CollisionMap
 	{
-		// マクロ宣言
 		using CollisionFunc = std::function<bool(ColliderBase*, ColliderBase*, HitInfomation*)>;
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 型IDをキーとした衝突判定関数の2次元マップ
+		/** @brief IDのペアをキーとした衝突関数のマップ */
 		inline static std::unordered_map<CollisionKey, CollisionFunc, CollisionKeyHash> m_collisionMap;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		CollisionMap() = default;
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @details 静的クラスのためインスタンス化を禁止
+		 */
+		CollisionMap() = delete;
+
 		~CollisionMap() = default;
 
+		/// @}
 
-		// 関数登録
+		/**
+		 * @brief 衝突関数を登録する
+		 * @param id1 1つ目のコライダーのID
+		 * @param id2 2つ目のコライダーのID
+		 * @param func 衝突関数
+		 * @return 成功したかどうか
+		 */
 		static bool Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func);
 
-		// 関数実行
+		/**
+		 * @brief 衝突チェック
+		 * @param col1 1つ目のコライダー
+		 * @param col2 2つ目のコライダー
+		 * @param info 衝突情報を書き込む変数
+		 * @return 衝突しているかどうか
+		 */
 		static bool CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info);
 	};
 
@@ -93,26 +96,38 @@ namespace RHEngine
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 型IDをキーとした衝突判定関数の2次元マップ
+		/** @brief IDのペアをキーとした衝突関数のマップ */
 		inline static std::unordered_map<CollisionKey, CollisionFunc, CollisionKeyHash> m_collisionMap;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		CollisionMap2D() = default;
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @details 静的クラスのためインスタンス化を禁止
+		 */
+		CollisionMap2D() = delete;
+
 		~CollisionMap2D() = default;
 
-
-		// 関数登録
+		/// @}
+		/**
+		 * @brief 衝突関数を登録する
+		 * @param id1 1つ目のコライダーのID
+		 * @param id2 2つ目のコライダーのID
+		 * @param func 衝突関数
+		 * @return 成功したかどうか
+		 */
 		static bool Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func);
 
-		// 関数実行
+		/**
+		 * @brief 衝突チェック
+		 * @param col1 1つ目のコライダー
+		 * @param col2 2つ目のコライダー
+		 * @param info 衝突情報を書き込む変数
+		 * @return 衝突しているかどうか
+		 */
 		static bool CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info);
 	};
 }	// namespace RHEngine

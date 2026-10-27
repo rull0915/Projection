@@ -63,4 +63,15 @@ namespace RHEngine
 			m_shader
 		);
 	}
+
+	ShaderParam* ShaderAsset::FindParam(const std::string& name)
+	{
+		// 名前が一致するパラメータを探して取得
+		auto it = std::find_if(m_params.begin(), m_params.end(),
+			[&](const ShaderParam& param)->bool { return param.name == name; });
+
+		// あれば返す
+		if (it != m_params.end()) return &(*it);
+		else return nullptr;
+	}
 }

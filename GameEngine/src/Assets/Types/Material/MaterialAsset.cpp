@@ -29,14 +29,14 @@ namespace RHEngine
 		, m_oldVertexShader{}
 		, m_constantBuffers{}
 		, m_isDirty{ true }
-		, m_assetManager{ nullptr }
-		, m_samplerList{ nullptr }
+		, m_pAssetManager{ nullptr }
+		, m_pSamplerList{ nullptr }
 	{
 		ADD_PROPERTY(MaterialAsset, m_vertexShader);
 		ADD_PROPERTY(MaterialAsset, m_pixelShader);
 
 		// サンプラーリストの取得
-		m_samplerList = &GraphicsManager::Instance().GetSamplerList();
+		m_pSamplerList = &GraphicsManager::Instance().GetSamplerList();
 	}
 
 	// 定数バッファを更新する関数
@@ -130,20 +130,50 @@ namespace RHEngine
 			};
 
 		// アセットマネージャーが設定されていなければ更新不可
-		if (!m_assetManager) return;
+		if (!m_pAssetManager) return;
 
 		// 各ステージを更新
-		updateStage(m_assetManager->Get<ShaderAsset>(m_pixelShader), ShaderType::Pixel);
-		updateStage(m_assetManager->Get<ShaderAsset>(m_vertexShader), ShaderType::Vertex);
+		updateStage(m_pAssetManager->Get<ShaderAsset>(m_pixelShader), ShaderType::Pixel);
+		updateStage(m_pAssetManager->Get<ShaderAsset>(m_vertexShader), ShaderType::Vertex);
 
 		// 変更済みフラグをリセット
 		m_isDirty = false;
 	}
 
+	const std::unordered_map<std::string, MaterialAsset::Parameter>& MaterialAsset::GetParams(ShaderType type) const
+	{
+		// エラー用static変数
+		static std::unordered_map<std::string, Parameter> error{};
+
+		// 検索
+		auto it = m_params.find(type);
+
+		// 見つかれば
+		if (it != m_params.end()) return it->second;
+
+		// なければエラー値
+		return error;
+	}
+
+	std::unordered_map<std::string, MaterialAsset::Parameter>& MaterialAsset::GetPendingParams(ShaderType type)
+	{
+		// エラー用static変数
+		static std::unordered_map<std::string, Parameter> error{};
+
+		// 検索
+		auto it = m_pendingParams.find(type);
+
+		// 見つかれば
+		if (it != m_pendingParams.end()) return it->second;
+
+		// なければエラー値
+		return error;
+	}
+
 	bool MaterialAsset::Apply(ID3D11DeviceContext* context)
 	{
 		// 参照が設定されていなければ解決不可
-		if (!(m_assetManager && m_samplerList)) return false;
+		if (!(m_pAssetManager && m_pSamplerList)) return false;
 
 		// 頂点シェーダー
 		if (!BindShader(context, ShaderType::Vertex))
@@ -206,7 +236,7 @@ namespace RHEngine
 			if (auto* t = std::get_if<Handle<Texture>>(&value.value))
 			{
 				// テクスチャを取得
-				auto* tex = m_assetManager->Get<Texture>(*t);
+				auto* tex = m_pAssetManager->Get<Texture>(*t);
 
 				// バインド
 				BindTexture(context, shader, tex, name, type);
@@ -215,7 +245,7 @@ namespace RHEngine
 			else if (auto* s = std::get_if<SamplerType>(&value.value))
 			{
 				// サンプラーを取得
-				auto& sampler = m_samplerList->GetSampler(*s);
+				auto& sampler = m_pSamplerList->GetSampler(*s);
 
 				// バインド
 				BindSampler(context, shader, sampler, name, type);
@@ -224,6 +254,21 @@ namespace RHEngine
 
 		// 成功
 		return true;
+	}
+
+	void MaterialAsset::SetShader(Handle<ShaderAsset> shader, ShaderType type)
+	{
+		switch (type)
+		{
+		case RHEngine::ShaderType::Vertex:
+			m_vertexShader = shader;
+			break;
+		case RHEngine::ShaderType::Pixel:
+			m_pixelShader = shader;
+			break;
+		default:
+			break;
+		}
 	}
 
 	std::vector<Property> MaterialAsset::GetProperties()
@@ -274,7 +319,7 @@ namespace RHEngine
 		// テクスチャがなけデフォルトテクスチャを使用
 		if (!texture)
 		{
-			texture = m_assetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
+			texture = m_pAssetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
 
 			// デフォルトが取得できなければバインドしない
 			if (!texture) return;
@@ -376,10 +421,10 @@ namespace RHEngine
 			};
 
 		// 全シェーダーから最新パラメータを作り直す
-		if (m_assetManager)
+		if (m_pAssetManager)
 		{
-			processShader(m_assetManager->Get(m_vertexShader), ShaderType::Vertex);
-			processShader(m_assetManager->Get(m_pixelShader), ShaderType::Pixel);
+			processShader(m_pAssetManager->Get(m_vertexShader), ShaderType::Vertex);
+			processShader(m_pAssetManager->Get(m_pixelShader), ShaderType::Pixel);
 		}
 
 		// 古いパラメータを新しいパラメータで上書き
@@ -412,7 +457,7 @@ namespace RHEngine
 	void MaterialAsset::CheckAndDoRebuild()
 	{
 		// アセットマネージャーがなければ再構築不可
-		if (!m_assetManager) return;
+		if (!m_pAssetManager) return;
 
 		// 再構築の必要があるか調べる
 		bool needRebuild =
@@ -422,8 +467,8 @@ namespace RHEngine
 		if (!needRebuild) return;
 
 		// 各ステージのシェーダーを取得
-		auto* vs = m_assetManager->Get(m_vertexShader);
-		auto* ps = m_assetManager->Get(m_pixelShader);
+		auto* vs = m_pAssetManager->Get(m_vertexShader);
+		auto* ps = m_pAssetManager->Get(m_pixelShader);
 
 		// VSが存在し、かつロードが終わっているかチェック
 		bool vsReady = !m_vertexShader.IsValid() || (vs && vs->GetStatus() == LoadStatus::Loaded);
@@ -446,10 +491,10 @@ namespace RHEngine
 		{
 			// 頂点シェーダ
 		case RHEngine::ShaderType::Vertex:
-			return m_assetManager->Get<ShaderAsset>(m_vertexShader);
+			return m_pAssetManager->Get<ShaderAsset>(m_vertexShader);
 			// ピクセルシェーダ
 		case RHEngine::ShaderType::Pixel:
-			return m_assetManager->Get<ShaderAsset>(m_pixelShader);
+			return m_pAssetManager->Get<ShaderAsset>(m_pixelShader);
 		default:
 			return nullptr;
 		}

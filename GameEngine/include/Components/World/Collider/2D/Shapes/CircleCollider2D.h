@@ -1,82 +1,76 @@
-﻿//====================================================//
-// ファイル名   : CircleCollider2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/17
-//
-// 概要 : 2Dの円衝突クラス
-//
-// 更新履歴 :
-// 2026/04/17 新規作成
-//====================================================//
+﻿/**
+ * @file    CircleCollider2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/17
+ *
+ * @brief   2D円コライダー
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "../ColliderBase2D.h"
 #include "Components/Interface/IDebugRenderable.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+	class Renderer;
+
+	/**
+	 * @brief 2D円コライダー
+	 */
 	class CircleCollider2D : public ColliderBase2D, public IDebugRenderable
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(ColliderBase2D);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 半径
+		/** @brief 半径 */
 		float m_radius;
+
 	public:
 
-		//-----------------------------------------------------
-		// 生成 / 破棄
-		//-----------------------------------------------------
-		CircleCollider2D(IComponentOwner* own)
-			: ColliderBase2D(own)
-			, m_radius{ 0.5f }
-		{
-			ADD_PROPERTY(CircleCollider2D, m_radius);
-		};
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		CircleCollider2D(IComponentOwner* pOwner);
+
 		~CircleCollider2D() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(CircleCollider2D, ColliderBase2D)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// キャッシュ更新
+		/**
+		 * @brief キャッシュを更新する
+		 */
 		void UpdateCache() const override;
 
-		// デバッグ描画
+		/**
+		 * @brief 衝突形状のデバッグ描画を行う
+		 */
 		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		float GetRadius() const
-		{
-			return m_radius;
-		}
+		/** @brief 半径 */
+		float GetRadius() const { return m_radius; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief 半径 */
 		void SetRadius(float rad)
 		{
 			m_radius = rad;
 			SetDirty();
 		}
+
+		/// @}
 	};
 } // namespace RHEngine

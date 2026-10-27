@@ -1,79 +1,85 @@
-﻿//====================================================//
-// ファイル名   : ShadowMap.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/14
-//
-// 概要 : シャドウマップ
-//
-// 更新履歴 :
-// 2026/10/14 新規作成
-//====================================================//
+﻿/**
+ * @file    ShadowMap.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/14
+ *
+ * @brief   シャドウマップ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
 #include <d3d11.h>
 #include <wrl/client.h>
+#include <Windows.h>
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief シャドウマップテクスチャを保持する
+	 */
 	class ShadowMap
 	{
 	private:
 
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
+		/** @brief テクスチャ */
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> m_texture;
 
+		/** @brief 震度バッファ */
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_dsv;
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 読み込み時用SRV */
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;
 
-	private:
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> m_texture;		// テクスチャ
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_dsv;	// 深度
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;	// SRV
-		D3D11_VIEWPORT m_viewport{};							// ビューポート
+		/** @brief ビューポート */
+		D3D11_VIEWPORT m_viewport{};
 
-		// 前の情報保持用
+		/** @brief バインド前のRTV */
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_prevRTV;
+
+		/** @brief バインド前のDSV */
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_prevDSV;
+
+		/** @brief バインド前のビューポート */
 		D3D11_VIEWPORT m_prevViewport;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		ShadowMap() = default;
+
 		~ShadowMap() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-	public:
-
-		// 初期化関数
+		/**
+		 * @brief 各バッファの生成を行う
+		 * @param pDevice デバイス
+		 * @param width ウィンドウ幅
+		 * @param height ウィンドウ高さ
+		 * @return 成功したかどうか
+		 */
 		bool Initialize(
-			ID3D11Device* device,
+			ID3D11Device* pDevice,
 			UINT width,
 			UINT height);
 
-		// 開始関数
-		void Begin(ID3D11DeviceContext* context);
+		/**
+		 * @brief シャドウマップへの描画を開始する
+		 * @param pContext コンテキスト
+		 */
+		void Begin(ID3D11DeviceContext* pContext);
 
-		// 終了関数
-		void End(ID3D11DeviceContext* context);
+		/**
+		 * @brief シャドウマップへの描画を終了する
+		 * @param pContext コンテキスト
+		 */
+		void End(ID3D11DeviceContext* pContext);
 
-		// SRVの取得関数
+		/**
+		 * @brief シャドウマップが書かれたSRVを取得する
+		 */
 		ID3D11ShaderResourceView* GetSRV() const;
 	};
-}
+}	// namespace RHEngine

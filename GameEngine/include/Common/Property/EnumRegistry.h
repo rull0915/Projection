@@ -1,68 +1,65 @@
-﻿//====================================================//
-// ファイル名   : EnumRegistry.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
-//
-// 概要 : プロパティが列挙型を扱えるようにするための補助クラス
-//
-// 更新履歴 :
-// 2026/07/21 新規作成
-//====================================================//
+﻿/**
+ * @file    EnumRegistry.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/21
+ *
+ * @brief   プロパティが列挙型を扱えるようにするための補助クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <typeindex>
 #include <functional>
+#include <unordered_map>
+#include <string>
+#include <vector>
+#include <type_traits>
 
 #include "ThirdParty/magic_enum/magic_enum.hpp"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief プロパティとして列挙型を扱えるようにするためのクラス
+	 */
 	class EnumRegistry
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 	private:
 
-		// 列挙子の名前の配列を取得する関数マップ
+		/** @brief 列挙子名の配列を取得する関数マップ */
 		std::unordered_map<std::type_index, std::function<std::vector<std::string>()>> m_getNamesFuncMap;
 
-		// 実際の変数から列挙子名を取得する関数マップ
+		/** @brief 列挙型変数から列挙子名を取得する関数マップ */
 		std::unordered_map<std::type_index, std::function<std::string(const void*)>> m_getCurrentNameFuncMap;
 
-		// 列挙子名から実際の変数の値をセットする関数マップ
-		std::unordered_map<std::type_index, std::function<bool(void*, std::string_view)>> m_setByNameFuncMap;
+		/** @brief 列挙子名から実際の変数の値をセットする関数マップ */
+		std::unordered_map<std::type_index, std::function<bool(void*, const std::string&)>> m_setByNameFuncMap;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		EnumRegistry() = default;
+
 		~EnumRegistry() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// シングルトン化
+		/**
+		 * @brief インスタンス取得 (シングルトンパターン)
+		 * @return 静的なインスタンス
+		 */
 		static EnumRegistry& Instance()
 		{
 			static EnumRegistry instance;
 			return instance;
 		}
 
-		/// <summary>
-		/// 型の登録を行う関数
-		/// </summary>
-		/// <typeparam name="EnumType">登録する列挙型</typeparam>
+		/**
+		 * @brief 列挙型を登録する
+		 * @tparam EnumType 列挙型
+		 */
 		template<typename EnumType, typename = std::enable_if_t<std::is_enum_v<EnumType>>>
 		void Register()
 		{
@@ -115,13 +112,28 @@ namespace RHEngine
 				};
 		}
 
-		// 列挙子名の配列を返す関数
+		/**
+		 * @brief 列挙子名の配列を取得する
+		 * @param idx 取得する列挙型のtype_index
+		 * @return 列挙子名の配列
+		 */
 		std::vector<std::string> GetNames(std::type_index idx) const { return m_getNamesFuncMap.at(idx)(); }
 
-		// 指定したポインタの列挙子名を返す関数
+		/**
+		 * @brief 列挙子名を取得する
+		 * @param idx 取得する列挙型のtype_index
+		 * @param ptr 列挙型変数のアドレス
+		 * @return 列挙子名
+		 */
 		std::string GetCurrentName(std::type_index idx, const void* ptr) const { return m_getCurrentNameFuncMap.at(idx)(ptr); }
 
-		// 列挙子名から値を変更する関数
-		bool SetByName(std::type_index idx, void* ptr, std::string_view name) const { return m_setByNameFuncMap.at(idx)(ptr, name); }
+		/**
+		 * @brief 列挙子名から値を変更する
+		 * @param idx 変更する列挙型のtype_index
+		 * @param ptr 変更する列挙型変数のアドレス
+		 * @param name 変更後の列挙子名
+		 * @return 成功したかどうか
+		 */
+		bool SetByName(std::type_index idx, void* ptr, const std::string& name) const { return m_setByNameFuncMap.at(idx)(ptr, name); }
 	};
 }	// namespace RHEngine

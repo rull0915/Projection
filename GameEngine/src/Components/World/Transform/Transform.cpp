@@ -106,6 +106,27 @@ namespace RHEngine
 		m_children.clear();
 	}
 
+	bool Transform::IsDescendantOf(Transform* target)
+	{
+		Transform* current = target;
+
+		// currentがnullになるまでループ
+		while (current != nullptr)
+		{
+			// 自分と同じかチェック
+			if (current == this)
+			{
+				return true;
+			}
+
+			// 親を辿る
+			current = current->m_pParent;
+		}
+
+		// 最後まで到達した時
+		return false;
+	}
+
 	void Transform::UpdateCache() const
 	{
 		using namespace DirectX::SimpleMath;
@@ -181,6 +202,15 @@ namespace RHEngine
 		SetDirty();
 	}
 
+	void Transform::ReflectCache()
+	{
+		if (!m_changeCache) return;
+
+		AddWorldPosition(m_addCache);
+		m_addCache = { 0, 0, 0 };
+		m_changeCache = false;
+	}
+
 	/// <summary>
 	/// Dirtyフラグをセットする関数
 	/// </summary>
@@ -192,5 +222,53 @@ namespace RHEngine
 
 		// 子オブジェクトのフラグもセット
 		for (auto* child : m_children) child->SetDirty();
+	}
+	 
+	const SimpleMath::Vector3 Transform::GetWorldPosition() const
+	{
+		if (m_pParent)
+		{
+			// 最新のワールド行列を取得
+			auto& world = GetWorldPositionMatrix();
+
+			// 位置成分を返す
+			return world.Translation();
+		}
+
+		return m_localPosition;
+	}
+
+	const SimpleMath::Quaternion Transform::GetWorldRotation() const
+	{
+		if (m_pParent)
+		{
+			// キャッシュ更新
+			if (m_isDirty) UpdateCache();
+
+			// 回転行列からクォータニオンを作る
+			return SimpleMath::Quaternion::CreateFromRotationMatrix(m_worldRotationMatrix);
+		}
+		return m_localRotation;
+	}
+
+	const SimpleMath::Vector3 Transform::GetWorldEulerAngle() const
+	{
+		if (m_pParent)
+		{
+			return GetWorldRotation().ToEuler();
+		}
+		return GetLocalEulerAngle();
+	}
+
+	const DirectX::SimpleMath::Vector3 Transform::GetWorldScale() const 
+	{
+		if (m_pParent)
+		{
+			// キャッシュ更新
+			if (m_isDirty) UpdateCache();
+
+			return { m_worldScaleMatrix._11, m_worldScaleMatrix._22, m_worldScaleMatrix._33 };
+		}
+		return m_localScale;
 	}
 }	// namespace RHEngine

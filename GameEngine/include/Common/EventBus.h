@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : EventBus.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/17
-//
-// 概要 : イベントバス
-//
-// 更新履歴 :
-// 2026/07/04 新規作成
-//====================================================//
+﻿/**
+ * @file    EventBus.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/17
+ *
+ * @brief   イベントバス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include <functional>
 #include <unordered_map>
@@ -22,52 +15,70 @@
 
 namespace RHEngine
 {
+	/**
+	 * @brief イベントバスを管理する
+	 * @tparam EventID イベントの識別用列挙型
+	 */
 	template<typename EventID, typename = std::enable_if_t<std::is_enum_v<EventID>>>
 	class EventBus
 	{
 	public:
 		using CallBack = std::function<void()>;
 
-		// イベント識別トークン
+		/**
+		 * @brief イベント識別用トークン
+		 */
 		struct Token
 		{
-			unsigned int id;	// ID
-			EventID type;		// イベントのタイプ
+			unsigned int id;	///< ID
+			EventID type;		///< イベントのタイプ
 		};
 
 	private:
-		// リスナー
+		
+		/**
+		 * @brief イベントリスナー
+		 */
 		struct Listener
 		{
 			unsigned int id;	// ID
-			CallBack callback;	// 処理
+			CallBack callback;	// イベント発行時の処理
 		};
 
-		//----------------------------------------------
-		// メンバ変数
-		//----------------------------------------------
 	private:
 
-		// 呼び出し関係マップ
+		/** @brief 各イベントに登録されているリスナーの一覧 */
 		static inline std::unordered_map<EventID, std::vector<Listener>> m_events{};
 
-		// 登録待ち
+		/** @brief 登録予約中のリスナー */
 		static inline std::unordered_map<EventID, std::vector<Listener>> m_addReserves{};
 
-		// 現在のID
+		/** @brief 現在管理中のID */
 		static inline unsigned int m_nowID = 0;
 
-		// 実行中フラグ
+		/** @brief 発行の再帰数 */
 		static inline size_t m_publishDepth = 0;
 
-		//----------------------------------------------
-		// 関数宣言
-		//----------------------------------------------
 	public:
 
-		EventBus() = delete;	// 静的クラスのためインスタンス化禁止
+		/// @name ライフサイクル
+		/// @{
 
-		// 登録関数
+		/**
+		 * @details 静的クラスのためインスタンス化を禁止
+		 */
+		EventBus() = delete;
+
+		~EventBus() = delete;
+
+		/// @}
+
+		/**
+		 * @brief リスナー登録関数
+		 * @param id 対象のイベントID
+		 * @param call イベント発行時のコールバック関数
+		 * @return イベント識別用トークン (削除時に使用)
+		 */
 		static Token Register(EventID id, CallBack call)
 		{
 			// 新規IDを生成
@@ -89,7 +100,10 @@ namespace RHEngine
 			return { m_nowID, id };
 		}
 
-		// 削除関数
+		/**
+		 * @brief リスナーを削除する
+		 * @param token 登録時に発行された識別用トークン
+		 */
 		static void Remove(Token token)
 		{
 			// ID
@@ -143,7 +157,10 @@ namespace RHEngine
 			}
 		}
 
-		// 実行関数
+		/**
+		 * @brief イベントを発行する
+		 * @param eventId 発行するイベントのID
+		 */
 		static void Publish(EventID eventId)
 		{
 			// 実行がされていなければ
@@ -184,7 +201,9 @@ namespace RHEngine
 		}
 
 	private:
-		// 登録待ちを追加する関数
+		/**
+		 * @brief 登録予約中のリスナー登録する
+		 */
 		static void RegisterReserved()
 		{
 			// 全予約をループ
@@ -204,7 +223,9 @@ namespace RHEngine
 			m_addReserves.clear();
 		}
 
-		// 全削除予約を配列から削除する関数
+		/**
+		 * @brief 削除対象のリスナーをリストから削除する
+		 */
 		static void CleanUp()
 		{
 			// 全イベントをループ

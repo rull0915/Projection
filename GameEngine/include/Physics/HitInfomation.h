@@ -1,34 +1,32 @@
-﻿//====================================================//
-// ファイル名   : HitInfomation.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/02
-//
-// 概要 : 衝突情報構造体です
-//
-// 更新履歴 :
-// 2026/04/02 新規作成
-//====================================================//
+﻿/**
+ * @file    HitInfomation.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/02
+ *
+ * @brief   衝突情報構造体
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "GameObject/Interface/IComponentOwner.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
+	/**
+	 * @brief 衝突情報をまとめた構造体
+	 */
 	struct HitInfomation
 	{
-		DirectX::SimpleMath::Vector3 hitDir;      // 押し戻し方向（相手から自分へ向かうベクトル）
-		float hitLen;        // 押し戻し距離（めり込み深さ）
-		IComponentOwner* own;     // 自分自身
-		IComponentOwner* target;  // 衝突相手
+		DirectX::SimpleMath::Vector3 hitDir = DirectX::SimpleMath::Vector3::Zero;	///< 押し戻し方向（相手から自分へ向かうベクトル）
+		float hitLen = 0.0f;				///< 押し戻し距離（めり込み深さ）
+		IComponentOwner* own = nullptr;		///< 自分自身
+		IComponentOwner* target = nullptr;	///< 衝突相手
 
-		// 情報を完全に反転させたものを返す
+		/**
+		 * @brief 衝突相手視点の衝突情報を返す
+		 */
 		HitInfomation Inverse() const {
 			HitInfomation inv;
 			inv.hitDir = -this->hitDir; // 方向を反転
@@ -37,12 +35,5 @@ namespace RHEngine
 			inv.target = this->own;     // 自分自身を、新しい「ターゲット」に
 			return inv;
 		}
-
-		HitInfomation()
-			: hitDir{ 0, 0, 0 }
-			, hitLen{ 0.0f }
-			, own{ nullptr }
-			, target{ nullptr }
-		{}
 	};
 }	// namespace RHEngine

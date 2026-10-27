@@ -1,136 +1,92 @@
-﻿//====================================================//
-// ファイル名   : DrawCommandContainer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/18
-//
-// 概要 : 描画コマンドをため込んでおくクラス
-//
-// 更新履歴 :
-// 2026/07/18 新規作成
-//====================================================//
+﻿/**
+ * @file    DrawCommandContainer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/18
+ *
+ * @brief   描画コマンドをため込んでおくクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <vector>
 #include <variant>
+
 #include "DrawCommand.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 描画コマンドをため込む
+	 */
 	class DrawCommandContainer
 	{
 	public:
-		// テキストコマンドとスプライトコマンドを同時に扱うクラス
 		using DrawUICommand = std::variant<DrawSpriteCommand, DrawTextCommand>;
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// プリミティブ描画コマンド配列
+		/** @brief プリミティブ描画コマンドリスト */
 		std::vector<DrawPrimitiveCommand> m_drawPrimitiveCommands;
 
-		// モデル描画コマンド配列
-		std::vector<DrawModelCommand> m_drawModelCommands;
+		/** @brief メッシュ描画コマンドリスト */
+		std::vector<DrawMeshCommand> m_drawMeshCommands;
 
-		// UI描画コマンド配列
+		/** @brief UI描画コマンドリスト */
 		std::vector<DrawUICommand> m_drawUICommands;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		DrawCommandContainer() = default;
+
 		~DrawCommandContainer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 配列の初期化関数
+		/**
+		 * @brief 配列のクリア
+		 */
 		void Clear()
 		{
 			m_drawPrimitiveCommands.clear();
-			m_drawModelCommands.clear();
+			m_drawMeshCommands.clear();
 			m_drawUICommands.clear();
 		};
 
-		// プリミティブ描画コマンドの登録関数
-		DrawPrimitiveCommand& AddPrimitive()
-		{
-			// もし末尾のコマンドがなければそのまま返す
-			if (!m_drawPrimitiveCommands.empty() && (m_drawPrimitiveCommands.back().lines.empty() && m_drawPrimitiveCommands.back().triangles.empty()))
-			{
-				return m_drawPrimitiveCommands.back();
-			}
+		/// @name コマンドの追加
+		/// @{
 
-			// 追加する
-			auto& cmd = m_drawPrimitiveCommands.emplace_back();
-			cmd.lines.reserve(1024);
-			cmd.triangles.reserve(512);
+		/** @brief プリミティブ描画コマンドを追加する */
+		DrawPrimitiveCommand& AddPrimitive();
 
-			return cmd;
-		}
+		/** @brief メッシュ描画コマンドの追加 */
+		DrawMeshCommand& AddModel() { return m_drawMeshCommands.emplace_back(); }
 
-		// モデル描画コマンドの登録関数
-		DrawModelCommand& AddModel()
-		{
-			return m_drawModelCommands.emplace_back();
-		}
+		/** @brief スプライト描画コマンドの追加 */
+		DrawSpriteCommand& AddSprite() { return std::get<DrawSpriteCommand>(m_drawUICommands.emplace_back(DrawSpriteCommand())); }
 
-		// スプライト描画コマンドの登録関数
-		DrawSpriteCommand& AddSprite()
-		{
-			return std::get<DrawSpriteCommand>(m_drawUICommands.emplace_back(DrawSpriteCommand()));
-		}
+		/** @brief テキスト描画コマンドの追加 */
+		DrawTextCommand& AddText() { return std::get<DrawTextCommand>(m_drawUICommands.emplace_back(DrawTextCommand())); }
 
-		// テキスト描画コマンドの登録関数
-		DrawTextCommand& AddText()
-		{
-			return std::get<DrawTextCommand>(m_drawUICommands.emplace_back(DrawTextCommand()));
-		}
+		/// @}
 
-		// 最新のプリミティブ描画コマンドを取得する関数
-		DrawPrimitiveCommand* GetLatestPrimitiveCommand()
-		{
-			// なければnullをかえす
-			if (m_drawPrimitiveCommands.empty()) return nullptr;
+		/// @name コマンドの取得
+		/// @{
 
-			// どちらかの配列が最大値を超えるなら
-			auto& latest = m_drawPrimitiveCommands.back();
-			if (latest.lines.size() > 750 || latest.triangles.size() > 500)
-			{
-				// 追加
-				auto& newCommand = AddPrimitive();
+		/** @brief  最新のプリミティブ描画コマンドを取得する関数 */
+		DrawPrimitiveCommand* GetLatestPrimitiveCommand();
 
-				// ワールドを引き継ぐ
-				newCommand.world = latest.world;
-
-				return &newCommand;
-			}
-
-			return &latest;
-		}
-
-		//============= 全コマンドの取得関数 =============//
-
-		// プリミティブ描画コマンド配列
+		/** @brief  プリミティブ描画コマンドリスト */
 		const std::vector<DrawPrimitiveCommand>& GetDrawPrimitiveCommands() const { return m_drawPrimitiveCommands; };
 
-		// モデル描画コマンド配列
-		const std::vector<DrawModelCommand>& GetDrawModelCommands() const { return m_drawModelCommands; }
+		/** @brief  モデル描画コマンドリスト */
+		const std::vector<DrawMeshCommand>& GetDrawMeshCommands() const { return m_drawMeshCommands; }
 
-		// UI描画コマンド配列
+		/** @brief  UI描画コマンドリスト */
 		const std::vector<DrawUICommand>& GetDrawUICommands() const { return m_drawUICommands; }
 
+		/// @}
 	};
 }	// namespace RHEngine

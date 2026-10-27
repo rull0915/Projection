@@ -21,6 +21,13 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	CircleCollider2D::CircleCollider2D(IComponentOwner* pOwner)
+		: ColliderBase2D(pOwner)
+		, m_radius{ 0.5f }
+	{
+		ADD_PROPERTY(CircleCollider2D, m_radius);
+	}
+
 	void CircleCollider2D::UpdateCache() const
 	{
 		Transform* pT = GetTransform();

@@ -1,22 +1,16 @@
-﻿//====================================================//
-// ファイル名   : MaterialParams.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/10
-//
-// 概要 : マテリアルのパラメーターに関するヘッダ
-//
-// 更新履歴 :
-// 2026/10/10 新規作成
-//====================================================//
+﻿/**
+ * @file    MaterialParams.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/10
+ *
+ * @brief   マテリアルのパラメーターに関するヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
 #include <variant>
 #include <SimpleMath.h>
+
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Texture.h"
 #include "Assets/Types/Shader/SamplerType.h"
@@ -24,7 +18,9 @@
 
 namespace RHEngine
 {
-	// バッファとして存在する型を全て扱うVariant
+	/**
+	 * @brief 対応する型を全て扱うvariant型
+	 */
 	using MaterialParamVariant = std::variant<
 		float,
 		DirectX::SimpleMath::Vector2,
@@ -36,14 +32,18 @@ namespace RHEngine
 		SamplerType
 	>;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief マテリアルのパラメータを管理する
+	 */
 	class MaterialParams
 	{
 	public:
 
-		// パラメータタイプを取得する関数
+		/**
+		 * @brief 型からパラメータタイプを取得する
+		 * @tparam T 調べる型
+		 * @return パラメータタイプ
+		 */
 		template<typename T>
 		static ShaderParamType GetParamType()
 		{
@@ -65,7 +65,11 @@ namespace RHEngine
 		}
 
 
-		// パラメータのデフォルト値を返す関数
+		/**
+		 * @brief パラメータのデフォルト値を取得する
+		 * @param type パラメータタイプ
+		 * @return タイプに応じたデフォルト値
+		 */
 		static MaterialParamVariant GetDefaultParam(ShaderParamType type)
 		{
 			switch (type)
@@ -91,4 +95,4 @@ namespace RHEngine
 			}
 		}
 	};
-}
+}	// namespace RHEngine

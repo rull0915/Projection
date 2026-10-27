@@ -76,4 +76,27 @@ namespace RHEngine
 		// 貯まった力をリセット
 		m_force = SimpleMath::Vector2::Zero;
 	}
+
+	void RigidBody2D::AddForce(DirectX::SimpleMath::Vector2 vec, ForceMode mode, bool wakeUp)
+	{
+		switch (mode)
+		{
+		case ForceMode::Force:
+			m_force += vec;
+			break;
+		case ForceMode::Acceleration:
+			m_force += vec * GetMass();
+			break;
+		case ForceMode::Impulse:
+			m_velocity += vec * GetInvMass();
+			break;
+		case ForceMode::VelocityChange:
+			m_velocity += vec;
+			break;
+		default:
+			break;
+		}
+
+		if (wakeUp) WakeUp();
+	}
 }	// namespace RHEngine

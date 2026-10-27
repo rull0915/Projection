@@ -1,31 +1,32 @@
-﻿//====================================================//
-// ファイル名   : Bounding.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/07
-//
-// 概要 : 境界となる形状をまとめたヘッダ
-//
-// 更新履歴 :
-// 2026/10/07 新規作成
-//====================================================//
+﻿/**
+ * @file    Bounding.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/07
+ *
+ * @brief   境界形状をまとめたヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <SimpleMath.h>
 
 namespace RHEngine
 {
-	/// <summary>
-	/// 境界ボックス
-	/// </summary>
+	/**
+	 * @brief 境界ボックス
+	 */
 	struct BoundingBox
 	{
-		DirectX::SimpleMath::Vector3 min;
-		DirectX::SimpleMath::Vector3 max;
+		DirectX::SimpleMath::Vector3 min;	///< 最小座標
+		DirectX::SimpleMath::Vector3 max;	///< 最大座標
 
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param a 1つの点
+		 * @param b もう片方の点
+		 */
 		BoundingBox(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b)
 			: min{ a }
 			, max{ b }
@@ -34,16 +35,25 @@ namespace RHEngine
 		BoundingBox()
 			: min{ 0, 0, 0 }, max{ 0, 0, 0 }
 		{}
+
+		/// @}
 	};
 
-	/// <summary>
-	/// 2D版境界ボックス
-	/// </summary>
+	/**
+	 * @brief 2D境界ボックス
+	 */
 	struct BoundingBox2D
 	{
-		DirectX::SimpleMath::Vector2 min;
-		DirectX::SimpleMath::Vector2 max;
+		DirectX::SimpleMath::Vector2 min;	///< 最小座標
+		DirectX::SimpleMath::Vector2 max;	///< 最大座標
 
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param a 1つの点
+		 * @param b もう一つの点
+		 */
 		BoundingBox2D(DirectX::SimpleMath::Vector2 a, DirectX::SimpleMath::Vector2 b)
 			: min{ a }
 			, max{ b }
@@ -52,16 +62,25 @@ namespace RHEngine
 		BoundingBox2D()
 			: min{ 0, 0 }, max{ 0, 0 }
 		{}
+
+		/// @}
 	};
 
-	/// <summary>
-	/// 境界球
-	/// </summary>
+	/**
+	 * @brief 境界球
+	 */
 	struct BoundingSphere
 	{
-		DirectX::SimpleMath::Vector3 center;
-		float radius;
+		DirectX::SimpleMath::Vector3 center;	///< 中心座標
+		float radius;							///< 半径
 
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param c 中心座標
+		 * @param r 半径
+		 */
 		BoundingSphere(DirectX::SimpleMath::Vector3 c, float r)
 			: center{ c }
 			, radius{ r }
@@ -70,16 +89,25 @@ namespace RHEngine
 		BoundingSphere()
 			: center{ 0, 0, 0 }, radius{ 0 }
 		{}
+
+		/// @}
 	};
 	
-	/// <summary>
-	/// 境界円
-	/// </summary>
+	/**
+	 * @brief 境界円
+	 */
 	struct BoundingCircle
 	{
-		DirectX::SimpleMath::Vector2 center;
-		float radius;
+		DirectX::SimpleMath::Vector2 center;	///< 中心座標
+		float radius;							///< 半径
 
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param c 中心座標
+		 * @param r 半径
+		 */
 		BoundingCircle(DirectX::SimpleMath::Vector2 c, float r)
 			: center{ c }
 			, radius{ r }
@@ -88,5 +116,7 @@ namespace RHEngine
 		BoundingCircle()
 			: center{ 0, 0 }, radius{ 0 }
 		{}
+
+		/// @}
 	};
-}
+}	// namespace RHEngine

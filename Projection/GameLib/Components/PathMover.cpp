@@ -12,7 +12,7 @@
 #include "pch.h"
 #include "PathMover.h"
 
-#include "Math/GameMath.h"
+#include "GameLib/GameMath/GameMath.h"
 
 //====================================================//
 // 関数の実体宣言
@@ -82,7 +82,7 @@ void PathMover::LateUpdate(const RHEngine::GameTimer & gameTimer)
 			DirectX::SimpleMath::Vector3 dir = m_pCatmull->GetTangent(m_sumTime);
 
 			// 前方向が進行方向になるようなクォータニオンを作成する
-			DirectX::SimpleMath::Quaternion q = RHEngine::Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, dir);
+			DirectX::SimpleMath::Quaternion q = MyMath::FromToRotation(DirectX::SimpleMath::Vector3::Forward, dir);
 
 			// セット
 			m_pTransform->SetLocalRotation(q);
@@ -97,7 +97,7 @@ void PathMover::LateUpdate(const RHEngine::GameTimer & gameTimer)
 			DirectX::SimpleMath::Vector3 right = dir.Cross(DirectX::SimpleMath::Vector3::Up);
 
 			// 前方向が進行方向の右方向方向になるようなクォータニオンを作成する
-			DirectX::SimpleMath::Quaternion q = RHEngine::Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, right);
+			DirectX::SimpleMath::Quaternion q = MyMath::FromToRotation(DirectX::SimpleMath::Vector3::Forward, right);
 
 			// セット
 			m_pTransform->SetLocalRotation(q);
@@ -112,7 +112,7 @@ void PathMover::LateUpdate(const RHEngine::GameTimer & gameTimer)
 			DirectX::SimpleMath::Vector3 left = DirectX::SimpleMath::Vector3::Up.Cross(dir);
 
 			// 前方向が進行方向の右方向方向になるようなクォータニオンを作成する
-			DirectX::SimpleMath::Quaternion q = RHEngine::Math::FromToRotation(DirectX::SimpleMath::Vector3::Forward, left);
+			DirectX::SimpleMath::Quaternion q = MyMath::FromToRotation(DirectX::SimpleMath::Vector3::Forward, left);
 
 			// セット
 			m_pTransform->SetLocalRotation(q);

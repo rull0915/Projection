@@ -1,100 +1,116 @@
-﻿//====================================================//
-// ファイル名   : ButtonUI.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : ボタンUIクラス
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    ButtonUI.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   ボタンUIクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <functional>
 #include <unordered_map>
+
 #include "UIBehaviorBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class GameTimer;
+	class IComponentOwner;
+
+	/**
+	 * @brief ボタンUI
+	 */
 	class ButtonUI : public UIBehaviorBase
 	{
 	public:
+		DECLARE_COMPONENT_TYPE(UIBehaviorBase);
 
-		// クリック時イベント
+		/** @brief クリック時イベント */
 		using OnClickEvent = std::function<void()>;
 
-		// クリック時イベント識別用ID
+		/** @brief クリック時イベントの識別用トークン */
 		using EventToken = int;
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/// @name 各状態時の色
 
-		// 各状態の色
+		/** @brief 通常時 */
+		DirectX::SimpleMath::Color m_normalColor; 
 
-		DirectX::SimpleMath::Color m_normalColor;  // 通常時
-		DirectX::SimpleMath::Color m_hoverdColor;  // ホバー時
-		DirectX::SimpleMath::Color m_pressedColor; // 押されている時
+		/** @brief ホバー時 (カーソルが自身に重なっているとき) */
+		DirectX::SimpleMath::Color m_hoverdColor;
 
-		bool m_isPressed;   // 自分が押されているか
+		/** @brief 押されているとき */
+		DirectX::SimpleMath::Color m_pressedColor;
 
-		// 押されたときの処理
+		/** @brief 現在押されているかどうか */
+		bool m_isPressed;
+
+		/** @brief 押されたときのコールバックリスト */
 		std::unordered_map<EventToken, OnClickEvent> m_onClicked;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ButtonUI(IComponentOwner* own);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		ButtonUI(IComponentOwner* pOwner);
+
 		~ButtonUI();
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
+
+		/**
+		 * @brief ボタンの状態に応じてImageUIの色変更を行う
+		 * @param gameTimer 
+		 */
 		void Update(const GameTimer& gameTimer) override;
 
-		// マウスクリック
+		/**
+		 * @brief マウスクリック時自身にカーソルが重なっているか調べ状態変更を行う
+		 */
 		void OnMouseDown() override;
+
+		/**
+		 * @brief マウスを離した際に自身の状態を変更し、必要に応じてコールバックの呼び出しを行う
+		 */
 		void OnMouseUp() override;
 
-		// イベント追加関数
+		/**
+		 * @brief クリック時コールバックを追加する
+		 * @param event 呼び出されるコールバック関数
+		 * @return 識別用トークン (削除時に使用)
+		 */
 		EventToken AddOnClicked(OnClickEvent event);
 
-		// イベント削除関数
+		/**
+		 * @brief イベントを削除する
+		 * @param token 追加時に発行された識別トークン
+		 */
 		void RemoveOnClicked(EventToken token);
 
-		// 外部からクリック時処理を呼び出す関数
+		/**
+		 * @brief クリック時コールバックを外部から呼び出す
+		 */
 		void Submit();
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @name セッター
+		/// @{
 
-		COMPONENT_TYPE(ButtonUI, UIBehaviorBase);
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
+		/** @brief 通常時の色 */
 		void SetNormalColor(DirectX::SimpleMath::Color color) { m_normalColor = color; }
+
+		/** @brief ホバー時の色 */
 		void SetHoveredColor(DirectX::SimpleMath::Color color) { m_hoverdColor = color; }
+
+		/** @brief 押下時の色 */
 		void SetPressedColor(DirectX::SimpleMath::Color color) { m_pressedColor = color; }
 
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		/// @}
 	};
 } // namespace RHEngine

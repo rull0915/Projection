@@ -257,7 +257,7 @@ namespace RHEngine
 		ifs.close();
 	}
 
-	void ObjectLoader::LoadFromFile(const std::wstring& filePath, GameObject* obj)
+	void ObjectLoader::LoadObjectFromFile(const std::wstring& filePath, GameObject* obj)
 	{
 		std::ifstream ifs(std::filesystem::path(filePath).c_str());
 

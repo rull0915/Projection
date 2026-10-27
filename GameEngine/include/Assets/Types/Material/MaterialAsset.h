@@ -1,20 +1,15 @@
-﻿//====================================================//
-// ファイル名   : MaterialAsset.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/05
-//
-// 概要 : マテリアル
-//
-// 更新履歴 :
-// 2026/08/05 新規作成
-//====================================================//
+﻿/**
+ * @file    MaterialAsset.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/05
+ *
+ * @brief   マテリアルアセット
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <map>
+#include <vector>
 #include <utility>
 #include <type_traits>
 
@@ -22,93 +17,115 @@
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Types/Texture.h"
-
 #include "Assets/Objects/AssetBase.h"
 
 namespace RHEngine
 {
 	class AssetManager;
 	class SamplerList;
-	namespace Loader
-	{
-		class MaterialLoader;
-	}
-	namespace Saver
-	{
-		class MaterialSaver;
-	}
+	namespace Loader { class MaterialLoader; }
+	namespace Saver { class MaterialSaver; }
 
+	/**
+	 * @brief マテリアルアセット
+	 * @details 各ステージのシェーダーアセットを保持
+	 *			ステージごとの定数バッファ、テクスチャ、サンプラーを管理します
+	 */
 	class MaterialAsset : public AssetBase
 	{
-		// ロード、保存クラスをfriend指定
 		friend class Loader::MaterialLoader;
 		friend class Saver::MaterialSaver;
 
 	public:
 
+		/**
+		 * @brief 1パラメータの構造体
+		 */
 		struct Parameter
 		{
+			/** @brief パラメータのタイプ */
 			ShaderParamType type{};
+
+			/** @brief パラメータの値 */
 			MaterialParamVariant value{};
 		};
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/// @name 各ステージのシェーダー
+		/// @{
+		 
+		/** @brief 頂点シェーダ */
+		Handle<ShaderAsset> m_vertexShader;
+		/** @brief ピクセルシェーダ */
+		Handle<ShaderAsset> m_pixelShader;
 
-		// 各ステージのシェーダー
-		Handle<ShaderAsset> m_vertexShader;	// 頂点シェーダ
-		Handle<ShaderAsset> m_pixelShader;	// ピクセルシェーダ
+		/// @}
 
-		// 変更前のハンドル
-		Handle<ShaderAsset> m_oldVertexShader;	// 頂点シェーダ
-		Handle<ShaderAsset> m_oldPixelShader;	// ピクセルシェーダ
+		/// @name 変更検知用
+		/// @{
 
-		// 各ステージの定数バッファマップ
+		/** @brief 頂点シェーダ */
+		Handle<ShaderAsset> m_oldVertexShader;
+		/** @brief ピクセルシェーダ */
+		Handle<ShaderAsset> m_oldPixelShader;
+
+		/// @}
+
+		/** @brief 各ステージの定数バッファマップ */
 		std::map<std::pair<ShaderType, uint32_t>, Microsoft::WRL::ComPtr<ID3D11Buffer>> m_constantBuffers;
 
-		// パラメータの一覧
+		/** @brief パラメータの一覧 */
 		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> m_params;
 
-		// ロード時に読み込まれたパラメータ
+		/** @brief 解決待ちのロード後パラメータ */
 		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> m_pendingParams;
 
-		// バッファの変更済みフラグ
+		/** @brief バッファの変更フラグ */
 		bool m_isDirty;
 
-		// アセットマネージャー
-		const AssetManager* m_assetManager;
+		/** @brief アセットマネージャー */
+		const AssetManager* m_pAssetManager;
 
-		// サンプラーリスト
-		const SamplerList* m_samplerList;
+		/** @brief サンプラーリスト */
+		const SamplerList* m_pSamplerList;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		MaterialAsset();
+
 		~MaterialAsset() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// アセットマネージャーを受け取る関数
-		void ReceiveAssetManager(AssetManager* am) override
+		/**
+		 * @brief アセットマネージャーを受け取る
+		 * @param am 渡されるアセットマネージャー
+		 */
+		void ReceiveAssetManager(AssetManager* pAssetManager) override
 		{
-			m_assetManager = am;
+			m_pAssetManager = pAssetManager;
 		}
 
-		// サンプラーリストをセットする関数
-		void SetSamplerList(const SamplerList* samplerList)
+		/**
+		 * @brief サンプラーリストをセットする
+		 * @param samplerList サンプラーリストポインタ
+		 */
+		void SetSamplerList(const SamplerList* pSamplerList)
 		{
-			m_samplerList = samplerList;
+			m_pSamplerList = pSamplerList;
 		}
 
-		// パラメータを変更する関数
+		/**
+		 * @brief パラメータを変更する
+		 * @tparam T パラメータの型
+		 * @param type 変更するシェーダーのステージ
+		 * @param name 変更するパラメータの名前
+		 * @param value 変更後の値
+		 */
 		template<typename T>
 		void SetParam(ShaderType type, const std::string& name, T value)
 		{
@@ -119,104 +136,134 @@ namespace RHEngine
 			m_isDirty = true;
 		}
 
-		// 定数バッファを更新する関数
-		void UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context);
+		/**
+		 * @brief 定数バッファを更新する
+		 * @param device デバイスポインタ
+		 * @param context コンテキストポインタ
+		 */
+		void UpdateConstantBuffers(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 		
-		// 有効かどうか
+		/**
+		 * @brief 有効なマテリアルかどうか調べる
+		 * @return 有効かどうか
+		 */
 		bool IsValid()
 		{
 			return m_vertexShader != ERROR_HANDLE<ShaderAsset>;
 		}
 
-		// 各シェーダーのパラメータ一覧を取得する関数
-		const std::unordered_map<std::string, Parameter>& GetParams(ShaderType type) const
-		{
-			// エラー用static変数
-			static std::unordered_map<std::string, Parameter> error{};
+		/**
+		 * @brief シェーダーのパラメータ一覧を取得する
+		 * @param type 取得対象のステージ
+		 * @return パラメータとパラメータ名のマップ
+		 */
+		const std::unordered_map<std::string, Parameter>& GetParams(ShaderType type) const;
 
-			// 検索
-			auto it = m_params.find(type);
+		/**
+		 * @brief 未解決パラメータ一覧を取得する
+		 * @param type 取得対象のステージ
+		 * @return パラメータとパラメータ名のマップ
+		 */
+		std::unordered_map<std::string, Parameter>& GetPendingParams(ShaderType type);
 
-			// 見つかれば
-			if (it != m_params.end()) return it->second;
-
-			// なければエラー値
-			return error;
-		}
-
-		// 各シェーダーのロード用パラメータ一覧を取得する関数
-		std::unordered_map<std::string, Parameter>& GetPendingParams(ShaderType type)
-		{
-			// エラー用static変数
-			static std::unordered_map<std::string, Parameter> error{};
-
-			// 検索
-			auto it = m_pendingParams.find(type);
-
-			// 見つかれば
-			if (it != m_pendingParams.end()) return it->second;
-
-			// なければエラー値
-			return error;
-		}
-
-		// シェーダーのパラメータをセットする関数
+		/**
+		 * @brief 未解決パラメータをセットする
+		 * @param type セットするシェーダーステージ
+		 * @param params パラメータ一覧
+		 */
 		void SetPendingParams(ShaderType type, const std::unordered_map<std::string, Parameter>& params)
 		{
 			m_pendingParams[type] = params;
 		}
 
-		// GUI変更時の関数
+		/**
+		 * @brief GUI上での値変更時に呼ばれる
+		 */
 		void OnValidate() override
 		{
 			m_isDirty = true;
 		}
 
-		// シェーダーをcontextにバインドする関数
-		bool Apply(ID3D11DeviceContext* context);
+		/**
+		 * @brief コンテキストに自身を割り当てる
+		 * @param context コンテキストポインタ
+		 * @return 
+		 */
+		bool Apply(ID3D11DeviceContext* pContext);
 
-		// 1つのシェーダーをバインドする関数
-		bool BindShader(ID3D11DeviceContext* context, ShaderType type);
+		/**
+		 * @brief 1つのシェーダをバインドする
+		 * @details シェーダー本体のバインド
+		 *			定数バッファ、テクスチャ、サンプラーのバインドを行う
+		 * @param context コンテキストポインタ
+		 * @param type バインドするシェーダーステージ
+		 * @return 成功したかどうか
+		 */
+		bool BindShader(ID3D11DeviceContext* pContext, ShaderType type);
 
-		// シェーダーを変更する関数
-		void SetShader(Handle<ShaderAsset> shader, ShaderType type)
-		{
-			switch (type)
-			{
-			case RHEngine::ShaderType::Vertex:
-				m_vertexShader = shader;
-				break;
-			case RHEngine::ShaderType::Pixel:
-				m_pixelShader = shader;
-				break;
-			default:
-				break;
-			}
-		}
-		
-		// タイプからシェーダー本体を取得する関数
+		/**
+		 * @brief シェーダーを変更する
+		 * @param shader 変更後のシェーダー
+		 * @param type 変更するシェーダーステージ
+		 */
+		void SetShader(Handle<ShaderAsset> shader, ShaderType type);
+
+		/**
+		 * @brief シェーダーステージ列挙型からシェーダーアセット本体を取得する
+		 * @param type シェーダーステージ
+		 * @return シェーダーアセット本体
+		 */
 		ShaderAsset* GetShaderAsset(ShaderType type);
 
-		//----- PropertyObjectの実装 -----//
+		/// @name PropertyObjectのoverride
+		/// @{
 
-		// プロパティ一覧を取得する関数
+		/**
+		 * @brief プロパティ一覧を取得する
+		 * @return プロパティ一覧
+		 */
 		std::vector<Property> GetProperties() override;
+
+		/// @}
 
 	private:
 
-		// テクスチャをバインドする関数
-		void BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type);
+		/**
+		 * @brief テクスチャをバインドする
+		 * @param pContext コンテキストポインタ
+		 * @param pShader シェーダー本体
+		 * @param pTexture バインドするテクスチャ
+		 * @param name テクスチャパラメータ名
+		 * @param type バインドするシェーダーステージ
+		 */
+		void BindTexture(ID3D11DeviceContext* pContext, ShaderAsset* pShader, RHEngine::Texture* pTexture, const std::string& name, ShaderType type);
 
-		// サンプラーをバインドする関数
-		void BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
+		/**
+		 * @brief サンプラーをバインドする
+		 * @param pContext コンテキストポインタ
+		 * @param pShader シェーダー本体
+		 * @param sampler バインドするサンプラー
+		 * @param name サンプラーパラメータ名
+		 * @param type バインドするシェーダーステージ
+		 */
+		void BindSampler(ID3D11DeviceContext* pContext, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
 
-		// シェーダーのパラメータから自身のパラメータを作り直す関数
+		/**
+		 * @brief シェーダーのパラメータから自身のパラメータを再構築する
+		 */
 		void RebuildParams();
 
-		// パラメータからプロパティを作成する関数
+		/**
+		 * @brief パラメータからプロパティを作成する
+		 * @param name パラメータ名
+		 * @param parameter パラメータ
+		 * @return 作成したプロパティ
+		 */
 		Property CreatePropertyFromParameter(const std::string& name, Parameter& parameter);
 
-		// パラメータのリビルドが必要かを調べ、実行する関数
+		/**
+		 * @brief パラメータの再構築が必要か調べ実行する
+		 */
 		void CheckAndDoRebuild();
 	};
 }	// namespace RHEngine

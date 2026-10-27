@@ -1,63 +1,73 @@
-﻿//====================================================//
-// ファイル名   : AssetContext.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/08
-//
-// 概要 : アセットロード時に参照される仲介クラス
-//
-// 更新履歴 :
-// 2026/10/08 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetContext.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/08
+ *
+ * @brief   アセットロード時に参照される仲介クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <functional>
+
 #include "AssetDataBase.h"
 #include "AssetRegistry.h"
-#include <functional>
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief アセット読み書き時に参照されるコンテキスト
+	 */
 	class AssetContext
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
+		/** @brief データベース */
 		AssetDataBase& m_dataBase;
 
+		/** @brief レジストリ */
 		AssetRegistry& m_registry;
 
-		// UUIDからロードする関数オブジェクト
+		/** @brief UUIDからロードする関数 */
 		std::function<UnTypeHandle(UUID)> m_loadFromUUID;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+		 
+		/**
+		 * @param db アセットデータベース
+		 * @param r アセットレジストリ
+		 * @param func UUIDからアセットを読み込む関数オブジェクト
+		 */
 		AssetContext(AssetDataBase& db, AssetRegistry& r, std::function<UnTypeHandle(UUID)> func)
 			: m_dataBase{ db }
 			, m_registry{ r }
 			, m_loadFromUUID{ func }
 		{
 		}
+
 		~AssetContext() = default;
 
+		/// @}
+
+		/**
+		 * @brief UUID指定でロードを行う
+		 * @param uuid 対象のUUID
+		 * @return ロード完了アセットに対応するハンドル
+		 */
 		UnTypeHandle LoadFromUUID(UUID uuid) const { return m_loadFromUUID(uuid); }
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
+		/** @brief データベースの取得 */
 		AssetDataBase& GetDataBase() const { return m_dataBase; }
+
+		/** @brief レジストリの取得 */
 		AssetRegistry& GetRegistry() const { return m_registry; }
+
+		/// @}
 	};
-}
+}	// namespace RHEngine

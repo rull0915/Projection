@@ -41,23 +41,6 @@ namespace RHEngine
 		rectTransform->SetPivot({ 0.5f, 0.5f });
 	}
 
-	// 生成直後に一度呼ばれます
-	void Canvas::Awake()
-	{
-	}
-
-	// 最初のUpdate関数の直線に一度呼ばれます
-	void Canvas::Start()
-	{}
-
-	// 毎フレーム呼ばれます
-	void Canvas::Update(const RHEngine::GameTimer& gameTimer)
-	{}
-
-	// 毎フレームUpdate及び物理挙動の後に呼ばれます
-	void Canvas::LateUpdate(const RHEngine::GameTimer& gameTimer)
-	{}
-
 	void Canvas::Draw(Renderer& renderer)
 	{
 		// 自分をルートとして再帰的に描画する

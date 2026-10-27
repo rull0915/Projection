@@ -1,33 +1,30 @@
-﻿//====================================================//
-// ファイル名   : RaycastHit.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/31
-//
-// 概要 : レイの衝突情報構造体
-//
-// 更新履歴 :
-// 2026/05/31 新規作成
-//====================================================//
+﻿/**
+ * @file    RaycastHit.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/31
+ *
+ * @brief   レイの衝突情報構造体
+ */
 
 #pragma once
 
+#include <SimpleMath.h>
+#include <cfloat>
+
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class ColliderBase;
 
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
+	/**
+	 * @brief レイの衝突情報
+	 */
 	struct RaycastHit
 	{
-		ColliderBase* collider = nullptr;   // 衝突したコライダ
+		ColliderBase* collider = nullptr;   ///< 衝突したコライダ
 
-		DirectX::SimpleMath::Vector3 point{};
-		DirectX::SimpleMath::Vector3 normal{};
+		DirectX::SimpleMath::Vector3 point{};	///< 衝突点
+		DirectX::SimpleMath::Vector3 normal{};	///< 衝突法線
 
-		float distance = FLT_MAX;
+		float distance = FLT_MAX;	///< 距離
 	};
 }	// namespace RHEngine

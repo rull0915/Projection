@@ -21,6 +21,18 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	CapsuleCollider2D::CapsuleCollider2D(IComponentOwner* pOwner)
+		: ColliderBase2D(pOwner)
+		, m_axisType{ 1 }
+		, m_capsuleHeight{ 1.0f }
+		, m_radius{ 0.5f }
+		, m_cache{}
+	{
+		ADD_PROPERTY(CapsuleCollider2D, m_axisType);
+		ADD_PROPERTY(CapsuleCollider2D, m_capsuleHeight);
+		ADD_PROPERTY(CapsuleCollider2D, m_radius);
+	}
+
 	void CapsuleCollider2D::UpdateCache() const
 	{
 		Transform* pT = GetTransform();

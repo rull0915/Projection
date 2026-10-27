@@ -42,13 +42,13 @@ namespace RHEngine
 	void AudioSource::Load(Handle<AudioClip> handle)
 	{
 		// AssetManagerがなければ何もしない
-		if (!m_assetManager) return;
+		if (!m_pAssetManager) return;
 
 		// ハンドルの切り替え
 		m_audioClip = handle;
 
 		// AudioClipの取得
-		AudioClip* clip = m_assetManager->Get<AudioClip>(m_audioClip);
+		AudioClip* clip = m_pAssetManager->Get<AudioClip>(m_audioClip);
 
 		// インスタンス作成
 		if (clip)

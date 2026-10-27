@@ -22,6 +22,14 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	BoxCollider::BoxCollider(IComponentOwner* pOwner)
+		: ColliderBase(pOwner)
+		, m_localSize{ 1, 1, 1 }
+		, m_cache{}
+	{
+		ADD_PROPERTY(BoxCollider, m_localSize);
+	}
+
 	void BoxCollider::UpdateCache() const
 	{
 		Transform* pT = GetTransform();

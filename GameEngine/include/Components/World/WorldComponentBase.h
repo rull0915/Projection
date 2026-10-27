@@ -1,48 +1,47 @@
-﻿//====================================================//
-// ファイル名   : WorldComponentBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/28
-//
-// 概要 : World空間のコンポーネントの基底クラス
-//
-// 更新履歴 :
-// 2026/06/28 新規作成
-//====================================================//
+﻿/**
+ * @file    WorldComponentBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/28
+ *
+ * @brief   World空間のコンポーネントの基底クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/ComponentBase.h"
 #include "Components/ComponentInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief World空間のコンポーネントの基底
+	 */
 	class WorldComponentBase : public ComponentBase
 	{
 	public:
-		// 自身の所属空間
+		DECLARE_COMPONENT_TYPE(ComponentBase);
+
+		/**
+		 * @brief 自身の所属空間をWorldに指定
+		 */
 		static constexpr ComponentSpace SPACE = ComponentSpace::World;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		WorldComponentBase(IComponentOwner* owner)
-			: ComponentBase(owner)
+		/// @name ライフサイクル
+		/// @{
+		
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		WorldComponentBase(IComponentOwner* pOwner)
+			: ComponentBase(pOwner)
 		{}
 
 		virtual ~WorldComponentBase() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
-
-		COMPONENT_TYPE(WorldComponentBase, ComponentBase)
+		/// @}
 	};
 } // namespace RHEngine

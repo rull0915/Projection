@@ -23,6 +23,14 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	MeshRenderer::MeshRenderer(IComponentOwner* own)
+		: RendererBase(own)
+		, m_materials{}
+		, m_pAssetManager{ nullptr }
+	{
+		ADD_PROPERTY(MeshRenderer, m_materials);
+	}
+
 	void MeshRenderer::Draw(Renderer& renderer)
 	{
 		// AssetManagerがなければスキップ

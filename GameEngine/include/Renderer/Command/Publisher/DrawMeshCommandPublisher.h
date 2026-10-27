@@ -1,62 +1,64 @@
-﻿//====================================================//
-// ファイル名   : DrawMeshCommandPublisher.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/01
-//
-// 概要 : モデルを描画のコマンドを発行するクラス
-//
-// 更新履歴 :
-// 2026/05/01 新規作成
-//====================================================//
+﻿/**
+ * @file    DrawMeshCommandPublisher.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/01
+ *
+ * @brief   モデルを描画のコマンドを発行するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "Renderer/Command/DrawCommandContainer.h"
 #include "Renderer/GraphicsSystem.h"
 #include "Assets/Types/Model/Mesh.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief メッシュ描画コマンドを発行する
+	 */
 	class DrawMeshCommandPublisher
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 描画の状態
+		/** @brief コマンドのコンテナ */
 		DrawCommandContainer& m_commandContainer;
 
-		// システム
+		/** @brief 描画システム */
 		GraphicsSystem& m_graphicSystem;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param container コマンドコンテナ
+		 * @param graphicSystem 描画システム
+		 */
 		DrawMeshCommandPublisher(DrawCommandContainer& container, GraphicsSystem& graphicSystem)
 			: m_commandContainer{ container }
 			, m_graphicSystem{ graphicSystem }
 		{}
+
 		~DrawMeshCommandPublisher() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-		void DrawMesh(Mesh* mesh, size_t subMeshIndex, DirectX::SimpleMath::Matrix world)
+		/// @}
+
+		/**
+		 * @brief メッシュ描画コマンドを発行する
+		 * @param pMesh 描画するメッシュ
+		 * @param subMeshIndex サブメッシュのインデックス
+		 * @param world ワールド行列
+		 */
+		void DrawMesh(Mesh* pMesh, size_t subMeshIndex, DirectX::SimpleMath::Matrix world)
 		{
 			// コマンドの生成
 			auto& command = m_commandContainer.AddModel();
 
-			command.pMesh = mesh;
+			command.pMesh = pMesh;
 			command.subMeshIndex = subMeshIndex;
 			command.world = world;
 			command.material = m_graphicSystem.GetMaterial();

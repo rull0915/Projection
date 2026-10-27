@@ -47,8 +47,8 @@ namespace RHEngine
 		// シーンに通知
 		if (m_pScene) m_pScene->OnGameObjectDestroy(this);
 
-		// コンポーネント削除
-		RemoveComponents();
+		// コンポーネントを全削除
+		m_components.Removes<ComponentBase>();
 
 		GetComponentContainer().RemoveRegistered();
 	}
@@ -59,7 +59,7 @@ namespace RHEngine
 		OnActiveChanged(m_parentIsActive && m_isActive);
 	}
 
-	void GameObject::Reserve()
+	void GameObject::ActiveReserve()
 	{
 		// 変更されていなかったら何もしない
 		if (m_changedActive)
@@ -123,7 +123,7 @@ namespace RHEngine
 		return 0;	
 	}
 
-	std::vector<GameObject*> GameObject::GetChildren()
+	std::vector<GameObject*> GameObject::GetChildren() const
 	{
 		// 子オブジェクトを保持する配列を用意
 		std::vector<GameObject*> children{};
@@ -189,7 +189,7 @@ namespace RHEngine
 
 			if (m_isActive)
 			{
-				Reserve();
+				ActiveReserve();
 			}
 		}
 	}
@@ -204,6 +204,56 @@ namespace RHEngine
 		{
 			child->Destroy();
 		}
+	}
+
+	void GameObject::OnCollisionEnter(HitContact& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnCollisionEnter(contact);
+	}
+	void GameObject::OnCollisionStay(HitContact& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnCollisionStay(contact);
+	}
+	void GameObject::OnCollisionExit(HitContact& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnCollisionExit(contact);
+	}
+	void GameObject::OnTriggerEnter(HitContact& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnTriggerEnter(contact);
+	}
+	void GameObject::OnTriggerStay(HitContact& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnTriggerStay(contact);
+	}
+	void GameObject::OnTriggerExit(HitContact& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnTriggerExit(contact);
+	}
+
+	void GameObject::OnCollisionEnter2D(HitContact2D& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnCollisionEnter2D(contact);
+	}
+	void GameObject::OnCollisionStay2D(HitContact2D& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnCollisionStay2D(contact);
+	}
+	void GameObject::OnCollisionExit2D(HitContact2D& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnCollisionExit2D(contact);
+	}
+	void GameObject::OnTriggerEnter2D(HitContact2D& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnTriggerEnter2D(contact);
+	}
+	void GameObject::OnTriggerStay2D(HitContact2D& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnTriggerStay2D(contact);
+	}
+	void GameObject::OnTriggerExit2D(HitContact2D& contact)
+	{
+		for (auto& component : GetAllComponents()) component->OnTriggerExit2D(contact);
 	}
 
 	void GameObject::OnActiveChanged(bool f)

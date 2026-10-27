@@ -1,208 +1,265 @@
-﻿//====================================================//
-// ファイル名   : ComponentBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/02
-//
-// 概要 : 全てのコンポーネントの基底となるクラス
-//
-// 更新履歴 :
-// 2026/04/02 新規作成
-// 2026/06/25 IDからカテゴリに管理方法を変更
-// 2026/08/26 typeシステムをconst void*を使用する方法に変更
-// 2026/08/28 メンバにUUIDを追加
-//====================================================//
+﻿/**
+ * @file    ComponentBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/02
+ *
+ * @brief   全てのコンポーネントの基底となるクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
+
 #include "Common/UUID.h"
 #include "GameObject/Interface/IComponentOwner.h"
 #include "ComponentTypeId.h"
-
 #include "Common/Property/PropertyObject.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	struct HitContact;
 	struct HitContact2D;
+	class GameTimer;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 全てのコンポーネントの基底となるクラス
+	 */
 	class ComponentBase : public PropertyObject
 	{
 	private:
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 
-		// UUID
+		/** @brief 識別用UUID */
 		UUID m_uuid;
 
-		// 自身の所有者のポインタ
-		IComponentOwner* m_own;
+		/** @brief 所有者のポインタ */
+		IComponentOwner* m_pOwner;
 
-		// アクティブ状況変更フラグ
+		/** @brief アクティブ状況が変更されたかどうか */
 		bool m_changedActive;
 
-		// アクティブフラグ
+		/** @brief アクティブかどうか */
 		bool m_isActive;
 
-		// 所有者がアクティブかどうか
-		bool m_ownerIsActive;
+		/** @brief 所有者がアクティブかどうか */
+		bool m_pOwnererIsActive;
 
-		// Start関数が呼ばれたか
+		/** @brief 既にStart関数が呼ばれたかどうか */
 		bool m_isStarted;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ComponentBase(IComponentOwner* own);
+		/// @ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
+		ComponentBase(IComponentOwner* pOwner);
+
 		virtual ~ComponentBase();
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// UUID
-		UUID GetUUID() const { return m_uuid; }
-
-		// 所有者
-		IComponentOwner* GetOwn() const { return m_own; }
-
-		// アクティブフラグ
-		bool IsActive() const { return m_isActive && m_ownerIsActive; }
-
-		// スタート済みかどうか
-		bool IsStarted() const { return m_isStarted; }
-
-		// 1つのGameObjectに複数付けられるかどうか
-		virtual bool AllowMultiple() const { return true; }
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-		void SetUUID(UUID uuid) { m_uuid = uuid; }
-
-		void SetOwnerActive(bool f);
-
-		void SetActive(bool f);
-
-		void SetStart() { m_isStarted = true; }
+		/// @}
 
 	public:
 
-		// アクティブフラグの変更を適応する関数
-		void Reserve();
+		/**
+		 * @brief 追加直後に呼び出される
+		 */
+		virtual void Awake() {}
 
-		//-----------------------------------------------------
-		// 仮想関数
-		//-----------------------------------------------------
+		/**
+		 * @brief Updateが初めて実行される直前に呼び出される
+		 */
+		virtual void Start() {}
 
-		virtual void Awake() {}    // 作成直後
-		virtual void Start() {}    // 初回更新の直前
+		/**
+		 * @brief 毎フレーム呼び出される
+		 */
+		virtual void Update(const GameTimer&) {}
 
-		virtual void Update(const GameTimer&) {}  // 更新関数
-		virtual void LateUpdate(const GameTimer&) {}  // 遅延更新関数
+		/**
+		 * @brief 毎フレームUpdateの後に呼び出される
+		 * @param  
+		 */
+		virtual void LateUpdate(const GameTimer&) {}
 
-		virtual void OnDestroy() {} // 削除時
-		virtual void OnValidate() {} // GUIでの値変更時
+		/**
+		 * @brief 削除時に呼び出される
+		 */
+		virtual void OnDestroy() {}
 
-		virtual void OnEnable() {} // Activeに変更時
-		virtual void OnDisable() {} // 非Activeに変更時
+		/**
+		 * @brief GUI上で値が変更されたときに呼び出される
+		 */
+		virtual void OnValidate() {}
 
-		// ----- 衝突関連 ----- //
+		/**
+		 * @brief 非アクティブからアクティブへ変更されたときに呼ばれる
+		 */
+		virtual void OnEnable() {}
 
-		// 3D
-		// 衝突
-		virtual void OnCollisionEnter(HitContact&) {};
-		virtual void OnCollisionStay(HitContact&) {};
-		virtual void OnCollisionExit(HitContact&) {};
-		// トリガー
-		virtual void OnTriggerEnter(HitContact&) {};
-		virtual void OnTriggerStay(HitContact&) {};
-		virtual void OnTriggerExit(HitContact&) {};
+		/**
+		 * @brief アクティブから非アクティブへ変更されたときに呼ばれる
+		 */
+		virtual void OnDisable() {}
 
-		// 2D
-		// 衝突
-		virtual void OnCollisionEnter2D(HitContact2D&) {};
-		virtual void OnCollisionStay2D(HitContact2D&) {};
-		virtual void OnCollisionExit2D(HitContact2D&) {};
-		// トリガー
-		virtual void OnTriggerEnter2D(HitContact2D&) {};
-		virtual void OnTriggerStay2D(HitContact2D&) {};
-		virtual void OnTriggerExit2D(HitContact2D&) {};
+		/// @name 衝突コールバック
+		/// @{
 
-		// ----- ラップ関数 ----- //
+		virtual void OnCollisionEnter(HitContact&) {};	///< 3Dで衝突した瞬間に呼ばれる
+		virtual void OnCollisionStay(HitContact&) {};	///< 3Dで衝突している間常にに呼ばれる
+		virtual void OnCollisionExit(HitContact&) {};	///< 3Dで衝突が終わった時に呼ばれる
+
+		virtual void OnTriggerEnter(HitContact&) {};	///< 3Dでトリガー領域に侵入した瞬間に呼ばれる
+		virtual void OnTriggerStay(HitContact&) {};		///< 3Dでトリガー領域に入っている間常に呼ばれる
+		virtual void OnTriggerExit(HitContact&) {};		///< 3Dでトリガー領域から出たときに呼ばれる
+
+		virtual void OnCollisionEnter2D(HitContact2D&) {};	///< 2Dで衝突した瞬間に呼ばれる
+		virtual void OnCollisionStay2D(HitContact2D&) {};	///< 2Dで衝突している間常にに呼ばれる
+		virtual void OnCollisionExit2D(HitContact2D&) {};	///< 2Dで衝突が終わった時に呼ばれる
+
+		virtual void OnTriggerEnter2D(HitContact2D&) {};	///< 2Dでトリガー領域に侵入した瞬間に呼ばれる
+		virtual void OnTriggerStay2D(HitContact2D&) {};		///< 2Dでトリガー領域に入っている間常に呼ばれる
+		virtual void OnTriggerExit2D(HitContact2D&) {};		///< 2Dでトリガー領域から出たときに呼ばれる
+
+		/// @}
+
+		/**
+		 * @brief コンポーネントを取得する
+		 * @tparam T 取得したいコンポーネントの型
+		 * @return コンポーネントのポインタ
+		 */
 		template<typename T>
-		T* GetComponent() { return m_own->GetComponent<T>(); }
+		T* GetComponent() { return m_pOwner->GetComponent<T>(); }
 
+		/**
+		 * @brief 特定の型の全てのコンポーネントを取得する
+		 * @tparam T 取得したいコンポーネントの型
+		 * @return 取得したコンポーネントリスト
+		 */
 		template<typename T>
-		void GetComponents(std::vector<T*>& vec) { m_own->GetComponents<T>(vec); }
+		const std::vector<ComponentBase*>& GetComponents() { m_pOwner->GetComponents<T>(); }
 
-	private:
-		// アクティブ状況変化時に呼ばれる関数
-		void OnActiveChanged(bool f);
+		/// @name タイプシステム
+		/// @{
 
-		// ----- Type関連 ----- //
-
-		// Typeシステム 概要
-		// 
-		// 継承関係を判別するために作成
-		// 各クラスでStaticTypeId関数を作成することで、クラスごとに一意なアドレスをそのクラスのIDとして扱います。
-		// コンポーネント側でのIsTypeOf関数は、idが自身と一致しているか、
-		// 基底クラスのIsTypeOfを満たしているか、この2点を調べることで継承関係の判定も行えるようにします。
-
-	public:
-
-		// 全コンポーネントで一意な静的IDを取得する関数
+		/**
+		 * @brief クラスごとに一意なIDを取得する
+		 * @return ID
+		 */
 		static Component::TypeId StaticTypeId()
 		{
 			static char id;
 			return &id;
 		}
 
-		// 仮想メンバ関数版
-		virtual Component::TypeId TypeId()
+		/**
+		 * @brief StaticTypeIdを取得する仮想関数
+		 * @return ID
+		 */
+		virtual Component::TypeId TypeId() const
 		{
 			return StaticTypeId();
 		}
 
-		// タイプの一致を判別する関数
+		/**
+		 * @brief タイプの一致を判別する
+		 * @param id 調べるID
+		 * @return 一致したかどうか
+		 */
 		virtual bool IsTypeOf(Component::TypeId id) const
 		{
 			return id == StaticTypeId();
 		}
 
-		// 自身が対応するTypeIdをまとめる関数
+		/**
+		 * @brief 自分が対応するIDを集める
+		 * @param out 対応するIDのリスト
+		 */
 		virtual void CollectTypeIds(std::vector<Component::TypeId>& out) const
 		{
 			out.push_back(StaticTypeId());
 		}
+
+		/// @}
+
+		/**
+		 * @brief アクティブフラグの変更を検知し子に通知、関数呼び出しを行う
+		 */
+		void Reserve();
+
+		/// @name ゲッター
+		/// @{
+
+		/** @brief 識別用UUID */
+		UUID GetUUID() const { return m_uuid; }
+
+		/** @brief 所有者のポインタ */
+		IComponentOwner* GetOwn() const { return m_pOwner; }
+
+		/** @brief アクティブかどうか */
+		bool IsActive() const { return m_isActive && m_pOwnererIsActive; }
+
+		/** @brief 既にStart関数が呼ばれたかどうか */
+		bool IsStarted() const { return m_isStarted; }
+
+		/**
+		 * @brief 1つのGameObjectに複数付けられるかどうか
+		 * @TODO 実装
+		 */
+		virtual bool AllowMultiple() const { return true; }
+
+		/// @}
+
+		/// @name セッター
+
+		/** @brief 識別用UUID */
+		void SetUUID(UUID uuid) { m_uuid = uuid; }
+
+		/** @brief 所有者のアクティブ状況 */
+		void SetOwnerActive(bool f);
+
+		/** @brief アクティブかどうか */
+		void SetActive(bool f);
+
+		/** @brief スタートが呼ばれた際の処理 */
+		void SetStart() { m_isStarted = true; }
+
+	private:
+		// アクティブ状況変化時に呼ばれる関数
+		void OnActiveChanged(bool f);
 	};
 
-	// コンポーネントのTypeを作成するマクロ
-#define COMPONENT_TYPE(Type, Base)														\
+	/**
+	 * @brief コンポーネントの型判定 (継承関係を含む) に必要な関数群を定義する
+	 * @details 各コンポーネントのpublic領域に一度だけ書く必要がある
+	 *			次の関数が定義される
+	 *			- StaticTypeId	: クラスごとに一意なID (static変数アドレス)
+	 *			- TypeId		: StaticTypeIdを返す仮想関数版
+	 *			- IsTypeOf      : 自身またはBase以前のいずれかとIDが一致すればtrue
+	 *			- CollectTypeIds: 自身から基底クラスまでのIDをoutに集める	
+	 *
+	 *          IsTypeOf が基底側も辿るため、GetComponent<基底クラス>() で
+	 *          派生クラスのコンポーネントも取得できる。
+	 * 
+	 *          Base には直接の基底クラスを指定すること。Base 自身も
+	 *          COMPONENT_TYPE を使っているか、ComponentBase であること。
+	 *          書き忘れると、そのクラスは基底クラスとして検索されなくなる。
+	 * @param Base 直接の基底クラス
+	 */
+#define DECLARE_COMPONENT_TYPE(Base)													\
 	static RHEngine::Component::TypeId StaticTypeId()									\
 	{																					\
 		static char id;																	\
 		return &id;																		\
 	}																					\
 																						\
-	virtual RHEngine::Component::TypeId TypeId()											\
+	virtual RHEngine::Component::TypeId TypeId() const override							\
 	{																					\
 		return StaticTypeId();															\
 	}																					\
 																						\
-	bool IsTypeOf(RHEngine::Component::TypeId id) const override							\
+	bool IsTypeOf(RHEngine::Component::TypeId id) const override						\
 	{																					\
 		return id == StaticTypeId() || Base::IsTypeOf(id);								\
 	}																					\

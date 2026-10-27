@@ -105,7 +105,7 @@ namespace RHEngine
 			// AssetHandle
 		case PropertyType::AssetHandle: {
 			auto& registry = AssetPropertyRegistry::Instance();
-			js = registry.GetUUID(property.typeIndex, property.value, m_assetManager);	// UUIDを保存
+			js = registry.GetUUID(property.typeIndex, property.value, m_assetResolver);	// UUIDを保存
 			break;
 		}
 			// ObjRef
@@ -248,9 +248,9 @@ namespace RHEngine
 		return j;
 	}
 
-	void ObjectSaver::SaveObjectToFile(const std::wstring& filePath, GameObject* obj)
+	void ObjectSaver::SaveObjectToFile(const std::filesystem::path& filePath, GameObject* obj)
 	{
-		std::ofstream ofs(std::filesystem::path(filePath).c_str());
+		std::ofstream ofs(filePath);
 
 		// 開けていたら
 		if (ofs.is_open())
@@ -263,9 +263,9 @@ namespace RHEngine
 		ofs.close();
 	}
 
-	void ObjectSaver::SaveSceneToFile(const std::wstring& filePath, Scene* scene)
+	void ObjectSaver::SaveSceneToFile(const std::filesystem::path& filePath, Scene* scene)
 	{
-		std::ofstream ofs(std::filesystem::path(filePath).c_str());
+		std::ofstream ofs(filePath);
 
 		// 開けていたら
 		if (ofs.is_open())
@@ -278,9 +278,9 @@ namespace RHEngine
 		ofs.close();
 	}
 
-	void ObjectSaver::SavePropertyToFile(const std::wstring& filePath, PropertyObject* property)
+	void ObjectSaver::SavePropertyToFile(const std::filesystem::path& filePath, PropertyObject* property)
 	{
-		std::ofstream ofs(std::filesystem::path(filePath).c_str());
+		std::ofstream ofs(filePath);
 
 		// 開けていたら
 		if (ofs.is_open())

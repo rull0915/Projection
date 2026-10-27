@@ -1,19 +1,13 @@
-﻿//====================================================//
-// ファイル名   : AssetPropertyRegistry.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : プロパティとしてのアセットを管理するクラス
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetPropertyRegistry.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   プロパティとしてのアセットを管理するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <unordered_map>
 #include <typeindex>
 #include <functional>
@@ -23,41 +17,44 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プロパティとしてのアセットを管理する
+	 */
 	class AssetPropertyRegistry
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 値の変更を反映させる関数マップ
+		/** @brief 値の変更を反映させる関数マップ */
 		std::unordered_map<std::type_index, std::function<void(void*, const UnTypeHandle&)>> m_assignMap;
 
-		// ハンドルからUUIDを取得する関数マップ
+		/** @brief ハンドルからUUIDを取得する関数マップ */
 		std::unordered_map<std::type_index, std::function<UUID(void*, const IAssetResolver&)>> m_getUUIDMap;
 
 	private:
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		AssetPropertyRegistry() = default;
+
 		~AssetPropertyRegistry() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
+
 	public:
-		// シングルトン化
+		/**
+		 * @brief インスタンス取得 (シングルトンパターン)
+		 * @return 静的なインスタンス
+		 */
 		static AssetPropertyRegistry& Instance()
 		{
 			static AssetPropertyRegistry instance;
 			return instance;
 		}
 
+		/**
+		 * @brief アセットを登録する
+		 * @tparam T アセットの型
+		 */
 		template<class T>
 		void Register()
 		{
@@ -81,10 +78,21 @@ namespace RHEngine
 				};
 		}
 		
-		// 値を反映させる関数
+		/**
+		 * @brief ハンドルを変更する
+		 * @param idx 変更するアセット型のtype_index
+		 * @param ptr アセットハンドルのアドレス
+		 * @param handle 変更後のハンドル
+		 */
 		void Assign(std::type_index idx, void* ptr, const UnTypeHandle& handle) const { m_assignMap.at(idx)(ptr, handle); }
 
-		// UUIDを取得する関数
+		/**
+		 * @brief UUIDを取得する
+		 * @param idx 取得するアセット型のtype_index
+		 * @param ptr アセットハンドルのアドレス
+		 * @param resolver 
+		 * @return 
+		 */
 		UUID GetUUID(std::type_index idx, void* ptr, const IAssetResolver& resolver) const { return m_getUUIDMap.at(idx)(ptr, resolver); }
 	};
 }	//namespace RHEngine

@@ -22,6 +22,20 @@
 
 namespace RHEngine
 {
+	CameraBase::CameraBase(IComponentOwner* own)
+		: WorldComponentBase(own)
+		, m_view{}
+		, m_proj{}
+		, m_inverseView{}
+		, m_inverseProj{}
+		, m_needUpdateProj{ true }
+		, m_pRenderTarget{ nullptr }
+		, m_backColor{}
+	{
+		ADD_PROPERTY(CameraBase, m_materialHandle);
+		ADD_PROPERTY(CameraBase, m_backColor);
+	}
+
 	Ray CameraBase::GetRayToScreenPoint(const DirectX::SimpleMath::Vector2& point)
 	{
 		// pointを中心基準の -1 ~ 1 座標系に変換

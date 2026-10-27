@@ -789,10 +789,13 @@
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
-    <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
-    <ClCompile Include="include\Components\World\Particle\ParticleComponent.cpp" />
+    <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\System\PerformanceStats.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
+    <ClCompile Include="src\Assets\Types\Vertex\DynamicVertexBuffer.cpp" />
+    <ClCompile Include="src\Assets\Types\Models\Mesh.cpp" />
+    <ClCompile Include="include\Editor\Editor\SelectedOnGUI.cpp" />
+    <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -833,9 +836,6 @@
     </ClInclude>
     <ClInclude Include="include\Assets\Objects\Handle.h">
       <Filter>include\Assets\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
-      <Filter>include\Assets\Objects\Interface</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Objects\LoadStatus.h">
       <Filter>include\Assets\Objects</Filter>
@@ -1495,10 +1495,10 @@
     <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
     <ClInclude Include="include\Components\UI\Canvas\CanvasScaler.h" />
     <ClInclude Include="include\Components\Interface\IWindowSizeDependent.h" />
-    <ClInclude Include="include\Components\World\Particle\ParticleComponent.h" />
     <ClInclude Include="include\Math\Range.h" />
     <ClInclude Include="include\System\PerformanceStats.h" />
     <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
+    <ClInclude Include="include\Assets\Types\Vertex\DynamicVertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

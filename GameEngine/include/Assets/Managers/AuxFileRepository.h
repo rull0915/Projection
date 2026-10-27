@@ -1,42 +1,45 @@
-﻿//====================================================//
-// ファイル名   : AuxFileRepository.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : AssetAuxと.auxファイルの読み書きを行うクラス
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    AuxFileRepository.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   AssetAuxから.auxファイルの読み書きを行うクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Assets/Objects/AssetAux.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief AssetAuxから.auxファイルへ読み書きを行う
+	 */
 	class AuxFileRepository
 	{
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+		 
 		AuxFileRepository() = default;
+
 		~AuxFileRepository() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
+		/**
+		 * @brief .auxファイルへ保存する
+		 * @param aux 保存する対象のAssetAux
+		 * @param path 保存先のファイルパス
+		 */
 		void SaveAux(const AssetAux& aux, const std::wstring& path);
 
+		/**
+		 * @brief .auxから読み込む
+		 * @param aux 読み込み先のAssetAux
+		 * @param path 読み込むファイルパス
+		 */
 		void LoadAux(AssetAux& aux, const std::wstring& path);
 	};
 }	// namespace RHEngine

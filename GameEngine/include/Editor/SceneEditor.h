@@ -1,21 +1,17 @@
-﻿//====================================================//
-// ファイル名   : SceneEditor.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
-//
-// 概要 : シーンエディタ
-//
-// 更新履歴 : 
-// 2026/07/05 新規作成
-//====================================================//
+﻿/**
+ * @file    SceneEditor.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/05
+ *
+ * @brief   シーンエディタ
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <memory>
+
 #include "Scene/Scene.h"
 #include "Editor/Editor/EditGUI.h"
 #include "Editor/Editor/SceneCamera.h"
@@ -25,66 +21,90 @@
 namespace RHEngine
 {
 	class AssetManager;
+	class Renderer;
+	class GameTimer;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief シーンエディタ
+	 */
 	class SceneEditor
 	{
 	private:
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 
-		// シーンポインタ
+		/** @brief 編集対象のシーン */
 		Scene* m_pScene;
 
-		// アクティブフラグ
+		/** @brief エディットが実行中かどうか */
 		bool m_isActive;
 
-		// 再生中フラグ
+		/** @brief 再生中かどうか */
 		bool m_isPlaying;
 
-		// GUI
+		/** @brief GUI本体 */
 		EditGUI m_gui;
 
-		// シーンビュー
+		/** @brief シーンビューのテクスチャ */
 		std::unique_ptr<RenderTarget> m_sceneView;
 
-		// シーンビューカメラ
+		/** @brief シーンビューカメラ */
 		SceneCamera m_sceneViewCamera;
 
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
-		// 以前のマウスモード
+		/**
+		 * @brief 以前のマウスモード
+		 * @details esc押下時にマウスを絶対モードへ変更する。
+		 *			ゲームビュークリック時に元に戻すために使用
+		 */
 		DirectX::Mouse::Mode m_oldMouseMode;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		SceneEditor(Scene* pScene, AssetManager& am);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene 編集対象のシーン
+		 * @param assetManager アセットマネージャー
+		 */
+		SceneEditor(Scene* pScene, AssetManager& assetManager);
+
 		~SceneEditor();
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
+		/**
+		 * @brief GUIの初期化 
+		 */
 		void Initialize();
+
+		/**
+		 * @brief GUIの終了
+		 */
 		void Finalize();
+
+		/**
+		 * @brief 更新関数
+		 * @details ウィンドウの表示、シーンカメラの移動を行う
+		 */
 		void Update(const GameTimer& gameTimer);
+
+		/**
+		 * @brief シーンビューの描画を行う
+		 */
 		void Render(Renderer& renderer);
 
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		/**
+		 * @brief テストプレイを開始する
+		 */
 		void TestPlay();
 
+		/**
+		 * @brief テストプレイを終了する
+		 */
 		void PlayStop();
 	};
 } // namespace RHEngine

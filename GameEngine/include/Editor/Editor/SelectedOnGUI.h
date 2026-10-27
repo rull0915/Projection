@@ -1,40 +1,31 @@
-﻿//====================================================//
-// ファイル名   : SelectedOnGUI.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/29
-//
-// 概要 : GUI上で選択されているオブジェクトを持つクラス
-//
-// 更新履歴 :
-// 2026/07/29 新規作成
-//====================================================//
+﻿/**
+ * @file    SelectedOnGUI.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/29
+ *
+ * @brief   GUI上で選択されているオブジェクトを持つクラス
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include <optional>
+#include "Common/UUID.h"
 #include "Common/Property/PropertyObject.h"
 #include "Assets/Managers/AssetManager.h"
+#include "Assets/Objects/AssetBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief GUI上で選択されているオブジェクトを管理する
+	 */
 	class SelectedOnGUI
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
 		// 選択中のオブジェクト
-		PropertyObject* m_propertyObject;
+		PropertyObject* m_pSelectedObject;
 
 		// 選択されたUUID
 		UUID m_selectedAssetID;
@@ -48,20 +39,21 @@ namespace RHEngine
 		// コンストラクタ / デストラクタ
 		//-----------------------------------------------------
 		SelectedOnGUI(AssetManager& assetManager)
-			: m_propertyObject{ nullptr } 
+			: m_pSelectedObject{ nullptr } 
 			, m_selectedAssetID{ UUID_NONE }
 			, m_assetManager{ assetManager }
 		{};
 		~SelectedOnGUI() = default;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
+		/**
+		 * @brief 選択中のオブジェクトの取得
+		 * @return 選択中のオブジェクト
+		 * @TODO 処理が多いためcppに定義を移行すること
+		 */
 		PropertyObject* GetSelected()
 		{
 			// Handleが設定されていてpropertyObjectがない場合
-			if (!m_propertyObject && m_selectedAssetID != UUID_NONE)
+			if (!m_pSelectedObject && m_selectedAssetID != UUID_NONE)
 			{
 				// ロード完了チェック
 				AssetBase* asset = m_assetManager.GetFromUnTypeHandle(m_assetManager.GetHandle(m_selectedAssetID));
@@ -70,33 +62,37 @@ namespace RHEngine
 				if (asset)
 				{
 					// 選択
-					m_propertyObject = asset;
+					m_pSelectedObject = asset;
 
 					m_selectedAssetID = UUID_NONE;
 				}
 			}
 
-			return m_propertyObject;
+			return m_pSelectedObject;
 		}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-		void SetSelected(PropertyObject* obj) 
+		/**
+		 * @brief 選択オブジェクトを変更する
+		 * @param obj 新たに選択されたオブジェクト
+		 */
+		void SetSelected(PropertyObject* pSelected) 
 		{
-			m_propertyObject = obj; 
+			m_pSelectedObject = pSelected; 
 
 			m_selectedAssetID = UUID_NONE;
 		}
 
+		/**
+		 * @brief アセット選択時
+		 * @param uuid 選択されたアセットのUUID
+		 */
 		void SetSelectedAssetID(UUID uuid) 
 		{
 			m_selectedAssetID = uuid;
 
-			m_propertyObject = nullptr;
+			m_pSelectedObject = nullptr;
 		}
 	};
-}
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

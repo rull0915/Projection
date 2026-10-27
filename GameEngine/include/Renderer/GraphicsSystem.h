@@ -1,72 +1,71 @@
-﻿//====================================================//
-// ファイル名   : GraphicsSystem.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/29
-//
-// 概要 : レンダーが使用するステートを管理するクラス
-//
-// 更新履歴 :
-// 2026/04/29 新規作成
-//====================================================//
+﻿/**
+ * @file    GraphicsSystem.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/29
+ *
+ * @brief   レンダーが使用する情報を管理するクラス
+ */
 
 #pragma once
 
+#include <SimpleMath.h>
+
 #include "Command/DrawCommandContainer.h"
 #include "Command/DrawCommandExecutor.h"
-
-// Material
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Objects/Handle.h"
-
 #include "Scene/SceneInfo.h"
-#include "Renderer/RendererInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class AssetManager;
+	class RenderInfoManager;
+
+	/**
+	 * @brief レンダーが使用する情報を管理する
+	 */
 	class GraphicsSystem
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 各行列
+		/** @brief ワールド行列 */
 		DirectX::SimpleMath::Matrix m_world;
 
+		/** @brief シーンデータ */
 		SceneData m_sceneData;
 
-		// マテリアルハンドル
+		/** @brief 使用中のマテリアルハンドル */
 		Handle<MaterialAsset> m_material;
 
-		// 描画コマンドを管理するクラス
+		/** @brief コマンドをため込む */
 		DrawCommandContainer m_drawCommandContainer;
 
-		// 描画コマンドを実行するクラス
+		/** @brief コマンドを実行する */
 		DrawCommandExecutor m_drawCommandExecutor;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		GraphicsSystem(AssetManager& am, RenderInfoManager& im)
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param assetManager アセットマネージャー
+		 * @param infoManager 
+		 */
+		GraphicsSystem(AssetManager& assetManager, RenderInfoManager& infoManager)
 			: m_world		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_material	{ ERROR_HANDLE<MaterialAsset> }
 			, m_drawCommandContainer{}
-			, m_drawCommandExecutor{ am, im }
+			, m_drawCommandExecutor{ assetManager, infoManager }
 		{
 		};
 		~GraphicsSystem() = default;
 		
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 初期化関数
+		/**
+		 * @brief 初期化
+		 */
 		void Initialize()
 		{
 			// コマンド実行者の初期化
@@ -77,18 +76,38 @@ namespace RHEngine
 			cmd.world = DirectX::SimpleMath::Matrix::Identity;
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/**
+		 * @brief 貯めたコマンドを実行する
+		 */
+		void ExecuteCommands()
+		{
+			// 貯めたコマンドを実行
+			m_drawCommandExecutor.DrawCommandExecute(m_drawCommandContainer);
 
+			// コマンドのリセット
+			m_drawCommandContainer.Clear();
+
+			// PrimitiveCommandを初期化
+			auto& p = m_drawCommandContainer.AddPrimitive();
+			p.world = m_world;
+			p.material = m_material;
+		}
+
+		/// @name ゲッター
+		/// @{
+
+		/** @brief マテリアルハンドル */
 		Handle<MaterialAsset> GetMaterial() const { return m_material; }
 
+		/** @brief コマンドコンテナ */
 		DrawCommandContainer& GetCommandContainer() { return m_drawCommandContainer; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
+		/// @name セッター
+		/// @{
+
+		/** @brief ワールド行列 */
 		void SetWorld(const DirectX::SimpleMath::Matrix& world)
 		{
 			if (world != m_world)
@@ -102,6 +121,7 @@ namespace RHEngine
 			}
 		}
 
+		/** @brief マテリアルハンドル */
 		void SetMaterial(Handle<MaterialAsset> handle)
 		{
 			// 違うマテリアルを設定するとき
@@ -116,19 +136,6 @@ namespace RHEngine
 			}
 		}
 
-		// コマンドの実行
-		void ExecuteCommands()
-		{
-			// 貯めたコマンドを実行
-			m_drawCommandExecutor.DrawCommandExecute(m_drawCommandContainer);
-
-			// コマンドのリセット
-			m_drawCommandContainer.Clear();
-
-			// PrimitiveCommandを初期化
-			auto& p = m_drawCommandContainer.AddPrimitive();
-			p.world = m_world;
-			p.material = m_material;
-		}
+		/// @}
 	};
 }	// namespace RHEngine

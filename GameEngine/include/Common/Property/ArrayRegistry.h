@@ -1,82 +1,76 @@
-﻿//====================================================//
-// ファイル名   : ArrayRegistry.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/09/02
-//
-// 概要 : プロパティが配列を扱えるようにするための補助クラス
-//
-// 更新履歴 :
-// 2026/09/02 新規作成
-//====================================================//
+﻿/**
+ * @file    ArrayRegistry.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/02
+ *
+ * @brief   プロパティが配列を扱えるようにするための補助クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <functional>
 #include <typeindex>
+#include <unordered_map>
 
 #include "Property.h"
 #include "PropertyTypeIndex.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief 配列に関する情報を格納するレジストリ
+	 */
 	class ArrayRegistry
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 	private:
 
-		// 配列のサイズを取得する関数マップ
+		/** @brief 配列のサイズを取得する関数マップ */
 		std::unordered_map<std::type_index, std::function<size_t(const void*)>> m_getArraySizeMap;
 
-		// 配列をリサイズする関数マップ
+		/** @brief 配列をリサイズする関数マップ */
 		std::unordered_map<std::type_index, std::function<void(void*, size_t)>> m_changeArraySizeMap;
 
-		// 配列の要素を取得する関数マップ
+		/** @brief 配列の要素を取得する関数マップ */
 		std::unordered_map<std::type_index, std::function<void*(void*, size_t)>> m_getArrayElementMap;
 
-		// 配列の要素を追加する関数マップ
+		/** @brief 配列の要素を追加する関数マップ */
 		std::unordered_map<std::type_index, std::function<void(void*)>> m_addElementMap;
 
-		// 配列の末尾の要素を削除する関数マップ
+		/** @brief 配列の末尾を削除する関数マップ */
 		std::unordered_map<std::type_index, std::function<void(void*)>> m_popBackElementMap;
 		
-		// 型のプロパティタイプマップ
+		/** @brief 管理している型のプロパティタイプを取得する関数マップ */
 		std::unordered_map<std::type_index, PropertyType> m_propertyTypeMap;
 
-		// 配列が持つ型のtype_indexの対応マップ
+		/** @brief 管理している型のプロパティタイプインデックスを取得するマップ */
 		std::unordered_map<std::type_index, std::type_index> m_typeMap;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		ArrayRegistry() = default;
+
 		~ArrayRegistry() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// シングルトン化
+		/**
+		 * @brief インスタンスを取得する (シングルトンパターン)
+		 * @return 静的なインスタンス
+		 */
 		static ArrayRegistry& Instance()
 		{
 			static ArrayRegistry instance;
 			return instance;
 		}
 
-		/// <summary>
-		/// 型の登録を行う関数
-		/// </summary>
-		/// <typeparam name="EnumType">登録する列挙型</typeparam>
+		/**
+		 * @brief 型の登録を行う
+		 * @tparam 配列の型
+		 * @param 管理する型に対応するプロパティタイプ
+		 */
 		template<typename ArrayType>
 		void Register(PropertyType type)
 		{
@@ -145,28 +139,67 @@ namespace RHEngine
 			m_typeMap.emplace(idx, PropertyTypeIndex::GetTypeIndex<typename ArrayType::value_type>());
 		}
 
-		// 配列サイズを返す関数
+		/**
+		 * @brief 配列サイズを取得する
+		 * @param idx 配列型のtype_index
+		 * @param p 取得対象の配列の先頭アドレス
+		 * @return 配列のサイズ
+		 */
 		size_t GetSize(std::type_index idx, const void* p) const { return m_getArraySizeMap.at(idx)(p); }
 
-		// 配列サイズを変更関数
+		/**
+		 * @brief 配列をリサイズする関数
+		 * @param idx 配列型のtype_index
+		 * @param p 取得対象の配列の先頭アドレス
+		 * @param size 変更後のサイズ
+		 */
 		void Resize(std::type_index idx, void* p, size_t size) const { return m_changeArraySizeMap.at(idx)(p, size); }
 
-		// 配列の要素を取得する関数
+		/**
+		 * @brief 配列の要素を取得する
+		 * @param idx 配列型のtype_index
+		 * @param p 取得対象の配列の先頭アドレス
+		 * @param index 取得するインデックス
+		 * @return 要素へのポインタ
+		 */
 		void* GetElement(std::type_index idx, void* p, size_t index) const { return m_getArrayElementMap.at(idx)(p, index); }
 
-		// 配列に要素を追加する関数
+		/**
+		 * @brief 配列に要素を追加する
+		 * @details 追加された要素はデフォルト値
+		 * @param idx 配列型のtype_index
+		 * @param p 取得対象の配列の先頭アドレス
+		 */
 		void AddElement(std::type_index idx, void* p) { m_addElementMap.at(idx)(p); }
 
-		// 配列から要素を削除する関数
+		/**
+		 * @brief 配列から末尾の要素を削除する
+		 * @param idx 配列型のtype_index
+		 * @param p 取得対象の配列の先頭アドレス
+		 */
 		void PopBackElement(std::type_index idx, void* p) { m_popBackElementMap.at(idx)(p); }
 
-		// タイプを取得する関数
+		/**
+		 * @brief 配列型から管理しているプロパティタイプを取得する
+		 * @param idx 配列型のtype_index
+		 * @return 管理しているプロパティタイプ
+		 */
 		PropertyType GetPropertyType(std::type_index idx) { return m_propertyTypeMap.at(idx); }
 
-		// 管理している型を取得する関数
+		/**
+		 * @brief 管理しているタイプを取得する
+		 * @param idx 配列型のtype_index
+		 * @return 管理している型のtype_index
+		 */
 		std::type_index GetVectorType(std::type_index idx) { return m_typeMap.at(idx); }
 
-		// 管理している型を取得する関数
+		/**
+		 * @brief プロパティを生成する
+		 * @param idx 配列型のtype_index
+		 * @param p 対象の配列の先頭アドレス
+		 * @param index プロパティを生成する要素のインデックス
+		 * @return 生成したプロパティ
+		 */
 		Property GetProperty(std::type_index idx, void* p, size_t index) 
 		{
 			Property pro;

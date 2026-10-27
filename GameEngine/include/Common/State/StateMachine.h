@@ -1,19 +1,13 @@
-﻿//====================================================//
-// ファイル名   : StateMachine.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/06
-//
-// 概要 : ステートマシンクラス
-//
-// 更新履歴 :
-// 2026/03/06 新規作成
-//====================================================//
+﻿/**
+ * @file    StateMachine.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/06
+ *
+ * @brief   ステートマシン
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <string>
 #include <type_traits>
 #include <memory>
@@ -21,45 +15,37 @@
 
 #include "StateBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
-
 namespace RHEngine
 {
+	/**
+	 * @brief ステートマシン
+	 * @tparam T ステート識別用の列挙型
+	 */
 	template<typename T, typename = std::enable_if_t<std::is_enum_v<T>>>
 	class StateMachine
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
 	private:
 
-		// ステートの配列
-		// 列挙子をキー ステートを要素としたmap
+		/** @brief ステート識別列挙子とステート本体の対応マップ */
 		std::unordered_map<T, std::unique_ptr<StateBase<T>>> m_states;
 
-		// 現在のステート
+		/** @brief 現在のステート */
 		StateBase<T>* m_currentState;
+
+		/** @brief 現在のステート識別子 */
 		T m_currentStateType;
 
-		// 変更要請
+		/** @brief ステート変更がリクエストされているかどうか */
 		bool m_isRequested;
-		T m_nextType;
 
-		//-----------------------------------------------------
-		// 関数宣言
-		//-----------------------------------------------------
+		/** @brief 変更要請中のステート識別子 */
+		T m_nextType;
 
 	public:
 
-		// コンストラクタ
+		/// @name ライフサイクル
+		/// @{
+
 		StateMachine()
 			: m_states{}
 			, m_currentState{ nullptr }
@@ -68,10 +54,16 @@ namespace RHEngine
 			, m_isRequested{ false }
 		{}
 
-		// デストラクタ
 		~StateMachine() = default;
 
-		// ステートを登録する関数
+		/// @}
+
+		/**
+		 * @brief ステートを登録する
+		 * @param key ステートの識別子
+		 * @param state ステート本体
+		 * @return 成功したかどうか
+		 */
 		bool RegisterState(T key, std::unique_ptr<StateBase<T>> state)
 		{
 			// 追加可能か調べる
@@ -81,7 +73,10 @@ namespace RHEngine
 			return f;
 		}
 
-		// 更新処理
+		/**
+		 * @brief 更新関数
+		 * @param timer ゲーム全体で使用するタイマー
+		 */
 		void Update(const GameTimer& timer)
 		{
 			// 現在のステートが未設定なら何もしない
@@ -95,19 +90,28 @@ namespace RHEngine
 			CheckChangeRequset();
 		}
 
-		// 現在のステートを返す関数
+		/**
+		 * @brief 現在のステートを取得する
+		 * @return ステートのポインタ
+		 */
 		const StateBase<T>* GetCurrentState() const
 		{
 			return m_currentState;
 		}
 
-		// 現在のステートタイプを返す関数
+		/**
+		 * @brief 現在のステート識別子を返す
+		 * @return ステートの識別子
+		 */
 		const T GetCurrentStateType() const
 		{
 			return m_currentStateType;
 		}
 
-		// 外部からステートの変更を要請する関数
+		/**
+		 * @brief ステートの変更をリクエストする
+		 * @param type 変更後のステート識別子
+		 */
 		void RequsetChangeState(T type)
 		{
 			m_isRequested = true;
@@ -115,8 +119,10 @@ namespace RHEngine
 			m_nextType = type;
 		}
 
-		// ステート遷移リクエストを調べる
 	private:
+		/**
+		 * @brief ステート変更リクエストを調べ遷移する
+		 */
 		void CheckChangeRequset()
 		{
 			// ステートからの要請を優先する
@@ -140,7 +146,11 @@ namespace RHEngine
 			}
 		}
 
-		// ステートの変更を行う関数
+		/**
+		 * @brief ステートを変更する
+		 * @param key 変更対象のステート識別子
+		 * @return 成功したかどうか
+		 */
 		bool ChangeState(T key)
 		{
 			// 登録されていないキーなら

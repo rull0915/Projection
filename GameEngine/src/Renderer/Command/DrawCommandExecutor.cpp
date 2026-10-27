@@ -60,7 +60,7 @@ void RHEngine::DrawCommandExecutor::Initialize()
 void RHEngine::DrawCommandExecutor::DrawCommandExecute(DrawCommandContainer& container)
 {
 	// 各コマンドの実行
-	DrawModelCommandExecute(container.GetDrawModelCommands());
+	DrawMeshCommandExecute(container.GetDrawMeshCommands());
 	DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
 	DrawSpriteAndFontCommandExecute(container.GetDrawUICommands());
 }
@@ -200,7 +200,7 @@ void RHEngine::DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::v
 	m_spriteBatch->End();
 }
 
-void RHEngine::DrawCommandExecutor::DrawModelCommandExecute(const std::vector<DrawModelCommand>& commands)
+void RHEngine::DrawCommandExecutor::DrawMeshCommandExecute(const std::vector<DrawMeshCommand>& commands)
 {
 	// 全コマンドを描画
 	for (auto& c : commands)

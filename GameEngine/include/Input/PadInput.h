@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : PadInput.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/13
-//
-// 概要 : ゲームパッドの入力クラス
-//
-// 更新履歴 :
-// 2026/08/13 新規作成
-//====================================================//
+﻿/**
+ * @file    PadInput.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/13
+ *
+ * @brief   ゲームパッドの入力クラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include <GamePad.h>
 
@@ -21,10 +14,15 @@ namespace RHEngine
 {
 	namespace Input
 	{
+		/**
+		 * @brief ゲームパッドの入力を管理する
+		 */
 		class Pad
 		{
 		public:
-			// ボタンタイプ
+			/**
+			 * @brief ボタンタイプ
+			 */
 			enum class Button
 			{
 				A, B, X, Y,
@@ -34,7 +32,9 @@ namespace RHEngine
 				Up, Down, Left, Right
 			};
 
-			// スティックタイプ
+			/**
+			 * @brief スティックタイプ
+			 */
 			enum class Axis
 			{
 				LeftStickX,
@@ -46,66 +46,111 @@ namespace RHEngine
 			};
 
 		private:
+
+			/** @brief 現在の入力状態 */
 			inline static DirectX::GamePad::State m_nowState;
+
+			/** @brief 前フレームの入力状態 */
 			inline static DirectX::GamePad::State m_oldState;
 
 		public:
-			// ----- 関数宣言 ----- //
 
-			Pad();
+			/// @name ライフサイクル
+			/// @{
+
+			/**
+			 * @details 静的クラスのためインスタンス化を禁止
+			 */
+			Pad() = delete;
 
 			~Pad() = default;
 
-			// 更新
+			/// @}
+
+			/**
+			 * @brief 入力状況を更新する
+			 */
 			static void Update();
 
-			// 接続状況取得関数
+			/**
+			 * @brief ゲームパッドが接続されているかを調べる
+			 */
 			static bool IsConnected() { return m_nowState.IsConnected(); }
 
-			//----- ボタンの押下状況取得関数 -----//
-
-			// 押されたとき
+			/**
+			 * @brief ボタンが押されたフレームかどうか調べる
+			 * @param button 対象のボタン
+			 */
 			static inline bool GetDown(Button button)
 			{
 				return !GetPressed(m_oldState, button) && GetPressed(m_nowState, button);
 			}
-			// 押されているとき
+			
+			/**
+			 * @brief ボタンが押されているかどうか調べる
+			 * @param button 対象のボタン
+			 */
 			static inline bool Get(Button button)
 			{
 				return GetPressed(m_nowState, button);
 			}
+
+			/**
+			 * @brief 前フレームにボタンが押されていたかどうか調べる
+			 * @param button 対象のボタン
+			 */
 			static inline bool GetOld(Button button)
 			{
 				return GetPressed(m_oldState, button);
 			}
-			// 離されたとき
+			
+			/**
+			 * @brief ボタンが離されたフレームかどうか調べる
+			 * @param button 対象のボタン
+			 */
 			static inline bool GetUp(Button button)
 			{
 				return GetPressed(m_oldState, button) && !GetPressed(m_nowState, button);
 			}
 
-			//----- スティックの押下状況取得関数 -----//
-
-			// 今のフレーム
+			/**
+			 * @brief スティックの入力を取得する
+			 * @param stick 対象のスティック
+			 */
 			static inline float GetCurrentAxis(Axis stick)
 			{
 				return GetAxis(m_nowState, stick);
 			}
 			
-			// 前フレーム
+			/**
+			 * @brief 前フレームのスティックの入力を取得する
+			 * @param stick 対象のスティック
+			 */
 			static inline float GetOldAxis(Axis stick)
 			{
 				return GetAxis(m_oldState, stick);
 			}
 
-			// 振動させる関数
+			/**
+			 * @brief ゲームパッドを振動させる
+			 * @param left 左の強さ
+			 * @param right 右の強さ
+			 */
 			static void SetVibration(float left, float right);
 
 		private:
-			// 指定したステートのボタンの押下状況を返す関数
+			/**
+			 * @brief 指定したボタンの入力状態を取得する補助関数
+			 * @param state 現在の入力状態
+			 * @param button 対象のボタン
+			 */
 			static bool GetPressed(const DirectX::GamePad::State& state, Button button);
 
-			// 指定したステートのスティックの状況を返す関数
+			/**
+			 * @brief 指定したスティックの入力状態を取得する補助関数
+			 * @param state 現在の入力状態
+			 * @param stick 調べるスティック
+			 */
 			static float GetAxis(const DirectX::GamePad::State& state, Axis stick);
 		};
 	}

@@ -1,224 +1,170 @@
-﻿//====================================================//
-// ファイル名   : ComponentContainer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/29
-//
-// 概要 : コンポーネントを保持するクラス
-//
-// 更新履歴 :
-// 2026/05/29 新規作成
-//====================================================//
+﻿/**
+ * @file    ComponentContainer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/29
+ *
+ * @brief   コンポーネントを保持するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
+#include <type_traits>
 
+#include "Components/ComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
+#include "Components/ComponentTypeId.h"
 #include "System/UUIDRegistry.h"
+#include "Components/ComponentInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class Scene;
 	class IComponentOwner;
+	class GameTimer;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief コンポーネントを保持する
+	 */
 	class ComponentContainer
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 自身を持つシーンのポインタ
+		/** @brief 自身を持つシーンのポインタ */
 		Scene* m_pScene;
 
-		// トランスフォーム
+		/** @brief トランスフォーム本体 */
 		std::unique_ptr<Transform> m_pTransform;
-		// UIトランスフォーム
+
+		/** @brief レクトトランスフォーム本体 */
 		std::unique_ptr<RectTransform> m_pRectTransform;
 
-		// その他コンポーネント
+		/** @brief 追加予約中のコンポーネント */
 		std::vector<std::unique_ptr<ComponentBase>> m_addReserves;
-		std::unordered_set<ComponentBase*> m_pDestroyReserves;	// 重複を防止するためunordered_setを使用
+
+		/** 
+		 * @brief 削除予約中のコンポーネント 
+		 * @details 削除対象の重複を防ぐためにunordered_setを使用
+		 */
+		std::unordered_set<ComponentBase*> m_pDestroyReserves;
+
+		/** @brief 保持するコンポーネントのリスト */
 		std::vector<std::unique_ptr<ComponentBase>> m_pComponents;
 
-		// コンポーネントリストのキャッシュ
+		/** @brief タイプをキーとしたコンポーネントのキャッシュ */
 		std::unordered_map<Component::TypeId, std::vector<ComponentBase*>> m_componentsCache;
 
+		/** @brief 所有者 */
 		IComponentOwner* m_pOwner;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ComponentContainer(IComponentOwner* owner)
-			: m_pTransform{ nullptr }
-			, m_addReserves{}
-			, m_pDestroyReserves{}
-			, m_pComponents{}
-			, m_pScene{ nullptr }
-			, m_pOwner{ owner }
-		{}
+		/// @name ライフサイクル
+		/// @{
+
+		ComponentContainer(IComponentOwner* owner);
+
 		~ComponentContainer() = default;
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-		void SetScene(Scene* scene) { m_pScene = scene; }
+		/// @}
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/**
+		 * @brief シーンをセットする 
+		 */
+		void SetScene(Scene* pScene) { m_pScene = pScene; }
 
-		// 全予約コンポーネントのAwakeを呼ぶ関数
-		void AwakeComponets()
-		{
-			for (auto& component : m_addReserves)
-			{
-				// 更新処理
-				component->Awake();
+		/**
+		 * @brief 全コンポーネントのAwakeを呼ぶ
+		 */
+		void AwakeComponets();
 
-				// Activeなら
-				if (component->IsActive())
-				{
-					component->OnEnable();
-				}
-			}
-		}
+		/**
+		 * @brief 全コンポーネントの更新を行う
+		 * @param gameTimer 
+		 */
+		void UpdateComponents(const GameTimer& gameTimer);
 
-		// 全コンポーネントを更新する関数
-		void UpdateComponents(const GameTimer& gameTimer)
-		{
-			for (auto& component : m_pComponents)
-			{
-				if (!component->IsActive()) continue;
+		/**
+		 * @brief 全コンポーネントの遅延更新を行う
+		 * @param gameTimer 
+		 */
+		void LateUpdateComponents(const GameTimer& gameTimer);
 
-				// 初回更新の時
-				if (!component->IsStarted())
-				{
-					// Start関数呼び出し
-					component->Start();
-					component->SetStart();
-				}
+		/**
+		 * @brief 自身がUIオブジェクトであるかどうか
+		 */
+		bool IsUI() const { return m_pRectTransform && !m_pTransform; }
 
-				// 更新処理
-				component->Update(gameTimer);
-			}
-		}
+		/**
+		 * @brief 自身がWorldオブジェクトであるかどうか
+		 */
+		bool IsWorld() const { return m_pTransform && !m_pRectTransform; }
 
-		// 遅延更新
-		void LateUpdateComponents(const GameTimer& gameTimer)
-		{
-			for (auto& component : m_pComponents)
-			{
-				if (!component->IsActive()) continue;
-
-				// 遅延更新処理
-				component->LateUpdate(gameTimer);
-			}
-		}
-
-		// 自身がどのタイプか調べる関数
-		bool IsUI() const { return m_pRectTransform && !m_pTransform; }			// UIオブジェクト	
-		bool IsWorld() const { return m_pTransform && !m_pRectTransform; }		// Worldオブジェクト
-
-		// 有効なオブジェクトかどうか(どちらかのタイプである)
+		/**
+		 * @brief 有効なオブジェクトであるかどうか
+		 * @details UI・Worldのどちらかであれば有効
+		 */
 		bool IsValid() const { return IsUI() ^ IsWorld(); }
 
-		// まだ未設定である
+		/**
+		 * @brief まだ所属空間が未設定であることを調べる
+		 */
 		bool IsNotSet() const { return !m_pTransform && !m_pRectTransform; }
 
-		// コンポーネント空間と自身の空間が等しいか調べる
-		bool IsCorrect(ComponentSpace space) const
-		{
-			// 無効オブジェクトなら
-			if (!IsValid()) return false;
+		/**
+		 * @brief コンポーネントの所属空間と自身の所属空間が等しいか調べる
+		 * @param space 調べるコンポーネントの所属空間
+		 */
+		bool IsCorrect(ComponentSpace space) const;
 
-			// Both
-			if (space == ComponentSpace::Both) return true;
+		/// @name コンポーネント操作関数
+		/// @{
 
-			// UI判定
-			if (space == ComponentSpace::UI && IsUI()) return true;
+		/**
+		 * @brief コンポーネントを取得する
+		 * @param id 取得するコンポーネントのID
+		 * @return 取得したコンポーネント
+		 */
+		ComponentBase* Get(Component::TypeId id) const;
 
-			// World判定
-			if (space == ComponentSpace::World && IsWorld()) return true;
-
-			// 正しくない
-			return false;
-		}
-
-		// ===================== Component操作関数 ===================== //
-
-		// ---------- Get ---------- //
-
-		ComponentBase* Get(Component::TypeId id) const
-		{
-			// Transformは専用ポインタから早期リターン
-			if (id == Transform::StaticTypeId())
-			{
-				return m_pTransform.get();
-			}
-			// RectTransformも同様
-			else if (id == RectTransform::StaticTypeId())
-			{
-				return m_pRectTransform.get();
-			}
-			else 
-			{
-				// それ以外はキャッシュから取得
-				auto it = m_componentsCache.find(id);
-
-				// 指定されたidの配列があり1つ以上コンポーネントがあれば
-				if (it != m_componentsCache.end() && it->second.size() > 0)
-				{
-					return it->second[0];
-				}
-			}
-
-			return nullptr;
-		}
-
+		/**
+		 * @brief コンポーネントを取得する
+		 * @tparam T 取得するコンポーネントの型
+		 * @return 取得したコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* Get() const
 		{
 			return static_cast<T*>(Get(T::StaticTypeId()));
 		}
 
-		// ---------- Gets ---------- //
+		/**
+		 * @brief 指定したコンポーネントを全て取得する
+		 * @param id 取得するコンポーネントのID
+		 * @return 取得したコンポーネントリスト
+		 */
+		const std::vector<ComponentBase*>& Gets(Component::TypeId id) const;
 
-		const std::vector<ComponentBase*>& Gets(Component::TypeId id) const
-		{
-			// 存在しなかったとき用の空配列
-			static const std::vector<ComponentBase*> empty{};
-			
-			// イテレータを取得
-			auto it = m_componentsCache.find(id);
-
-			return it != m_componentsCache.end() ? it->second : empty;
-		}
-
+		/**
+		 * @brief 指定したコンポーネントを全て取得する
+		 * @tparam T 取得するコンポーネントの型
+		 * @return 取得したコンポーネントリスト
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		const std::vector<ComponentBase*>& Gets() const
 		{
 			return Gets(T::StaticTypeId());
 		}
 
-		// ----------- Add ----------- //
-
+		/**
+		 * @brief コンポーネントを追加する
+		 * @tparam T 追加するコンポーネントの型
+		 * @return 追加したコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* Add()
 		{
@@ -293,14 +239,21 @@ namespace RHEngine
 			return static_cast<T*>(add);
 		}
 
-		// ---------- Remove ---------- //
-
+		/**
+		 * @brief コンポーネントを削除する
+		 * @tparam T 削除したいコンポーネントの型
+		 * @param component 削除するコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Remove(T* component)
 		{
 			m_pDestroyReserves.insert(component);
 		}
 
+		/**
+		 * @brief コンポーネントを削除する
+		 * @tparam T 削除したいコンポーネントの型
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Remove()
 		{
@@ -315,6 +268,10 @@ namespace RHEngine
 			}
 		}
 
+		/**
+		 * @brief 指定したコンポーネントをすべて削除する
+		 * @tparam T 削除するコンポーネントの型
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void Removes()
 		{
@@ -332,97 +289,52 @@ namespace RHEngine
 			}
 		}
 
-		void Remove(Component::TypeId id)
-		{
-			// リストを取得
-			auto it = m_componentsCache.find(id);
+		/**
+		 * @brief コンポーネントを削除する
+		 * @param id 削除するコンポーネントのID
+		 */
+		void Remove(Component::TypeId id);
 
-			// あれば
-			if (it != m_componentsCache.end() && it->second.size() > 0)
-			{
-				// 最初の要素を削除リストに追加
-				m_pDestroyReserves.insert(it->second[0]);
-			}
-		}
+		/**
+		 * @brief 指定したコンポーネントを全て取得する
+		 * @param id 削除するコンポーネントのID
+		 */
+		void Removes(Component::TypeId id);
 
-		void Removes(Component::TypeId id)
-		{
-			// リストを取得
-			auto it = m_componentsCache.find(id);
-
-			// あれば
-			if (it != m_componentsCache.end())
-			{
-				// 全て削除リストに追加
-				for (auto& comp : it->second)
-				{
-					m_pDestroyReserves.insert(comp);
-				}
-			}
-		}
-
-		// 予約済みのコンポーネントを登録する関数
+		/**
+		 * @brief 追加予約済みのコンポーネントを登録する
+		 */
 		void RegisterComponents();
 
-		// 削除予約済みのコンポーネントを削除する関数
+		/**
+		 * @brief 削除予約済みのコンポーネントを削除する
+		 */
 		void RemoveRegistered();
 
 	private:
 
-		// シーンにコンポーネントを登録する関数
-		void RegisterComponentToScene(ComponentBase* component);
+		/**
+		 * @brief シーンにコンポーネントを登録する
+		 * @param pComponent 登録するコンポーネント
+		 */
+		void RegisterComponentToScene(ComponentBase* pComponent);
 
-		// シーンからコンポーネントを登録解除する関数
-		void UnRegisterComponentToScene(ComponentBase* component);
+		/**
+		 * @brief シーンからコンポーネント登録解除する
+		 * @param pComponent 登録解除するコンポーネント
+		 */
+		void UnRegisterComponentToScene(ComponentBase* pComponent);
 
-		// キャッシュにコンポーネントを登録する関数
-		void RegistComponentToCache(ComponentBase* component)
-		{
-			// キャッシュリストを格納する配列を用意
-			std::vector<Component::TypeId> ids;
+		/**
+		 * @brief キャッシュにコンポーネントを登録する
+		 * @param pComponent 登録するコンポーネント
+		 */
+		void RegistComponentToCache(ComponentBase* pComponent);
 
-			// 対応するIDの一覧を取得
-			component->CollectTypeIds(ids);
-
-			// 全要素に自身を追加
-			for (auto id : ids)
-			{
-				m_componentsCache[id].push_back(component);
-			}
-		}
-
-		// キャッシュからコンポーネントを削除する関数
-		void UnRegistComponentToCache(ComponentBase* component)
-		{
-			// キャッシュリストを格納する配列を用意
-			std::vector<Component::TypeId> ids;
-
-			// 対応するIDの一覧を取得
-			component->CollectTypeIds(ids);
-
-			// 全要素から自身を削除
-			for (auto id : ids)
-			{
-				// リストのイテレータを取得
-				auto listIt = m_componentsCache.find(id);
-
-				// 存在しないなら次のリストへ
-				if (listIt == m_componentsCache.end())
-					continue;
-
-				// イテレータから本体を取得
-				auto& list = listIt->second;
-
-				// 自身が格納されているイテレータを取得
-				auto it = std::find(list.begin(), list.end(), component);
-
-				// 見つかれば
-				if (it != list.end())
-				{
-					// 削除
-					list.erase(it);
-				}
-			}
-		}
+		/**
+		 * @brief キャッシュからコンポーネントを登録解除する
+		 * @param pComponent 登録解除するコンポーネント
+		 */
+		void UnRegistComponentToCache(ComponentBase* pComponent);
 	};
 } // namespace RHEngine

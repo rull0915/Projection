@@ -1,55 +1,51 @@
-﻿//====================================================//
-// ファイル名   : AudioClip.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/27
-//
-// 概要 : 音のアセット
-//
-// 更新履歴 :
-// 2026/07/27 新規作成
-//====================================================//
+﻿/**
+ * @file    AudioClip.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/27
+ *
+ * @brief   音ファイルのアセット
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <memory>
 #include <Audio.h>
+#include <utility>
 
 #include "Assets/Objects/AssetBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 音ファイルのアセット
+	 */
 	class AudioClip : public AssetBase
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 音ファイル
+		/** @brief 音ファイル */
 		std::unique_ptr<DirectX::SoundEffect> m_soundEffect;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param soundEffect 音ファイル
+		 */
 		AudioClip(std::unique_ptr<DirectX::SoundEffect> soundEffect)
 			: m_soundEffect{ std::move(soundEffect) }
 		{
 		}
 		~AudioClip() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
+		/**
+		 * @brief 音ファイルを取得する
+		 * @return 音ファイルポインタ
+		 */
 		DirectX::SoundEffect* Get() const { return m_soundEffect.get(); }
 	};
 }	// namespace RHEngine

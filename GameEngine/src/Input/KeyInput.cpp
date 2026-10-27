@@ -20,10 +20,6 @@ namespace RHEngine
 
 	namespace Input
 	{
-		// コンストラクタ
-		Key::Key()
-		{}
-
 		// 更新関数
 		void Key::Update()
 		{

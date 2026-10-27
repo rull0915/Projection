@@ -22,6 +22,37 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	RectTransform::RectTransform(IComponentOwner* pOwner)
+		: UIComponentBase(pOwner)
+		, m_pParent{ nullptr }
+		, m_anchor{ 0.5f, 0.5f }
+		, m_anchoredPosition{ 0, 0 }
+		, m_size{ 100, 100 }
+		, m_pivot{ 0.5f, 0.5f }
+		, m_scale{ 1.0f, 1.0f }
+		, m_rotation{ 0 }
+		, m_isDirty{ true }
+	{
+		ADD_PROPERTY(RectTransform, m_anchoredPosition);
+		ADD_PROPERTY(RectTransform, m_anchor);
+		ADD_PROPERTY(RectTransform, m_pivot);
+		ADD_PROPERTY(RectTransform, m_size);
+		ADD_PROPERTY(RectTransform, m_rotation);
+		ADD_PROPERTY(RectTransform, m_scale);
+	};
+
+	RectTransform::~RectTransform()
+	{
+		// 親がいれば親から自分を削除
+		if (m_pParent)
+		{
+			m_pParent->RemoveChild(this);
+		}
+
+		// 子供を解放
+		RemoveChildren();
+	}
+
 	void RectTransform::UpdateCache() const
 	{
 		// 親がいる場合
@@ -154,6 +185,45 @@ namespace RHEngine
 				local.y <= max.y);
 	}
 
+	void RectTransform::AddChild(RectTransform* child)
+	{ 
+		m_children.push_back(child);
+	}
+
+	void RectTransform::RemoveChild(RectTransform* child)
+	{
+		// リストからchildを探して削除
+		auto it = std::find(m_children.begin(), m_children.end(), child);
+		if (it != m_children.end())
+		{
+			m_children.erase(it);
+		}
+	}
+
+	void RectTransform::RemoveChildren()
+	{
+		// 現在の子リストをコピーする
+		auto tempChildren = m_children;
+
+		// コピーしたリストを使って処理
+		for (auto* child : tempChildren)
+		{
+			child->SetParent(nullptr);
+		}
+		m_children.clear();
+	}
+	
+	void RectTransform::SetDirty()
+	{
+		m_isDirty = true;
+
+		// 子のDirtyをtrueに
+		for (auto child : m_children)
+		{
+			child->SetDirty();
+		}
+	}
+
 	void RectTransform::SetParent(RectTransform* parent)
 	{
 		// 自分か自分の子孫を親にしようとしていたら
@@ -230,5 +300,26 @@ namespace RHEngine
 
 		// 変化フラグを立てる
 		SetDirty();
+	}
+
+	bool RectTransform::IsDescendantOf(RectTransform* target)
+	{
+		RectTransform* current = target;
+
+		// currentがnullになるまでループ
+		while (current != nullptr)
+		{
+			// 自分と同じかチェック
+			if (current == this)
+			{
+				return true;
+			}
+
+			// 親を辿る
+			current = current->m_pParent;
+		}
+
+		// 最後まで到達した時
+		return false;
 	}
 }	// namespace RHEngine

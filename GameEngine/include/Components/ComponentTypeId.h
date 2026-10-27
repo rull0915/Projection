@@ -1,13 +1,10 @@
-﻿//====================================================//
-// ファイル名   : ComponentTypeId.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/26
-//
-// 概要 : コンポーネントのTypeIdを宣言したヘッダ
-//
-// 更新履歴 :
-// 2026/08/26 新規作成
-//====================================================//
+﻿/**
+ * @file    ComponentTypeId.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/26
+ *
+ * @brief   コンポーネントのTypeIdを宣言したヘッダ
+ */
 
 #pragma once
 
@@ -15,7 +12,10 @@ namespace RHEngine
 {
 	namespace Component
 	{
-		// アドレスをIdとして扱う
+		/**
+		 * @brief アドレスをIDとして扱う
+		 * @details 重複が存在せず、等価などのチェックが高速であるため void* を使用
+		 */
 		using TypeId = const void*;
 	}
 }

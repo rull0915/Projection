@@ -1,18 +1,18 @@
-﻿//====================================================//
-// ファイル名   : SamplerType.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/08
-//
-// 概要 : サンプラーの種類をまとめた列挙型
-//
-// 更新履歴 :
-// 2026/08/08 新規作成
-//====================================================//
+﻿/**
+ * @file    SamplerType.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/08
+ *
+ * @brief   サンプラーの種類をまとめた列挙型
+ */
 
 #pragma once
 
 namespace RHEngine
 {
+	/**
+	 * @brief サンプラーの種類を表す列挙型
+	 */
 	enum class SamplerType
 	{
 		None,

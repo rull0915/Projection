@@ -1,51 +1,50 @@
-﻿//====================================================//
-// ファイル名   : TextUI.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/26
-//
-// 概要 : 文字列UIコンポーネント
-//
-// 更新履歴 :
-// 2026/05/26 新規作成
-//====================================================//
+﻿/**
+ * @file    TextUI.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/26
+ *
+ * @brief   テキスト表示UIコンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <string>
+#include <SimpleMath.h>
+
 #include "UIGraphicBase.h"
 #include "Components/Interface/IAssetDependent.h"
-
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Font.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+	class AssetManager;
+	class Renderer;
+
+	/**
+	 * @brief テキストを描画するコンポーネント
+	 */
 	class TextUI : public UIGraphicBase, public IAssetDependent
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(UIGraphicBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		 // 表示文字列
+		/** @brief 表示する文字列 */
 		std::string m_text;
 
-		// フォントサイズ
+		/** @brief フォントサイズ */
 		float m_fontSize;
 
-		// 描画設定
+		/** @brief 基準点にテキストのどこを配置するか */
 		DirectX::SimpleMath::Vector2 m_origin;
 
-		// フォントハンドル
+		/** @brief フォントハンドル */
 		Handle<Font> m_fontHandle;
 
-		// AssetManager
+		/** @brief AssetManagerポインタ */
 		AssetManager* m_assetManager;
 
 	public:
@@ -68,12 +67,6 @@ namespace RHEngine
 		}
 
 		~TextUI() = default;
-
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
-
-		COMPONENT_TYPE(TextUI, UIGraphicBase)
 
 		//-----------------------------------------------------
 		// 公開関数

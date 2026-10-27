@@ -1,115 +1,127 @@
-﻿//====================================================//
-// ファイル名   : SceneCamera.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : シーンビューのカメラコンポーネント
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    SceneCamera.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   シーンビュー専用カメラ
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
 
 #include "Scene/SceneInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief シーンビュー専用カメラ
+	 */
 	class SceneCamera
 	{
 	private:
 
-		// 動くかどうか
+		/** @brief 動けるかどうか */
 		bool m_movable;
 
-		// projection行列のパラメータ
+		/** @brief ニアクリップ */
+		float m_nearZ;
 
-		float m_nearZ;  // ニアクリップ
-		float m_farZ;   // ファークリップ
-		float m_aspect; // アスペクト比
+		/** @brief ファークリップ */
+		float m_farZ;
 
+		/** @brief 画角 */
 		float m_fov;    // 画角
 
-		// 注視点の位置
+		/** @brief 注視点の位置 */
 		DirectX::SimpleMath::Vector3 m_targetPoint;
 
-		// 自分の位置
+		/** @brief 自分の位置 */
 		DirectX::SimpleMath::Vector3 m_position;
 
-		// 角度
+		/** @brief 自分の角度 */
 		DirectX::SimpleMath::Quaternion m_rotation;
 
-		// 行列
+		/** @brief ビュー行列 */
 		DirectX::SimpleMath::Matrix m_view;
+
+		/** @brief 射影行列 */
 		DirectX::SimpleMath::Matrix m_proj;
 
-		// 半径
+		/** @brief 注視点からの半径 */
 		float m_radius;
 
-		// 回転
+		/** @brief 回転角 ヨー */
 		float m_yaw = 0;
+
+		/** @brief 回転角 ピッチ */
 		float m_pitch = 0;
 
-		// マウスの移動量に対するカメラ移動の割合
+		/** @brief マウス移動量に対するカメラ移動の割合 */
 		float m_moveRatio;
 
-		// マウスの移動量に対するカメラの回転の割合
+		/** @brief マウス移動量に対するカメラ回転の割合 */
 		float m_rotateRatio;
 
-		// ホイールの移動量に対する拡大の割合
+		/** @brief ホイール移動量に対する拡縮の割合 */
 		float m_scaleRatio;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		SceneCamera();
+
 		~SceneCamera() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		void Start();
 
-		void Update(const GameTimer& gameTimer);
+		/**
+		 * @brief 初期状態の行列を計算する
+		 */
+		void Initialize();
 
+		/**
+		 * @brief カメラの更新をする
+		 * @details キー・マウスの入力を取得し移動や回転を行う
+		 */
+		void Update();
+
+		/**
+		 * @brief ビュー行列を更新する
+		 */
 		void UpdateView();
+
+		/**
+		 * @brief 射影行列を更新する
+		 */
 		void UpdateProj();
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
+		/** @brief ビュー行列 */
 		const DirectX::SimpleMath::Matrix GetView() const { return m_view; }
+		
+		/** @brief 射影行列 */
 		const DirectX::SimpleMath::Matrix GetProj() const { return m_proj; }
 
-		const SceneCameraData GetData() const
-		{
-			SceneCameraData data;
+		/** @brief カメラデータ */
+		const SceneCameraData GetData() const;
 
-			data.view = m_view;
-			data.proj = m_proj;
-			data.pos = m_position;
+		/// @}
 
-			return data;
-		}
+		/// @name セッター
+		/// @{
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
+		/** @brief 移動可能かどうか */
 		void SetMovable(bool f) { m_movable = f; }
+
+		/// @}
 	};
 } // namespace RHEngine
 

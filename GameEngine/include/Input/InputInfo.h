@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : InputInfo.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/27
-//
-// 概要 : 入力関連の情報をまとめたヘッダ
-//
-// 更新履歴 :
-// 2026/06/27 新規作成
-//====================================================//
+﻿/**
+ * @file    InputInfo.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/27
+ *
+ * @brief   入力関連の情報をまとめたヘッダ
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include <variant>
 
@@ -25,10 +18,14 @@ namespace RHEngine
 {
 	namespace Input
 	{
-		// キーIDの型指定
+		/**
+		 * @brief IDをucharに指定
+		 */
 		using ID = unsigned char;
 
-		// 押下状況
+		/**
+		 * @brief 押下状況
+		 */
 		enum class State
 		{
 			Down,
@@ -36,13 +33,17 @@ namespace RHEngine
 			Up,
 		};
 
-		// ボタン対応variant
+		/**
+		 * @brief 全てのボタンに対応するvariant
+		 */
 		using InputButton = std::variant<
 			Key::Code,
 			Mouse::Button,
 			Pad::Button>;
 
-		// Axis対応
+		/**
+		 * @brief 全ての軸入力に対応するvariant
+		 */
 		using InputAxis = std::variant<
 			Mouse::Axis,
 			Pad::Axis

@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : AssetLoadResult.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/12
-//
-// 概要 : アセットのロード結果を格納する構造体
-//
-// 更新履歴 :
-// 2026/10/12 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetLoadResult.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/12
+ *
+ * @brief   アセットのロード結果を格納する構造体
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include <memory>
 
@@ -22,36 +15,29 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
-
-	// サブアセットの構造体
+	/**
+	 * @brief サブアセットの情報
+	 */
 	struct SubAssetEntry
 	{
-		// サブアセット名
-		std::string name;
+		std::string name;	///< アセット名
 
-		// アセット本体
-		std::unique_ptr<AssetBase> asset;
-
-		// アセットハンドル
-		UnTypeHandle handle;
+		std::unique_ptr<AssetBase> asset;	///< アセット本体
+			
+		UnTypeHandle handle;	///< アセットハンドル
 	};
 
-	// ロード結果の構造体
+	/**
+	 * @brief ロード結果
+	 */
 	struct LoadResult
 	{
-		// アセット本体
-		std::unique_ptr<AssetBase> asset;
+		std::unique_ptr<AssetBase> asset;	///< アセット本体
 
-		// アセットハンドル
-		UnTypeHandle handle;
+		UnTypeHandle handle;	///< アセットハンドル
 
-		// サブアセット
-		std::vector<SubAssetEntry> subAssets;
+		std::vector<SubAssetEntry> subAssets;	///< 自身が持つサブアセット群
 
-		// 成功フラグ
-		bool success;
+		bool success;	///< 読み込みが成功したかどうか
 	};
-}
+}	// namespace RHEngine

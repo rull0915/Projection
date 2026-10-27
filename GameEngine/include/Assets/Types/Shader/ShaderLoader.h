@@ -1,21 +1,13 @@
-﻿//====================================================//
-// ファイル名   : ShaderLoader.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/04
-//
-// 概要 : シェーダーアセットのロードに関連する関数群
-//
-// 更新履歴 :
-// 2026/08/04 新規作成
-//====================================================//
+﻿/**
+ * @file    ShaderLoader.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/04
+ *
+ * @brief   シェーダーアセットのロードに関連する関数群
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-#include <memory>
 #include <filesystem>
 
 #include "Assets/Managers/AssetContext.h"
@@ -25,10 +17,16 @@ namespace RHEngine
 {
 	class ShaderAsset;
 
-	// ロード関数群名前空間
 	namespace Loader
 	{
-		// ロード関数
+		/**
+		 * @brief シェーダーアセットを読み込む
+		 * @param path 読み込む対象のコンパイル済みシェーダーファイルパス
+		 * @details ファイルパスの拡張子は、ファイル名.シェーダーステージ.csoとする
+		 *			例: AAA.ps.cso, AAA.vs.cso
+		 * @param ctx アセット用コンテキスト
+		 * @return 読み込み結果
+		 */
 		LoadResult ShaderLoader(const std::filesystem::path& path, AssetContext& ctx);
 	}
-}
+}	// namespace RHEngine

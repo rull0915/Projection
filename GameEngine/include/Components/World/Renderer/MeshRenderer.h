@@ -1,84 +1,89 @@
-﻿//====================================================//
-// ファイル名   : MeshRenderer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/03
-//
-// 概要 :
-//
-// 更新履歴 :
-// 2026/05/03 新規作成
-//====================================================//
+﻿/**
+ * @file    MeshRenderer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/03
+ *
+ * @brief   メッシュの描画を行うコンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
+
 #include "RendererBase.h"
 #include "Components/Interface/IAssetDependent.h"
-
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 
 namespace RHEngine
 {
+	class IComponentOwner;
+	class Renderer;
 	class ShadowRenderer;
+	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief メッシュの描画を行う
+	 * @details 影を生成する唯一の描画コンポーネントであるためShadowRendererも実装する
+	 */
 	class MeshRenderer : public RendererBase, public IAssetDependent
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+	public:
+		DECLARE_COMPONENT_TYPE(RendererBase);
 
-		// マテリアルの配列
+	private:
+		
+		/**
+		 * @brief マテリアルの配列
+		 * @details メッシュが持つSubMesh1つずつに割り当てられる
+		 *			SubMeshのn番目をmaterialsのn番目で描画する
+		 */
 		std::vector<Handle<MaterialAsset>> m_materials;
 
-		// AssetManager
-		AssetManager* m_assetManager;
+		/** @brief アセットマネージャーのポインタ */
+		AssetManager* m_pAssetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		MeshRenderer(IComponentOwner* own)
-			: RendererBase(own)
-			, m_materials{}
-			, m_assetManager{ nullptr }
-		{
-			//ADD_PROPERTY(MeshRenderer, m_materials);
-			ADD_PROPERTY(MeshRenderer, m_materials);
-		};
+		/// @name ライフサイクル
+		/// @{
+		 
+		/**
+		 * @param own 所有者のポインタ
+		 */
+		MeshRenderer(IComponentOwner* own);
+
 		~MeshRenderer() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(MeshRenderer, RendererBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// 描画関数
+		/**
+		 * @brief メッシュの描画を行う
+		 */
 		void Draw(Renderer& renderer) override;
 
-		// シャドウマップへの描画を行う関数
+		/**
+		 * @brief シャドウマップへの描画を行う
+		 */
 		void DrawToShadowMap(ShadowRenderer& shadowRenderer);
 
-		// AssetManagerを受け取る関数
-		void ReceiveAssetManager(AssetManager& a) override
+		/**
+		 * @brief アセットマネージャーを受け取る
+		 */
+		void ReceiveAssetManager(AssetManager& assetManager) override
 		{
-			m_assetManager = &a;
+			m_pAssetManager = &assetManager;
 		}
 
-		// マテリアル一覧を取得する関数
+		/// @name ゲッター
+		/// @{
+		
+		/** @brief マテリアルリスト */
 		std::vector<Handle<MaterialAsset>>& GetMaterials() { return m_materials; }
 
+		/** @brief マテリアルリスト (const) */
 		const std::vector<Handle<MaterialAsset>>& GetMaterials() const { return m_materials; }
+
+		/// @}
 	};
 } // namespace RHEngine

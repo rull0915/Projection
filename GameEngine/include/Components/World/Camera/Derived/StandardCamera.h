@@ -1,119 +1,105 @@
-﻿//====================================================//
-// ファイル名   : StandardCamera.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/20
-//
-// 概要 : 
-//
-// 更新履歴 :
-// 2026/05/20 新規作成
-//====================================================//
+﻿/**
+ * @file    StandardCamera.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/20
+ *
+ * @brief   標準的なカメラコンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "../CameraBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief 標準的なカメラ
+	 */
 	class StandardCamera : public CameraBase
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(CameraBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
+		/** @brief ニアクリップ */
+		float m_nearZ;
 
+		/** @brief ファークリップ */
+		float m_farZ;
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// projection行列のパラメータ
-
-		float m_nearZ;  // ニアクリップ
-		float m_farZ;   // ファークリップ
-		float m_fov;    // 画角
+		/** @brief 画角 */
+		float m_fov;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		StandardCamera(
-			IComponentOwner* own
-		);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		StandardCamera(IComponentOwner* pOwner);
+
 		~StandardCamera() {};
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(StandardCamera, CameraBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief ビュー行列を更新する
+		 */
 		void UpdateView() override;
+
+		/**
+		 * @brief 射影行列を更新する
+		 */
 		void UpdateProj() override;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/**
+		 * @brief GUI上で値が変更された際の処理
+		 */
+		void OnValidate() override;
 
-		float GetFov() const
-		{
-			return m_fov;
-		}
-		float GetNearClip() const
-		{
-			return m_nearZ;
-		}
-		float GetFarClip() const
-		{
-			return m_farZ;
-		}
+		/// @name ゲッター
+		/// @{
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/** @brief 画角 */
+		float GetFov() const { return m_fov; }
 
+		/** @brief ニアクリップ */
+		float GetNearClip() const { return m_nearZ; }
+
+		/** @brief ファークリップ */
+		float GetFarClip() const { return m_farZ; }
+
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief 画角 */
 		void SetFov(float f)
 		{
 			m_fov = f;
 			SetNeedUpdateProj(true);
 		}
+
+		/** @brief ニアクリップ */
 		void SetNearClip(float n)
 		{
 			m_nearZ = n;
 			SetNeedUpdateProj(true);
 		}
+
+		/** @brief ファークリップ */
 		void SetFarClip(float f)
 		{
 			m_farZ = f;
 			SetNeedUpdateProj(true);
 		}
 
-		void OnValidate() override
-		{
-			if (m_nearZ < 0.001f) m_nearZ = 0.001f;
-			if (m_farZ < 0.002f) m_farZ = 0.002f;
-			if (m_nearZ > m_farZ - 0.001f) m_nearZ = m_farZ - 0.001f;
-
-			CameraBase::OnValidate();
-		}
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		/// @}
 	};
 } // namespace RHEngine

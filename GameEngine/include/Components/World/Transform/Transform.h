@@ -1,85 +1,107 @@
-﻿//====================================================//
-// ファイル名   : Transform.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/02
-//
-// 概要 : トランスフォームコンポーネント
-//
-// 更新履歴 :
-// 2026/04/02 新規作成
-//====================================================//
+﻿/**
+ * @file    Transform.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/02
+ *
+ * @brief   トランスフォームコンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include "Components/World/WorldComponentBase.h"
 #include <vector>
+#include <cstdint>
+#include <SimpleMath.h>
+
+#include "Components/World/WorldComponentBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
 	class Transform : public WorldComponentBase
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 情報
+		/** @brief ローカル座標系での位置 */
 		DirectX::SimpleMath::Vector3 m_localPosition;
+
+		/** @brief ローカル座標系での回転 */
 		DirectX::SimpleMath::Quaternion m_localRotation;
+
+		/** @brief ローカル座標系でのスケール */
 		DirectX::SimpleMath::Vector3 m_localScale;
 
-		// 行列のキャッシュ
+		/// @name 行列のキャッシュ
+		/// @{
+
+		/** @brief ワールド行列のキャッシュ */
 		mutable DirectX::SimpleMath::Matrix m_worldMatrix;
 
-		mutable DirectX::SimpleMath::Matrix m_worldPositionMatrix;    // World座標系の移動行列
-		mutable DirectX::SimpleMath::Matrix m_worldRotationMatrix;    // World座標系の回転行列
-		mutable DirectX::SimpleMath::Matrix m_worldScaleMatrix;       // World座標系の拡縮行列
+		/** @brief ワールド座標系での移動行列 */
+		mutable DirectX::SimpleMath::Matrix m_worldPositionMatrix;
 
-		mutable bool m_isDirty; // 値が変わったらtrueにするフラグ
+		/** @brief ワールド座標系での回転行列 */
+		mutable DirectX::SimpleMath::Matrix m_worldRotationMatrix;
 
-		mutable uint32_t m_nowVersion;  // 現在のバージョン
+		/** @brief ワールド座標系での拡縮行列 */
+		mutable DirectX::SimpleMath::Matrix m_worldScaleMatrix;
 
-		// --- 親子関係 --- //
+		/// @}
 
-		Transform* m_pParent;   // 親
+		/** @brief 変更フラグ */
+		mutable bool m_isDirty;
+		
+		/** @brief 現在のバージョン番号 変更されるたびにインクリメントする */
+		mutable uint32_t m_nowVersion;
 
-		std::vector<Transform*> m_children; // 子
+		/// @name 親子関係
+		/// @{
 
-		// 位置の変更をためておく変数
+		/** @brief 親のTransform */
+		Transform* m_pParent;
+
+		/** @brief このリスト */
+		std::vector<Transform*> m_children;
+
+		/// @}
+
+		/** @brief 1fの位置変更を貯めておく変数 */
 		DirectX::SimpleMath::Vector3 m_addCache;
+
+		/** @brief キャッシュが変更されたかどうか */
 		bool m_changeCache;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		Transform(IComponentOwner* own);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 
+		 */
+		Transform(IComponentOwner* pOwner);
+
 		~Transform();
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(Transform, WorldComponentBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// 親を設定する関数
+		/**
+		 * @brief 親を設定する
+		 * @param parent 親のポインタ
+		 */
 		void SetParent(Transform* parent);
 
-		// キャッシュを更新する関数
+		/**
+		 * @brief 各行列のキャッシュを更新する
+		 */
 		void UpdateCache() const;
 
+		/**
+		 * @brief キャッシュ更新が必要か調べ、必要ならば更新する
+		 */
 		void CheckAndUpdateCache() const
 		{
 			if (m_isDirty)
@@ -88,78 +110,51 @@ namespace RHEngine
 			}
 		}
 
-		// GUI変更時
+		/**
+		 * @brief GUI上での値変更時にDirtyフラグを立てる
+		 */
 		void OnValidate() override
 		{
-			// Dirtyに
 			SetDirty();
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
+		 	
+		/** @brief バージョン番号 */
+		inline uint32_t GetVersion() const { return m_nowVersion; }
+
+		/** @brief 親のトランスフォーム */
+		const Transform* GetParent() const { return m_pParent; }
+
+		/** @brief 子供のリスト */
+		const std::vector<Transform*>& GetChildren() const { return m_children; }
+
+		/** @brief ローカル座標系での位置 */
 		const DirectX::SimpleMath::Vector3& GetLocalPosition() const { return m_localPosition; }
+
+		/** @brief ローカル座標系での回転 */
 		const DirectX::SimpleMath::Quaternion& GetLocalRotation() const { return m_localRotation; }
+
+		/** @brief ローカル座標系でのオイラー角 */
 		const DirectX::SimpleMath::Vector3 GetLocalEulerAngle() const { return m_localRotation.ToEuler(); }
+
+		/** @brief ローカル座標系でのスケール */
 		const DirectX::SimpleMath::Vector3& GetLocalScale() const { return m_localScale; }
 
-		/// <summary>
-		/// ワールド座標系での座標を返す関数
-		/// </summary>
-		const DirectX::SimpleMath::Vector3 GetWorldPosition() const
-		{
-			if (m_pParent)
-			{
-				// 最新のワールド行列を取得
-				auto& world = GetWorldPositionMatrix();
+		/** @brief ワールド座標系での位置 */
+		const DirectX::SimpleMath::Vector3 GetWorldPosition() const;
 
-				// 位置成分を返す
-				return world.Translation();
-			}
+		/** @brief ワールド座標系での回転 */
+		const DirectX::SimpleMath::Quaternion GetWorldRotation() const;
 
-			return m_localPosition;
-		}
-		/// <summary>
-		/// ワールド座標系での回転を返す関数
-		/// </summary>
-		const DirectX::SimpleMath::Quaternion GetWorldRotation() const
-		{
-			if (m_pParent)
-			{
-				// キャッシュ更新
-				if (m_isDirty) UpdateCache();
+		/** @brief ワールド座標系でのオイラー角 */
+		const DirectX::SimpleMath::Vector3 GetWorldEulerAngle() const;
 
-				// 回転行列からクォータニオンを作る
-				return DirectX::SimpleMath::Quaternion::CreateFromRotationMatrix(m_worldRotationMatrix);
-			}
-			return m_localRotation;
-		}
-		/// <summary>
-		/// ワールド座標系でのオイラー角を返す関数
-		/// </summary>
-		const DirectX::SimpleMath::Vector3 GetWorldEulerAngle() const
-		{
-			if (m_pParent)
-			{
-				return GetWorldRotation().ToEuler();
-			}
-			return GetLocalEulerAngle();
-		}
-		/// <summary>
-		/// ワールド座標系でのスケールを返す関数
-		/// </summary>
-		const DirectX::SimpleMath::Vector3 GetWorldScale() const
-		{
-			if (m_pParent)
-			{
-				// キャッシュ更新
-				if (m_isDirty) UpdateCache();
+		/** @brief ワールド座標系でのスケール */
+		const DirectX::SimpleMath::Vector3 GetWorldScale() const;
 
-				return { m_worldScaleMatrix._11, m_worldScaleMatrix._22, m_worldScaleMatrix._33 };
-			}
-			return m_localScale;
-		}
-		// ワールド行列を取得する関数
+		/** @brief ワールド行列 */
 		const DirectX::SimpleMath::Matrix& GetWorldMatrix() const
 		{
 			// キャッシュ更新
@@ -167,7 +162,8 @@ namespace RHEngine
 
 			return m_worldMatrix;
 		}
-		// ワールドの移動行列
+
+		/** @brief ワールド座標系での移動行列 */
 		const DirectX::SimpleMath::Matrix& GetWorldPositionMatrix() const
 		{
 			// キャッシュ更新
@@ -175,7 +171,8 @@ namespace RHEngine
 
 			return m_worldPositionMatrix;
 		}
-		// ワールドの回転行列
+
+		/** @brief ワールド座標系での回転行列 */
 		const DirectX::SimpleMath::Matrix& GetWorldRotationMatrix() const
 		{
 			// キャッシュ更新
@@ -183,7 +180,8 @@ namespace RHEngine
 
 			return m_worldRotationMatrix;
 		}
-		// ワールドの拡縮行列
+
+		/** @brief ワールド座標系での拡縮行列 */
 		const DirectX::SimpleMath::Matrix& GetWorldScaleMatrix() const
 		{
 			// キャッシュ更新
@@ -192,85 +190,94 @@ namespace RHEngine
 			return m_worldScaleMatrix;
 		}
 
-		// 前方向 (Z軸)
+		/** @brief 前方向 */
 		DirectX::SimpleMath::Vector3 GetForward() const {
 			auto f = GetWorldMatrix().Forward();
 			f.Normalize();
 			return f;
 		}
 
-		// 上方向 (Y軸)
+		/** @brief 上方向 */
 		DirectX::SimpleMath::Vector3 GetUp() const {
 			auto u = GetWorldMatrix().Up();
 			u.Normalize();
 			return u;
 		}
 
-		// 右方向 (X軸)
+		/** @brief 右方向 */
 		DirectX::SimpleMath::Vector3 GetRight() const {
 			auto r = GetWorldMatrix().Right();
 			r.Normalize();
 			return r;
 		}
 
-		inline uint32_t GetVersion() const { return m_nowVersion; }
+		/// @}
 
-		// 親
-		const Transform* GetParent() const { return m_pParent; }
+		/// @name セッター
+		/// @{
 
-		// 子供
-		const std::vector<Transform*>& GetChildren() const { return m_children; }
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/** @brief ローカル座標系での位置 */
 		void SetLocalPosition(const DirectX::SimpleMath::Vector3& pos)
 		{
 			m_localPosition = pos;
 			SetDirty();
 		}
+
+		/** @brief ローカル座標系での回転 */
 		void SetLocalRotation(const DirectX::SimpleMath::Quaternion& rot)
 		{
 			m_localRotation = rot;
 			SetDirty();
 		}
+
+		/** @brief ローカル座標系でのオイラー角 */
 		void SetLocalEulerAngle(const DirectX::SimpleMath::Vector3& rot)
 		{
 			m_localRotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rot);
 			SetDirty();
 		}
+
+		/** @brief ローカル座標系でのスケール */
 		void SetLocalScale(const DirectX::SimpleMath::Vector3& scale)
 		{
 			m_localScale = scale;
 			SetDirty();
 		}
 
+		/** @brief ワールド座標系での位置 */
 		void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos);
+
+		/** @brief ワールド行列 */
 		void SetWorldMatrix(const DirectX::SimpleMath::Matrix& mat);
 
-		//-----------------------------------------------------
-		// 補助関数
-		//-----------------------------------------------------
+		/// @}
+
+		/**
+		 * @brief ローカル座標系の位置を加算する
+		 * @param value 加算するベクトル
+		 */
 		void AddLocalPosition(const DirectX::SimpleMath::Vector3& value)
 		{
 			if (value.LengthSquared() < FLT_EPSILON) return;
 			m_localPosition += value;
 			SetDirty();
 		}
-		void AddLocalEulerAngle(const DirectX::SimpleMath::Vector3& rot)
-		{
-			if (rot.LengthSquared() < FLT_EPSILON) return;
-			DirectX::SimpleMath::Vector3 euler = GetLocalEulerAngle();
-			m_localRotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler + rot);
-			SetDirty();
-		}
+
+		/**
+		 * @brief ワールド座標系での位置を加算する
+		 * @param value 加算するベクトル
+		 */
 		void AddWorldPosition(const DirectX::SimpleMath::Vector3 value)
 		{
 			if (value.LengthSquared() < FLT_EPSILON) return;
 			SetWorldPosition(GetWorldPosition() + value);
 			SetDirty();
 		}
-		// キャッシュの値を増やす関数
+
+		/**
+		 * @brief 移動キャッシュを加算する
+		 * @param value 加算するベクトル
+		 */
 		inline void AddCache(const DirectX::SimpleMath::Vector3& value)
 		{
 			if (value.LengthSquared() < FLT_EPSILON) return;
@@ -278,33 +285,28 @@ namespace RHEngine
 			m_changeCache = true;
 		};
 
-		// キャッシュの値を反映させる関数
-		void ReflectCache()
-		{
-			if (!m_changeCache) return;
+		/** @brief キャッシュの値を反映させる */
+		void ReflectCache();
 
-			AddWorldPosition(m_addCache);
-			m_addCache = { 0, 0, 0 };
-			m_changeCache = false;
-		}
-
-		// Dirtyフラグをセットする関数
+		/** @brief 再帰的にDirtyフラグを立てる */
 		void SetDirty();
 
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		// 子供を追加する関数
+		/**
+		 * @brief 子供を追加する
+		 * @param child 追加対象のトランスフォームポインタ
+		 */
 		void AddChild(Transform* child)
 		{
 			// nullptrでなければ追加
 			if (child) m_children.push_back(child);
 		}
 
-		// 子供を削除する関数
+		/**
+		 * @brief 子供を削除する
+		 * @param child 削除対象のトランスフォームポインタ
+		 */
 		void RemoveChild(Transform* child)
 		{
 			if (!child) return;
@@ -312,29 +314,16 @@ namespace RHEngine
 			std::erase_if(m_children, [child](Transform* transform) { return transform == child; });
 		}
 
-		// 子供を全て解放する関数
+		/**
+		 * @brief 子供をすべて削除する
+		 */
 		void RemoveChildren();
 
-		// 指定したトランスフォームが自分のツリーに含まれるか調べる関数
-		bool IsDescendantOf(Transform* target)
-		{
-			Transform* current = target;
-
-			// currentがnullになるまでループ
-			while (current != nullptr)
-			{
-				// 自分と同じかチェック
-				if (current == this)
-				{
-					return true;
-				}
-
-				// 親を辿る
-				current = current->m_pParent;
-			}
-
-			// 最後まで到達した時
-			return false;
-		}
+		/**
+		 * @brief 指定したTransformが自分の親子関係に含まれるか調べる
+		 * @param target 調べる対象のトランスフォームポインタ
+		 * @return 含まれているかどうか
+		 */
+		bool IsDescendantOf(Transform* target);
 	};
 } // namespace RHEngine
