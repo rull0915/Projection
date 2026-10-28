@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ProjectionSmoothCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/29
-//
-// 概要       : プロジェクション行列を滑らかに切り替えるカメラ
-//====================================================//
+﻿/**
+ * @file    AProjectionSmoothCameraAA.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/29
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "ProjectionSmoothCamera.h"
 
@@ -18,16 +13,11 @@
 #include "Settings/TimeSettings.h"
 #include "System/WindowManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 ProjectionSmoothCamera::ProjectionSmoothCamera(RHEngine::IComponentOwner* owner)
 	: CameraBase(owner)
 	, m_type{ RHEngine::ProjectionType::Perspective }
 	, m_farZ{ 1000.0f }, m_nearZ{ 0.1f }
 	, m_negativeNearClip{ -100.0f }
-	, m_aspect{ RHEngine::WindowManager::Instance().GetAspect() }
 	, m_fov{ PI_F / 4 }
 	, m_size{ 15.0f }
 	, m_changeTime{ 1.0f }
@@ -84,7 +74,10 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 
 		// Perspectiveから作成
 		m_targetProjection = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
-			m_fov, m_aspect, m_nearZ, m_farZ
+			m_fov,
+			RHEngine::WindowManager::Instance().GetAspect(),
+			m_nearZ, 
+			m_farZ
 		);
 
 		break;
@@ -93,7 +86,10 @@ void ProjectionSmoothCamera::ChangeProjectionMode(float changeTime)
 
 		// Orthographicから作成
 		m_targetProjection = DirectX::SimpleMath::Matrix::CreateOrthographic(
-			m_size * m_aspect, m_size, -1000.0f, m_farZ
+			m_size * RHEngine::WindowManager::Instance().GetAspect(), 
+			m_size, 
+			-1000.0f, 
+			m_farZ
 		);
 
 		break;
@@ -157,7 +153,10 @@ void ProjectionSmoothCamera::UpdateProj()
 
 			// Perspectiveから作成
 			SetProj(DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
-				m_fov, m_aspect, m_nearZ, m_farZ
+				m_fov, 
+				RHEngine::WindowManager::Instance().GetAspect(), 
+				m_nearZ, 
+				m_farZ
 			));
 
 			break;
@@ -165,7 +164,10 @@ void ProjectionSmoothCamera::UpdateProj()
 
 			// Orthographicから作成
 			SetProj(DirectX::SimpleMath::Matrix::CreateOrthographic(
-				m_size * m_aspect, m_size, m_negativeNearClip, m_farZ	// カメラより手前の物も映るようにnearを負の値にします
+				m_size * RHEngine::WindowManager::Instance().GetAspect(), 
+				m_size, 
+				m_negativeNearClip, 
+				m_farZ
 			));
 
 			break;

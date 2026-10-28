@@ -1,63 +1,46 @@
-﻿//====================================================//
-// ファイル名   : TPSCamera.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/07
-//
-// 概要 : カメラをTPS用に動かすコンポーネント
-//
-// 更新履歴 :
-// 2026/06/07 新規作成
-//====================================================//
+﻿/**
+ * @file    TPSCamera.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/07
+ *
+ * @brief   カメラをTPS用に動かすコンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(TPSCamera)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief TPSカメラ
+ */
 class TPSCamera : public RHEngine::WorldComponentBase
 {
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 private:
 
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 感度
+	/** @brief マウス感度 */
 	float m_sensitivity;
 
+	/** @brief ターゲットとの間隔 */
 	float m_distance;
 
+	/** @brief 自分のトランスフォーム */
 	RHEngine::Transform* m_pOwnTransform;
+
+	/** @brief 注視点とするトランスフォーム */
 	RHEngine::Ref<RHEngine::Transform> m_pTargetTransform;
 
+	/** @brief 角度 */
 	DirectX::SimpleMath::Vector2 m_angle;
 
-	// 位置
+	/** @brief 現在のカメラ位置 */
 	DirectX::SimpleMath::Vector3 m_position;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	TPSCamera(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 		, m_pOwnTransform{ nullptr }
@@ -74,28 +57,20 @@ public:
 
 	~TPSCamera() = default;
 
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(TPSCamera, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
 	void Awake() override;
-
-	void Start() override;
 
 	void OnEnable() override;
 	void OnDisable() override;
 
 	void Update(const RHEngine::GameTimer& gameTimer) override;
 
-	// 理想位置
+	/**
+	 * @brief 理想位置を取得する
+	 */
 	DirectX::SimpleMath::Vector3 GetIdealPosition() const { return m_position; }
 
-	// 回転
+	/**
+	 * @brief 回転を取得する
+	 */
 	DirectX::SimpleMath::Vector2 GetRotation() const { return m_angle; }
 };

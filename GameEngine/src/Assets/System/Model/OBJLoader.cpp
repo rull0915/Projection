@@ -14,6 +14,7 @@
 
 #include "MtlFileLoader.h"
 #include "CreatePrefabFromModelData.h"
+#include "Assets/Types/Model/Model.h"
 
 namespace RHEngine
 {

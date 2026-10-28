@@ -13,9 +13,6 @@ namespace RHEngine
 {
 	namespace Input
 	{
-		Pad::Pad()
-		{}
-
 		void Pad::Update()
 		{
 			// 前フレームの情報を保持

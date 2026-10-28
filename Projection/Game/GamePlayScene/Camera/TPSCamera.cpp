@@ -1,34 +1,19 @@
-﻿//====================================================//
-// ファイル名  : TPSCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/07
-//
-// 概要       : カメラをTPS用に動かすコンポーネント
-//====================================================//
+﻿/**
+ * @file    TPSCamera.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/07
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "TPSCamera.h"
 
-#include "GameObject/GameObject.h"
-#include "Scene/Scene.h"
 #include "Input/InputSystem.h"
 #include <algorithm>
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 void TPSCamera::Awake()
 {
 	// トランスフォームを取得
 	m_pOwnTransform = GetComponent<RHEngine::Transform>();
-}
-
-void TPSCamera::Start()
-{
 }
 
 void TPSCamera::OnEnable()

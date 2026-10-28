@@ -131,7 +131,7 @@ namespace RHEngine
 		}
 
 		/** @brief 2Dでの重力ベクトル */
-		inline void SetGravityDirection(const DirectX::SimpleMath::Vector3& direction)
+		inline void SetGravityDirection2D(const DirectX::SimpleMath::Vector3& direction)
 		{
 			if (direction.LengthSquared() > FLT_EPSILON)
 			{

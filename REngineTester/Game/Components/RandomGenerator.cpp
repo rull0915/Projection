@@ -1,27 +1,18 @@
-﻿//====================================================//
-// ファイル名  : RandomGenerator.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/19
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    RandomGenerator.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/19
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "RandomGenerator.h"
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Scene/ObjectFactory.h"
 
 #include "Common/Random.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 RandomGenerator::RandomGenerator(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_prefab{}
@@ -41,7 +32,6 @@ RandomGenerator::RandomGenerator(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(RandomGenerator, m_generateCount);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void RandomGenerator::Start()
 {
 	// 生成
@@ -105,6 +95,5 @@ void RandomGenerator::Start()
 	}
 }
 
-// 毎フレーム呼ばれます
 void RandomGenerator::Update(const RHEngine::GameTimer & gameTimer)
 {}

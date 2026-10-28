@@ -1,24 +1,14 @@
-﻿//====================================================//
-// ファイル名  : PathMover.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/11
-//
-// 概要       : パスを使用し移動するコンポーネント
-//====================================================//
+﻿/**
+ * @file    PathMover.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/11
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "PathMover.h"
 
 #include "GameLib/GameMath/GameMath.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 PathMover::PathMover(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_magnification{ 1.0f }
@@ -34,7 +24,6 @@ PathMover::PathMover(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(PathMover, m_rotateType);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void PathMover::Start()
 {
 	// トランスフォームの取得
@@ -50,8 +39,6 @@ void PathMover::Start()
 		MoveStart();
 	}
 }
-
-// 毎フレーム呼ばれます
 void PathMover::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// プレイ中なら
@@ -62,7 +49,6 @@ void PathMover::Update(const RHEngine::GameTimer & gameTimer)
 	}
 }
 
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
 void PathMover::LateUpdate(const RHEngine::GameTimer & gameTimer)
 {
 	gameTimer;

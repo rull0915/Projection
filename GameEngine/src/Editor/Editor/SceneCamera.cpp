@@ -116,8 +116,8 @@ namespace RHEngine
 		// 各設定から射影行列を作成
 		m_proj = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 			m_fov,
-			m_nearZ,
 			WindowManager::Instance().GetAspect(),
+			m_nearZ,
 			m_farZ
 		);
 	}

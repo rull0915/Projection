@@ -22,7 +22,7 @@ namespace RHEngine
 	class RendererBase : public WorldComponentBase
 	{
 	public:
-		DECLARE_COMPONENT_TYPE(RendererBase);
+		DECLARE_COMPONENT_TYPE(WorldComponentBase);
 
 	private:
 

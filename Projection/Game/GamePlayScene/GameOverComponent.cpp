@@ -1,28 +1,19 @@
-﻿//====================================================//
-// ファイル名  : GameOverComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/13
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    GameOverComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/13
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "GameOverComponent.h"
 
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
+#include "Scene/ObjectFinder.h"
 #include "Scene/Transition/FadeTransition.h"
 
 #include "Settings/WorldSetting2D.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 GameOverComponent::GameOverComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_overSceneName{ "GameOver" }
@@ -38,7 +29,6 @@ GameOverComponent::GameOverComponent(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(GameOverComponent, m_border3D);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void GameOverComponent::Start()
 {
 	// シーンを取得
@@ -51,7 +41,6 @@ void GameOverComponent::Start()
 	m_playerComponent = m_player->GetComponent<Player>();
 }
 
-// 毎フレーム呼ばれます
 void GameOverComponent::Update(const RHEngine::GameTimer & gameTimer)
 {
 	gameTimer;

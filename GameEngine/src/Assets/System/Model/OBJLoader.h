@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 #include "Assets/Managers/AssetLoadResult.h"
 
 namespace RHEngine
@@ -60,7 +62,6 @@ namespace RHEngine
 			 * @return 読み込み結果
 			 */
 			static LoadResult Load(const std::filesystem::path& path, AssetContext& ctx);
-
 
 			/// <summary>
 			/// OBJ形式の要素を取得する関数

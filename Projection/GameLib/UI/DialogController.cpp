@@ -1,22 +1,12 @@
-﻿//====================================================//
-// ファイル名  : DialogController.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/30
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    DialogController.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/30
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "DialogController.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 DialogController::DialogController(RHEngine::IComponentOwner* own)
 	: RHEngine::BothComponentBase(own)
 	, m_targetDialog{}

@@ -95,6 +95,11 @@ namespace RHEngine
 		 */
 		void Render(Renderer& renderer);
 
+		/**
+		 * @brief ウィンドウサイズ変更時処理
+		 */
+		void OnWindowSizeChanged(int width, int height);
+
 	private:
 
 		/**

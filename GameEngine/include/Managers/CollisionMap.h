@@ -27,6 +27,8 @@ namespace RHEngine
 	{
 		Component::TypeId type1;
 		Component::TypeId type2;
+
+		bool operator==(const CollisionKey&) const = default;
 	};
 
 	/**

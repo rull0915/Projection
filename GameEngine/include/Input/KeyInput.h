@@ -53,7 +53,7 @@ namespace RHEngine
 			 * @brief ボタンがおされたフレームかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool GetDown(Code key)
+			static bool GetDown(Code key)
 			{
 				return !m_oldState.IsKeyDown(key) && m_nowState.IsKeyDown(key);
 			}
@@ -62,7 +62,7 @@ namespace RHEngine
 			 * @brief ボタンが押されているか
 			 * @param key 対象のボタン
 			 */
-			static inline bool Get(Code key)
+			static bool Get(Code key)
 			{
 				return m_nowState.IsKeyDown(key);
 			}
@@ -71,7 +71,7 @@ namespace RHEngine
 			 * @brief 前フレームに押されていたかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool GetOld(Code key)
+			static bool GetOld(Code key)
 			{
 				return m_oldState.IsKeyDown(key);
 			}
@@ -80,7 +80,7 @@ namespace RHEngine
 			 * @brief ボタンが離されたフレームかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool GetUp(Code key)
+			static bool GetUp(Code key)
 			{
 				return m_oldState.IsKeyDown(key) && !m_nowState.IsKeyDown(key);
 			}

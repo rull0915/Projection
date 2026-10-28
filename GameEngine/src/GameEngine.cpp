@@ -168,6 +168,13 @@ namespace RHEngine
 	{
 		// シーンマネージャーに通知
 		SceneManager::Instance().OnWindowSizeChanged(width, height);
+
+#ifdef ENGINE_GUI
+
+		// シーンエディタに通知
+		if (m_editor) m_editor->OnWindowSizeChanged(width, height);
+
+#endif // ENGINE_GUI
 	}
 
 	void GameEngine::Render()

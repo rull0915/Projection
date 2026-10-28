@@ -30,7 +30,7 @@ namespace RHEngine
 			mouse.SetMode(m_requestedMode);
 		}
 
-		inline float Mouse::GetMoveValue(Axis axis)
+		float Mouse::GetMoveValue(Axis axis)
 		{
 			switch (axis)
 			{
@@ -43,7 +43,7 @@ namespace RHEngine
 			}
 		}
 
-		inline float Mouse::GetOldMoveValue(Axis axis)
+		float Mouse::GetOldMoveValue(Axis axis)
 		{
 			switch (axis)
 			{

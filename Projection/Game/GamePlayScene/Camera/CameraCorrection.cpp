@@ -1,25 +1,16 @@
-﻿//====================================================//
-// ファイル名  : CameraCorrection.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/13
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    CameraCorrection.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/13
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CameraCorrection.h"
 
 #include "Scene/Scene.h"
 #include "Physics/Ray.h"
+#include "Physics/RaycastHit.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 CameraCorrection::CameraCorrection(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_camera{ nullptr }
@@ -31,7 +22,6 @@ CameraCorrection::CameraCorrection(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(CameraCorrection, m_playerLayer);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void CameraCorrection::Start()
 {
 	// TPSカメラを取得
@@ -41,7 +31,6 @@ void CameraCorrection::Start()
 	m_pScene = static_cast<RHEngine::GameObject*>(GetOwn())->GetScene();
 }
 
-// 毎フレームUpdate及び物理挙動の後に呼ばれます
 void CameraCorrection::LateUpdate(const RHEngine::GameTimer& gameTimer)
 {
 	gameTimer;

@@ -1,24 +1,16 @@
-﻿//====================================================//
-// ファイル名  : DimentionManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/06
-//
-// 概要       : 次元変更管理クラス
-//====================================================//
+﻿/**
+ * @file    DimentionManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/06
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "DimentionManager.h"
-#include "Settings/WorldSetting2D.h"
 
+#include "Settings/WorldSetting2D.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
+#include "Scene/ComponentRegister.h"
 
 // コンストラクタ
 DimentionManager::DimentionManager(RHEngine::IComponentOwner* owner)

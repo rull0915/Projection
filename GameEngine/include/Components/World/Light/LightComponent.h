@@ -16,7 +16,7 @@
 namespace RHEngine
 {
 	class IComponentOwner;
-	class Property;
+	struct Property;
 
 	/**
 	 * @brief ライトのタイプ

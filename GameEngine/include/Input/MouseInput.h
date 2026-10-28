@@ -73,7 +73,7 @@ namespace RHEngine
 			 * @brief 押されたフレームかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool GetDown(Button key)
+			static bool GetDown(Button key)
 			{
 				return !GetButtonState(m_oldMouseState, key) && GetButtonState(m_nowMouseState, key);
 			}
@@ -82,7 +82,7 @@ namespace RHEngine
 			 * @brief 押されているかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool Get(Button key)
+			static bool Get(Button key)
 			{
 				return GetButtonState(m_nowMouseState, key);
 			}
@@ -91,7 +91,7 @@ namespace RHEngine
 			 * @brief 前フレームに押されていたかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool GetOld(Button key)
+			static bool GetOld(Button key)
 			{
 				return GetButtonState(m_oldMouseState, key);
 			}
@@ -100,7 +100,7 @@ namespace RHEngine
 			 * @brief 離されたフレームかどうか
 			 * @param key 対象のボタン
 			 */
-			static inline bool GetUp(Button key)
+			static bool GetUp(Button key)
 			{
 				return GetButtonState(m_oldMouseState, key) && !GetButtonState(m_nowMouseState, key);
 			}
@@ -109,13 +109,13 @@ namespace RHEngine
 			 * @brief マウスの移動量を取得する
 			 * @param axis 取得する軸
 			 */
-			static inline float GetMoveValue(Axis axis);
+			static float GetMoveValue(Axis axis);
 
 			/**
 			 * @brief 前フレームの移動量を取得する
 			 * @param axis 取得する軸
 			 */
-			static inline float GetOldMoveValue(Axis axis);
+			static float GetOldMoveValue(Axis axis);
 
 			/**
 			 * @brief マウスのピクセル座標を取得する

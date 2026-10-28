@@ -1,24 +1,14 @@
-﻿//====================================================//
-// ファイル名  : CatmullRomComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/10
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    CatmullRomComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/10
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CatmullRomComponent.h"
 
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 CatmullRomComponent::CatmullRomComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_isLoop{ false }

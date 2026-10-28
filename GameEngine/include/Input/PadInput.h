@@ -81,7 +81,7 @@ namespace RHEngine
 			 * @brief ボタンが押されたフレームかどうか調べる
 			 * @param button 対象のボタン
 			 */
-			static inline bool GetDown(Button button)
+			static bool GetDown(Button button)
 			{
 				return !GetPressed(m_oldState, button) && GetPressed(m_nowState, button);
 			}
@@ -90,7 +90,7 @@ namespace RHEngine
 			 * @brief ボタンが押されているかどうか調べる
 			 * @param button 対象のボタン
 			 */
-			static inline bool Get(Button button)
+			static bool Get(Button button)
 			{
 				return GetPressed(m_nowState, button);
 			}
@@ -99,7 +99,7 @@ namespace RHEngine
 			 * @brief 前フレームにボタンが押されていたかどうか調べる
 			 * @param button 対象のボタン
 			 */
-			static inline bool GetOld(Button button)
+			static bool GetOld(Button button)
 			{
 				return GetPressed(m_oldState, button);
 			}
@@ -108,7 +108,7 @@ namespace RHEngine
 			 * @brief ボタンが離されたフレームかどうか調べる
 			 * @param button 対象のボタン
 			 */
-			static inline bool GetUp(Button button)
+			static bool GetUp(Button button)
 			{
 				return GetPressed(m_oldState, button) && !GetPressed(m_nowState, button);
 			}
@@ -117,7 +117,7 @@ namespace RHEngine
 			 * @brief スティックの入力を取得する
 			 * @param stick 対象のスティック
 			 */
-			static inline float GetCurrentAxis(Axis stick)
+			static float GetCurrentAxis(Axis stick)
 			{
 				return GetAxis(m_nowState, stick);
 			}
@@ -126,7 +126,7 @@ namespace RHEngine
 			 * @brief 前フレームのスティックの入力を取得する
 			 * @param stick 対象のスティック
 			 */
-			static inline float GetOldAxis(Axis stick)
+			static float GetOldAxis(Axis stick)
 			{
 				return GetAxis(m_oldState, stick);
 			}

@@ -6,6 +6,8 @@
  * @brief   シーンの情報に関する構造体をまとめたヘッダ
  */
 
+#pragma once
+
 #include <vector>
 #include <SimpleMath.h>
 

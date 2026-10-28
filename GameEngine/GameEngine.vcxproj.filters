@@ -791,7 +791,6 @@
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Assets\Types\Vertex\DynamicVertexBuffer.cpp" />
     <ClCompile Include="src\Assets\Types\Models\Mesh.cpp" />
-    <ClCompile Include="include\Editor\Editor\SelectedOnGUI.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp" />
     <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.cpp" />
     <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.cpp" />

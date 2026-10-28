@@ -164,7 +164,6 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Editor\Editor\SelectedOnGUI.cpp" />
     <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>

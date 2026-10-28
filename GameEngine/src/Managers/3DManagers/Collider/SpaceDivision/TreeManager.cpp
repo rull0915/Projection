@@ -4,6 +4,7 @@
  * @date    2026/04/08
  */
 
+#include "pch.h"
 #include "TreeManager.h"
 
 namespace RHEngine
@@ -15,7 +16,7 @@ namespace RHEngine
 		, m_rootMin{}
 		, m_rootMax{}
 		, m_minimumSize{}
-		, m_maxLevel{ min(MANAGER_MAX_LEVEL - 1, maxLevel) }
+		, m_maxLevel{ std::min(MANAGER_MAX_LEVEL - 1, maxLevel) }
 		, m_cellCount{ 0 }
 		, m_pow{ 0 }
 	{

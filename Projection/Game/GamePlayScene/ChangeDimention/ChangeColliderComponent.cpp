@@ -1,30 +1,20 @@
-﻿//====================================================//
-// ファイル名  : ChangeColliderComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/02
-//
-// 概要       : コライダーの切り替えを行うコンポーネント
-//====================================================//
+﻿/**
+ * @file    ChangeColliderComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
-#include <array>
-
 #include "ChangeColliderComponent.h"
+
+#include <array>
 
 #include "Components/World/RigidBody/RigidBody.h"
 #include "Components/World/RigidBody/RigidBody2D.h"
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
-
 #include "GameObject/GameObject.h"
 
 using namespace RHEngine;
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 void ChangeColliderComponent::Change3DTo2D(CameraBase* pCamera)
 {
@@ -80,9 +70,7 @@ void ChangeColliderComponent::Change2DTo3D()
 
 ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCamera, ColliderBase* p3DCol)
 {
-	// コライダータイプを取得
-	ColliderType type3D = p3DCol->GetType();
-
+	// 所有者を取得
 	GameObject* owner = static_cast<GameObject*>(p3DCol->GetOwn());
 
 	DirectX::SimpleMath::Vector3 xAxis = pCamera->GetInverseView().Right();
@@ -98,14 +86,8 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 			};
 		};
 
-	switch (type3D)
+	if (SphereCollider* sphere3D = dynamic_cast<SphereCollider*>(p3DCol))
 	{
-		// 球の場合 円を生成する
-	case ColliderType::Sphere:
-	{
-		// 球のコライダーにキャスト
-		SphereCollider* sphere3D = static_cast<SphereCollider*>(p3DCol);
-
 		// 円コライダーを生成する
 		CircleCollider2D* circle2D = owner->AddComponent<CircleCollider2D>();
 
@@ -121,12 +103,9 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		return circle2D;
 	}
 
-	// カプセルの場合 カプセルを生成する
-	case ColliderType::Capsule:
+	// カプセルのコライダーなら
+	else if (CapsuleCollider* capsule3D = dynamic_cast<CapsuleCollider*>(p3DCol))
 	{
-		// カプセルのコライダーにキャスト
-		CapsuleCollider* capsule3D = static_cast<CapsuleCollider*>(p3DCol);
-
 		// 2点を2D座標に変換
 		std::pair<DirectX::SimpleMath::Vector3, DirectX::SimpleMath::Vector3> points3D = capsule3D->GetPoints();
 		std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points2D =
@@ -153,7 +132,7 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 		capsule2D->SetRadius(radius);
 		capsule2D->SetHeight(height);
 		capsule2D->SetRotation(angle);
-		capsule2D->SetLineDir(CapsuleCollider2D::AxisType2D::Horizontal);
+		capsule2D->SetAxis(CapsuleCollider2D::AxisType2D::Horizontal);
 
 		// offset
 		DirectX::SimpleMath::Vector3 offset = capsule3D->GetLocalCenterPos();
@@ -164,10 +143,8 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 	}
 
 	// ボックスの場合 六角形を生成する
-	case ColliderType::Box:
+	else if (BoxCollider* box3D = dynamic_cast<BoxCollider*>(p3DCol))
 	{
-		BoxCollider* box3D = static_cast<BoxCollider*>(p3DCol);
-
 		DirectX::SimpleMath::Vector3
 			xLocalAxis = box3D->GetXAxis(),
 			yLocalAxis = box3D->GetYAxis(),
@@ -253,7 +230,6 @@ ColliderBase2D* ChangeColliderComponent::Create2DColliderFrom3D(CameraBase* pCam
 
 		return collider;
 	}
-	default:
-		return nullptr;
-	}
+
+	return nullptr;
 }

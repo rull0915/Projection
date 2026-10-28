@@ -35,7 +35,7 @@ namespace RHEngine
 	class ObjectManager;
 
 	class Ray;
-	class RaycastHit;
+	struct RaycastHit;
 
 	class ComponentBase;
 	class GameObject;

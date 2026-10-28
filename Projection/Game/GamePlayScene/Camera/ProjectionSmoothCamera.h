@@ -1,87 +1,79 @@
-﻿//====================================================//
-// ファイル名   : ProjectionSmoothCamera.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/29
-//
-// 概要 : プロジェクション行列を滑らかに切り替えるカメラ
-//
-// 更新履歴 :
-// 2026/05/29 新規作成
-//====================================================//
-
+﻿/**
+ * @file    ProjectionSmoothCamera.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/29
+ *
+ * @brief   プロジェクション行列を滑らかに切り替えるカメラ
+ */
 #pragma once
 
-#define IS_COMPONENT(ProjectionSmoothCamera)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/Camera/CameraBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief プロジェクション行列をPerspectiveとOrthographicの間で滑らかに切り替える
+ */
 class ProjectionSmoothCamera : public RHEngine::CameraBase
 {
+public:
+	DECLARE_COMPONENT_TYPE(RHEngine::CameraBase);
+
 private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// projection行列のパラメータ
+	/** @brief 現在の射影モード */
 	RHEngine::ProjectionType m_type;
 
-	// 共通
-	float m_nearZ;  // ニアクリップ
-	float m_farZ;   // ファークリップ
-	float m_aspect; // アスペクト比
+	/// @name 共通設定
+	/// @{
 
-	// Perspective
-	float m_fov;    // 画角
+	/** @brief ニアクリップ */
+	float m_nearZ;
 
-	// Orthographic
+	/** @brief ファークリップ */
+	float m_farZ;
+
+	/// @}
+
+	/// @name Perspective
+	/// @{
+	
+	/** @brief 画角 */
+	float m_fov;
+
+	/// @}
+
+	/// @name Orthographic
+	/// @{
+
+	/** @brief サイズ */
 	float m_size;
 
+	/** 
+	 * @brief ニアクリップ
+	 * @details オーソグラフィックの際にカメラよりも手前の物を描画するために負のニアクリップを設定する
+	 */
 	float m_negativeNearClip;
 
-	// 変化前のProjection
+	/// @}
+
+	/** @brief 変化開始前の射影行列 */
 	DirectX::SimpleMath::Matrix m_oldProjecition;
 
-	// 変化先のProjection
+	/** @brief 変化後の射影行列 */
 	DirectX::SimpleMath::Matrix m_targetProjection;
 
-	// 変化中フラグ
+	/** @brief 変化中かどうか */
 	bool m_isChanging;
 
-	// 何秒で変化し終わるか
+	/** @brief 変化に何秒かけるか */
 	float m_changeTime;
 
-	// 変化し始めて何秒か
+	/** @brief 変化し始めてからの時間 (秒) */
 	float m_nowTime;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	ProjectionSmoothCamera(RHEngine::IComponentOwner* owner);
 	~ProjectionSmoothCamera() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(ProjectionSmoothCamera, RHEngine::CameraBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Update(const RHEngine::GameTimer& gameTimer) override;
 

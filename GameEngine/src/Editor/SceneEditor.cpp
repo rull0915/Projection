@@ -177,6 +177,12 @@ namespace RHEngine
 		m_pScene->DrawOnceCamera(ctx, renderer, true);
 	}
 
+	void SceneEditor::OnWindowSizeChanged(int width, int height)
+	{
+		// シーンビューカメラの射影行列を再構築する
+		m_sceneViewCamera.UpdateProj();
+	}
+
 	void SceneEditor::TestPlay()
 	{
 		// プレイ中なら何もしない

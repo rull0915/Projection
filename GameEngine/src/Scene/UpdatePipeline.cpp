@@ -21,7 +21,7 @@ namespace RHEngine
 		, m_rendererManager{ std::make_unique<RendererManager>() }
 		, m_lightManager{ std::make_unique<LightManager>() }
 		, m_objectManager{ std::make_unique<ObjectManager>() }
-		, m_uiManager{ std::make_unique<UIManager>(pScene) }
+		, m_uiManager{ std::make_unique<UIManager>() }
 		, m_soundManager{ std::make_unique<SoundManager>() }
 	{}
 

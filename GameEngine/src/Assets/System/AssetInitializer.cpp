@@ -16,6 +16,7 @@
 #include "Assets/Types/AudioClip.h"
 #include "Assets/Types/Model/Model.h"
 #include "Assets/Types/Model/Mesh.h"
+#include "Assets/Types/Prefab.h"
 
 #include "Assets/Types/Shader/ShaderLoader.h"
 #include "Assets/System/Material/MaterialLoader.h"

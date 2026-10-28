@@ -18,7 +18,7 @@ namespace RHEngine
 {
 	class IComponentOwner;
 	class RectTransform;
-	class Property;
+	struct Property;
 
 	/**
 	 * @brief キャンバスのスケールを管理するコンポーネント

@@ -1,21 +1,12 @@
-﻿//====================================================//
-// ファイル名   : ChangeColliderComponent.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/02
-//
-// 概要 : コライダーの切り替えを行うコンポーネント
-//
-// 更新履歴 :
-// 2026/06/02 新規作成
-//====================================================//
-
+﻿/**
+ * @file    ChangeColliderComponent.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/02
+ *
+ * @brief   3Dと2Dのコライダーの切り替えを行う
+ */
 #pragma once
 
-#define IS_COMPONENT(ChangeColliderComponent)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 
 #include "Components/World/Collider/2D/Shapes/2DColliders.h"
@@ -23,44 +14,38 @@
 
 #include "Components/World/Camera/CameraBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief 3Dと2Dのコライダーを切り替える
+ * @details 3Dから2Dへの切り替え時に3D形状を2D世界に投影することで見た目通りの衝突形状を生成する
+ */
 class ChangeColliderComponent : public RHEngine::WorldComponentBase
 {
 public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
+public:
+
 	ChangeColliderComponent(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 	{
 	}
 	~ChangeColliderComponent() {};
 
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(ChangeColliderComponent, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// 3次元から2次元へ切り替える関数
+	/**
+	 * @brief 3次元から2次元に切り替える
+	 * @param pCamera 現在のカメラ
+	 */
 	void Change3DTo2D(RHEngine::CameraBase* pCamera);
 
-	// 2次元から3次元へ切り替える関数
+	/**
+	 * @brief 2次元から3次元に切り替える
+	 */
 	void Change2DTo3D();
 
-	// 2次元コライダーを更新する関数
+	/**
+	 * @brief 2Dコライダーを再構築する
+	 * @param pCamera 現在のカメラ
+	 */
 	void Update2DCollider(RHEngine::CameraBase* pCamera)
 	{
 		// 再構築
@@ -70,10 +55,11 @@ public:
 
 private:
 
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
-
-	// 3次元コライダーから2次元コライダーを生成する関数
+	/**
+	 * @brief 3Dコライダーから2Dコライダーを生成する
+	 * @param pCamera 現在のカメラ
+	 * @param p3DCol 元となる3Dコライダー
+	 * @return 生成した2Dコライダー
+	 */
 	RHEngine::ColliderBase2D* Create2DColliderFrom3D(RHEngine::CameraBase* pCamera, RHEngine::ColliderBase* p3DCol);
 };

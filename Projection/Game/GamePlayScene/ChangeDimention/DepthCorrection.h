@@ -1,58 +1,35 @@
-﻿//====================================================//
-// ファイル名   : DepthCorrection.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/24
-//
-// 概要 : 2Dの際にZ軸の補正を行うコンポーネント
-//
-// 更新履歴 :
-// 2026/06/24 新規作成
-//====================================================//
+﻿/**
+ * @file    DepthCorrection.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/24
+ *
+ * @brief   2Dの際にZ軸の補正を行うコンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(DepthCorrection)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief 2Dの際にカメラ視点のZ軸方向を補正する
+ */
 class DepthCorrection : public RHEngine::WorldComponentBase
 {
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 private:
-	// 衝突時に補正を行う 法線・上方向 のボーダー
+	/** @brief 衝突時に補正を行う衝突法線のボーダー */
 	static constexpr float CORRECTION_BORDER = 1.0f / 1.1415926535f;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	DepthCorrection(RHEngine::IComponentOwner* owner)
 		: WorldComponentBase(owner)
 	{
 	}
 
 	~DepthCorrection() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(DepthCorrection, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void OnCollisionEnter2D(RHEngine::HitContact2D& contact) override;
 };

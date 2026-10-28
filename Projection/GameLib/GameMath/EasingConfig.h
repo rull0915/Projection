@@ -1,26 +1,20 @@
-﻿//====================================================//
-// ファイル名   : EasingConfig.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
-//
-// 概要 : イージングコンフィグ
-//
-// 更新履歴 :
-// 2026/07/21 新規作成
-//====================================================//
-
+﻿/**
+ * @file    EasingConfig.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/21
+ *
+ * @brief   イージングを扱いやすくするためのヘッダ
+ */
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <algorithm>
+
 #include "Common/Property/PropertyObject.h"
 #include "Math/Easing.h"
 
-/// <summary>
-/// イージングの種類を宣言した列挙型
-/// </summary>
+/**
+ * @brief イージングの種類
+ */
 enum class EasingKind
 {
 	Linear,
@@ -35,9 +29,9 @@ enum class EasingKind
 	Elastic,
 };
 
-/// <summary>
-/// イージングのタイプを宣言した列挙型
-/// </summary>
+/**
+ * @brief イージングのタイプ
+ */
 enum class EasingType
 {
 	In,
@@ -45,7 +39,9 @@ enum class EasingType
 	InOut,
 };
 
-// イージングをまとめたクラス
+/**
+ * @brief イージングをまとめたクラス
+ */
 class EasingConfig : public RHEngine::PropertyObject
 {
 private:
@@ -54,9 +50,6 @@ private:
 
 public:
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	EasingConfig()
 		: m_kind{ EasingKind::Linear }
 		, m_type{ EasingType::In }
@@ -65,9 +58,6 @@ public:
 		ADD_PROPERTY(EasingConfig, m_type);
 	}
 
-	/// <summary>
-	/// 割合に応じたイージング後の値を返す関数
-	/// </summary>
 	float Get(float ratio)
 	{
 		// 0~1にクランプ
