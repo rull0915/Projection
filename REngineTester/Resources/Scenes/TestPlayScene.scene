@@ -107,7 +107,7 @@
                             "m_isActive": true,
                             "m_localPosition": [
                                 0.0,
-                                6.063032627105713,
+                                300.0,
                                 0.0
                             ],
                             "m_localRotation": [
@@ -149,9 +149,9 @@
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_isStatic": true,
+                            "m_isStatic": false,
                             "m_linearDamping": 0.0,
-                            "m_mass": 1.0,
+                            "m_mass": 100.0,
                             "m_useGravity": true
                         },
                         "Type": "RigidBody",
@@ -306,8 +306,71 @@
                     },
                     {
                         "Data": {
-                            "m_generateCount": 1000,
+                            "m_generateCount": 500,
                             "m_generateType": "All",
+                            "m_isActive": true,
+                            "m_maxPos": [
+                                5.0,
+                                100.0,
+                                5.0
+                            ],
+                            "m_maxScale": [
+                                2.0,
+                                2.0,
+                                2.0
+                            ],
+                            "m_minPos": [
+                                -5.0,
+                                46.0,
+                                -5.0
+                            ],
+                            "m_minScale": [
+                                2.0,
+                                2.0,
+                                2.0
+                            ],
+                            "m_prefab": 14657850583964262097
+                        },
+                        "Type": "RandomGenerator",
+                        "UUID": 9016426540756680820
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 14963619113368714462,
+                "m_isActive": true,
+                "m_name": "RandomGenerator",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localRotation": [
+                                0.0,
+                                0.0,
+                                0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 6689613887127735713
+                    },
+                    {
+                        "Data": {
+                            "m_generateCount": 500,
+                            "m_generateType": "PosRot",
                             "m_isActive": true,
                             "m_maxPos": [
                                 5.0,

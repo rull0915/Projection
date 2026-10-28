@@ -44,7 +44,9 @@ namespace RHEngine
 		{
 			// 各管理クラスの予約反映
 			m_physicsManager->ReflectReserves();
+			m_physicsManager->GetCollideManager()->ReflectReserves();
 			m_physicsManager2D->ReflectReserves();
+			m_physicsManager2D->GetCollideManager()->ReflectReserves();
 			m_soundManager->ReflectReserves();
 
 			// リジッドボディの更新
@@ -110,6 +112,7 @@ namespace RHEngine
 		// 各マネージャーから全削除
 		m_rendererManager->RemoveReserved();
 		m_lightManager->RemoveReserved();
+
 		m_physicsManager->RemoveReserved();
 		m_physicsManager->GetCollideManager()->ReflectReserves();
 
