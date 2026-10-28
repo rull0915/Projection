@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : MeshRenderer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/28
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    MeshRenderer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/28
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Renderer/MeshRenderer.h"
 
@@ -19,12 +14,8 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	MeshRenderer::MeshRenderer(IComponentOwner* own)
-		: RendererBase(own)
+	MeshRenderer::MeshRenderer(IComponentOwner* pOwner)
+		: RendererBase(pOwner)
 		, m_materials{}
 		, m_pAssetManager{ nullptr }
 	{
@@ -34,19 +25,19 @@ namespace RHEngine
 	void MeshRenderer::Draw(Renderer& renderer)
 	{
 		// AssetManagerがなければスキップ
-		if (!m_assetManager) return;
+		if (!m_pAssetManager) return;
 
 		// 同じオブジェクトに付いているMeshFilterを取得
-		auto* meshFilter = GetComponent<MeshFilter>();
+		auto* pMeshFilter = GetComponent<MeshFilter>();
 
 		// メッシュが設定されていなければ描画しない
-		if (!meshFilter || meshFilter->GetMesh() == ERROR_HANDLE<Mesh>) return;
+		if (!pMeshFilter || pMeshFilter->GetMesh() == ERROR_HANDLE<Mesh>) return;
 
 		// トランスフォームからworld行列を取得
 		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
 		// Meshを取得
-		Mesh* pMesh = m_assetManager->Get(meshFilter->GetMesh());
+		Mesh* pMesh = m_pAssetManager->Get(pMeshFilter->GetMesh());
 
 		// 取得できなければスキップ
 		if (!pMesh) return;
@@ -70,19 +61,19 @@ namespace RHEngine
 	void MeshRenderer::DrawToShadowMap(ShadowRenderer& shadowRenderer)
 	{
 		// AssetManagerがなければスキップ
-		if (!m_assetManager) return;
+		if (!m_pAssetManager) return;
 
 		// 同じオブジェクトに付いているMeshFilterを取得
-		auto* meshFilter = GetComponent<MeshFilter>();
+		auto* pMeshFilter = GetComponent<MeshFilter>();
 
 		// メッシュが設定されていなければ描画しない
-		if (!meshFilter || meshFilter->GetMesh() == ERROR_HANDLE<Mesh>) return;
+		if (!pMeshFilter || pMeshFilter->GetMesh() == ERROR_HANDLE<Mesh>) return;
 
 		// トランスフォームからworld行列を取得
 		const DirectX::SimpleMath::Matrix& world = GetTransform()->GetWorldMatrix();
 
 		// Meshを取得
-		if (Mesh* pMesh = m_assetManager->Get(meshFilter->GetMesh()))
+		if (Mesh* pMesh = m_pAssetManager->Get(pMeshFilter->GetMesh()))
 		{
 			// SubMeshの数分ループ
 			for (size_t i = 0; i < pMesh->GetSubMeshes().size(); ++i)

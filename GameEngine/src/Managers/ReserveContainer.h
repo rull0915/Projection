@@ -1,59 +1,45 @@
-﻿//====================================================//
-// ファイル名   : ReserveContainer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/02
-//
-// 概要 : オブジェクトの追加/削除を遅延させるコンテナクラス
-//
-// 更新履歴 :
-// 2026/10/02 新規作成
-//====================================================//
+﻿/**
+ * @file    ReserveContainer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/02
+ *
+ * @brief   オブジェクトの追加/削除を遅延させるコンテナクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <vector>
 #include <unordered_set>
 
-//====================================================//
-// クラス宣言
-//====================================================//
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class Renderer;
 	class Scene;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief オブジェクトの追加削除を遅延させるコンテナ
+	 * @details 任意のタイミングで追加・削除予約を反映させることで、forループが壊れてしまうことやダングリング参照を防ぐことが出来る
+	 * @tparam T 管理する型
+	 */
 	template<typename T>
 	class ReserveContainer
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 本リスト
+		/** @brief リスト本体 */
 		std::vector<T*> m_objectList;
 
-		// 追加予約リスト
+		/** @brief 追加予約の一覧 */
 		std::vector<T*> m_addReserves;
 
-		// 削除予約リスト
+		/** @brief 削除予約の一覧 */
 		std::unordered_set<T*> m_removeReserves;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		// @name ライフサイクル
+		/// @{
+
 		ReserveContainer()
 			: m_objectList{}
 			, m_addReserves{}
@@ -63,27 +49,31 @@ namespace RHEngine
 
 		virtual ~ReserveContainer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// オブジェクトの追加
+		/**
+		 * @brief オブジェクトを追加する
+		 */
 		void AddObject(T* c) { m_addReserves.push_back(c); }
 
-		// オブジェクトの削除
+		/**
+		 * @brief オブジェクトを削除する
+		 */
 		void RemoveObject(T* c) { m_removeReserves.insert(c); }
 
-		// 管理中のオブジェクト取得関数
-		const std::vector<T*>& GetObjects() const
-		{
-			return m_objectList;
-		}
-		std::vector<T*>& GetObjects()
-		{
-			return m_objectList;
-		}
+		/**
+		 * @brief 管理中の全てのオブジェクトを取得する
+		 */
+		const std::vector<T*>& GetObjects() const { return m_objectList; }
 
-		// 予約済みポインタの追加
+		/**
+		 * @brief 管理中の全てのオブジェクトを取得する
+		 */
+		std::vector<T*>& GetObjects() { return m_objectList; }
+
+		/**
+		 * @brief 追加予約を反映する
+		 */
 		virtual void AddReserved()
 		{
 			for (auto p : m_addReserves)
@@ -94,7 +84,9 @@ namespace RHEngine
 			m_addReserves.clear();
 		}
 
-		// 予約済みポインタの削除
+		/**
+		 * @brief 削除予約を反映する
+		 */
 		virtual void RemoveReserved()
 		{
 			// 削除リストが空なら何もしない
@@ -114,14 +106,18 @@ namespace RHEngine
 			m_removeReserves.clear();
 		}
 
-		// 予約反映
+		/**
+		 * @brief 追加・削除予約を反映する
+		 */
 		void ReflectReserves()
 		{
 			AddReserved();
 			RemoveReserved();
 		}
 
-		// リセット
+		/**
+		 * @brief オブジェクトをリセットする
+		 */
 		void Reset()
 		{
 			m_addReserves.clear();
@@ -131,11 +127,16 @@ namespace RHEngine
 
 	protected:
 
-		// 予約リストを取得する関数
+		/**
+		 * @brief 追加予約リストを取得する
+		 */
 		std::vector<T*>& GetAddReserves()
 		{
 			return m_addReserves;
 		}
+		/**
+		 * @brief 削除予約リストを取得する
+		 */
 		std::unordered_set<T*>& GetRemoveReserves()
 		{
 			return m_removeReserves;

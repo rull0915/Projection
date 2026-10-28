@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : PerformanceWindow.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/23
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    PerformanceWindow.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/23
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #ifdef ENGINE_GUI
@@ -18,23 +13,22 @@
 #include "System/PerformanceStats.h"
 #include "ThirdParty/imgui/imgui.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-void RHEngine::PerformanceWindow::DrawWindow()
+namespace RHEngine
 {
-	ImGui::Begin("Performance");
-	
-	ImGui::BeginDisabled();
+	void PerformanceWindow::DrawWindow()
+	{
+		ImGui::Begin("Performance");
 
-	// FPSの表示
-	float fps = PerformanceStats::Instance().GetFPS();
-	ImGui::DragFloat("FPS", &fps);
+		ImGui::BeginDisabled();
 
-	ImGui::EndDisabled();
+		// FPSの表示
+		float fps = PerformanceStats::Instance().GetFPS();
+		ImGui::DragFloat("FPS", &fps);
 
-	ImGui::End();
-}
+		ImGui::EndDisabled();
 
-#endif
+		ImGui::End();
+	}
+}	// namespace RHEngine
+
+#endif	// ENGINE_GUI

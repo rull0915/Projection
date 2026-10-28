@@ -1,32 +1,23 @@
-﻿//====================================================//
-// ファイル名  : ComponentContainer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/29
-//
-// 概要       : コンポーネントを保持するクラス
-//====================================================//
+﻿/**
+ * @file    ComponentContainer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/29
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "GameObject/ComponentContainer.h"
 
 #include "Scene/Scene.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine
 {
-	ComponentContainer::ComponentContainer(IComponentOwner* owner)
+	ComponentContainer::ComponentContainer(IComponentOwner* pOwner)
 		: m_pTransform{ nullptr }
 		, m_addReserves{}
 		, m_pDestroyReserves{}
 		, m_pComponents{}
 		, m_pScene{ nullptr }
-		, m_pOwner{ owner }
+		, m_pOwner{ pOwner }
 	{}
 
 	void ComponentContainer::AwakeComponets()

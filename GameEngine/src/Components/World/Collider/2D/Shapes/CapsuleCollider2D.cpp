@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CapsuleCollider2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/03
-//
-// 概要        :  カプセルのコライダー
-//====================================================//
+﻿/**
+ * @file    CapsuleCollider2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/03
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Collider/2D/Shapes/CapsuleCollider2D.h"
 
@@ -17,10 +12,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	CapsuleCollider2D::CapsuleCollider2D(IComponentOwner* pOwner)
 		: ColliderBase2D(pOwner)
 		, m_axisType{ 1 }
@@ -35,11 +26,11 @@ namespace RHEngine
 
 	void CapsuleCollider2D::UpdateCache() const
 	{
-		Transform* pT = GetTransform();
+		Transform* pTransform = GetTransform();
 
 		// ----- 中心座標の更新 ----- //
 		DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
-		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
+		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pTransform->GetWorldMatrix());
 
 		auto& world2D = WorldSetting2D::Instance();
 
@@ -51,7 +42,7 @@ namespace RHEngine
 			DirectX::SimpleMath::Vector2 dir;
 			float zAngle = GetRotation();
 
-			switch (m_lineDir)
+			switch (m_axisType)
 			{
 			case AxisType2D::Horizontal:
 				dir = { cosf(zAngle), sinf(zAngle) };

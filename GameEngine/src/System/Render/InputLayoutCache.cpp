@@ -1,21 +1,13 @@
-﻿//====================================================//
-// ファイル名  : InputLayoutCache.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/09/25
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    InputLayoutCache.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/25
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "System/Render/InputLayoutCache.h"
-#include "Assets/System/Shader/ShaderReflection.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
+#include "Assets/System/Shader/ShaderReflection.h"
 
 namespace RHEngine
 {
@@ -50,4 +42,4 @@ namespace RHEngine
 		// 作成したInputLayoutを返す
 		return newLayout;
 	}
-}
+}	// namespace RHEngine

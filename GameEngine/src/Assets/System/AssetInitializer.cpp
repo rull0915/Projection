@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : AssetInitializer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    AssetInitializer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "AssetInitializer.h"
 
@@ -32,14 +27,10 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void RHEngine::AssetInitializer::AssetInitialize(AssetManager& assetManager)
 	{
 		// デバイスを取得
-		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+		auto pDevice = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
 
 		// Textureの登録
 		assetManager.Registry<Texture>(

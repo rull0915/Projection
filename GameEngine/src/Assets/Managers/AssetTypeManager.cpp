@@ -1,23 +1,14 @@
-﻿//====================================================//
-// ファイル名  : AssetTypeManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要       : アセットタイプの管理クラス
-//====================================================//
+﻿/**
+ * @file    AssetTypeManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Managers/AssetTypeManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void AssetTypeManager::RegisterAssetType(const std::wstring& extention, const std::string& typeName)
 	{
 		// 存在するキーなら何もしない

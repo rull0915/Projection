@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : EditGUI.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
-//
-// 概要       : エディタ画面のGUIを管理するクラス
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    EditGUI.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/05
+ */
 
 #include "pch.h"
 
@@ -25,10 +19,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	EditGUI::EditGUI(Scene* pScene, AssetManager& assetManager, std::function<void()> playFunc, std::function<void()> stopFunc)
 		: m_pScene{ pScene }
 		, m_assetmanager{ assetManager }
@@ -62,25 +52,25 @@ namespace RHEngine
 		m_inspector->DrawInspector();
 	}
 
-	bool EditGUI::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera)
+	bool EditGUI::DrawSceneView(ID3D11ShaderResourceView* pSceneView, SceneCamera* pSceneViewCamera)
 	{
-		if (!sceneView) return false;
+		if (!pSceneView) return false;
 
 		GameObject* obj = dynamic_cast<GameObject*>(m_selected.GetSelected());
 
 		// シーンビューの描画
-		return m_images->DrawSceneViewWindow(sceneView, sceneViewCamera, obj ? obj->GetComponent<Transform>() : nullptr);
+		return m_images->DrawSceneViewWindow(pSceneView, pSceneViewCamera, obj ? obj->GetComponent<Transform>() : nullptr);
 	}
 
-	bool EditGUI::DrawGameView(ID3D11ShaderResourceView* gameView)
+	bool EditGUI::DrawGameView(ID3D11ShaderResourceView* pGameView)
 	{
 		// ゲームビューの描画
-		return m_images->DrawGameViewWindow(gameView);
+		return m_images->DrawGameViewWindow(pGameView);
 	}
 
-	void EditGUI::DrawToolBar(ID3D11ShaderResourceView* engineLogo, bool isPlaying)
+	void EditGUI::DrawToolBar(ID3D11ShaderResourceView* pEngineLogo, bool isPlaying)
 	{
-		switch (m_toolbar->DrawToolbar(engineLogo, isPlaying))
+		switch (m_toolbar->DrawToolbar(pEngineLogo, isPlaying))
 		{
 		case ToolBarWindow::Result::PressLoadButton:
 			Reset();
@@ -92,20 +82,20 @@ namespace RHEngine
 
 	void EditGUI::DrawDockingArea()
 	{
-		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		const ImGuiViewport* pViewport = ImGui::GetMainViewport();
 
-		ImGui::SetNextWindowPos(viewport->WorkPos);
-		ImGui::SetNextWindowSize(viewport->WorkSize);
-		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::SetNextWindowPos(pViewport->WorkPos);
+		ImGui::SetNextWindowSize(pViewport->WorkSize);
+		ImGui::SetNextWindowViewport(pViewport->ID);
 
 		ImGui::SetNextWindowPos(ImVec2(
-			viewport->Pos.x,
-			viewport->Pos.y + ToolBarWindow::TOOL_BAR_HEIGHT
+			pViewport->Pos.x,
+			pViewport->Pos.y + ToolBarWindow::TOOL_BAR_HEIGHT
 		));
 
 		ImGui::SetNextWindowSize(ImVec2(
-			viewport->Size.x,
-			viewport->Size.y - ToolBarWindow::TOOL_BAR_HEIGHT
+			pViewport->Size.x,
+			pViewport->Size.y - ToolBarWindow::TOOL_BAR_HEIGHT
 		));
 
 		ImGuiWindowFlags flags =

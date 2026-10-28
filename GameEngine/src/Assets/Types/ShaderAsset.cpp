@@ -1,20 +1,11 @@
-﻿//====================================================//
-// ファイル名  : ShaderAsset.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/03
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ShaderAsset.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/03
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Types/Shader/ShaderAsset.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -28,7 +19,7 @@ namespace RHEngine
 	{
 	}
 
-	void ShaderAsset::Bind(ID3D11DeviceContext* context)
+	void ShaderAsset::Bind(ID3D11DeviceContext* pContext)
 	{
 		// visitを使用してどのShaderでも対応可能に
 		std::visit
@@ -43,21 +34,21 @@ namespace RHEngine
 				// 頂点シェーダ
 				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11VertexShader>>) 
 				{
-					context->VSSetShader(obj.Get(), nullptr, 0); 
+					pContext->VSSetShader(obj.Get(), nullptr, 0); 
 				}
 				// ピクセルシェーダ
 				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11PixelShader>>) 
 				{
-					context->PSSetShader(obj.Get(), nullptr, 0); 
+					pContext->PSSetShader(obj.Get(), nullptr, 0); 
 				}
 				// ジオメトリシェーダ
-				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11GeometryShader>>) { context->GSSetShader(obj.Get(), nullptr, 0); }
+				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11GeometryShader>>) { pContext->GSSetShader(obj.Get(), nullptr, 0); }
 				// ハルシェーダ
-				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11HullShader>>) { context->HSSetShader(obj.Get(), nullptr, 0); }
+				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11HullShader>>) { pContext->HSSetShader(obj.Get(), nullptr, 0); }
 				// コンピュートシェーダ
-				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11ComputeShader>>) { context->CSSetShader(obj.Get(), nullptr, 0); }
+				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11ComputeShader>>) { pContext->CSSetShader(obj.Get(), nullptr, 0); }
 				// ドメインシェーダ
-				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11DomainShader>>) { context->DSSetShader(obj.Get(), nullptr, 0); }
+				if constexpr (std::is_same_v<T, Microsoft::WRL::ComPtr<ID3D11DomainShader>>) { pContext->DSSetShader(obj.Get(), nullptr, 0); }
 			},
 			// Shader本体を渡す
 			m_shader
@@ -74,4 +65,4 @@ namespace RHEngine
 		if (it != m_params.end()) return &(*it);
 		else return nullptr;
 	}
-}
+}	// namespace RHEngine

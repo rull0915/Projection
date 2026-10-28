@@ -1,7 +1,8 @@
-﻿//
-// DeviceResources.cpp - A wrapper for the Direct3D 11 device and swapchain
-//                       (requires DirectX 11.1 Runtime)
-//
+﻿/**
+ * @file    DeviceResources.cpp
+ * @author  DirectXTK
+ * @details A wrapper for the Direct3D 11 device and swapchain (requires DirectX 11.1 Runtime)
+ */
 
 #include "pch.h"
 #include "System/DeviceResources.h"

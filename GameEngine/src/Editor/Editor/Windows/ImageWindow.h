@@ -1,83 +1,90 @@
-﻿//====================================================//
-// ファイル名   : ImageWindow.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/21
-//
-// 概要 : 画像を表示するウィンドウを描画するクラス
-//
-// 更新履歴 :
-// 2026/10/21 新規作成
-//====================================================//
+﻿/**
+ * @file    ImageWindow.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/21
+ *
+ * @brief   画像を表示するウィンドウを描画するクラス
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <d3d11.h>
+#include <SimpleMath.h>
+
 #include "Editor/Editor/GuizmoManager.h"
 #include "Components/World/Transform/Transform.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class SceneCamera;
+
+	/**
+	 * @brief 画像を表示するウィンドウ
+	 */
 	class ImageWindow
 	{
 	private:
 
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
-
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// ギズモ管理クラス
+		/** @brief ギズモ管理クラス */
 		GuizmoManager m_guizmoManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		ImageWindow();
+
 		~ImageWindow() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-	public:
+		/**
+		 * @brief シーンビューウィンドウを表示する
+		 * @param pSceneView シーンビューのテクスチャ
+		 * @param pSceneViewCamera シーンビュー用カメラ
+		 * @param pTarget 選択されているトランスフォーム
+		 * @return カメラを動かすことが出来るかどうか
+		 */
+		bool DrawSceneViewWindow(ID3D11ShaderResourceView* pSceneView, SceneCamera* pSceneViewCamera, Transform* pTarget);
 
-		// シーンビューウィンドウの表示
-		bool DrawSceneViewWindow(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera, Transform* target);
-
-		// ゲームビューウィンドウの表示
+		/**
+		 * @brief ゲームビューウィンドウを表示する
+		 * @param gameView ゲームビューのテクスチャ
+		 * @return クリックされたかどうか
+		 */
 		bool DrawGameViewWindow(ID3D11ShaderResourceView* gameView);
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
 
 	private:
 
-		// 画像の表示
+		/**
+		 * @brief ウィンドウへ画像を表示する
+		 * @param img 表示する画像
+		 * @return 表示した画像のサイズ
+		 */
 		DirectX::SimpleMath::Vector2 DrawImage(ID3D11ShaderResourceView* img);
 
-		// シーンビュー描画の開始
+		/**
+		 * @brief シーンビューの描画を開始する
+		 */
 		void StartSceneView();
 
-		// ゲームビュー描画の開始
+		/**
+		 * @brief ゲームビューの描画を開始する
+		 */		
 		void StartGameView();
 
-		// シーンビューの描画
-		bool DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera, Transform* target);
+		/**
+		 * @brief シーンビューを描画する
+		 * @param pSceneView シーンビューテクスチャ
+		 * @param pSceneViewCamera シーンビュー用カメラ
+		 * @param target 選択しているTransform
+		 * @return カメラを動かせるかどうか
+		 */
+		bool DrawSceneView(ID3D11ShaderResourceView* pSceneView, SceneCamera* pSceneViewCamera, Transform* target);
 	};
-}
+}	// namespace RHEngine
 
 #endif

@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : SceneCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    SceneCamera.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ */
 
 #include "pch.h"
 
@@ -24,11 +18,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	// コンストラクタ
 	SceneCamera::SceneCamera()
 		: m_movable{ false }
 		, m_nearZ{ 0.1f }
@@ -56,7 +45,6 @@ namespace RHEngine
 		UpdateProj();
 	}
 
-	// 毎フレームUpdate及び物理挙動の後に呼ばれます
 	void SceneCamera::Update()
 	{
 		// 移動不可なら何もしない
@@ -114,9 +102,6 @@ namespace RHEngine
 		m_position = m_targetPoint - m_radius * forward;
 	}
 
-	/// <summary>
-	/// ビュー行列更新関数
-	/// </summary>
 	void SceneCamera::UpdateView()
 	{
 		// 位置をそのまま行列に
@@ -126,16 +111,13 @@ namespace RHEngine
 			).Invert();
 	}
 
-	/// <summary>
-	/// 投射行列更新関数
-	/// </summary>
 	void SceneCamera::UpdateProj()
-	{
+	{		
 		// 各設定から射影行列を作成
 		m_proj = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 			m_fov,
-			m_aspect,
 			m_nearZ,
+			WindowManager::Instance().GetAspect(),
 			m_farZ
 		);
 	}

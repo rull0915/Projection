@@ -1,29 +1,19 @@
-﻿//====================================================//
-// ファイル名  : OBJLoader.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/07
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    OBJLoader.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/07
+ */
 #include "pch.h"
+#include "OBJLoader.h"
 
 #include <fstream>
 
-#include "OBJLoader.h"
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
 #include "System/Render/GraphicsManager.h"
 
 #include "MtlFileLoader.h"
 #include "CreatePrefabFromModelData.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -457,4 +447,4 @@ namespace RHEngine
 			return result;
 		}
 	}
-}
+}	// namespace RHEngine

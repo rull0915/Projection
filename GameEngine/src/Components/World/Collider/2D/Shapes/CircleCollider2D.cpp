@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CircleCollider2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/18
-//
-// 概要        : 2Dの円状のコライダー
-//====================================================//
+﻿/**
+ * @file    CircleCollider2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/18
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Collider/2D/Shapes/CircleCollider2D.h"
 
@@ -17,10 +12,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	CircleCollider2D::CircleCollider2D(IComponentOwner* pOwner)
 		: ColliderBase2D(pOwner)
 		, m_radius{ 0.5f }
@@ -30,11 +21,11 @@ namespace RHEngine
 
 	void CircleCollider2D::UpdateCache() const
 	{
-		Transform* pT = GetTransform();
+		Transform* pTransform = GetTransform();
 
 		// ----- 中心座標の更新 ----- //
 		DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
-		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
+		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pTransform->GetWorldMatrix());
 
 		auto& world2D = WorldSetting2D::Instance();
 

@@ -1,21 +1,15 @@
-﻿//====================================================//
-// ファイル名   : InspectorWindow.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要 : インスペクターウィンドウ
-//
-// 更新履歴 :
-// 2026/07/06 新規作成
-//====================================================//
+﻿/**
+ * @file    InspectorWindow.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ *
+ * @brief   インスペクターウィンドウ
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "PropertyOnInspector.h"
 #include "Common/Property/PropertyObject.h"
 #include "GameObject/GameObject.h"
@@ -26,63 +20,86 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class AssetManager;
+	class Scene;
+
+	/**
+	 * @brief インスペクターウィンドウ
+	 */
 	class InspectorWindow
 	{
 	private:
-		// プロパティの表示を担当するクラス
+		/** @brief プロパティの表示担当 */
 		PropertyOnInspector m_propertyOnInspector;
 
-		// 選択中オブジェクト
+		/** @brief 選択中のオブジェクト */
 		SelectedOnGUI& m_selected;
 
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		InspectorWindow(Scene* pScene, AssetManager& am, SelectedOnGUI& selected)
-			: m_propertyOnInspector(pScene, am)
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene 編集対象のシーンポインタ
+		 * @param assetManager アセットマネージャー
+		 * @parassetManager selected 選択オブジェクト
+		 */
+		InspectorWindow(Scene* pScene, AssetManager& assetManager, SelectedOnGUI& selected)
+			: m_propertyOnInspector(pScene, assetManager)
 			, m_selected{ selected }
-			, m_assetManager{ am }
+			, m_assetManager{ assetManager }
 		{};
+
 		~InspectorWindow() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// インスペクターの描画
+		/**
+		 * @brief インスペクターウィンドウを表示する
+		 */
 		void DrawInspector();
 
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		// インスペクター描画の開始
+		/**
+		 * @brief インスペクターウィンドウへの描画を開始する
+		 */
 		void StartInspector();
 
-		// PropertyObjectの情報をInspectorに表示する関数
-		void DrawPropertyObjectOnInspector(PropertyObject* object);
+		/**
+		 * @brief 1つのPropertyObjectをインスペクターウィンドウに表示する
+		 * @param pObject 対象のObject
+		 */
+		void DrawPropertyObjectOnInspector(PropertyObject* pObject);
 
-		// GameObjectを表示する関数
-		void DrawGameObject(GameObject* object);
+		/**
+		 * @brief 1つのGameObjectをインスペクターウィンドウに表示する
+		 * @param pObject 対象のObject
+		 */
+		void DrawGameObject(GameObject* pObject);
 
-		// コンポーネントの追加を表示する関数
-		void DrawAddComponent(GameObject* object);
+		/**
+		 * @brief コンポーネント追加のメニューを表示する
+		 * @param pObject 追加対象のGameObject
+		 */
+		void DrawAddComponent(GameObject* pObject);
 
-		// コンポーネントリストを表示する関数
-		void DrawComponentList(GameObject* object, ComponentInfo info);
+		/**
+		 * @brief コンポーネントをリストに表示する
+		 * @param pObject 所有者
+		 * @param info 表示するコンポーネントの情報
+		 */
+		void DrawComponentList(GameObject* pObject, ComponentInfo info);
 
-		// Assetを表示する関数
-		void DrawAsset(AssetBase* asset);
+		/**
+		 * @brief Assetをインスペクターウィンドウに表示する
+		 * @param pAsset 対象のアセット
+		 */
+		void DrawAsset(AssetBase* pAsset);
 	};
 }	// namespace RHEngine
 

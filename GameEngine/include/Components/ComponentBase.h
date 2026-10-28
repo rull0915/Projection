@@ -41,7 +41,7 @@ namespace RHEngine
 		bool m_isActive;
 
 		/** @brief 所有者がアクティブかどうか */
-		bool m_pOwnererIsActive;
+		bool m_ownerIsActive;
 
 		/** @brief 既にStart関数が呼ばれたかどうか */
 		bool m_isStarted;
@@ -198,7 +198,7 @@ namespace RHEngine
 		IComponentOwner* GetOwn() const { return m_pOwner; }
 
 		/** @brief アクティブかどうか */
-		bool IsActive() const { return m_isActive && m_pOwnererIsActive; }
+		bool IsActive() const { return m_isActive && m_ownerIsActive; }
 
 		/** @brief 既にStart関数が呼ばれたかどうか */
 		bool IsStarted() const { return m_isStarted; }

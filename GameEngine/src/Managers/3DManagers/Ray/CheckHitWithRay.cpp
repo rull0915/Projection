@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CheckHitWithRay.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/31
-//
-// 概要       : レイとコライダーの衝突を調べる関数群
-//====================================================//
+﻿/**
+ * @file    CheckHitWithRay.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/31
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CheckHitWithRay.h"
 
@@ -20,20 +15,16 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	namespace RayCollision
 	{
 		bool RayCollision::CheckHit_Ray_Sphere(const Ray& ray, float distance, ColliderBase* co, RaycastHit* hit)
 		{
 			// コライダーを変換
-			SphereCollider* col = static_cast<SphereCollider*>(co);
+			SphereCollider* pCol = static_cast<SphereCollider*>(co);
 
 			// 球と線の連立方程式を解く方法を使用
-			DirectX::SimpleMath::Vector3 center = col->GetWorldCenterPos();
-			float radius = col->GetRadius();
+			DirectX::SimpleMath::Vector3 center = pCol->GetWorldCenterPos();
+			float radius = pCol->GetRadius();
 
 			// 2次方程式の解の公式のa,b,cに当たる部分を求める。
 
@@ -81,7 +72,7 @@ namespace RHEngine
 			// 衝突情報に代入する
 			hit->distance = t;
 			hit->point = ray.GetStart() + t * ray.GetDirection();
-			hit->collider = col;
+			hit->collider = pCol;
 			hit->normal = hit->point - center;
 			hit->normal.Normalize();
 
@@ -91,20 +82,20 @@ namespace RHEngine
 		bool CheckHit_Ray_Capsule(const Ray& ray, float distance, ColliderBase* co, RaycastHit* hit)
 		{
 			// コライダーを変換
-			CapsuleCollider* col = static_cast<CapsuleCollider*>(co);
+			CapsuleCollider* pCol = static_cast<CapsuleCollider*>(co);
 
 			// 情報を取得
 
 			// カプセルの中心線分の2点
-			DirectX::SimpleMath::Vector3 sC = col->GetPoints().first, eC = col->GetPoints().second;
+			DirectX::SimpleMath::Vector3 sC = pCol->GetPoints().first, eC = pCol->GetPoints().second;
 			// rayを構成する2点
 			DirectX::SimpleMath::Vector3 sR = ray.GetStart(), eR = sR + ray.GetDirection() * distance;
 			// rayのベクトル
 			DirectX::SimpleMath::Vector3 v = eR - sR;
 			// 半径
-			float radius = col->GetRadius();
+			float radius = pCol->GetRadius();
 			// 中心線分の長さ
-			float height = col->GetLineLength();
+			float height = pCol->GetLineLength();
 
 			// -------------------------------------------------------------
 			// 0. 両端の球用の連立方程式を解くラムダ式
@@ -147,7 +138,7 @@ namespace RHEngine
 				// 衝突情報に代入する
 				hit->distance = t * distance;
 				hit->point = ray.GetStart() + t * distance * ray.GetDirection();
-				hit->collider = col;
+				hit->collider = pCol;
 				hit->normal = hit->point - sC;
 				hit->normal.Normalize();
 
@@ -252,7 +243,7 @@ namespace RHEngine
 			DirectX::SimpleMath::Vector3 intersection = sR + v * T;
 
 			// 衝突情報を格納
-			hit->collider = col;
+			hit->collider = pCol;
 			hit->distance = distance * T;
 
 			// カプセル線分上の交点への最近点を求める
@@ -268,19 +259,19 @@ namespace RHEngine
 		bool CheckHit_Ray_Box(const Ray& ray, float distance, ColliderBase* co, RaycastHit* hit)
 		{
 			// コライダーを変換
-			BoxCollider* col = static_cast<BoxCollider*>(co);
+			BoxCollider* pCol = static_cast<BoxCollider*>(co);
 
 			// ボックスのローカル座標系にrayの2点を変換する
 
 			// ボックスのワールド行列の逆行列を使って、球の中心をローカル座標へ
-			DirectX::SimpleMath::Matrix worldToLocal = col->GetLocalMatrixInverse();
+			DirectX::SimpleMath::Matrix worldToLocal = pCol->GetLocalMatrixInverse();
 
 			DirectX::SimpleMath::Vector3 wS = ray.GetStart();
 			DirectX::SimpleMath::Vector3 wE = wS + distance * ray.GetDirection();
 			DirectX::SimpleMath::Vector3 lS = DirectX::SimpleMath::Vector3::Transform(wS, worldToLocal);
 			DirectX::SimpleMath::Vector3 lE = DirectX::SimpleMath::Vector3::Transform(wE, worldToLocal);
 
-			DirectX::SimpleMath::Vector3 halfSize = col->GetHalfSize();
+			DirectX::SimpleMath::Vector3 halfSize = pCol->GetHalfSize();
 
 			DirectX::SimpleMath::Vector3 minPos = -halfSize, maxPos = halfSize;
 
@@ -339,9 +330,9 @@ namespace RHEngine
 			DirectX::SimpleMath::Vector3 localIntersection = lS + lRayDir * tMin;
 
 			// ワールドに変換
-			DirectX::SimpleMath::Vector3 intersection = DirectX::SimpleMath::Vector3::Transform(localIntersection, col->GetLocalMatrix());
+			DirectX::SimpleMath::Vector3 intersection = DirectX::SimpleMath::Vector3::Transform(localIntersection, pCol->GetLocalMatrix());
 
-			hit->collider = col;
+			hit->collider = pCol;
 			// スケールなし行列変換のためtはそのまま使用可能
 			hit->distance = tMin * distance;
 			hit->point = intersection;
@@ -355,13 +346,13 @@ namespace RHEngine
 				hit->normal = -ray.GetDirection();
 				break;
 			case 0:
-				hit->normal = localIntersection.x > 0 ? col->GetXAxis() : -col->GetXAxis();
+				hit->normal = localIntersection.x > 0 ? pCol->GetXAxis() : -pCol->GetXAxis();
 				break;
 			case 1:
-				hit->normal = localIntersection.y > 0 ? col->GetYAxis() : -col->GetYAxis();
+				hit->normal = localIntersection.y > 0 ? pCol->GetYAxis() : -pCol->GetYAxis();
 				break;
 			case 2:
-				hit->normal = localIntersection.z > 0 ? col->GetZAxis() : -col->GetZAxis();
+				hit->normal = localIntersection.z > 0 ? pCol->GetZAxis() : -pCol->GetZAxis();
 				break;
 			default:
 				break;

@@ -1,24 +1,15 @@
-﻿//====================================================//
-// ファイル名  : MaterialAsset.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/05
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    MaterialAsset.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/05
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Types/Material/MaterialAsset.h"
-#include "Assets/Managers/AssetManager.h"
 
+#include "Assets/Managers/AssetManager.h"
 #include "System/Render/GraphicsManager.h"
 #include "Assets/EngineDefaultAssets.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -40,19 +31,19 @@ namespace RHEngine
 	}
 
 	// 定数バッファを更新する関数
-	void MaterialAsset::UpdateConstantBuffers(ID3D11Device* device, ID3D11DeviceContext* context)
+	void MaterialAsset::UpdateConstantBuffers(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	{
 		// 再構築のチェック
 		CheckAndDoRebuild();
 
 		// 1つのステージのバッファを更新するラムダ
-		auto updateStage = [&](ShaderAsset* asset, ShaderType type)
+		auto updateStage = [&](ShaderAsset* pAsset, ShaderType type)
 			{
 				// nullptrなら何もしない
-				if (!asset) return;
+				if (!pAsset) return;
 
 				// バッファをループ
-				for (auto& cBuffer : asset->GetBuffers())
+				for (auto& cBuffer : pAsset->GetBuffers())
 				{
 					// マップのキーを生成
 					auto key = std::make_pair(type, cBuffer.slot);
@@ -69,7 +60,7 @@ namespace RHEngine
 						bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;	// 定数バッファとしてバインド
 
 						// 作成
-						device->CreateBuffer(&bd, nullptr, m_constantBuffers[key].GetAddressOf());	// バッファのComPtrのアドレスを渡す
+						pDevice->CreateBuffer(&bd, nullptr, m_constantBuffers[key].GetAddressOf());	// バッファのComPtrのアドレスを渡す
 					}
 
 					// バッファが変更されていなければ何もしない
@@ -86,7 +77,7 @@ namespace RHEngine
 					for (auto& [name, value] : map)
 					{
 						// 対応するパラメータをShaderから取得
-						const ShaderParam* p = asset->FindParam(name);
+						const ShaderParam* p = pAsset->FindParam(name);
 
 						if (!p ||									// 取得できなかった場合	
 							p->slot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
@@ -114,7 +105,7 @@ namespace RHEngine
 					D3D11_MAPPED_SUBRESOURCE mapped;
 
 					// CPUがアクセスできる領域を取得
-					context->Map(
+					pContext->Map(
 						m_constantBuffers[key].Get(), // 書き換え対象のバッファ
 						0,	// SubResource番号 Bufferの場合は0
 						D3D11_MAP_WRITE_DISCARD,	// 既存の内容を破棄し新しい領域を確保
@@ -125,7 +116,7 @@ namespace RHEngine
 					std::memcpy(mapped.pData, buf.data(), buf.size());
 
 					// アクセス終了を通知
-					context->Unmap(m_constantBuffers[key].Get(), 0);
+					pContext->Unmap(m_constantBuffers[key].Get(), 0);
 				}
 			};
 
@@ -158,7 +149,7 @@ namespace RHEngine
 	std::unordered_map<std::string, MaterialAsset::Parameter>& MaterialAsset::GetPendingParams(ShaderType type)
 	{
 		// エラー用static変数
-		static std::unordered_map<std::string, Parameter> error{};
+		static std::unordered_map<std::string, Parameter> s_error{};
 
 		// 検索
 		auto it = m_pendingParams.find(type);
@@ -167,46 +158,46 @@ namespace RHEngine
 		if (it != m_pendingParams.end()) return it->second;
 
 		// なければエラー値
-		return error;
+		return s_error;
 	}
 
-	bool MaterialAsset::Apply(ID3D11DeviceContext* context)
+	bool MaterialAsset::Apply(ID3D11DeviceContext* pContext)
 	{
 		// 参照が設定されていなければ解決不可
 		if (!(m_pAssetManager && m_pSamplerList)) return false;
 
 		// 頂点シェーダー
-		if (!BindShader(context, ShaderType::Vertex))
+		if (!BindShader(pContext, ShaderType::Vertex))
 		{
 			// 失敗した場合リセット
-			context->VSSetShader(nullptr, nullptr, 0);
+			pContext->VSSetShader(nullptr, nullptr, 0);
 
 			// vsがない場合不可
 			return false;
 		}
 
 		// ピクセルシェーダー
-		if (!BindShader(context, ShaderType::Pixel))
+		if (!BindShader(pContext, ShaderType::Pixel))
 		{
-			context->PSSetShader(nullptr, nullptr, 0);	
+			pContext->PSSetShader(nullptr, nullptr, 0);	
 		}
 
 		return true;
 	}
 
-	bool MaterialAsset::BindShader(ID3D11DeviceContext* context, ShaderType type)
+	bool MaterialAsset::BindShader(ID3D11DeviceContext* pContext, ShaderType type)
 	{
 		// シェーダーを取得
-		auto* shader = GetShaderAsset(type);
+		auto* pShader = GetShaderAsset(type);
 
 		// なければ失敗
-		if (!shader || shader->GetStatus() != LoadStatus::Loaded)
+		if (!pShader || pShader->GetStatus() != LoadStatus::Loaded)
 		{
 			return false;
 		}
 
 		// バインド
-		shader->Bind(context);
+		pShader->Bind(pContext);
 
 		// 全定数バッファを走査
 		for (auto& [key, buf] : m_constantBuffers)
@@ -216,10 +207,10 @@ namespace RHEngine
 			{
 				// 頂点シェーダ
 			case ShaderType::Vertex:
-				context->VSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
+				pContext->VSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
 				break;
 			case ShaderType::Pixel:
-				context->PSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
+				pContext->PSSetConstantBuffers(key.second, 1, buf.GetAddressOf());
 				break;
 			default:
 				break;
@@ -230,25 +221,25 @@ namespace RHEngine
 		for (auto& [name, value] : m_params[type])
 		{
 			// なければ次へ
-			if (!shader) continue;
+			if (!pShader) continue;
 
 			// Handle<Texture>として取得
 			if (auto* t = std::get_if<Handle<Texture>>(&value.value))
 			{
 				// テクスチャを取得
-				auto* tex = m_pAssetManager->Get<Texture>(*t);
+				auto* pTex = m_pAssetManager->Get<Texture>(*t);
 
 				// バインド
-				BindTexture(context, shader, tex, name, type);
+				BindTexture(pContext, pShader, pTex, name, type);
 			}
 			// SamplerTypeとして取得
-			else if (auto* s = std::get_if<SamplerType>(&value.value))
+			else if (auto* pSampler = std::get_if<SamplerType>(&value.value))
 			{
 				// サンプラーを取得
-				auto& sampler = m_pSamplerList->GetSampler(*s);
+				auto& sampler = m_pSamplerList->GetSampler(*pSampler);
 
 				// バインド
-				BindSampler(context, shader, sampler, name, type);
+				BindSampler(pContext, pShader, sampler, name, type);
 			}
 		}
 
@@ -314,19 +305,19 @@ namespace RHEngine
 		return properties;
 	}
 
-	void MaterialAsset::BindTexture(ID3D11DeviceContext* context, ShaderAsset* shader, RHEngine::Texture* texture, const std::string& name, ShaderType type)
+	void MaterialAsset::BindTexture(ID3D11DeviceContext* pContext, ShaderAsset* pShader, RHEngine::Texture* pTexture, const std::string& name, ShaderType type)
 	{
 		// テクスチャがなけデフォルトテクスチャを使用
-		if (!texture)
+		if (!pTexture)
 		{
-			texture = m_pAssetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
+			pTexture = m_pAssetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
 
 			// デフォルトが取得できなければバインドしない
-			if (!texture) return;
+			if (!pTexture) return;
 		}
 
 		// パラメータを取得
-		auto* param = shader->FindParam(name);
+		auto* param = pShader->FindParam(name);
 
 		// 対応していなければ何もしない
 		if (!param || param->type != ShaderParamType::Texture2D) return;
@@ -337,13 +328,13 @@ namespace RHEngine
 			// PS
 		case ShaderType::Pixel:
 		{
-			context->PSSetShaderResources(param->slot, 1, texture->GetAddressOf());
+			pContext->PSSetShaderResources(param->slot, 1, pTexture->GetAddressOf());
 			break;
 		}
 			// VS
 		case ShaderType::Vertex:
 		{
-			context->VSSetShaderResources(param->slot, 1, texture->GetAddressOf());
+			pContext->VSSetShaderResources(param->slot, 1, pTexture->GetAddressOf());
 			break;
 		} 
 		default:
@@ -351,7 +342,7 @@ namespace RHEngine
 		}
 	}
 
-	void MaterialAsset::BindSampler(ID3D11DeviceContext* context, ShaderAsset* shader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
+	void MaterialAsset::BindSampler(ID3D11DeviceContext* pContext, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
 	{
 		// サンプラーがなければリニアラップを使用
 		if (!sampler)
@@ -360,7 +351,7 @@ namespace RHEngine
 		}
 
 		// パラメータを取得
-		auto* param = shader->FindParam(name);
+		auto* param = pShader->FindParam(name);
 
 		// 対応していなければ何もしない
 		if (!param || param->type != ShaderParamType::Sampler) return;
@@ -371,13 +362,13 @@ namespace RHEngine
 			// PS
 		case ShaderType::Pixel:
 		{
-			context->PSSetSamplers(param->slot, 1, sampler.GetAddressOf());
+			pContext->PSSetSamplers(param->slot, 1, sampler.GetAddressOf());
 			break;
 		}
 			// VS
 		case ShaderType::Vertex:
 		{
-			context->VSSetSamplers(param->slot, 1, sampler.GetAddressOf());
+			pContext->VSSetSamplers(param->slot, 1, sampler.GetAddressOf());
 			break;
 		}
 		default:
@@ -391,16 +382,16 @@ namespace RHEngine
 		std::unordered_map<ShaderType, std::unordered_map<std::string, Parameter>> newParams;
 
 		// 1つのステージを作り直すラムダ式
-		auto processShader = [&](ShaderAsset* shader, ShaderType stage)
+		auto processShader = [&](ShaderAsset* pShader, ShaderType stage)
 			{
-				if (!shader) return;
+				if (!pShader) return;
 
 				auto& oldParams = m_params[stage];
 				auto& pending = m_pendingParams[stage]; // ローダーで設定された未解決のパラメータを取得
 
 				auto& newOnceParams = newParams[stage];
 
-				for (const auto& param : shader->GetParams())
+				for (const auto& param : pShader->GetParams())
 				{
 					// 未解決パラメータに存在していれば優先して取得
 					if (pending.contains(param.name))
@@ -467,14 +458,14 @@ namespace RHEngine
 		if (!needRebuild) return;
 
 		// 各ステージのシェーダーを取得
-		auto* vs = m_pAssetManager->Get(m_vertexShader);
-		auto* ps = m_pAssetManager->Get(m_pixelShader);
+		auto* pVs = m_pAssetManager->Get(m_vertexShader);
+		auto* pPs = m_pAssetManager->Get(m_pixelShader);
 
 		// VSが存在し、かつロードが終わっているかチェック
-		bool vsReady = !m_vertexShader.IsValid() || (vs && vs->GetStatus() == LoadStatus::Loaded);
+		bool vsReady = !m_vertexShader.IsValid() || (pVs && pVs->GetStatus() == LoadStatus::Loaded);
 
 		// PSは設定されていないか、設定されている場合はロードが終わっているかチェック
-		bool psReady = !m_pixelShader.IsValid() || (ps && ps->GetStatus() == LoadStatus::Loaded);
+		bool psReady = !m_pixelShader.IsValid() || (pPs && pPs->GetStatus() == LoadStatus::Loaded);
 
 		// 両方問題がなければ
 		if (vsReady && psReady) {
@@ -499,4 +490,4 @@ namespace RHEngine
 			return nullptr;
 		}
 	}
-}
+}	// namespace RHEngine

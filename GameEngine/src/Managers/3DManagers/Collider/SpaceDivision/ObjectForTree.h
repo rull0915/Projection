@@ -1,40 +1,43 @@
-﻿//====================================================//
-// ファイル名   : ObjectForTree.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/08
-//
-// 概要 : 分木へ登録するオブジェクトです
-//
-// 更新履歴 :
-// 2026/04/08 新規作成
-//====================================================//
+﻿/**
+ * @file    ObjectForTree.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/08
+ *
+ * @brief   分木へ登録するオブジェクトです
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/Collider/3D/ColliderBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class Cell;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 分木へ登録するコライダーを持つオブジェクト
+	 */
 	class ObjectForTree
 	{
 	public:
-		Cell* m_pCell;			// 登録空間
-		ColliderBase* m_pObject;				// 判定対象オブジェクト
-		ObjectForTree* m_pPre;	// 前のObjectForTree構造体
-		ObjectForTree* m_pNext;	// 次のObjectForTree構造体
+
+		/** @brief 所属しているセル */
+		Cell* m_pCell;
+
+		/** @brief 対応するコライダー */
+		ColliderBase* m_pObject;
+
+		/** @brief 前のオブジェクト */
+		ObjectForTree* m_pPre;
+
+		/** @brief 次のオブジェクト */
+		ObjectForTree* m_pNext;
 
 	public:
+
+		/// @name ライフサイクル
+		/// @{
+
 		ObjectForTree()
 			: m_pCell{ nullptr }
 			, m_pObject{ nullptr }
@@ -42,20 +45,30 @@ namespace RHEngine
 			, m_pNext{ nullptr }
 		{}
 
-		virtual ~ObjectForTree()
-		{}
+		virtual ~ObjectForTree() = default;
+
+		/// @}
 
 	public:
-		// 空間から削除する関数
+		
+		/**
+		 * @brief 自身を削除する
+		 * @return 成功したかどうか
+		 */
 		bool Remove();
 
-		// 空間を登録
+		/**
+		 * @brief 所属空間を変更する
+		 * @param pCell 
+		 */
 		void RegistCell(Cell* pCell)
 		{
 			m_pCell = pCell;
 		}
 
-		// 次のオブジェクトへのポインタを取得
+		/**
+		 * @brief 次のオブジェクトへのポインタを取得する
+		 */
 		ObjectForTree* GetNextObj() const {
 			return m_pNext;
 		}

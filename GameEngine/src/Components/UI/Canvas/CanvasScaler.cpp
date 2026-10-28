@@ -1,28 +1,20 @@
-﻿//====================================================//
-// ファイル名  : CanvasScaler.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/22
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    CanvasScaler.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/22
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/UI/Canvas/CanvasScaler.h"
 
 #include "System/WindowManager.h"
+#include "Components/UI/RectTransform/RectTransform.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	// コンストラクタ
-	CanvasScaler::CanvasScaler(IComponentOwner* own)
-		: UIComponentBase(own)
+	CanvasScaler::CanvasScaler(IComponentOwner* pOwner)
+		: UIComponentBase(pOwner)
 		, m_pRectTransform{ nullptr }
 		, m_mode{ CanvasMode::None }
 		, m_scaleFactor{ 1.0f }
@@ -194,4 +186,4 @@ namespace RHEngine
 
 		return 1.0f;
 	}
-}
+}	// namespace RHEngine

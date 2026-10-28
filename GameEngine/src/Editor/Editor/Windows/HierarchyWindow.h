@@ -1,13 +1,10 @@
-﻿//====================================================//
-// ファイル名   : HierarchyWindow.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要 : ヒエラルキーウィンドウ
-//
-// 更新履歴 :
-// 2026/07/06 新規作成
-//====================================================//
+﻿/**
+ * @file    HierarchyWindow.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ *
+ * @brief   ヒエラルキーウィンドウ
+ */
 
 #pragma once
 
@@ -18,59 +15,70 @@
 namespace RHEngine
 {
 	class Scene;
-
 	class GameObject;
 	class Canvas;
-
 	class ObjectManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief ヒエラルキーウィンドウ
+	 */
 	class HierarchyWindow
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 所属先のシーン
+		/** @brief 編集中のシーン */
 		Scene* m_pScene;
 
-		// 選択中オブジェクト
+		/** @brief 選択中のオブジェクト */
 		SelectedOnGUI& m_selected;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene 編集対象のシーン
+		 * @param selected 選択オブジェクト
+		 */
 		HierarchyWindow(Scene* pScene, SelectedOnGUI& selected)
 			: m_pScene{ pScene }
 			, m_selected{ selected }
 		{}
+
 		~HierarchyWindow() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// ヒエラルキーの描画
+		/**
+		 * @brief ヒエラルキーウィンドウを表示する
+		 */
 		void DrawHierarchy();
 
 	private:
 
-		// ヒエラルキー描画の開始
+		/**
+		 * @brief ヒエラルキーウィンドウへの描画を開始する
+		 */
 		void StartHierarchy();
 
-		// GameObjectの表示関数
-		void DrawGameObject(GameObject* object);
+		/**
+		 * @brief ヒエラルキーウィンドウにGameObjectを表示する
+		 * @param pObject 対象のオブジェクト
+		 */
+		void DrawGameObject(GameObject* pObject);
 
-		// ObjectManagerから全Objectを描画する
-		void DrawObjects(ObjectManager* objectManager);
+		/**
+		 * @brief ObjectManagerから全オブジェクトを表示する
+		 * @param pObjectManager 対象のマネージャー
+		 */
+		void DrawObjects(ObjectManager* pObjectManager);
 
-		// 選択解除をする関数
+		/**
+		 * @brief オブジェクトの選択を解除する
+		 * @param root 対象のオブジェクト
+		 * @return 解除したかどうか
+		 */
 		bool SelectCancel(GameObject* root);
 	};
 }	// namespace RHEngine

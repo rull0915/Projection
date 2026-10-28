@@ -1,23 +1,18 @@
-﻿//====================================================//
-// ファイル名  : ShaderLoader.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/04
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ShaderLoader.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/04
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Types/Shader/ShaderLoader.h"
+
+#include <filesystem>
+#include <d3dcompiler.h>
 
 #include "Assets/Types/Shader/ShaderAsset.h"
 #include "System/Render/GraphicsManager.h"
 #include "ShaderReflection.h"
-
-#include <filesystem>
-#include <d3dcompiler.h>
 
 //====================================================//
 // 関数の実体宣言
@@ -62,7 +57,7 @@ namespace RHEngine
 			}
 
 			// デバイスを取得
-			ID3D11Device* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+			ID3D11Device* pDevice = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
 
 			// 拡張子によって処理を変更
 			if (ext == ".vs")	// 頂点シェーダの場合
@@ -74,7 +69,7 @@ namespace RHEngine
 				Microsoft::WRL::ComPtr<ID3D11VertexShader> vs;
 
 				// バイナリファイルから読み取る
-				if (FAILED(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, vs.GetAddressOf())))
+				if (FAILED(pDevice->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, vs.GetAddressOf())))
 				{
 					result.success = false;
 
@@ -93,7 +88,7 @@ namespace RHEngine
 				Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;
 
 				// バイナリファイルから読み取る
-				if (FAILED(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, ps.GetAddressOf())))
+				if (FAILED(pDevice->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, ps.GetAddressOf())))
 				{
 					result.success = false;
 

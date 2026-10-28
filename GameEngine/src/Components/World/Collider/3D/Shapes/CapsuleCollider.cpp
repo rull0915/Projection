@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CapsuleCollider.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/03
-//
-// 概要        :  カプセルのコライダー
-//====================================================//
+﻿/**
+ * @file    CapsuleCollider.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/03
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Collider/3D/Shapes/CapsuleCollider.h"
 
@@ -16,47 +11,43 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	CapsuleCollider::CapsuleCollider(IComponentOwner* pOwner)
 		: ColliderBase(pOwner)
-		, m_lineDir{ 1 }
+		, m_axis{ AxisType::Y }
 		, m_capsuleHeight{ 2.0f }
 		, m_radius{ 0.5f }
 		, m_cache{}
 	{
-		ADD_PROPERTY(CapsuleCollider, m_lineDir);
+		ADD_PROPERTY(CapsuleCollider, m_axis);
 		ADD_PROPERTY(CapsuleCollider, m_capsuleHeight);
 		ADD_PROPERTY(CapsuleCollider, m_radius);
 	}
 
 	void CapsuleCollider::UpdateCache() const
 	{
-		Transform* pT = GetTransform();
+		Transform* pTransform = GetTransform();
 
 		// ワールドの拡大率を取得
-		DirectX::SimpleMath::Vector3 worldScale = pT->GetWorldScale();
+		DirectX::SimpleMath::Vector3 worldScale = pTransform->GetWorldScale();
 
 		// ----- 中心座標の更新 ----- //
-		DirectX::SimpleMath::Vector3 world = DirectX::SimpleMath::Vector3::Transform(GetLocalCenterPos(), pT->GetWorldMatrix());
+		DirectX::SimpleMath::Vector3 world = DirectX::SimpleMath::Vector3::Transform(GetLocalCenterPos(), pTransform->GetWorldMatrix());
 		SetWorldPosition(world);
 
 		// ----- ラインのベクトルの更新 ----- //
 		{
 			DirectX::SimpleMath::Vector3 dir;
 
-			switch (m_lineDir)
+			switch (m_axis)
 			{
 			case AxisType::X:
-				dir = pT->GetRight();
+				dir = pTransform->GetRight();
 				break;
 			case AxisType::Y:
-				dir = pT->GetUp();
+				dir = pTransform->GetUp();
 				break;
 			case AxisType::Z:
-				dir = pT->GetForward();
+				dir = pTransform->GetForward();
 				break;
 			default:
 				break;
@@ -69,7 +60,7 @@ namespace RHEngine
 		{
 			float ratio = 1;
 
-			switch (m_lineDir)
+			switch (m_axis)
 			{
 			case AxisType::X:
 				ratio = std::max(worldScale.y, worldScale.z); break;
@@ -86,7 +77,7 @@ namespace RHEngine
 		{
 			float height = 0;
 
-			switch (m_lineDir)
+			switch (m_axis)
 			{
 			case AxisType::X:
 				height = worldScale.x * m_capsuleHeight;

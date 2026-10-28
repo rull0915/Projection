@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : Renderer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/29
-//
-// 概要        :  描画を統括するクラス
-//====================================================//
+﻿/**
+ * @file    Renderer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/29
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Renderer/Renderer.h"
 
@@ -16,13 +11,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	Renderer::Renderer(AssetManager& am)
 		: m_renderProxy{}
 		, m_graphicSystem{ am, m_infoManager }
@@ -30,9 +18,6 @@ namespace RHEngine
 	{
 	}
 
-	/// <summary>
-	/// 初期化関数
-	/// </summary>
 	void Renderer::Initialize()
 	{
 		// 初期化済みなら何もしない

@@ -1,44 +1,34 @@
-﻿//====================================================//
-// ファイル名  : Canvas.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/27
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    Canvas.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/27
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/UI/Canvas/Canvas.h"
-#include "GameObject/GameObject.h"
 
+#include "GameObject/GameObject.h"
 #include "Components/UI/Graphics/UIGraphicBase.h"
 #include "Components/UI/Behaviour/UIBehaviorBase.h"
 #include "Components/UI/Graphics/ImageUI.h"
-
 #include "System/WindowManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	// コンストラクタ
-	Canvas::Canvas(RHEngine::IComponentOwner* own)
-		: UIComponentBase(own)
+	Canvas::Canvas(RHEngine::IComponentOwner* pOwner)
+		: UIComponentBase(pOwner)
 		, m_drawOrder{ 0 }
 	{
 		ADD_PROPERTY(Canvas, m_drawOrder);
 
 		// ルートRectTransformの初期設定
-		auto* rectTransform = GetComponent<RectTransform>();
+		auto* pRectTransform = GetComponent<RectTransform>();
 
-		rectTransform->SetAnchor({ 0.5f, 0.5f });
-		rectTransform->SetSize(WindowManager::Instance().GetSize());
-		rectTransform->SetAnchoredPosition({ 0, 0 });
-		rectTransform->SetPivot({ 0.5f, 0.5f });
+		pRectTransform->SetAnchor({ 0.5f, 0.5f });
+		pRectTransform->SetSize(WindowManager::Instance().GetSize());
+		pRectTransform->SetAnchoredPosition({ 0, 0 });
+		pRectTransform->SetPivot({ 0.5f, 0.5f });
 	}
 
 	void Canvas::Draw(Renderer& renderer)
@@ -64,39 +54,39 @@ namespace RHEngine
 		GetComponent<RectTransform>()->SetSize(WindowManager::Instance().GetSize());
 	}
 
-	void Canvas::DrawChild(RectTransform* rectTransform, Renderer& renderer)
+	void Canvas::DrawChild(RectTransform* pRectTransform, Renderer& renderer)
 	{
 		// GameObjectを取得
-		GameObject* obj = static_cast<GameObject*>(rectTransform->GetOwn());
+		GameObject* pObject = static_cast<GameObject*>(pRectTransform->GetOwn());
 
 		// 非アクティブなら描画しない
-		if (!obj->IsActive()) return;
+		if (!pObject->IsActive()) return;
 
 		// Graphicを継承しているコンポーネントを取得
-		for (auto graphic : obj->GetComponents<UIGraphicBase>())
+		for (auto* pGraphic : pObject->GetComponents<UIGraphicBase>())
 		{
 			// 描画
-			if (graphic->IsActive()) static_cast<UIGraphicBase*>(graphic)->Draw(renderer);
+			if (pGraphic->IsActive()) static_cast<UIGraphicBase*>(pGraphic)->Draw(renderer);
 		}
 
 		// 子供を探索
-		for (auto grandChild : rectTransform->GetChildren())
+		for (auto* pGrandChild : pRectTransform->GetChildren())
 		{
 			// 再帰的に描画
-			DrawChild(grandChild, renderer);
+			DrawChild(pGrandChild, renderer);
 		}
 	}
 
-	RectTransform* Canvas::CheckHitPoint(RectTransform* rectTransform, DirectX::SimpleMath::Vector2 point)
+	RectTransform* Canvas::CheckHitPoint(RectTransform* pRectTransform, DirectX::SimpleMath::Vector2 point)
 	{
 		// オブジェクトを取得
-		GameObject* obj = static_cast<GameObject*>(rectTransform->GetOwn());
+		GameObject* pObject = static_cast<GameObject*>(pRectTransform->GetOwn());
 
 		// 非アクティブなら調べない
-		if (!obj->IsActive()) return nullptr;
+		if (!pObject->IsActive()) return nullptr;
 
 		// 逆順で再帰的にチェック
-		std::vector<RectTransform*>& children = rectTransform->GetChildren();
+		std::vector<RectTransform*>& children = pRectTransform->GetChildren();
 		for (auto it = children.rbegin(); it != children.rend(); ++it)
 		{
 			// 当たっているオブジェクトが見つかれば
@@ -110,40 +100,40 @@ namespace RHEngine
 		// 子をチェックした後に自分をチェック
 
 		// 自分にImageがあるなら
-		if (auto* image = obj->GetComponent<ImageUI>())
+		if (auto* pImage = pObject->GetComponent<ImageUI>())
 		{
 			// raycastと当たる設定なら
-			if (!image->IsActive() || !image->IsRaycastTarget()) return nullptr;
+			if (!pImage->IsActive() || !pImage->IsRaycastTarget()) return nullptr;
 
 			// 点が自分の上にあれば
-			if (rectTransform->Contains(point))
+			if (pRectTransform->Contains(point))
 			{
 				// 自分を返す
-				return rectTransform;
+				return pRectTransform;
 			}
 		}
 
 		return nullptr;
 	}
 
-	void Canvas::MouseEventChild(RectTransform* rectTransform, MouseEvent event)
+	void Canvas::MouseEventChild(RectTransform* pRectTransform, MouseEvent event)
 	{
 		// オブジェクトを取得
-		GameObject* childObj = static_cast<GameObject*>(rectTransform->GetOwn());
+		GameObject* pChildObj = static_cast<GameObject*>(pRectTransform->GetOwn());
 
-		if (!childObj->IsActive()) return;
+		if (!pChildObj->IsActive()) return;
 
 		// 子のUIObjectがアクティブなら
 
 		// 逆順で再帰的にチェック
-		std::vector<RectTransform*>& children = rectTransform->GetChildren();
+		std::vector<RectTransform*>& children = pRectTransform->GetChildren();
 		for (auto it = children.rbegin(); it != children.rend(); ++it)
 		{
 			MouseEventChild(*it, event);
 		}
 
 		// 子をチェックした後に自分をチェック
-		for (auto& behavior : childObj->GetComponents<UIBehaviorBase>())
+		for (auto& behavior : pChildObj->GetComponents<UIBehaviorBase>())
 		{
 			// アクティブなら
 			if (behavior->IsActive())
@@ -163,4 +153,4 @@ namespace RHEngine
 			}
 		}
 	}
-}
+}	// namespace RHEngine

@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ObjectSaver.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/29
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ObjectSaver.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/29
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #include <filesystem>
@@ -25,10 +20,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	using namespace nlohmann;
 
 	nlohmann::json ObjectSaver::SaveProperty(Property& property)
@@ -155,28 +146,28 @@ namespace RHEngine
 		return js;
 	}
 
-	json ObjectSaver::SaveObject(GameObject* obj)
+	json ObjectSaver::SaveObject(GameObject* pObject)
 	{
 		// GameObject部分を保存
-		json j = SavePropertyObject(*obj);
+		json j = SavePropertyObject(*pObject);
 
 		// UUIDを保存
-		j["UUID"] = obj->GetUUID();
+		j["UUID"] = pObject->GetUUID();
 
 		// コンポーネントを全て調べる
-		for (auto& component : obj->GetAllComponents())
+		for (auto& pComponent : pObject->GetAllComponents())
 		{
 			// jsonを生成
-			json compJson = SavePropertyObject(*component);
+			json compJson = SavePropertyObject(*pComponent);
 
 			// コンポーネント名を取得
-			auto componentName = NAMEOF_SHORT_TYPE_RTTI(*component);
+			auto componentName = NAMEOF_SHORT_TYPE_RTTI(*pComponent);
 
 			j["Components"].push_back(
 				{
 					{ "Type", componentName.data() },
 					{ "Data", compJson },
-					{ "UUID", component->GetUUID() }
+					{ "UUID", pComponent->GetUUID() }
 				}
 			);
 		}
@@ -184,24 +175,24 @@ namespace RHEngine
 		j["Children"] = nlohmann::json::array();
 
 		// Transformを取得
-		if (auto* tr = obj->GetComponent<Transform>())
+		if (auto* pTransform = pObject->GetComponent<Transform>())
 		{
 			// 再帰的に子供を保存
-			for (auto& child : tr->GetChildren())
+			for (auto& pChild : pTransform->GetChildren())
 			{
-				j["Children"].push_back(SaveObject(static_cast<GameObject*>(child->GetOwn())));
+				j["Children"].push_back(SaveObject(static_cast<GameObject*>(pChild->GetOwn())));
 			}
 
 			// WorldObject
 			j["IsWorld"] = true;
 		}
 		// RectTransformの場合も同様
-		if (auto* tr = obj->GetComponent<RectTransform>())
+		if (auto* pRectTransform = pObject->GetComponent<RectTransform>())
 		{
 			// 再帰的に子供を保存
-			for (auto& child : tr->GetChildren())
+			for (auto& pChild : pRectTransform->GetChildren())
 			{
-				j["Children"].push_back(SaveObject(static_cast<GameObject*>(child->GetOwn())));
+				j["Children"].push_back(SaveObject(static_cast<GameObject*>(pChild->GetOwn())));
 			}
 
 			// UIObject
@@ -211,27 +202,22 @@ namespace RHEngine
 		return j;
 	}
 
-	nlohmann::json ObjectSaver::SaveObjectManager(const ObjectManager* objManager)
+	nlohmann::json ObjectSaver::SaveObjectManager(const ObjectManager* pObjManager)
 	{
 		json j;
 		j["GameObjects"] = nlohmann::json::array();
 
 		// 保存
-		for (auto& object : objManager->GetAllObject())
+		for (auto& object : pObjManager->GetAllObject())
 		{
 			// シリアライズ可能なら
 			if (object->IsSerializable())
 			{
 				// 親がnullの場合
-				if (auto* t = object->GetComponent<Transform>())
+				if (!object->GetParent())
 				{
 					// jsonを追加
-					if (!t->GetParent()) j["GameObjects"].push_back(SaveObject(object.get()));
-				}
-				else if (auto* t = object->GetComponent<RectTransform>())
-				{
-					// jsonを追加
-					if (!t->GetParent()) j["GameObjects"].push_back(SaveObject(object.get()));
+					j["GameObjects"].push_back(SaveObject(object.get()));
 				}
 			}
 		}
@@ -239,16 +225,16 @@ namespace RHEngine
 		return j;
 	}
 
-	nlohmann::json ObjectSaver::SaveScene(const Scene* scene)
+	nlohmann::json ObjectSaver::SaveScene(const Scene* pScene)
 	{
 		json j;
 
-		j["World"] = SaveObjectManager(scene->GetObjectManager());
+		j["World"] = SaveObjectManager(pScene->GetObjectManager());
 
 		return j;
 	}
 
-	void ObjectSaver::SaveObjectToFile(const std::filesystem::path& filePath, GameObject* obj)
+	void ObjectSaver::SaveObjectToFile(const std::filesystem::path& filePath, GameObject* pObject)
 	{
 		std::ofstream ofs(filePath);
 
@@ -256,14 +242,14 @@ namespace RHEngine
 		if (ofs.is_open())
 		{
 			// パス
-			ofs << SaveObject(obj).dump(4);
+			ofs << SaveObject(pObject).dump(4);
 		}
 
 		// 閉じる
 		ofs.close();
 	}
 
-	void ObjectSaver::SaveSceneToFile(const std::filesystem::path& filePath, Scene* scene)
+	void ObjectSaver::SaveSceneToFile(const std::filesystem::path& filePath, Scene* pScene)
 	{
 		std::ofstream ofs(filePath);
 
@@ -271,14 +257,14 @@ namespace RHEngine
 		if (ofs.is_open())
 		{
 			// パス
-			ofs << SaveScene(scene).dump(4);
+			ofs << SaveScene(pScene).dump(4);
 		}
 
 		// 閉じる
 		ofs.close();
 	}
 
-	void ObjectSaver::SavePropertyToFile(const std::filesystem::path& filePath, PropertyObject* property)
+	void ObjectSaver::SavePropertyToFile(const std::filesystem::path& filePath, PropertyObject* pProperty)
 	{
 		std::ofstream ofs(filePath);
 
@@ -286,7 +272,7 @@ namespace RHEngine
 		if (ofs.is_open())
 		{
 			// パス
-			ofs << SavePropertyObject(*property).dump(4);
+			ofs << SavePropertyObject(*pProperty).dump(4);
 		}
 
 		// 閉じる

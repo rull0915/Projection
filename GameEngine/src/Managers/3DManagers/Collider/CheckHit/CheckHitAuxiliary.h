@@ -1,29 +1,22 @@
-﻿//====================================================//
-// ファイル名   : CheckHitAuxiliary.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/04
-//
-// 概要 : 衝突判定で使用する補助関数をまとめたヘッダです
-//
-// 更新履歴 :
-// 2026/04/04 新規作成
-//====================================================//
+﻿/**
+ * @file    CheckHitAuxiliary.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/04
+ *
+ * @brief   衝突判定で使用する補助関数をまとめたヘッダです
+ */
 
 #pragma once
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数宣言
-	//====================================================//
-
-	/// <summary>
-	/// 線分(p1, p2)上で、点pに最も近い点を探す補助関数
-	/// </summary>
-	/// <param name="p1"></param>
-	/// <param name="p2"></param>
-	/// <param name="p"></param>
-	/// <returns></returns>
+	/**
+	 * @brief 線分上で最も点に近い点を調べる
+	 * @param p1 線分の端
+	 * @param p2 線分の端
+	 * @param p 点
+	 * @return 最近点
+	 */
 	static DirectX::SimpleMath::Vector3 ClosestPointOnSegment(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p)
 	{
 		DirectX::SimpleMath::Vector3 v = p2 - p1;    // 線分の方向ベクトル
@@ -43,9 +36,16 @@ namespace RHEngine
 		return p1 + v * t;
 	}
 
-	/// <summary>
-	/// 線分同士の最短距離を求める関数
-	/// </summary>
+	/**
+	 * @brief 線分同士の最近点を求める
+	 * @param p1 線分1の端
+	 * @param p2 線分1の端
+	 * @param q1 線分2の端
+	 * @param q2 線分2の端
+	 * @param outP 線分1上の最近点
+	 * @param outQ 線分2上の最近点
+	 * @return 線分同士の距離
+	 */
 	static float ClosedSegmentToSegment(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& q1, const DirectX::SimpleMath::Vector3& q2, DirectX::SimpleMath::Vector3& outP, DirectX::SimpleMath::Vector3& outQ)
 	{
 		// 線分のベクトル
@@ -141,6 +141,12 @@ namespace RHEngine
 		}
 	}
 
+	/**
+	 * @brief 点から原点にあるBoundingBoxへの最近点を求める
+	 * @param halfSize BoudingBoxのサイズの半分
+	 * @param point 点
+	 * @return 最近点
+	 */
 	static DirectX::SimpleMath::Vector3 ClosedPointOnBoundingBox(const DirectX::SimpleMath::Vector3& halfSize, const DirectX::SimpleMath::Vector3 point)
 	{
 		DirectX::SimpleMath::Vector3 nearPoint = {
@@ -157,7 +163,16 @@ namespace RHEngine
 		return abs(target.Dot(x)) + abs(target.Dot(y)) + abs(target.Dot(z));
 	}
 
-	// 球と線分の交点を求める(始点に近い方)
+	/**
+	 * @brief 球と線分の交点を求める (2つある場合は線分の視点に近い側)
+	 * @param center 球の中心
+	 * @param radius 球の半径
+	 * @param start 線分の始点
+	 * @param end 線分の終点
+	 * @param outT 衝突点の媒介変数t
+	 * @param outP 衝突点の座標
+	 * @return 衝突しているかどうか
+	 */
 	static bool GetIntersectionSphereAndLine(DirectX::SimpleMath::Vector3 center, float radius, DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 end, float& outT, DirectX::SimpleMath::Vector3& outP)
 	{
 		DirectX::SimpleMath::Vector3 v = end - start, oc = start - center;

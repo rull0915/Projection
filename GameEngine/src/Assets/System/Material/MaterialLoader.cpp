@@ -1,29 +1,19 @@
-﻿//====================================================//
-// ファイル名  : MaterialLoader.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/10
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    MaterialLoader.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/10
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
+#include "MaterialLoader.h"
 
 #include <fstream>
 
-#include "MaterialLoader.h"
 #include "Assets/Managers/AssetContext.h"
 #include "MaterialConstant.h"
-
 #include "ThirdParty/nlohmann/json.hpp"
 #include "Assets/Types/Shader/ShaderParam.h"
 #include "ThirdParty/magic_enum/magic_enum.hpp"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -109,4 +99,4 @@ namespace RHEngine
 			return result;
 		}
 	}
-}
+}	// namespace RHEngine

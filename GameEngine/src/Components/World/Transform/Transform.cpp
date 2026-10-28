@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : Transform.cpp.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/02
-//
-// 概要        :  トランスフォームコンポーネント
-//====================================================//
+﻿/**
+ * @file    Transform.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Transform/Transform.h"
 
@@ -16,12 +11,8 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	Transform::Transform(IComponentOwner* own)
-		: WorldComponentBase(own)
+	Transform::Transform(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_localPosition{ 0, 0, 0 }
 		, m_localRotation{ DirectX::SimpleMath::Quaternion::Identity }
 		, m_localScale{ 1, 1, 1 }
@@ -53,13 +44,13 @@ namespace RHEngine
 	/// 親を設定する関数
 	/// </summary>
 	/// <param name="parent"></param>
-	void Transform::SetParent(Transform* parent)
+	void Transform::SetParent(Transform* pParent)
 	{
 		// 自分を親にしようとしていたら
-		if (parent == this) return;
+		if (pParent == this) return;
 
 		// 子孫を親にしようとしていたら
-		if (IsDescendantOf(parent)) return;
+		if (IsDescendantOf(pParent)) return;
 
 		// ワールド行列を取得
 		auto& world = GetWorldMatrix();
@@ -68,7 +59,7 @@ namespace RHEngine
 		if (m_pParent) m_pParent->RemoveChild(this);    // 親から自分を削除
 
 		// 親のワールド行列を取得
-		SimpleMath::Matrix parentWorld = (parent ? parent->GetWorldMatrix() : SimpleMath::Matrix::Identity);
+		SimpleMath::Matrix parentWorld = (pParent ? pParent->GetWorldMatrix() : SimpleMath::Matrix::Identity);
 
 		// 新しいローカル行列を算出
 		SimpleMath::Matrix newLocal = world * parentWorld.Invert();
@@ -81,7 +72,7 @@ namespace RHEngine
 		m_localRotation = r;
 		m_localScale = s;
 
-		m_pParent = parent;
+		m_pParent = pParent;
 
 		// 新しい親に自分を追加
 		if (m_pParent) m_pParent->AddChild(this);
@@ -99,28 +90,28 @@ namespace RHEngine
 		auto tempChildren = m_children;
 
 		// コピーしたリストを使って処理
-		for (auto* child : tempChildren)
+		for (auto* pChild : tempChildren)
 		{
-			child->SetParent(nullptr);
+			pChild->SetParent(nullptr);
 		}
 		m_children.clear();
 	}
 
-	bool Transform::IsDescendantOf(Transform* target)
+	bool Transform::IsDescendantOf(Transform* pTarget)
 	{
-		Transform* current = target;
+		Transform* pCurrent = pTarget;
 
-		// currentがnullになるまでループ
-		while (current != nullptr)
+		// pCurrentがnullになるまでループ
+		while (pCurrent != nullptr)
 		{
 			// 自分と同じかチェック
-			if (current == this)
+			if (pCurrent == this)
 			{
 				return true;
 			}
 
 			// 親を辿る
-			current = current->m_pParent;
+			pCurrent = pCurrent->m_pParent;
 		}
 
 		// 最後まで到達した時
@@ -221,7 +212,7 @@ namespace RHEngine
 		m_nowVersion++;
 
 		// 子オブジェクトのフラグもセット
-		for (auto* child : m_children) child->SetDirty();
+		for (auto* pChild : m_children) pChild->SetDirty();
 	}
 	 
 	const SimpleMath::Vector3 Transform::GetWorldPosition() const

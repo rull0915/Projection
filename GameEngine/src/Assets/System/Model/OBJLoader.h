@@ -1,22 +1,14 @@
-﻿//====================================================//
-// ファイル名   : OBJLoader.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/07
-//
-// 概要 : .obj形式を読み込んでModel構造体を作成するクラス
-//
-// 更新履歴 :
-// 2026/10/07 新規作成
-//====================================================//
+﻿/**
+ * @file    OBJLoader.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/07
+ *
+ * @brief   .obj形式を読み込んでModel構造体を作成するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include "Assets/Types/Model/Model.h"
 #include "Assets/Managers/AssetLoadResult.h"
-#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace RHEngine
 {
@@ -24,15 +16,20 @@ namespace RHEngine
 
 	namespace Loader
 	{
+		/**
+		 * @brief .objを読み込む
+		 */
 		class OBJLoader
 		{
 		public:
-			// 頂点を識別するキー
+			/**
+			 * @brief 頂点を識別するキー
+			 */
 			struct VertexKey
 			{
-				int position;	// 座標のインデックス
-				int texcoord;	// uv座標のインデックス
-				int normal;		// 法線のインデックス
+				int position;	///< 座標のインデックス
+				int texcoord;	///< uv座標のインデックス
+				int normal;		///< 法線のインデックス
 
 				bool operator==(const VertexKey& other) const
 				{
@@ -42,7 +39,9 @@ namespace RHEngine
 				}
 			};
 
-			// unordered_mapで使うためのハッシュ構造体
+			/**
+			 * @brief VertexKeyのハッシュ構造体
+			 */
 			struct VertexKeyHash
 			{
 				size_t operator()(const VertexKey& key) const
@@ -54,11 +53,12 @@ namespace RHEngine
 				}
 			};
 
-			/// <summary>
-			/// .obj形式のモデルを読み込む関数
-			/// </summary>
-			/// <param name="path">ファイルパス</param>
-			/// <returns>モデルアセット</returns>
+			/**
+			 * @brief obj形式のモデルを読み込む
+			 * @param path 読み込むファイルパス
+			 * @param ctx アセットコンテキスト
+			 * @return 読み込み結果
+			 */
 			static LoadResult Load(const std::filesystem::path& path, AssetContext& ctx);
 
 
@@ -69,6 +69,14 @@ namespace RHEngine
 			/// <param name="elements">取得対象の配列</param>
 			/// <param name="index">.obj形式に記述されていた番号</param>
 			/// <returns></returns>
+			 
+			/**
+			 * @brief obj形式の要素を配列から取得する
+			 * @details objでは、インデックスが1始まりだったり負のインデックスが末尾からのオフセットを表したりするため、それに対応する
+			 * @param elements 取得対象の配列
+			 * @param index objファイルに記述されていたインデックス
+			 * @return 取得した要素
+			 */
 			template<class T>
 			static T GetOBJElement(const std::vector<T>& elements, int index)
 			{
@@ -98,4 +106,4 @@ namespace RHEngine
 			}
 		};
 	}
-}
+}	// namespace RHEngine

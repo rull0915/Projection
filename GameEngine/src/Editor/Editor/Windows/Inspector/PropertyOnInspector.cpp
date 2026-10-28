@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : PropertyOnInspector.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/17
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    PropertyOnInspector.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/17
+ */
 
 #include "pch.h"
 
@@ -28,11 +22,7 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	bool PropertyOnInspector::DrawPropertyObject(PropertyObject* object, bool readOnly)
+	bool PropertyOnInspector::DrawPropertyObject(PropertyObject* pObject, bool readOnly)
 	{
 		// 変更フラグ
 		bool changed = false;
@@ -40,7 +30,7 @@ namespace RHEngine
 		ImGui::BeginDisabled(readOnly);
 
 		// 全プロパティを表示
-		for(auto& p : object->GetProperties())
+		for(auto& p : pObject->GetProperties())
 		{
 			if (DrawProperty(&p)) changed = true;
 		}
@@ -50,13 +40,13 @@ namespace RHEngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawProperty(Property* property)
+	bool PropertyOnInspector::DrawProperty(Property* pProperty)
 	{
 		// nullなら何もしない
-		if (!property) return false;
+		if (!pProperty) return false;
 
 		// 名前を取得
-		std::string name = property->name;
+		std::string name = pProperty->name;
 
 		// 空時の例外処理
 		if (name.empty()) name = "Property";
@@ -64,91 +54,91 @@ namespace RHEngine
 		// 変更フラグ
 		bool changed = false;
 
-		ImGui::PushID(property->value);
+		ImGui::PushID(pProperty->value);
 
 		// タイプによって分岐
-		switch (property->type)
+		switch (pProperty->type)
 		{
 			// int
 		case PropertyType::Int:
-			changed = ImGui::DragInt(name.c_str(), static_cast<int*>(property->value));
+			changed = ImGui::DragInt(name.c_str(), static_cast<int*>(pProperty->value));
 			break;
 
 			// float
 		case PropertyType::Float:
-			changed = ImGui::DragFloat(name.c_str(), static_cast<float*>(property->value), 0.1f);
+			changed = ImGui::DragFloat(name.c_str(), static_cast<float*>(pProperty->value), 0.1f);
 			break;
 
 			// bool
 		case PropertyType::Bool:
-			changed = ImGui::Checkbox(name.c_str(), static_cast<bool*>(property->value));
+			changed = ImGui::Checkbox(name.c_str(), static_cast<bool*>(pProperty->value));
 			break;
 
 			// std::string
 		case PropertyType::String:
-			changed = ImGui::InputText(name.c_str(), static_cast<std::string*>(property->value)
+			changed = ImGui::InputText(name.c_str(), static_cast<std::string*>(pProperty->value)
 			);
 			break;
 
 			// Vector2
 		case PropertyType::Vector2:
-			changed = ImGui::DragFloat2(name.c_str(), &static_cast<DirectX::SimpleMath::Vector2*>(property->value)->x, 0.1f);
+			changed = ImGui::DragFloat2(name.c_str(), &static_cast<DirectX::SimpleMath::Vector2*>(pProperty->value)->x, 0.1f);
 			break;
 
 			// Vector3
 		case PropertyType::Vector3:
-			changed = ImGui::DragFloat3(name.c_str(), &static_cast<DirectX::SimpleMath::Vector3*>(property->value)->x, 0.1f);
+			changed = ImGui::DragFloat3(name.c_str(), &static_cast<DirectX::SimpleMath::Vector3*>(pProperty->value)->x, 0.1f);
 			break;
 
 			// Vector4
 		case PropertyType::Vector4:
-			changed = ImGui::DragFloat4(name.c_str(), &static_cast<DirectX::SimpleMath::Vector4*>(property->value)->x, 0.1f);
+			changed = ImGui::DragFloat4(name.c_str(), &static_cast<DirectX::SimpleMath::Vector4*>(pProperty->value)->x, 0.1f);
 			break;
 
 			// Quaternion 
 		case PropertyType::Quaternion: 
-			changed = DrawQuaternion(property);
+			changed = DrawQuaternion(pProperty);
 			break;
 
 			// Color
 		case PropertyType::Color:
-			changed = ImGui::ColorEdit4(name.c_str(), &static_cast<DirectX::SimpleMath::Color*>(property->value)->x);
+			changed = ImGui::ColorEdit4(name.c_str(), &static_cast<DirectX::SimpleMath::Color*>(pProperty->value)->x);
 			break;
 
 			// PropertyObject派生
 		case PropertyType::Object:
-			changed = DrawObject(property);
+			changed = DrawObject(pProperty);
 			break;
 
 			// 列挙型
 		case PropertyType::Enum: 
-			changed = DrawEnum(property);
+			changed = DrawEnum(pProperty);
 			break;
 
 			// AssetHandle
 		case PropertyType::AssetHandle: 
-			changed = DrawAssetHandle(property);
+			changed = DrawAssetHandle(pProperty);
 			break;
 
 			// 参照型
 		case PropertyType::ObjectRef:		
-			changed = DrawReference(property);
+			changed = DrawReference(pProperty);
 			break;
 
 			// 配列
 		case PropertyType::Array:
-			changed = DrawArray(property);
+			changed = DrawArray(pProperty);
 			break;
 
 			// 範囲
 		case PropertyType::Range:
-			changed = DrawRange(property);
+			changed = DrawRange(pProperty);
 			break;
 
 			// ヘッダ
 		case PropertyType::Header:
 			ImGui::Spacing();
-			ImGui::SeparatorText(property->name.c_str());
+			ImGui::SeparatorText(pProperty->name.c_str());
 			break;
 
 			// 範囲
@@ -163,24 +153,24 @@ namespace RHEngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawQuaternion(Property* property)
+	bool PropertyOnInspector::DrawQuaternion(Property* pProperty)
 	{
 		bool changed = false;
 
 		// クォータニオンポインタに変換
-		DirectX::SimpleMath::Quaternion* q = static_cast<DirectX::SimpleMath::Quaternion*>(property->value);
+		DirectX::SimpleMath::Quaternion* pQuarternion = static_cast<DirectX::SimpleMath::Quaternion*>(pProperty->value);
 
 		// キャッシュされているオイラー角を取得
 		DirectX::SimpleMath::Vector3 euler = m_quaternionCache;
 
 		// 編集中でなければ新たにオイラー角を生成
-		if (!m_quaternionEditing) euler = q->ToEuler();
+		if (!m_quaternionEditing) euler = pQuarternion->ToEuler();
 
 		// 表示
-		changed = ImGui::DragFloat3(property->name.c_str(), &euler.x, DirectX::XM_PI / 128);
+		changed = ImGui::DragFloat3(pProperty->name.c_str(), &euler.x, DirectX::XM_PI / 128);
 
 		// クリックされたフレームならキャッシュを初期化
-		if (ImGui::IsItemActivated()) m_quaternionCache = q->ToEuler();
+		if (ImGui::IsItemActivated()) m_quaternionCache = pQuarternion->ToEuler();
 
 		// それ以外ならキャッシュを更新
 		else m_quaternionCache = euler;
@@ -192,21 +182,21 @@ namespace RHEngine
 		if (changed)
 		{
 			// 変更
-			*q = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler.y, euler.x, euler.z);
+			*pQuarternion = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(euler.y, euler.x, euler.z);
 		}
 
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawObject(Property* property)
+	bool PropertyOnInspector::DrawObject(Property* pProperty)
 	{
 		bool changed = false;
 
 		// ツリーの開始
-		if (ImGui::TreeNode(property->name.c_str()))
+		if (ImGui::TreeNode(pProperty->name.c_str()))
 		{
 			// 表示
-			changed = DrawPropertyObject(static_cast<PropertyObject*>(property->value));
+			changed = DrawPropertyObject(static_cast<PropertyObject*>(pProperty->value));
 
 			// ツリーの終了
 			ImGui::TreePop();
@@ -215,7 +205,7 @@ namespace RHEngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawEnum(Property* property)
+	bool PropertyOnInspector::DrawEnum(Property* pProperty)
 	{
 		bool changed = false;
 
@@ -223,13 +213,13 @@ namespace RHEngine
 		auto& registry = EnumRegistry::Instance();
 
 		// 列挙子の文字列配列を取得
-		std::vector<std::string> names = registry.GetNames(property->typeIndex);
+		std::vector<std::string> names = registry.GetNames(pProperty->typeIndex);
 
 		// 現在の列挙子名を取得
-		std::string currentName = registry.GetCurrentName(property->typeIndex, property->value);
+		std::string currentName = registry.GetCurrentName(pProperty->typeIndex, pProperty->value);
 
 		// コンボボックス表示
-		if (ImGui::BeginCombo(property->name.c_str(), currentName.c_str()))
+		if (ImGui::BeginCombo(pProperty->name.c_str(), currentName.c_str()))
 		{
 			// 開かれたら全列挙子を表示
 			for (auto& name : names)
@@ -241,7 +231,7 @@ namespace RHEngine
 				if (ImGui::Selectable(name.c_str(), selected))
 				{
 					// 選ばれたらセット
-					registry.SetByName(property->typeIndex, property->value, name);
+					registry.SetByName(pProperty->typeIndex, pProperty->value, name);
 
 					// フラグをオン
 					changed = true;
@@ -258,12 +248,12 @@ namespace RHEngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawAssetHandle(Property* property)
+	bool PropertyOnInspector::DrawAssetHandle(Property* pProperty)
 	{
 		bool changed = false;
 
 		// UUIDを取得
-		UUID uuid = AssetPropertyRegistry::Instance().GetUUID(property->typeIndex, property->value, m_assetManager);
+		UUID uuid = AssetPropertyRegistry::Instance().GetUUID(pProperty->typeIndex, pProperty->value, m_assetManager);
 
 		// 本体を取得
 		AssetBase* asset = m_assetManager.GetFromUnTypeHandle(m_assetManager.GetHandle(uuid));
@@ -271,7 +261,7 @@ namespace RHEngine
 		// UUIDから名前を取得
 		std::string name = (uuid == 0 || !asset) ? "" : asset->GetName();
 
-		ImGui::Text(property->name.c_str());
+		ImGui::Text(pProperty->name.c_str());
 
 		ImGui::SameLine();
 
@@ -279,25 +269,25 @@ namespace RHEngine
 		ImGui::Selectable(name.c_str(), false);
 
 		// 描画リストを取得
-		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		ImDrawList* pDrawList = ImGui::GetWindowDrawList();
 
 		// Rectを追加
-		drawList->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 255, 64));
+		pDrawList->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 255, 64));
 
 		// ドラッグを受け取る
 		if (ImGui::BeginDragDropTarget())
 		{
 			// ASSETがドロップされたら
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET"))
+			if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("ASSET"))
 			{
 				// HandlePayloadに変換
-				HandlePayload* pay = static_cast<HandlePayload*>(payload->Data);
+				HandlePayload* pay = static_cast<HandlePayload*>(pPayload->Data);
 
 				// type_indexが一致しなければ何もしない
-				if (pay->type == property->typeIndex)
+				if (pay->type == pProperty->typeIndex)
 				{
 					// ハンドルを変更する
-					AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, pay->handle);
+					AssetPropertyRegistry::Instance().Assign(pProperty->typeIndex, pProperty->value, pay->handle);
 
 					changed = true;
 				}
@@ -310,7 +300,7 @@ namespace RHEngine
 		if (ImGui::Button("Reset"))
 		{
 			// ハンドルを変更する
-			AssetPropertyRegistry::Instance().Assign(property->typeIndex, property->value, ERROR_UNTYPE_HANDLE);
+			AssetPropertyRegistry::Instance().Assign(pProperty->typeIndex, pProperty->value, ERROR_UNTYPE_HANDLE);
 
 			changed = true;
 		}
@@ -318,15 +308,15 @@ namespace RHEngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawReference(Property* property)
+	bool PropertyOnInspector::DrawReference(Property* pProperty)
 	{
 		bool changed = false;
 
 		// RefBaseに変換
-		RefBase* refBase = static_cast<RefBase*>(property->value);
+		RefBase* pRefBase = static_cast<RefBase*>(pProperty->value);
 
 		// 変数名を表示
-		ImGui::Text(property->name.c_str());
+		ImGui::Text(pProperty->name.c_str());
 
 		// 同じライン
 		ImGui::SameLine();
@@ -334,7 +324,7 @@ namespace RHEngine
 		// 表示
 
 		// ObjRefから名前を取得
-		PropertyObject* refObj = refBase->GetPropertyObject();
+		PropertyObject* refObj = pRefBase->GetPropertyObject();
 
 		std::string name = "";
 
@@ -354,53 +344,53 @@ namespace RHEngine
 		ImGui::Selectable(name.c_str(), false);
 
 		// 描画リストを取得
-		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		ImDrawList* pDrawList = ImGui::GetWindowDrawList();
 
 		// Rectを追加
-		drawList->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 255, 64));
+		pDrawList->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 255, 64));
 
 		// ドラッグを受け取る
 		if (ImGui::BeginDragDropTarget())
 		{
 			// GAMEOBJECTがドロップされたら
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+			if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				// GameObjectに変換
-				GameObject* obj = static_cast<GameObject*>(payload->Data);
+				GameObject* pObject = static_cast<GameObject*>(pPayload->Data);
 
 				// UUIDをセット
-				refBase->SetUUID(obj->GetUUID());
+				pRefBase->SetUUID(pObject->GetUUID());
 
 				// シーン経由で参照解決
-				changed = m_pScene->ResolveRef(refBase);
+				changed = m_pScene->ResolveRef(pRefBase);
 
 				// 解決失敗した場合
 				if (!changed)
 				{
 					// コンポーネントをチェック
-					for (auto& component : obj->GetAllComponents())
+					for (auto& component : pObject->GetAllComponents())
 					{
 						// UUIDをセット
-						refBase->SetUUID(component->GetUUID());
+						pRefBase->SetUUID(component->GetUUID());
 
 						// シーン経由で参照解決
 						// 成功すればその時点で終了
-						if (changed = m_pScene->ResolveRef(refBase)) break;
+						if (changed = m_pScene->ResolveRef(pRefBase)) break;
 					}
 				}
 			}
 
 			// COMPONENTがドロップされたら
-			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("COMPONENT"))
+			else if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("COMPONENT"))
 			{
 				// Componentに変換
-				ComponentBase* obj = static_cast<ComponentBase*>(payload->Data);
+				ComponentBase* pObject = static_cast<ComponentBase*>(pPayload->Data);
 
 				// UUIDをセット
-				refBase->SetUUID(obj->GetUUID());
+				pRefBase->SetUUID(pObject->GetUUID());
 
 				// シーン経由で参照解決
-				changed = m_pScene->ResolveRef(refBase);
+				changed = m_pScene->ResolveRef(pRefBase);
 			}
 
 			ImGui::EndDragDropTarget();
@@ -409,24 +399,24 @@ namespace RHEngine
 		return changed;
 	}
 
-	bool PropertyOnInspector::DrawArray(Property* property)
+	bool PropertyOnInspector::DrawArray(Property* pProperty)
 	{
 		bool changed = false;
 
 		// 配列型管理クラスを取得
 		auto& registry = ArrayRegistry::Instance();
 
-		std::type_index idx = property->typeIndex;
-		void* value = property->value;
+		std::type_index idx = pProperty->typeIndex;
+		void* pValue = pProperty->value;
 
 		// ツリーの開始
-		if (ImGui::TreeNode(property->name.c_str()))
+		if (ImGui::TreeNode(pProperty->name.c_str()))
 		{
 			// サイズ分ループ
-			for (size_t i = 0; i < registry.GetSize(idx, value); ++i)
+			for (size_t i = 0; i < registry.GetSize(idx, pValue); ++i)
 			{
 				// 一時Propertyを作成
-				Property tempProperty = registry.GetProperty(idx, value, i);
+				Property tempProperty = registry.GetProperty(idx, pValue, i);
 
 				// 描画
 				bool c = DrawProperty(&tempProperty);
@@ -439,7 +429,7 @@ namespace RHEngine
 			if (ImGui::Button(" + "))
 			{
 				// 追加
-				registry.AddElement(idx, value);
+				registry.AddElement(idx, pValue);
 			}
 
 			ImGui::SameLine();
@@ -448,7 +438,7 @@ namespace RHEngine
 			if (ImGui::Button(" － "))
 			{
 				// 削除
-				registry.PopBackElement(idx, value);
+				registry.PopBackElement(idx, pValue);
 			}
 
 			// ツリーの終了
@@ -457,20 +447,21 @@ namespace RHEngine
 
 		return changed;
 	}
-	bool PropertyOnInspector::DrawRange(Property* property)
+
+	bool PropertyOnInspector::DrawRange(Property* pProperty)
 	{
 		// Rangeに変換
-		Range* range = static_cast<Range*>(property->value);
+		Range* pRange = static_cast<Range*>(pProperty->value);
 
 		// 値変更用の変数
-		float value = *range;
+		float pValue = *pRange;
 
-		bool changed = ImGui::SliderFloat(property->name.c_str(), &value, range->GetMin(), range->GetMax());
+		bool changed = ImGui::SliderFloat(pProperty->name.c_str(), &pValue, pRange->GetMin(), pRange->GetMax());
 
-		*range = value;
+		*pRange = pValue;
 
 		return changed;
-	}
-}
+	}	
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

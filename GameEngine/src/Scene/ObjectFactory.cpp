@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ObjectFactory.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/12
-//
-// 概要       : オブジェクトの生成を行うクラス
-//====================================================//
+﻿/**
+ * @file    ObjectFactory.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/12
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #include "Scene/ObjectFactory.h"
@@ -21,16 +16,11 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	ObjectFactory::ObjectFactory(Scene* pScene, AssetManager& assetManager)
 		: m_pScene{ pScene }
 		, m_assetManager{ assetManager }
 	{}
 
-	// ゲームオブジェクトを生成する関数
 	GameObject* ObjectFactory::Generate(DirectX::SimpleMath::Vector3 position)
 	{
 		// ポインタを作成
@@ -55,10 +45,10 @@ namespace RHEngine
 		return pObj;
 	}
 
-	GameObject* ObjectFactory::Instantiate(Prefab* prefab) const
+	GameObject* ObjectFactory::Instantiate(Prefab* pPrefab) const
 	{
-		// prefabがなければ何もしない
-		if (!prefab) return nullptr;
+		// Prefabがなければ何もしない
+		if (!pPrefab) return nullptr;
 
 		// jsonを取得
 		ObjectLoader loader(m_pScene->GetAssetManager());
@@ -72,7 +62,7 @@ namespace RHEngine
 		// オブジェクト管理クラスに追加
 		m_pScene->GetObjectManager()->AddObject(pObj);
 
-		if (prefab->GetImpl()->IsWorldObject())
+		if (pPrefab->GetImpl()->IsWorldObject())
 		{
 			// Transformを追加
 			pObj->AddComponent<Transform>();
@@ -87,7 +77,7 @@ namespace RHEngine
 		pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
 
 		// jsonからロード
-		loader.LoadObject(prefab->GetImpl()->GetJson(), pObj, m_pScene);
+		loader.LoadObject(pPrefab->GetImpl()->GetJson(), pObj, m_pScene);
 
 		return pObj;
 	}
@@ -95,9 +85,9 @@ namespace RHEngine
 	GameObject* ObjectFactory::Instantiate(Handle<Prefab> prefab) const
 	{
 		// Prefab本体を取得
-		Prefab* p = m_assetManager.Get(prefab);
+		Prefab* pPrefab = m_assetManager.Get(prefab);
 
-		return Instantiate(p);
+		return Instantiate(pPrefab);
 	}
 
 	GameObject* ObjectFactory::GenerateUI()

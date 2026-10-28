@@ -182,6 +182,8 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp">
       <SubType>
       </SubType>
@@ -239,7 +241,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Editor\Editor\Windows\Inspector\PropertyOnInspector.cpp" />
     <ClCompile Include="src\Editor\SceneEditor.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
-    <ClCompile Include="src\Renderer\Shader\ShadowMap.cpp">
+    <ClCompile Include="src\Renderer\Shadow\ShadowMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -265,7 +267,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
     <ClCompile Include="src\Components\Both\Sounds\AudioSource.cpp" />
     <ClCompile Include="src\Components\World\Transform\Transform.cpp" />
-    <ClCompile Include="src\Debug\RectDebugRenderer.cpp" />
     <ClCompile Include="src\Common\OpenFileDialog.cpp" />
     <ClCompile Include="src\Editor\Editor\EditGUI.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\HierarchyWindow.cpp" />
@@ -749,10 +750,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\GameObject\GameObject.h" />
     <ClInclude Include="include\GameObject\Interface\IColliderReceiver.h" />
     <ClInclude Include="include\GameObject\Interface\IComponentOwner.h" />
-    <ClInclude Include="src\Debug\RectDebugRenderer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="src\Common\OpenFileDialog.h" />
     <ClInclude Include="src\Editor\Editor\Windows\HierarchyWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Inspector\InspectorWindow.h" />

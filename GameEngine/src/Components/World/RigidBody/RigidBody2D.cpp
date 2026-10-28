@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : RigidBody2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/06
-//
-// 概要        :  RigidBody2Dコンポーネント
-//====================================================//
+﻿/**
+ * @file    RigidBody2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/06
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/RigidBody/RigidBody2D.h"
 
@@ -18,12 +13,8 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	RigidBody2D::RigidBody2D(IComponentOwner* own)
-		: RigidBodyBase(own)
+	RigidBody2D::RigidBody2D(IComponentOwner* pOwner)
+		: RigidBodyBase(pOwner)
 		, m_velocity{ 0.0f }
 		, m_acceleration{ 0.0f }
 		, m_force{ 0.0f }

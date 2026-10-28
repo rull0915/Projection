@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CollideEventSystem.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/26
-//
-// 概要        :  
-//====================================================//
+﻿/**
+ * @file    CollideEventSystem.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CollideEventSystem.h"
 
@@ -19,11 +14,7 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	void CollideEventSystem::RemoveCollider(ColliderBase* collider)
+	void CollideEventSystem::RemoveCollider(ColliderBase* pCollider)
 	{
 		std::vector<decltype(m_prevMap.begin())> its;
 
@@ -34,7 +25,7 @@ namespace RHEngine
 			// 配列に含まれているなら削除する
 			auto it = std::find_if(current, m_prevMap.end(), [&](std::pair<ObjectPair, HitContact> contact) -> bool
 				{
-					if (contact.second.otherCol == collider || contact.second.ownCol == collider)
+					if (contact.second.otherCol == pCollider || contact.second.ownCol == pCollider)
 					{
 						return true;
 					}
@@ -63,7 +54,7 @@ namespace RHEngine
 		}
 	}
 
-	void CollideEventSystem::RemoveCollider2D(ColliderBase2D* collider)
+	void CollideEventSystem::RemoveCollider2D(ColliderBase2D* pCollider)
 	{
 		std::vector<decltype(m_prevMap2D.begin())> its;
 
@@ -74,7 +65,7 @@ namespace RHEngine
 			// 配列に含まれているなら削除する
 			auto it = std::find_if(current, m_prevMap2D.end(), [&](std::pair<ObjectPair2D, HitContact2D> contact) -> bool
 				{
-					if (contact.second.otherCol == collider || contact.second.ownCol == collider)
+					if (contact.second.otherCol == pCollider || contact.second.ownCol == pCollider)
 					{
 						return true;
 					}

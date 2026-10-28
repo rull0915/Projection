@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : SoundManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/01
-//
-// 概要 : 音系コンポーネント管理クラス
-//
-// 更新履歴 :
-// 2026/07/01 新規作成
-//====================================================//
+﻿/**
+ * @file    SoundManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/01
+ *
+ * @brief   音コンポーネント管理クラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include "../ReserveContainer.h"
 #include "Components/Both/Sounds/AudioSource.h"
@@ -21,45 +14,48 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 音コンポーネントを管理する
+	 */
 	class SoundManager : public ReserveContainer<AudioSource>
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 使用中のリスナー
+		/** @brief 使用中のリスナー */
 		AudioListener* m_listener;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		SoundManager();
+
 		~SoundManager() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 更新処理
+		/**
+		 * @brief 3Dオーディオの設定を行う
+		 */
 		void Update();
 
-		// リスナーの設定
-		void SetListener(AudioListener* l)
+		/**
+		 * @brief リスナーコンポーネントを設定する
+		 * @param l 
+		 */
+		void SetListener(AudioListener* pListener)
 		{
 			// 2人目は登録不可
 			if (m_listener) return;
 
-			m_listener = l;
+			m_listener = pListener;
 		}
 
-		// リスナーの削除
-		void RemoveListener(AudioListener* l) { if (m_listener == l) m_listener = nullptr; }
+		/**
+		 * @brief リスナーを削除する
+		 * @param pListener 対象のリスナー
+		 */
+		void RemoveListener(AudioListener* pListener) { if (m_listener == pListener) m_listener = nullptr; }
 	};
 }	// namespace RHEngine

@@ -1,69 +1,65 @@
-﻿//====================================================//
-// ファイル名   : AssetFileDrawer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/08
-//
-// 概要 : アセットファイルのGUI表示を行うクラス
-//
-// 更新履歴 :
-// 2026/10/08 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetFileDrawer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/08
+ *
+ * @brief   アセットファイルのGUI表示を行うクラス
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
 #include <filesystem>
+
 #include "Common/UUID.h"
 
 namespace RHEngine
 {
 	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief アセットファイルをGUIに表示する
+	 */
 	class AssetFileDrawer
 	{
 	public:
 
-		// 表示の結果用構造体
+		/**
+		 * @brief 表示結果構造体
+		 */
 		struct Result
 		{
-			UUID select = UUID_NONE;
-			UUID doubleClick = UUID_NONE;
+			UUID select = UUID_NONE;		///< 選択しているアセットのUUID
+			UUID doubleClick = UUID_NONE;	///< ダブルクリックされたアセットのUUID
 		};
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		AssetFileDrawer(AssetManager& am)
-			: m_assetManager{ am }
+		/// @name ライフサイクル
+		/// @{
+
+		AssetFileDrawer(AssetManager& assetManager)
+			: m_assetManager{ assetManager }
 		{}
+
 		~AssetFileDrawer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 表示関数
+		/**
+		 * @brief アセットファイルを表示する
+		 * @param path 対象のファイルパス
+		 * @param selected 現在選択中のアセットのUUID
+		 * @return 表示結果
+		 */
 		Result DrawAssetFile(const std::filesystem::path& path, UUID selected);
 	};
-}
+}	// namespace RHEngine
 
 #endif

@@ -50,6 +50,7 @@ namespace RHEngine
 
 		/// @}
 
+	public:
 		/**
 		 * @brief インスタンスを取得する
 		 * @return 静的なインスタンス

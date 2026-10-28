@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CameraBase.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/01
-//
-// 概要       : カメラコンポーネント基底クラス
-//====================================================//
+﻿/**
+ * @file    CameraBase.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Camera/CameraBase.h"
 
@@ -16,14 +11,10 @@
 #include "System/WindowManager.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine
 {
-	CameraBase::CameraBase(IComponentOwner* own)
-		: WorldComponentBase(own)
+	CameraBase::CameraBase(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_view{}
 		, m_proj{}
 		, m_inverseView{}

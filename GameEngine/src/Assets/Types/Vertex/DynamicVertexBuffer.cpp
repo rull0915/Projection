@@ -1,24 +1,15 @@
-﻿//====================================================//
-// ファイル名  : DynamicVertexBuffer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/25
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    DynamicVertexBuffer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/25
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Types/Vertex/DynamicVertexBuffer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine
 {
-	bool DynamicVertexBuffer::Initialize(ID3D11Device* device, size_t maxVertices, size_t vertexStride)
+	bool DynamicVertexBuffer::Initialize(ID3D11Device* pDevice, size_t maxVertices, size_t vertexStride)
 	{
 		// 設定の初期化
 		m_maxVertices = maxVertices;
@@ -34,13 +25,13 @@ namespace RHEngine
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// CPUから書き換えられるように
 
 		// 頂点バッファの作成
-		HRESULT hr = device->CreateBuffer(&desc, nullptr, m_pBuffer.ReleaseAndGetAddressOf());
+		HRESULT hr = pDevice->CreateBuffer(&desc, nullptr, m_pBuffer.ReleaseAndGetAddressOf());
 
 		// 成功したかどうかを返す
 		return SUCCEEDED(hr);
 	}
 
-	uint32_t DynamicVertexBuffer::Write(ID3D11DeviceContext* context, const void* pVertex, size_t vertexCount)
+	uint32_t DynamicVertexBuffer::Write(ID3D11DeviceContext* pContext, const void* pVertex, size_t vertexCount)
 	{
 		// 不正な頂点構造の場合書き込まない
 		if (!pVertex || vertexCount == 0 || vertexCount > m_maxVertices) return 0;
@@ -63,7 +54,7 @@ namespace RHEngine
 		D3D11_MAPPED_SUBRESOURCE mapped = {};
 
 		// マップ
-		HRESULT hr = context->Map(m_pBuffer.Get(), 0, mapType, 0, &mapped);
+		HRESULT hr = pContext->Map(m_pBuffer.Get(), 0, mapType, 0, &mapped);
 
 		// 失敗したら中断
 		if (FAILED(hr)) return 0;
@@ -74,7 +65,7 @@ namespace RHEngine
 		// コピー
 		std::memcpy(pDst, pVertex, vertexCount * m_vertexStride);
 
-		context->Unmap(m_pBuffer.Get(), 0);
+		pContext->Unmap(m_pBuffer.Get(), 0);
 
 		// 現在のオフセットを加算
 		uint32_t startOffset = static_cast<uint32_t>(m_currentOffset);
@@ -90,8 +81,8 @@ namespace RHEngine
 		UINT offset = 0;
 
 		// バッファ配列を作成
-		ID3D11Buffer* buffers[] = { m_pBuffer.Get() };
+		ID3D11Buffer* pBuffers[] = { m_pBuffer.Get() };
 
-		pContext->IASetVertexBuffers(slot, 1, buffers, &stride, &offset);
+		pContext->IASetVertexBuffers(slot, 1, pBuffers, &stride, &offset);
 	}
-}
+}	// namespace RHEngine

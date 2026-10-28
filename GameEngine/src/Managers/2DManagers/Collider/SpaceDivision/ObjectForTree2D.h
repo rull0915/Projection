@@ -1,40 +1,43 @@
-﻿//====================================================//
-// ファイル名   : ObjectForTree2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/16
-//
-// 概要 : 分木へ登録するオブジェクトです
-//
-// 更新履歴 :
-// 2026/04/16 新規作成
-//====================================================//
+﻿/**
+ * @file    ObjectForTree2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/16
+ *
+ * @brief   分木が管理するオブジェクト
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/Collider/2D/ColliderBase2D.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class Cell2D;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 分木が管理する2Dコライダーを持つオブジェクト
+	 */
 	class ObjectForTree2D
 	{
 	public:
-		Cell2D* m_pCell;			// 登録空間
-		ColliderBase2D* m_pObject;				// 判定対象オブジェクト
-		ObjectForTree2D* m_pPre;	// 前のObjectForTree2D構造体
-		ObjectForTree2D* m_pNext;	// 次のObjectForTree2D構造体
+
+		/** @brief 自身が所属しているセル */
+		Cell2D* m_pCell;
+
+		/** @brief 対応するコライダー */
+		ColliderBase2D* m_pObject;
+
+		/** @brief 自分の前のオブジェクト */
+		ObjectForTree2D* m_pPre;
+
+		/** @brief 自分の次のオブジェクト */
+		ObjectForTree2D* m_pNext;
 
 	public:
+
+		/// @name ライフサイクル
+		/// @{
+
 		ObjectForTree2D()
 			: m_pCell{ nullptr }
 			, m_pObject{ nullptr }
@@ -45,17 +48,27 @@ namespace RHEngine
 		virtual ~ObjectForTree2D()
 		{}
 
+		/// @}
+
 	public:
-		// 空間から削除する関数
+		/**
+		 * @brief 自身を削除する
+		 * @return 成功したかどうか
+		 */
 		bool Remove();
 
-		// 空間を登録
+		/**
+		 * @brief 所属空間を登録する
+		 * @param pCell 
+		 */
 		void RegistCell(Cell2D* pCell)
 		{
 			m_pCell = pCell;
 		}
 
-		// 次のオブジェクトへのポインタを取得
+		/**
+		 * @brief 次のオブジェクトへのポインタを取得する
+		 */
 		ObjectForTree2D* GetNextObj() const {
 			return m_pNext;
 		}

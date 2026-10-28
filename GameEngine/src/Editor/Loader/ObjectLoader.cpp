@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ObjectLoader.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/30
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ObjectLoader.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/30
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #include <fstream>
@@ -19,6 +14,7 @@
 #include "Editor/Loader/ComponentFactory.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Scene/ObjectFactory.h"
 #include "Common/Property/AssetPropertyRegistry.h"
 #include "Common/Property/EnumRegistry.h"
 #include "Common/ObjectReference.h"
@@ -27,10 +23,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void ObjectLoader::LoadProperty(const nlohmann::json& json, Property& property, Scene* pScene)
 	{
 		// 型によって分岐
@@ -146,38 +138,38 @@ namespace RHEngine
 		}
 	}
 
-	void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* obj, Scene* pScene)
+	void ObjectLoader::LoadObject(const nlohmann::json& json, GameObject* pObject, Scene* pScene)
 	{
 		// ゲームオブジェクト部分をロード
-		LoadPropertyObject(json, *obj, pScene);
+		LoadPropertyObject(json, *pObject, pScene);
 
 		// UUIDをロード
 		UUID uuid = 0;
 		if (json.contains("UUID"))
 		{
 			uuid = json["UUID"];
-			obj->SetUUID(uuid);
+			pObject->SetUUID(uuid);
 		}
 
 		// コンポーネントをロード
 		for (auto& js : json["Components"])
 		{
 			// 生成
-			ComponentBase* component = ComponentFactory::Create(js["Type"], obj);
+			ComponentBase* pComponent = ComponentFactory::Create(js["Type"], pObject);
 
 			// ロード
-			if (component)
+			if (pComponent)
 			{
-				LoadPropertyObject(js["Data"], *component, pScene);
+				LoadPropertyObject(js["Data"], *pComponent, pScene);
 
 				// 変更時処理の呼び出し
-				component->OnValidate();
+				pComponent->OnValidate();
 
 				// UUIDをロード
 				if (js.contains("UUID"))
 				{
 					uuid = js["UUID"];
-					component->SetUUID(uuid);
+					pComponent->SetUUID(uuid);
 				}
 			}
 		}
@@ -186,26 +178,26 @@ namespace RHEngine
 		for (auto& child : json["Children"])
 		{
 			// 生成
-			GameObject* chObj = nullptr;
+			GameObject* childObject = nullptr;
 
 			// UIかWorldかを調べる
 			if (child.contains("IsWorld") && !child["IsWorld"])
 			{
-				chObj = pScene->GetFactory()->GenerateUI();
+				childObject = pScene->GetFactory()->GenerateUI();
 
 				// 親を自分に
-				chObj->GetComponent<RectTransform>()->SetParent(obj->GetComponent<RectTransform>());
+				childObject->GetComponent<RectTransform>()->SetParent(pObject->GetComponent<RectTransform>());
 			}
 			else
 			{
-				chObj = pScene->GetFactory()->Generate();
+				childObject = pScene->GetFactory()->Generate();
 
 				// 親を自分に
-				chObj->GetComponent<Transform>()->SetParent(obj->GetComponent<Transform>());
+				childObject->GetComponent<Transform>()->SetParent(pObject->GetComponent<Transform>());
 			}
 
 			// 読み込み
-			LoadObject(child, chObj, pScene);
+			LoadObject(child, childObject, pScene);
 		}
 	}
 
@@ -215,20 +207,20 @@ namespace RHEngine
 		for (auto& obj : json["GameObjects"])
 		{
 			// 生成
-			GameObject* object = nullptr;
+			GameObject* pObject = nullptr;
 
 			// UIかWorldかを調べる
 			if (obj.contains("IsWorld") && !obj["IsWorld"])
 			{
-				object = pScene->GetFactory()->GenerateUI();
+				pObject = pScene->GetFactory()->GenerateUI();
 			}
 			else
 			{
-				object = pScene->GetFactory()->Generate();
+				pObject = pScene->GetFactory()->Generate();
 			}
 
 			// ロード
-			LoadObject(obj, object, pScene);
+			LoadObject(obj, pObject, pScene);
 		}
 	}
 
@@ -257,7 +249,7 @@ namespace RHEngine
 		ifs.close();
 	}
 
-	void ObjectLoader::LoadObjectFromFile(const std::wstring& filePath, GameObject* obj)
+	void ObjectLoader::LoadObjectFromFile(const std::wstring& filePath, GameObject* pObject)
 	{
 		std::ifstream ifs(std::filesystem::path(filePath).c_str());
 
@@ -269,14 +261,14 @@ namespace RHEngine
 			ifs >> j;
 
 			// ロード
-			LoadObject(j, obj, obj->GetScene());
+			LoadObject(j, pObject, pObject->GetScene());
 		}
 
 		// 閉じる
 		ifs.close();
 	}
 
-	void ObjectLoader::LoadSceneFromFile(const std::wstring& filePath, Scene* scene)
+	void ObjectLoader::LoadSceneFromFile(const std::wstring& filePath, Scene* pScene)
 	{
 		std::ifstream ifs(std::filesystem::path(filePath).c_str());
 
@@ -288,7 +280,7 @@ namespace RHEngine
 			ifs >> j;
 
 			// ロード
-			LoadScene(j, scene);
+			LoadScene(j, pScene);
 		}
 
 		// 閉じる

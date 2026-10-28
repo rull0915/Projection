@@ -1,19 +1,16 @@
-﻿//====================================================//
-// ファイル名  : Scene.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/02/17
-//
-// 概要        :  シーンの基底クラス
-//====================================================//
+﻿/**
+ * @file    Scene.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/17
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Scene/Scene.h"
 
 // 各管理クラス
 #include "Scene/UpdatePipeline.h"
+#include "Scene/ComponentRegister.h"
+#include "Scene/ObjectFinder.h"
 #include "Managers/3DManagers/Ray/RaySystem.h"
 #include "ReferenceRegistry.h"
 
@@ -32,11 +29,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	// コンストラクタ
 	Scene::Scene(AssetManager& assetManager)
 		: m_updatePipeline{ std::make_unique<UpdatePipeline>(this) }
 		, m_componentRegister{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
@@ -64,7 +56,6 @@ namespace RHEngine
 	Scene::~Scene()
 	{}
 
-	// 初期化関数
 	void Scene::Initialize()
 	{
 		// 待機中の参照を解決
@@ -76,7 +67,6 @@ namespace RHEngine
 		m_waitingRefBases.clear();
 	}
 
-	// 更新関数
 	void Scene::Update(const GameTimer& gameTimer)
 	{
 		// 各管理クラスの更新
@@ -160,10 +150,9 @@ namespace RHEngine
 		m_sceneData.shadowData.shadowBias = 0.001f;	// Todo : マジックナンバーの解消
 	}
 
-	// 描画関数
 	void Scene::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
-		ID3D11DeviceContext* context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+		ID3D11DeviceContext* pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// シャドウパスの描画
 		{
@@ -178,10 +167,10 @@ namespace RHEngine
 
 		// Test: シャドウマップ用スロットにバインド
 		auto shadowMapSRV = m_shadowMap.GetSRV();
-		context->PSSetShaderResources(10, 1, &shadowMapSRV);
+		pContext->PSSetShaderResources(10, 1, &shadowMapSRV);
 
 		auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::PointWrap);
-		context->PSSetSamplers(10, 1, sampler.GetAddressOf());
+		pContext->PSSetSamplers(10, 1, sampler.GetAddressOf());
 
 		// 描画の開始
 		renderer.Begin(m_sceneData);
@@ -194,7 +183,7 @@ namespace RHEngine
 			
 		// Test: シャドウマップ用スロットをアンバインド
 		ID3D11ShaderResourceView* nullSRV = nullptr;
-		context->PSSetShaderResources(10, 1, &nullSRV);
+		pContext->PSSetShaderResources(10, 1, &nullSRV);
 
 		// メインカメラをフルスクリーン描画するcommandを発行
 		renderer.Draw().Sprite().DrawFullScreen(m_mainWorld.GetShaderResourceView());
@@ -215,16 +204,16 @@ namespace RHEngine
 
 	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow)
 	{
-		ID3D11DeviceContext* context = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+		ID3D11DeviceContext* pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		if (useShadow)
 		{
 			// Test: シャドウマップ用スロットにバインド
 			auto shadowMapSRV = m_shadowMap.GetSRV();
-			context->PSSetShaderResources(10, 1, &shadowMapSRV);
+			pContext->PSSetShaderResources(10, 1, &shadowMapSRV);
 
 			auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::PointWrap);
-			context->PSSetSamplers(10, 1, sampler.GetAddressOf());
+			pContext->PSSetSamplers(10, 1, sampler.GetAddressOf());
 		}
 
 		// WorldPassの描画
@@ -234,7 +223,7 @@ namespace RHEngine
 		{
 			// Test: シャドウマップ用スロットをアンバインド
 			ID3D11ShaderResourceView* nullSRV = nullptr;
-			context->PSSetShaderResources(10, 1, &nullSRV);
+			pContext->PSSetShaderResources(10, 1, &nullSRV);
 		}
 	}
 

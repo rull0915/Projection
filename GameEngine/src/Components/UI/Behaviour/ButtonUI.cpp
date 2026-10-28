@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ButtonUI.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要       : ボタンUIクラス
-//====================================================//
+﻿/**
+ * @file    ButtonUI.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/UI/Behaviour/ButtonUI.h"
 
@@ -16,15 +11,8 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	ButtonUI::ButtonUI(IComponentOwner* owner)
-		: UIBehaviorBase(owner)
+	ButtonUI::ButtonUI(IComponentOwner* pOwner)
+		: UIBehaviorBase(pOwner)
 		, m_normalColor{ 1.0f, 1.0f, 1.0f, 0 }
 		, m_hoverdColor{ 0.92f, 0.92f, 0.92f, 0 }
 		, m_pressedColor{ 0.75f, 0.75f, 0.75f }
@@ -35,15 +23,9 @@ namespace RHEngine
 		ADD_PROPERTY(ButtonUI, m_pressedColor);
 	}
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
 	ButtonUI::~ButtonUI()
 	{}
 
-	/// <summary>
-	/// 更新処理
-	/// </summary>
 	void ButtonUI::Update(const GameTimer& gameTimer)
 	{
 		// 警告対策
@@ -71,9 +53,9 @@ namespace RHEngine
 			m_isPressed = true;
 
 			// Imageの色を変更
-			if (auto* image = GetOwn()->GetComponent<ImageUI>())
+			if (auto* pImage = GetOwn()->GetComponent<ImageUI>())
 			{
-				image->SetMulColor(m_pressedColor);
+				pImage->SetMulColor(m_pressedColor);
 			}
 		}
 	}
@@ -94,9 +76,9 @@ namespace RHEngine
 		m_isPressed = false;
 
 		// Imageの色を変更
-		if (auto* image = GetOwn()->GetComponent<ImageUI>())
+		if (auto* pImage = GetOwn()->GetComponent<ImageUI>())
 		{
-			image->SetMulColor(m_normalColor);
+			pImage->SetMulColor(m_normalColor);
 		}
 	}
 

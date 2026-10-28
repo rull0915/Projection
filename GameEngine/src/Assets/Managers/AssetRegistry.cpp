@@ -1,20 +1,14 @@
-﻿//====================================================//
-// ファイル名  : AssetRegistry.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/21
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    AssetRegistry.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/21
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Managers/AssetRegistry.h"
 
 namespace RHEngine
 {
-
 	AssetRegistry::AssetRegistry()
 		: m_slots{}
 		, m_freeIndexList{}
@@ -169,4 +163,4 @@ namespace RHEngine
 
 		m_uuidToIndex.clear();
 	}
-}
+}	// namespace RHEngine

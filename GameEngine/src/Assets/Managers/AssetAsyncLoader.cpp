@@ -2,8 +2,6 @@
  * @file    AssetAsyncLoader.cpp
  * @author  Hoshino Ryunosuke
  * @date    2026/10/12
- *
- * @brief   アセットの非同期読み込みを行うクラス
  */
 
 #include "pch.h"
@@ -73,4 +71,4 @@ namespace RHEngine
 			}
 		);
 	}
-}
+}	// namespace RHEngine

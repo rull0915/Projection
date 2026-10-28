@@ -1,28 +1,19 @@
-﻿//====================================================//
-// ファイル名  : StandardCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/20
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    StandardCamera.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/20
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Camera/Derived/StandardCamera.h"
 
 #include "Components/World/Transform/Transform.h"
 #include "System/WindowManager.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine
 {
-	StandardCamera::StandardCamera(IComponentOwner* own)
-		: CameraBase(own)
+	StandardCamera::StandardCamera(IComponentOwner* pOwner)
+		: CameraBase(pOwner)
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
 		, m_fov{ PI_F / 4 }
@@ -35,9 +26,6 @@ namespace RHEngine
 		UpdateProj();
 	}
 
-	/// <summary>
-	/// ビュー行列更新関数
-	/// </summary>
 	void StandardCamera::UpdateView()
 	{
 		// 位置をそのまま行列に
@@ -46,9 +34,6 @@ namespace RHEngine
 		);
 	}
 
-	/// <summary>
-	/// 投射行列更新関数
-	/// </summary>
 	void StandardCamera::UpdateProj()
 	{
 		// アスペクト比を取得

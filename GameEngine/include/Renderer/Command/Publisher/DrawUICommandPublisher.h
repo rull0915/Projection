@@ -12,6 +12,8 @@
 
 namespace RHEngine
 {
+	class WindowManager;
+
 	/**
 	 * @brief UIの描画コマンドを発行する
 	 */
@@ -21,6 +23,9 @@ namespace RHEngine
 
 		/** @brief コマンドのコンテナ */
 		DrawCommandContainer& m_commandContainer;
+
+		/** @brief ウィンドウマネージャー */
+		WindowManager& m_windowManager;
 
 	public:
 

@@ -1,26 +1,18 @@
-﻿//====================================================//
-// ファイル名  : TransitionManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/27
-//
-// 概要       : シーン遷移管理クラス
-//====================================================//
+﻿/**
+ * @file    TransitionManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/27
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Scene/Transition/TransitionManager.h"
-#include "Renderer/Renderer.h"
 
 #include <utility>
 
+#include "Renderer/Renderer.h"
+
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void TransitionManager::Update(const GameTimer& gameTimer)
 	{
 		// Out演出中の場合

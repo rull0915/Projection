@@ -1,16 +1,12 @@
-﻿//====================================================//
-// ファイル名  : SceneManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/02/17
-//
-// 概要        :  シーン管理クラス
-//====================================================//
+﻿/**
+ * @file    SceneManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/17
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Scene/SceneManager.h"
+
 #include "Scene/Scene.h"
 #include "Renderer/Renderer.h"
 
@@ -18,26 +14,20 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-	// コンストラクタ
 	SceneManager::SceneManager()
 		: m_currentScene{}
 		, m_pRequestedScene{ "" }
 		, m_transitionManager{}
-		, m_assetManager{}
+		, m_pAssetManager{ nullptr }
 		, m_drawScene{ true }
 	{}
 
-	// デストラクタ
 	SceneManager::~SceneManager()
 	{
 		// 実行中のシーンの終了処理
 		if (m_currentScene) m_currentScene->Finalize();
 	}
 
-	// シーンの登録
 	void SceneManager::RegisterScene(const std::string& sceneName, const std::wstring& sceneFile)
 	{
 		// シーンの名前でシーンを登録
@@ -47,13 +37,12 @@ namespace RHEngine
 	void SceneManager::Initialize(AssetManager& assetManager)
 	{
 		// アセットマネージャーを渡す
-		m_assetManager = &assetManager;
+		m_pAssetManager = &assetManager;
 
 		// シーンの生成
 		m_currentScene = std::make_unique<Scene>(assetManager);
 	}
 
-	// 更新処理
 	void SceneManager::Update(const GameTimer& gameTimer)
 	{
 		// 遷移演出の更新
@@ -69,7 +58,6 @@ namespace RHEngine
 		if (m_currentScene) m_currentScene->OnWindowSizeChanged(width, height);
 	}
 
-	// 描画処理
 	void SceneManager::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
 		// シーンの描画処理
@@ -97,7 +85,6 @@ namespace RHEngine
 		m_currentScene.reset();
 	}
 
-	// 開始シーンの設定
 	void SceneManager::SetStartScene(const std::string& startSceneName)
 	{
 		RequestSceneChange(startSceneName);
@@ -120,7 +107,6 @@ namespace RHEngine
 		);
 	}
 
-	// シーンの変更
 	void SceneManager::ChangeScene()
 	{
 		// シーンのリクエスト要求がなければ
@@ -136,7 +122,7 @@ namespace RHEngine
 		if (it != m_sceneMap.end())
 		{
 			// ローダーをインスタンス化
-			ObjectLoader loader(*m_assetManager);
+			ObjectLoader loader(*m_pAssetManager);
 
 			// リクエスト要求のシーンへ移行
 			loader.LoadSceneFromFile(it->second, m_currentScene.get());

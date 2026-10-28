@@ -1,35 +1,27 @@
-﻿//====================================================//
-// ファイル名  : ShaderReflection.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/05
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ShaderReflection.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/05
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "ShaderReflection.h"
-#include "Renderer/CBufferSlot.h"
 
 #include <iostream>
 #include <d3dcompiler.h>
 
-#pragma comment(lib, "D3DCompiler.lib")
+#include "Renderer/CBufferSlot.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
+#pragma comment(lib, "D3DCompiler.lib")
 
 namespace RHEngine
 {
 	namespace Reflection
 	{
-		HRESULT CreateInputLayout(ID3D11Device* device, ID3DBlob* vsBlob, const std::vector<VertexElementInfo>& layoutInfo, Microsoft::WRL::ComPtr<ID3D11InputLayout>& outInputLayout)
+		HRESULT CreateInputLayout(ID3D11Device* pDevice, ID3DBlob* pVsBlob, const std::vector<VertexElementInfo>& layoutInfo, Microsoft::WRL::ComPtr<ID3D11InputLayout>& outInputLayout)
 		{
 			// 引数が不足している場合
-			if (!device || !vsBlob || layoutInfo.empty()) return E_INVALIDARG;
+			if (!pDevice || !pVsBlob || layoutInfo.empty()) return E_INVALIDARG;
 
 			//----- シェーダーリフレクションの初期化 -----//
 
@@ -38,8 +30,8 @@ namespace RHEngine
 
 			// リフレクト
 			HRESULT hr = D3DReflect(
-				vsBlob->GetBufferPointer(),
-				vsBlob->GetBufferSize(),
+				pVsBlob->GetBufferPointer(),
+				pVsBlob->GetBufferSize(),
 				IID_ID3D11ShaderReflection,
 				reinterpret_cast<void**>(reflection.GetAddressOf())
 			);
@@ -106,11 +98,11 @@ namespace RHEngine
 			}
 
 			//----- InputLayout を作成 -----//
-			hr = device->CreateInputLayout(
+			hr = pDevice->CreateInputLayout(
 				inputElements.data(),
 				static_cast<UINT>(inputElements.size()),
-				vsBlob->GetBufferPointer(),
-				vsBlob->GetBufferSize(),
+				pVsBlob->GetBufferPointer(),
+				pVsBlob->GetBufferSize(),
 				outInputLayout.ReleaseAndGetAddressOf()
 			);
 
@@ -232,10 +224,10 @@ namespace RHEngine
 			}
 		}
 
-		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* var, const std::string& name)
+		ShaderParamType GetTypeFromInterface(ID3D11ShaderReflectionVariable* pVar, const std::string& name)
 		{
 			// タイプ情報を取得
-			auto* iType = var->GetType();
+			auto* iType = pVar->GetType();
 
 			// 情報を取得
 			D3D11_SHADER_TYPE_DESC desc;

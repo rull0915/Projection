@@ -1,30 +1,19 @@
-﻿//====================================================//
-// ファイル名  : DefaultAssetManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/17
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    DefaultAssetManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/17
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+
 #include "pch.h"
 #include "DefaultAssetManager.h"
 
-#include "Assets/Managers/AssetManager.h"
-#include "Assets/EngineDefaultAssets.h"
-
-#include "System/Render/GraphicsManager.h"
 #include <WICTextureLoader.h> 
 
-// 埋め込みアセットファイルの読み込み
+#include "Assets/EngineDefaultAssets.h"
+#include "System/Render/GraphicsManager.h"
 #include "Assets/Embedded/DefaultTexture.h"
 #include "Assets/Embedded/RHEngine_Logo.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -62,4 +51,4 @@ namespace RHEngine
 
 		return std::make_unique<Texture>(srv);
 	}
-}
+}	// namespace RHEngine

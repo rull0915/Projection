@@ -2,8 +2,6 @@
  * @file    AssetDataBase.cpp
  * @author  Hoshino Ryunosuke
  * @date    2026/07/26
- *
- * @brief   AssetとUUIDの双変換を行うクラス
  */
 
 #include "pch.h"
@@ -18,26 +16,21 @@ namespace RHEngine
 		// rootディレクトリに含まれる全ファイル・ディレクトリを再帰的に調べる
 		for (auto& file : std::filesystem::recursive_directory_iterator(root))
 		{
-			// auxファイルは調べない
 			if (file.path().extension() == ".aux") continue;
 
-			// フォルダは調べない
 			if (file.is_directory()) continue;
 
-			// auxの調査
 			ScanOnceFile(file);
 		}
 	}
 
 	void AssetDataBase::ScanOnceFile(const std::filesystem::path& path)
 	{
-		// 同名のauxファイルが存在するかを調べる
-		auto auxPath = path.wstring() + L".aux";
-
-		// 対応するaux
 		AssetAux aux{};
 
-		// 存在しなければ
+		auto auxPath = path.wstring() + L".aux";
+
+		// 同名の.auxファイルがなければ
 		if (!std::filesystem::exists(auxPath))
 		{
 			// UUIDを生成
@@ -63,15 +56,13 @@ namespace RHEngine
 				// 例 : Model.obj#Mesh2
 				std::filesystem::path vPath = path.string() + "#" + subAsset.assetType + "#" + subAsset.name;
 
-				// 変換表へ登録
 				Register(subAsset.uuid, vPath);
 
-				// SubIDとMainIDを保存
+				// SubIDとMainIDの関係を保存
 				m_subIdToMainId[subAsset.uuid] = aux.uuid;
 			}
 		}
 
-		// 変換表へ登録
 		Register(aux.uuid, path);
 
 		m_uuidToAux[aux.uuid] = aux;

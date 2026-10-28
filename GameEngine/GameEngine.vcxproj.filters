@@ -690,7 +690,7 @@
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Shader\ShadowMap.cpp">
+    <ClCompile Include="src\Renderer\Shadow\ShadowMap.cpp">
       <Filter>src\Renderer\Shader</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp">
@@ -780,9 +780,6 @@
     <ClCompile Include="src\Debug\DebugManager.cpp">
       <Filter>src\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="src\Debug\RectDebugRenderer.cpp">
-      <Filter>src\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="src\WinProc.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -796,6 +793,8 @@
     <ClCompile Include="src\Assets\Types\Models\Mesh.cpp" />
     <ClCompile Include="include\Editor\Editor\SelectedOnGUI.cpp" />
     <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1481,9 +1480,6 @@
     </ClInclude>
     <ClInclude Include="include\Debug\DebugManager.h">
       <Filter>include\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Debug\RectDebugRenderer.h">
-      <Filter>src\Debug</Filter>
     </ClInclude>
     <ClInclude Include="include\WinProc.h">
       <Filter>include</Filter>

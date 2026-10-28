@@ -1,26 +1,17 @@
-﻿//====================================================//
-// ファイル名  : UpdatePipeline.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    UpdatePipeline.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/05
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "UpdatePipeline.h"
-#include "Scene/Scene.h"
 
+#include "Scene/Scene.h"
 #include "Input/MouseInput.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	UpdatePipeline::UpdatePipeline(Scene* pScene)
 		: m_pScene{ pScene }
 		, m_physicsManager{ std::make_unique<PhysicsManager>() }
@@ -84,7 +75,7 @@ namespace RHEngine
 		if (playing)
 		{
 			// To Refactor
-			m_uiManager->CheckHitRay(Input::Mouse::GetScaledMousePoint());
+			m_uiManager->CheckHitRay(Input::Mouse::GetMousePoint());
 			m_uiManager->CheckEvent();
 		}
 	}

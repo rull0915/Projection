@@ -1,19 +1,14 @@
-﻿//====================================================//
-// ファイル名   : UpdatePipeline.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
-//
-// 概要 : 各管理クラスの所有 更新順序の管理をするクラス
-//
-// 更新履歴 :
-// 2026/07/05 新規作成
-//====================================================//
-
+﻿/**
+ * @file    UpdatePipeline.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/05
+ *
+ * @brief   各管理クラスの所有 更新順序の管理をするクラス
+ */
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <memory>
+
 #include "Managers/ObjectManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/Renderer/RendererManager.h"
@@ -31,82 +26,89 @@
 namespace RHEngine
 {
 	class Scene;
+	class GameTimer;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
 	class UpdatePipeline
 	{
 		friend class ComponentRegister;
 	private:
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 
-		// シーンのポインタ
+		/** @brief 自身を所有しているシーンのポインタ */
 		Scene* m_pScene;
 
-		// 各マネージャーの実体
-		std::unique_ptr<PhysicsManager> m_physicsManager;		// 3D物理
-		std::unique_ptr<PhysicsManager2D> m_physicsManager2D;	// 2D物理
-		std::unique_ptr<CollideEventSystem> m_colEvent;			// 衝突時のイベント
-		std::unique_ptr<CameraManager> m_cameraManager;		// カメラ
-		std::unique_ptr<RendererManager> m_rendererManager;	// 描画
-		std::unique_ptr<LightManager> m_lightManager;		// ライト
-		std::unique_ptr<SoundManager> m_soundManager;		// 音
-		std::unique_ptr<ObjectManager> m_objectManager;		// オブジェクト
-		std::unique_ptr<UIManager> m_uiManager;				// UI
+		/// @name 各マネージャーの実体
+		/// @{
+		
+		std::unique_ptr<PhysicsManager> m_physicsManager;		///< 3D物理
+		std::unique_ptr<PhysicsManager2D> m_physicsManager2D;	///< 2D物理
+		std::unique_ptr<CollideEventSystem> m_colEvent;			///< 衝突時のイベント
+		std::unique_ptr<CameraManager> m_cameraManager;		///< カメラ
+		std::unique_ptr<RendererManager> m_rendererManager;	///< 描画
+		std::unique_ptr<LightManager> m_lightManager;		///< ライト
+		std::unique_ptr<SoundManager> m_soundManager;		///< 音
+		std::unique_ptr<ObjectManager> m_objectManager;		///< オブジェクト
+		std::unique_ptr<UIManager> m_uiManager;				///< UI
+
+		/// @}
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene 自身を所有するシーンポインタ
+		 */
 		UpdatePipeline(Scene* pScene);
+
 		~UpdatePipeline() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
+		/**
+		 * @brief 更新する 各マネージャーを適切な順序で更新する
+		 * @param timer タイマー
+		 * @param mode 更新モード
+		 */
 		void Update(const GameTimer& timer, UpdateMode mode);
 
-		// 各マネージャーを介した描画
+		/**
+		 * @brief ワールド空間を描画する
+		 */
 		void DrawWorld(Renderer& renderer);
+
+		/**
+		 * @brief UI空間を描画する
+		 */
 		void DrawUI(Renderer& renderer);
+
+		/**
+		 * @brief UIデバッグ描画 (未実装)
+		 * @TODO
+		 */
 		void DrawRects(Renderer& renderer, DirectX::SimpleMath::Color color);
 
-		// 終了処理
+		/**
+		 * @brief 終了時に各マネージャーを解放する
+		 */
 		void Finalize();
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		// 管理クラスの取得
-
-		// オブジェクト
+		/** @brief オブジェクトマネージャー */
 		ObjectManager* GetObjectManager() { return m_objectManager.get(); }
-		// 3D物理
+		/** @brief 3D物理マネージャー */
 		PhysicsManager* GetPhysicsManager() { return m_physicsManager.get(); };
-		// 描画
+		/** @brief 描画マネージャー */
 		RendererManager* GetRendererManager() { return m_rendererManager.get(); }
-		// UI
+		/** @brief UIマネージャー */
 		UIManager* GetUIManager() { return m_uiManager.get(); }
-		// Camera
+		/** @brief カメラマネージャー */
 		CameraManager* GetCameraManager() { return m_cameraManager.get(); }
-		// ライト
+		/** @brief ライトマネージャー */
 		LightManager* GetLightManager() { return m_lightManager.get(); }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		/// @}
 	};
 }	// namespace RHEngine

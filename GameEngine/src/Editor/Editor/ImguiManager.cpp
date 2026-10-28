@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : ImguiManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/04
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    ImguiManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/04
+ */
 
 #include "pch.h"
 
@@ -23,12 +17,9 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
 
 	// imguiの初期化
-	void ImguiManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* context)
+	void ImguiManager::Initialize(HWND hwnd, ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	{
 		//  バージョンの確認
 		IMGUI_CHECKVERSION();
@@ -46,7 +37,7 @@ namespace RHEngine
 		//  Win32用の初期化
 		ImGui_ImplWin32_Init(hwnd);
 		//  DirectX11用の初期化
-		ImGui_ImplDX11_Init(device, context);
+		ImGui_ImplDX11_Init(pDevice, pContext);
 
 		// スタイルの変更
 		ChangeGUIStyle();

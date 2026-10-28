@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : RectTransform.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/14
-//
-// 概要        :  UI用トランスフォーム
-//====================================================//
+﻿/**
+ * @file    RectTransform.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/UI用トランスフォーム
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/UI/RectTransform/RectTransform.h"
 
@@ -18,10 +13,6 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	RectTransform::RectTransform(IComponentOwner* pOwner)
 		: UIComponentBase(pOwner)
 		, m_pParent{ nullptr }
@@ -206,9 +197,9 @@ namespace RHEngine
 		auto tempChildren = m_children;
 
 		// コピーしたリストを使って処理
-		for (auto* child : tempChildren)
+		for (auto* pChild : tempChildren)
 		{
-			child->SetParent(nullptr);
+			pChild->SetParent(nullptr);
 		}
 		m_children.clear();
 	}
@@ -224,45 +215,45 @@ namespace RHEngine
 		}
 	}
 
-	void RectTransform::SetParent(RectTransform* parent)
+	void RectTransform::SetParent(RectTransform* pParent)
 	{
 		// 自分か自分の子孫を親にしようとしていたら
-		if (parent == this || IsDescendantOf(parent)) return;
+		if (pParent == this || IsDescendantOf(pParent)) return;
 
 		// 親が変わらないなら何もしない
-		if (m_pParent == parent) return;
+		if (m_pParent == pParent) return;
 
 		// 指定された親がnullでない場合
-		if (parent)
+		if (pParent)
 		{
-			if (parent->m_isDirty) parent->UpdateCache();
+			if (pParent->m_isDirty) pParent->UpdateCache();
 
 			// ワールドでの座標が変化しないように各パラメータを算出
 
-			float newRotation = GetWorldRotation() - parent->GetWorldRotation();	// 回転は親の回転を引く
-			SimpleMath::Vector2 newScale = GetWorldScale() / parent->GetWorldScale();	// スケールは親のスケールで割る
+			float newRotation = GetWorldRotation() - pParent->GetWorldRotation();	// 回転は親の回転を引く
+			SimpleMath::Vector2 newScale = GetWorldScale() / pParent->GetWorldScale();	// スケールは親のスケールで割る
 
 			SimpleMath::Vector2 newAnchoredPosition;
 
 			// 変換後のアンカーのピクセル座標を求める
 
 			// 新しい親のスケールを取得
-			SimpleMath::Vector2 newParentScale = parent->GetWorldScale();
+			SimpleMath::Vector2 newParentScale = pParent->GetWorldScale();
 
 			// 新しい親の回転
-			SimpleMath::Vector2 newParentRight = parent->GetRight();
-			SimpleMath::Vector2 newParentUp = parent->GetUp();
+			SimpleMath::Vector2 newParentRight = pParent->GetRight();
+			SimpleMath::Vector2 newParentUp = pParent->GetUp();
 
 			// アンカーの座標を求める 
-			SimpleMath::Vector2 newAnchorPixelPos = parent->m_luPixelPos +
-				newParentRight * (parent->m_size.x * m_anchor.x * newParentScale.x) +
-				newParentUp * (parent->m_size.y * m_anchor.y * newParentScale.y);
+			SimpleMath::Vector2 newAnchorPixelPos = pParent->m_luPixelPos +
+				newParentRight * (pParent->m_size.x * m_anchor.x * newParentScale.x) +
+				newParentUp * (pParent->m_size.y * m_anchor.y * newParentScale.y);
 
 			// 変換後のアンカーからピボットまでのベクトルを求める
 			SimpleMath::Vector2 anchorToPivot = m_pivotPixelPos - newAnchorPixelPos;
 
 			// 新しいアンカー基準の位置を求める
-			float parentRot = parent->GetWorldRotation();
+			float parentRot = pParent->GetWorldRotation();
 
 			// 各軸に投影
 			newAnchoredPosition = SimpleMath::Vector2(
@@ -274,7 +265,7 @@ namespace RHEngine
 			if (m_pParent) m_pParent->RemoveChild(this);    // 親から自分を削除
 
 			// 新しい親を設定
-			m_pParent = parent;
+			m_pParent = pParent;
 
 			// 新しい親に自分を追加
 			m_pParent->AddChild(this);
@@ -304,19 +295,19 @@ namespace RHEngine
 
 	bool RectTransform::IsDescendantOf(RectTransform* target)
 	{
-		RectTransform* current = target;
+		RectTransform* pCurrent = target;
 
-		// currentがnullになるまでループ
-		while (current != nullptr)
+		// pCurrentがnullになるまでループ
+		while (pCurrent != nullptr)
 		{
 			// 自分と同じかチェック
-			if (current == this)
+			if (pCurrent == this)
 			{
 				return true;
 			}
 
 			// 親を辿る
-			current = current->m_pParent;
+			pCurrent = pCurrent->m_pParent;
 		}
 
 		// 最後まで到達した時

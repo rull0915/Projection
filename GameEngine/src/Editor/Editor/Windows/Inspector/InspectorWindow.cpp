@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : InspectorWindow.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要       : インスペクターウィンドウ
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    InspectorWindow.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ */
 
 #include "pch.h"
 
@@ -23,22 +17,18 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void InspectorWindow::DrawInspector()
 	{
 		// 描画開始
 		StartInspector();
 
 		// 選択中オブジェクトを取得
-		PropertyObject* selected = m_selected.GetSelected();
+		PropertyObject* pSelected = m_selected.GetSelected();
 
 		// 選択されていたら
-		if (selected)
+		if (pSelected)
 		{
-			DrawPropertyObjectOnInspector(selected);
+			DrawPropertyObjectOnInspector(pSelected);
 		}
 
 		// 描画終了
@@ -50,39 +40,39 @@ namespace RHEngine
 		ImGui::Begin("Inspector", nullptr);
 	}
 
-	void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* object)
+	void InspectorWindow::DrawPropertyObjectOnInspector(PropertyObject* pObject)
 	{
 		// nullなら何もしない
-		if (!object) return;
+		if (!pObject) return;
 
 		// GameObjectの場合の表示
-		if (GameObject* gameObject = dynamic_cast<GameObject*>(object))
+		if (GameObject* pGameObject = dynamic_cast<GameObject*>(pObject))
 		{
-			DrawGameObject(gameObject);
+			DrawGameObject(pGameObject);
 		}
 		// Assetの場合の表示
-		else if (AssetBase* asset = dynamic_cast<AssetBase*>(object))
+		else if (AssetBase* pAsset = dynamic_cast<AssetBase*>(pObject))
 		{
-			DrawAsset(asset);
+			DrawAsset(pAsset);
 		}
 	}
 
-	void InspectorWindow::DrawGameObject(GameObject* object)
+	void InspectorWindow::DrawGameObject(GameObject* pObject)
 	{
 		// 表示
-		if (m_propertyOnInspector.DrawPropertyObject(object))
+		if (m_propertyOnInspector.DrawPropertyObject(pObject))
 		{
-			object->OnValidate();
+			pObject->OnValidate();
 		}
 
 		// 全コンポーネントを取得
-		for (auto& component : object->GetAllComponents())
+		for (auto& pComponent : pObject->GetAllComponents())
 		{
 			// コンポーネント名を取得
-			auto name = NAMEOF_SHORT_TYPE_RTTI(*component);
+			auto name = NAMEOF_SHORT_TYPE_RTTI(*pComponent);
 
 			// ID衝突防止
-			ImGui::PushID(component);
+			ImGui::PushID(pComponent);
 
 			bool open = ImGui::TreeNodeEx(name.data(), ImGuiTreeNodeFlags_DefaultOpen);
 
@@ -93,7 +83,7 @@ namespace RHEngine
 				if (ImGui::MenuItem("Delete"))
 				{
 					// 押されたら削除
-					object->RemoveComponent(component);
+					pObject->RemoveComponent(pComponent);
 				}
 				ImGui::EndPopup();
 			}
@@ -102,7 +92,7 @@ namespace RHEngine
 			if (ImGui::BeginDragDropSource())
 			{
 				// 渡したいデータを設定
-				ImGui::SetDragDropPayload("COMPONENT", component, sizeof(*component));
+				ImGui::SetDragDropPayload("COMPONENT", pComponent, sizeof(*pComponent));
 
 				// ドラッグ中に表示される内容
 				ImGui::Text(name.c_str());
@@ -114,10 +104,10 @@ namespace RHEngine
 			if (open)
 			{
 				// インスペクターに表示
-				if (m_propertyOnInspector.DrawPropertyObject(component))
+				if (m_propertyOnInspector.DrawPropertyObject(pComponent))
 				{
 					// 変更時関数の呼び出し
-					component->OnValidate();
+					pComponent->OnValidate();
 				}
 
 				// 区切り
@@ -131,13 +121,13 @@ namespace RHEngine
 		}
 
 		// AddComponentボタンを追加
-		DrawAddComponent(object);
+		DrawAddComponent(pObject);
 	}
 
-	void InspectorWindow::DrawAddComponent(GameObject* object)
+	void InspectorWindow::DrawAddComponent(GameObject* pObject)
 	{
 		// nullなら何もしない
-		if (!object) return;
+		if (!pObject) return;
 
 		// ボタンを表示
 
@@ -179,7 +169,7 @@ namespace RHEngine
 						if (ImGui::BeginMenu(sStr))
 						{
 							// コンポーネントリストを表示
-							DrawComponentList(object, { project, space });
+							DrawComponentList(pObject, { project, space });
 
 							ImGui::EndMenu();
 						}
@@ -191,7 +181,7 @@ namespace RHEngine
 		}
 	}
 
-	void InspectorWindow::DrawComponentList(GameObject* object, ComponentInfo info)
+	void InspectorWindow::DrawComponentList(GameObject* pObject, ComponentInfo info)
 	{
 		// ファクトリから候補を取得
 		for (auto& factory : ComponentFactory::m_creatorMap)
@@ -203,27 +193,27 @@ namespace RHEngine
 				if (ImGui::Selectable(factory.first.c_str()))
 				{
 					// 押されたら追加
-					factory.second.second(object);
+					factory.second.second(pObject);
 				}
 			}
 		}
 	}
 
-	void InspectorWindow::DrawAsset(AssetBase* asset)
+	void InspectorWindow::DrawAsset(AssetBase* pAsset)
 	{
 		// fs::pathに変換しファイル名を取得
-		std::string name = asset->GetName();
+		std::string name = pAsset->GetName();
 
 		ImGui::Text(name.c_str());
 
 		// 本体を表示
-		if (m_propertyOnInspector.DrawPropertyObject(asset, asset->IsReadOnly()))
+		if (m_propertyOnInspector.DrawPropertyObject(pAsset, pAsset->IsReadOnly()))
 		{
-			asset->OnValidate();
+			pAsset->OnValidate();
 		}
 
 		// セーブ可能かどうか
-		auto& path = m_assetManager.GetDataBase().GetPath(asset->GetUUID());
+		auto& path = m_assetManager.GetDataBase().GetPath(pAsset->GetUUID());
 
 		if (m_assetManager.CanSave(path))
 		{

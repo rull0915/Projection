@@ -1,59 +1,48 @@
-﻿//====================================================//
-// ファイル名   : CheckHit.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/18
-//
-// 概要 : コライダーの衝突判定をまとめたヘッダー
-//
-// 更新履歴 :
-// 2026/03/18 新規作成
-//====================================================//
+﻿/**
+ * @file    CheckHit.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/18
+ *
+ * @brief   コライダーの衝突判定をまとめたヘッダー
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include "Components/World/Collider/3D/Shapes/Colliders.h"
 #include "Physics/HitInfomation.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数宣言
-	//====================================================//
-
 	namespace Collision
 	{
-		/// <summary>
-		/// 球同士の衝突判定
-		/// </summary>
+		/**
+		 * @brief 球同士の衝突判定
+		 */
 		bool CheckHit_Sphere_Sphere(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-		/// <summary>
-		/// 球とカプセル
-		/// </summary>
+		/**
+		 * @brief 球とカプセル衝突判定
+		 */
 		bool CheckHit_Sphere_Capsule(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-		/// <summary>
-		/// 球とボックス
-		/// </summary>
+		/**
+		 * @brief 球とボックス衝突判定
+		 */
 		bool CheckHit_Sphere_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-		/// <summary>
-		/// カプセル同士
-		/// </summary>
+		/**
+		 * @brief カプセル同士の衝突判定
+		 */
 		bool CheckHit_Capsule_Capsule(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 
-		/// <summary>
-		/// カプセルとボックス
-		/// </summary>
+		/**
+		 * @brief カプセルとボックスの衝突判定
+		 */
 		bool CheckHit_Capsule_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
-
-		/// <summary>
-		/// ボックス同士
-		/// </summary>
+		
+		/**
+		 * @brief ボックス同士の衝突判定
+		 */
 		bool CheckHit_Box_Box(ColliderBase* colA, ColliderBase* colB, HitInfomation* info = nullptr);
 	}
 }	// namespace RHEngine

@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : PhysicsManager2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/16
-//
-// 概要        :  2D版物理挙動管理クラスです
-//====================================================//
+﻿/**
+ * @file    PhysicsManager2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/16
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "PhysicsManager2D.h"
 #include "Collider/CollideManager2D.h"
@@ -18,10 +13,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	PhysicsManager2D::PhysicsManager2D()
 		: m_collideManager{ std::make_unique<CollideManager2D>() }
 		, m_contacts{}

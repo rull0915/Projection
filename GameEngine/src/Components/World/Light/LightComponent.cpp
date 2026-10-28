@@ -1,26 +1,17 @@
-﻿//====================================================//
-// ファイル名  : LightComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/11
-//
-// 概要       : LightComponentシーン
-//====================================================//
+﻿/**
+ * @file    LightComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/11
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Light/LightComponent.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	// コンストラクタ
-	LightComponent::LightComponent(IComponentOwner* owner)
-		: WorldComponentBase(owner)
+	LightComponent::LightComponent(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_lightType{ LightType::None }
 		, m_color{ 1, 1, 1, 1 }
 		, m_intensity{ 1.0f }
@@ -43,11 +34,11 @@ namespace RHEngine
 		properties = PropertyObject::GetProperties();
 
 		// 1つのfloat変数を追加するラムダ式
-		auto addOnceFloat = [&properties](const std::string& name, void* value)
+		auto addOnceFloat = [&properties](const std::string& name, void* pValue)
 			{
 				properties.push_back(
 					Property(
-						name, PropertyType::Float, value
+						name, PropertyType::Float, pValue
 					)
 				);
 			};
@@ -108,4 +99,4 @@ namespace RHEngine
 			m_radius = 0.0f;
 		}
 	}
-}
+}	// namespace RHEngine

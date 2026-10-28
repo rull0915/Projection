@@ -1,42 +1,39 @@
-﻿//====================================================//
-// ファイル名   : MaterialConstant.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/10
-//
-// 概要 : マテリアルのセーブロードで使用する定数をまとめたヘッダ
-//
-// 更新履歴 :
-// 2026/10/10 新規作成
-//====================================================//
+﻿/**
+ * @file    MaterialConstant.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/10
+ *
+ * @brief   マテリアルのセーブロードで使用する定数をまとめたヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <utility>
 #include <string_view>
 
-#include "Assets/Types/Shader/ShaderAsset.h"
-#include "Assets/Types/Material/MaterialAsset.h"
 #include "ThirdParty/nlohmann/json.hpp"
 #include "ThirdParty/magic_enum/magic_enum.hpp"
+#include "Assets/Types/Shader/ShaderAsset.h"
+#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Shader/ShaderParam.h"
 #include "Assets/Types/Shader/SamplerType.h"
 #include "Assets/Types/Texture.h"
 #include "Assets/Objects/Handle.h"
+#include "Assets/Types/Material/MaterialParams.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief マテリアルに関する定数や関数を持つ
+	 */
 	class MaterialConstant
 	{
 	public:
 
-		// シェーダー名とシェーダータイプの対応表
+		/**
+		 * @brief シェーダー名とシェーダータイプの対応表
+		 */
 		static constexpr std::pair<std::string_view, ShaderType> SHADER_NAME_TYPE[] =
 		{
 			{ "VertexShader", ShaderType::Vertex },
@@ -47,7 +44,13 @@ namespace RHEngine
 			{ "ComputeShader", ShaderType::Compute },
 		};
 
-		// jsonからパラメータ
+		/**
+		 * @brief jsonをパラメータに変換する
+		 * @param ctx アセットコンテキスト (テクスチャの解決に使用)
+		 * @param type パラメータのタイプ
+		 * @param json パラメータ情報を持つjson
+		 * @return 
+		 */
 		static MaterialParamVariant GetVariant(const AssetContext& ctx, ShaderParamType type, const nlohmann::json& json)
 		{
 			switch (type)
@@ -86,7 +89,12 @@ namespace RHEngine
 			}
 		};
 
-		// パラメーターからjson
+		/**
+		 * @brief パラメータからjsonを生成する
+		 * @param ctx アセットコンテキスト (テクスチャに使用)
+		 * @param param 対象のパラメータ
+		 * @return 生成したjson
+		 */
 		static nlohmann::json GetJson(const AssetContext& ctx, MaterialAsset::Parameter param)
 		{
 			nlohmann::json paramJson{};
@@ -150,4 +158,4 @@ namespace RHEngine
 			return paramJson;
 		}
 	};
-}
+}	// namespace RHEngine

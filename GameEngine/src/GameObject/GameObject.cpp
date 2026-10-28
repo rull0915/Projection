@@ -1,30 +1,19 @@
-﻿//====================================================//
-// ファイル名  : GameObject.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/01
-//
-// 概要        : ゲームオブジェクト基底クラスです
-//====================================================//
+﻿/**
+ * @file    GameObject.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
 
 #include "Components/World/Transform/Transform.h"
 #include "Components/UI/RectTransform/RectTransform.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
+#include "Scene/ObjectFactory.h"
 
 namespace RHEngine 
 {
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	GameObject::GameObject(CreateToken)
 		: m_isActive{ true }
 		, m_changedActive{ false }
@@ -78,9 +67,9 @@ namespace RHEngine
 		}
 
 		// コンポーネントのReserveを呼び出す
-		for (auto& component : GetAllComponents())
+		for (auto& pComponent : GetAllComponents())
 		{
-			component->Reserve();
+			pComponent->Reserve();
 		}
 	}
 
@@ -95,20 +84,20 @@ namespace RHEngine
 
 	GameObject* GameObject::GetParent() const
 	{
-		if (auto* t = GetComponent<Transform>())
+		if (auto* pTransform = GetComponent<Transform>())
 		{
 			// 親がいれば
-			if (auto* parent = t->GetParent())
+			if (auto* pParent = pTransform->GetParent())
 			{
-				return static_cast<GameObject*>(parent->GetOwn());
+				return static_cast<GameObject*>(pParent->GetOwn());
 			}
 		}
-		else if (auto* t = GetComponent<RectTransform>())
+		else if (auto* pRectTransform = GetComponent<RectTransform>())
 		{
 			// 親がいれば
-			if (auto* parent = t->GetParent())
+			if (auto* pParent = pRectTransform->GetParent())
 			{
-				return static_cast<GameObject*>(parent->GetOwn());
+				return static_cast<GameObject*>(pParent->GetOwn());
 			}
 		}
 
@@ -117,8 +106,8 @@ namespace RHEngine
 
 	size_t GameObject::GetChildCount() const
 	{
-		if (auto* t = GetComponent<Transform>()) return t->GetChildren().size();
-		else if (auto* t = GetComponent<RectTransform>()) return t->GetChildren().size();
+		if (auto* pTransform = GetComponent<Transform>()) return pTransform->GetChildren().size();
+		else if (auto* pRectTransform = GetComponent<RectTransform>()) return pRectTransform->GetChildren().size();
 
 		return 0;	
 	}
@@ -129,24 +118,24 @@ namespace RHEngine
 		std::vector<GameObject*> children{};
 
 		// Transformを持っているとき
-		if (auto* t = GetComponent<Transform>())
+		if (auto* pTransform = GetComponent<Transform>())
 		{
 			// 子を走査
-			for (auto& child : t->GetChildren())
+			for (auto& pChild : pTransform->GetChildren())
 			{
 				// 配列に追加
-				children.push_back(static_cast<GameObject*>(child->GetOwn()));
+				children.push_back(static_cast<GameObject*>(pChild->GetOwn()));
 			}
 		}
 
 		// RectTransformを持っているとき
-		else if (auto* t = GetComponent<RectTransform>())
+		else if (auto* pRectTransform = GetComponent<RectTransform>())
 		{
 			// 子を走査
-			for (auto& child : t->GetChildren())
+			for (auto& pChild : pRectTransform->GetChildren())
 			{
 				// 配列に追加
-				children.push_back(static_cast<GameObject*>(child->GetOwn()));
+				children.push_back(static_cast<GameObject*>(pChild->GetOwn()));
 			}
 		}
 
@@ -200,60 +189,60 @@ namespace RHEngine
 		m_isDead = true;
 
 		// 子オブジェクトも消す
-		for (auto child : GetChildren())
+		for (auto pChild : GetChildren())
 		{
-			child->Destroy();
+			pChild->Destroy();
 		}
 	}
 
 	void GameObject::OnCollisionEnter(HitContact& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnCollisionEnter(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnCollisionEnter(contact);
 	}
 	void GameObject::OnCollisionStay(HitContact& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnCollisionStay(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnCollisionStay(contact);
 	}
 	void GameObject::OnCollisionExit(HitContact& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnCollisionExit(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnCollisionExit(contact);
 	}
 	void GameObject::OnTriggerEnter(HitContact& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnTriggerEnter(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnTriggerEnter(contact);
 	}
 	void GameObject::OnTriggerStay(HitContact& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnTriggerStay(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnTriggerStay(contact);
 	}
 	void GameObject::OnTriggerExit(HitContact& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnTriggerExit(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnTriggerExit(contact);
 	}
 
 	void GameObject::OnCollisionEnter2D(HitContact2D& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnCollisionEnter2D(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnCollisionEnter2D(contact);
 	}
 	void GameObject::OnCollisionStay2D(HitContact2D& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnCollisionStay2D(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnCollisionStay2D(contact);
 	}
 	void GameObject::OnCollisionExit2D(HitContact2D& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnCollisionExit2D(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnCollisionExit2D(contact);
 	}
 	void GameObject::OnTriggerEnter2D(HitContact2D& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnTriggerEnter2D(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnTriggerEnter2D(contact);
 	}
 	void GameObject::OnTriggerStay2D(HitContact2D& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnTriggerStay2D(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnTriggerStay2D(contact);
 	}
 	void GameObject::OnTriggerExit2D(HitContact2D& contact)
 	{
-		for (auto& component : GetAllComponents()) component->OnTriggerExit2D(contact);
+		for (auto& pComponent : GetAllComponents()) pComponent->OnTriggerExit2D(contact);
 	}
 
 	void GameObject::OnActiveChanged(bool f)
@@ -261,31 +250,31 @@ namespace RHEngine
 		// 子に通知する
 
 		// Transformの場合
-		if (Transform* t = GetComponent<Transform>())
+		if (Transform* pTransform = GetComponent<Transform>())
 		{
 			// 子を全て調べる
-			for (auto& child : t->GetChildren())
+			for (auto& pChild : pTransform->GetChildren())
 			{
 				// 通知
-				static_cast<GameObject*>(child->GetOwn())->SetParentActive(f);
+				static_cast<GameObject*>(pChild->GetOwn())->SetParentActive(f);
 			}
 		}
 
 		// RectTransformの場合
-		if (RectTransform* t = GetComponent<RectTransform>())
+		if (RectTransform* pRectTransform = GetComponent<RectTransform>())
 		{
 			// 子を全て調べる
-			for (auto& child : t->GetChildren())
+			for (auto& pChild : pRectTransform->GetChildren())
 			{
 				// 通知
-				static_cast<GameObject*>(child->GetOwn())->SetParentActive(f);
+				static_cast<GameObject*>(pChild->GetOwn())->SetParentActive(f);
 			}
 		}
 
 		// コンポーネントに通知する
-		for (auto& component : GetAllComponents())
+		for (auto& pComponent : GetAllComponents())
 		{
-			component->SetOwnerActive(f);
+			pComponent->SetOwnerActive(f);
 		}
 	}
 } // namespace RHEngine

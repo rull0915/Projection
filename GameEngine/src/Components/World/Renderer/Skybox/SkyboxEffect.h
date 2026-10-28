@@ -1,30 +1,17 @@
-﻿//====================================================//
-// ファイル名   : SkyboxEffect.h
-// 作成者       : DirectX toolkit
-// 作成日       : 2026/07/03
-//
-// 概要 : スカイボックスエフェクト
-//		 https://github.com/microsoft/DirectXTK/wiki/Authoring-an-Effect
-//
-// 更新履歴 :
-// 2026/07/03 新規作成
-//====================================================//
-
+﻿/**
+ * @file    SkyboxEffect.h
+ * @author  DirectXTK
+ *
+ * @brief   スカイボックスエフェクト
+ */
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <Effects.h>
 #include <BufferHelpers.h>
 #include <vector>
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
 	class SkyboxEffect : public DirectX::IEffect, public DirectX::IEffectMatrices
 	{
 	public:

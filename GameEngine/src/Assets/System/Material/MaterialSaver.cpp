@@ -1,27 +1,18 @@
-﻿//====================================================//
-// ファイル名  : MaterialSaver.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/10
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    MaterialSaver.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/10
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
+#include "MaterialSaver.h"
+
 #include <fstream>
 
-#include "MaterialSaver.h"
 #include "MaterialConstant.h"
-
 #include "ThirdParty/nlohmann/json.hpp"
 #include "ThirdParty/magic_enum/magic_enum.hpp"
 #include "Assets/Managers/AssetContext.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 void RHEngine::Saver::MaterialSaver::Save(AssetBase* asset, const std::filesystem::path& path, AssetContext& ctx)
 {
@@ -80,4 +71,4 @@ void RHEngine::Saver::MaterialSaver::Save(AssetBase* asset, const std::filesyste
 	}
 
 	ofs.close();
-}
+}	// namespace RHEngine

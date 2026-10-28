@@ -1,21 +1,15 @@
-﻿//====================================================//
-// ファイル名   : MaterialSaver.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/10
-//
-// 概要 : マテリアルを保存するクラス
-//
-// 更新履歴 :
-// 2026/10/10 新規作成
-//====================================================//
+﻿/**
+ * @file    MaterialSaver.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/10
+ *
+ * @brief   マテリアルを保存する
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <filesystem>
 
-#include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Objects/AssetBase.h"
 
 namespace RHEngine
@@ -24,24 +18,20 @@ namespace RHEngine
 
 	namespace Saver
 	{
-		//====================================================//
-		// クラス宣言
-		//====================================================//
+		/**
+		 * @brief マテリアルの保存をする
+		 */
 		class MaterialSaver
 		{
 		public:
 
-			//-----------------------------------------------------
-			// コンストラクタ / デストラクタ
-			//-----------------------------------------------------
-			MaterialSaver() = default;
-			~MaterialSaver() = default;
-
-			//-----------------------------------------------------
-			// 公開関数
-			//-----------------------------------------------------
-
+			/**
+			 * @brief マテリアルを保存する
+			 * @param asset 対象のマテリアル
+			 * @param path 保存先のパス
+			 * @param ctx アセットコンテキスト
+			 */
 			static void Save(AssetBase* asset, const std::filesystem::path& path, AssetContext& ctx);
 		};
 	}
-}
+}	// namespace RHEngine

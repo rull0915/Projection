@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : PhysicsManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/08
-//
-// 概要        :  物理挙動管理クラスです
-//====================================================//
+﻿/**
+ * @file    PhysicsManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/08
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "PhysicsManager.h"
 
@@ -17,10 +12,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	PhysicsManager::PhysicsManager()
 		: m_collideManager{ std::make_unique<CollideManager>() }
 		, m_contacts{}
@@ -68,14 +59,6 @@ namespace RHEngine
 
 		// 位置補正
 		HittedCorrection();
-	}
-
-	void PhysicsManager::ReflectReserves()
-	{
-		AddReserved();
-		RemoveReserved();
-
-		m_collideManager->ReflectReserves();
 	}
 
 	// 衝突後の補正を行う関数

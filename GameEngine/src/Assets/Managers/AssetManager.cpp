@@ -1,26 +1,18 @@
-﻿//====================================================//
-// ファイル名  : AssetManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    AssetManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Managers/AssetManager.h"
-#include "Assets/Managers/DefaultAssetManager.h"
 
 #include <algorithm>
 
+#include "Assets/Managers/DefaultAssetManager.h"
+
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	AssetManager::AssetManager()
 		: m_dataBase{ m_typeManager }
 		, m_registry{}

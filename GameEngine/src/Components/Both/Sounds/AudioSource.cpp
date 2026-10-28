@@ -1,16 +1,12 @@
-﻿//====================================================//
-// ファイル名  : AudioSource.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/01
-//
-// 概要       : オーディオソース
-//====================================================//
+﻿/**
+ * @file    AudioSource.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/Both/Sounds/AudioSource.h"
+
 #include "Assets/Managers/AssetManager.h"
 
 namespace RHEngine
@@ -20,8 +16,8 @@ namespace RHEngine
 	//====================================================//
 
 	// コンストラクタ
-	AudioSource::AudioSource(IComponentOwner* own)
-		: BothComponentBase(own)
+	AudioSource::AudioSource(IComponentOwner* pOwner)
+		: BothComponentBase(pOwner)
 		, m_soundInstance{ nullptr }
 		, m_volume{ 1.0f }
 		, m_pan{ 0.0f }
@@ -29,6 +25,7 @@ namespace RHEngine
 		, m_loop{ false }
 		, m_playOnStart{ false }
 		, m_use3DAudio{ false }
+		, m_pAssetManager{ nullptr }
 	{
 		ADD_PROPERTY(AudioSource, m_audioClip);
 		ADD_PROPERTY(AudioSource, m_volume);

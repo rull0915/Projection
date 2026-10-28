@@ -1,26 +1,18 @@
-﻿//====================================================//
-// ファイル名  : CheckHit2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/17
-//
-// 概要        : 2D衝突判定の関数をまとめたcpp
-//====================================================//
+﻿/**
+ * @file    CheckHit2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/17
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "StandardCheckHit2D.h"
+
 #include "CheckHitAuxiliary2D.h"
 
 using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	namespace Collision2D
 	{
 		bool CheckHit_Circle_Circle(ColliderBase2D* colA, ColliderBase2D* colB, HitInfomation2D* info)
