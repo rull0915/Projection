@@ -1,65 +1,70 @@
-﻿//====================================================//
-// ファイル名   : GameTimer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/04
-//
-// 概要 : 各オブジェクトに渡すゲーム用のタイマークラス
-//
-// 更新履歴 :
-// 2026/06/04 新規作成
-//====================================================//
+﻿/**
+ * @file    GameTimer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/04
+ *
+ * @brief   各オブジェクトに渡すゲーム用のタイマークラス
+ */
 
 #pragma once
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief ゲーム全体で使うタイマー
+	 * @details タイムスケールを扱う
+	 */
 	class GameTimer
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// スケールされた総経過時間
+		/** @brief タイムスケールを反映した総経過時間 */
 		float m_time;
 
-		// 本当の総経過時間
+		/** @brief リアルタイムの総経過時間 */
 		float m_unscaledTime;
 
-		// スケールされた経過時間
+		/** @brief タイムスケールを反映した1f経過時間 */
 		float m_elapsedTime;
 
-		// 本当の経過時間
+		/** @brief リアルタイムの1f経過時間 */
 		float m_unscaledElapsedTime;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		GameTimer()
 			: m_time{ 0.0f }
 			, m_unscaledTime{ 0.0f }
 			, m_elapsedTime{ 0.0f }
 			, m_unscaledElapsedTime{ 0.0f }
 		{}
+
 		~GameTimer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
+		/**
+		 * @brief タイマーを更新する
+		 * @param elapsedTime 経過時間
+		 */
 		void Update(float elapsedTime);
+		
+		/// @name ゲッター
+		/// @{
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/** @brief タイムスケールを反映した1f経過時間 */
 		float GetElapsedTime() const { return m_elapsedTime; }
+
+		/** @brief リアルタイムの1f経過時間 */
 		float GetUnScaledElapsedTime() const { return m_unscaledElapsedTime; }
 
+		/** @brief タイムスケールを反映した総経過時間 */
 		float GetTime() const { return m_time; }
+
+		/** @brief リアルタイムの総経過時間 */
 		float GetUnScaledTime() const { return m_unscaledTime; }
+
+		/// @}
 	};
 }	// namespace RHEngine

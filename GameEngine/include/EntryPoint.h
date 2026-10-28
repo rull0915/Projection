@@ -1,19 +1,11 @@
-﻿//====================================================//
-// ファイル名   : EntryPoint.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/14
-//
-// 概要 : EntryPointを定義するヘッダ
-//
-// 更新履歴 : 
-// 2026/10/14 新規作成
-//====================================================//
-
-#pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    EntryPoint.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/14
+ *
+ * @brief   EntryPointを定義するヘッダ
+ * @details エンジン側にエントリポイントを置くことでゲームを作るたびにウィンドウの作成処理などを書く手間を減らす
+ */
 
 // Windows API
 #include <Windows.h>
@@ -32,10 +24,6 @@
 #include "Application.h"
 #include "WinProc.h"
 
-//====================================================//
-// 関数宣言
-//====================================================//
-
 // 外部で定義されたCreateApplicationを呼び出す
 extern RHEngine::Application* RHEngine::CreateApplication();
 
@@ -43,7 +31,6 @@ namespace {
 	std::unique_ptr<RHEngine::Application> g_app;
 }
 
-// エントリポイント
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
 	// 使用しないパラメータ

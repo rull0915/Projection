@@ -1095,9 +1095,6 @@
     <ClInclude Include="include\EntryPoint.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameController.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\GameEngine.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -1499,6 +1496,7 @@
     <ClInclude Include="include\System\PerformanceStats.h" />
     <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
     <ClInclude Include="include\Assets\Types\Vertex\DynamicVertexBuffer.h" />
+    <ClInclude Include="include\GameController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

@@ -1,29 +1,25 @@
-﻿//====================================================//
-// ファイル名   : RenderContext.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/04
-//
-// 概要 : 描画コンテキスト
-//
-// 更新履歴 :
-// 2026/07/04 新規作成
-//====================================================//
+﻿/**
+ * @file    RenderContext.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/04
+ *
+ * @brief   描画コンテキスト
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <cstdint>
+#include <SimpleMath.h>
+
 #include "RenderTarget.h"
 #include "Renderer/Shadow/ShadowMap.h"
 #include "Scene/SceneInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief 描画フラグ
+	 */
 	namespace DrawFlag
 	{
 		static constexpr uint8_t World = 1 << 0;
@@ -32,32 +28,29 @@ namespace RHEngine
 		static constexpr uint8_t UIDebug = 1 << 3;
 	}
 
-	// 描画の情報
+	/**
+	 * @brief 描画をする際の情報をまとめた構造体
+	 */
 	struct RenderContext
 	{
-		// 描画するカメラのデータ
-		SceneCameraData cameraData;
+		SceneCameraData cameraData;	///< 描画を行うカメラのデータ
 
-		// 背景色
-		DirectX::SimpleMath::Color backColor = { 0, 0, 0, 0 };
+		DirectX::SimpleMath::Color backColor = { 0, 0, 0, 0 };	///< 背景色
 
-		// 描画先
-		RenderTarget* target = nullptr;
+		RenderTarget* target = nullptr;	///< 描画先
 
-		// 描画フラグ
-		uint8_t flags = DrawFlag::World | DrawFlag::UI;
+		uint8_t flags = DrawFlag::World | DrawFlag::UI;	///< 描画フラグ
 
-		// 描画時書かれている情報をリセットするかどうか
-		bool clearTarget = true;
+		bool clearTarget = true;	///< 描画時に描画先をクリアするかどうか
 	};
 
-	// 影用描画の情報
+	/**
+	 * @brief 影描画の際の情報をまとめた構造体
+	 */
 	struct ShadowRenderContext
 	{
-		// 影を作るライトをカメラとみなしたときのデータ
-		SceneCameraData cameraData;
+		SceneCameraData cameraData;	///< 影を生成するライトを、カメラとみなしたときのカメラデータ
 		
-		// 描画対象
-		ShadowMap* pShadowMap;
+		ShadowMap* pShadowMap;	///< 描画先のシャドウマップ
 	};
 }	// namespace RHEngine

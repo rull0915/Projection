@@ -1,6 +1,9 @@
-﻿//
-// DeviceResources.h - A wrapper for the Direct3D 11 device and swapchain
-//
+﻿/**
+ * @file    DeviceResources.h
+ * @author  DirectXTK
+ *
+ * @brief   A wrapper for the Direct3D 11 device and swapchain
+ */
 
 #pragma once
 
@@ -127,4 +130,4 @@ namespace DX
 		// コモンステート
 		std::unique_ptr<DirectX::CommonStates> m_states;
 	};
-}
+}	// namespace DX

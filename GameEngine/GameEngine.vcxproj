@@ -451,6 +451,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\GameController.h" />
     <ClInclude Include="include\Math\Range.h">
       <SubType>
       </SubType>
@@ -607,10 +608,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Editor\Loader\ObjectLoader.h" />
     <ClInclude Include="include\Editor\Saver\ObjectSaver.h" />
     <ClInclude Include="include\Editor\SceneEditor.h" />
-    <ClInclude Include="include\GameController.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\Input\PadInput.h">
       <SubType>
       </SubType>

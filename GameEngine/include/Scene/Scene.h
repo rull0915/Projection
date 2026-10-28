@@ -1,31 +1,19 @@
-﻿//====================================================//
-// ファイル名   : Scene.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/02/06
-//
-// 概要 : Sceneの基底クラス
-//
-// 更新履歴 :
-// 2026/02/06 新規作成
-// 2026/05/04 コンポーネントのマネージャーを所持するように変更
-//====================================================//
+﻿/**
+ * @file    Scene.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/06
+ *
+ * @brief   Sceneの基底クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <memory>
 #include <vector>
+#include <cstdint>
+#include <d3d11.h>
 
-#include "Physics/Ray.h"
-#include "Physics/RaycastHit.h"
 #include "UpdateMode.h"
-
-#include "ObjectFactory.h"
-#include "ComponentRegister.h"
-#include "ObjectFinder.h"
-#include "Assets/Managers/AssetManager.h"
 #include "Common/ObjectReference.h"
 #include "System/Render/RenderTarget.h"
 #include "System/Render/RenderContext.h"
@@ -34,153 +22,217 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
-
 	class Renderer;
 	class ShadowRenderer;
-	class CameraBase;
-	class Canvas;
 
 	class SceneRenderer;
 	class UpdatePipeline;
-	class ObjectManager;
 	class ReferenceRegistry;
+	class ComponentRegister;
+	class ObjectFinder;
+	class ObjectFactory;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class ObjectManager;
+
+	class Ray;
+	class RaycastHit;
+
+	class ComponentBase;
+	class GameObject;
+
+	class AssetManager;
+	class GameTimer;
+
+	/**
+	 * @brief シーンクラス
+	 */
 	class Scene final
 	{
 	private:
 
-		// マネージャー管理をするクラス
+		/** @brief マネージャー管理をするクラス */
 		std::unique_ptr<UpdatePipeline> m_updatePipeline;
 
-		// コンポーネント登録システム
+		/** @brief コンポーネント登録システム */
 		std::unique_ptr<ComponentRegister> m_componentRegister;
 
-		// オブジェクト検索
+		/** @brief オブジェクト検索 */
 		std::unique_ptr<ObjectFinder> m_objectFinder;
 
-		// シーン描画
+		/** @brief シーン描画 */
 		std::unique_ptr<SceneRenderer> m_sceneRenderer;
 
-		// ファクトリ
+		/** @brief ファクトリ */
 		std::unique_ptr<ObjectFactory> m_objectFactory;
 
-		// 参照レジストリ
+		/** @brief 参照レジストリ */
 		std::unique_ptr<ReferenceRegistry> m_referenceRegistry;
 
-		// 更新状態
+		/** @brief 更新状態 */
 		UpdateMode m_updateMode;
 
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
-		// 参照解決待ちリスト
+		/** @brief 参照解決待ちリスト */
 		std::vector<RefBase*> m_waitingRefBases;
 
-		// シーンデータ
+		/** @brief シーンデータ */
 		SceneData m_sceneData;
 
-		// ゲームビュー
-		RenderTarget m_mainWorld;	// メインカメラがワールド空間を描画するターゲット
-		RenderTarget m_gameView;	// ゲームビュー
+		/** @brief ワールド空間を描画するターゲット*/
+		RenderTarget m_mainWorld;
 
-		// ShadowMap
-		ShadowMap m_shadowMap;	// Todo : シャドウ管理クラスに委譲
+		/** @brief ゲームビュー */
+		RenderTarget m_gameView;
 
-		// 描画情報
+		/** 
+		 * @brief ShadowMap
+		 * @TODO シャドウパス管理クラスへ委譲
+		 */
+		ShadowMap m_shadowMap;
+
+		/** @brief 描画する情報の一覧 */
 		std::vector<RenderContext> m_renderContexts;
 
 	public:
 
-		// コンストラクタ
+		/// @name ライフサイクル
+		/// @{
+		
+		/**
+		 * @param assetManager アセットマネージャー
+		 */
 		Scene(AssetManager& assetManager);
 
-		// デストラクタ
 		virtual ~Scene();
 
-		// 初期化処理
+		/// @}
+
+		/**
+		 * @brief Ref参照の解決を行う
+		 */
 		void Initialize();
 
-		// 更新処理
+		/**
+		 * @brief シーン全体の更新を行う
+		 * @param gameTimer タイマー
+		 */
 		void Update(const GameTimer& gameTimer);
 
-		// ウィンドウサイズ変更時処理
+		/**
+		 * @brief ウィンドウサイズの変更を各コンポーネントに通知する
+		 * @param width 変更後のウィンドウ幅
+		 * @param height 変更後のウィンドウ高さ
+		 */
 		void OnWindowSizeChanged(int width, int height);
 
-		// 描画準備処理
+		/**
+		 * @brief 描画準備
+		 */
 		void PrepareRender();
 
-		// 描画処理
+		/**
+		 * @brief シーン全体の描画を行う
+		 * @param renderer 描画クラス
+		 * @param shadowRenderer 影描画クラス
+		 */
 		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);
 
-		// カメラ情報から描画する関数
+		/**
+		 * @brief 1カメラを描画する
+		 * @param data 描画データ
+		 * @param renderer 描画関数
+		 * @param useShadow 影を描画するかどうか
+		 */
 		void DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow);
 
-		// 終了処理
+		/**
+		 * @brief 終了処理
+		 */
 		void Finalize();
 
-		// 全オブジェクトの削除関数
+		/**
+		 * @brief 全オブジェクトを削除する
+		 */
 		void ResetObjects();
 
-		// コンポーネントを登録する関数
-		void RegisterComponent(ComponentBase* component);
+		/**
+		 * @brief コンポーネントを登録する
+		 * @param pComponent 登録されるコンポーネント
+		 */
+		void RegisterComponent(ComponentBase* pComponent);
 
-		// コンポーネントの登録を解除する関数
-		void UnRegsisterComponent(ComponentBase* component);
+		/**
+		 * @brief コンポーネントを登録解除する
+		 * @param pComponent 解除されるコンポーネント
+		 */
+		void UnRegsisterComponent(ComponentBase* pComponent);
 
-		// オブジェクトの削除が通知される関数
-		void OnGameObjectDestroy(GameObject* obj);
+		/**
+		 * @brief オブジェクト削除時の処理
+		 * @param pObj 削除されるオブジェクト
+		 */
+		void OnGameObjectDestroy(GameObject* pObj);
 
-		// RayCast関数
+		/**
+		 * @brief Rayの衝突を調べる
+		 * @param ray 調べるRay
+		 * @param max Rayが届く最大の距離
+		 * @param hit 衝突情報を書き込む変数
+		 * @param layerMask 衝突するレイヤー
+		 * @return 
+		 */
 		bool RayCast(Ray& ray, float max, RaycastHit* hit, uint64_t layerMask = 0xFFFFFFFFFFFFFFFF);
 
-		// RefBaseの参照を作成する関数
-		bool ResolveRef(RefBase* ref);
+		/**
+		 * @brief Refの参照を解決する
+		 * @param pRef 解決対象のRef
+		 * @return 成功したかどうか
+		 */
+		bool ResolveRef(RefBase* pRef);
 
-		// RefBaseの遅延解決を予約する関数
-		void RegisterLateResolve(RefBase* ref);
+		/**
+		 * @brief Refの遅延解決を要請する
+		 * @param pRef 対象のRef
+		 */
+		void RegisterLateResolve(RefBase* pRef);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		// 管理クラス
+		/** @brief オブジェクト管理クラス */
 		ObjectManager* GetObjectManager() const;
 
-		// コンポーネント管理者
+		/** @brief コンポーネントレジスタ */
 		ComponentRegister* GetComponentRegister() const { return m_componentRegister.get(); }
 
-		// オブジェクトファインダー
+		/** @brief オブジェクトファインダー */
 		ObjectFinder* GetObjectFinder() const { return m_objectFinder.get(); }
 
-		// パイプライン
+		/** @brief パイプライン */
 		UpdatePipeline* GetPipeline() const { return m_updatePipeline.get(); }
 
-		// ファクトリ
+		/** @brief ファクトリ */
 		ObjectFactory* GetFactory() const { return m_objectFactory.get(); }
 
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& GetAssetManager() const { return m_assetManager; }
 
-		// シーンデータ
+		/** @brief シーンデータ */
 		SceneData& GetSceneData() { return m_sceneData; }
 
-		// ゲームビューの取得
+		/** @brief ゲームビューの取得 */
 		ID3D11ShaderResourceView* GetGameView() const { return m_gameView.GetShaderResourceView(); }
 
-		// ToDelete Debug用 シャドウマップテクスチャの取得
-		ID3D11ShaderResourceView* GetShadowMapTexture() const { return m_shadowMap.GetSRV(); }
+		/// @}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @name セッター
+		/// @{
 
-		// 更新モード
+		/** @brief 更新モード */
 		void SetUpdateMode(UpdateMode mode) { m_updateMode = mode; }
+
+		/// @}
 	};
 } // namespace RHEngine

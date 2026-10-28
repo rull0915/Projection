@@ -1,63 +1,57 @@
-﻿//====================================================//
-// ファイル名   : UUIDRegistry.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/28
-//
-// 概要 : UUIDの生成を管理するクラス シングルトンにしプロジェクト全体で被らないように管理
-//
-// 更新履歴 :
-// 2026/08/28 新規作成
-//====================================================//
+﻿/**
+ * @file    UUIDRegistry.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/28
+ *
+ * @brief   UUIDの生成を管理するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <unordered_set>
-#include "Common/UUID.h"
 
+#include "Common/UUID.h"
 #include "Common/Random.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief UUIDの生成を管理する
+	 * @details シングルトンにすることでプロジェクト全体でUUIDの重複が起こらないようにする
+	 * @TODO まだファイルロード時に被る可能性があるのでファイルに保存されているUUIDをプロジェクト開始時に全て登録する
+	 */
 	class UUIDRegistry
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 生成済みUUIDの一覧
+		/** @brief 生成済みのUUID一覧 */
 		std::unordered_set<UUID> m_uuids;
-
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
 
 	private:
 
+		/// @name ライフサイクル
+		/// @{
+
 		UUIDRegistry() = default;
+
 		~UUIDRegistry() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-	public:
-
-		// インスタンス取得関数
+		/**
+		 * @brief インスタンスを取得する
+		 * @return 静的なインスタンス
+		 */
 		static UUIDRegistry& Instance()
 		{
 			static UUIDRegistry instance;
 			return instance;
 		}
 
-		// UUIDを生成する関数
+		/**
+		 * @brief 新しいUUIDを生成する
+		 * @return 生成したUUID
+		 */
 		UUID GenerateUUID()
 		{
 			UUID uuid = Random::Get<UUID>(0, std::numeric_limits<UUID>::max());
@@ -73,10 +67,12 @@ namespace RHEngine
 			return uuid;
 		}
 
-		// UUIDを登録する関数
+		/**
+		 * @brief 生成済みのUUIDを登録する
+		 */
 		void RegisterUUID(UUID uuid)
 		{
 			m_uuids.insert(uuid);
 		}
 	};
-}
+}	// namespace RHEngine

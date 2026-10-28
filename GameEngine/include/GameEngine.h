@@ -1,26 +1,21 @@
-﻿//====================================================//
-// ファイル名   : GameEngine.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/16
-//
-// 概要 : Engine部分を統括するクラス
-//
-// 更新履歴 :
-// 2026/07/16 新規作成
-//====================================================//
+﻿/**
+ * @file    GameEngine.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/16
+ *
+ * @brief   RHEngineを統括するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <memory>
+#include <string>
+#include <Windows.h>
 
 #include "Renderer/Renderer.h"
 #include "Timer/GameTimer.h"
 #include "System/DeviceResources.h"
 
-#include "Renderer/Renderer.h"
 #include "Assets/Managers/AssetManager.h"
 #include "Renderer/Shadow/ShadowRenderer.h"
 
@@ -32,86 +27,107 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief RHEngineを統括する
+	 */
 	class GameEngine
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// モード変更フラグ
+		/** @brief エンジンのモードが変わるかどうか */
 		bool m_modeChange;
 
-		// ゲームタイマー
+		/** @brief タイマー */
 		std::unique_ptr<GameTimer> m_gameTimer;
 
-		// アセット管理
+		/** @brief アセット管理者 */
 		AssetManager m_assetManager;
 
-		// 描画担当
+		/** @brief 描画担当*/
 		Renderer m_renderer;
+
+		/** @brief 影描画担当*/
 		ShadowRenderer m_shadowRenderer;
 
 #ifdef ENGINE_GUI
 
-		// シーンエディットフラグ
+		/** @brief シーンエディタが起動しているかどうか */
 		bool m_sceneEdit;
 
-		// エディター
+		/** @brief シーンエディタの本体 */
 		std::unique_ptr<SceneEditor> m_editor;
 
 #endif // ENGINE_GUI
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @namespace RHEngine
+		/// @{
+
 		GameEngine();
+
 		~GameEngine() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 初期化関数
+		/**
+		 * @brief エンジン全体の初期化を行う
+		 * @param deviceResources デバイスリソース
+		 * @param window ウィンドウハンドル
+		 * @param edit 開始時にシーンエディタを起動するかどうか
+		 */
 		void Initialize(DX::DeviceResources* deviceResources, HWND window, bool edit);
 
-		// 更新関数
+		/**
+		 * @brief フレーム開始時の処理
+		 */
 		void BeginFrame();
 
-		// 更新関数
+		/**
+		 * @brief エンジン全体の更新をする
+		 * @param elapsedTime 1fの経過時間
+		 */
 		void Update(float elapsedTime);
 
-		// ウィンドウサイズ変化時処理
+		/**
+		 * @brief ウィンドウサイズの変化をシーンマネージャーに通知する 
+		 */
 		void OnWindowSizeChanged(int width, int height);
 
-		// 描画関数
+		/**
+		 * @brief エンジン全体の描画をする
+		 */
 		void Render();
 
-		// 終了関数
+		/**
+		 * @brief 終了時にシーンを解放する
+		 */
 		void Finalize();
 
 #ifdef ENGINE_GUI
 
-		// エディタの開始関数
+		/**
+		 * @brief シーンエディタを開始する
+		 */
 		void StartEditor();
 
-		// エディタの終了関数
+		/**
+		 * @brief シーンエディタを終了する
+		 * @param initSceneName 終了後に読み込むシーン名
+		 */
 		void EndEditor(std::string initSceneName);
 
 #endif // ENGINE_GUI
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
+		/** @brief タイマー */
 		GameTimer& GetTimer() { return *m_gameTimer; }
+
+		/** @brief 描画担当 */
 		Renderer& GetRenderer() { return m_renderer; }
 
+		/// @}
 	};
 }	// namespace RHEngine

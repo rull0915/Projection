@@ -1,54 +1,59 @@
-﻿//====================================================//
-// ファイル名   : EngineInitializer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要 : ゲームエンジンの初期化を担当するクラス
-//
-// 更新履歴 :
-// 2026/06/26 新規作成
-//====================================================//
+﻿/**
+ * @file    EngineInitializer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ *
+ * @brief   ゲームエンジンの初期化を担当する
+ */
 
 #pragma once
 
 namespace RHEngine
 {
+	/**
+	 * @brief ゲームエンジンの初期化を担当する
+	 */
 	class EngineInitializer
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 初期化済みフラグ
+		/** @brief 初期化済みフラグ */
 		inline static bool m_isInitialized = false;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		EngineInitializer() = default;
+
 		~EngineInitializer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// ゲームエンジン部分全体の初期化
+		/**
+		 * @brief エンジンの初期化を行う
+		 */
 		static void EngineInitialize();
 
 	private:
 
-		// 3D衝突関数の登録
+		/**
+		 * @brief 衝突マップに3D衝突関数の登録をする
+		 */
 		static void Regist3DCollisions();
 
-		// 2D衝突関数の登録
+		/**
+		 * @brief 衝突マップに2D衝突関数の登録をする
+		 */
 		static void Regist2DCollisions();
 
-		// Ray衝突関数の登録
+		/**
+		 * @brief Rayと3Dコライダーの衝突関数を登録する
+		 */
 		static void RegistRayCollisions();
 
-		// デフォルトのカスタムキーの登録
+		/**
+		 * @brief 入力システムにカスタムキーを登録する
+		 */
 		static void RegistCustomKeys();
 	};
 } // namespace RHEngine

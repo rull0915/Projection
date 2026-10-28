@@ -1,59 +1,47 @@
-﻿//====================================================//
-// ファイル名   : TransitionManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/27
-//
-// 概要 : シーン遷移管理クラス
-//
-// 更新履歴 :
-// 2026/06/27 新規作成
-//====================================================//
+﻿/**
+ * @file    TransitionManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/27
+ *
+ * @brief   シーン遷移管理クラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include "TransitionBase.h"
 
 #include <memory>
 #include <functional>
 
+#include "TransitionBase.h"
+
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
+	class GameTimer;
 	class Renderer;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief シーン遷移管理
+	 */
 	class TransitionManager
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 今のモード
+		/** @brief 今のモード */
 		Transition::Mode m_nowMode;
 
-		// Out演出
+		/** @brief Out演出 */
 		std::unique_ptr<Transition::Base> m_outTransition;
 
-		// In演出
+		/** @brief In演出 */
 		std::unique_ptr<Transition::Base> m_inTransition;
 
-		// Out終了時,Inの直前に呼ばれる関数
+		/** @brief Out終了時,Inの直前に呼ばれる関数 */
 		std::function<void()> m_func;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		TransitionManager()
 			: m_outTransition{}
 			, m_inTransition{}
@@ -63,24 +51,34 @@ namespace RHEngine
 
 		~TransitionManager() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 更新関数
+		/**
+		 * @brief 遷移演出の更新を行う
+		 * @param gameTimer タイマー
+		 */
 		void Update(const GameTimer& gameTimer);
 
-		// 描画関数
+		/**
+		 * @brief 描画演出の描画を行う
+		 */
 		void Render(Renderer& renderer);
 
-		// 遷移演出を開始する関数
+		/**
+		 * @brief 遷移演出を開始する
+		 * @param outTrans 画面を隠すエフェクト
+		 * @param inTrans 画面を見せるエフェクト
+		 * @param func シーンを実際に切りかえる関数
+		 */
 		void StartTrans(
 			std::unique_ptr<Transition::Base> outTrans,
 			std::unique_ptr<Transition::Base> inTrans,
 			std::function<void()> func
 		);
 
-		// 演出中かどうかを返す関数
+		/**
+		 * @brief シーン遷移演出中かどうか
+		 */
 		bool IsTransitioning() const;
 	};
 }	// namespace RHEngine

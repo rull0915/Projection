@@ -1,24 +1,16 @@
-﻿//====================================================//
-// ファイル名   : WindowManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/10
-//
-// 概要 : ウィンドウの状態を管理するクラスです
-//
-// 更新履歴 :
-// 2026/06/10 新規作成
-//====================================================//
+﻿/**
+ * @file    WindowManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/10
+ *
+ * @brief   ウィンドウの状態を管理する
+ */
 
 #pragma once
+
+#include <SimpleMath.h>
+
 #include "Windows.h"
-
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-//====================================================//
-// マクロ宣言
-//====================================================//
 
 // ウインドウスタイル
 #define WS_MYSTYLE ( WS_OVERLAPPED     | \
@@ -28,35 +20,36 @@
 
 namespace RHEngine
 {
-
-//====================================================//
-// クラス宣言
-//====================================================//
+	/**
+	 * @brief ウィンドウの状態を管理する
+	 */
 	class WindowManager
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 	private:
 
-		// デフォルトサイズ
+		/** @brief デフォルトのウィンドウ幅 (フルスクリーンから戻す際に使用) */
 		unsigned int m_defaultWidth;
+
+		/** @brief デフォルトのウィンドウ高さ (フルスクリーンから戻す際に使用) */
 		unsigned int m_defaultHeight;
 
-		// サイズ
+		/** @brief 現在のウィンドウ幅 */
 		unsigned int m_width;
+
+		/** @brief 現在のウィンドウ高さ */
 		unsigned int m_height;
 
-		// 背景色
+		/** @brief メインウィンドウの背景色 */
 		DirectX::SimpleMath::Color m_backGroundColor;
 
-		// ウィンドウ
+		/** @brief ウィンドウハンドル */
 		HWND m_window;
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
 	private:
+
+		/// @name ライフサイクル
+		/// @{
+
 		WindowManager()
 			: m_defaultWidth{}
 			, m_defaultHeight{}
@@ -65,34 +58,47 @@ namespace RHEngine
 			, m_backGroundColor{ 0.3f, 0.6f, 0.8f, 1.0f }
 			, m_window{}
 		{};
+
 		~WindowManager() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
+
 	public:
 
-		// シングルトン化
+		/**
+		 * @brief インスタンスを取得する
+		 * @return 静的なインスタンス
+		 */
 		static WindowManager& Instance()
 		{
 			static WindowManager instance;
 			return instance;
 		}
 
-		// デフォルトウィンドウサイズの設定
+		/**
+		 * @brief デフォルトのウィンドウサイズを設定する
+		 */
 		void SetDefaultWindowSize(int width, int height)
 		{
 			m_defaultWidth = static_cast<unsigned int>(width);
 			m_defaultHeight = static_cast<unsigned int>(height);
 		}
 
-		// ウィンドウをセットする関数
+		/**
+		 * @brief ウィンドウを設定する
+		 */
 		void SetWindow(HWND hwnd) { m_window = hwnd; }
 
-		// フルスクリーンとウィンドウを切り替える関数
+		/**
+		 * @brief フルスクリーンとウィンドウを切り替える
+		 */
 		void SwitchScreenMode();
 		
-		// NDCの座標系からピクセル座標に変換する関数
+		/**
+		 * @brief ピクセル座標からNDC座標に変換する
+		 * @param pos ピクセル座標
+		 * @return NDC座標
+		 */
 		DirectX::SimpleMath::Vector2 PixelToNDC(DirectX::SimpleMath::Vector2 pos)
 		{
 			float xRatio = (pos.x + 1) / 2;
@@ -100,7 +106,12 @@ namespace RHEngine
 
 			return { m_width * xRatio, m_height * yRatio };
 		}
-		// ピクセル座標からNDCの座標系に変換する関数
+
+		/**
+		 * @brief NDC座標系からピクセル座標に変換する
+		 * @param pos NDC座標
+		 * @return ピクセル座標
+		 */
 		DirectX::SimpleMath::Vector2 NDCToPixel(DirectX::SimpleMath::Vector2 pos)
 		{
 			float xRatio = pos.x / m_width;
@@ -109,34 +120,49 @@ namespace RHEngine
 			return { xRatio * 2 - 1, -(yRatio * 2 - 1) };
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		unsigned int GetWidth() const { return m_width; }    // 幅
-		unsigned int GetHeight() const { return m_height; }  // 高さ
+		/** @brief 現在のウィンドウ幅 */
+		unsigned int GetWidth() const { return m_width; } 
 
-		float GetWidthF() const { return static_cast<float>(m_width); }    // 幅
-		float GetHeightF() const { return static_cast<float>(m_height); }  // 高さ
+		/** @brief 現在のウィンドウ高さ */
+		unsigned int GetHeight() const { return m_height; }
 
-		DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }   // サイズ
-		float GetAspect() const { return GetWidthF() / GetHeightF(); }	// アスペクト比
+		/** @brief 現在のウィンドウ幅 (float版) */
+		float GetWidthF() const { return static_cast<float>(m_width); }
 
-		// 背景色
+		/** @brief 現在のウィンドウ高さ (float版) */
+		float GetHeightF() const { return static_cast<float>(m_height); }
+
+		/** @brief 現在のウィンドウサイズ */
+		DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }
+
+		/** @brief ウィンドウのアスペクト比 */
+		float GetAspect() const { return GetWidthF() / GetHeightF(); }
+
+		/** @brief 背景色 */
 		DirectX::SimpleMath::Color GetBackGroundColor() const { return m_backGroundColor; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
-		void SetWidth(unsigned int value) { m_width = value; }    // 幅
-		void SetHeight(unsigned int value) { m_height = value; }  // 高さ
+		/// @name セッター
+		/// @{
+
+		/** @brief ウィンドウ幅 */
+		void SetWidth(unsigned int value) { m_width = value; }
+
+		/** @brief ウィンドウ高さ */
+		void SetHeight(unsigned int value) { m_height = value; }
+
+		/** @brief ウィンドウサイズ */
 		void SetSize(unsigned int width, unsigned int height) 
 		{ 
 			m_width = width; 
 			m_height = height; 
 		} 
 
+		/** @brief 背景色 */
 		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
 	};
 }	// namespace RHEngine

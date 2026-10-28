@@ -1,61 +1,63 @@
-﻿//====================================================//
-// ファイル名   : SceneInfo.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/11
-//
-// 概要 : シーンの情報に関する構造体をまとめたヘッダ
-//
-// 更新履歴 :
-// 2026/10/11 新規作成
-//====================================================//
+﻿/**
+ * @file    SceneInfo.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/11
+ *
+ * @brief   シーンの情報に関する構造体をまとめたヘッダ
+ */
 
-#pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
-
+#include <vector>
 #include <SimpleMath.h>
+
 #include "Common/LightData.h"
-#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace RHEngine
 {
-	// ライトの情報
+	/**
+	 * @brief シーンにあるライトのデータ
+	 */
 	struct SceneLightData
 	{
-		std::vector<PointLight> pointLights{};
-		std::vector<SpotLight> spotLights{};
-		std::vector<DirectionalLight> directionalLights{};
+		std::vector<PointLight> pointLights{};	///< ポイントライトの情報
+		std::vector<SpotLight> spotLights{};	///< スポットライトの情報
+		std::vector<DirectionalLight> directionalLights{};	///< ディレクショナルライトの情報
 	};
 
-	// 時間の情報
+	/**
+	 * @brief 時間の情報
+	 */
 	struct SceneTimeData
 	{
-		float time = 0.0f;
-		float elapsedTime = 0.0f;
+		float time = 0.0f;			///< プロジェクト開始からの総経過時間
+		float elapsedTime = 0.0f;	///< 1fの経過時間
 	};
 
-	// カメラの情報
+	/**
+	 * @brief シーンカメラデータ
+	 */
 	struct SceneCameraData
 	{
-		DirectX::SimpleMath::Matrix view = DirectX::SimpleMath::Matrix::Identity;
-		DirectX::SimpleMath::Matrix proj = DirectX::SimpleMath::Matrix::Identity;
-		DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3::Zero;
+		DirectX::SimpleMath::Matrix view = DirectX::SimpleMath::Matrix::Identity;	///< ビュー行列
+		DirectX::SimpleMath::Matrix proj = DirectX::SimpleMath::Matrix::Identity;	///< 射影行列	
+		DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3::Zero;		///< カメラの位置
 	};
 	
-	// 影の情報
+	/**
+	 * @brief 影のデータ
+	 */
 	struct SceneShadowData
 	{
-		SceneCameraData lightCameraData{};
-		float shadowBias = 0.0f;
+		SceneCameraData lightCameraData{};	///< ライトをカメラとしたときのカメラデータ
+		float shadowBias = 0.0f;	///< シャドウバイアス
 	};
 
-	// シーンの情報
+	/**
+	 * @brief シーン全体のデータ
+	 */
 	struct SceneData
 	{
-		SceneLightData lightData{};
-		SceneTimeData timeData{};
-		SceneShadowData shadowData{};
+		SceneLightData lightData{};		///< ライト
+		SceneTimeData timeData{};		///< 時間
+		SceneShadowData shadowData{};	///< 影
 	};
-}
+}	// namespace RHEngine

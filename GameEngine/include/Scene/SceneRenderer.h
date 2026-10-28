@@ -1,20 +1,15 @@
-﻿//====================================================//
-// ファイル名   : SceneRenderer.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/12
-//
-// 概要 : シーンの描画担当クラス
-//
-// 更新履歴 :
-// 2026/07/12 新規作成
-// 2026/10/15 パスごとの描画関数に分割
-//====================================================//
+﻿/**
+ * @file    SceneRenderer.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/12
+ *
+ * @brief   シーンの描画担当クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "System/Render/RenderContext.h"
 
 namespace RHEngine
@@ -23,47 +18,41 @@ namespace RHEngine
 	class ShadowRenderer;
 	class Scene;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
-	/// <summary>
-	/// シーンの描画担当
-	/// </summary>
+	/**
+	 * @brief シーンの描画担当
+	 */
 	class SceneRenderer
 	{
-		// デバッグ描画色
 	public:
+		/** @brief デバッグ描画時の描画色 */
 		static constexpr DirectX::SimpleMath::Color DEBUG_COLOR = { 0, 1, 0, 1 };
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// シーンポインタ
+		/** @brief シーンポインタ */
 		Scene* m_pScene;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene シーンポインタ
+		 */
 		SceneRenderer(Scene* pScene);
+
 		~SceneRenderer() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// ShadowPass描画
+		/** @brief ShadowPass描画 */
 		void DrawShadowPass(const ShadowRenderContext& ctx, ShadowRenderer& renderer);
 
-		// WorldPass描画
+		/** @brief WorldPass描画 */
 		void DrawWorldPass(const RenderContext& ctx, Renderer& renderer);
 
-		// UIPass描画
+		/** @brief UIPass描画 */
 		void DrawUIPass(const RenderContext& ctx, Renderer& renderer);
 	};
 }	// namespace RHEngine

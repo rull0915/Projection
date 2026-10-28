@@ -1,19 +1,13 @@
-﻿//====================================================//
-// ファイル名   : RenderProxy.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/18
-//
-// 概要 : 描画仲介クラス
-//
-// 更新履歴 :
-// 2026/07/18 新規作成
-//====================================================//
+﻿/**
+ * @file    RenderProxy.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/18
+ *
+ * @brief   描画仲介クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <memory>
 
 #include "Command/Publisher/DrawPrimitiveCommandPublisher.h"
@@ -27,64 +21,64 @@ namespace RHEngine
 	class DrawCommandContainer;
 	class GraphicsSystem;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 描画仲介クラス
+	 */
 	class RenderProxy
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// プリミティブ
+		/** @brief プリミティブ */
 		std::unique_ptr<DrawPrimitiveCommandPublisher> m_primitiveRenderer;
 
-		// メッシュ
+		/** @brief メッシュ */
 		std::unique_ptr<DrawMeshCommandPublisher> m_meshRenderer;
 
-		// スプライト
+		/** @brief スプライト */
 		std::unique_ptr<DrawSpriteCommandPublisher> m_spriteRenderer;
 
-		// 文字列
+		/** @brief 文字列 */
 		std::unique_ptr<DrawTextCommandPublisher> m_textRenderer;
 
-		// UI
+		/** @brief UI */
 		std::unique_ptr<DrawUICommandPublisher> m_uiRenderer;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		RenderProxy() = default;
+
 		~RenderProxy() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 初期化関数
+		/**
+		 * @brief 書く描画コマンドパブリッシャーを作成する
+		 * @param system 描画システム
+		 * @param container コマンドコンテナ
+		 */
 		void Initialize(GraphicsSystem& system, DrawCommandContainer& container);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		// Primitive
+		/** @brief Primitive */
 		DrawPrimitiveCommandPublisher& Primitive() { return *m_primitiveRenderer; }
 
-		// Model
+		/** @brief Model */
 		DrawMeshCommandPublisher& Mesh() { return *m_meshRenderer; }
 
-		// Sprite
+		/** @brief Sprite */
 		DrawSpriteCommandPublisher& Sprite() { return *m_spriteRenderer; }
 
-		// Text
+		/** @brief Text */
 		DrawTextCommandPublisher& Text() { return *m_textRenderer; }
 
-		// UI
+		/** @brief UI */
 		DrawUICommandPublisher& UI() { return *m_uiRenderer; }
+
+		/// @}
 	};
-}
+}	// namespace RHEngine

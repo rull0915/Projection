@@ -1,6 +1,9 @@
-﻿//
-// StepTimer.h - A simple timer that provides elapsed time information
-//
+﻿/**
+ * @file    StepTimer.h
+ * @author  DirectXTK
+ *
+ * @brief   A simple timer that provides elapsed time information
+ */
 
 #pragma once
 
@@ -177,4 +180,4 @@ namespace DX
 		bool m_isFixedTimeStep;
 		uint64_t m_targetElapsedTicks;
 	};
-}
+}	// namespace DX

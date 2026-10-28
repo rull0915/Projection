@@ -18,6 +18,24 @@ namespace RHEngine
 	// 関数の実体宣言
 	//====================================================//
 
+	RenderTarget::RenderTarget()
+		: m_width{ 0 }
+		, m_height{ 0 }
+		, m_viewPort{}
+		, m_texture{}
+		, m_srv{}
+		, m_rtv{}
+		, m_depthTexture{}
+		, m_dsv{}
+		, m_prevRTV{}
+		, m_prevDSV{}
+		, m_prevViewport{}
+		, m_pDevice{ nullptr }
+		, m_useDepth{}
+		, m_colorFormat{}
+		, m_depthFormat{}
+	{};
+
 	void RenderTarget::Create(ID3D11Device* device, unsigned int width, unsigned int height, bool useDepth, DXGI_FORMAT colorFormat, DXGI_FORMAT depthFormat)
 	{
 		// 各変数のリセット

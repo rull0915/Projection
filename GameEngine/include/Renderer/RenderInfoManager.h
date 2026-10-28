@@ -1,54 +1,55 @@
-﻿//====================================================//
-// ファイル名   : RenderInfoManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/15
-//
-// 概要 : 描画に必要な情報を管理するクラス
-//
-// 更新履歴 :
-// 2026/10/15 新規作成
-//====================================================//
+﻿/**
+ * @file    RenderInfoManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/15
+ *
+ * @brief   描画に必要な情報を管理するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <d3d11.h>
+#include <wrl/client.h>
+#include <SimpleMath.h>
 
 #include "RendererInfo.h"
 #include "Scene/SceneInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 描画に必要な情報を管理する
+	 */
 	class RenderInfoManager
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// デバイスコンテキスト
+		/** @brief デバイスコンテキスト */
 		ID3D11DeviceContext* m_pContext;
 
-		// GPU側バッファ
+		/** @brief フレーム毎のバッファ */
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perFrameCBuffer;
+
+		/** @brief カメラ毎のバッファ */
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perCameraCBuffer;
+
+		/** @brief オブジェクト毎のバッファ */
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_perObjectCBuffer;
 
-		// CPU側バッファ
+		/** @brief CPU側フレームバッファ */
 		PerFrame m_perFrame;
+
+		/** @brief CPU側カメラバッファ */
 		PerCamera m_perCamera;
+
+		/** @brief CPU側オブジェクトバッファ */
 		PerObject m_perObject;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		RenderInfoManager()
 			: m_pContext{ nullptr }
 			, m_perFrameCBuffer{}
@@ -59,31 +60,49 @@ namespace RHEngine
 			, m_perObject{}
 		{
 		}
+
 		~RenderInfoManager() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 初期化関数
+		/**
+		 * @brief バッファの作成などの初期化を行う
+		 * @param pDevice デバイスポインタ
+		 * @param pContext コンテキストポインタ
+		 */
 		void Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 
-		// PerFrameバッファをシーン情報から更新する関数
+		/**
+		 * @brief PerFrameバッファをシーンデータから更新する
+		 * @param data 最新のシーンデータ
+		 */
 		void UpdatePerFrame(const SceneData& data);
 
-		// PerCameraバッファをカメラ情報から更新する関数
+		/**
+		 * @brief PerCameraバッファをカメラデータから更新する
+		 * @param data 最新のカメラデータ
+		 */
 		void UpdatePerCamera(const SceneCameraData& cameraData);
 
-		// PerObjectバッファをワールド行列から更新する関数
+		/**
+		 * @brief PerObjectバッファをワールド行列から更新する
+		 * @param data 最新のワールド行列
+		 */
 		void UpdatePerObject(const DirectX::SimpleMath::Matrix& world);
 
-		// PerFrameバッファをバインドする関数
+		/**
+		 * @brief PerFrameバッファをバインドする
+		 */
 		void BindPerFrame();
 
-		// PerCameraバッファをバインドする関数
+		/**
+		 * @brief PerCameraバッファをバインドする
+		 */
 		void BindPerCamera();
 		
-		// PerObjectバッファをバインドする関数
+		/**
+		 * @brief PerObjectバッファをバインドする
+		 */
 		void BindPerObject();
 	};
-}
+}	// namespace RHEngine
