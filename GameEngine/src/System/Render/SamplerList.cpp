@@ -28,10 +28,10 @@ namespace RHEngine
 			return it->second;
 		}
 
-		static Microsoft::WRL::ComPtr<ID3D11SamplerState> empty = nullptr;
+		static Microsoft::WRL::ComPtr<ID3D11SamplerState> s_empty = nullptr;
 
 		// 未作成ならnullptr
-		return empty;
+		return s_empty;
 	}
 
 	void SamplerList::CreateSampler(ID3D11Device* device, SamplerType type, D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE mode)

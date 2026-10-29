@@ -29,7 +29,7 @@ namespace RHEngine
 	private:
 
 		/** @brief 3DコライダーのIDをキーとした衝突関数マップ */
-		inline static std::unordered_map<Component::TypeId, CollisionFunc> m_collisionMap;
+		inline static std::unordered_map<Component::TypeId, CollisionFunc> s_collisionMap;
 
 	public:
 

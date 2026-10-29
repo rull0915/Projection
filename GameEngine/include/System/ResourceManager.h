@@ -60,6 +60,6 @@ namespace RHEngine
 		/**
 		 * @brief オーディオエンジンを取得する
 		 */
-		DirectX::AudioEngine* GetAudioEngine() { return m_audioEngine.get(); }
+		DirectX::AudioEngine* GetAudioEngine() const { return m_audioEngine.get(); }
 	};
 } // namespace RHEngine

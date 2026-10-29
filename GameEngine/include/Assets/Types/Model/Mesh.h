@@ -14,6 +14,7 @@
 
 #include "Assets/Objects/AssetBase.h"
 #include "SubMesh.h"
+#include "Common/Property/Property.h"
 
 namespace RHEngine
 {
@@ -57,7 +58,9 @@ namespace RHEngine
 
 		/// @}
 
-		// プロパティリスト
+		/**
+		 * @brief プロパティリストを取得する
+		 */
 		std::vector<Property> GetProperties() override;
 
 		/// @name ゲッター

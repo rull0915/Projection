@@ -293,7 +293,7 @@ namespace RHEngine
 					for (size_t i = 0; i < faceVertices.size() - 2; ++i)
 					{
 						// TriangleFan形式を採用
-						// Todo: 汎用性は低いためEarCliping法などに改善すると良い
+						// TODO(三角形分割の最適化): 汎用性は低いためEarCliping法などに改善すると良い
 						indices.push_back(vertexkeys[faceVertices[0]]);
 						indices.push_back(vertexkeys[faceVertices[i + 1]]);
 						indices.push_back(vertexkeys[faceVertices[i + 2]]);

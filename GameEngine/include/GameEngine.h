@@ -123,10 +123,10 @@ namespace RHEngine
 		/// @{
 
 		/** @brief タイマー */
-		GameTimer& GetTimer() { return *m_gameTimer; }
+		GameTimer& GetTimer() const { return *m_gameTimer; }
 
 		/** @brief 描画担当 */
-		Renderer& GetRenderer() { return m_renderer; }
+		const Renderer& GetRenderer() const { return m_renderer; }
 
 		/// @}
 	};

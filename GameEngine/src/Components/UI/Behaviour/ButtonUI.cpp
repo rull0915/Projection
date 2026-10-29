@@ -85,16 +85,16 @@ namespace RHEngine
 	int ButtonUI::AddOnClicked(OnClickEvent event)
 	{
 		// 全体で一つのトークンを共有
-		static EventToken token = 0;
+		static EventToken s_token = 0;
 
 		// トークンをインクリメント
-		token++;
+		s_token++;
 
 		// イベントを追加
-		m_onClicked.insert({ token, event });
+		m_onClicked.insert({ s_token, event });
 
 		// トークンを返す
-		return token;
+		return s_token;
 	}
 
 	void ButtonUI::RemoveOnClicked(EventToken token)

@@ -136,7 +136,7 @@ namespace RHEngine
 		float GetHeightF() const { return static_cast<float>(m_height); }
 
 		/** @brief 現在のウィンドウサイズ */
-		DirectX::SimpleMath::Vector2 GetSize() { return { GetWidthF(), GetHeightF() }; }
+		DirectX::SimpleMath::Vector2 GetSize() const { return { GetWidthF(), GetHeightF() }; }
 
 		/** @brief ウィンドウのアスペクト比 */
 		float GetAspect() const { return GetWidthF() / GetHeightF(); }

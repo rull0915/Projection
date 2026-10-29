@@ -71,7 +71,7 @@ namespace RHEngine
 
 		/**
 		 * @brief カメラを変更する
-		 * @detials カメラを変更し、PerCamera定数バッファの再バインドをする
+		 * @details カメラを変更し、PerCamera定数バッファの再バインドをする
 		 * @param data 変更後のカメラデータ
 		 */
 		void ChangeCamera(const SceneCameraData& data);

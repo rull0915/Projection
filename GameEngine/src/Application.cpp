@@ -26,9 +26,6 @@ namespace RHEngine
 		// デバイスリソースの取得
 		m_deviceResources = GraphicsManager::Instance().GetDeviceResources();
 
-		// TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
-		//   Add DX::DeviceResources::c_AllowTearing to opt-in to variable rate displays.
-		//   Add DX::DeviceResources::c_EnableHDR for HDR10 display.
 		m_deviceResources->RegisterDeviceNotify(this);
 	}
 

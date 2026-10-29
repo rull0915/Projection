@@ -77,13 +77,13 @@ namespace RHEngine
 		/// @{
 
 		/** @brief デバイスリソース */
-		DX::DeviceResources* GetDeviceResources() { return m_deviceResources.get(); }
+		DX::DeviceResources* GetDeviceResources() const { return m_deviceResources.get(); }
 
 		/** @brief インプットレイアウトキャッシュ */
 		InputLayoutCache& GetInputLayoutCache() { return m_inputLayoutCache; };
 
 		/** @brief サンプラーリスト */
-		SamplerList& GetSamplerList() { return m_samplerList; };
+		const SamplerList& GetSamplerList() const { return m_samplerList; };
 
 		/// @}
 	};

@@ -8,20 +8,20 @@
                         "Data": {
                             "m_isActive": true,
                             "m_localPosition": [
-                                0.0,
-                                0.0,
-                                10.0
+                                -1.097180962562561,
+                                20.544300079345703,
+                                30.83182716369629
                             ],
                             "m_localRotation": [
-                                5.551115123125783e-17,
-                                0.0,
-                                0.0,
-                                1.0
+                                -0.39138758182525635,
+                                -0.005118842702358961,
+                                -0.0021771653555333614,
+                                0.9202091097831726
                             ],
                             "m_localScale": [
                                 1.0,
                                 1.0,
-                                1.0
+                                1.000000238418579
                             ]
                         },
                         "Type": "Transform",
@@ -35,11 +35,11 @@
                                 0.8101266026496887,
                                 1.0
                             ],
-                            "m_farZ": 50.0,
+                            "m_farZ": 74.2020034790039,
                             "m_fov": 0.7853981852531433,
                             "m_isActive": true,
                             "m_materialHandle": 0,
-                            "m_nearZ": 0.10000000149011612
+                            "m_nearZ": 0.0010000000474974513
                         },
                         "Type": "StandardCamera",
                         "UUID": 9592256411421457474
@@ -151,7 +151,7 @@
                             "m_isActive": true,
                             "m_isStatic": false,
                             "m_linearDamping": 0.0,
-                            "m_mass": 100.0,
+                            "m_mass": 3.0,
                             "m_useGravity": true
                         },
                         "Type": "RigidBody",
@@ -306,7 +306,7 @@
                     },
                     {
                         "Data": {
-                            "m_generateCount": 500,
+                            "m_generateCount": 100,
                             "m_generateType": "All",
                             "m_isActive": true,
                             "m_maxPos": [
@@ -369,7 +369,7 @@
                     },
                     {
                         "Data": {
-                            "m_generateCount": 500,
+                            "m_generateCount": 50,
                             "m_generateType": "PosRot",
                             "m_isActive": true,
                             "m_maxPos": [
@@ -384,7 +384,7 @@
                             ],
                             "m_minPos": [
                                 -5.0,
-                                -3.0,
+                                20.899999618530273,
                                 -5.0
                             ],
                             "m_minScale": [

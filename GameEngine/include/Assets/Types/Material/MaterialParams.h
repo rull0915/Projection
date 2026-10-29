@@ -75,7 +75,7 @@ namespace RHEngine
 			switch (type)
 			{
 			case RHEngine::ShaderParamType::Float:
-				return (float)0.0f;
+				return 0.0f;
 			case RHEngine::ShaderParamType::Float2:
 				return DirectX::SimpleMath::Vector2::Zero;
 			case RHEngine::ShaderParamType::Float3:

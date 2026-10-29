@@ -134,7 +134,7 @@ namespace RHEngine
 	const std::unordered_map<std::string, MaterialAsset::Parameter>& MaterialAsset::GetParams(ShaderType type) const
 	{
 		// エラー用static変数
-		static std::unordered_map<std::string, Parameter> error{};
+		static std::unordered_map<std::string, Parameter> s_error{};
 
 		// 検索
 		auto it = m_params.find(type);
@@ -143,7 +143,7 @@ namespace RHEngine
 		if (it != m_params.end()) return it->second;
 
 		// なければエラー値
-		return error;
+		return s_error;
 	}
 
 	std::unordered_map<std::string, MaterialAsset::Parameter>& MaterialAsset::GetPendingParams(ShaderType type)

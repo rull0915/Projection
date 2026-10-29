@@ -139,7 +139,7 @@ namespace RHEngine
 		}
 
 		// 影データの更新
-		// Todo : 複数ライト、スポットライト・ポイントライトへの対応
+		// @TODO : 複数ライト、スポットライト・ポイントライトへの対応
 		// 初期実装は平行光源の0番目の身を扱います
 		auto lightManager = m_updatePipeline->GetLightManager();
 		LightComponent* dLight = lightManager->GetLight(LightType::Directional);
@@ -147,7 +147,7 @@ namespace RHEngine
 		// シャドウ描画用コンテキストの作成
 		SceneCameraData camData = mainCamera ? mainCamera->CreateCameraData() : SceneCameraData{};
 		m_sceneData.shadowData.lightCameraData = lightManager->GetLightData(camData, dLight, 2048.0f);
-		m_sceneData.shadowData.shadowBias = 0.001f;	// Todo : マジックナンバーの解消
+		m_sceneData.shadowData.shadowBias = 0.001f;	// @TODO : マジックナンバーの解消
 	}
 
 	void Scene::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
