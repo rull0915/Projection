@@ -1,0 +1,63 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_localRotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "m_localScale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 6689613887127735713
+        },
+        {
+            "Data": {
+                "m_generateCount": 1500,
+                "m_generateType": "PosRot",
+                "m_isActive": true,
+                "m_maxPos": [
+                    5.0,
+                    100.0,
+                    5.0
+                ],
+                "m_maxScale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "m_minPos": [
+                    -5.0,
+                    -3.0,
+                    -5.0
+                ],
+                "m_minScale": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "m_prefab": 1197777221721979966
+            },
+            "Type": "RandomGenerator",
+            "UUID": 9016426540756680820
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 14963619113368714462,
+    "m_isActive": true,
+    "m_name": "RandomGenerator",
+    "m_tag": ""
+}

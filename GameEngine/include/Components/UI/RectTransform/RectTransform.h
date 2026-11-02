@@ -1,295 +1,241 @@
-﻿//====================================================//
-// ファイル名   : RectTransform.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/11
-//
-// 概要 : UIのトランスフォームコンポーネント
-//
-// 更新履歴 :
-// 2026/05/11 新規作成
-//====================================================//
+﻿/**
+ * @file    RectTransform.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/11
+ *
+ * @brief   UIのトランスフォームコンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
+#include <SimpleMath.h>
+
 #include "Components/UI/UIComponentBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief UIのRectTransform
+	 */
 	class RectTransform : public UIComponentBase
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(UIComponentBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 親
+		/** @brief 親のRectTransform */
 		RectTransform* m_pParent;
 
-		std::vector<RectTransform*> m_children;  // 子のRectTransformのリスト
+		/** @brief 子の一覧 */
+		std::vector<RectTransform*> m_children;
 
-		// アンカーの位置
-		DirectX::SimpleMath::Vector2 m_anchor;  // 親のRectTransformのどこを基準とするか
+		/** 
+		 * @brief アンカーの位置 
+		 * @details 親のRectのどこを基準とするか
+		 *			0,0 の場合左上基準
+		 *			0.5, 0.5 の場合中心基準
+		 */
+		DirectX::SimpleMath::Vector2 m_anchor;
 
-		// アンカー基準の位置
-		DirectX::SimpleMath::Vector2 m_anchoredPosition;    // アンカー基準の相対座標
+		/**
+		 * @brief アンカー基準の位置
+		 * @details アンカーからの相対座標
+		 */
+		DirectX::SimpleMath::Vector2 m_anchoredPosition;
 
-		// サイズ
-		DirectX::SimpleMath::Vector2 m_size;    // width, height
+		/** @brief Rectのサイズ */
+		DirectX::SimpleMath::Vector2 m_size;
 
-		// ピボット
-		DirectX::SimpleMath::Vector2 m_pivot;   // anchoredPositionに自分のどこを配置するか
+		/**
+		 * @brief ピボットの位置
+		 * @details m_anchoredPositionに自身のどこを配置するか
+		 *			0,0 の場合m_anchoredPositionに自分のRectの左上が配置される
+		 */
+		DirectX::SimpleMath::Vector2 m_pivot;
 
-		// スケール
+		/** @brief 拡大率 */
 		DirectX::SimpleMath::Vector2 m_scale;
 
-		// 角度
+		/** @brief 回転角 */
 		float m_rotation;
 
-		// ピボットのピクセル座標
+		/** @brief ピボットのピクセル座標のキャッシュ */
 		mutable DirectX::SimpleMath::Vector2 m_pivotPixelPos;
 
-		// アンカーのピクセル座標
+		/** @brief アンカーのピクセル座標のキャッシュ */
 		mutable DirectX::SimpleMath::Vector2 m_anchorPixelPos;
 
-		// 左上のピクセル座標
+		/** @brief Rect左上のピクセル座標のキャッシュ */
 		mutable DirectX::SimpleMath::Vector2 m_luPixelPos;
 
-		// キャッシュの更新フラグ
+		/** @brief 変更済みフラグ */
 		mutable bool m_isDirty;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		RectTransform(IComponentOwner* pOwner)
-			: UIComponentBase(pOwner)
-			, m_pParent{ nullptr }
-			, m_anchor{ 0.5f, 0.5f }
-			, m_anchoredPosition{ 0, 0 }
-			, m_size{ 100, 100 }
-			, m_pivot{ 0.5f, 0.5f }
-			, m_scale{ 1.0f, 1.0f }
-			, m_rotation{ 0 }
-			, m_isDirty{ true }
-		{
-			ADD_PROPERTY(RectTransform, m_anchoredPosition);
-			ADD_PROPERTY(RectTransform, m_anchor);
-			ADD_PROPERTY(RectTransform, m_pivot);
-			ADD_PROPERTY(RectTransform, m_size);
-			ADD_PROPERTY(RectTransform, m_rotation);
-			ADD_PROPERTY(RectTransform, m_scale);
-		};
+		/// @name ライフサイクル
+		/// @{
 
-		~RectTransform()
-		{
-			// 親がいれば親から自分を削除
-			if (m_pParent)
-			{
-				m_pParent->RemoveChild(this);
-			}
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		RectTransform(IComponentOwner* pOwner);
 
-			// 子供を解放
-			RemoveChildren();
-		}
+		~RectTransform();
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(RectTransform, UIComponentBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief キャッシュを更新する
+		 */
 		void UpdateCache() const;
 
+		/**
+		 * @brief 特定の点が自身に重なっているかどうか調べる
+		 * @param target 調べるスクリーン座標
+		 * @return 重なっているかどうか
+		 */
 		bool Contains(const DirectX::SimpleMath::Vector2& target);
 
-		// GUI変更時
+		/** @brief GUI上での値変更時に変更フラグを立てる */
 		void OnValidate() override
 		{
 			SetDirty();
 		}
+		
+		/**
+		 * @brief 子供を追加する
+		 * @param child 追加する子供のRect
+		 */
+		void AddChild(RectTransform* child);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/**
+		 * @brief 子供を削除する
+		 * @param child 削除対象のRect
+		 */
+		void RemoveChild(RectTransform* child);
 
-		// 親のポインタ
+		/**
+		 * @brief 全ての子供を削除する
+		 */
+		void RemoveChildren();
+
+		/**
+		 * @brief 再帰的にDirtyフラグを立てる
+		 */
+		void SetDirty();
+
+		/// @name ゲッター
+		/// @{
+
+		/** @brief 親のRectTransform */
 		RectTransform* GetParent() { return m_pParent; }
 
-		// ピボット
+		/** @brief ピボットの座標 */
 		DirectX::SimpleMath::Vector2 GetPivot() const { return m_pivot; }
 
-		// 子供のリスト
+		/** @brief 子供のリスト */
 		std::vector<RectTransform*>& GetChildren() { return m_children; }    // 子のRectTransformのリストを取得
 
-		// 右方向
+		/** @brief Rectの右方向 */
 		DirectX::SimpleMath::Vector2 GetRight() const { return { std::cosf(GetWorldRotation()), std::sinf(GetWorldRotation()) }; }
 
-		// 上方向
+		/** @brief Rectの上方向 */
 		DirectX::SimpleMath::Vector2 GetUp() const { return { -std::sinf(GetWorldRotation()), std::cosf(GetWorldRotation()) }; }
 
-		// サイズ
+		/** @brief サイズ */
 		DirectX::SimpleMath::Vector2 GetSize() const { return m_size; }
 
-		// ワールド座標系でのスケール
+		/** @brief ワールド座標系でのスケール */
 		DirectX::SimpleMath::Vector2 GetWorldScale() const
 		{
 			return m_scale * (m_pParent ? m_pParent->GetWorldScale() : DirectX::SimpleMath::Vector2(1.0f, 1.0f));
 		}
 
-		// ローカル座標系でのスケール
+		/** @brief ローカル座標系でのスケール */
 		DirectX::SimpleMath::Vector2 GetLocalScale() const 
 		{
 			return m_scale;
 		}
 
-		// ワールド座標系での回転
+		/** @brief ワールド座標系での回転角 (ラジアン) */
 		float GetWorldRotation() const
 		{
 			return m_rotation + (m_pParent ? m_pParent->GetWorldRotation() : 0.0f);
 		}
 
-		// ピボットのピクセル座標
+		/** @brief ピボットのピクセル座標 */
 		DirectX::SimpleMath::Vector2 GetPivotPixelPos() const
 		{
 			if (m_isDirty) UpdateCache();
 			return m_pivotPixelPos;
 		}
 
-		// アンカーのピクセル座標
+		/** @brief アンカーのピクセル座標 */
 		DirectX::SimpleMath::Vector2 GetAnchorPixelPos() const
 		{
 			if (m_isDirty) UpdateCache();
 			return m_pivotPixelPos;
 		}
 
-		// 左上のピクセル座標
+		/** @brief Rect左上のピクセル座標 */
 		DirectX::SimpleMath::Vector2 GetLUPixelPos() const
 		{
 			if (m_isDirty) UpdateCache();
 			return m_luPixelPos;
 		}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
-		// 親を設定する関数
+		/// @name セッター
+		/// @{
+
+		/** @brief 親のRect */
 		void SetParent(RectTransform* parent);
 
-		// 子供を追加する関数
-		void AddChild(RectTransform* child) { // 子のRectTransformを追加
-			m_children.push_back(child);
-		}
-
-		// 子供を削除する関数
-		void RemoveChild(RectTransform* child)
-		{
-			// リストからchildを探して削除
-			auto it = std::find(m_children.begin(), m_children.end(), child);
-			if (it != m_children.end())
-			{
-				m_children.erase(it);
-			}
-		}
-
-		// 全ての子供を削除する関数
-		void RemoveChildren()
-		{
-			// 現在の子リストをコピーする
-			auto tempChildren = m_children;
-
-			// コピーしたリストを使って処理
-			for (auto* child : tempChildren)
-			{
-				child->SetParent(nullptr);
-			}
-			m_children.clear();
-		}
-
-		// アンカー
+		/** @brief アンカー座標 */
 		void SetAnchor(DirectX::SimpleMath::Vector2 anchor) {
 			m_anchor = anchor;
 			SetDirty();
 		}
 
-		// アンカー基準の座標
+		/** @brief アンカー基準の相対座標 */
 		void SetAnchoredPosition(DirectX::SimpleMath::Vector2 anchoredPosition) {
 			m_anchoredPosition = anchoredPosition;
 			SetDirty();
 		}
 
-		// サイズ
-		void SetSize(DirectX::SimpleMath::Vector2 size) {   // サイズ
+		/** @brief Rectサイズ */
+		void SetSize(DirectX::SimpleMath::Vector2 size) {
 			m_size = size;
 			SetDirty();
 		}
 
-		// ピボット
+		/** @brief ピボット座標 */
 		void SetPivot(DirectX::SimpleMath::Vector2 pivot) { // (0,0)なら左下、(1,1)なら右上
 			m_pivot = pivot;
 			SetDirty();
 		}
 
-		// スケール
-		void SetScale(DirectX::SimpleMath::Vector2 scale) { // スケール
+		/** @brief スケール */
+		void SetScale(DirectX::SimpleMath::Vector2 scale) {
 			m_scale = scale;
 			SetDirty();
 		}
 
-		// 回転
-		void SetRotation(float rotation) {  // 角度
+		/** @brief 回転角度 (ラジアン) */
+		void SetRotation(float rotation) {
 			m_rotation = rotation;
 			SetDirty();
 		}
 
-		void SetDirty()
-		{
-			m_isDirty = true;
-
-			// 子のDirtyをtrueに
-			for (auto child : m_children)
-			{
-				child->SetDirty();
-			}
-		}
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		// 指定したトランスフォームが自分のツリーに含まれるか調べる関数
-		bool IsDescendantOf(RectTransform* target)
-		{
-			RectTransform* current = target;
-
-			// currentがnullになるまでループ
-			while (current != nullptr)
-			{
-				// 自分と同じかチェック
-				if (current == this)
-				{
-					return true;
-				}
-
-				// 親を辿る
-				current = current->m_pParent;
-			}
-
-			// 最後まで到達した時
-			return false;
-		}
+		// 指定したRectTransformが自分の親子関係に含まれるか調べる
+		bool IsDescendantOf(RectTransform* pTarget);
 	};
 } // namespace RHEngine

@@ -1,37 +1,18 @@
-﻿//====================================================//
-// ファイル名  : DrawPrimitiveCommandPublisher.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/30
-//
-// 概要        :  プリミティブ描画クラス
-//====================================================//
+﻿/**
+ * @file    DrawPrimitiveCommandPublisher.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/30
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawPrimitiveCommandPublisher.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	DrawPrimitiveCommandPublisher::DrawPrimitiveCommandPublisher(DrawCommandContainer& container)
 		: m_container{ container }
 	{}
 
-	/// <summary>
-	/// 三角形描画関数
-	/// </summary>
-	/// <param name="p1">頂点座標1</param>
-	/// <param name="p2">頂点座標2</param>
-	/// <param name="p3">頂点座標3</param>
-	/// <param name="color">色</param>
 	void DrawPrimitiveCommandPublisher::DrawTriangle(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
 		DirectX::VertexPositionColorTexture v1(p1, color, DirectX::SimpleMath::Vector2::Zero);
@@ -76,14 +57,6 @@ namespace RHEngine
 		}
 	}
 
-	/// <summary>
-	/// 矩形描画関数
-	/// </summary>
-	/// <param name="p1">頂点座標1</param>
-	/// <param name="p2">頂点座標2</param>
-	/// <param name="p3">頂点座標3</param>
-	/// <param name="p4">頂点座標4</param>
-	/// <param name="color">色</param>
 	void DrawPrimitiveCommandPublisher::DrawRect(const DirectX::SimpleMath::Vector3& p1, const DirectX::SimpleMath::Vector3& p2, const DirectX::SimpleMath::Vector3& p3, const DirectX::SimpleMath::Vector3& p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
 		DirectX::VertexPositionColorTexture v1(p1, color, DirectX::SimpleMath::Vector2::Zero);
@@ -146,14 +119,6 @@ namespace RHEngine
 		}
 	}
 
-	/// <summary>
-	/// 円描画関数
-	/// </summary>
-	/// <param name="centerPos">中心座標</param>
-	/// <param name="normal">描く面の法線</param>
-	/// <param name="radius">半径</param>
-	/// <param name="division">分割数</param>
-	/// <param name="color">色</param>
 	void DrawPrimitiveCommandPublisher::DrawCircle(const DirectX::SimpleMath::Vector3& centerPos, const DirectX::SimpleMath::Vector3& normal, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
 		if (division < 3) return;
@@ -197,15 +162,6 @@ namespace RHEngine
 		}
 	}
 
-	/// <summary>
-	/// 弧の描画関数
-	/// </summary>
-	/// <param name="center">中心座標</param>
-	/// <param name="vStart">弧の開始位置</param>
-	/// <param name="vEnd">弧の終了位置</param>
-	/// <param name="division">分割数</param>
-	/// <param name="radius">半径</param>
-	/// <param name="color">色</param>
 	void DrawPrimitiveCommandPublisher::DrawArc(const DirectX::SimpleMath::Vector3& center, const DirectX::SimpleMath::Vector3& vStart, const DirectX::SimpleMath::Vector3& vEnd, uint16_t division, float radius, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
 		if (radius <= 0.0f || division <= 0) return;

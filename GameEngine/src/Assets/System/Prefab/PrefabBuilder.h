@@ -1,19 +1,12 @@
-﻿//====================================================//
-// ファイル名   : PrefabBuilder.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/13
-//
-// 概要 : プレハブで使用する一時的なGameObjectを作成するクラス
-//
-// 更新履歴 :
-// 2026/10/13 新規作成
-//====================================================//
+﻿/**
+ * @file    PrefabBuilder.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/13
+ *
+ * @brief   プレハブで使用する一時的なGameObjectを作成するクラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include <memory>
 
@@ -28,17 +21,21 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プレハブで使用する一時的なオブジェクトを作成する
+	 */
 	class PrefabBuilder
 	{
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
 	public:
 		// PrefabからSceneに属さない一時GameObjectを構築する関数
-		static std::unique_ptr<GameObject> CreateTempObject(Prefab* prefab, AssetManager* assetManager)
+
+		/**
+		 * @brief Prefabからシーンに属さない一時的なオブジェクトを構築する
+		 * @param pPrefab 構築対象のプレハブ
+		 * @param assetManager アセットマネージャー
+		 * @return 生成したオブジェクト
+		 */
+		static std::unique_ptr<GameObject> CreateTempObject(Prefab* pPrefab, AssetManager& assetManager)
 		{
 			// オブジェクトの生成
 			auto pObj = std::make_unique<GameObject>(GameObject::CreateToken{});
@@ -47,15 +44,18 @@ namespace RHEngine
 			pObj->SetUUID(UUIDRegistry::Instance().GenerateUUID());
 
 			// ローダーを作成
-			ObjectLoader loader(*assetManager);
+			ObjectLoader loader(assetManager);
 
 			// Temp用のコンテキストでロード
-			loader.LoadObject(prefab->GetImpl()->GetJson(), pObj.get(), nullptr);
+			loader.LoadObject(pPrefab->GetImpl()->GetJson(), pObj.get(), nullptr);
 
 			return pObj;
 		}
 
-		// 空の一時GameObjectを作成する関数
+		/**
+		 * @brief シーンに所属しない空のゲームオブジェクトを作成する
+		 * @return 作成したオブジェクト
+		 */
 		static std::unique_ptr<GameObject> CreateDefaultObject()
 		{
 			// オブジェクトの生成
@@ -67,7 +67,12 @@ namespace RHEngine
 			return pObj;
 		}
 
-		// 一時GameObjectからPrefabAssetを生成する関数
+		/**
+		 * @brief ゲームオブジェクトからプレハブを生成する
+		 * @param pTempObj オブジェクト
+		 * @param assetManager アセットマネージャー
+		 * @return 生成したプレハブ
+		 */
 		static std::unique_ptr<Prefab> SaveToPrefab(GameObject* pTempObj, const IAssetResolver& assetManager)
 		{
 			// セーバーを作成
@@ -80,4 +85,4 @@ namespace RHEngine
 			return std::make_unique<Prefab>(std::make_unique<PrefabImpl>(json));
 		}
 	};
-}
+}	// namespace RHEngine

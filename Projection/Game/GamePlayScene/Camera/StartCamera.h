@@ -1,94 +1,61 @@
-﻿//====================================================//
-// ファイル名   : StartCamera.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : ゲーム開始時の演出を担当するカメラ
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
-
+﻿/**
+ * @file    StartCamera.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   ゲーム開始時の演出を担当するカメラ
+ */
 #pragma once
 
-#define IS_COMPONENT(StartCamera)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
 
 #include "Components/World/Transform/Transform.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief ゲーム開始時にステージ全体が見えるように動くカメラ
+ */
 class StartCamera : public RHEngine::WorldComponentBase
 {
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 private:
 
-	//-----------------------------------------------------
-	// 定数
-	//-----------------------------------------------------
-
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// トランスフォームポインタ
+	/** @brief 自身のトランスフォーム */
 	RHEngine::Transform* m_pTransform;
 
-	// ターゲット名
-	std::string m_targetName;
+	/** @brief ターゲットのトランスフォーム */
+	RHEngine::Ref<RHEngine::Transform> m_targetTransform;
 
-	// ターゲット
+	/** @brief 目標座標 */
 	DirectX::SimpleMath::Vector3 m_target;
 
-	// 回る半径
+	/** @brief 回る半径 */
 	float m_radius;
 
-	// 終了時の角度
+	/** @brief 終了時の角度 */
 	float m_finalAngle;
 
-	// 回る各速度
+	/** @brief 回る各速度 */
 	float m_angleVelocity;
 
-	// 初期状態の高さ
+	/** @brief 初期状態の高さ */
 	float m_initialHeight;
 
-	// 落ちる速さ
+	/** @brief 落ちる速さ */
 	float m_fallVelocity;
 
-	// 現在の角度
+	/** @brief 現在の角度 */
 	float m_nowAngle;
 
-	// オフセット
+	/** @brief オフセット */
 	DirectX::SimpleMath::Vector3 m_offset;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	StartCamera(RHEngine::IComponentOwner* own);
 	~StartCamera() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(StartCamera, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Awake() override;
 	void Start() override;

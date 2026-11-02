@@ -1,28 +1,22 @@
-﻿//====================================================//
-// ファイル名  : OpenFileDialog.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    OpenFileDialog.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ */
 
 #include "pch.h"
+#include "OpenFileDialog.h"
+
 #include <Windows.h>
 #include <shobjidl.h>
 #include <filesystem>
-
-#include "OpenFileDialog.h"
 
 namespace RHEngine
 {
 	std::wstring FileDialog::Open(Mode mode, const std::wstring& initPath, const std::wstring& extention)
 	{
 		// COMの初期化
-		bool coInit = SUCCEEDED(CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE));
+		bool coInit = SUCCEEDED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE));
 
 		// ダイアログオブジェクトのポインタを作成
 		IFileDialog* pFile = nullptr;
@@ -45,12 +39,12 @@ namespace RHEngine
 		{
 			// Saveの場合
 		case FileDialog::Mode::Save:
-			hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFile));
+			hr = CoCreateInstance(CLSID_FileSaveDialog, nullptr, CLSCTX_ALL, IID_PPV_ARGS(&pFile));
 			break;
 
 			// Openの場合
 		case FileDialog::Mode::Open:
-			hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFile));
+			hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_ALL, IID_PPV_ARGS(&pFile));
 			break;
 
 		default:
@@ -92,7 +86,7 @@ namespace RHEngine
 			pFile->SetDefaultExtension(extention.c_str());
 
 			// ダイアログを表示
-			hr = pFile->Show(NULL);
+			hr = pFile->Show(nullptr);
 
 			// 表示が無事終了したら　(キャンセルや×で閉じられた場合falseになる)
 			if (SUCCEEDED(hr))

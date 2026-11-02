@@ -1,138 +1,137 @@
-﻿//====================================================//
-// ファイル名   : BoxCollider.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/18
-//
-// 概要 : ボックスのコライダー
-//
-// 更新履歴 :
-// 2026/03/18 新規作成
-// 2026/04/03 設計を変更
-// 2026/07/10 デバッグ描画をインターフェース化しました
-//====================================================//
+﻿/**
+ * @file    BoxCollider.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/18
+ *
+ * @brief   ボックスのコライダー (OBB)
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "../ColliderBase.h"
 #include "Components/Interface/IDebugRenderable.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+	class Renderer;
+
+	/**
+	 * @brief 3Dボックスコライダー
+	 */
 	class BoxCollider : public ColliderBase, public IDebugRenderable
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(ColliderBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// ボックスのローカルでのサイズ
-		DirectX::SimpleMath::Vector3 m_localSize;
-
-		// 計算済みワールド情報
+		/**
+		 * @brief 計算済み情報のキャッシュ
+		 */
 		struct WorldCache {
-			DirectX::SimpleMath::Vector3 xAxis;
-			DirectX::SimpleMath::Vector3 yAxis;
-			DirectX::SimpleMath::Vector3 zAxis;
+			DirectX::SimpleMath::Vector3 xAxis;	///< X軸ベクトル
+			DirectX::SimpleMath::Vector3 yAxis;	///< Y軸ベクトル
+			DirectX::SimpleMath::Vector3 zAxis;	///< Z軸ベクトル
 
-			DirectX::SimpleMath::Vector3 scale;
+			DirectX::SimpleMath::Vector3 scale;	///< スケール
 
-			DirectX::SimpleMath::Matrix localMatrix;
-			DirectX::SimpleMath::Matrix localMatrixInverse;
+			DirectX::SimpleMath::Matrix localMatrix;	///< ワールド行列
+			DirectX::SimpleMath::Matrix localMatrixInverse;	///< ワールド逆行列
 		};
 
+		/** @brief ローカル座標系でのサイズ */
+		DirectX::SimpleMath::Vector3 m_localSize;
+
+		/** @brief 計算済み情報のキャッシュ */
 		mutable WorldCache m_cache;
 
 	public:
 
-		//-----------------------------------------------------
-		// 生成 / 破棄
-		//-----------------------------------------------------
-		BoxCollider(IComponentOwner* own)
-			: ColliderBase(own, ColliderType::Box)
-			, m_localSize{ 1, 1, 1 }
-			, m_cache{}
-		{
-			ADD_PROPERTY(BoxCollider, m_localSize);
-		};
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		BoxCollider(IComponentOwner* pOwner);
+
 		~BoxCollider() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(BoxCollider, ColliderBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// キャッシュの更新
+		/**
+		 * @brief キャッシュを更新する
+		 */
 		void UpdateCache() const override;
 
-		// デバッグ描画
+		/**
+		 * @brief 衝突形状のデバッグ描画を行う
+		 */
 		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		DirectX::SimpleMath::Vector3 GetLocalSize() const
-		{
-			return m_localSize;
-		}
+		/** @brief ローカル座標系でのサイズ */
+		DirectX::SimpleMath::Vector3 GetLocalSize() const { return m_localSize; }
 
-		// 各軸ベクトルを取得する関数
+		/** @brief X軸ベクトル */
 		DirectX::SimpleMath::Vector3 GetXAxis() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.xAxis;
 		}
+
+		/** @brief Y軸ベクトル */
 		DirectX::SimpleMath::Vector3 GetYAxis() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.yAxis;
 		}
+
+		/** @brief Z軸ベクトル */
 		DirectX::SimpleMath::Vector3 GetZAxis() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.zAxis;
 		}
-		DirectX::SimpleMath::Vector3 GetSize() const
-		{
-			if (IsDirty()) UpdateCache();
-			return m_cache.scale;
-		}
+
+		/** @brief ワールド座標系での半分のサイズ */
 		DirectX::SimpleMath::Vector3 GetHalfSize() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.scale * 0.5f;
 		}
+
+		/** @brief ワールド行列 */
 		DirectX::SimpleMath::Matrix GetLocalMatrix() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.localMatrix;
 		}
+
+		/** @brief ワールド逆行列 */
 		DirectX::SimpleMath::Matrix GetLocalMatrixInverse() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.localMatrixInverse;
 		}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
+		/// @name
+		/// @{
+
+		/** @brief ローカル座標系でのサイズ */
 		void SetLocalSize(DirectX::SimpleMath::Vector3 scale)
 		{
 			m_localSize = scale;
 			SetDirty();
 		}
+
+		/// @}
 	};
 } // namespace RHEngine

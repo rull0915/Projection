@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : GoalComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/30
-//
-// 概要       : ゴールコンポーネント
-//====================================================//
+﻿/**
+ * @file    GoalComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/30
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "GoalComponent.h"
 
@@ -18,11 +13,6 @@
 #include "Common/EventBus.h"
 #include "Game/GamePlayScene/GamePlayEvent.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 GoalComponent::GoalComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 {

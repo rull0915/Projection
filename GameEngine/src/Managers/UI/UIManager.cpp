@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : UIManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/24
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    UIManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/24
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+ */
 #include "pch.h"
 #include "Managers/UI/UIManager.h"
 
@@ -20,37 +15,30 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	UIManager::UIManager(Scene* pScene)
+	UIManager::UIManager()
 	{}
 
 	UIManager::~UIManager()
 	{}
 
-	/// <summary>
-	/// 更新関数
-	/// </summary>
 	void UIManager::CheckEvent()
 	{
 		// キャンバスを更新する
-		for (auto& canvas : GetObjects())
+		for (auto& pCanvas : GetObjects())
 		{
 			// キャンバスがアクティブなら
-			if (canvas->IsActive())
+			if (pCanvas->IsActive())
 			{
 				// クリックされていれば
 				if (Input::Mouse::GetDown(Input::Mouse::Button::Left))
 				{
-					canvas->NotifyMouseEvent(Canvas::MouseEvent::Down);
+					pCanvas->NotifyMouseEvent(Canvas::MouseEvent::Down);
 				}
 
 				// 離されていれば
 				if (Input::Mouse::GetUp(Input::Mouse::Button::Left))
 				{
-					canvas->NotifyMouseEvent(Canvas::MouseEvent::Up);
+					pCanvas->NotifyMouseEvent(Canvas::MouseEvent::Up);
 				}
 			}
 		}
@@ -59,7 +47,7 @@ namespace RHEngine
 	void UIManager::CheckHitRay(DirectX::SimpleMath::Vector2 position)
 	{
 		// 当たったRect
-		RectTransform* hitRect = nullptr;
+		RectTransform* pHitRect = nullptr;
 
 		// 描画の逆順で調べる
 		for (auto it = GetObjects().rbegin();
@@ -69,21 +57,21 @@ namespace RHEngine
 			if (!(*it)->IsActive()) continue;
 
 			// 衝突しているオブジェクトが見つかったら
-			if (auto* hit = (*it)->CheckHit(position))
+			if (auto* pHit = (*it)->CheckHit(position))
 			{
-				hitRect = hit;
+				pHitRect = pHit;
 				break;
 			}
 		}
 
 		// 衝突していれば
-		if (hitRect)
+		if (pHitRect)
 		{
 			// ビヘイビアコンポーネントを取得
-			for (auto& behavior : hitRect->GetOwn()->GetComponents<UIBehaviorBase>())
+			for (auto& pBehavior : pHitRect->GetOwn()->GetComponents<UIBehaviorBase>())
 			{
 				// Hover状態にする
-				static_cast<UIBehaviorBase*>(behavior)->SetHovered(true);
+				static_cast<UIBehaviorBase*>(pBehavior)->SetHovered(true);
 			}
 		}
 	}
@@ -108,11 +96,11 @@ namespace RHEngine
 		SortCanvas();
 
 		// キャンバスを描画する
-		for (auto& canvas : GetObjects())
+		for (auto& pCanvas : GetObjects())
 		{
-			if (canvas->IsActive())
+			if (pCanvas->IsActive())
 			{
-				canvas->Draw(renderer);
+				pCanvas->Draw(renderer);
 			}
 		}
 	}

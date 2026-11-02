@@ -1,48 +1,44 @@
-﻿//====================================================//
-// ファイル名   : UIComponentBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/11
-//
-// 概要 : UI用コンポーネント基底クラス
-//
-// 更新履歴 :
-// 2026/05/11 新規作成
-//====================================================//
+﻿/**
+ * @file    UIComponentBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/11
+ *
+ * @brief   UI用コンポーネント基底クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/ComponentBase.h"
 #include "Components/ComponentInfo.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief UI空間コンポーネントの基底
+	 */
 	class UIComponentBase : public ComponentBase
 	{
 	public:
-		// 自身の所属空間
+		DECLARE_COMPONENT_TYPE(ComponentBase);
+
 		static constexpr ComponentSpace SPACE = ComponentSpace::UI;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		UIComponentBase(IComponentOwner* owner)
-			: ComponentBase(owner)
+		/// @name ライフサイクル
+		/// @{
+		
+		/**
+		 * @param owner 所有者
+		 */
+		UIComponentBase(IComponentOwner* pOwner)
+			: ComponentBase(pOwner)
 		{}
 
 		virtual ~UIComponentBase() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
-
-		COMPONENT_TYPE(UIComponentBase, ComponentBase)
+		/// @}
 	};
 } // namespace RHEngine

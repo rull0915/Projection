@@ -1,27 +1,20 @@
-﻿//====================================================//
-// ファイル名   : OpenFileDialog.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要 : ファイルを開く関数群
-//
-// 更新履歴 :
-// 2026/07/06 新規作成
-//====================================================//
+﻿/**
+ * @file    OpenFileDialog.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ *
+ * @brief   ファイル選択のダイアログを管理する
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <string>
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数宣言
-	//====================================================//
-
+	/**
+	 * @brief 開くモード
+	 */
 	namespace FileDialog
 	{
 		enum class Mode
@@ -30,8 +23,13 @@ namespace RHEngine
 			Open,
 		};
 
+		/**
+		 * @brief ファイル選択ダイアログを開く
+		 * @param mode モード
+		 * @param initPath 初期状態で開くディレクトリのパス
+		 * @param extention 取得する拡張子
+		 * @return 開いたファイルへのパス
+		 */
 		std::wstring Open(Mode mode, const std::wstring& initPath, const std::wstring& extention);
-
-		std::wstring LoadFileDialog(const std::wstring& initPath, const std::wstring& extention);
 	}
 }	// namespace RHEngine

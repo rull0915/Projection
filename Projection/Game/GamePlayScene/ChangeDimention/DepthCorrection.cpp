@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : DepthCorrection.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/24
-//
-// 概要       : 2Dの際にZ軸の補正を行うコンポーネント
-//====================================================//
+﻿/**
+ * @file    DepthCorrection.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/24
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "DepthCorrection.h"
 
@@ -16,10 +11,6 @@
 #include "Physics/HitContact.h"
 
 #include "Settings/WorldSetting2D.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 void DepthCorrection::OnCollisionEnter2D(RHEngine::HitContact2D & contact)
 {

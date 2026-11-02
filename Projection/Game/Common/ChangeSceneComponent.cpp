@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ChangeSceneComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/09/02
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ChangeSceneComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "ChangeSceneComponent.h"
 
@@ -16,11 +11,6 @@
 #include "Scene/Transition/FadeTransition.h"
 #include "Input/PadInput.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 ChangeSceneComponent::ChangeSceneComponent(RHEngine::IComponentOwner* own)
 	: BothComponentBase(own)
 	, m_button{}
@@ -33,7 +23,6 @@ ChangeSceneComponent::ChangeSceneComponent(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(ChangeSceneComponent, m_padUI);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void ChangeSceneComponent::Start()
 {
 	// ボタンがあれば

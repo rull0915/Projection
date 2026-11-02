@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CheckHit.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/28
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    CheckHit.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/28
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CheckHit.h"
 
@@ -16,10 +11,6 @@
 #include "../GameEngine/src/Managers/2DManagers/Collider/CheckHit/CheckHitAuxiliary2D.h"
 #include "ConvexPolygonCollider2D.h"
 #include "CollisionAuxiliary.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace Collision2D
 {
@@ -331,4 +322,4 @@ namespace Collision2D
 
 		return true;
 	}
-}
+}	// namespace Collision2D

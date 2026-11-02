@@ -1,156 +1,148 @@
-﻿//====================================================//
-// ファイル名   : CapsuleCollider2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/18
-//
-// 概要 : カプセルのコライダー
-//
-// 更新履歴 :
-// 2026/03/18 新規作成
-//====================================================//
+﻿/**
+ * @file    CapsuleCollider2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/18
+ *
+ * @brief   2Dカプセルコライダー
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <utility>
+#include <SimpleMath.h>
+
 #include "../ColliderBase2D.h"
 #include "Components/Interface/IDebugRenderable.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+	class Renderer;
 
+	/**
+	 * @brief 2Dカプセルのコライダー
+	 */
 	class CapsuleCollider2D : public ColliderBase2D, public IDebugRenderable
 	{
 	public:
+		DECLARE_COMPONENT_TYPE(ColliderBase2D);
+
+		/**
+		 * @brief 基準とする軸
+		 */
 		enum class AxisType2D
 		{
-			Horizontal,
-			Vertical,
+			Horizontal,	///< X軸
+			Vertical,	///< Y軸
+		};
+
+	private:
+		/**
+		 * @brief 計算済み情報のキャッシュ
+		 */
+		struct WorldCache {
+			float lineLength;					///< 中心円柱の高さ
+			DirectX::SimpleMath::Vector2 dir;	///< ワールド座標系での中心線分の方向ベクトル
+			std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points;	///< 上下の半球の中心点
 		};
 
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 基準とする軸 */
+		AxisType2D m_axisType;
 
-		// 使用する軸
-		AxisType2D m_lineDir;
-
-		// ラインの長さ
+		/**
+		 * @brief カプセルの高さ
+		 * @details 上下の半球含めた全体の高さ
+		 */
 		float m_capsuleHeight;
 
-		// 半径
+		/** @brief 半径 */
 		float m_radius;
 
-		// 計算済みワールド情報
-		struct WorldCache {
-			float lineLength;
-			DirectX::SimpleMath::Vector2 dir;
-			std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> points;
-		};
-
+		/** @brief 計算済み情報のキャッシュ */
 		mutable WorldCache m_cache;
 
 	public:
 
-		//-----------------------------------------------------
-		// 生成 / 破棄
-		//-----------------------------------------------------
-		CapsuleCollider2D(IComponentOwner* own)
-			: ColliderBase2D(own)
-			, m_lineDir{ 1 }
-			, m_capsuleHeight{ 1.0f }
-			, m_radius{ 0.5f }
-			, m_cache{}
-		{
-			ADD_PROPERTY(CapsuleCollider2D, m_lineDir);
-			ADD_PROPERTY(CapsuleCollider2D, m_capsuleHeight);
-			ADD_PROPERTY(CapsuleCollider2D, m_radius);
-		};
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pOwner 所有者のポインタ
+		 */
+		CapsuleCollider2D(IComponentOwner* pOwner);
+			
 		~CapsuleCollider2D() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(CapsuleCollider2D, ColliderBase2D)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// キャッシュ更新
+		/**
+		 * @brief キャッシュを更新する
+		 */
 		void UpdateCache() const override;
 
-		// デバッグ描画
+		/**
+		 * @brief 衝突形状のデバッグ描画を行う
+		 */
 		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		// ラインの方向ベクトルを返す関数
+		/** @brief 半径 */
+		float GetRadius() const { return m_radius; }
+
+		/** @brief カプセル全体の高さ */
+		float GetHeight() const { return m_capsuleHeight; }
+
+		/** @brief カプセルの基準軸 */
+		AxisType2D GetAxis() const { return m_axisType; }
+
+		/** @brief 中心線分の方向ベクトル */
 		DirectX::SimpleMath::Vector2 GetLineDir() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.dir;
 		}
 
-		// 半径を返す関数
-		float GetRadius() const
-		{
-			return m_radius;
-		}
-
-		// カプセルの高さを返す関数
-		float GetHeight() const
-		{
-			return m_capsuleHeight;
-		}
-
-		// カプセルの軸を返す関数
-		AxisType2D GetAxis() const
-		{
-			return m_lineDir;
-		}
-
-		// 線の長さを返す関数
+		/** @brief 中心線分の長さ */
 		float GetLineLength() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.lineLength;
 		}
 
-		// Lineを構成する2点を返す関数
+		/** @brief 上下半球の中心点 */
 		std::pair<DirectX::SimpleMath::Vector2, DirectX::SimpleMath::Vector2> GetPoints() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_cache.points;
 		}
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief カプセルの高さ */
 		void SetHeight(float height)
 		{
 			m_capsuleHeight = height;
 			SetDirty();
 		}
 
+		/** @brief 半径 */
 		void SetRadius(float radius)
 		{
 			m_radius = radius;
 			SetDirty();
 		}
 
-		void SetLineDir(AxisType2D type)
+		/** @brief 基準軸 */
+		void SetAxis(AxisType2D type)
 		{
-			m_lineDir = type;
+			m_axisType = type;
 			SetDirty();
 		}
 	};

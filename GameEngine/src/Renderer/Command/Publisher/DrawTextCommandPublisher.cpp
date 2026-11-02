@@ -1,35 +1,23 @@
-﻿//====================================================//
-// ファイル名  : DrawTextCommandPublisher.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/01
-//
-// 概要        :  テキストの描画を担当する関数
-//====================================================//
+﻿/**
+ * @file    DrawTextCommandPublisher.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawTextCommandPublisher.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	DrawTextCommandPublisher::DrawTextCommandPublisher(DrawCommandContainer& container, GraphicsSystem& graphicSystem)
-		: m_container{ container }
+		: m_commandContainer{ container }
 		, m_graphicSystem{ graphicSystem }
 	{}
 
 	void DrawTextCommandPublisher::Draw(DirectX::SpriteFont* font, const std::wstring& text, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Color color)
 	{
 		// コマンドの追加
-		auto& command = m_container.AddText();
+		auto& command = m_commandContainer.AddText();
 
 		command.spriteFont = font;
 		command.text = text;
@@ -51,7 +39,7 @@ namespace RHEngine
 		finalScale *= scale;
 
 		// コマンドの追加
-		auto& command = m_container.AddText();
+		auto& command = m_commandContainer.AddText();
 
 		command.spriteFont = font;
 		command.text = text;
@@ -71,7 +59,7 @@ namespace RHEngine
 		DirectX::SimpleMath::Vector2 finalOrigin = origin * texSize;
 
 		// コマンドの追加
-		auto& command = m_container.AddText();
+		auto& command = m_commandContainer.AddText();
 
 		command.spriteFont = font;
 		command.text = text;
@@ -101,7 +89,7 @@ namespace RHEngine
 		finalScale *= scale;
 
 		// コマンドの追加
-		auto& command = m_container.AddText();
+		auto& command = m_commandContainer.AddText();
 
 		command.spriteFont = font;
 		command.text = text;

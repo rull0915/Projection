@@ -1,46 +1,43 @@
-﻿//====================================================//
-// ファイル名   : PrefabImpl.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/28
-//
-// 概要 : 
-//
-// 更新履歴 :
-// 2026/07/28 新規作成
-//====================================================//
+﻿/**
+ * @file    PrefabImpl.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/28
+ *
+ * @brief   プレハブアセットの実装
+ * @details jsonを隠蔽するためにimplを経由させる
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <fstream>
+#include <filesystem>
+#include <cassert>
+
 #include "Thirdparty/nlohmann/json.hpp"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プレハブアセットの実装
+	 */
 	class PrefabImpl
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// json本体
+		/** @brief json本体 */
 		nlohmann::json m_json;
 
-		// World空間かどうか
+		/** @brief World空間のPrefabかどうか */
 		bool m_isWorld;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param path jsonファイルのパス
+		 */
 		PrefabImpl(const std::filesystem::path& path)
 			: m_json{}
 			, m_isWorld{ true }
@@ -63,6 +60,9 @@ namespace RHEngine
 			}
 		}
 
+		/**
+		 * @param j 対応するjson
+		 */
 		PrefabImpl(const nlohmann::json& j)
 			: m_json( j )
 			, m_isWorld{ true }
@@ -76,17 +76,13 @@ namespace RHEngine
 		}
 		~PrefabImpl() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// jsonのゲッター
+		/** @brief jsonを取得する */
 		const nlohmann::json& GetJson() const
 		{
 			return m_json; 
 		}
 
-		// World空間オブジェクトかどうか
+		/** @brief World空間のプレハブかどうかを取得する */
 		bool IsWorldObject() const { return m_isWorld; }
 	};
 }	// namespace RHEngine

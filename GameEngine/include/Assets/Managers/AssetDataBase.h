@@ -1,156 +1,145 @@
-﻿//====================================================//
-// ファイル名   : AssetDataBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : AssetとUUIDの双変換を行うクラス
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetDataBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   AssetとUUIDの双変換を行うクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <filesystem>
+#include <unordered_map>
 
 #include "AuxFileRepository.h"
 #include "AssetTypeManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief アセット本体とUUIDの双変換を行う
+	 */
 	class AssetDataBase
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// ファイルへの読み書きをするインスタンス
+		/** @brief ファイルへの読み書きをするインスタンス */
 		AuxFileRepository m_auxFileRepository;
 
-		// タイプ管理クラス
+		/** @brief タイプ管理クラス */
 		const AssetTypeManager& m_assetTypeManager;
 
-		// 相互変換のための対応表
-
-		// uuidからファイルパス
+		/** @brief uuidからファイルパスの変換マップ */
 		std::unordered_map<UUID, std::filesystem::path> m_uuidToPath;
 
-		// ファイルパスからuuid
+		/** @brief ファイルパスからuuidの変換マップ */
 		std::unordered_map<std::filesystem::path, UUID> m_pathToUuid;
 
-		// UUIDからAux
+		/** @brief UUIDからAuxの変換マップ */
 		std::unordered_map<UUID, AssetAux> m_uuidToAux;
 
-		// サブアセットIDからメインアセットIDを取得するマップ
+		/** @brief サブアセットIDからメインアセットIDの変換マップ */
 		std::unordered_map<UUID, UUID> m_subIdToMainId;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+		
+		/**
+		 * @param assetTypeManager アセットタイプマネージャー
+		 */
 		AssetDataBase(const AssetTypeManager& assetTypeManager)
 			: m_assetTypeManager{ assetTypeManager }
 		{
 		}
+
 		~AssetDataBase() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// ファイルを走査しauxの生成を行う関数
+		/**
+		 * @brief ファイルを再帰的に走査してAssetAuxの生成と読み込みを行う
+		 * @param root 読み込むルートフォルダ
+		 */
 		void ScanFile(const std::filesystem::path& root);
 
-		// 特定のファイルに対してauxの生成を行う関数
+		/**
+		 * @brief 1ファイルに対してAssetAuxの生成と読み込みを行う
+		 * @param path 読み込み対象のパス
+		 */
 		void ScanOnceFile(const std::filesystem::path& path);
 
-		// auxファイルを保存する関数
-		void SaveAux(AssetAux& asset, const std::filesystem::path& path)
-		{
-			m_auxFileRepository.SaveAux(asset, path.wstring() + L".aux");
+		/**
+		 * @brief .auxファイルを保存する
+		 * @param asset 保存するAssetAux
+		 * @param path 保存対象のパス
+		 */
+		void SaveAux(AssetAux& asset, const std::filesystem::path& path);
 
-			// 変換表のAuxも更新
-			auto uuid = GetUUID(path);
+		/**
+		 * @brief MainAssetのUUIDを取得する
+		 * @details 指定されたUUIDがMainAssetの物ならそのまま返される
+		 *			SubAssetのものならSubAssetが所属するMainAssetのUUIDを返す
+		 * @param id 対象のUUID
+		 * @return MainAssetのUUID
+		 */
+		UUID GetMainUUID(UUID id);
 
-			m_uuidToAux[uuid] = asset;
+		/**
+		 * @brief パスからUUIDを取得する
+		 * @param path 調べるパス
+		 * @return 対応するUUID (未登録パスの場合UUID_NONE)
+		 */
+		UUID GetUUID(const std::filesystem::path& path) const;
 
-			// 再スキャン
-			ScanOnceFile(path);
-		}
-
-		// MainAssetのUUIDを取得する関数
-		UUID GetMainUUID(UUID id)
-		{
-			// SubAssetならMainIDを取得し返す
-			if (m_subIdToMainId.find(id) != m_subIdToMainId.end())
-			{
-				return m_subIdToMainId[id];
-			}
-
-			// MainAssetならそのまま返す
-			return id;
-		}
-
-		// 相互変換を行う関数
-		UUID GetUUID(const std::filesystem::path& path) const
-		{
-			if (m_pathToUuid.find(path) == m_pathToUuid.end()) return UUID_NONE;
-
-			return m_pathToUuid.at(path);
-		}
-		const std::filesystem::path& GetPath(UUID uuid) const
-		{
-			static std::filesystem::path errorPath{};
-
-			if (m_uuidToPath.find(uuid) == m_uuidToPath.end()) return errorPath;
-
-			return m_uuidToPath.at(uuid);
-		}
+		/**
+		 * @brief UUIDからパスを取得する
+		 * @param uuid 調べるUUID
+		 * @return 対応するパス (未登録UUIDの場合デフォルトのpath)
+		 */
+		const std::filesystem::path& GetPath(UUID uuid) const;
 		
-		// 相互変換を行う関数
-		AssetAux GetAux(UUID uuid) const
-		{
-			if (m_uuidToAux.find(uuid) == m_uuidToAux.end()) return {};
+		/**
+		 * @brief UUIDからAssetAuxを取得する
+		 * @param uuid 調べるUUID
+		 * @return 対応するAssetAux (未登録UUIDの場合デフォルトAux)
+		 */
+		AssetAux GetAux(UUID uuid) const;
 
-			return m_uuidToAux.at(uuid);
-		}
-
-		//------- ファイル操作関数 -------//
-
-		// 名前変更
+		/**
+		 * @brief アセットファイルの名前を変更する
+		 * @param old 変更前のパス
+		 * @param next 変更後のパス
+		 */
 		void ReName(const std::filesystem::path& old, const std::filesystem::path& next);
 
-		// 移動
+		/**
+		 * @brief アセットファイルの移動をする
+		 * @param old 移動対象ファイルのパス
+		 * @param next 移動するパス
+		 */
 		void Move(const std::filesystem::path& old, const std::filesystem::path& next);
 
-		// 削除
+		/**
+		 * @brief アセットファイルを削除する関数
+		 * @param path 削除対象のパス
+		 */
 		void Delete(const std::filesystem::path& path);
 
-		// 新しくUUIDの生成を行う関数
+		/**
+		 * @brief 新しいUUIDの生成をする
+		 * @return 生成したUUID
+		 */
 		UUID GenerateUUID();
 
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-		// UUIDとパスの登録をする関数
-		void Register(UUID uuid, const std::filesystem::path& path)
-		{
-			// uuid->pathの変換表に追加
-			m_uuidToPath[uuid] = path;
-
-			// path->uuidの変換表に追加
-			m_pathToUuid[path] = uuid;
-		}
+		/**
+		 * @brief UUIDとパスの対応関係を登録する
+		 * @param uuid 対象のUUID
+		 * @param path 対象のパス
+		 */
+		void Register(UUID uuid, const std::filesystem::path& path);
 	};
 }	// namespace RHEngine

@@ -1,23 +1,21 @@
-﻿//====================================================//
-// ファイル名   : ShaderParam.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/03
-//
-// 概要 : シェーダーのパラメータ
-//
-// 更新履歴 :
-// 2026/08/03 新規作成
-//====================================================//
+﻿/**
+ * @file    ShaderParam.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/03
+ *
+ * @brief   シェーダーのパラメータ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <cstdint>
+#include <string>
 
 namespace RHEngine
 {
+	/**
+	 * @brief シェーダーのパラメータタイプ
+	 */
 	enum class ShaderParamType
 	{
 		None,
@@ -31,22 +29,26 @@ namespace RHEngine
 		Sampler,
 	};
 
-	// 1つのパラメータ
+	/**
+	 * @brief 1つのパラメータ
+	 */
 	struct ShaderParam
 	{
-		std::string name;		// 名前
-		ShaderParamType type;	// タイプ
+		std::string name;		///< 名前
+		ShaderParamType type;	///< タイプ
 
-		uint32_t size;		// サイズ
-		uint32_t offset;	// オフセット
+		uint32_t size;		///< サイズ
+		uint32_t offset;	///< オフセット
 
-		uint32_t slot;	// スロット番号
+		uint32_t slot;	///< スロット番号
 	};
 
-	// 定数バッファ全体の情報
+	/**
+	 * @brief 1スロットの定数バッファの情報
+	 */
 	struct ConstantBufferInfo
 	{
-		uint32_t slot;	// 定数バッファのスロット番号 register(bN)
-		uint32_t size;	// 定数バッファ全体の合計サイズ
+		uint32_t slot;	///< 定数バッファのスロット番号 register(bN)
+		uint32_t size;	///< 定数バッファ全体の合計サイズ
 	};
 }	// namespace RHEngine

@@ -1,95 +1,81 @@
-﻿//====================================================//
-// ファイル名   : ConvexPolygonCollider2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/01
-//
-// 概要 : 2次元凸多角形コライダー
-//
-// 更新履歴 :
-// 2026/06/01 新規作成
-//====================================================//
+﻿/**
+ * @file    ConvexPolygonCollider2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/01
+ *
+ * @brief   2次元凸多角形コライダー
+ */
 
 #pragma once
 
-#define IS_COMPONENT(ConvexPolygonCollider2D)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <vector>
 #include <SimpleMath.h>
 
 #include "Components/World/Collider/2D/ColliderBase2D.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief 2D凸多角形コライダー
+ */
 class ConvexPolygonCollider2D : public RHEngine::ColliderBase2D, public RHEngine::IDebugRenderable
 {
+public:
+	DECLARE_COMPONENT_TYPE(ColliderBase2D);
+
 private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// 頂点座標のリスト(中心からの相対座標)
+	/** @brief 頂点座標のリスト(中心からの相対座標) */
 	std::vector<DirectX::SimpleMath::Vector2> m_localVertices;
 
-	// ワールド座標系での頂点座標のキャッシュ
+	/** @brief ワールド座標系での頂点座標のキャッシュ */
 	mutable std::vector<DirectX::SimpleMath::Vector2> m_worldVertices;
 
-	// 3D空間での頂点座標のキャッシュ
+	/** @brief 3D空間での頂点座標のキャッシュ */
 	mutable std::vector<DirectX::SimpleMath::Vector3> m_worldVertices3D;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	ConvexPolygonCollider2D(RHEngine::IComponentOwner* owner);
 	~ConvexPolygonCollider2D() {};
 
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(ConvexPolygonCollider2D, RHEngine::ColliderBase2D)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
-
-	// 時計回りに補正する関数
+	/**
+	 * @brief 頂点の並びを時計回りに補正する
+	 */
 	void CorrectionClockWise();
 
-	// キャッシュ更新
+	/**
+	 * @brief キャッシュを更新する
+	 */
 	void UpdateCache() const override;
 
-	// デバッグ描画
+	/**
+	 * @brief 衝突形状のデバッグ描画
+	 */
 	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
 
-	//-----------------------------------------------------
-	// ゲッター
-	//-----------------------------------------------------
-
+	/**
+	 * @brief 2Dワールド座標系での頂点座標リストを取得する
+	 */
 	const std::vector<DirectX::SimpleMath::Vector2>& GetWorldVertices() const
 	{
 		if (IsDirty()) UpdateCache();
 		return m_worldVertices;
 	}
 
+	/**
+	 * @brief 3Dワールド座標系での頂点座標リストを取得する
+	 */
 	const std::vector<DirectX::SimpleMath::Vector3>& GetWorldVertices3D() const
 	{
 		if (IsDirty()) UpdateCache();
 		return m_worldVertices3D;
 	}
-	
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
 
-	// 頂点を追加する関数
+
+	/**
+	 * @brief 凸多角形の頂点を追加する
+	 * @param vertex 追加する頂点
+	 */
 	void AddVertex(const DirectX::SimpleMath::Vector2& vertex)
 	{
 		// 既にその点が存在していれば追加しない
@@ -99,16 +85,29 @@ public:
 
 		SetDirty();
 	}
+
+	/**
+	 * @brief 最後に追加した頂点を削除する
+	 */
 	void PopVertex()
 	{
 		m_localVertices.pop_back();
 		SetDirty();
 	}
+
+	/**
+	 * @brief 形状をリセットする
+	 */
 	void ResetVertices()
 	{
 		m_localVertices.clear();
 		SetDirty();
 	}
+
+	/**
+	 * @brief 凸多角形をそのままセットする
+	 * @param vertices 
+	 */
 	void SetVertices(const std::vector<DirectX::SimpleMath::Vector2>& vertices)
 	{
 		m_localVertices = vertices;
@@ -124,9 +123,15 @@ public:
 	}
 
 private: 
-	// 凸法であるか調べる関数
+	
+	/**
+	 * @brief 現在の形状が凸包かどうか調べる
+	 */
 	bool IsConvex() const;
 
-	// 既に同じ点が含まれているか調べる関数
+	/**
+	 * @brief 既に指定した点が含まれているか調べる
+	 * @param point 調べる点
+	 */
 	bool IsContain(const DirectX::SimpleMath::Vector2& point);
 };

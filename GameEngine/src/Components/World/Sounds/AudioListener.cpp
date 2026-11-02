@@ -1,26 +1,18 @@
-﻿//====================================================//
-// ファイル名  : AudioListener.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/01
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    AudioListener.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Sounds/AudioListener.h"
 
+#include "Components/World/Transform/Transform.h"
+
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	// コンストラクタ
-	AudioListener::AudioListener(IComponentOwner* own)
-		: WorldComponentBase(own)
+	AudioListener::AudioListener(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_pTransform{ nullptr }
 		, m_listener{}
 		, m_nowVersion{ 0 }

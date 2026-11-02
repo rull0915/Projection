@@ -1,19 +1,13 @@
-﻿//====================================================//
-// ファイル名   : VertexTypes.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/09/24
-//
-// 概要 : エンジンにデフォルトで用意される頂点構造を宣言したヘッダ
-//
-// 更新履歴 :
-// 2026/09/24 新規作成
-//====================================================//
+﻿/**
+ * @file    VertexTypes.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/24
+ *
+ * @brief   エンジンにデフォルトで用意される頂点構造を宣言したヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <concepts>
 #include <cstdint>
 #include <vector>
@@ -23,18 +17,22 @@
 
 namespace RHEngine
 {
-	// staticなGetLayout関数を持っているかをチェックするConcept
+	/**
+	 * @brief 頂点構造であることを制限するconcept
+	 */
 	template <typename T>
 	concept VertexType = requires
 	{
 		{ T::GetLayout() } -> std::convertible_to<const std::vector<VertexElementInfo>&>;
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標のみ
+	 */
 	struct VertexPosition
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
+		DirectX::XMFLOAT3 position;	///< 頂点座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -45,12 +43,14 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と頂点カラー
+	 */
 	struct VertexPositionColor
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT4 color;	// 頂点カラー
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT4 color;	///< 頂点カラー
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -62,12 +62,14 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標とUV座標
+	 */
 	struct VertexPositionTexture
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT2 texcoord;	// テクスチャ座標
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT2 texcoord;	///< UV座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -79,13 +81,15 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と2つのUV座標
+	 */
 	struct VertexPositionDualTexture
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT2 texcoord0;	// テクスチャ座標
-		DirectX::XMFLOAT2 texcoord1;	// テクスチャ座標
+		DirectX::XMFLOAT3 position;		///< 頂点座標
+		DirectX::XMFLOAT2 texcoord0;	///< UV座標
+		DirectX::XMFLOAT2 texcoord1;	///< UV座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -98,12 +102,14 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と法線ベクトル
+	 */
 	struct VertexPositionNormal
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT3 normal;	// 法線ベクトル
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -115,13 +121,16 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と頂点カラーとUV座標
+	 * @details Primitive描画で使用されるデフォルトの頂点構造
+	 */
 	struct VertexPositionColorTexture
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT4 color;	// 頂点カラー
-		DirectX::XMFLOAT2 texcoord;	// テクスチャ座標
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT4 color;	///< 頂点カラー
+		DirectX::XMFLOAT2 texcoord;	///< UV座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -134,13 +143,16 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と法線ベクトルとUV座標
+	 * @details Mesh描画で使用されるデフォルトの頂点構造
+	 */
 	struct VertexPositionNormalTexture
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT3 normal;	// 法線ベクトル
-		DirectX::XMFLOAT2 texcoord;	// テクスチャ座標
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
+		DirectX::XMFLOAT2 texcoord;	///< UV座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -153,14 +165,16 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と法線ベクトルと頂点カラーとUV座標
+	 */
 	struct VertexPositionNormalColorTexture
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT3 normal;	// 法線ベクトル
-		DirectX::XMFLOAT4 color;	// 頂点カラー
-		DirectX::XMFLOAT2 texcoord;	// テクスチャ座標
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
+		DirectX::XMFLOAT4 color;	///< 頂点カラー
+		DirectX::XMFLOAT2 texcoord;	///< UV座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -174,15 +188,18 @@ namespace RHEngine
 		}
 	};
 
+	/**
+	 * @brief 頂点構造 頂点座標と法線ベクトルと接線ベクトルと頂点カラーとUV座標
+	 * @details メモリ節約のために頂点カラーはuint32_tの0xRRGGBBAAで表します
+	 */
 	struct VertexPositionNormalTangentColorTexture
 	{
-		DirectX::XMFLOAT3 position;	// 頂点座標
-		DirectX::XMFLOAT3 normal;	// 法線ベクトル
-		DirectX::XMFLOAT4 tangent;	// 接線
-		uint32_t color;				// 頂点カラー (メモリ節約のために32bit)
-		DirectX::XMFLOAT2 texcoord;	// テクスチャ座標
+		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
+		DirectX::XMFLOAT4 tangent;	///< 接線
+		uint32_t color;				///< 頂点カラー (メモリ節約のために32bit)
+		DirectX::XMFLOAT2 texcoord;	///< UV座標
 
-		// レイアウトを返す関数
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
 			static const std::vector<VertexElementInfo> layout =
@@ -196,4 +213,4 @@ namespace RHEngine
 			return layout;
 		}
 	};
-}
+}	// namespace RHEngine

@@ -144,7 +144,8 @@
       <ObjectFileOutput>Resources/Materials/Shaders/%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <PreBuildEvent>
-      <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -207,7 +208,8 @@
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
     <PreBuildEvent>
-      <Command>"$(ProjectDir)Tools\GenerateEverything.exe"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>

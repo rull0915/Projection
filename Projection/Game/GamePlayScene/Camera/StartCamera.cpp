@@ -1,34 +1,21 @@
-﻿//====================================================//
-// ファイル名  : StartCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/09
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    StartCamera.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/09
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "StartCamera.h"
-
-#include "GameObject/GameObject.h"
-#include "Scene/Scene.h"
 
 #include "TPSCamera.h"
 #include "CameraCorrection.h"
 #include "../GamePlayEvent.h"
 #include "Common/EventBus.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 StartCamera::StartCamera(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_pTransform{ nullptr }
-	, m_targetName{ "Player" }
+	, m_targetTransform{}
 	, m_target{ 0, 0, 0 }
 	, m_radius{ 5.0f }
 	, m_finalAngle{ DirectX::XM_PI / 2 }
@@ -38,7 +25,7 @@ StartCamera::StartCamera(RHEngine::IComponentOwner* own)
 	, m_nowAngle{ 0.0f }
 	, m_offset{ 0, 0, 0 }
 {
-	ADD_PROPERTY(StartCamera, m_targetName);
+	ADD_PROPERTY(StartCamera, m_targetTransform);
 	ADD_PROPERTY(StartCamera, m_radius);
 	ADD_PROPERTY(StartCamera, m_finalAngle);
 	ADD_PROPERTY(StartCamera, m_angleVelocity);
@@ -47,27 +34,19 @@ StartCamera::StartCamera(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(StartCamera, m_offset);
 }
 
-// 生成直後に一度呼ばれます
 void StartCamera::Awake()
 {
 	// トランスフォームポインタを取得
 	m_pTransform = GetComponent<RHEngine::Transform>();
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void StartCamera::Start()
 {
-	// シーンポインタを取得
-	RHEngine::Scene* pScene = static_cast<RHEngine::GameObject*>(GetOwn())->GetScene();
-
-	// ターゲットを取得
-	RHEngine::GameObject* target = pScene->GetObjectFinder()->FindWithName(m_targetName);
-
-	// 取得できなければ何もしない
-	if (!target) return;
+	// ターゲットがなければ何もしない
+	if (!m_targetTransform) return;
 
 	// 保存
-	m_target = target->GetComponent<RHEngine::Transform>()->GetWorldPosition() + m_offset;
+	m_target = m_targetTransform->GetWorldPosition() + m_offset;
 
 	//----- 初期位置をセットする -----//
 
@@ -92,7 +71,6 @@ void StartCamera::Start()
 	m_nowAngle = initAngle;
 }
 
-// 毎フレーム呼ばれます
 void StartCamera::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// 経過時間を取得

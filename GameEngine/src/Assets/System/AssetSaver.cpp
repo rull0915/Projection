@@ -1,37 +1,31 @@
-﻿//====================================================//
-// ファイル名  : AssetSaver.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/02
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    AssetSaver.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "AssetSaver.h"
 
 #include <fstream>
+
+#include "Assets/Types/Prefab.h"
 #include "Assets/Types/PrefabImpl.h"
+
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Managers/AssetManager.h"
 #include "Editor/Saver/ObjectSaver.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
 	namespace Saver
 	{
-		void PrefabSaver(AssetBase* base, const std::filesystem::path& path, AssetContext& ctx)
+		void PrefabSaver(AssetBase* pAsset, const std::filesystem::path& path, AssetContext& ctx)
 		{
-			Prefab* prefab = static_cast<Prefab*>(base);
+			Prefab* pPrefab = static_cast<Prefab*>(pAsset);
 
 			// jsonを取得
-			nlohmann::json json = prefab->GetImpl()->GetJson();
+			nlohmann::json json = pPrefab->GetImpl()->GetJson();
 
 			// 保存
 			std::ofstream ofs(path);
@@ -47,13 +41,13 @@ namespace RHEngine
 			ofs.close();
 		}
 
-		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, const AssetManager& assetManager)
+		void AssetSaverAsProperty(AssetBase* pAsset, const std::filesystem::path& path, const AssetManager& assetManager)
 		{
 			// セーバーを生成
 			ObjectSaver saver(assetManager);
 
 			// ファイルにセーブ
-			saver.SavePropertyToFile(path, asset);
+			saver.SavePropertyToFile(path, pAsset);
 		}
 	}
 }	// namespace RHEngine

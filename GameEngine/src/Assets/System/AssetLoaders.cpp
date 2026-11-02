@@ -1,16 +1,14 @@
-﻿//====================================================//
-// ファイル名  : AssetLoaders.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/02
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    AssetLoaders.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "AssetLoaders.h"
+
+#include <WICTextureLoader.h>
+#include <DDSTextureLoader.h>
 
 #include "Assets/Types/Texture.h"
 #include "Assets/Types/Font.h"
@@ -19,13 +17,6 @@
 
 #include "System/Render/GraphicsManager.h"
 #include "System/ResourceManager.h"
-
-#include "WICTextureLoader.h"
-#include "DDSTextureLoader.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -138,4 +129,4 @@ namespace RHEngine
 		// 返す
 		return result;
 	}
-}
+}	// namespace RHEngine

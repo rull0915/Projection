@@ -1,167 +1,159 @@
-﻿//====================================================//
-// ファイル名   : DrawCommand.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/18
-//
-// 概要 : 描画commandをまとめたヘッダ
-//
-// 更新履歴 :
-// 2026/07/18 新規作成
-//====================================================//
+﻿/**
+ * @file    DrawCommand.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/18
+ *
+ * @brief   描画commandをまとめたヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-// stl
 #include <cstdint>
+#include <string>
+#include <vector>
+#include <Windows.h>
+#include <d3d11.h>
 #include <optional>
-// DXTK
 #include <SimpleMath.h>
 #include <SpriteFont.h>
 #include <VertexTypes.h>
-// User
+
 #include "../RendererType.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Model/Mesh.h"
-#include "Assets/Types/Material/MaterialAsset.h"
 
 namespace RHEngine
 {
 	class MaterialAsset;
 
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
-
-	/// <summary>
-	/// 描画コマンドの基底
-	/// </summary>
+	/**
+	 * @brief 描画コマンドの基底
+	 */
 	struct DrawCommandBase
 	{
-		// 描画順
-		uint64_t sortKey;
+		uint64_t sortKey;	///< 描画順
 		
-		// 描画タイプ
-		RendererType type;
+		RendererType type;	///< 描画コマンドの種類
 
-		// コンストラクタ
-		DrawCommandBase(RendererType t, uint64_t s = 0)
-			: type{ t }, sortKey{ s } 
+		/// @name ライフサイクル
+		/// @{
+		
+		/**
+		 * @param ttype 描画コマンドの種類
+		 * @param sort 描画順
+		 */
+		DrawCommandBase(RendererType type, uint64_t sort = 0)
+			: type{ type }, sortKey{ sort } 
 		{}
 
-		// 仮想デストラクタ
 		virtual ~DrawCommandBase() = default;
+
+		/// @}
 	};
 
-	/// <summary>
-	/// モデル描画コマンド
-	/// </summary>
-	struct DrawModelCommand : public DrawCommandBase
+	/**
+	 * @brief メッシュ描画コマンド
+	 */
+	struct DrawMeshCommand : public DrawCommandBase
 	{
-		// メッシュ
-		Mesh* pMesh = nullptr;
+		Mesh* pMesh = nullptr;	///< メッシュ
 
-		// サブメッシュ番号
-		size_t subMeshIndex = 0;
+		size_t subMeshIndex = 0;	///< サブメッシュインデックス
 
-		// マテリアル
-		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		// ワールド行列
-		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;	///< ワールド行列
 
-		// コンストラクタ
-		DrawModelCommand()
+		/// @name ライフサイクル
+		/// @{
+
+		DrawMeshCommand()
 			: DrawCommandBase(RendererType::Mesh)
 		{}
+
+		/// @}
 	};
 
-	/// <summary>
-	/// スプライト描画コマンド
-	/// </summary>
+	/**
+	 * @brief スプライト描画コマンド
+	 */
 	struct DrawSpriteCommand : public DrawCommandBase
 	{
-		// テクスチャ
-		ID3D11ShaderResourceView* pTexture = nullptr;
+		ID3D11ShaderResourceView* pTexture = nullptr;	///< テクスチャ
 
-		// マテリアル
-		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		// 座標
-		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;
+		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;	///< 描画座標
 
-		// 矩形
-		std::optional<RECT> srcRect = std::nullopt;
+		std::optional<RECT> srcRect = std::nullopt;	///< 切り取り矩形
 
-		// 拡大率
-		DirectX::SimpleMath::Vector2 scale = DirectX::SimpleMath::Vector2(1, 1);
+		DirectX::SimpleMath::Vector2 scale = DirectX::SimpleMath::Vector2(1, 1);	///< 拡大率
 
-		// 回転角
-		float angle = 0;
+		float angle = 0;	///< 回転角度 (ラジアン)
 
-		// 原点
-		DirectX::SimpleMath::Vector2 origin = DirectX::SimpleMath::Vector2(0.5f, 0.5f);
+		DirectX::SimpleMath::Vector2 origin = DirectX::SimpleMath::Vector2(0.5f, 0.5f);	///< 原点 (uv座標)
 
-		// 乗算色
-		DirectX::SimpleMath::Color color = DirectX::SimpleMath::Color(1, 1, 1, 1);
+		DirectX::SimpleMath::Color color = DirectX::SimpleMath::Color(1, 1, 1, 1);	///< 乗算色
 
-		// コンストラクタ
+		/// @name ライフサイクル
+		/// @{
+
 		DrawSpriteCommand()
 			: DrawCommandBase(RendererType::Sprite)
 		{}	
+
+		/// @}
 	};
 
-	/// <summary>
-	/// テキスト描画コマンド
-	/// </summary>
+	/**
+	 * @brief テキスト描画コマンド
+	 */
 	struct DrawTextCommand : public DrawCommandBase
 	{
-		// フォント
-		DirectX::SpriteFont* spriteFont = nullptr;
+		DirectX::SpriteFont* spriteFont = nullptr;	///< フォント
+		
+		std::wstring text = std::wstring();	///< 文字列
 
-		// 文字列
-		std::wstring text = std::wstring();
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		// マテリアル
-		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
+		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;	///< 座標
 
-		// 座標
-		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2::Zero;
+		DirectX::SimpleMath::Vector2 scale = DirectX::SimpleMath::Vector2(1, 1);	///< 拡大率
 
-		// 拡大率
-		DirectX::SimpleMath::Vector2 scale = DirectX::SimpleMath::Vector2(1, 1);
+		float angle = 0;	///< 回転角度 (ラジアン)
 
-		// 回転角
-		float angle = 0;
+		DirectX::SimpleMath::Vector2 origin = DirectX::SimpleMath::Vector2(0.5f, 0.5f);	///< 原点 (uv座標)
+			
+		DirectX::SimpleMath::Color color = DirectX::SimpleMath::Color(1, 1, 1, 1);	///< 乗算色
 
-		// 原点
-		DirectX::SimpleMath::Vector2 origin = DirectX::SimpleMath::Vector2(0.5f, 0.5f);
+		/// @name ライフサイクル
+		/// @{
 
-		// 乗算色
-		DirectX::SimpleMath::Color color = DirectX::SimpleMath::Color(1, 1, 1, 1);
-
-		// コンストラクタ
 		DrawTextCommand()
 			: DrawCommandBase(RendererType::Text)
 		{}
+
+		/// @}
 	};
 
-	/// <summary>
-	/// プリミティブ描画コマンド
-	/// </summary>
+	/**
+	 * @brief プリミティブ描画コマンド
+	 * @TODO トポロジーを持たせ、純粋な頂点配列のみにする
+	 */
 	struct DrawPrimitiveCommand : public DrawCommandBase
 	{
-		// 線の構造体
+		/**
+		 * @brief 線構造体
+		 */
 		struct Line
 		{
-			DirectX::VertexPositionColorTexture s;
-			DirectX::VertexPositionColorTexture e;
+			DirectX::VertexPositionColorTexture s;	///< 始点
+			DirectX::VertexPositionColorTexture e;	///< 終点
 		};
 
-		// 三角形の構造体
+		/**
+		 * @brief 三角形構造体
+		 */
 		struct Triangle
 		{
 			DirectX::VertexPositionColorTexture a;
@@ -169,21 +161,21 @@ namespace RHEngine
 			DirectX::VertexPositionColorTexture c;
 		};
 
-		// ワールド行列
-		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;	///< ワールド行列
 
-		// マテリアル
-		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		// 線の配列
-		std::vector<Line> lines{};
+		std::vector<Line> lines{};	///< 線リスト
 		
-		// 三角形の配列
-		std::vector<Triangle> triangles{};
+		std::vector<Triangle> triangles{};	///< 三角形リスト
 
-		// コンストラクタ
+		/// @name ライフサイクル
+		/// @{
+ 
 		DrawPrimitiveCommand()
 			: DrawCommandBase(RendererType::Primitive)
 		{}
+
+		/// @}
 	};
 }	// namespace RHEngine

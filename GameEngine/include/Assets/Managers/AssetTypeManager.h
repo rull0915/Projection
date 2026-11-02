@@ -1,65 +1,84 @@
-﻿//====================================================//
-// ファイル名   : AssetTypeManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : アセットタイプの管理クラス
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetTypeManager名.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   アセットタイプの管理クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <filesystem>
 #include <typeindex>
-#include "Assets/Objects/Handle.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief アセットのタイプを管理する
+	 */
 	class AssetTypeManager
 	{
-		//------------------------------------
-		// メンバ変数
-		//------------------------------------
-
 	private:
-		// 拡張子をキーとしたAssetTypeのマップ
+		/** @brief 拡張子名とアセット名の対応マップ */
 		std::unordered_map<std::wstring, std::string> m_assetTypeMap;
 
-		// 拡張子をキーとしたtype_indexのマップ
+		/** @brief 拡張子名とtype_indexの対応マップ */
 		std::unordered_map<std::wstring, std::type_index> m_assetClassMap;
 
-		//------------------------------------
-		// 関数宣言
-		//------------------------------------
-
 	public:
+		/// @name ライフサイクル
+		/// @{
 
-		// アセット名の登録関数
+		AssetTypeManager() = default;
+
+		~AssetTypeManager() = default;
+
+		/// @}
+
+		/**
+		 * @brief アセットタイプを登録する
+		 * @param extention 拡張子名
+		 * @param typeName 対応するタイプ名
+		 */
 		void RegisterAssetType(const std::wstring& extention, const std::string& typeName);
 
-		// 拡張子に対応するアセットクラスを登録する関数
+		/**
+		 * @brief 型と拡張子の対応関係を登録する
+		 * @tparam T アセット型
+		 * @param extention 対応する拡張子
+		 */
 		template<typename T>
 		void RegisterAssetClass(const std::wstring& extention);
 
-		// 特定のファイルに対応するアセットタイプを取得する関数
+		/**
+		 * @brief パスから対応するアセット名を取得する
+		 * @param path 調べるファイルパス 
+		 * @return 対応するアセット名 (未対応の場合空文字列)
+		 */
 		std::string GetAssetType(const std::filesystem::path& path) const;
 
-		// 特定のファイルに対応するtype_indexを取得する関数
-		std::type_index GetAssetClass(const std::filesystem::path& type) const;
+		/**
+		 * @brief パスから対応するtype_indexを取得する
+		 * @param type 調べるファイルパス
+		 * @return 対応するtype_index (未対応の場合voidのtype_index)
+		 */
+		std::type_index GetAssetClass(const std::filesystem::path& path) const;
 
-		// 特定のタイプ名に対応するtype_indexを取得する関数
-		std::type_index GetAssetClassFromType(const std::string& path) const;
+		/**
+		 * @brief アセット名から対応するtype_indexを取得する
+		 * @param type 調べるアセット名
+		 * @return 対応するtype_index (未対応の場合voidのtype_index)
+		 */
+		std::type_index GetAssetClassFromType(const std::string& type) const;
 
-		// 特定のタイプに対応する拡張子を取得する関数
+		/**
+		 * @brief アセット名から対応する拡張子を取得する
+		 * @param type 調べるアセット名
+		 * @return 対応する拡張子 (未対応の場合空文字列)
+		 */
 		std::wstring GetExtention(const std::string& type) const;
+
+		/// @}
 	};
 
 	template<typename T>

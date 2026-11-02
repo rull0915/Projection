@@ -1,22 +1,16 @@
-﻿//====================================================//
-// ファイル名   : CreatePrefabFromModelData.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/14
-//
-// 概要 : モデルデータからプレハブを作成する関数
-//
-// 更新履歴 :
-// 2026/10/14 新規作成
-//====================================================//
+﻿/**
+ * @file    CreatePrefabFromModelData.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/14
+ *
+ * @brief   モデルデータからプレハブを作成する関数
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
 #include <string>
 #include <utility>
+#include <memory >
 #include <unordered_map>
 
 #include "Assets/Types/Prefab.h"
@@ -27,16 +21,26 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief モデルデータからプレハブを作成する
+	 */
 	class CreatePrefabFromModelData
 	{
 	public:
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		static std::unique_ptr<Prefab> Create(const std::string& name, const IAssetResolver& resolver, const std::unordered_map<std::string, std::pair<Handle<Mesh>, Mesh>>& meshes, const std::unordered_map<std::string, Handle<MaterialAsset>>& materials);
+		
+		/**
+		 * @brief プレハブを作成する
+		 * @param name プレハブ名
+		 * @param resolver アセットリゾルバ (Prefabに保存するために使用)
+		 * @param meshes モデルが持つメッシュデータのリスト
+		 * @param materials モデルが持つマテリアルデータのリスト
+		 * @return 作成したプレハブ
+		 */
+		static std::unique_ptr<Prefab> Create(
+			const std::string& name, 
+			const IAssetResolver& resolver, 
+			const std::unordered_map<std::string, std::pair<Handle<Mesh>, Mesh>>& meshes, 
+			const std::unordered_map<std::string, Handle<MaterialAsset>>& materials
+		);
 	};
 }

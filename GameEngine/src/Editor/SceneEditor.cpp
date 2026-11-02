@@ -1,15 +1,8 @@
-﻿//====================================================//
-// ファイル名  : SceneEditor.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
-//
-// 概要       : SceneEditorシーン
-//====================================================//
-
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    SceneEditor.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/05
+ */
 
 #include "pch.h"
 
@@ -26,22 +19,19 @@
 #include "Editor/Saver/ObjectSaver.h"
 
 #include "Assets/EngineDefaultAssets.h"
+#include "Assets/Types/Texture.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	// コンストラクタ
-	SceneEditor::SceneEditor(Scene* pScene, AssetManager& am)
+	SceneEditor::SceneEditor(Scene* pScene, AssetManager& assetManager)
 		: m_pScene{ pScene }
 		, m_isActive{ false }
 		, m_isPlaying{ false }
-		, m_gui{ m_pScene, am, [this]() { TestPlay(); }, [this]() { PlayStop(); } }
+		, m_gui{ m_pScene, assetManager, [this]() { TestPlay(); }, [this]() { PlayStop(); } }
 		, m_sceneView{ std::make_unique<RenderTarget>() }
 		, m_sceneViewCamera{}
-		, m_assetManager{ am }
+		, m_assetManager{ assetManager }
 		, m_oldMouseMode{}
 	{
 		// ゲームビューの作成
@@ -54,7 +44,7 @@ namespace RHEngine
 		SceneManager::Instance().RegisterScene("Edit__", L"Resources/Scenes/TestPlayScene.scene");
 
 		// カメラの初期化
-		m_sceneViewCamera.Start();
+		m_sceneViewCamera.Initialize();
 
 		// Projection行列の更新
 		m_sceneViewCamera.UpdateView();
@@ -128,10 +118,11 @@ namespace RHEngine
 		// ドッキング領域の描画
 		m_gui.DrawDockingArea();
 
-		m_gui.DrawStyleEditor();
-
 		// 3つのウィンドウを描画
 		m_gui.DrawWindows();
+
+		// パフォーマンスウィンドウを描画
+		m_gui.DrawPerformanceWindow();
 
 		// シーンビューを描画
 		bool canMove = m_gui.DrawSceneView(m_sceneView->GetShaderResourceView(), &m_sceneViewCamera);
@@ -143,7 +134,7 @@ namespace RHEngine
 		m_sceneViewCamera.SetMovable(canMove);
 
 		// カメラの更新
-		m_sceneViewCamera.Update(gameTimer);
+		m_sceneViewCamera.Update();
 
 		// ビュー行列の更新
 		m_sceneViewCamera.UpdateView();
@@ -161,11 +152,11 @@ namespace RHEngine
 				Input::Mouse::SetMode(DirectX::Mouse::Mode::MODE_ABSOLUTE);
 			}
 
-			//// ゲームビューがクリックされたら元に戻す
-			//if (clickedGameView)
-			//{
-			//	Input::Mouse::SetMode(m_oldMouseMode);
-			//}
+			// ゲームビューがクリックされたら元に戻す
+			if (clickedGameView)
+			{
+				Input::Mouse::SetMode(m_oldMouseMode);
+			}
 		}
 	}
 
@@ -184,6 +175,12 @@ namespace RHEngine
 
 		// 描画
 		m_pScene->DrawOnceCamera(ctx, renderer, true);
+	}
+
+	void SceneEditor::OnWindowSizeChanged(int width, int height)
+	{
+		// シーンビューカメラの射影行列を再構築する
+		m_sceneViewCamera.UpdateProj();
 	}
 
 	void SceneEditor::TestPlay()

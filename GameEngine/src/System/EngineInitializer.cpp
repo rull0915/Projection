@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : EngineInitializer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要        :  ゲームエンジン部分の初期化を担当するクラス
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    EngineInitializer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ */
 
 #include "pch.h"
 
@@ -37,13 +31,8 @@
 #include "Assets/Types/Texture.h"
 #include "System/Render/SamplerList.h"
 
-//====================================================//
-// 関数定義
-//====================================================//
-
 namespace RHEngine
 {
-	// エンジン全体の初期化処理
 	void EngineInitializer::EngineInitialize()
 	{
 		// 初期化済みなら何もしない
@@ -182,8 +171,6 @@ namespace RHEngine
 
 	void EngineInitializer::RegistCustomKeys()
 	{
-		//============== カスタム入力 ======================//
-
 		Input::Custom::AddAxis(
 			"Horizontal", Input::Key::Code::Right, Input::Key::Code::Left
 		);

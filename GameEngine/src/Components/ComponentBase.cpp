@@ -1,30 +1,18 @@
-﻿//====================================================//
-// ファイル名  : ComponentBase.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/02
-//
-// 概要       : コンポーネントの基底クラス  
-//====================================================//
+﻿/**
+ * @file    ComponentBase.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/ComponentBase.h"
 
 #include "GameObject/Interface/IComponentOwner.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine 
 {
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	ComponentBase::ComponentBase(IComponentOwner* own)
-		: m_own{ own }
+	ComponentBase::ComponentBase(IComponentOwner* pOwner)
+		: m_pOwner{ pOwner }
 		, m_uuid{ 0 }
 		, m_changedActive{ false }
 		, m_isActive{ true }
@@ -34,9 +22,6 @@ namespace RHEngine
 		ADD_PROPERTY(ComponentBase, m_isActive);
 	}
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
 	ComponentBase::~ComponentBase()
 	{}
 

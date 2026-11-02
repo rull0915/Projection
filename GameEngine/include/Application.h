@@ -1,21 +1,17 @@
-﻿//====================================================//
-// ファイル名   : Application.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/14
-//
-// 概要 : アプリクラス
-//
-// 更新履歴 :
-// 2026/10/14 新規作成
-//====================================================//
+﻿/**
+ * @file    Application.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/14
+ *
+ * @brief   アプリクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-#include <memory>
+#include <string>
+#include <cstdint>
+#include <memory> 
+#include <Windows.h>
 
 #include "System/DeviceResources.h"
 #include "Timer/StepTimer.h"
@@ -24,82 +20,131 @@ namespace RHEngine
 {
 	class GameEngine;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
-	// アプリケーション設定構造体
+	/**
+	 * @brief アプリケーションの設定項目
+	 */
 	struct ApplicationProps {
-		std::wstring title = L"RHEngine";	// アプリタイトル
-		uint32_t width = 1280;				// ウィンドウ幅
-		uint32_t height = 720;				// ウィンドウ高さ
+		std::wstring title = L"RHEngine";	///< アプリタイトル
+		uint32_t width = 1280;				///< ウィンドウ幅
+		uint32_t height = 720;				///< ウィンドウ高さ
 	};
 
-	// アプリケーションクラス
+	/**
+	 * @brief アプリケーションクラス
+	 * @details ゲームプロジェクト側で継承してアプリインスタンスを作成する
+	 */
 	class Application : public DX::IDeviceNotify 
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// アプリ情報
+		/** @brief アプリの設定 */
 		ApplicationProps m_props;
 
-		// ゲームエンジン本体
+		/** @brief ゲームエンジン本体 */
 		std::unique_ptr<GameEngine> m_gameEngine;
 
-		// デバイスリソース
+		/** @brief デバイスリソース */
 		DX::DeviceResources* m_deviceResources = nullptr;
 
-		// タイマー
+		/** @brief タイマー */
 		DX::StepTimer m_timer;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param props アプリの設定
+		 */
 		Application(const ApplicationProps& props);
+
 		virtual ~Application();
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// ゲーム側でがオーバーライドするイベントフック
+		/// @name ゲーム側がオーバーライドするイベント
+
+		/** @brief 初期化時に呼ばれる */
 		virtual void OnInitialize() {}
+
+		/** @brief 終了時に呼ばれる */
 		virtual void OnFinalize() {}
+
+		/** @brief 毎フレーム呼ばれる */
 		virtual void OnUpdate(float deltaTime) { deltaTime; }
 
-		// エンジン内部で使用する関数
+		/// @}
+
+		/**
+		 * @brief ゲームエンジンの初期化、入力の初期化などを行う
+		 * @param hwnd ウィンドウハンドル
+		 * @param width ウィンドウ幅
+		 * @param height ウィンドウ高さ
+		 */
 		void Initialize(HWND hwnd, int width, int height);
+
+		/**
+		 * @brief 終了時にゲームエンジンを解放する
+		 */
 		void Finalize();
+
+		/**
+		 * @brief 毎フレームの処理
+		 */
 		void Tick();
 
+		/**
+		 * @brief アプリ情報を取得する
+		 */
 		const ApplicationProps& GetProps() const { return m_props; }
 
-		// IDeviceNotifyの実装
+		/// @name IDeviceNotifyの実装
+		/// @{
+
+		/** @brief デバイスロスト時の処理 */
 		void OnDeviceLost() override {}
+
+		/** @brief デバイス復帰時の処理 */
 		void OnDeviceRestored() override {}
 
-		//------ WndProcからメッセージを受け取る関数 -------//
+		/// @}
 
-		void OnWindowSizeChanged(int width, int height);	// ウィンドウサイズ変更時
+		/// @name ウィンドウプロシージャから呼び出される
+		/// @{
+
+		/**
+		 * @brief ウィンドウサイズ変更時の処理
+		 * @param width 変更後の幅
+		 * @param height 変更後の高さ
+		 */
+		void OnWindowSizeChanged(int width, int height);
+
+		/// @}
 
 	private:
 
-		// 更新関数
+		/**
+		 * @brief ゲームエンジン全体を更新し、ゲームの更新処理を呼び出す
+		 */
 		void Update();
 		
-		// 描画関数
+		/**
+		 * @brief ゲームエンジンを描画する
+		 */
 		void Render();
 
-		// クリア関数
+		/**
+		 * @brief ウィンドウをクリアする
+		 */
 		void Clear();
 	};
 
-	// ゲーム側で実装するファクトリ関数宣言
+	/**
+	 * @brief ゲーム側で実装するアプリ作成関数
+	 * @details エントリポイントでアプリを作成する際に呼ばれる
+	 *			継承した派生クラスを作成する処理をゲームプロジェクト側に書くこと
+	 * @return 作成したアプリ
+	 */
 	Application* CreateApplication();
-}
+}	// namespace RHEngine

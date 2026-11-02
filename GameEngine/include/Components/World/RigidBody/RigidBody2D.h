@@ -1,98 +1,91 @@
-﻿//====================================================//
-// ファイル名   : RigidBody2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/06
-//
-// 概要 : RigidBody2Dクラス 質量や速度などを管理します
-//
-// 更新履歴 :
-// 2026/04/06 新規作成
-//====================================================//
+﻿/**
+ * @file    RigidBody2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/06
+ *
+ * @brief   2D物理挙動コンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "RigidBodyBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief 2D物理挙動コンポーネント
+	 */
 	class RigidBody2D : public RigidBodyBase
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(RigidBodyBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 速度 */
+		DirectX::SimpleMath::Vector2 m_velocity;
 
-		// 速度/加速度
-		DirectX::SimpleMath::Vector2 m_velocity, m_acceleration;
+		/** @brief 加速度 */
+		DirectX::SimpleMath::Vector2 m_acceleration;
 
-		// かかっている力
+		/** @brief かかっている力 */
 		DirectX::SimpleMath::Vector2 m_force;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
 		RigidBody2D(IComponentOwner* own);
 
 		~RigidBody2D() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(RigidBody2D, RigidBodyBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief 力から位置・速度・加速度を時間で積分する
+		 * @param elapsedTime 1fの経過時間
+		 */
 		void Integrate(float elapsedTime);
 
-		void AddForce(DirectX::SimpleMath::Vector2 vec, ForceMode mode = ForceMode::Force, bool wakeUp = true)
-		{
-			switch (mode)
-			{
-			case ForceMode::Force:
-				m_force += vec;
-				break;
-			case ForceMode::Acceleration:
-				m_force += vec * GetMass();
-				break;
-			case ForceMode::Impulse:
-				m_velocity += vec * GetInvMass();
-				break;
-			case ForceMode::VelocityChange:
-				m_velocity += vec;
-				break;
-			default:
-				break;
-			}
+		void AddForce(DirectX::SimpleMath::Vector2 vec, ForceMode mode = ForceMode::Force, bool wakeUp = true);
 
-			if (wakeUp) WakeUp();
-		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		DirectX::SimpleMath::Vector2 GetForce() const { return m_force; }
+		/** @brief 速度 */
 		DirectX::SimpleMath::Vector2 GetVelocity() const { return m_velocity; }
+
+		/** @brief 加速度 */
 		DirectX::SimpleMath::Vector2 GetAcceleration() const { return m_acceleration; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
-		void SetForce(DirectX::SimpleMath::Vector2 f) { m_force = f; }
-		void SetVelocity(DirectX::SimpleMath::Vector2 v) { m_velocity = v; }
-		void SetAcceleration(DirectX::SimpleMath::Vector2 a) { m_acceleration = a; }
+		/// @name セッター
+		/// @{
+
+		/** @brief 速度 */
+		void SetVelocity(DirectX::SimpleMath::Vector2 v)
+		{
+			m_velocity = v;
+			WakeUp();
+		}
+
+		/** @brief 加速度 */
+		void SetAcceleration(DirectX::SimpleMath::Vector2 a)
+		{
+			m_acceleration = a;
+			WakeUp();
+		}
+
+		/// @}
 	};
 } // namespace RHEngine

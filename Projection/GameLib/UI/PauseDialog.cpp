@@ -1,22 +1,12 @@
-﻿//====================================================//
-// ファイル名  : PauseDialog.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/08/30
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    PauseDialog.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/30
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "PauseDialog.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 PauseDialog::PauseDialog(RHEngine::IComponentOwner* own)
 	: Dialog(own)
 	, m_openEasing{}
@@ -34,7 +24,6 @@ PauseDialog::PauseDialog(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(PauseDialog, m_expType);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void PauseDialog::Start()
 {
 	// rectを取得
@@ -47,7 +36,6 @@ void PauseDialog::Start()
 	m_rectTransform->SetScale({ 0, 0 });
 }
 
-// 毎フレーム呼ばれます
 void PauseDialog::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// モードによって変更

@@ -1,298 +1,313 @@
-﻿//====================================================//
-// ファイル名   : GameObject.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/19
-//
-// 概要 : ゲームオブジェクトクラスです
-//
-// 更新履歴 :
-// 2026/03/19 新規作成
-// 2026/05/28 final指定に変更し、コンポーネントを保持するだけの器という設計に変更
-// 2026/06/02 必要なインターフェースを継承する設計に変更
-// 2026/06/24 コンストラクタに引数を追加し特定のクラスからしか実体化できないように変更
-// 2026/08/28 メンバにUUIDを追加
-//====================================================//
+﻿/**
+ * @file    GameObject.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/19
+ *
+ * @brief   ゲームオブジェクトクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <type_traits>
+#include <string>
+#include <SimpleMath.h>
+#include <vector>
 
 #include "Common/UUID.h"
 #include "Common/Property/PropertyObject.h"
 #include "Interface/IColliderReceiver.h"
 #include "Interface/IComponentOwner.h"
-
 #include "ComponentContainer.h"
+#include "Components/ComponentTypeId.h"
+#include "Components/ComponentBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class Scene;
-	class Renderer;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief ゲームオブジェクト コンポーネントを保持する
+	 * @details コンポーネントを保持し、シーン内のオブジェクトとして管理される。
+	 *          生成はObjectFactoryまたはPrefabBuilderに制限される。
+	 */
 	class GameObject final
 		: public PropertyObject			// プロパティ
 		, public IComponentOwner        // コンポーネントに公開するインターフェース
 		, public IColliderReceiver      // コライダーの衝突応答を受け取るインターフェース
 	{
 	public:
-		// GameObjectを作成できるクラスを制限する為の仲介クラス
+		/**
+		 * @brief ゲームオブジェクトを作成できるクラスを制限するためのトークン
+		 * @details 通常のクラスは生成できない用privateでコンストラクタを宣言
+		 *			作成可能とするクラスをfriend宣言
+		 */
 		class CreateToken
 		{
 		private:
 			CreateToken() = default;
 
-			// 作成可能クラスをfriendに指定
 			friend class ObjectFactory;
 			friend class PrefabBuilder;
 		};
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 	private:
-		// コンポーネント
+		/** @brief コンポーネントのコンテナ */
 		ComponentContainer m_components;
 
-		// UUID
+		/** @brief 識別用UUID */
 		UUID m_uuid;
 
-		// 自身を持つシーンのポインタ
+		/** @brief 所属するシーンのポインタ */
 		Scene* m_pScene;
 
-		// アクティブ変更フラグ
+		/** @brief アクティブフラグが変更されたかどうか */
 		bool m_changedActive;
 
-		// 親がアクティブかどうかのフラグ
+		/** @brief 親がアクティブかどうか */
 		bool m_parentIsActive;
 
-		// アクティブフラグ　
+		/** @brief アクティブフラグ */
 		bool m_isActive;
 
-		// 削除フラグ
+		/** @brief 削除フラグ */
 		bool m_isDead;
 
-		// シリアライズ可能フラグ
-		bool m_isSerializable;	// オフにすると保存されず、GUIに表示されません
+		/**
+		 * @brief シリアライズするかどうか
+		 * @details オフにすると保存もGUIへの表示もされない
+		 */
+		bool m_isSerializable;
 
-	public:
-		// タグ
+		/** @brief タグ名 */
 		std::string m_tag;
 
-		// 名前
+		/** @brief オブジェクト名 */
 		std::string m_name;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		GameObject(CreateToken);
+		/// @name ライフサイクル
+		/// @{
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/**
+		 * @param  生成可能なクラスを宣言するトークン
+		 */
+		explicit GameObject(CreateToken);
 
+		~GameObject() = default;
+
+		/// @}
+
+		/**
+		 * @brief 終了時にシーンに通知し、コンポーネントを削除する
+		 */
 		void Finalize();
 
+		/**
+		 * @brief GUI変更時処理
+		 */
 		void OnValidate();
 
-		// アクティブ変更の適用
-		void Reserve();
+		/**
+		 * @brief アクティブ状況の変更を調べ関数を呼び出す
+		 */
+		void ActiveReserve();
 
+		/**
+		 * @brief オブジェクトを生成する
+		 * @param position 生成座標
+		 * @return 生成したオブジェクト
+		 */
 		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
-		// 親を取得する関数
+		/**
+		 * @brief 親オブジェクトを取得する
+		 */
 		GameObject* GetParent() const;
 
-		// 子供の数を取得する関数
+		/**
+		 * @brief 子供の数を取得する
+		 */
 		size_t GetChildCount() const;
 
-		// 子供を全て取得する関数
-		std::vector<GameObject*> GetChildren();
+		/**
+		 * @brief 子供を全て取得する
+		 */
+		std::vector<GameObject*> GetChildren() const;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		UUID GetUUID() const { return m_uuid; }
-
-		bool IsActive() const override { return m_isActive && m_parentIsActive; }
-
-		bool IsDead() const { return m_isDead; }
-
-		Scene* GetScene() const { return m_pScene; }
-
-		bool IsSerializable() const { return m_isSerializable; }
-
-		const std::string& GetTag() const override { return m_tag; }
-
-		const std::string& GetName() const override { return m_name; }
-
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-		void SetUUID(UUID uuid) { m_uuid = uuid; }
-
-		void SetParentActive(bool f);
-
-		void SetActive(bool f);
-
-		void SetSerializble(bool f) { m_isSerializable = f; }
-
-		void SetScene(Scene* scene)
-		{
-			m_pScene = scene;
-			m_components.SetScene(scene);
-		}
-
-		void SetTag(const std::string& tag) override { m_tag = tag; }
-
-		void SetName(const std::string& name) override { m_name = name; }
-
+		/** @brief 自身を削除する */
 		void Destroy() override;
 
-	public:
-		// 衝突関連
-#pragma region CollisionEvent
+		/// @name 衝突コールバック
+		/// @{
 
-	// 衝突時に呼び出される関数
+		void OnCollisionEnter(HitContact& contact) override;	///< 3Dで衝突した瞬間に呼ばれる
+		void OnCollisionStay(HitContact& contact) override;		///< 3Dで衝突している間常に呼ばれる
+		void OnCollisionExit(HitContact& contact) override;		///< 3Dで衝突が終わった時に呼ばれる
+		void OnTriggerEnter(HitContact& contact) override;		///< 3Dでトリガー領域に侵入した瞬間に呼ばれる
+		void OnTriggerStay(HitContact& contact) override;		///< 3Dでトリガー領域に入っている間常に呼ばれる
+		void OnTriggerExit(HitContact& contact) override;		///< 3Dでトリガー領域から出たときに呼ばれる
 
-	// 3D
-		void BaseOnCollisionEnter(HitContact& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnCollisionEnter(contact);   // コンポーネントに通知
-		};
-		void BaseOnCollisionStay(HitContact& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnCollisionStay(contact);   // コンポーネントに通知
-		};
-		void BaseOnCollisionExit(HitContact& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnCollisionExit(contact);   // コンポーネントに通知
-		};
-		void BaseOnTriggerEnter(HitContact& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnTriggerEnter(contact);   // コンポーネントに通知
-		};
-		void BaseOnTriggerStay(HitContact& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnTriggerStay(contact);   // コンポーネントに通知
-		};
-		void BaseOnTriggerExit(HitContact& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnTriggerExit(contact);   // コンポーネントに通知
-		};
+		void OnCollisionEnter2D(HitContact2D& contact) override;	///< 2Dで衝突した瞬間に呼ばれる
+		void OnCollisionStay2D(HitContact2D& contact) override;		///< 2Dで衝突している間常に呼ばれる
+		void OnCollisionExit2D(HitContact2D& contact) override;		///< 2Dで衝突が終わった時に呼ばれる
+		void OnTriggerEnter2D(HitContact2D& contact) override;		///< 2Dでトリガー領域に侵入した瞬間に呼ばれる
+		void OnTriggerStay2D(HitContact2D& contact) override;		///< 2Dでトリガー領域に入っている間常に呼ばれる
+		void OnTriggerExit2D(HitContact2D& contact) override;		///< 2Dでトリガー領域から出たときに呼ばれる
 
-		// 2D
-		void BaseOnCollisionEnter2D(HitContact2D& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnCollisionEnter2D(contact);   // コンポーネントに通知
-		};
-		void BaseOnCollisionStay2D(HitContact2D& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnCollisionStay2D(contact);   // コンポーネントに通知
-		};
-		void BaseOnCollisionExit2D(HitContact2D& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnCollisionExit2D(contact);   // コンポーネントに通知
-		};
-		void BaseOnTriggerEnter2D(HitContact2D& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnTriggerEnter2D(contact);   // コンポーネントに通知
-		};
-		void BaseOnTriggerStay2D(HitContact2D& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnTriggerStay2D(contact);   // コンポーネントに通知
-		};
-		void BaseOnTriggerExit2D(HitContact2D& contact) override
-		{
-			for (auto& component : GetAllComponents()) component->OnTriggerExit2D(contact);   // コンポーネントに通知
-		};
+		/// @}
 
-#pragma endregion
+		/// @name コンポーネント操作
+		/// @{
 
-	public:
-		// コンポーネント関連
-#pragma region ComponentsFunc
-
-		// コンポーネントを追加する関数
+		/**
+		 * @brief コンポーネントを追加する
+		 * @tparam T 追加するコンポーネントの型
+		 * @return 追加したコンポーネント
+		 * @details 最も古いコンポーネントが取得されます
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* AddComponent()
 		{
 			return m_components.Add<T>();
 		}
 
-		// コンポーネントを1つ取得する関数
+		/**
+		 * @brief コンポーネントを取得する
+		 * @tparam T 取得するコンポーネントの型
+		 * @return 取得したコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		T* GetComponent() const
 		{
 			return m_components.Get<T>();
 		}
 
-		// 指定したコンポーネントをすべて取得する関数
+		/**
+		 * @brief 指定したコンポーネントを全て取得する
+		 * @tparam T 取得するコンポーネントの型
+		 * @return 取得したいコンポーネントリスト
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		const std::vector<ComponentBase*>& GetComponents() const
 		{
 			return m_components.Gets<T>();
 		}
 
-		// コンポーネントをすべて取得する関数
+		/**
+		 * @brief 全てのコンポーネントを取得する
+		 * @return コンポーネントリスト
+		 */
 		const std::vector<ComponentBase*>& GetAllComponents() const
 		{
 			return m_components.Gets<ComponentBase>();
 		}
 
-		// コンポーネントを削除する関数
+		/**
+		 * @brief コンポーネントを削除する
+		 * @tparam T 削除するコンポーネントの型
+		 * @param component 削除するコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void RemoveComponent(T* component)
 		{
 			m_components.Remove(component);
 		}
 
-		// 型指定版
+		/**
+		 * @brief コンポーネントを削除する
+		 * @tparam T 削除するコンポーネントの型
+		 * @details 最も古いコンポーネントが削除されます
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void RemoveComponent()
 		{
 			m_components.Remove<T>();
 		}
 
-		// 指定した型のコンポーネント全てを削除する関数
+		/**
+		 * @brief 指定したコンポーネントを全て削除する
+		 * @tparam T 削除するコンポーネントの型
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of<ComponentBase, T>::value>>
 		void RemoveComponents()
 		{
 			m_components.Removes<T>();
 		}
 
-		// コンテナを取得する関数
+		/// @}
+
+		/// @name ゲッター
+		/// @{
+
+		/** @brief UUID */
+		UUID GetUUID() const { return m_uuid; }
+
+		/** @brief アクティブフラグ */
+		bool IsActive() const override { return m_isActive && m_parentIsActive; }
+
+		/** @brief 死亡フラグ */
+		bool IsDead() const { return m_isDead; }
+
+		/** @brief 所属しているシーン */
+		Scene* GetScene() const { return m_pScene; }
+
+		/** @brief シリアライズ可能かどうか */
+		bool IsSerializable() const { return m_isSerializable; }
+
+		/** @brief タグ名 */
+		const std::string& GetTag() const override { return m_tag; }
+
+		/** @brief オブジェクト名 */
+		const std::string& GetName() const override { return m_name; }
+
+		/** @brief コンポーネントコンテナ */
 		ComponentContainer& GetComponentContainer() { return m_components; }
 
-	private:
-		// コンポーネントを全て削除する関数
-		void RemoveComponents()
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief UUID */
+		void SetUUID(UUID uuid) { m_uuid = uuid; }
+
+		/** @brief 親のアクティブ状況 */
+		void SetParentActive(bool f);
+
+		/** @brief アクティブフラグ */
+		void SetActive(bool f);
+
+		/** @brief シリアライズ可能かどうか */
+		void SetSerializable(bool f) { m_isSerializable = f; }
+
+		/** @brief 所属しているシーン */
+		void SetScene(Scene* scene)
 		{
-			m_components.Removes<ComponentBase>();
+			m_pScene = scene;
+			m_components.SetScene(scene);
 		}
 
-#pragma endregion
+		/** @brief タグ名 */
+		void SetTag(const std::string& tag) override { m_tag = tag; }
+
+		/** @brief オブジェクト名 */
+		void SetName(const std::string& name) override { m_name = name; }
 
 		// ----- 内部実装 ------- //
 	private:
 
-		// アクティブ状況が変更されたときに呼ばれる関数
+		/**
+		 * @brief アクティブ状況が変わった時の処理
+		 * @param f 変更後のアクティブ状況
+		 */
 		void OnActiveChanged(bool f);
 
-		// コンポーネントを取得するラップ関数
+		/**
+		 * @brief IComponentOwner経由でコンポーネントを取得するためのラップ関数
+		 * @param id 取得するコンポーネントのID
+		 * @return 取得したコンポーネント
+		 */
 		ComponentBase* GetComponentRaw(
 			Component::TypeId id
 		) const override
@@ -300,7 +315,11 @@ namespace RHEngine
 			return m_components.Get(id);
 		}
 
-		// 全てのコンポーネントを取得するラップ関数
+		/**
+		 * @brief IComponentOwner経由でコンポーネントを全て取得するためのラップ関数
+		 * @param id 取得するコンポーネントのID
+		 * @return 取得したコンポーネントリスト
+		 */
 		const std::vector<ComponentBase*>& GetComponentsRaw(
 			Component::TypeId id
 		) const override
@@ -308,4 +327,4 @@ namespace RHEngine
 			return m_components.Gets(id);
 		}
 	};
-} // namespace RHEngine
+}	// namespace RHEngine

@@ -690,7 +690,7 @@
     <ClCompile Include="src\Renderer\RenderProxy.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Shader\ShadowMap.cpp">
+    <ClCompile Include="src\Renderer\Shadow\ShadowMap.cpp">
       <Filter>src\Renderer\Shader</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Shadow\ShadowRenderer.cpp">
@@ -780,16 +780,20 @@
     <ClCompile Include="src\Debug\DebugManager.cpp">
       <Filter>src\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="src\Debug\RectDebugRenderer.cpp">
-      <Filter>src\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="src\WinProc.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
-    <ClCompile Include="include\Components\UI\Canvas\CanvasScaler.cpp" />
+    <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
+    <ClCompile Include="src\System\PerformanceStats.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
+    <ClCompile Include="src\Assets\Types\Vertex\DynamicVertexBuffer.cpp" />
+    <ClCompile Include="src\Assets\Types\Models\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp" />
+    <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.cpp" />
+    <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -830,9 +834,6 @@
     </ClInclude>
     <ClInclude Include="include\Assets\Objects\Handle.h">
       <Filter>include\Assets\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Assets\Objects\Interface\ICreatableAsset.h">
-      <Filter>include\Assets\Objects\Interface</Filter>
     </ClInclude>
     <ClInclude Include="include\Assets\Objects\LoadStatus.h">
       <Filter>include\Assets\Objects</Filter>
@@ -900,9 +901,6 @@
     <ClInclude Include="include\Common\ObjectReference.h">
       <Filter>include\Common</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common\Origin.h">
-      <Filter>include\Common</Filter>
-    </ClInclude>
     <ClInclude Include="include\Common\Property\ArrayRegistry.h">
       <Filter>include\Common\Property</Filter>
     </ClInclude>
@@ -929,9 +927,6 @@
     </ClInclude>
     <ClInclude Include="include\Common\State\StateMachine.h">
       <Filter>include\Common\State</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Common\TypeIdGenerator.h">
-      <Filter>include\Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\UUID.h">
       <Filter>include\Common</Filter>
@@ -1096,9 +1091,6 @@
       <Filter>include\Editor</Filter>
     </ClInclude>
     <ClInclude Include="include\EntryPoint.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameController.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\GameEngine.h">
@@ -1488,9 +1480,6 @@
     <ClInclude Include="include\Debug\DebugManager.h">
       <Filter>include\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="src\Debug\RectDebugRenderer.h">
-      <Filter>src\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="include\WinProc.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -1498,6 +1487,11 @@
     <ClInclude Include="src\Editor\Editor\Windows\ToolBarWindow.h" />
     <ClInclude Include="include\Components\UI\Canvas\CanvasScaler.h" />
     <ClInclude Include="include\Components\Interface\IWindowSizeDependent.h" />
+    <ClInclude Include="include\Math\Range.h" />
+    <ClInclude Include="include\System\PerformanceStats.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
+    <ClInclude Include="include\Assets\Types\Vertex\DynamicVertexBuffer.h" />
+    <ClInclude Include="include\GameController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

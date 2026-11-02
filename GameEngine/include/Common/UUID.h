@@ -1,24 +1,18 @@
-﻿//====================================================//
-// ファイル名   : UUID.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : UUIDの型を宣言したヘッダ
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    UUID.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   UUIDの型を宣言したヘッダ
+ */
 
 #pragma once
 
-// インクルードの追加
 #include <cstdint>
 
 namespace RHEngine
 {
-	// UUIDの型を宣言
 	using UUID = std::uint64_t;
 
-	// エラー値
 	static constexpr UUID UUID_NONE = 0;
 }	// namespace RHEngine

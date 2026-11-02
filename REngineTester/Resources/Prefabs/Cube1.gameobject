@@ -1,0 +1,93 @@
+{
+    "Children": [],
+    "Components": [
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_localPosition": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_localRotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "m_localScale": [
+                    0.9999992251396179,
+                    0.9999979138374329,
+                    0.9999993443489075
+                ]
+            },
+            "Type": "Transform",
+            "UUID": 4725866049357888062
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_mesh": 3960837701782852154
+            },
+            "Type": "MeshFilter",
+            "UUID": 13426188380042015337
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_materials": {
+                    "array": [
+                        13167894609641853879
+                    ],
+                    "size": 1
+                }
+            },
+            "Type": "MeshRenderer",
+            "UUID": 15793451262901605921
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isStatic": false,
+                "m_linearDamping": 0.0,
+                "m_mass": 1.0,
+                "m_useGravity": true
+            },
+            "Type": "RigidBody",
+            "UUID": 10357431075004759709
+        },
+        {
+            "Data": {
+                "m_isActive": true,
+                "m_isTrigger": false,
+                "m_layerNum": 0,
+                "m_localCenterPos": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "m_localSize": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "m_needInfo": false,
+                "m_physicsMaterial": 11753744097066726351
+            },
+            "Type": "BoxCollider",
+            "UUID": 10880228437213363582
+        },
+        {
+            "Data": {
+                "m_isActive": true
+            },
+            "Type": "JumpComponent",
+            "UUID": 6659994197333766327
+        }
+    ],
+    "IsWorld": true,
+    "UUID": 10842010312702146999,
+    "m_isActive": true,
+    "m_name": "Cube1",
+    "m_tag": ""
+}

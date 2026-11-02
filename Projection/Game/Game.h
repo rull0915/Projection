@@ -1,25 +1,20 @@
-﻿//====================================================//
-// ファイル名   : Game.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/11
-//
-// 概要 : ゲームクラス
-//
-// 更新履歴 :
-// 2026/06/02 新規作成
-// 2026/10/14 Engine側のApplicationを継承する設計に変更
-//====================================================//
+﻿/**
+ * @file    Game.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/11
+ *
+ * @brief   ゲームクラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include "EntryPoint.h"
 #include "Application.h"
 
-// ゲーム本体クラス
+/**
+ * @brief ゲーム本体
+ * @details RHEngineに用意されているApplicationを継承する
+ */
 class Game : public RHEngine::Application {
 public:
     Game()

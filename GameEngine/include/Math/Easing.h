@@ -1,47 +1,43 @@
-﻿//====================================================//
-// ファイル名   : Easing.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/02/24
-//
-// 概要 : 参考: https://easings.net/ja
-//       イージング関数をまとめたヘッダ
-//       0.0 ~ 1.0に正規化された値を引数に渡してください
-//       変換後の値が戻り値となります。
-//
-// 更新履歴 :
-// 2026/02/24 新規作成
-//====================================================//
+﻿/**
+ * @file    Easing.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/24
+ *
+ * @brief   イージング関数をまとめたヘッダ
+ * @details 0.0 ~ 1.0に正規化された値を引数に渡すことで変換後の値を取得できる
+ */
+
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <cmath>
 
 namespace RHEngine
 {
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
+	/**
+	 * @brief イージング関数をまとめた構造体
+	 */
 	struct Easing
 	{
 	private:
-
-		// ====== 定数宣言 ====== //
 		static constexpr float PI_F = 3.141592653f;
-
-		static constexpr float c1 = 1.70158f;
-		static constexpr float c2 = c1 * 1.525f;
-		static constexpr float c3 = c1 + 1.0f;
-		static constexpr float c4 = (2.0f * PI_F) / 3.0f;
-		static constexpr float c5 = (2.0f * PI_F) / 4.5f;
+		static constexpr float C1 = 1.70158f;
+		static constexpr float C2 = C1 * 1.525f;
+		static constexpr float C3 = C1 + 1.0f;
+		static constexpr float C4 = (2.0f * PI_F) / 3.0f;
+		static constexpr float C5 = (2.0f * PI_F) / 4.5f;
 
 	public:
 
-		// ==== Linear ==== //
+		/// @name Linear
+		/// @{
+		
 		static float Linear(float t) { return t; }
 
-		// ===== Sine ===== //
+		/// @}
+
+		/// @name Sine
+		/// @{
+		
 		static float EaseInSine(float t)
 		{
 			return 1.0f - cosf((t * PI_F) / 2.0f);
@@ -57,7 +53,11 @@ namespace RHEngine
 			return -(cosf(PI_F * t) - 1.0f) / 2.0f;
 		}
 
-		// ===== Quad ===== //
+		/// @}
+
+		/// @name Quad
+		/// @{
+		
 		static float EaseInQuad(float t)
 		{
 			return t * t;
@@ -75,7 +75,11 @@ namespace RHEngine
 				: 1 - powf(-2 * t + 2, 2) / 2;
 		}
 
-		// ===== Cubic ===== //
+		/// @}
+
+		/// @name Cubic
+		/// @{
+
 		static float EaseInCubic(float t)
 		{
 			return t * t * t;
@@ -93,7 +97,11 @@ namespace RHEngine
 				: 1 - powf(-2 * t + 2, 3) / 2;
 		}
 
-		// ===== Quart ===== //
+		/// @}
+
+		/// @name Quart
+		/// @{
+		
 		static float EaseInQuart(float t)
 		{
 			return t * t * t * t;
@@ -111,7 +119,11 @@ namespace RHEngine
 				: 1 - powf(-2 * t + 2, 4) / 2;
 		}
 
-		// ===== Quint ===== //
+		/// @}
+
+		/// @name Quint
+		/// @{
+		
 		static float EaseInQuint(float t)
 		{
 			return t * t * t * t * t;
@@ -129,7 +141,11 @@ namespace RHEngine
 				: 1 - powf(-2 * t + 2, 5) / 2;
 		}
 
-		// ===== Expo ===== //
+		/// @}
+
+		/// @name Expo
+		/// @{
+		
 		static float EaseInExpo(float t)
 		{
 			return t == 0 ? 0 : powf(2, 10 * t - 10);
@@ -149,7 +165,11 @@ namespace RHEngine
 				: (2 - powf(2, -20 * t + 10)) / 2;
 		}
 
-		// ===== Circ ===== //
+		/// @}
+
+		/// @name Circ
+		/// @{
+		
 		static float EaseInCirc(float t)
 		{
 			return 1 - sqrtf(1 - t * t);
@@ -167,37 +187,45 @@ namespace RHEngine
 				: (sqrtf(1 - powf(-2 * t + 2, 2)) + 1) / 2;
 		}
 
-		// ===== Back ===== //
+		/// @}
+
+		/// @name Back
+		/// @{
+		
 		static float EaseInBack(float t)
 		{
-			return c3 * t * t * t - c1 * t * t;
+			return C3 * t * t * t - C1 * t * t;
 		}
 
 		static float EaseOutBack(float t)
 		{
-			return 1 + c3 * powf(t - 1, 3) + c1 * powf(t - 1, 2);
+			return 1 + C3 * powf(t - 1, 3) + C1 * powf(t - 1, 2);
 		}
 
 		static float EaseInOutBack(float t)
 		{
 			return t < 0.5f
-				? (powf(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
-				: (powf(2 * t - 2, 2) * ((c2 + 1) * (2 * t - 2) + c2) + 2) / 2;
+				? (powf(2 * t, 2) * ((C2 + 1) * 2 * t - C2)) / 2
+				: (powf(2 * t - 2, 2) * ((C2 + 1) * (2 * t - 2) + C2) + 2) / 2;
 		}
 
-		// ===== Elastic ===== //
+		/// @}
+
+		/// @name Elastic
+		/// @{
+		
 		static float EaseInElastic(float t)
 		{
 			if (t == 0) return 0;
 			if (t == 1) return 1;
-			return -powf(2, 10 * t - 10) * sinf((t * 10 - 10.75f) * c4);
+			return -powf(2, 10 * t - 10) * sinf((t * 10 - 10.75f) * C4);
 		}
 
 		static float EaseOutElastic(float t)
 		{
 			if (t == 0) return 0;
 			if (t == 1) return 1;
-			return powf(2, -10 * t) * sinf((t * 10 - 0.75f) * c4) + 1;
+			return powf(2, -10 * t) * sinf((t * 10 - 0.75f) * C4) + 1;
 		}
 
 		static float EaseInOutElastic(float t)
@@ -205,11 +233,15 @@ namespace RHEngine
 			if (t == 0) return 0;
 			if (t == 1) return 1;
 			return t < 0.5f
-				? -(powf(2, 20 * t - 10) * sinf((20 * t - 11.125f) * c5)) / 2
-				: (powf(2, -20 * t + 10) * sinf((20 * t - 11.125f) * c5)) / 2 + 1;
+				? -(powf(2, 20 * t - 10) * sinf((20 * t - 11.125f) * C5)) / 2
+				: (powf(2, -20 * t + 10) * sinf((20 * t - 11.125f) * C5)) / 2 + 1;
 		}
 
-		// ===== Bounce ===== //
+		/// @}
+
+		/// @name Bounce
+		/// @{
+		
 		static float EaseOutBounce(float t)
 		{
 			const float n1 = 7.5625f;
@@ -245,5 +277,7 @@ namespace RHEngine
 				? (1 - EaseOutBounce(1 - 2 * t)) / 2
 				: (1 + EaseOutBounce(2 * t - 1)) / 2;
 		}
+
+		/// @}
 	};
 }	// namespace RHEngine

@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CameraBase.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/01
-//
-// 概要       : カメラコンポーネント基底クラス
-//====================================================//
+﻿/**
+ * @file    CameraBase.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Camera/CameraBase.h"
 
@@ -16,12 +11,22 @@
 #include "System/WindowManager.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine
 {
+	CameraBase::CameraBase(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
+		, m_view{}
+		, m_proj{}
+		, m_inverseView{}
+		, m_inverseProj{}
+		, m_needUpdateProj{ true }
+		, m_pRenderTarget{ nullptr }
+		, m_backColor{}
+	{
+		ADD_PROPERTY(CameraBase, m_materialHandle);
+		ADD_PROPERTY(CameraBase, m_backColor);
+	}
+
 	Ray CameraBase::GetRayToScreenPoint(const DirectX::SimpleMath::Vector2& point)
 	{
 		// pointを中心基準の -1 ~ 1 座標系に変換

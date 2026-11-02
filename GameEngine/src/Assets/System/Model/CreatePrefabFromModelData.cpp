@@ -1,25 +1,15 @@
-﻿//====================================================//
-// ファイル名  : CreatePrefabFromModelData.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/14
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    CreatePrefabFromModelData.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/14
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CreatePrefabFromModelData.h"
 
 #include "Assets/System/Prefab/PrefabBuilder.h"
-
 #include "Components/World/Mesh/MeshFilter.h"
 #include "Components/World/Renderer/MeshRenderer.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -82,4 +72,4 @@ namespace RHEngine
 		// Prefabを生成
 		return PrefabBuilder::SaveToPrefab(gameObject.get(), resolver);
 	}
-}
+}	// namespace RHEngine

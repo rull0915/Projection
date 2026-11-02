@@ -1,65 +1,43 @@
-﻿//====================================================//
-// ファイル名   : ChangeSceneComponent.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/09/02
-//
-// 概要 : シーンを変更するコンポーネント
-//
-// 更新履歴 :
-// 2026/09/02 新規作成
-//====================================================//
+﻿/**
+ * @file    ChangeSceneComponent.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/02
+ *
+ * @brief   シーンを変更するコンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(ChangeSceneComponent)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/Both/BothComponentBase.h"
 #include "Components/UI/Behaviour/ButtonUI.h"
 #include "GameObject/GameObject.h"
 
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief シーンを変更するコンポーネント
+ */
 class ChangeSceneComponent : public RHEngine::BothComponentBase
 {
+public:
+	DECLARE_COMPONENT_TYPE(BothComponentBase);
+
 private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-
-	// ボタン
+	/** @brief シーンを変更するボタンの参照 */
 	RHEngine::Ref<RHEngine::ButtonUI> m_button;
 
-	// コントローラーの操作UI
+	/** @brief コントローラー操作を表示するUI */
 	RHEngine::Ref<RHEngine::GameObject> m_padUI;
 
-	// 遷移先のシーン名
+	/** @brief 遷移するシーン名 */
 	std::string m_targetScene;
 
-	// イベントトークン
+	/** @brief イベントトークン (ボタンから押下時イベントを削除する際に使用) */
 	int m_eventToken;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	ChangeSceneComponent(RHEngine::IComponentOwner* own);
 	~ChangeSceneComponent() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(ChangeSceneComponent, RHEngine::BothComponentBase);
-	
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Start() override;
 

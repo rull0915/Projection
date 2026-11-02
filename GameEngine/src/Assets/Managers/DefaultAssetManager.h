@@ -1,60 +1,61 @@
-﻿//====================================================//
-// ファイル名   : DefaultAssetManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/17
-//
-// 概要 : デフォルトアセットの管理をするクラス
-//
-// 更新履歴 :
-// 2026/10/17 新規作成
-//====================================================//
+﻿/**
+ * @file    DefaultAssetManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/17
+ *
+ * @brief   デフォルトアセットの管理をするクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <memory>
 
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Texture.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief デフォルトアセットを管理する
+	 * @details ゲームエンジンに.hファイルとして埋め込まれたデフォルトのアセットを読み込み、アセットレジストリに登録する
+	 */
 	class DefaultAssetManager
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// アセットマネージャー
+		/** @brief アセットコンテキスト */
 		AssetContext& m_assetContext;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param assetContext アセットコンテキスト (レジスタに登録する際に使用)
+		 */
 		DefaultAssetManager(AssetContext& assetContext)
 			: m_assetContext{ assetContext }
 		{
 		}
+
 		~DefaultAssetManager() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// デフォルトアセットの作成と登録を行う関数
+		/// @}
+	
+		/**
+		 * @brief デフォルトアセットを作成し登録する
+		 */
 		void CreateAndRegister();
 
 	private:
 
-		// テクスチャアセットの生成をする関数
+		/**
+		 * @brief テクスチャアセットを作成する
+		 * @param data テクスチャデータの先頭アドレス
+		 * @param size テクスチャデータのサイズ
+		 * @return 作成したテクスチャアセット
+		 */
 		std::unique_ptr<Texture> CreateTextureAsset(const unsigned char* data, const unsigned int size);
 	};
-}
+}	// namespace RHEngine

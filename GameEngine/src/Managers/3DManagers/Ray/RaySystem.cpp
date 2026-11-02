@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : RaySystem.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    RaySystem.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "RaySystem.h"
 
@@ -16,20 +11,16 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	bool RaySystem::Register(Component::TypeId id, CollisionFunc func)
 	{
 		// 既にマップにあるかを調べる
-		auto it = m_collisionMap.find(id);
+		auto it = s_collisionMap.find(id);
 
 		// 登録失敗
-		if (it != m_collisionMap.end()) return false;
+		if (it != s_collisionMap.end()) return false;
 
 		// 未登録の組み合わせなら追加
-		m_collisionMap.insert({ id, func });
+		s_collisionMap.insert({ id, func });
 
 		return true;
 	}
@@ -40,10 +31,10 @@ namespace RHEngine
 		Component::TypeId id = collider->TypeId();
 
 		// マップにあるかを調べる
-		auto it = m_collisionMap.find(id);
+		auto it = s_collisionMap.find(id);
 
 		// 存在していれば
-		if (it != m_collisionMap.end())
+		if (it != s_collisionMap.end())
 		{
 			// 実行
 			return it->second(ray, max, collider, raycastHit);

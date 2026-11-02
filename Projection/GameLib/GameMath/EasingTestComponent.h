@@ -1,42 +1,29 @@
-﻿//====================================================//
-// ファイル名   : EasingTestComponent.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
-//
-// 概要 : イージングのテストをするコンポーネント
-//
-// 更新履歴 :
-// 2026/07/21 新規作成
-//====================================================//
-
+﻿/**
+ * @file    EasingTestComponent.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/21
+ *
+ * @brief   イージングのテストをするコンポーネント
+ */
 #pragma once
 
 #define IS_COMPONENT(EasingTestComponent)
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "Components/World/Transform/Transform.h"
 
 #include "EasingConfig.h"
 #include "Components/Interface/IDebugRenderable.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief イージングをテストする
+ */
 class EasingTestComponent : public RHEngine::WorldComponentBase, public RHEngine::IDebugRenderable
 {
-private:
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+private:
 
 	// トランスフォームポインタ
 	RHEngine::Transform* m_pTransform;
@@ -64,21 +51,8 @@ private:
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	EasingTestComponent(RHEngine::IComponentOwner* own);
 	~EasingTestComponent() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(EasingTestComponent, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Awake() override;
 	void OnEnable() override;
@@ -87,15 +61,4 @@ public:
 
 	// デバッグ描画関数
 	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
-
-	//-----------------------------------------------------
-	// セッター
-	//-----------------------------------------------------
-
-private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
-
 };

@@ -1,122 +1,109 @@
-﻿//====================================================//
-// ファイル名   : TargetCamera.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/20
-//
-// 概要 : 
-//
-// 更新履歴 :
-// 2026/05/20 新規作成
-//====================================================//
+﻿/**
+ * @file    TargetCamera.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/20
+ *
+ * @brief   注視点を扱うカメラ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "../CameraBase.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief 注視点を扱うカメラコンポーネント
+	 */
 	class TargetCamera : public CameraBase
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(CameraBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
+		/** @brief ニアクリップ */
+		float m_nearZ;
 
+		/** @brief ファークリップ */
+		float m_farZ;
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 画角 */
+		float m_fov;
 
-		// projection行列のパラメータ
-
-		float m_nearZ;  // ニアクリップ
-		float m_farZ;   // ファークリップ
-		float m_aspect; // アスペクト比
-		float m_fov;    // 画角
-
-		// ターゲット
-		IComponentOwner* m_target;
+		/** @brief 見る対象 */
+		IComponentOwner* m_pTarget;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
 		TargetCamera(IComponentOwner* own);
+
 		~TargetCamera() {};
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(TargetCamera, CameraBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief ビュー行列を更新する
+		 */
 		void UpdateView() override;
+
+		/**
+		 * @brief 射影行列を更新する
+		 */
 		void UpdateProj() override;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		float GetAspect() const
-		{
-			return m_aspect;
-		}
-		float GetFov() const
-		{
-			return m_fov;
-		}
-		float GetNearClip() const
-		{
-			return m_nearZ;
-		}
-		float GetFarClip() const
-		{
-			return m_farZ;
-		}
+		/** @brief 画角 */
+		float GetFov() const { return m_fov; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/** @brief ニアクリップ */
+		float GetNearClip() const { return m_nearZ; }
 
-		void SetAspect(float r)
-		{
-			m_aspect = r;
-			SetNeedUpdateProj(true);
-		}
+		/** @brief ファークリップ */
+		float GetFarClip() const { return m_farZ; }
+
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief 画角 */
 		void SetFov(float f)
 		{
 			m_fov = f;
 			SetNeedUpdateProj(true);
 		}
+
+		/** @brief ニアクリップ */
 		void SetNearClip(float n)
 		{
 			m_nearZ = n;
 			SetNeedUpdateProj(true);
 		}
+
+		/** @brief ファークリップ */
 		void SetFarClip(float f)
 		{
 			m_farZ = f;
 			SetNeedUpdateProj(true);
 		}
-		void SetTarget(IComponentOwner* target) { m_target = target; }
 
-	private:
+		/** @brief 注視対象 */
+		void SetTarget(IComponentOwner* target) 
+		{
+			m_pTarget = target; 
+		}
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		/// @}
 	};
 } // namespace RHEngine

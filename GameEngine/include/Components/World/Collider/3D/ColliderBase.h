@@ -1,66 +1,51 @@
-﻿//====================================================//
-// ファイル名   : ColliderBase.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/18
-//
-// 概要 : 衝突判定の基底クラス
-//
-// 更新履歴 :
-// 2026/03/18 新規作成
-//====================================================//
+﻿/**
+ * @file    ColliderBase.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/18
+ *
+ * @brief   衝突判定の基底クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "../ColliderCommon.h"
 #include "Math/Bounding.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 列挙型宣言
-	//====================================================//
-	enum class ColliderType
-	{
-		Sphere,
-		Line,
-		Capsule,
-		Box,
-	};
+	class IComponentOwner;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 3Dコライダーの基底
+	 */
 	class ColliderBase : public ColliderCommon
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(ColliderCommon);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// コライダーのタイプ
-		const ColliderType m_type;
-
-		// ローカル中心座標
+		/** @brief ローカル座標系での中心座標 */
 		DirectX::SimpleMath::Vector3 m_localCenterPos;
 
-		// 自身を覆うBoundingBox
+		/** @brief 自身を覆うBoundingBox */
 		mutable BoundingBox m_boundingBox;
 
-		// ワールド中心座標のキャッシュ
+		/** @brief ワールド座標系での中心座標のキャッシュ */
 		mutable DirectX::SimpleMath::Vector3 m_worldCenterPos;
 
 	public:
 
-		//-----------------------------------------------------
-		// 生成 / 破棄
-		//-----------------------------------------------------
-		ColliderBase(IComponentOwner* own, ColliderType type)
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
+		ColliderBase(IComponentOwner* own)
 			: ColliderCommon(own)
-			, m_type{ type }
 			, m_boundingBox{ {0, 0, 0}, {0, 0, 0} }
 			, m_localCenterPos{ 0, 0, 0 }
 		{
@@ -69,54 +54,59 @@ namespace RHEngine
 
 		virtual ~ColliderBase() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(ColliderBase, ColliderCommon)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// キャッシュの更新をする関数
+		/** @brief キャッシュを更新する */
 		virtual void UpdateCache() const = 0;
 
-		// GUI変更時
+		/** @brief GUI上での値変更時にDirtyにする */
 		void OnValidate() override
 		{
 			SetDirty();
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		ColliderType GetType() const { return m_type; };
+		/** @brief ローカル座標系での中心座標 */
+		DirectX::SimpleMath::Vector3 GetLocalCenterPos() const { return m_localCenterPos; }
 
-		inline BoundingBox& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うBoundingBoxを取得する関数
+		/** @brief BoundingBox */
+		inline BoundingBox& GetBoundingBox() const { return m_boundingBox; }
 
-		// ワールド座標系での中心座標を返す関数
+		/** @brief ワールド座標系での中心座標 */
 		DirectX::SimpleMath::Vector3 GetWorldCenterPos() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_worldCenterPos;
 		}
-		// ローカル座標系
-		DirectX::SimpleMath::Vector3 GetLocalCenterPos() const { return m_localCenterPos; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief ローカル座標系での中心座標 */
 		void SetLocalPos(DirectX::SimpleMath::Vector3 pos)
 		{
 			m_localCenterPos = pos;
 			SetDirty();
 		}
 
+		/// @}
+
 	protected:
 
+		/**
+		 * @brief ワールド座標系での中心座標を更新する
+		 * @param pos 計算済み座標
+		 */
 		inline void SetWorldPosition(const DirectX::SimpleMath::Vector3& pos) const { m_worldCenterPos = pos; }
+
+		/**
+		 * @brief BoundingBoxを更新する
+		 * @param box 計算済みBoundingBox
+		 */
 		inline void SetBoundingBox(const BoundingBox& box) const { m_boundingBox = box; }
 	};
 } // namespace RHEngine

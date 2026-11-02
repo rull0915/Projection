@@ -1,101 +1,120 @@
-﻿//====================================================//
-// ファイル名   : ObjectManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/07
-//
-// 概要 : オブジェクト管理クラス
-//
-// 更新履歴 :
-// 2026/04/07 新規作成
-//====================================================//
+﻿/**
+ * @file    ObjectManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/07
+ *
+ * @brief   オブジェクト管理クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include "GameObject/GameObject.h"
 #include <vector>
+#include <memory>
+
+#include "GameObject/GameObject.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class GameTimer;
+
+	/**
+	 * @brief オブジェクト管理クラス
+	 */
 	class ObjectManager
 	{
 	private:
 
-		//-----------------------------------------------------
-		// 定数
-		//-----------------------------------------------------
-
-
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 生成予約中のオブジェクトリスト
+		/** @brief 生成予約中のオブジェクトリスト */
 		std::vector<std::unique_ptr<GameObject>> m_reservations;
 
-		// 管理しているオブジェクトリスト
+		/** @brief 管理中のオブジェクトリスト */
 		std::vector<std::unique_ptr<GameObject>> m_objects;
 
 	public:
+		
+		/// @name ライフサイクル
+		/// @{
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-	public:
 		ObjectManager();
+
 		~ObjectManager();
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 更新関数
+		/**
+		 * @brief 更新関数
+		 * @param gameTimer タイマー
+		 * @param playing 再生中かどうか
+		 */
 		void Update(const GameTimer& gameTimer, bool playing);
+
+		/**
+		 * @brief 遅延更新関数
+		 * @param gameTimer タイマー
+		 * @param playing 再生中かどうか
+		 */
 		void LateUpdate(const GameTimer& gameTimer, bool playing);
 
+		/**
+		 * @brief 死亡コンポーネントを削除する
+		 */
 		void RemoveDeadComponent();
 
-		// 終了関数
+		/**
+		 * @brief 終了時に全てのオブジェクトを解放する
+		 */
 		void Finalize();
 
-		// キャッシュを適用する関数
+		/**
+		 * @brief 衝突判定で蓄積したキャッシュを適用する
+		 */
 		void AllReflectCache();
 
-		// オブジェクト追加関数
+		/**
+		 * @brief オブジェクトを登録対象に追加する
+		 * @param object 
+		 */
 		void AddObject(GameObject* object)
 		{
 			// 予約リストに追加
 			m_reservations.push_back(std::unique_ptr<GameObject>(object));
 		}
 
-		// オブジェクト削除関数
+		/**
+		 * @brief オブジェクトを削除する
+		 * @param object 
+		 */
 		void Destroy(GameObject* object)
 		{
 			// 削除フラグを立てる
 			object->Destroy();
 		}
 
+		/**
+		 * @brief 全オブジェクトを削除する
+		 */
 		void AllDestroy();
 
-		// 死亡オブジェクトを削除する関数
+		/**
+		 * @brief 死亡オブジェクトを全て削除する
+		 */
 		void RemoveDeadObject();
 
-		// 全オブジェクトを取得する関数
+		/**
+		 * @brief 全てのオブジェクトを取得する
+		 */
 		const std::vector<std::unique_ptr<GameObject>>& GetAllObject() const { return m_objects; }
+
+		/**
+		 * @brief 全ての追加予約リストを取得する
+		 */
 		const std::vector<std::unique_ptr<GameObject>>& GetAllReserves() const { return m_reservations; }
 
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		// 予約されているオブジェクトを全てリストへ追加する関数
+		/**
+		 * @brief 追加予約を反映する
+		 */
 		void AddReservedObject();
 	};
 }	// namespace RHEngine

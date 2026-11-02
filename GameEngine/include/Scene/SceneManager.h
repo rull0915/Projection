@@ -1,7 +1,11 @@
-﻿//--------------------------------------------------------------------------------------
-// File: SceneManager.h
-//
-//--------------------------------------------------------------------------------------
+﻿/**
+ * @file    SceneManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/06
+ *
+ * @brief   シーン管理クラス
+ */
+
 #pragma once
 
 #include <memory>
@@ -9,50 +13,59 @@
 #include <unordered_map>
 
 #include "Transition/TransitionManager.h"
+#include "Transition/TransitionBase.h"
 
 namespace RHEngine
 {
-	// 前方参照
 	class Scene;
 	class AssetManager;
 	
 	class Renderer;
 	class ShadowRenderer;
+	class GameTimer;
 
-	// シーンマネージャークラス
+	/**
+	 * @brief シーン管理者
+	 */
 	class SceneManager
 	{
 	private:
 
-		// シーンの実体
+		/** @brief シーンの実体 */
 		std::unique_ptr<Scene> m_currentScene;
 
-		// シーン名とシーン情報のマップ
+		/** @brief シーン名とシーン情報のマップ */
 		std::unordered_map<std::string, std::wstring> m_sceneMap;
 
-		// 要求されたシーン名
+		/** @brief 変更要求されたシーン名 */
 		std::string m_pRequestedScene;
 
-		// 演出管理クラス
+		/** @brief シーン遷移演出管理クラス */
 		TransitionManager m_transitionManager;
 
-		// アセットマネージャー
-		AssetManager* m_assetManager;
+		/** @brief アセットマネージャー */
+		AssetManager* m_pAssetManager;
 
-		// シーンを画面に描画するかどうか
+		/** @brief シーンを画面に描画するかどうか */
 		bool m_drawScene;
 
 	private:
 
-		// コンストラクタ
+		/// @name ライフサイクル
+		/// @{
+
 		SceneManager();
 
-		// デストラクタ
 		~SceneManager();
+
+		/// @}
 
 	public:
 
-		// インスタンス
+		/**
+		 * @brief インスタンス取得 (シングルトンパターン)
+		 * @return 静的なインスタンス
+		 */
 		static SceneManager& Instance()
 		{
 			static SceneManager instance;
@@ -60,43 +73,78 @@ namespace RHEngine
 			return instance;
 		}
 
-		// シーンの登録
+		/**
+		 * @brief シーンを登録する
+		 * @param sceneName シーン名
+		 * @param sceneFile シーンファイルパス
+		 */
 		void RegisterScene(const std::string& sceneName, const std::wstring& sceneFile);
 
-		// 初期化関数
+		/**
+		 * @brief 初期化関数 シーンの生成を行う
+		 * @param assetManager アセットマネージャー
+		 */
 		void Initialize(AssetManager& assetManager);
 
-		// 更新処理
+		/**
+		 * @brief シーン及び遷移の更新を行う
+		 * @param gameTimer 
+		 */
 		void Update(const GameTimer& gameTimer);
 
-		// ウィンドウサイズ変化時処理
+		/**
+		 * @brief ウィンドウサイズの変化をシーンへ通知する
+		 * @param width 変更後のウィンドウ幅
+		 * @param height 変更後のウィンドウ高さ
+		 */
 		void OnWindowSizeChanged(int width, int height);
 
-		// 描画処理
+		/**
+		 * @brief シーンの描画を行う
+		 * @param renderer 描画管理者
+		 * @param shadowRenderer シャドウパス管理者
+		 */
 		void Render(Renderer& renderer, ShadowRenderer& shadowRenderer);
 
-		// 終了処理
+		/**
+		 * @brief シーンを解放する
+		 */
 		void Finalize();
 
-		// 開始シーンの設定
+		/**
+		 * @brief 開始シーンを設定する
+		 * @param startSceneName シーン名
+		 */
 		void SetStartScene(const std::string& startSceneName);
 
-		// シーンの変更
+		/**
+		 * @brief シーンの変更を要請する
+		 * @param requestSceneName 要請後のシーン名
+		 * @param out 画面を隠すシーン遷移の演出
+		 * @param in 画面を開くシーン遷移の演出
+		 */
 		void RequestSceneChange(
-			const std::string& requestSceneName,	// 遷移先のシーン名
-			std::unique_ptr<Transition::Base> out = nullptr,	// Out演出
-			std::unique_ptr<Transition::Base> in = nullptr		// In演出
+			const std::string& requestSceneName,
+			std::unique_ptr<Transition::Base> out = nullptr,
+			std::unique_ptr<Transition::Base> in = nullptr
 		);
 
-		// シーンを取得する関数
+		/**
+		 * @brief 現在のシーンを取得する
+		 * @return 実行中のシーンポインタ
+		 */
 		Scene* GetCurrentScene() const { return m_currentScene.get(); }
 
-		// シーン描画設定の変更
+		/**
+		 * @brief シーンを描画するフラグ
+		 */
 		void SetDrawScene(bool flag) { m_drawScene = flag; }
 
 	private:
 
-		// シーンの変更
+		/**
+		 * @brief シーンを変更する
+		 */
 		void ChangeScene();
 	};
 }	// namespace RHEngine

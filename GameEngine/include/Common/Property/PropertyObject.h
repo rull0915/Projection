@@ -1,21 +1,13 @@
-﻿//====================================================//
-// ファイル名   : PropertyObject.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/02
-//
-// 概要 : プロパティをまとめておくクラス
-//
-// 更新履歴 :
-// 2026/07/02 新規作成
-// 2026/09/04 void*で実アドレスを保持するPropertyではなく、メンバ変数ポインタで管理するPropertyDiscripterを保持する設計に変更
-//				この変更によってコピー・ムーブをした際にもアドレスが破綻しないようになりました。
-//====================================================//
+﻿/**
+ * @file    PropertyObject.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/02
+ *
+ * @brief   プロパティを所有するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <type_traits>
 #include <string>
 #include <vector>
@@ -26,41 +18,42 @@
 #include "Common/CheckVector.h"
 #include "Assets/Objects/Handle.h"
 #include "Common/ObjectReference.h"
+#include "Math/Range.h"
+
 #include "EnumRegistry.h"
 #include "ArrayRegistry.h"
 #include "AssetPropertyRegistry.h"
 
-// マクロ
 #define ADD_PROPERTY(Class, Property) (AddProperty(#Property, &Class::Property))
 #define ADD_HEADER(Name) (AddDecoration(Name, RHEngine::PropertyType::Header))
 
-//====================================================//
-// クラス宣言
-//====================================================//
-
 namespace RHEngine
 {
-	// プロパティを扱うオブジェクトの基底クラス
+	/**
+	 * @brief プロパティを扱うオブジェクトの基底となるクラス
+	 * @details プロパティディスクリプタを保持し、プロパティの一覧を取得できるようにする
+	 */
 	class PropertyObject
 	{
 	private:
-		// プロパティ一覧
+		/** @brief プロパティディスクリプタのリスト */
 		std::vector<PropertyDiscripter> m_properties;
 
 	protected:
-		// コンストラクタ
-		PropertyObject()
-			: m_properties{}
-		{}
-		// コピー
-		PropertyObject(const PropertyObject&) = default;
-		PropertyObject& operator=(const PropertyObject&) = default;
+		/// @name ライフサイクル
+		/// @{
 
-		// デストラクタ
+		PropertyObject() = default;
+
 		virtual ~PropertyObject() = default;
 
+		/// @}
+
 	public:
-		// プロパティを取得する関数
+		/**
+		 * @brief プロパティリストを取得する
+		 * @return プロパティリスト
+		 */
 		virtual std::vector<Property> GetProperties() 
 		{
 			std::vector<Property> properties{};
@@ -75,7 +68,14 @@ namespace RHEngine
 		}
 
 	protected:
-		// プロパティの追加関数
+
+		/**
+		 * @brief プロパティを追加する
+		 * @tparam Class プロパティ本体を所有するクラス
+		 * @tparam T プロパティ本体の型
+		 * @param name プロパティ名
+		 * @param memberPtr プロパティへのメンバ変数ポインタ
+		 */
 		template<typename Class, typename T>
 		void AddProperty(const std::string& name, T Class::* memberPtr)
 		{
@@ -98,7 +98,11 @@ namespace RHEngine
 			m_properties.push_back(prop);
 		}
 
-		// 装飾プロパティの追加関数
+		/**
+		 * @brief 装飾用プロパティを追加する
+		 * @param name プロパティ名
+		 * @param type プロパティタイプ
+		 */
 		void AddDecoration(const std::string& name, PropertyType type)
 		{
 			PropertyDiscripter prop;
@@ -111,7 +115,10 @@ namespace RHEngine
 			m_properties.push_back(prop);
 		}
 
-		// 型登録関数
+		/**
+		 * @brief 型を各レジストリへと登録する
+		 * @tparam T 登録対象の型
+		 */
 		template<typename T>
 		void RegisterType()
 		{
@@ -141,7 +148,11 @@ namespace RHEngine
 			}
 		}
 
-		// 型からタイプを取得する関数
+		/**
+		 * @brief 型からプロパティタイプを取得する
+		 * @tparam T 調べる型
+		 * @return 対応するプロパティタイプ
+		 */
 		template<typename T>
 		PropertyType GetPropertyType()
 		{
@@ -173,6 +184,8 @@ namespace RHEngine
 			else if constexpr (IsRef_v<T>) return PropertyType::ObjectRef;
 			// vector
 			else if constexpr (is_vector<T>::value) return PropertyType::Array;
+			// Range
+			else if constexpr (std::is_same_v<T, Range>) return PropertyType::Range;
 
 			// その他
 			else return PropertyType::None;

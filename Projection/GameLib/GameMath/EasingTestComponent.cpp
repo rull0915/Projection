@@ -1,24 +1,14 @@
-﻿//====================================================//
-// ファイル名  : EasingTestComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    EasingTestComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/21
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #include "EasingTestComponent.h"
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 EasingTestComponent::EasingTestComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_easingConfig{}
@@ -38,7 +28,6 @@ EasingTestComponent::EasingTestComponent(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(EasingTestComponent, m_loopInterval);
 }
 
-// 生成直後に一度呼ばれます
 void EasingTestComponent::Awake()
 {
 	// Transformの取得
@@ -51,7 +40,6 @@ void EasingTestComponent::OnEnable()
 	m_sumTime = 0;
 }
 
-// 毎フレーム呼ばれます
 void EasingTestComponent::Update(const RHEngine::GameTimer & gameTimer)
 {
 	// 経過時間の加算

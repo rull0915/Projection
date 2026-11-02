@@ -1,86 +1,84 @@
-﻿//====================================================//
-// ファイル名   : PhysicsManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/08
-//
-// 概要 : 物理挙動管理クラスです
-//
-// 更新履歴 :
-// 2026/04/08 新規作成
-// 2026/04/22 衝突管理クラスを呼び出すように。
-// 2026/05/04 シングルトンから通常のクラスへ変更
-//====================================================//
+﻿/**
+ * @file    PhysicsManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/08
+ *
+ * @brief   物理挙動管理クラスです
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <unordered_map>
+#include <memory>
+#include <vector>
+
 #include "Components/World/RigidBody/RigidBody.h"
 #include "Physics/HitContact.h"
 #include "../ReserveContainer.h"
 
-#include <unordered_map>
-
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
-
 	class CollideManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 3D物理挙動管理クラス
+	 */
 	class PhysicsManager : public ReserveContainer<RigidBody>
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 衝突管理クラス
+		/** @brief 衝突管理クラス */
 		std::unique_ptr<CollideManager> m_collideManager;
 
-		// 衝突情報
+		/** @brief 衝突情報のリスト */
 		std::vector<HitContact> m_contacts;
+
+		/** @brief 衝突ペアと衝突情報の対応マップ */
 		std::unordered_map<ObjectPair, HitContact, ObjectPairHash> m_contactMap;
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
 	public:
-		PhysicsManager();
-		~PhysicsManager();
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
 
-		// 更新処理
+		/// @name ライフサイクル
+		/// @{
+
+		PhysicsManager();
+
+		~PhysicsManager();
+
+		/// @}
+
+		/**
+		 * @brief 全Rigidbodyの積分を行う
+		 * @param elapsedTime 経過時間
+		 */
 		void Update(float elapsedTime);
 
-		void ReflectReserves();
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/**
+		 * @brief 衝突情報のリストを全て取得する
+		 */
 		std::unordered_map<ObjectPair, HitContact, ObjectPairHash>& GetHitList() { return m_contactMap; }
 
+		/**
+		 * @brief 衝突管理クラスを取得する
+		 */
 		CollideManager* GetCollideManager() { return m_collideManager.get(); }
 
-		const CollideManager* GetCollideManager() const { return m_collideManager.get(); }
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	private:
-		// 衝突後の補正
+		/**
+		 * @brief 衝突後の補正を行う
+		 */
 		void HittedCorrection();
 
+		/**
+		 * @brief 衝突後の位置補正を行う
+		 * @param contact 対象の衝突情報
+		 */
 		void PositionCorrection(HitContact& contact);
+
+		/**
+		 * @brief 衝突後の速度補正を行う
+		 * @param contact 対象の衝突情報
+		 */
 		void VelocityCorrection(HitContact& contact);
 	};
 }	// namespace RHEngine

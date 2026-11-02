@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : HierarchyWindow.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    HierarchyWindow.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ */
 
 #include "pch.h"
 
@@ -26,12 +20,10 @@
 #include "Editor/Editor/HandlePayload.h"
 #include "Assets/Types/Prefab.h"
 
+#include "Scene/ObjectFactory.h"
+
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void HierarchyWindow::DrawHierarchy()
 	{
 		// 描画開始
@@ -49,19 +41,19 @@ namespace RHEngine
 		ImGui::Begin("Hierarchy", nullptr);
 	}
 
-	void HierarchyWindow::DrawObjects(ObjectManager* objectManager)
+	void HierarchyWindow::DrawObjects(ObjectManager* pObjectManager)
 	{
 		// nullなら何もしない
-		if (!objectManager) return;
+		if (!pObjectManager) return;
 
 		// IDの設定
-		ImGui::PushID(objectManager);
+		ImGui::PushID(pObjectManager);
 
 		// ウィンドウの半分をWorldに
 		ImGui::BeginChild("ObjectManager", ImVec2(0, 0), ImGuiChildFlags_Borders);
 
 		// 全オブジェクトをループ
-		for (auto& object : objectManager->GetAllObject())
+		for (auto& object : pObjectManager->GetAllObject())
 		{
 			// 親がいなければ表示
 			if (!object->GetParent()) DrawGameObject(object.get());
@@ -91,32 +83,32 @@ namespace RHEngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+			if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
-				auto data = (GameObject*)payload->Data;
+				auto pData = (GameObject*)pPayload->Data;
 
 				// Transformを持っていれば
-				if (auto* t = data->GetComponent<Transform>())
+				if (auto* t = pData->GetComponent<Transform>())
 				{
 					t->SetParent(nullptr);
 				}
 				// RectTransformを持っていれば
-				if (auto* t = data->GetComponent<RectTransform>())
+				if (auto* t = pData->GetComponent<RectTransform>())
 				{
 					t->SetParent(nullptr);
 				}
 			}
 
-			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET"))
+			else if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("ASSET"))
 			{
 				// 受け渡し構造体を生成
-				HandlePayload* handlePay = (HandlePayload*)payload->Data;
+				HandlePayload* pHandlePay = (HandlePayload*)pPayload->Data;
 
 				// Prefabの時
-				if (handlePay && handlePay->type == std::type_index(typeid(Prefab)))
+				if (pHandlePay && pHandlePay->type == std::type_index(typeid(Prefab)))
 				{
 					// プレハブハンドルを取得
-					auto handle = handlePay->handle.As<Prefab>();
+					auto handle = pHandlePay->handle.As<Prefab>();
 
 					// 生成
 					if (m_pScene) m_pScene->GetFactory()->Instantiate(m_pScene->GetAssetManager().Get(handle));
@@ -133,10 +125,10 @@ namespace RHEngine
 	bool HierarchyWindow::SelectCancel(GameObject* root)
 	{
 		// 選択中のオブジェクトを取得
-		PropertyObject* selected = m_selected.GetSelected();
+		PropertyObject* pSelected = m_selected.GetSelected();
 
 		// もし自身が選択されていればリセット
-		if (root == selected)
+		if (root == pSelected)
 		{
 			m_selected.SetSelected(nullptr);
 
@@ -144,24 +136,24 @@ namespace RHEngine
 		}
 
 		// 子オブジェクトも調べる
-		for (auto child : root->GetChildren())
+		for (auto pChild : root->GetChildren())
 		{
-			if (SelectCancel(child)) return true;
+			if (SelectCancel(pChild)) return true;
 		}
 
 		return false;
 	}
 
-	void HierarchyWindow::DrawGameObject(GameObject* object)
+	void HierarchyWindow::DrawGameObject(GameObject* pObject)
 	{
 		// nullなら何もしない
-		if (!object) return;
+		if (!pObject) return;
 
 		// シリアライズしない設定なら何もしない
-		if (!object->IsSerializable()) return;
+		if (!pObject->IsSerializable()) return;
 
 		// 名前を取得
-		std::string name = object->GetName();
+		std::string name = pObject->GetName();
 
 		// 空なら別名を設定
 		if (name.empty())
@@ -173,20 +165,20 @@ namespace RHEngine
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
 
 		// 選択中オブジェクトを取得
-		PropertyObject* selected = m_selected.GetSelected();
+		PropertyObject* pSelected = m_selected.GetSelected();
 
 		// 選択されていれば
-		if (selected == object)
+		if (pSelected == pObject)
 		{
 			// 選択状態に
 			flags |= ImGuiTreeNodeFlags_Selected;
 		}
 
 		// ID衝突防止
-		ImGui::PushID(object);
+		ImGui::PushID(pObject);
 		
 		// 子供がいなければ▼を表示しない
-		if (object->GetChildCount() == 0)
+		if (pObject->GetChildCount() == 0)
 		{
 			flags |= ImGuiTreeNodeFlags_Leaf;
 		}
@@ -198,7 +190,7 @@ namespace RHEngine
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
 			// 選択されているオブジェクトを自分に
-			m_selected.SetSelected(object);
+			m_selected.SetSelected(pObject);
 		}
 
 		// 右クリック時のメニュー
@@ -208,42 +200,42 @@ namespace RHEngine
 			if (ImGui::MenuItem("Delete"))
 			{
 				// 削除
-				object->Destroy();
+				pObject->Destroy();
 
 				// 選択解除
-				SelectCancel(object);
+				SelectCancel(pObject);
 			}
 			// Generate
 			if (ImGui::MenuItem("Generate"))
 			{
 				// World空間オブジェクトの場合
-				if (Transform* parent = object->GetComponent<Transform>())
+				if (Transform* pParent = pObject->GetComponent<Transform>())
 				{
 					// 生成
-					GameObject* child = m_pScene->GetFactory()->Generate();
+					GameObject* pChild = m_pScene->GetFactory()->Generate();
 
 					// 親を設定
-					child->GetComponent<Transform>()->SetParent(parent);
+					pChild->GetComponent<Transform>()->SetParent(pParent);
 
 					// ローカル情報をリセット
-					child->GetComponent<Transform>()->SetLocalPosition(DirectX::SimpleMath::Vector3::Zero);
-					child->GetComponent<Transform>()->SetLocalRotation(DirectX::SimpleMath::Quaternion::Identity);
-					child->GetComponent<Transform>()->SetLocalScale({ 1, 1, 1 });
+					pChild->GetComponent<Transform>()->SetLocalPosition(DirectX::SimpleMath::Vector3::Zero);
+					pChild->GetComponent<Transform>()->SetLocalRotation(DirectX::SimpleMath::Quaternion::Identity);
+					pChild->GetComponent<Transform>()->SetLocalScale({ 1, 1, 1 });
 				}
 
 				// UI空間オブジェクトの場合
-				if (RectTransform* parent = object->GetComponent<RectTransform>())
+				if (RectTransform* pParent = pObject->GetComponent<RectTransform>())
 				{
 					// 生成
-					GameObject* child = m_pScene->GetFactory()->GenerateUI();
+					GameObject* pChild = m_pScene->GetFactory()->GenerateUI();
 
 					// 親を設定
-					child->GetComponent<RectTransform>()->SetParent(parent);
+					pChild->GetComponent<RectTransform>()->SetParent(pParent);
 
 					// ローカル情報をリセット
-					child->GetComponent<RectTransform>()->SetAnchoredPosition(DirectX::SimpleMath::Vector2::Zero);
-					child->GetComponent<RectTransform>()->SetRotation(0);
-					child->GetComponent<RectTransform>()->SetScale({ 1, 1 });
+					pChild->GetComponent<RectTransform>()->SetAnchoredPosition(DirectX::SimpleMath::Vector2::Zero);
+					pChild->GetComponent<RectTransform>()->SetRotation(0);
+					pChild->GetComponent<RectTransform>()->SetScale({ 1, 1 });
 				}
 			}
 			ImGui::EndPopup();
@@ -253,7 +245,7 @@ namespace RHEngine
 		if (ImGui::BeginDragDropSource())
 		{
 			// 渡したいデータを設定
-			ImGui::SetDragDropPayload("GAMEOBJECT", object, sizeof(*object));
+			ImGui::SetDragDropPayload("GAMEOBJECT", pObject, sizeof(*pObject));
 
 			// ドラッグ中に表示される内容
 			ImGui::Text(name.c_str());
@@ -264,25 +256,25 @@ namespace RHEngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+			if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
-				auto data = (GameObject*)payload->Data;
+				auto pData = (GameObject*)pPayload->Data;
 
 				// 自分と一致していなければ
-				if (data != object)
+				if (pData != pObject)
 				{
 					// Transformの時
-					if (auto* other = data->GetComponent<Transform>())
-						if (auto* own = object->GetComponent<Transform>())
+					if (auto* pOther = pData->GetComponent<Transform>())
+						if (auto* pOwn = pObject->GetComponent<Transform>())
 						{
-							other->SetParent(own);
+							pOther->SetParent(pOwn);
 						}
 
 					// RectTransformの時
-					if (auto* other = data->GetComponent<RectTransform>())
-						if (auto* own = object->GetComponent<RectTransform>())
+					if (auto* pOther = pData->GetComponent<RectTransform>())
+						if (auto* pOwn = pObject->GetComponent<RectTransform>())
 						{
-							other->SetParent(own);
+							pOther->SetParent(pOwn);
 						}
 				}
 			}
@@ -294,10 +286,10 @@ namespace RHEngine
 		if (open)
 		{
 			// 全子供を調べる
-			for (auto* child : object->GetChildren())
+			for (auto* pChild : pObject->GetChildren())
 			{
 				// 子供を描画
-				DrawGameObject(child);
+				DrawGameObject(pChild);
 			}
 
 			// ツリーを終了

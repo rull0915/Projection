@@ -1,26 +1,17 @@
-﻿//====================================================//
-// ファイル名  : UpdatePipeline.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/05
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    UpdatePipeline.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/05
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "UpdatePipeline.h"
-#include "Scene/Scene.h"
 
+#include "Scene/Scene.h"
 #include "Input/MouseInput.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	UpdatePipeline::UpdatePipeline(Scene* pScene)
 		: m_pScene{ pScene }
 		, m_physicsManager{ std::make_unique<PhysicsManager>() }
@@ -30,7 +21,7 @@ namespace RHEngine
 		, m_rendererManager{ std::make_unique<RendererManager>() }
 		, m_lightManager{ std::make_unique<LightManager>() }
 		, m_objectManager{ std::make_unique<ObjectManager>() }
-		, m_uiManager{ std::make_unique<UIManager>(pScene) }
+		, m_uiManager{ std::make_unique<UIManager>() }
 		, m_soundManager{ std::make_unique<SoundManager>() }
 	{}
 
@@ -53,7 +44,9 @@ namespace RHEngine
 		{
 			// 各管理クラスの予約反映
 			m_physicsManager->ReflectReserves();
+			m_physicsManager->GetCollideManager()->ReflectReserves();
 			m_physicsManager2D->ReflectReserves();
+			m_physicsManager2D->GetCollideManager()->ReflectReserves();
 			m_soundManager->ReflectReserves();
 
 			// リジッドボディの更新
@@ -84,7 +77,7 @@ namespace RHEngine
 		if (playing)
 		{
 			// To Refactor
-			m_uiManager->CheckHitRay(Input::Mouse::GetScaledMousePoint());
+			m_uiManager->CheckHitRay(Input::Mouse::GetMousePoint());
 			m_uiManager->CheckEvent();
 		}
 	}
@@ -119,6 +112,7 @@ namespace RHEngine
 		// 各マネージャーから全削除
 		m_rendererManager->RemoveReserved();
 		m_lightManager->RemoveReserved();
+
 		m_physicsManager->RemoveReserved();
 		m_physicsManager->GetCollideManager()->ReflectReserves();
 

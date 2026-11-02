@@ -1,49 +1,36 @@
-﻿//====================================================//
-// ファイル名  : AssetDataBase.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要       : AssetとUUIDの双変換を行うクラス
-//====================================================//
+﻿/**
+ * @file    AssetDataBase.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Managers/AssetDataBase.h"
+
 #include "Common/Random.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void AssetDataBase::ScanFile(const std::filesystem::path& root)
 	{
 		// rootディレクトリに含まれる全ファイル・ディレクトリを再帰的に調べる
 		for (auto& file : std::filesystem::recursive_directory_iterator(root))
 		{
-			// auxファイルは調べない
 			if (file.path().extension() == ".aux") continue;
 
-			// フォルダは調べない
 			if (file.is_directory()) continue;
 
-			// auxの調査
 			ScanOnceFile(file);
 		}
 	}
 
 	void AssetDataBase::ScanOnceFile(const std::filesystem::path& path)
 	{
-		// 同名のauxファイルが存在するかを調べる
-		auto auxPath = path.wstring() + L".aux";
-
-		// 対応するaux
 		AssetAux aux{};
 
-		// 存在しなければ
+		auto auxPath = path.wstring() + L".aux";
+
+		// 同名の.auxファイルがなければ
 		if (!std::filesystem::exists(auxPath))
 		{
 			// UUIDを生成
@@ -69,18 +56,64 @@ namespace RHEngine
 				// 例 : Model.obj#Mesh2
 				std::filesystem::path vPath = path.string() + "#" + subAsset.assetType + "#" + subAsset.name;
 
-				// 変換表へ登録
 				Register(subAsset.uuid, vPath);
 
-				// SubIDとMainIDを保存
+				// SubIDとMainIDの関係を保存
 				m_subIdToMainId[subAsset.uuid] = aux.uuid;
 			}
 		}
 
-		// 変換表へ登録
 		Register(aux.uuid, path);
 
 		m_uuidToAux[aux.uuid] = aux;
+	}
+
+	void AssetDataBase::SaveAux(AssetAux& asset, const std::filesystem::path& path)
+	{
+		m_auxFileRepository.SaveAux(asset, path.wstring() + L".aux");
+
+		// 変換表のAuxも更新
+		auto uuid = GetUUID(path);
+
+		m_uuidToAux[uuid] = asset;
+
+		// 再スキャン
+		ScanOnceFile(path);
+	}
+
+	UUID AssetDataBase::GetMainUUID(UUID id)
+	{
+		// SubAssetならMainIDを取得し返す
+		if (m_subIdToMainId.find(id) != m_subIdToMainId.end())
+		{
+			return m_subIdToMainId[id];
+		}
+
+		// MainAssetならそのまま返す
+		return id;
+	}
+
+	UUID AssetDataBase::GetUUID(const std::filesystem::path& path) const
+	{
+		auto it = m_pathToUuid.find(path);
+
+		return it == m_pathToUuid.end() ? UUID_NONE : m_pathToUuid.at(path);
+	}
+
+	const std::filesystem::path& AssetDataBase::GetPath(UUID uuid) const
+	{
+		static std::filesystem::path errorPath{};
+
+		auto it = m_uuidToPath.find(uuid);
+
+		return it == m_uuidToPath.end() ? errorPath : m_uuidToPath.at(uuid);
+	}
+
+	AssetAux AssetDataBase::GetAux(UUID uuid) const
+	{
+		auto it = m_uuidToAux.find(uuid);
+
+		return it == m_uuidToAux.end() ? AssetAux{} : m_uuidToAux.at(uuid);
 	}
 
 	void AssetDataBase::ReName(const std::filesystem::path& old, const std::filesystem::path& next)
@@ -126,5 +159,14 @@ namespace RHEngine
 
 		// UUIDを返す
 		return uuid;
+	}
+
+	void AssetDataBase::Register(UUID uuid, const std::filesystem::path& path)
+	{
+		// uuid->pathの変換表に追加
+		m_uuidToPath[uuid] = path;
+
+		// path->uuidの変換表に追加
+		m_pathToUuid[path] = uuid;
 	}
 }	// namespace RHEngine

@@ -3,8 +3,12 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="ComponentRegistry/ComponentRegistry.vcxproj" Id="f72fbb13-2afd-4583-b603-0bf55d63898a" />
   <Project Path="GameEngine/GameEngine.vcxproj" Id="92af323a-9cde-4d83-ac9a-a51566f408ed" />
   <Project Path="Projection/Projection.vcxproj" Id="d522513f-cf95-46e3-9768-9d55ae35739c">
+    <BuildDependency Project="GameEngine/GameEngine.vcxproj" />
+  </Project>
+  <Project Path="REngineTester/REngineTester.vcxproj" Id="0ecf5294-70db-4868-ba92-8de96206c256">
     <BuildDependency Project="GameEngine/GameEngine.vcxproj" />
   </Project>
 </Solution>

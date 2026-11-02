@@ -1,29 +1,36 @@
-﻿//====================================================//
-// ファイル名  : CameraManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/17
-//
-// 概要        :  カメラ管理クラス
-//====================================================//
+﻿/**
+ * @file    CameraManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/17
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CameraManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	CameraManager::CameraManager()
-		: m_mainCamera{ nullptr }
 	{
-
 	}
 
 	CameraManager::~CameraManager()
 	{}
+
+	CameraBase* CameraManager::GetMainCamera()
+	{
+		auto& cameras = GetObjects();
+
+		// 追加逆順に調べる
+		for (auto it = cameras.rbegin(); it != cameras.rend(); ++it)
+		{
+			// レンダーターゲットが設定されていなければ
+			if (!(*it)->GetRenderTarget())
+			{
+				// メインカメラとして返す
+				return (*it);
+			}
+		}
+
+		return nullptr;
+	}
 }	// namespace RHEngine

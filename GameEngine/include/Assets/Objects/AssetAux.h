@@ -1,49 +1,41 @@
-﻿//====================================================//
-// ファイル名   : AssetAux.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : アセットの補助構造体
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetAux.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   アセットの補助構造体
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <string>
+#include <vector>
+
 #include "Common/UUID.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
-
+	/**
+	 * @brief サブアセットの情報
+	 */
 	struct SubAssetInfo
-	{
-		// 識別用名前
-		std::string name = "";
+	{		
+		std::string name = "";	///< アセット名
 
-		// UUID
-		UUID uuid = UUID_NONE;
+		UUID uuid = UUID_NONE;	///< 対応するUUID
 		
-		// アセットの種類
-		std::string assetType = "";
+		std::string assetType = "";	///< アセットタイプ名
 	};
 
+	/**
+	 * @brief アセットの補助構造体
+	 */
 	struct AssetAux
 	{
-		// UUID
-		UUID uuid = UUID_NONE;
+		UUID uuid = UUID_NONE;	///< 対応するUUID
 
-		// アセットの種類
-		std::string assetType = "";
+		std::string assetType = "";	///< アセットタイプ名
 
-		// サブアセットの配列
-		std::vector<SubAssetInfo> subAssets;
+		std::vector<SubAssetInfo> subAssets;	///< サブアセット情報のリスト
 	};
 }	// namespace RHEngine

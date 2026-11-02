@@ -1,51 +1,44 @@
-﻿//====================================================//
-// ファイル名   : CollideManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/03/19
-//
-// 概要 : 衝突を管理するクラス
-//
-// 更新履歴 :
-// 2026/03/19 新規作成
-// 2026/05/04 シングルトンから通常のクラスへ変更
-//====================================================//
+﻿/**
+ * @file    CollideManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/03/19
+ *
+ * @brief   衝突を管理するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
 
-// 衝突判定
 #include "SpaceDivision/TreeManager.h"
 #include "Physics/HitContact.h"
 #include "../../ReserveContainer.h"
+#include "Components/World/Collider/3D/ColliderBase.h"
+#include "SpaceDivision/ObjectForTree.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
-
+	/**
+	 * @brief 衝突判定管理クラス
+	 */
 	class CollideManager : public ReserveContainer<ColliderBase>
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 管理しているコライダー
+		/** @brief 管理中のオブジェクトリスト */
 		std::vector<ObjectForTree*> m_treeObjects;
 
-		// 木構造
+		/** @brief 8分木管理クラス */
 		TreeManager m_tree;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @TODO マジックナンバーの解消
+		 */
 		CollideManager()
 			: m_treeObjects{}
 			, m_tree{ { 1024, 1024, 1024 }, 5, {0, 0, 0} }
@@ -53,24 +46,41 @@ namespace RHEngine
 
 		~CollideManager() = default;
 
-		// 全コライダーのキャッシュ更新
+		/// @}
+
+		/**
+		 * @brief 全コライダーのキャッシュを更新する
+		 */
 		void UpdateCaches();
 
-		// 全コライダーの木構造空間での移動
+		/**
+		 * @brief 全コライダーのうち動いたコライダーを8分木に再配置する
+		 */
 		void MoveAllColliderOnTree();
 
-		// 全コライダーの衝突チェック
+		/**
+		 * @brief 全コライダーの衝突判定
+		 * @param contacts 衝突情報リスト
+		 */
 		void CheckHitAll(std::vector<HitContact>& contacts);
 
-		// コライダーの衝突チェック
+		/**
+		 * @brief ブロードフェーズを通過したコライダーのペアに対してナローフェーズを行う
+		 * @param contact 衝突情報を書き込む変数
+		 * @return 衝突したかどうか
+		 */
 		bool CheckHitPair(ColliderBase*, ColliderBase*, HitContact& contact);
 
 	private:
 
-		// 登録予約済みのコライダーを追加する関数
+		/**
+		 * @brief 登録予約の反映
+		 */
 		void AddReserved() override;
 
-		// 削除予約済みのコライダーを削除する関数
+		/**
+		 * @brief 削除予約の反映
+		 */
 		void RemoveReserved() override;
 	};
 }	// namespace RHEngine

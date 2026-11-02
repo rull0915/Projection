@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : GameInitializer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/28
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    GameInitializer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/28
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "GameInitializer.h"
 
@@ -21,13 +16,8 @@
 #include "GameLib/Colliders/ConvexPolygonCollider2D.h"
 
 // 入力関連
-#include "Common/TypeIdGenerator.h"
 #include "Input/InputSystem.h"
 #include "Input/KeyInput.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 void GameInitializer::Initialize()
 {

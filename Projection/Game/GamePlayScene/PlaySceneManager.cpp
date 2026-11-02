@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : PlaySceneManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/08
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    PlaySceneManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/08
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "PlaySceneManager.h"
 
@@ -21,11 +16,6 @@
 
 #include "Effect/ClearEffect.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 PlaySceneManager::PlaySceneManager(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_camera{}
@@ -79,7 +69,6 @@ void PlaySceneManager::OnDestroy()
 	}
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void PlaySceneManager::Start()
 {
 	// プレイヤーを非アクティブにしておく
@@ -89,7 +78,6 @@ void PlaySceneManager::Start()
 	}
 }
 
-// 毎フレーム呼ばれます
 void PlaySceneManager::Update(const RHEngine::GameTimer& gameTimer)
 {
 	gameTimer;
@@ -101,7 +89,6 @@ void PlaySceneManager::Update(const RHEngine::GameTimer& gameTimer)
 	}
 }
 
-// 次元の切り替えを行う関数
 void PlaySceneManager::TryChangeDimention()
 {
 	// 切り替え中なら何もしない
@@ -133,4 +120,3 @@ void PlaySceneManager::TryChangeDimention()
 	// プレイヤーの切り替え
 	m_player->GetComponent<Player>()->ChangeDimention();
 }
-

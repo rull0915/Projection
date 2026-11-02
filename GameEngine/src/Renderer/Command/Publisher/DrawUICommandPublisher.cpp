@@ -1,29 +1,18 @@
-﻿//====================================================//
-// ファイル名  : DrawUICommandPublisher.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/09
-//
-// 概要        :  UI描画クラス
-//====================================================//
+﻿/**
+ * @file    DrawUICommandPublisher.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/09
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawUICommandPublisher.h"
+
 #include "System/WindowManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	DrawUICommandPublisher::DrawUICommandPublisher(DrawCommandContainer& container)
-		: m_container{ container }
+		: m_commandContainer{ container }
 		, m_windowManager{ WindowManager::Instance() }
 	{}
 
@@ -33,7 +22,7 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
 		{
 			// 頂点を追加
 			if (fillFlag)
@@ -56,7 +45,7 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
 		{
 			// 頂点を追加
 			if (fillFlag)
@@ -79,7 +68,7 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(start), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(end), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
 		{
 			// 頂点を追加
 			cmd->lines.emplace_back(v1, v2);
@@ -100,7 +89,7 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture prev(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }), color, DirectX::SimpleMath::Vector2::Zero);
 
 		// コマンドコンテナを取得
-		auto* cmd = m_container.GetLatestPrimitiveCommand();
+		auto* cmd = m_commandContainer.GetLatestPrimitiveCommand();
 		if (!cmd)return;
 
 		// 分割数分ループ
@@ -133,7 +122,7 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_container.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
 		{
 			// 頂点を追加
 			if (fillFlag)
@@ -150,6 +139,4 @@ namespace RHEngine
 			}
 		}
 	}
-
-#pragma endregion
 }	// namespace RHEngine

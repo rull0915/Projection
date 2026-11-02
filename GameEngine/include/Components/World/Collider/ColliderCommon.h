@@ -1,131 +1,157 @@
-﻿//====================================================//
-// ファイル名   : ColliderCommon.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/22
-//
-// 概要 : コライダーインターフェース
-//
-// 更新履歴 :
-// 2026/04/22 新規作成
-//====================================================//
+﻿/**
+ * @file    ColliderCommon.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/22
+ *
+ * @brief   コライダー
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include "Components/World/WorldComponentBase.h"
-#include "Components/World/Transform/Transform.h"
+#include <cstdint>
+#include <algorithm>
 
-#include "GameObject/Interface/IComponentOwner.h"
+#include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IColliderReceiver.h"
 #include "Components/Interface/IAssetDependent.h"
-
 #include "Assets/Types/PhysicsMaterial.h"
 #include "Assets/Objects/Handle.h"
+#include "Components/World/Transform/Transform.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
+	class IComponentOwner;
 	class Renderer;
 	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
 	class ColliderCommon : public WorldComponentBase, public IAssetDependent
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 	private:
-
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 自身のレイヤー
+	
+		/** @brief 自身のレイヤー番号 */
 		int m_layerNum;
 
-		// 親のトランスフォーム
+		/** @brief 同じオブジェクトのTransform */
 		Transform* m_pTransform;
 
-		// トリガーフラグ
+		/** @brief トリガーかどうか */
 		bool m_isTrigger;
 
-		// 衝突情報を必要とするかのフラグ(トリガーの時)
+		/** @brief 衝突情報を調べるかどうか (トリガー時にも衝突法線などを調べるか) */
 		bool m_needInfo;
 
-		// 変更済みフラグ
+		/** @brief 状態変更フラグ (ツリーの再構築に使用) */
 		mutable bool m_isChanged;
 
-		// 値が変更されているかのフラグ
+		/** @brief 値が変わったかどうか */
 		mutable bool m_isDirty;
 
-		// 最新のバージョン
+		/** @brief バージョン番号 */
 		mutable uint32_t m_latestVersion;
 
-		// 応答仲介インターフェース
+		/** @brief 衝突応答仲介インターフェース */
 		IColliderReceiver* m_colliderReceiver;
 
-		// 物理マテリアル
+		/** @brief 物理マテリアルのハンドル */
 		Handle<PhysicsMaterial> m_physicsMaterial;
 
-		// AssetManager
-		AssetManager* m_assetManager;
+		/** @brief アセットマネージャーのポインタ */
+		AssetManager* m_pAssetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
 		ColliderCommon(IComponentOwner* own);
+
 		virtual ~ColliderCommon() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(ColliderCommon, WorldComponentBase)
+		/**
+		 * @brief アセットマネージャーを受け取る
+		 */
+		void ReceiveAssetManager(AssetManager& asset) override { m_pAssetManager = &asset; }
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		// AssetManagerを受け取る関数
-		void ReceiveAssetManager(AssetManager& asset) override { m_assetManager = &asset; }
-
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/** @brief レイヤー番号 */
 		inline int GetLayer() const { return m_layerNum; }
 
+		/** @brief トリガーかどうか */
 		inline bool IsTrigger() const { return m_isTrigger; }
+
+		/** @brief トリガーの時衝突情報が必要かどうか */
 		inline bool IsNeedInfo() const { return m_needInfo; }
+
+		/** @brief 変更されたかどうか */
 		inline bool IsChanged() const { return m_isChanged; }
+
+		/** @brief 値が変わっているかどうか */
 		inline bool IsDirty() const { return m_isDirty || m_pTransform->GetVersion() != m_latestVersion; }
 
+		/** @brief トランスフォームポインタ */
 		inline Transform* GetTransform() const { return m_pTransform; }
-
+		
+		/**
+		 * @brief 物理マテリアル
+		 * @TODO ハンドルを返して使う側でAM経由で本体を取得するように
+		 */
 		const PhysicsMaterial* GetPhysicsMaterial() const;
 
+		/** @brief 衝突応答仲介インターフェース */
 		inline IColliderReceiver* GetReceiver() const { return m_colliderReceiver; }
+
+		/** @brief バージョン番号 */
 		uint32_t GetVersion() const { return m_latestVersion; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
+		/// @name セッター
+		/// @{
+
+		/** @brief レイヤー番号 */
 		void SetLayer(int num) { m_layerNum = std::min(num, 99); }
+
+		/** @brief 変更されているかどうか */
 		void SetDirty() { m_isDirty = true; };
+
+		/** @brief トリガーかどうか */
 		void SetTrigger(bool flag) { m_isTrigger = flag; }
+
+		/** @brief トリガー時に衝突情報が必要かどうか */
 		void SetNeedInfo(bool flag) { m_needInfo = flag; }
+
+		/** @brief 変更フラグのリセット */
 		void ResetChangeFrag() { m_isChanged = false; }
+
+		/** @brief 物理マテリアル */
 		void SetPhysicsMaterial(Handle<PhysicsMaterial> mat) { m_physicsMaterial = mat; }
 
-	protected:
+		/// @}
 
+	protected:
+		/**
+		 * @brief Dirtyフラグのリセット
+		 */
 		inline void ResetDirty() const { m_isDirty = false; }
+
+		/**
+		 * @brief 変更フラグの変更
+		 */
 		inline void SetChanged(bool flag) const { m_isChanged = flag; }
+
+		/**
+		 * @brief バージョンを最新に更新
+		 */
 		inline void ApplyVersion() const { m_latestVersion = m_pTransform->GetVersion(); }
 	};
 } // namespace RHEngine

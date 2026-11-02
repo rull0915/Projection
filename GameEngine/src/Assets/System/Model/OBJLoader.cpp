@@ -1,29 +1,20 @@
-﻿//====================================================//
-// ファイル名  : OBJLoader.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/07
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    OBJLoader.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/07
+ */
 #include "pch.h"
+#include "OBJLoader.h"
 
 #include <fstream>
 
-#include "OBJLoader.h"
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
 #include "System/Render/GraphicsManager.h"
 
 #include "MtlFileLoader.h"
 #include "CreatePrefabFromModelData.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
+#include "Assets/Types/Model/Model.h"
 
 namespace RHEngine
 {
@@ -302,7 +293,7 @@ namespace RHEngine
 					for (size_t i = 0; i < faceVertices.size() - 2; ++i)
 					{
 						// TriangleFan形式を採用
-						// Todo: 汎用性は低いためEarCliping法などに改善すると良い
+						// TODO(三角形分割の最適化): 汎用性は低いためEarCliping法などに改善すると良い
 						indices.push_back(vertexkeys[faceVertices[0]]);
 						indices.push_back(vertexkeys[faceVertices[i + 1]]);
 						indices.push_back(vertexkeys[faceVertices[i + 2]]);
@@ -457,4 +448,4 @@ namespace RHEngine
 			return result;
 		}
 	}
-}
+}	// namespace RHEngine

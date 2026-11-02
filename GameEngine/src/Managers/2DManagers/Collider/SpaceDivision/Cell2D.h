@@ -1,70 +1,60 @@
-﻿//====================================================//
-// ファイル名   : Cell2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/08
-//
-// 概要 : 2D用分木空間クラスです
-//
-// 更新履歴 :
-// 2026/04/08 新規作成
-//====================================================//
+﻿/**
+ * @file    Cell2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/08
+ *
+ * @brief   2D用分木空間クラス
+ */
 
-#pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "ObjectForTree2D.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
 	class Cell2D
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		ObjectForTree2D* m_pLatest; // 最新のオブジェクトへのポインタ
+		/** @brief 最新のオブジェクトへのポインタ */
+		ObjectForTree2D* m_pLatest; 
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		Cell2D()
 			: m_pLatest{ nullptr }
 		{};
+
 		~Cell2D() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		bool AddObject(ObjectForTree2D* obj)
+		/**
+		 * @brief オブジェクトを追加する
+		 * @param pObject 追加対象のオブジェクトを
+		 * @return 成功したかどうか
+		 */
+		bool AddObject(ObjectForTree2D* pObject)
 		{
 			// nullをスキップ
-			if (!obj) return false;
+			if (!pObject) return false;
 
 			// 登録済みをスキップ
-			if (obj->m_pCell == this) return false;
+			if (pObject->m_pCell == this) return false;
 
 			// オブジェクトが未登録なら
 			if (!m_pLatest)
 			{
-				m_pLatest = obj;
+				m_pLatest = pObject;
 			}
 			// オブジェクトが登録済みなら
 			else
 			{
 				// リストへ追加
-				m_pLatest->m_pNext = obj;   // 最新の次を追加
-				obj->m_pPre = m_pLatest;    // 追加されるポインタの前を登録
-				m_pLatest = obj;            // 最新を更新
+				m_pLatest->m_pNext = pObject;   // 最新の次を追加
+				pObject->m_pPre = m_pLatest;    // 追加されるポインタの前を登録
+				m_pLatest = pObject;            // 最新を更新
 			}
 
 			// オブジェクトを自身に所属させる
@@ -72,32 +62,37 @@ namespace RHEngine
 			return true;
 		}
 
-		bool OnRemove(ObjectForTree2D* obj)
+		/**
+		 * @brief オブジェクト削除時の処理
+		 * @param pObject 削除されるオブジェクト
+		 * @return　成功したかどうか
+		 */
+		bool OnRemove(ObjectForTree2D* pObject)
 		{
-			if (m_pLatest == obj) {
+			if (m_pLatest == pObject) {
 				// 前のオブジェクトに挿げ替え
 				m_pLatest = m_pLatest->m_pPre;
 			}
 			return true;
 		}
 
-		void ResetLink(ObjectForTree2D*& obj)
+		/**
+		 * @brief オブジェクトの繋がりを解除する
+		 * @param pObject 対象のオブジェクト
+		 */
+		void ResetLink(ObjectForTree2D*& pObject)
 		{
 			// 次が存在するとき
-			if (obj->m_pNext)
+			if (pObject->m_pNext)
 			{
-				ResetLink(obj->m_pNext);
+				ResetLink(pObject->m_pNext);
 			}
-			obj = nullptr;
+			pObject = nullptr;
 		}
 
+		/**
+		 * @brief 最新のオブジェクトを取得する
+		 */
 		ObjectForTree2D* GetFirstObject() { return m_pLatest; }
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
 	};
 }	// namespace RHEngine

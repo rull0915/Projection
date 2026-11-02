@@ -1,26 +1,18 @@
-﻿//====================================================//
-// ファイル名  : AuxFileRepository.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要       : AssetAuxと.auxファイルの読み書きを行うクラス
-//====================================================//
+﻿/**
+ * @file    AuxFileRepository.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Assets/Managers/AuxFileRepository.h"
 
 #include <fstream>
+
 #include "ThirdParty/nlohmann/json.hpp"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void AuxFileRepository::SaveAux(const AssetAux& aux, const std::wstring& path)
 	{
 		// jsonを用意

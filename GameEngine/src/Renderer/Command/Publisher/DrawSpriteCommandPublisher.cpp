@@ -1,36 +1,24 @@
-﻿//====================================================//
-// ファイル名  : DrawSpriteCommandPublisher.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/01
-//
-// 概要        :  スプライトの描画を担当する関数
-//====================================================//
+﻿/**
+ * @file    DrawSpriteCommandPublisher.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Renderer/Command/Publisher/DrawSpriteCommandPublisher.h"
 #include "System/WindowManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	DrawSpriteCommandPublisher::DrawSpriteCommandPublisher(DrawCommandContainer& container, GraphicsSystem& system)
-		: m_container{ container }
+		: m_commandContainer{ container }
 		, m_graphicSystem{ system }
 	{}
 
 	void DrawSpriteCommandPublisher::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Color color)
 	{
 		// コマンドの追加
-		auto& command = m_container.AddSprite();
+		auto& command = m_commandContainer.AddSprite();
 
 		command.pTexture = texture;
 		command.pos = pos;
@@ -43,7 +31,7 @@ namespace RHEngine
 	void DrawSpriteCommandPublisher::DrawFullScreen(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Color color)
 	{
 		// コマンドの追加
-		auto& command = m_container.AddSprite();
+		auto& command = m_commandContainer.AddSprite();
 
 		// テクスチャサイズを取得
 		DirectX::SimpleMath::Vector2 texSize = GetTextureSize(texture);
@@ -71,7 +59,7 @@ namespace RHEngine
 		finalScale *= scale;
 
 		// コマンドの追加
-		auto& command = m_container.AddSprite();
+		auto& command = m_commandContainer.AddSprite();
 
 		command.pTexture = texture;
 		command.pos = min;
@@ -90,7 +78,7 @@ namespace RHEngine
 		DirectX::SimpleMath::Vector2 finalOrigin = origin * texSize;
 
 		// コマンドの追加
-		auto& command = m_container.AddSprite();
+		auto& command = m_commandContainer.AddSprite();
 
 		command.pTexture = texture;
 		command.pos = pos;
@@ -119,7 +107,7 @@ namespace RHEngine
 		finalScale *= scale;
 
 		// コマンドの追加
-		auto& command = m_container.AddSprite();
+		auto& command = m_commandContainer.AddSprite();
 
 		command.pTexture = texture;
 		command.pos = center;
@@ -133,7 +121,7 @@ namespace RHEngine
 	void DrawSpriteCommandPublisher::Draw(ID3D11ShaderResourceView* texture, DirectX::SimpleMath::Vector2 pos, RECT* srcRect, DirectX::SimpleMath::Vector2 scale, float angle, DirectX::SimpleMath::Vector2 origin, DirectX::SimpleMath::Color color)
 	{
 		// コマンドの追加
-		auto& command = m_container.AddSprite();
+		auto& command = m_commandContainer.AddSprite();
 
 		command.pTexture = texture;
 		command.pos = pos;

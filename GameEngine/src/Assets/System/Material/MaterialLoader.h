@@ -1,27 +1,15 @@
-﻿//====================================================//
-// ファイル名   : MaterialLoader.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/10
-//
-// 概要 : マテリアルの読み込みを行うクラス
-//
-// 更新履歴 :
-// 2026/10/10 新規作成
-//====================================================//
+﻿/**
+ * @file    MaterialLoader.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/10
+ *
+ * @brief   マテリアルの読み込みを行う
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-
-#include <memory>
-#include <utility>
 #include <filesystem>
-#include <string_view>
 
-#include "Assets/Types/Material/MaterialAsset.h"
-#include "Assets/Types/Shader/ShaderAsset.h"
 #include "Assets/Managers/AssetLoadResult.h"
 
 namespace RHEngine
@@ -30,27 +18,20 @@ namespace RHEngine
 
 	namespace Loader
 	{
-		//====================================================//
-		// クラス宣言
-		//====================================================//
+		/**
+		 * @brief マテリアルをファイルから読み込む
+		 */
 		class MaterialLoader
 		{
-
-
 		public:
 
-			//-----------------------------------------------------
-			// コンストラクタ / デストラクタ
-			//-----------------------------------------------------
-			MaterialLoader() = default;
-			~MaterialLoader() = default;
-
-			//-----------------------------------------------------
-			// 公開関数
-			//-----------------------------------------------------
-
-			// マテリアルを読み込む関数
+			/**
+			 * @brief マテリアルを読み込む
+			 * @param path マテリアルのファイルパス
+			 * @param ctx アセットコンテキスト
+			 * @return 読み込んだ結果
+			 */
 			static LoadResult Load(const std::filesystem::path& path, AssetContext& ctx);
 		};
 	}
-}
+}	// namespace RHEngine

@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : SlideTransition.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/27
-//
-// 概要       : フェードシーン遷移
-//====================================================//
+﻿/**
+ * @file    SlideTransition.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/27
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "SlideTransition.h"
 
@@ -17,10 +12,6 @@
 
 #include "GameLib/GameMath/GameMath.h"
 #include "Math/Easing.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace Transition
 {
@@ -155,4 +146,4 @@ namespace Transition
 			m_slideColor, true
 		);
 	}
-}
+}	// namespace Transition
