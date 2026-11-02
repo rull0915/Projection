@@ -75,7 +75,7 @@
                                 -2.5
                             ],
                             "m_radius": 7.5,
-                            "m_targetName": "Player"
+                            "m_targetTransform": 9817638076035830732
                         },
                         "Type": "StartCamera",
                         "UUID": 725856033158121202
@@ -1022,8 +1022,8 @@
                             ],
                             "m_rotation": 0.0,
                             "m_scale": [
-                                1.5,
-                                1.5
+                                1.0,
+                                1.0
                             ],
                             "m_size": [
                                 1280.0,

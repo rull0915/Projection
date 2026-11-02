@@ -5,10 +5,12 @@
  *
  * @brief   コンポーネントの登録をするクラス
  */
+
 #pragma once
 
 #include "Editor/Loader/ComponentFactory.h"
 #include "GameObject/GameObject.h"
+#include "Components/ComponentInfo.h"
 
 // 生成関数登録マクロ
 #define REGIST_TO_FACTORY(Name) (RHEngine::ComponentFactory::Register(#Name, { RHEngine::ComponentProject::Game, Name::SPACE }, [](RHEngine::GameObject* o){ return o->AddComponent<Name>(); }))
