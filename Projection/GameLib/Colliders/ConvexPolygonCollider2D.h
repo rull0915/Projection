@@ -51,7 +51,7 @@ public:
 	/**
 	 * @brief 衝突形状のデバッグ描画
 	 */
-	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+	void DebugRender(RHEngine::Renderer& renderer) override;
 
 	/**
 	 * @brief 2Dワールド座標系での頂点座標リストを取得する

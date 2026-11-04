@@ -132,7 +132,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void CapsuleCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void CapsuleCollider::DebugRender(Renderer& renderer)
 	{
 		// 情報の取得
 		float rad = GetRadius();
@@ -190,18 +190,18 @@ namespace RHEngine
 
 		v1.Normalize(); v2.Normalize(); v3.Normalize(); v4.Normalize();
 
-		renderer.Draw().Primitive().DrawArc(p1, v5, v6, 16, rad, color, false);
-		renderer.Draw().Primitive().DrawArc(p1, v7, v8, 16, rad, color, false);
-		renderer.Draw().Primitive().DrawCircle(p1, v, rad, 16, color, false);
+		renderer.Draw().Primitive().DrawArc(p1, v5, v6, 16, rad, DEBUG_COLOR, false);
+		renderer.Draw().Primitive().DrawArc(p1, v7, v8, 16, rad, DEBUG_COLOR, false);
+		renderer.Draw().Primitive().DrawCircle(p1, v, rad, 16, DEBUG_COLOR, false);
 
-		renderer.Draw().Primitive().DrawArc(p2, v1, v2, 16, rad, color, false);
-		renderer.Draw().Primitive().DrawArc(p2, v3, v4, 16, rad, color, false);
-		renderer.Draw().Primitive().DrawCircle(p2, v, rad, 16, color, false);
+		renderer.Draw().Primitive().DrawArc(p2, v1, v2, 16, rad, DEBUG_COLOR, false);
+		renderer.Draw().Primitive().DrawArc(p2, v3, v4, 16, rad, DEBUG_COLOR, false);
+		renderer.Draw().Primitive().DrawCircle(p2, v, rad, 16, DEBUG_COLOR, false);
 
-		renderer.Draw().Primitive().DrawLine(p1 + v1 * rad, p2 + v1 * rad, color);
-		renderer.Draw().Primitive().DrawLine(p1 + v2 * rad, p2 + v2 * rad, color);
-		renderer.Draw().Primitive().DrawLine(p1 + v3 * rad, p2 + v3 * rad, color);
-		renderer.Draw().Primitive().DrawLine(p1 + v4 * rad, p2 + v4 * rad, color);
+		renderer.Draw().Primitive().DrawLine(p1 + v1 * rad, p2 + v1 * rad, DEBUG_COLOR);
+		renderer.Draw().Primitive().DrawLine(p1 + v2 * rad, p2 + v2 * rad, DEBUG_COLOR);
+		renderer.Draw().Primitive().DrawLine(p1 + v3 * rad, p2 + v3 * rad, DEBUG_COLOR);
+		renderer.Draw().Primitive().DrawLine(p1 + v4 * rad, p2 + v4 * rad, DEBUG_COLOR);
 
 		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
 	}

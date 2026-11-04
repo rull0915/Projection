@@ -85,7 +85,7 @@ namespace RHEngine
 		/**
 		 * @brief 衝突形状のデバッグ描画を行う
 		 */
-		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+		void DebugRender(Renderer& renderer) override;
 
 		/// @name ゲッター
 		/// @{

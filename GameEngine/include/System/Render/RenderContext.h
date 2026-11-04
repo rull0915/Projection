@@ -39,8 +39,6 @@ namespace RHEngine
 
 		RenderTarget* target = nullptr;	///< 描画先
 
-		uint8_t flags = DrawFlag::World | DrawFlag::UI;	///< 描画フラグ
-
 		bool clearTarget = true;	///< 描画時に描画先をクリアするかどうか
 	};
 

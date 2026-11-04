@@ -6,6 +6,8 @@
 
 #include "pch.h"
 #include "Components/World/Light/LightComponent.h"
+#include "Renderer/Renderer.h"
+#include "Components/World/Transform/Transform.h"
 
 namespace RHEngine
 {
@@ -98,5 +100,40 @@ namespace RHEngine
 		{
 			m_radius = 0.0f;
 		}
+	}
+
+	void LightComponent::DebugRender(Renderer& renderer)
+	{
+		// タイプによって変更
+		switch (m_lightType)
+		{
+		case RHEngine::LightType::Point:
+			DebugDrawPointLight(renderer);
+			break;
+		case RHEngine::LightType::Spot:
+			break;
+		case RHEngine::LightType::Directional:
+			break;
+		default:
+			break;
+		}
+	}
+
+	void LightComponent::DebugDrawPointLight(Renderer& renderer)
+	{
+		// 中心座標を取得
+		Transform* pTransform = GetComponent<Transform>();
+
+		DirectX::SimpleMath::Vector3 center = pTransform->GetWorldPosition();
+
+		renderer.Draw().Primitive().DrawCircle(
+			center, DirectX::SimpleMath::Vector3::Up, m_radius, 16, m_color, false
+		);
+		renderer.Draw().Primitive().DrawCircle(
+			center, DirectX::SimpleMath::Vector3::Right, m_radius, 16, m_color, false
+		);
+		renderer.Draw().Primitive().DrawCircle(
+			center, DirectX::SimpleMath::Vector3::Forward, m_radius, 16, m_color, false
+		);
 	}
 }	// namespace RHEngine

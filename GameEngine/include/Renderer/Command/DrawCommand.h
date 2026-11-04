@@ -13,14 +13,15 @@
 #include <vector>
 #include <Windows.h>
 #include <d3d11.h>
+#include <d3dcommon.h>
 #include <optional>
 #include <SimpleMath.h>
 #include <SpriteFont.h>
-#include <VertexTypes.h>
 
 #include "../RendererType.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Model/Mesh.h"
+#include "Assets/Types/Vertex/VertexTypes.h"
 
 namespace RHEngine
 {
@@ -142,32 +143,16 @@ namespace RHEngine
 	 */
 	struct DrawPrimitiveCommand : public DrawCommandBase
 	{
-		/**
-		 * @brief 線構造体
-		 */
-		struct Line
-		{
-			DirectX::VertexPositionColorTexture s;	///< 始点
-			DirectX::VertexPositionColorTexture e;	///< 終点
-		};
-
-		/**
-		 * @brief 三角形構造体
-		 */
-		struct Triangle
-		{
-			DirectX::VertexPositionColorTexture a;
-			DirectX::VertexPositionColorTexture b;
-			DirectX::VertexPositionColorTexture c;
-		};
+		// 最大頂点数
+		static constexpr size_t MAX_VERTEX_COUNT = 4096;
 
 		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;	///< ワールド行列
 
 		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		std::vector<Line> lines{};	///< 線リスト
-		
-		std::vector<Triangle> triangles{};	///< 三角形リスト
+		std::vector<VertexPositionColorTexture> vertices;		///< 頂点配列
+
+		D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;	///< トポロジー
 
 		/// @name ライフサイクル
 		/// @{

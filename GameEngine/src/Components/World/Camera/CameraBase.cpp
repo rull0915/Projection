@@ -70,7 +70,7 @@ namespace RHEngine
 		return data;
 	}
 
-	void CameraBase::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void CameraBase::DebugRender(Renderer& renderer)
 	{
 		// 試錐台の範囲を表示する
 
@@ -94,15 +94,15 @@ namespace RHEngine
 
 		// 合わせるように描画コマンドを作成
 		renderer.Draw().Primitive().DrawRect(
-			points[0], points[1], points[3], points[2], color, false
+			points[0], points[1], points[3], points[2], DEBUG_COLOR, false
 		);
 		renderer.Draw().Primitive().DrawRect(
-			points[4], points[5], points[7], points[6], color, false
+			points[4], points[5], points[7], points[6], DEBUG_COLOR, false
 		);
 		for (int i = 0; i < 4; i++)
 		{
 			renderer.Draw().Primitive().DrawLine(
-				points[i], points[i + 4], color
+				points[i], points[i + 4], DEBUG_COLOR
 			);
 		}
 	}

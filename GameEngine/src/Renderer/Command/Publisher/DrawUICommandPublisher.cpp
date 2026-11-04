@@ -18,61 +18,45 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v3({ m_windowManager.NDCToPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		// 頂点を追加
+		if (fillFlag)
 		{
-			// 頂点を追加
-			if (fillFlag)
-			{
-				cmd->triangles.emplace_back(v1, v2, v3);
-			}
-			else
-			{
-				cmd->lines.emplace_back(v1, v2);
-				cmd->lines.emplace_back(v2, v3);
-				cmd->lines.emplace_back(v3, v1);
-			}	
+			m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, { v1, v2, v3 });
+		}
+		else
+		{
+			m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, { v1, v2, v2, v3, v3, v1 });
 		}
 	}
 
 	void DrawUICommandPublisher::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v3({ m_windowManager.NDCToPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v4({ m_windowManager.NDCToPixel(p4) }, color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		// 頂点を追加
+		if (fillFlag)
 		{
-			// 頂点を追加
-			if (fillFlag)
-			{
-				cmd->triangles.emplace_back(v1, v2, v3);
-				cmd->triangles.emplace_back(v1, v3, v4);
-			}
-			else
-			{
-				cmd->lines.emplace_back(v1, v2);
-				cmd->lines.emplace_back(v2, v3);
-				cmd->lines.emplace_back(v3, v4);
-				cmd->lines.emplace_back(v4, v1);
-			}
+			m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, { v1, v2, v3, v1, v3, v4 });
+		}
+		else
+		{
+			m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, { v1, v2, v2, v3, v3, v4, v4, v1 });
 		}
 	}
 
 	void DrawUICommandPublisher::DrawLine(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, DirectX::SimpleMath::Color color)
 	{
-		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(start), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(end), color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(start) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(end) }, color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
-		{
-			// 頂点を追加
-			cmd->lines.emplace_back(v1, v2);
-		}
+		m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, { v1, v2 });
 	}
 
 	void DrawUICommandPublisher::DrawCircle(DirectX::SimpleMath::Vector2 centerPos, float radius, uint16_t division, DirectX::SimpleMath::Color color, bool fillFlag)
@@ -83,14 +67,10 @@ namespace RHEngine
 		float step = 2.0f * PI_F / static_cast<float>(division);
 
 		// 中心点
-		DirectX::VertexPositionColorTexture c(m_windowManager.NDCToPixel(centerPos), color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture c({ m_windowManager.NDCToPixel(centerPos) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 最初の点
-		DirectX::VertexPositionColorTexture prev(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }), color, DirectX::SimpleMath::Vector2::Zero);
-
-		// コマンドコンテナを取得
-		auto* cmd = m_commandContainer.GetLatestPrimitiveCommand();
-		if (!cmd)return;
+		VertexPositionColorTexture prev({ m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 分割数分ループ
 		for (int i = 0; i < division; ++i)
@@ -98,12 +78,12 @@ namespace RHEngine
 			float theta = step * i;
 
 			// 頂点情報を計算
-			DirectX::VertexPositionColorTexture v(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), color, DirectX::SimpleMath::Vector2::Zero);
+			VertexPositionColorTexture v({ m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 			// 追加
-			if (fillFlag) cmd->triangles.emplace_back(c, prev, v);
+			if (fillFlag) m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, { c, prev, v });
 
-			else cmd->lines.emplace_back(prev, v);
+			else m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, { prev, v });
 
 			// 更新
 			prev = v;
@@ -117,26 +97,19 @@ namespace RHEngine
 		DirectX::SimpleMath::Vector2 p3{ max.x, max.y };
 		DirectX::SimpleMath::Vector2 p4{ max.x, min.y };
 
-		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(p1), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
-		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v3({ m_windowManager.NDCToPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v4({ m_windowManager.NDCToPixel(p4) }, color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		// 頂点を追加
+		if (fillFlag)
 		{
-			// 頂点を追加
-			if (fillFlag)
-			{
-				cmd->triangles.emplace_back(v1, v2, v3);
-				cmd->triangles.emplace_back(v1, v3, v4);
-			}
-			else
-			{
-				cmd->lines.emplace_back(v1, v2);
-				cmd->lines.emplace_back(v2, v3);
-				cmd->lines.emplace_back(v3, v4);
-				cmd->lines.emplace_back(v4, v1);
-			}
+			m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, { v1, v2, v3, v1, v3, v4 });
+		}
+		else
+		{
+			m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, { v1, v2, v2, v3, v3, v4, v4, v1 });
 		}
 	}
 }	// namespace RHEngine

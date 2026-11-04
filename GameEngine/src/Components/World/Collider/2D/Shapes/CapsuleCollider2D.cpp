@@ -92,7 +92,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void CapsuleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void CapsuleCollider2D::DebugRender(Renderer& renderer)
 	{
 		float rad = GetRadius();
 
@@ -123,11 +123,11 @@ namespace RHEngine
 			p5 = { p2 + nV * rad };
 			p6 = { p2 - nV * rad + v * 0.01f };
 
-			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, color, false);
-			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, color, false);
+			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, DEBUG_COLOR, false);
+			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, DEBUG_COLOR, false);
 
-			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), color);
-			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
+			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), DEBUG_COLOR);
+			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), DEBUG_COLOR);
 		}
 	}
 }	// namespace RHEngine

@@ -9,16 +9,15 @@
 #pragma once
 
 #include <memory>
-#include <PrimitiveBatch.h>
 #include <SpriteBatch.h>
 #include <CommonStates.h>
-#include <VertexTypes.h>
 #include <d3d11.h>
 
 #include "DrawCommandContainer.h"
 #include "Renderer/RenderInfoManager.h"
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Objects/Handle.h"
+#include "Assets/Types/Vertex/DynamicVertexBuffer.h"
 
 namespace RHEngine
 {
@@ -33,8 +32,8 @@ namespace RHEngine
 	{
 	private:
 
-		/** @brief プリミティブバッチ */
-		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_primitiveBatch;
+		/** @brief 変更される頂点バッファ プリミティブ描画で使用する */
+		DynamicVertexBuffer m_dynamicVertexBuffer;
 
 		/** @brief  スプライトバッチ */
 		std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;

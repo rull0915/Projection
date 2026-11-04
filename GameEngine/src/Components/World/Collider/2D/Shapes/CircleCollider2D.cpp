@@ -43,7 +43,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void CircleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void CircleCollider2D::DebugRender(Renderer& renderer)
 	{
 		// ワールド行列の算出(Rot,Pos)
 		DirectX::SimpleMath::Vector2 pos = GetWorldCenterPos();
@@ -51,6 +51,6 @@ namespace RHEngine
 		auto& world2D = WorldSetting2D::Instance();
 
 		float rad = GetRadius();
-		renderer.Draw().Primitive().DrawCircle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, color, false);
+		renderer.Draw().Primitive().DrawCircle(world2D.Local2DToWorld3D(pos), world2D.GetNormal(), rad, 16, DEBUG_COLOR, false);
 	}
 }	// namespace RHEngine
