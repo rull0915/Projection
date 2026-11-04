@@ -14,6 +14,7 @@
 #include "System/DeviceResources.h"
 #include "InputLayoutCache.h"
 #include "SamplerList.h"
+#include "DepthStencilStateList.h"
 
 namespace RHEngine
 {
@@ -32,6 +33,9 @@ namespace RHEngine
 
 		/** @brief サンプラーリスト */
 		SamplerList m_samplerList;
+
+		/** @brief 深度ステンシルステートリスト */
+		DepthStencilStateList m_depthStencilSateList;
 
 	private:
 
@@ -71,6 +75,9 @@ namespace RHEngine
 
 			// サンプラーリストの初期化
 			m_samplerList.Initialize(pDevice);
+
+			// 深度ステンシルステートの初期化
+			m_depthStencilSateList.Initialize(pDevice);
 		}
 
 		/// @name ゲッター
@@ -84,6 +91,9 @@ namespace RHEngine
 
 		/** @brief サンプラーリスト */
 		const SamplerList& GetSamplerList() const { return m_samplerList; };
+
+		/** @brief 深度ステンシルステートリスト */
+		DepthStencilStateList& GetDepthStencilList() { return m_depthStencilSateList; }
 
 		/// @}
 	};

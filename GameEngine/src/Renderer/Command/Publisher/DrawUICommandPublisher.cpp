@@ -22,19 +22,17 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(p2), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand(fillFlag ? D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D11_PRIMITIVE_TOPOLOGY_LINELIST))
 		{
 			// 頂点を追加
 			if (fillFlag)
 			{
-				cmd->triangles.emplace_back(v1, v2, v3);
+				cmd->vertices.insert(cmd->vertices.end(), { v1, v2, v3 });
 			}
 			else
 			{
-				cmd->lines.emplace_back(v1, v2);
-				cmd->lines.emplace_back(v2, v3);
-				cmd->lines.emplace_back(v3, v1);
-			}	
+				cmd->vertices.insert(cmd->vertices.end(), { v1, v2, v2, v3, v3, v1 });
+			}
 		}
 	}
 
@@ -45,20 +43,24 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand(fillFlag ? D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D11_PRIMITIVE_TOPOLOGY_LINELIST))
 		{
 			// 頂点を追加
 			if (fillFlag)
 			{
-				cmd->triangles.emplace_back(v1, v2, v3);
-				cmd->triangles.emplace_back(v1, v3, v4);
+				cmd->vertices.insert(cmd->vertices.end(), {
+					v1, v2, v3,
+					v1, v3, v4
+					});
 			}
 			else
 			{
-				cmd->lines.emplace_back(v1, v2);
-				cmd->lines.emplace_back(v2, v3);
-				cmd->lines.emplace_back(v3, v4);
-				cmd->lines.emplace_back(v4, v1);
+				cmd->vertices.insert(cmd->vertices.end(), { 
+					v1, v2, 
+					v2, v3, 
+					v3, v4, 
+					v4, v1
+					});
 			}
 		}
 	}
@@ -68,10 +70,10 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v1(m_windowManager.NDCToPixel(start), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v2(m_windowManager.NDCToPixel(end), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand(D3D11_PRIMITIVE_TOPOLOGY_LINELIST))
 		{
 			// 頂点を追加
-			cmd->lines.emplace_back(v1, v2);
+			cmd->vertices.insert(cmd->vertices.end(), { v1, v2 });
 		}
 	}
 
@@ -89,7 +91,7 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture prev(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }), color, DirectX::SimpleMath::Vector2::Zero);
 
 		// コマンドコンテナを取得
-		auto* cmd = m_commandContainer.GetLatestPrimitiveCommand();
+		auto* cmd = m_commandContainer.GetLatestPrimitiveCommand(fillFlag ? D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		if (!cmd)return;
 
 		// 分割数分ループ
@@ -101,9 +103,9 @@ namespace RHEngine
 			DirectX::VertexPositionColorTexture v(m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }), color, DirectX::SimpleMath::Vector2::Zero);
 
 			// 追加
-			if (fillFlag) cmd->triangles.emplace_back(c, prev, v);
+			if (fillFlag) cmd->vertices.insert(cmd->vertices.end(), { c, prev, v });
 
-			else cmd->lines.emplace_back(prev, v);
+			else cmd->vertices.insert(cmd->vertices.end(), { prev, v });
 
 			// 更新
 			prev = v;
@@ -122,20 +124,24 @@ namespace RHEngine
 		DirectX::VertexPositionColorTexture v3(m_windowManager.NDCToPixel(p3), color, DirectX::SimpleMath::Vector2::Zero);
 		DirectX::VertexPositionColorTexture v4(m_windowManager.NDCToPixel(p4), color, DirectX::SimpleMath::Vector2::Zero);
 
-		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand())
+		if (auto* cmd = m_commandContainer.GetLatestPrimitiveCommand(fillFlag ? D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D11_PRIMITIVE_TOPOLOGY_LINELIST))
 		{
 			// 頂点を追加
 			if (fillFlag)
 			{
-				cmd->triangles.emplace_back(v1, v2, v3);
-				cmd->triangles.emplace_back(v1, v3, v4);
+				cmd->vertices.insert(cmd->vertices.end(), {
+					v1, v2, v3,
+					v1, v3, v4
+					});
 			}
 			else
 			{
-				cmd->lines.emplace_back(v1, v2);
-				cmd->lines.emplace_back(v2, v3);
-				cmd->lines.emplace_back(v3, v4);
-				cmd->lines.emplace_back(v4, v1);
+				cmd->vertices.insert(cmd->vertices.end(), {
+					v1, v2,
+					v2, v3,
+					v3, v4, 
+					v4, v1
+					});
 			}
 		}
 	}

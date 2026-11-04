@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <variant>
+#include <d3d11.h>
 
 #include "DrawCommand.h"
 
@@ -76,7 +77,7 @@ namespace RHEngine
 		/// @{
 
 		/** @brief  最新のプリミティブ描画コマンドを取得する関数 */
-		DrawPrimitiveCommand* GetLatestPrimitiveCommand();
+		DrawPrimitiveCommand* GetLatestPrimitiveCommand(D3D11_PRIMITIVE_TOPOLOGY topology);
 
 		/** @brief  プリミティブ描画コマンドリスト */
 		const std::vector<DrawPrimitiveCommand>& GetDrawPrimitiveCommands() const { return m_drawPrimitiveCommands; };

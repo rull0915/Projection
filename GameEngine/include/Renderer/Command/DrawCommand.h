@@ -142,32 +142,13 @@ namespace RHEngine
 	 */
 	struct DrawPrimitiveCommand : public DrawCommandBase
 	{
-		/**
-		 * @brief 線構造体
-		 */
-		struct Line
-		{
-			DirectX::VertexPositionColorTexture s;	///< 始点
-			DirectX::VertexPositionColorTexture e;	///< 終点
-		};
-
-		/**
-		 * @brief 三角形構造体
-		 */
-		struct Triangle
-		{
-			DirectX::VertexPositionColorTexture a;
-			DirectX::VertexPositionColorTexture b;
-			DirectX::VertexPositionColorTexture c;
-		};
-
 		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;	///< ワールド行列
 
 		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		std::vector<Line> lines{};	///< 線リスト
-		
-		std::vector<Triangle> triangles{};	///< 三角形リスト
+		std::vector<DirectX::VertexPositionColorTexture> vertices;		///< 頂点配列
+
+		D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;	///< トポロジー
 
 		/// @name ライフサイクル
 		/// @{

@@ -62,8 +62,8 @@ namespace RHEngine
 		// コマンド分ループ
 		for (auto& c : commands)
 		{
-			// 描画対象が存在しなければ次へ
-			if (c.lines.empty() && c.triangles.empty()) continue;
+			// 頂点が存在しなければ次へ
+			if (c.vertices.empty()) continue;
 
 			// マテリアルを調べる
 			MaterialAsset* material = m_assetManager.Get<MaterialAsset>(c.material);
@@ -81,7 +81,7 @@ namespace RHEngine
 			m_pContext->OMSetBlendState(m_pStates->NonPremultiplied(), nullptr, 0xFFFFFFFF);
 
 			// デプスソートを不使用
-			m_pContext->OMSetDepthStencilState(m_pStates->DepthReverseZ(), 0);
+			m_pContext->OMSetDepthStencilState(m_pStates->DepthNone(), 0);
 
 			// カリング不使用
 			m_pContext->RSSetState(m_pStates->CullNone());
@@ -108,11 +108,8 @@ namespace RHEngine
 			// 描画開始
 			m_primitiveBatch->Begin();
 
-			// 線
-			if (!c.lines.empty()) m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, &c.lines.begin()->s, c.lines.size() * 2);
-
-			// 三角形
-			if (!c.triangles.empty()) m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, &c.triangles.begin()->a, c.triangles.size() * 3);
+			// 描画
+			m_primitiveBatch->Draw(c.topology, c.vertices.data(), c.vertices.size());
 
 			// 描画終了
 			m_primitiveBatch->End();
