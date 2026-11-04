@@ -45,7 +45,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void SphereCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void SphereCollider::DebugRender(Renderer& renderer)
 	{
 		// ワールド行列の算出(Rot,Pos)
 		Transform* pTransform = GetTransform();
@@ -56,8 +56,8 @@ namespace RHEngine
 		float rad = GetRadius();
 
 		// 描画
-		renderer.Draw().Primitive().DrawCircle(pos, pTransform->GetUp(), rad, 16, color, false);
-		renderer.Draw().Primitive().DrawCircle(pos, pTransform->GetRight(), rad, 16, color, false);
-		renderer.Draw().Primitive().DrawCircle(pos, pTransform->GetForward(), rad, 16, color, false);
+		renderer.Draw().Primitive().DrawCircle(pos, pTransform->GetUp(), rad, 16, DEBUG_COLOR, false);
+		renderer.Draw().Primitive().DrawCircle(pos, pTransform->GetRight(), rad, 16, DEBUG_COLOR, false);
+		renderer.Draw().Primitive().DrawCircle(pos, pTransform->GetForward(), rad, 16, DEBUG_COLOR, false);
 	}
 }	// namespace RHEngine

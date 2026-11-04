@@ -80,8 +80,8 @@ namespace RHEngine
 			// 透明度を不使用
 			m_pContext->OMSetBlendState(m_pStates->NonPremultiplied(), nullptr, 0xFFFFFFFF);
 
-			// デプスソートを使用
-			m_pContext->OMSetDepthStencilState(m_pStates->DepthDefault(), 0);
+			// デプスソートを不使用
+			m_pContext->OMSetDepthStencilState(m_pStates->DepthReverseZ(), 0);
 
 			// カリング不使用
 			m_pContext->RSSetState(m_pStates->CullNone());

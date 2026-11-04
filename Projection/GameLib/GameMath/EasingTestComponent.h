@@ -60,5 +60,5 @@ public:
 	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 	// デバッグ描画関数
-	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color) override;
+	void DebugRender(RHEngine::Renderer& renderer) override;
 };

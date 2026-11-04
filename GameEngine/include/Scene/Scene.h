@@ -144,8 +144,9 @@ namespace RHEngine
 		 * @param data 描画データ
 		 * @param renderer 描画関数
 		 * @param useShadow 影を描画するかどうか
+		 * @param pSelected 選択中のオブジェクト (デバッグ描画を行う)
 		 */
-		void DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow);
+		void DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow, GameObject* pSelected = nullptr);
 
 		/**
 		 * @brief 終了処理

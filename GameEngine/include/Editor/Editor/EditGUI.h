@@ -16,6 +16,7 @@
 
 #include "SelectedOnGUI.h"
 #include "SceneCamera.h"
+#include "Common/Property/PropertyObject.h"
 
 namespace RHEngine
 {
@@ -119,6 +120,11 @@ namespace RHEngine
 		 * @brief パフォーマンスウィンドウを表示する
 		 */
 		void DrawPerformanceWindow();
+
+		PropertyObject* GetSelected()
+		{
+			return m_selected.GetSelected();
+		}
 	};
 } // namespace RHEngine
 

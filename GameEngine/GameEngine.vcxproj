@@ -160,6 +160,7 @@ $(ProjectDir)ThirdParty;
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
@@ -340,6 +341,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\System\Render\DepthStencilStateList.cpp" />
     <ClCompile Include="src\System\Render\InputLayoutCache.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
     <ClCompile Include="src\System\Render\SamplerList.cpp" />
@@ -474,6 +476,10 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\System\PerformanceStats.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\System\Render\DepthStencilStateList.h">
       <SubType>
       </SubType>
     </ClInclude>

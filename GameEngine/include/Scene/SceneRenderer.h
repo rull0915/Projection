@@ -17,16 +17,13 @@ namespace RHEngine
 	class Renderer;
 	class ShadowRenderer;
 	class Scene;
+	class GameObject;
 
 	/**
 	 * @brief シーンの描画担当
 	 */
 	class SceneRenderer
 	{
-	public:
-		/** @brief デバッグ描画時の描画色 */
-		static constexpr DirectX::SimpleMath::Color DEBUG_COLOR = { 0, 1, 0, 1 };
-
 	private:
 
 		/** @brief シーンポインタ */
@@ -54,5 +51,20 @@ namespace RHEngine
 
 		/** @brief UIPass描画 */
 		void DrawUIPass(const RenderContext& ctx, Renderer& renderer);
+
+		/**
+		 * @brief 1オブジェクトのデバッグ描画をする
+		 * @param ctx 使用するコンテキスト
+		 * @param pObject 対象のオブジェクト
+		 * @param renderer 描画担当
+		 */
+		void DrawDebug(const RenderContext& ctx, GameObject* pObject, Renderer& renderer);
+
+	private:
+
+		/**
+		 * @brief 1オブジェクトのデバッグ描画を再帰的に行う
+		 */
+		void DrawDebugObject(GameObject* pObject, Renderer& renderer);
 	};
 }	// namespace RHEngine

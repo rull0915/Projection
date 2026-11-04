@@ -12,9 +12,11 @@
 #include <SimpleMath.h>
 
 #include "Components/World/WorldComponentBase.h"
+#include "Components/Interface/IDebugRenderable.h"
 
 namespace RHEngine
 {
+	class Renderer;
 	class IComponentOwner;
 	struct Property;
 
@@ -29,7 +31,7 @@ namespace RHEngine
 		Directional,
 	};
 
-	class LightComponent : public WorldComponentBase
+	class LightComponent : public WorldComponentBase, public IDebugRenderable
 	{
 	public:
 		DECLARE_COMPONENT_TYPE(WorldComponentBase);
@@ -98,6 +100,13 @@ namespace RHEngine
 		 */
 		void OnValidate() override;
 
+		/**
+		 * @brief 光のデバッグ描画を行う
+		 * @param renderer 描画担当
+		 * @param color 描画色
+		 */
+		void DebugRender(Renderer& renderer) override;
+
 		/// @name ゲッター
 		/// @{
 
@@ -149,5 +158,12 @@ namespace RHEngine
 		void SetOuterAngle(float outerAngle) { m_outerAngle = outerAngle; }
 
 		/// @}
+
+	private:
+
+		/**
+		 * @brief ポイントライトのデバッグ描画
+		 */
+		void DebugDrawPointLight(Renderer& renderer);
 	};
 }	// namespace RHEngine

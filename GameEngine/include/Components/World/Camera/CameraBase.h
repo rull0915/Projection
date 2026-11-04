@@ -43,6 +43,8 @@ namespace RHEngine
 
 	private:
 
+		static constexpr DirectX::SimpleMath::Color DEBUG_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
+
 		/// @name 行列
 		/// @{
 
@@ -120,7 +122,7 @@ namespace RHEngine
 		/**
 		 * @brief 試錐台のデバッグ描画
 		 */
-		void DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color);
+		void DebugRender(Renderer& renderer) override;
 
 		/**
 		 * @brief ウィンドウサイズの変更時処理

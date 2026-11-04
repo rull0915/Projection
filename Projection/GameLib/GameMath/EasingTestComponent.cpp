@@ -69,8 +69,8 @@ void EasingTestComponent::Update(const RHEngine::GameTimer & gameTimer)
 	}
 }
 
-void EasingTestComponent::DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color)
+void EasingTestComponent::DebugRender(RHEngine::Renderer& renderer)
 {
 	// 開始点から終了点への線を引く
-	renderer.Draw().Primitive().DrawLine(m_start, m_end, color);
+	renderer.Draw().Primitive().DrawLine(m_start, m_end, DEFAULT_DEBUG_COLOR);
 }

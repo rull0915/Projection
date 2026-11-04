@@ -21,6 +21,8 @@ namespace RHEngine
 	{
 	public:
 
+		static constexpr DirectX::SimpleMath::Color DEFAULT_DEBUG_COLOR = { 0.9f, 1.0f, 0.9f, 1.0f };
+
 		/// @name ライフサイクル
 		/// @{
 
@@ -33,11 +35,9 @@ namespace RHEngine
 		/**
 		 * @brief デバッグ描画を行う
 		 * @param renderer 描画仲介クラス
-		 * @param color 描画色
 		 */
 		virtual void DebugRender(
-			Renderer& renderer,
-			const DirectX::SimpleMath::Color& color
+			Renderer& renderer
 		) = 0;
 	};
 } // namespace RHEngine

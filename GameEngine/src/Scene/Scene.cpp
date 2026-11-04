@@ -117,7 +117,6 @@ namespace RHEngine
 
 				ctx.cameraData = camera->CreateCameraData();
 				ctx.target = target;
-				ctx.flags = DrawFlag::World;
 				ctx.clearTarget = true;
 				ctx.backColor = camera->GetBackColor();
 			}
@@ -133,7 +132,6 @@ namespace RHEngine
 
 			ctx.cameraData = mainCamera->CreateCameraData();
 			ctx.target = &m_mainWorld;
-			ctx.flags = DrawFlag::World;
 			ctx.clearTarget = true;
 			ctx.backColor = mainCamera->GetBackColor();
 		}
@@ -180,7 +178,7 @@ namespace RHEngine
 		{
 			m_sceneRenderer->DrawWorldPass(ctx, renderer);
 		}
-			
+
 		// Test: シャドウマップ用スロットをアンバインド
 		ID3D11ShaderResourceView* nullSRV = nullptr;
 		pContext->PSSetShaderResources(10, 1, &nullSRV);
@@ -189,20 +187,17 @@ namespace RHEngine
 		renderer.Draw().Sprite().DrawFullScreen(m_mainWorld.GetShaderResourceView());
 
 		// UIパスの描画
-		{
-			RenderContext ctx{};
+		RenderContext ctx{};
 
-			ctx.backColor = { 0, 0, 0, 0 };
-			ctx.target = &m_gameView;
-			ctx.clearTarget = true;
-			ctx.flags = DrawFlag::UI;
-			ctx.cameraData = {};
+		ctx.backColor = { 0, 0, 0, 0 };
+		ctx.target = &m_gameView;
+		ctx.clearTarget = true;
+		ctx.cameraData = {};
 
-			m_sceneRenderer->DrawUIPass(ctx, renderer);
-		}
+		m_sceneRenderer->DrawUIPass(ctx, renderer);
 	}
 
-	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow)
+	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow, GameObject* pSelected)
 	{
 		ID3D11DeviceContext* pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
@@ -218,6 +213,9 @@ namespace RHEngine
 
 		// WorldPassの描画
 		m_sceneRenderer->DrawWorldPass(data, renderer);
+
+		// 選択中のオブジェクトをデバッグ描画
+		m_sceneRenderer->DrawDebug(data, pSelected, renderer);
 
 		if (useShadow)
 		{

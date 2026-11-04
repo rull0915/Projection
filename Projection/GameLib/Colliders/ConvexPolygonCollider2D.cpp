@@ -107,7 +107,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
 	ApplyVersion();
 }
 
-void ConvexPolygonCollider2D::DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color)
+void ConvexPolygonCollider2D::DebugRender(RHEngine::Renderer& renderer)
 {
 	auto& vertices = GetWorldVertices();
 	auto& vertices3D = GetWorldVertices3D();
@@ -115,7 +115,7 @@ void ConvexPolygonCollider2D::DebugRender(RHEngine::Renderer& renderer, const Di
 	for (int i = 0; i < vertices.size(); ++i)
 	{
 		// 描画
-		renderer.Draw().Primitive().DrawLine(vertices3D[i], vertices3D[(i + 1) % vertices.size()], color);
+		renderer.Draw().Primitive().DrawLine(vertices3D[i], vertices3D[(i + 1) % vertices.size()], DEBUG_COLOR);
 	}
 }
 

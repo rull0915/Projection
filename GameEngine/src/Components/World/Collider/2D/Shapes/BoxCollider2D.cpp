@@ -62,7 +62,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void BoxCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void BoxCollider2D::DebugRender(Renderer& renderer)
 	{
 		using namespace DirectX;
 
@@ -103,7 +103,7 @@ namespace RHEngine
 			renderer.Draw().Primitive().DrawLine(
 				DirectX::SimpleMath::Vector3{ worldPoints[i] },
 				DirectX::SimpleMath::Vector3{ worldPoints[(i + 1) % 4] },
-				color);
+				DEBUG_COLOR);
 		}
 	}
 }	// namespace RHEngine

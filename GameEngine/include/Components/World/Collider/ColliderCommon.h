@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <algorithm>
+#include <SimpleMath.h>
 
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IColliderReceiver.h"
@@ -28,6 +29,12 @@ namespace RHEngine
 	{
 	public:
 		DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
+	protected:
+		/**
+		 * @brief デバッグ描画の色
+		 */
+		static constexpr DirectX::SimpleMath::Color DEBUG_COLOR = { 0.8f, 1.0f, 0.8f, 1.0f };
 
 	private:
 	

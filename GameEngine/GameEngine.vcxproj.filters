@@ -794,6 +794,7 @@
     <ClCompile Include="src\Renderer\Command\DrawCommandContainer.cpp" />
     <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.cpp" />
     <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.cpp" />
+    <ClCompile Include="src\System\Render\DepthStencilStateList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1492,12 +1493,14 @@
     <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
     <ClInclude Include="include\Assets\Types\Vertex\DynamicVertexBuffer.h" />
     <ClInclude Include="include\GameController.h" />
+    <ClInclude Include="include\System\Render\DepthStencilStateList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\SkyboxEffect_VS.hlsl">

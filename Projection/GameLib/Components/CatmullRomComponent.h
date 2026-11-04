@@ -40,7 +40,7 @@ public:
 	CatmullRomComponent(RHEngine::IComponentOwner* own);
 	~CatmullRomComponent() = default;
 
-	void DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color);
+	void DebugRender(RHEngine::Renderer& renderer) override;
 
 	// 値を取得する関数
 	DirectX::SimpleMath::Vector3 GetValue(float ratio);

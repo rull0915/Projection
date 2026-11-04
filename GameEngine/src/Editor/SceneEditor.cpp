@@ -20,6 +20,7 @@
 
 #include "Assets/EngineDefaultAssets.h"
 #include "Assets/Types/Texture.h"
+#include "GameObject/GameObject.h"
 
 namespace RHEngine
 {
@@ -169,12 +170,14 @@ namespace RHEngine
 
 		ctx.backColor = WindowManager::Instance().GetBackGroundColor();
 		ctx.target = m_sceneView.get();
-		ctx.flags = DrawFlag::World | DrawFlag::WorldDebug;
 		ctx.clearTarget = true;
 		ctx.cameraData = m_sceneViewCamera.GetData();
 
+		// 選択中のオブジェクトを取得
+		GameObject* pSelected = dynamic_cast<GameObject*>(m_gui.GetSelected());
+
 		// 描画
-		m_pScene->DrawOnceCamera(ctx, renderer, true);
+		m_pScene->DrawOnceCamera(ctx, renderer, true, pSelected);
 	}
 
 	void SceneEditor::OnWindowSizeChanged(int width, int height)
