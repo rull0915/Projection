@@ -1,21 +1,13 @@
-﻿//====================================================//
-// ファイル名   : PlaySceneManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : ゲームプレイシーンの管理コンポーネント
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    PlaySceneManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   ゲームプレイシーンの管理コンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(PlaySceneManager)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <vector>
 
 #include "Components/World/WorldComponentBase.h"
@@ -27,21 +19,14 @@
 #include "Common/EventBus.h"
 #include "GamePlayEvent.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
 class Canvas;
 
-//====================================================//
-// クラス宣言
-//====================================================//
 class PlaySceneManager : public RHEngine::WorldComponentBase
 {
-private:
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+private:
 
 	// カメラ
 	RHEngine::Ref<RHEngine::GameObject> m_camera;
@@ -57,21 +42,8 @@ private:
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	PlaySceneManager(RHEngine::IComponentOwner* own);
 	~PlaySceneManager() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-
-	COMPONENT_TYPE(PlaySceneManager, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Awake() override;
 
@@ -82,10 +54,6 @@ public:
 	void Update(const RHEngine::GameTimer& gameTimer) override;
 
 private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
 
 	// 次元の切り替えを試みる関数
 	void TryChangeDimention();

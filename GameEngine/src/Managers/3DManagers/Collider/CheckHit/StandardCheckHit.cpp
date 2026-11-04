@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CheckHit.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/02
-//
-// 概要        : 衝突判定の関数をまとめたcpp 
-//====================================================//
+﻿/**
+ * @file    CheckHit.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "StandardCheckHit.h"
 #include "CheckHitAuxiliary.h"
@@ -17,10 +12,6 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	namespace Collision
 	{
 		bool CheckHit_Sphere_Sphere(ColliderBase* colA, ColliderBase* colB, HitInfomation* info)

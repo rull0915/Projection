@@ -1,23 +1,18 @@
-﻿//====================================================//
-// ファイル名  : ColliderCommon.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/22
-//
-// 概要        : Collider
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    ColliderCommon.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/22
+ */
 
 #include "pch.h"
 #include "Components/World/Collider/ColliderCommon.h"
+
 #include "Assets/Managers/AssetManager.h"
 
 namespace RHEngine
 {
-	ColliderCommon::ColliderCommon(IComponentOwner* own)
-		: WorldComponentBase(own)
+	ColliderCommon::ColliderCommon(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_pTransform{ GetComponent<Transform>() }
 		, m_isTrigger{ false }
 		, m_isDirty{ true }
@@ -25,9 +20,9 @@ namespace RHEngine
 		, m_layerNum{ 0 }
 		, m_latestVersion{ 1 }
 		, m_physicsMaterial{}
-		, m_colliderReceiver{ dynamic_cast<IColliderReceiver*>(own) }
+		, m_colliderReceiver{ dynamic_cast<IColliderReceiver*>(pOwner) }
 		, m_needInfo{ false }
-		, m_assetManager{ nullptr }
+		, m_pAssetManager{ nullptr }
 	{
 		ADD_PROPERTY(ColliderCommon, m_isTrigger);
 		ADD_PROPERTY(ColliderCommon, m_needInfo);
@@ -37,6 +32,6 @@ namespace RHEngine
 
 	const PhysicsMaterial* ColliderCommon::GetPhysicsMaterial() const
 	{
-		return m_assetManager->Get<PhysicsMaterial>(m_physicsMaterial);
+		return m_pAssetManager->Get<PhysicsMaterial>(m_physicsMaterial);
 	}
 }	// namespace RHEngine

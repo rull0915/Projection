@@ -1,23 +1,14 @@
-﻿//====================================================//
-// ファイル名  : ComponentCreator.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/30
-//
-// 概要       : コンポーネントの生成関数をまとめたクラス
-//====================================================//
+﻿/**
+ * @file    ComponentCreator.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/30
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Editor/Loader/ComponentFactory.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void ComponentFactory::Register(const std::string& name, ComponentInfo space, CreateFunc func)
 	{
 		// イテレータを取得
@@ -34,7 +25,7 @@ namespace RHEngine
 		m_creatorMap.insert({ name, { space, func} });
 	}
 
-	ComponentBase* ComponentFactory::Create(const std::string& name, GameObject* owner)
+	ComponentBase* ComponentFactory::Create(const std::string& name, GameObject* pOwner)
 	{
 		// イテレータを取得
 		auto it = m_creatorMap.find(name);
@@ -47,6 +38,6 @@ namespace RHEngine
 		}
 
 		// あれば実行
-		return it->second.second(owner);
+		return it->second.second(pOwner);
 	}
 }	// namespace RHEngine

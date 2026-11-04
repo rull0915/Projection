@@ -1,19 +1,13 @@
-﻿//====================================================//
-// ファイル名   : ImageUI.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/23
-//
-// 概要 : 画像描画コンポーネント
-//
-// 更新履歴 :
-// 2026/05/23 新規作成
-//====================================================//
+﻿/**
+ * @file    ImageUI.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/23
+ *
+ * @brief   画像描画コンポーネント
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/UI/Graphics/UIGraphicBase.h"
 #include "Components/Interface/IAssetDependent.h"
 #include "Assets/Objects/Handle.h"
@@ -22,40 +16,46 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+	class AssetManager;
+	class Renderer;
+
+	/**
+	 * @brief 画像描画コンポーネント
+	 */
 	class ImageUI : public UIGraphicBase, public IAssetDependent
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(UIGraphicBase);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// テクスチャハンドル
+		/** @brief 描画するテクスチャアセットのハンドル */
 		Handle<Texture> m_textureHandle;
 
-		// マテリアルハンドル
+		/** @brief 描画時に使用するマテリアルアセットのハンドル */
 		Handle<MaterialAsset> m_materialHandle;
 
-		// Rayと衝突するかどうか
+		/** @brief Rayと衝突するかどうか */
 		bool m_raycastTarget;
 
-		// AssetManager
-		AssetManager* m_assetManager;
+		/** @brief アセットマネージャーのポインタ */
+		AssetManager* m_pAssetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ImageUI(IComponentOwner* owner)
-			: UIGraphicBase(owner)
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param owner 所有者のポインタ
+		 */
+		ImageUI(IComponentOwner* pOwner)
+			: UIGraphicBase(pOwner)
 			, m_textureHandle{}
 			, m_materialHandle{}
 			, m_raycastTarget{ true }
-			, m_assetManager{ nullptr }
+			, m_pAssetManager{ nullptr }
 		{
 			ADD_PROPERTY(ImageUI, m_textureHandle);
 			ADD_PROPERTY(ImageUI, m_materialHandle);
@@ -64,37 +64,38 @@ namespace RHEngine
 
 		~ImageUI() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(ImageUI, UIGraphicBase)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
+		/**
+		 * @brief 画像の描画を行う
+		 */
 		void Draw(Renderer& renderer) override;
 
-		void ReceiveAssetManager(AssetManager& manager) override
+		/**
+		 * @brief アセットマネージャーを受け取る
+		 */
+		void ReceiveAssetManager(AssetManager& assetManager) override
 		{
-			m_assetManager = &manager;
+			m_pAssetManager = &assetManager;
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		//
 
+		/** @brief Rayに衝突するかどうか */
 		bool IsRaycastTarget() const { return m_raycastTarget; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
 
-		void SetTexture(Handle<Texture> handle)
-		{
-			m_textureHandle = handle;
-		}
+		/// @name セッター
+		/// @{
+		
+		/** @brief テクスチャハンドル */
+		void SetTexture(Handle<Texture> handle) { m_textureHandle = handle; }
+
+		/** @brief Rayに衝突するかどうか */
 		void SetRaycastTarget(bool f) { m_raycastTarget = f; }
+
+		/// @}
 	};
 } // namespace RHEngine

@@ -1,32 +1,17 @@
-﻿//====================================================//
-// ファイル名  : ComponentRegister.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ComponentRegister.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Scene/ComponentRegister.h"
-#include "Components/ComponentBase.h"
 
+#include "Components/ComponentBase.h"
 #include "Scene/UpdatePipeline.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
-	class RigidBody;
-	class RigidBody2D;
-
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	ComponentRegister::ComponentRegister(UpdatePipeline* pipeline)
 		: m_pPipeline{ pipeline }
 		, m_componentsMap{}

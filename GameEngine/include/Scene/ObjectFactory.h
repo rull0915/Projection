@@ -1,19 +1,15 @@
-﻿//====================================================//
-// ファイル名   : ObjectFactory.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/12
-//
-// 概要 : オブジェクトの生成を担うクラス
-//
-// 更新履歴 :
-// 2026/07/12 新規作成
-//====================================================//
+﻿/**
+ * @file    ObjectFactory.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/12
+ *
+ * @brief   オブジェクトの生成を担うクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "GameObject/GameObject.h"
 #include "Assets/Types/Prefab.h"
 #include "Assets/Objects/Handle.h"
@@ -23,43 +19,44 @@ namespace RHEngine
 	class Scene;
 	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief オブジェクトのファクトリ
+	 */
 	class ObjectFactory
 	{
 	private:
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
 
-		// シーンポインタ
+		/** @brief シーンポインタ */
 		Scene* m_pScene;
 
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene シーンポインタ
+		 * @param assetManager アセットマネージャー
+		 */
 		ObjectFactory(Scene* pScene, AssetManager& assetManager);
+
 		~ObjectFactory() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// オブジェクトを生成する関数
+		/** @brief オブジェクトを生成する関数 */
 		GameObject* Generate(DirectX::SimpleMath::Vector3 position = { 0, 0, 0 });
 
-		// プレハブからオブジェクトを生成する関数
+		/** @brief プレハブからオブジェクトを生成する関数 */
 		GameObject* Instantiate(Prefab* prefab) const;
 
+		/** @brief プレハブハンドルからオブジェクトを生成する関数 */
 		GameObject* Instantiate(Handle<Prefab> prefab) const;
 
-		// UIオブジェクトを生成する関数
+		/** @brief UIオブジェクトを生成する関数 */
 		GameObject* GenerateUI();
 	};
 }	// namespace RHEngine

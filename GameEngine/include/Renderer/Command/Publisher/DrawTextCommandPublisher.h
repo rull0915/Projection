@@ -1,54 +1,55 @@
-﻿//====================================================//
-// ファイル名   : DrawTextCommandPublisher.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/29
-//
-// 概要 : 文字列の描画を担当するクラス
-//
-// 更新履歴 :
-// 2026/04/29 新規作成
-//====================================================//
+﻿/**
+ * @file    DrawTextCommandPublisher.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/29
+ *
+ * @brief   文字描画コマンドを発行する
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+#include <DirectXMath.h>
+#include <DirectXMathVector.inl>
+
 #include "Renderer/Command/DrawCommandContainer.h"
 #include "Renderer/GraphicsSystem.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 文字描画コマンドを発行する
+	 */
 	class DrawTextCommandPublisher
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief コマンドのコンテナ */
+		DrawCommandContainer& m_commandContainer;
 
-		// コマンドコンテナ
-		DrawCommandContainer& m_container;
-
-		// システム
+		/** @brief 描画システム */
 		GraphicsSystem& m_graphicSystem;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		DrawTextCommandPublisher(DrawCommandContainer& container, GraphicsSystem& graphicSystem);
+
 		~DrawTextCommandPublisher() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// デフォルト
+		/**
+		 * @brief 文字列描画コマンド
+		 * @param font フォント
+		 * @param text 文字列
+		 * @param pos 描画位置
+		 * @param scale スケール
+		 * @param angle 回転角度
+		 * @param color 乗算色
+		 */
 		void Draw(
 			DirectX::SpriteFont* font,
 			const std::wstring& text,
@@ -58,7 +59,16 @@ namespace RHEngine
 			DirectX::SimpleMath::Color color
 		);
 
-		// 描画領域指定
+		/**
+		 * @brief 描画領域指定の文字列描画コマンド
+		 * @param font フォント
+		 * @param text 文字列
+		 * @param min 描画領域のmin
+		 * @param max 描画領域のmax
+		 * @param scale スケール
+		 * @param angle 回転角度
+		 * @param color 乗算色
+		 */
 		void Draw(
 			DirectX::SpriteFont* font,
 			const std::wstring& text,
@@ -68,7 +78,16 @@ namespace RHEngine
 			DirectX::SimpleMath::Color color
 		);
 
-		// 原点指定
+		/**
+		 * @brief 原点指定の文字列描画コマンド
+		 * @param font フォント
+		 * @param text 文字列
+		 * @param pos 描画位置 (原点がposに配置される)
+		 * @param scale スケール (原点基準で拡縮する)
+		 * @param angle 回転角度 (原点基準で回転する)
+		 * @param origin 原点 (uv座標)
+		 * @param color 乗算色
+		 */
 		void Draw(
 			DirectX::SpriteFont* font,
 			const std::wstring& text,
@@ -79,7 +98,17 @@ namespace RHEngine
 			DirectX::SimpleMath::Color color
 		);
 
-		// 描画領域 原点指定
+		/**
+		 * @brief 描画領域と原点を指定する文字列描画コマンド
+		 * @param font フォント
+		 * @param text 文字列
+		 * @param min 描画領域のmin
+		 * @param max 描画領域のmax
+		 * @param scale スケール (原点基準で拡縮)
+		 * @param angle 回転角度 (原点基準で回転)
+		 * @param origin 原点 (uv座標)
+		 * @param color 乗算色
+		 */
 		void Draw(
 			DirectX::SpriteFont* font,
 			const std::wstring& text,

@@ -1,51 +1,39 @@
-﻿//====================================================//
-// ファイル名   : DimentionManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/06
-//
-// 概要 : 次元変更管理クラス
-//
-// 更新履歴 :
-// 2026/06/06 新規作成
-//====================================================//
-
+﻿/**
+ * @file    DimentionManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/06
+ *
+ * @brief   次元変更管理クラス
+ */
 #pragma once
 
-#define IS_COMPONENT(DimentionManager)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "ChangeColliderComponent.h"
 #include "../Camera/ProjectionSmoothCamera.h"
 
 #include "Components/World/WorldComponentBase.h"
 #include "Components/Interface/IComponentListener.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
-
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief 次元変更を管理する
+ */
 class DimentionManager : public RHEngine::WorldComponentBase, public RHEngine::IComponentListener
 {
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 private:
-	// 状態
+	/**
+	 * @brief 状態を表す列挙型
+	 */
 	enum State
 	{
-		World2D,
-		World3D,
-		ChangeTo2D,
-		ChangeTo3D,
+		World2D,	///< 2D世界
+		World3D,	///< 3D世界
+		ChangeTo2D,	///< 3Dから2Dへ変化中
+		ChangeTo3D,	///< 2Dから3Dへ変化中
 	};
 
 private:
-
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
 
 	// カメラポインタ
 	ProjectionSmoothCamera* m_pCamera;
@@ -63,21 +51,8 @@ private:
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	DimentionManager(RHEngine::IComponentOwner* owner);
 	~DimentionManager() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(DimentionManager, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	// 初期化関数
 	void Awake() override;
@@ -135,10 +110,6 @@ public:
 	}
 
 private:
-
-	//-----------------------------------------------------
-	// 内部実装
-	//-----------------------------------------------------
 
 	// 追加予約済みコンポーネントを追加する
 	void AddReserved()

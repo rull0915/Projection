@@ -1,23 +1,15 @@
-﻿//====================================================//
-// ファイル名  : MtlFileLoader.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/13
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    MtlFileLoader.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/13
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "MtlFileLoader.h"
 
 #include <fstream>
-#include "Assets/EngineDefaultAssets.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
+#include "Assets/EngineDefaultAssets.h"
 
 namespace RHEngine
 {
@@ -202,4 +194,4 @@ namespace RHEngine
 
 		return materials;
 	}
-}
+}	// namespace RHEngine

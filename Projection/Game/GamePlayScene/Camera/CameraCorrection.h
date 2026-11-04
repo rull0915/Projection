@@ -1,72 +1,47 @@
-﻿//====================================================//
-// ファイル名   : CameraCorrection.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/27
-//
-// 概要 : カメラ補正コンポーネント
-//
-// 更新履歴 :
-// 2026/05/27 新規作成
-//====================================================//
+﻿/**
+ * @file    CameraCorrection.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/27
+ *
+ * @brief   カメラ補正コンポーネント
+ */
 
 #pragma once
 
-#define IS_COMPONENT(CameraCorrection)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "GameObject/Interface/IComponentOwner.h"
 
 #include "GameObject/GameObject.h"
 #include "TPSCamera.h"
 
-//====================================================//
-// 前方宣言
-//====================================================//
 class RHEngine::Scene;
 
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief カメラがめり込まないように補正する
+ */
 class CameraCorrection : public RHEngine::WorldComponentBase
 {
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
+
 private:
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
-	
-	// カメラ
+	/** @brief カメラの本体 */
 	TPSCamera* m_camera;
 
-	// プレイヤー
+	/** @brief プレイヤーの参照 */
 	RHEngine::Ref<RHEngine::GameObject> m_player;
 
-	// プレイヤーのレイヤー
+	/** @brief プレイヤーのレイヤー */
 	int m_playerLayer;
 
-	// シーンポインタ
+	/** @brief シーンポインタ */
 	RHEngine::Scene* m_pScene;
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	CameraCorrection(RHEngine::IComponentOwner* own);
 	~CameraCorrection() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(CameraCorrection, RHEngine::WorldComponentBase)
-
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Start() override;
 

@@ -1,20 +1,12 @@
-﻿//====================================================//
-// ファイル名   : Random.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/19
-//
-// 概要 : ランダムな数値を生成するクラス
-//
-// 更新履歴 :
-// 2026/2/18 新規作成
-// 2026/5/29 テンプレート化
-//====================================================//
+﻿/**
+ * @file    Random.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/19
+ *
+ * @brief   ランダムな数値を生成するクラス
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 #include <random>
 #include <mutex>
@@ -24,11 +16,16 @@ namespace RHEngine
 {
 	namespace Random
 	{
-		// スレッドセーフにするためのmutex
+		/** @brief スレッドセーフにするための */
 		inline std::mutex mtx;
 
+		/** @brief 乱数生成機 */
 		inline std::mt19937_64 mt;
 
+		/**
+		 * @brief 初期化関数 乱数の初期化を行う
+		 * @return 
+		 */
 		inline bool Init()
 		{
 			// 擬似乱数生成器の状態シーケンスのサイズ分、
@@ -36,7 +33,7 @@ namespace RHEngine
 			std::array<
 				std::seed_seq::result_type,
 				std::mt19937::state_size
-			> seed_data;
+			> seed_data{};
 
 			// 非決定的な乱数でシード列を構築する
 			std::random_device rd;
@@ -50,7 +47,13 @@ namespace RHEngine
 			return true;
 		}
 
-		// 数値型のみ指定可能のtemplate関数
+		/**
+		 * @brief 指定された範囲内からランダムな数値を取得する
+		 * @tparam T 取得する数値型
+		 * @param min 最小値
+		 * @param max 最大値
+		 * @return 乱数
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
 		inline T Get(T min, T max)
 		{

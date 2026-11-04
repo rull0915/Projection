@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : TitleManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/09/01
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    TitleManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/01
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "TitleManager.h"
 
@@ -17,11 +12,6 @@
 #include "GameController.h"
 #include "Input/PadInput.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 TitleManager::TitleManager(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_targetScene{}
@@ -47,7 +37,6 @@ TitleManager::TitleManager(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(TitleManager, m_audioSource);
 }
 
-// 最初のUpdate関数の直線に一度呼ばれます
 void TitleManager::Start()
 {
 	// 押下時処理を追加
@@ -67,7 +56,6 @@ void TitleManager::Start()
 	if (m_audioSource) m_audioSource->Play();
 }
 
-// 毎フレーム呼ばれます
 void TitleManager::Update(const RHEngine::GameTimer &)
 {
 	// コントローラー接続チェック

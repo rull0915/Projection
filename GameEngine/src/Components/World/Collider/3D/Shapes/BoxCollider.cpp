@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : BoxCollider.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/03
-//
-// 概要        :  ボックスのコライダー
-//====================================================//
+﻿/**
+ * @file    BoxCollider.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/03
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Collider/3D/Shapes/BoxCollider.h"
 
@@ -18,25 +13,29 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
+	BoxCollider::BoxCollider(IComponentOwner* pOwner)
+		: ColliderBase(pOwner)
+		, m_localSize{ 1, 1, 1 }
+		, m_cache{}
+	{
+		ADD_PROPERTY(BoxCollider, m_localSize);
+	}
 
 	void BoxCollider::UpdateCache() const
 	{
-		Transform* pT = GetTransform();
+		Transform* pTransform = GetTransform();
 
 		// ワールドの拡大率を取得
-		SimpleMath::Vector3 worldScale = pT->GetWorldScale();
+		SimpleMath::Vector3 worldScale = pTransform->GetWorldScale();
 
 		// ----- 中心座標の更新 ----- //
-		DirectX::SimpleMath::Vector3 world = SimpleMath::Vector3::Transform(GetLocalCenterPos(), pT->GetWorldMatrix());
+		DirectX::SimpleMath::Vector3 world = SimpleMath::Vector3::Transform(GetLocalCenterPos(), pTransform->GetWorldMatrix());
 		SetWorldPosition(world);
 
 		// ----- 各軸の更新 ----- //
-		m_cache.xAxis = pT->GetRight();
-		m_cache.yAxis = pT->GetUp();
-		m_cache.zAxis = pT->GetForward();
+		m_cache.xAxis = pTransform->GetRight();
+		m_cache.yAxis = pTransform->GetUp();
+		m_cache.zAxis = pTransform->GetForward();
 
 		// ----- スケールの更新 ----- //
 		m_cache.scale = m_localSize * worldScale;
@@ -54,9 +53,9 @@ namespace RHEngine
 		SetBoundingBox(BoundingBox(world - extent, world + extent));
 
 		// ----- ローカル座標行列の更新 ----- //
-		m_cache.localMatrix = pT->GetWorldRotationMatrix() * SimpleMath::Matrix::CreateTranslation(world);
+		m_cache.localMatrix = pTransform->GetWorldRotationMatrix() * SimpleMath::Matrix::CreateTranslation(world);
 
-		m_cache.localMatrixInverse = SimpleMath::Matrix::CreateTranslation(-world) * pT->GetWorldRotationMatrix().Transpose();
+		m_cache.localMatrixInverse = SimpleMath::Matrix::CreateTranslation(-world) * pTransform->GetWorldRotationMatrix().Transpose();
 
 		// フラグのリセット
 		ResetDirty();
@@ -65,7 +64,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void BoxCollider::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void BoxCollider::DebugRender(Renderer& renderer)
 	{
 		using namespace DirectX;
 
@@ -97,7 +96,7 @@ namespace RHEngine
 
 		for (int i = 0; i < 12; i++)
 		{
-			renderer.Draw().Primitive().DrawLine(points[edges[i * 2]], points[edges[i * 2 + 1]], color);
+			renderer.Draw().Primitive().DrawLine(points[edges[i * 2]], points[edges[i * 2 + 1]], DEBUG_COLOR);
 		}
 	}
 }	// namespace RHEngine

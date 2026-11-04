@@ -1,36 +1,42 @@
-﻿//====================================================//
-// ファイル名   : AssetSaver.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/02
-//
-// 概要 : アセットの保存関数をまとめたヘッダ
-//
-// 更新履歴 :
-// 2026/08/02 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetSaver.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/02
+ *
+ * @brief   アセットの保存関数をまとめたヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <filesystem>
 
-
-#include "Assets/Types/Texture.h"
-#include "Assets/Types/Prefab.h"
+#include "Assets/Objects/AssetBase.h"
 
 namespace RHEngine
 {
 	class AssetContext;
+	class AssetManager;
 
 	namespace Saver
 	{		
-		// 各ロード関数
+		/// @name 保存関数
+		/// @{
 
-		// Prefab
-		void PrefabSaver(AssetBase* prefab, const std::filesystem::path& path, AssetContext& ctx);
+		/**
+		 * @brief プレハブ保存関数
+		 * @param pAsset 保存するプレハブ
+		 * @param path 保存先のパス
+		 */
+		void PrefabSaver(AssetBase* pAsset, const std::filesystem::path& path, AssetContext& ctx);
 
-		// Propertyとして扱う場合
-		void AssetSaverAsProperty(AssetBase* asset, const std::filesystem::path& path, const AssetManager& assetManager);
+		/**
+		 * @brief アセットをPropertyObjectとして保存する
+		 * @param pAsset 保存するアセット
+		 * @param path 保存先のパス
+		 * @param assetManager アセットマネージャー
+		 */
+		void AssetSaverAsProperty(AssetBase* pAsset, const std::filesystem::path& path, const AssetManager& assetManager);
+
+		/// @}
 	}
 }	// namespace RHEngine

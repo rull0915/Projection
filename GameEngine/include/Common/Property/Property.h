@@ -1,86 +1,88 @@
-﻿//====================================================//
-// ファイル名   : Property.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/21
-//
-// 概要 : プロパティに関する情報を宣言したヘッダ
-//
-// 更新履歴 :
-// 2026/07/21 新規作成
-//====================================================//
+﻿/**
+ * @file    Property.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/21
+ *
+ * @brief   プロパティに関する情報を宣言したヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <functional>
 #include <typeindex>
 #include <string>
 
-//====================================================//
-// クラス宣言
-//====================================================//
-
 namespace RHEngine
 {
-	// 型の列挙型
+	/**
+	 * @brief プロパティとして扱うことが出来るタイプの列挙型
+	 */
 	enum class PropertyType
 	{
-		//----- 変数 -----//
+		/// @name 変数
+		/// @{
 
 		None,
-		Int,		// int
-		Float,		// float
-		Bool,		// bool
-		String,		// std::string
-		Vector2,	// DirectX::SimpleMath::Vector2
-		Vector3,	// DirectX::SimpleMath::Vector3
-		Vector4,	// DirectX::SimpleMath::Vector4
-		Quaternion,	// DirectX::SimpleMath::Quaternion
-		Color,		// DirectX::SimpleMath::Color
-		Object,		// PropertyObject派生クラス
-		Enum,		// 列挙型
-		AssetHandle,// アセットハンドル
-		ObjectRef,	// オブジェクト参照
-		Array,		// 配列
-		Range,		// 範囲
+		Int,		///< int
+		Float,		///< float
+		Bool,		///< bool
+		String,		///< std::string
+		Vector2,	///< DirectX::SimpleMath::Vector2
+		Vector3,	///< DirectX::SimpleMath::Vector3
+		Vector4,	///< DirectX::SimpleMath::Vector4
+		Quaternion,	///< DirectX::SimpleMath::Quaternion
+		Color,		///< DirectX::SimpleMath::Color
+		Object,		///< PropertyObject派生クラス
+		Enum,		///< 列挙型
+		AssetHandle,///< アセットハンドル
+		ObjectRef,	///< オブジェクト参照
+		Array,		///< 配列
+		Range,		///< 範囲
 
-		//----- 装飾システム -----//
+		/// @}
 
-		Header,		// ヘッダー
+		/// @name 装飾
+		/// @{
+
+		Header,		///< ヘッダー
+
+		/// @}
 	};
 
-	// プロパティ
+	/**
+	 * @brief プロパティ
+	 */
 	struct Property
 	{
-		// プロパティ名
-		std::string name = "";
-		// プロパティタイプ
-		PropertyType type = PropertyType::None;
-		// ポインタ
-		void* value = nullptr;
-		// タイプインデックス
-		std::type_index typeIndex = std::type_index(typeid(void));
+		std::string name = "";	///< プロパティ名
+
+		PropertyType type = PropertyType::None;	///< プロパティタイプ
+
+		void* value = nullptr;	///< 本体のアドレス
+
+		std::type_index typeIndex = std::type_index(typeid(void));	///< プロパティ型のtype_index
 	};
 
-	// 前方宣言
 	class PropertyObject;
 
-	// メンバ変数ポインタから実アドレスを取得できるコピー可能なプロパティ
+	/**
+	 * @brief メンバ変数ポインタから実アドレスを取得するプロパティのディスクリプタ
+	 */
 	struct PropertyDiscripter
 	{
-		// プロパティ名
-		std::string name = "";
-		// プロパティタイプ
-		PropertyType type = PropertyType::None;
-		// タイプインデックス
-		std::type_index typeIndex = std::type_index(typeid(void));
+		std::string name = "";	///< プロパティ名
 
-		// インスタンスを渡して実アドレスを取得する関数オブジェクト
-		std::function<void* (PropertyObject*)> getAddress;
+		PropertyType type = PropertyType::None;	///< プロパティタイプ
+		
+		std::type_index typeIndex = std::type_index(typeid(void));	///< プロパティ型のタイプインデックス
 
-		// 実データに解決する関数
+		std::function<void* (PropertyObject*)> getAddress;	///< インスタンスを渡して実アドレスを取得する関数オブジェクト
+
+		/**
+		 * @brief プロパティ型へ解決する
+		 * @param obj 所有者のポインタ
+		 * @return 解決済みプロパティ
+		 */
 		Property Resolve(PropertyObject* obj) const
 		{
 			return Property{ name, type, getAddress ? getAddress(obj) : nullptr, typeIndex };

@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CollisionMap.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要        : 衝突関数マップ
-//====================================================//
+﻿/**
+ * @file    CollisionMap.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #include "Managers/CollisionMap.h"
@@ -17,10 +12,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数宣言
-	//====================================================//
-
 	// 衝突関数の登録関数
 	bool CollisionMap::Register(Component::TypeId id1, Component::TypeId id2, CollisionFunc func)
 	{
@@ -37,13 +28,13 @@ namespace RHEngine
 		if (id1 != id2)
 		{
 			// 順序逆の関数を生成
-			CollisionFunc reverseFunc = [=](ColliderBase* col1, ColliderBase* col2, HitInfomation* info) -> bool
+			CollisionFunc reverseFunc = [=](ColliderBase* pCol1, ColliderBase* Col2, HitInfomation* pInfo) -> bool
 				{
 					// 当たっているかどうか
-					bool result = func(col2, col1, info);
+					bool result = func(Col2, pCol1, pInfo);
 
 					// 衝突情報を反転させる
-					if (result && info) *info = info->Inverse();
+					if (result && pInfo) *pInfo = pInfo->Inverse();
 
 					// 判定結果を返す
 					return result;
@@ -57,11 +48,11 @@ namespace RHEngine
 		return true;
 	}
 
-	bool CollisionMap::CheckHit(ColliderBase* col1, ColliderBase* col2, HitInfomation* info)
+	bool CollisionMap::CheckHit(ColliderBase* pCol1, ColliderBase* pCol2, HitInfomation* pInfo)
 	{
 		// IDを取得
-		Component::TypeId id1 = col1->TypeId();
-		Component::TypeId id2 = col2->TypeId();
+		Component::TypeId id1 = pCol1->TypeId();
+		Component::TypeId id2 = pCol2->TypeId();
 
 		// マップに登録されているか調べる
 		auto func = m_collisionMap.find({ id1, id2 });
@@ -69,7 +60,7 @@ namespace RHEngine
 		// あれば実行
 		if (func != m_collisionMap.end())
 		{
-			return func->second(col1, col2, info);
+			return func->second(pCol1, pCol2, pInfo);
 		}
 
 		return false;
@@ -111,11 +102,11 @@ namespace RHEngine
 		return true;
 	}
 
-	bool CollisionMap2D::CheckHit(ColliderBase2D* col1, ColliderBase2D* col2, HitInfomation2D* info)
+	bool CollisionMap2D::CheckHit(ColliderBase2D* pCol1, ColliderBase2D* pCol2, HitInfomation2D* pInfo)
 	{
 		// IDを取得
-		Component::TypeId id1 = col1->TypeId();
-		Component::TypeId id2 = col2->TypeId();
+		Component::TypeId id1 = pCol1->TypeId();
+		Component::TypeId id2 = pCol2->TypeId();
 
 		// マップに登録されているか調べる
 		auto func = m_collisionMap.find({ id1, id2 });
@@ -123,7 +114,7 @@ namespace RHEngine
 		// あれば実行
 		if (func != m_collisionMap.end())
 		{
-			return func->second(col1, col2, info);
+			return func->second(pCol1, pCol2, pInfo);
 		}
 
 		return false;

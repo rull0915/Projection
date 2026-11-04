@@ -1,34 +1,24 @@
-﻿//====================================================//
-// ファイル名   : CheckHitAuxiliary2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/04
-//
-// 概要 : 衝突判定で使用する補助関数をまとめた2D用のヘッダです
-//
-// 更新履歴 :
-// 2026/04/24 新規作成
-//====================================================//
+﻿/**
+ * @file    CheckHitAuxiliary2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/04
+ *
+ * @brief   衝突判定で使用する補助関数をまとめた2D用のヘッダです
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数宣言
-	//====================================================//
-
-	/// <summary>
-	/// 線分(p1, p2)上で、点pに最も近い点を探す補助関数
-	/// </summary>
-	/// <param name="p1"></param>
-	/// <param name="p2"></param>
-	/// <param name="p"></param>
-	/// <returns></returns>
+	/**
+	 * @brief 点から線分への最近点を求める
+	 * @param p1 線分の端
+	 * @param p2 線分の端
+	 * @param p 点
+	 * @return 最近点
+	 */
 	static SimpleMath::Vector2 ClosestPointOnSegment(const SimpleMath::Vector2& p1, const SimpleMath::Vector2& p2, const DirectX::SimpleMath::Vector2& p)
 	{
 		SimpleMath::Vector2 v = p2 - p1;    // 線分の方向ベクトル
@@ -48,6 +38,16 @@ namespace RHEngine
 		return p1 + v * t;
 	}
 
+	/**
+	 * @brief 線分と線分の最近点を求める
+	 * @param p1 線分1の端
+	 * @param p2 線分1の端
+	 * @param q1 線分2の端
+	 * @param q2 線分2の端
+	 * @param outP 線分1上の最近点
+	 * @param outQ 線分2上の最近点
+	 * @return 
+	 */
 	static float ClosedSegmentToSegment(const SimpleMath::Vector2& p1, const SimpleMath::Vector2& p2, const SimpleMath::Vector2& q1, const SimpleMath::Vector2& q2, SimpleMath::Vector2& outP, SimpleMath::Vector2& outQ)
 	{
 		SimpleMath::Vector2 d1 = p2 - p1; // 線分1の方向ベクトル
@@ -111,6 +111,12 @@ namespace RHEngine
 		return (outP - outQ).LengthSquared();
 	}
 
+	/**
+	 * @brief 点から原点に配置されているBoundinxBoxへの最近点を求める
+	 * @param halfSize BoundingBoxのサイズの半分
+	 * @param point 点
+	 * @return 最近点
+	 */
 	static SimpleMath::Vector2 ClosedPointOnBoundingBox(const SimpleMath::Vector2& halfSize, const SimpleMath::Vector2 point)
 	{
 		SimpleMath::Vector2 nearPoint = {

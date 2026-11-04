@@ -1,22 +1,19 @@
-﻿//====================================================//
-// ファイル名   : AssetRegistry.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : Assetの所有者 生成や破棄を管理します
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    AssetRegistry.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   Assetの所有者 生成や破棄を管理します
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <vector>
 #include <memory>
 #include <mutex>
+#include <cstdint>
+#include <typeinfo>
+#include <unordered_map>
 
 #include "Assets/Objects/Handle.h"
 #include "Assets/Objects/AssetBase.h"
@@ -24,218 +21,132 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief アセットを所有し生成や破棄を管理する
+	 */
 	class AssetRegistry : public IAssetResolver
 	{
 	private:
 
-		// スロット構造体
+		/**
+		 * @brief アセットを保持するスロット
+		 */
 		struct Slot
 		{
-			// Asset本体
-			std::unique_ptr<AssetBase> asset{};
+			std::unique_ptr<AssetBase> asset{};	///< アセット本体
 
-			// 世代
-			uint32_t generation = 1;
+			uint32_t generation = 1;	///< 世代番号
 
-			// 現在有効かどうか
-			bool isValid = false;
+			bool isValid = false;		///< 有効なスロットかどうか
 
-			// UUID 
-			UUID uuid = 0;
+			UUID uuid = 0;	///< 対応するUUID
 
-			const std::type_info* type = &typeid(void);
+			const std::type_info* type = &typeid(void);	///< アセットのタイプ情報
 		};
 
 	private:
-		// Slotの配列
+
+		/** @brief 管理中スロットのリスト */
 		std::vector<Slot> m_slots;
 
-		// 現在使われていないスロットをまとめた配列(配列に含まれるインデックスが現在未使用)
+		/** @brief 未使用スロットのリスト (配列に含まれるインデックスが現在未使用) */
 		std::vector<uint32_t> m_freeIndexList;
 
-		// UUIDからインデックスへの変換マップ
+		/** @brief UUIDからインデックスの変換マップ */
 		std::unordered_map<UUID, uint32_t> m_uuidToIndex;
 
-		// mutex
+		/** @brief m_freeIndexListを保護するmutex */
 		std::mutex m_mutex;
 
 	public:
+		/// @name ライフサイクル
+		/// @{
 
 		AssetRegistry();
+
 		~AssetRegistry();
 
-		// アセットを登録する関数
-		UnTypeHandle Register(UUID uuid)
-		{
-			// 非同期実行されるためロック
-			std::lock_guard<std::mutex> lock(m_mutex);
+		/// @}
 
-			// インデックス
-			uint32_t index = 0;
+		/**
+		 * @brief アセットの登録をする
+		 * @param uuid 登録するUUID
+		 * @return アセットに対応するハンドル
+		 */
+		UnTypeHandle Register(UUID uuid);
 
-			// 未使用リストが空なら新たに作る
-			if (m_freeIndexList.empty())
-			{
-				// インデックスを末尾に
-				index = static_cast<uint32_t>(m_slots.size());
+		/**
+		 * @brief アセットを破棄する
+		 * @param index 破棄するスロット番号
+		 */
+		void Release(uint32_t index);
 
-				// 空のスロットを生成
-				m_slots.push_back({});
-			}
-			// 未使用インデックスが存在するなら
-			else
-			{
-				// 最新のインデックスを使用する
-				index = m_freeIndexList.back();
+		/**
+		 * @brief アセットを置き換える
+		 * @detalis 既存のアセットを無効化せず置き換える
+		 * @param index 置き換えるインデックス
+		 * @param newAsset 置き換え後のアセット
+		 */
+		void Replace(uint32_t index, std::unique_ptr<AssetBase> newAsset);
 
-				// リストから削除する
-				m_freeIndexList.pop_back();
-			}
-
-			// ロード前なのでnullptrにしておく
-			m_slots[index].asset = nullptr;
-
-			// 有効フラグを立てる
-			m_slots[index].isValid = true;
-
-			// UUIDを設定する
-			m_slots[index].uuid = uuid;
-
-			// 変換マップに追加
-			m_uuidToIndex[uuid] = index;
-
-			// ハンドルを生成し返す
-			return UnTypeHandle{ index, m_slots[index].generation };
-		}
-
-		// アセットを破棄する関数
-		void Release(uint32_t index)
-		{
-			// 非同期実行されるためロック
-			std::lock_guard<std::mutex> lock(m_mutex);
-
-			// 無効インデックスならスキップ
-			if (index >= m_slots.size() || !m_slots[index].isValid) return;
-
-			// 破棄するスロットを取得
-			auto& slot = m_slots[index];
-
-			// マップから削除
-			m_uuidToIndex.erase(slot.uuid);
-
-			// アセット本体を解放
-			slot.asset.reset();
-
-			// 無効化
-			slot.isValid = false;
-
-			// 世代を進めることで古いハンドルを無効化
-			slot.generation++;
-
-			// 未使用リストに追加
-			m_freeIndexList.push_back(index);
-		}
-
-		// アセットを置き換える関数 (既存のハンドルを無効化しない)
-		void Replace(uint32_t index, std::unique_ptr<AssetBase> newAsset)
-		{
-			// 非同期実行されるためロック
-			std::lock_guard<std::mutex> lock(m_mutex);
-
-			if (newAsset)
-			{
-				m_slots[index].type = &typeid(*newAsset);
-				m_slots[index].asset = std::move(newAsset);
-				m_slots[index].asset->SetUUID(m_slots[index].uuid);
-			}
-			else
-			{
-				m_slots[index].type = &typeid(void);
-				m_slots[index].asset = nullptr;
-			}
-		}
-
-		// ハンドルからアセットを取得する関数
+		/**
+		 * @brief ハンドルからアセット本体を取得する
+		 * @tparam T アセットの型
+		 * @param handle 取得対象のハンドル
+		 * @return 対応するアセット本体
+		 */
 		template<typename T>
-		T* Get(Handle<T> handle) const
-		{
-			// タイプ
-			static const std::type_info* type = &typeid(T);
+		T* Get(Handle<T> handle) const;
 
-			// 無効なインデックスを指していた場合nullptrを返す
-			if (handle.index >= m_slots.size()) return nullptr;
+		/**
+		 * @brief ハンドルから本体を取得する (タイプ識別なし)
+		 * @param handle 取得対象のハンドル
+		 * @return アセット本体
+		 */
+		AssetBase* GetFromUnTypeHandle(UnTypeHandle handle) const;
 
-			// スロットを取得
-			auto& slot = m_slots[handle.index];
+		/**
+		 * @brief UUIDからハンドルを取得する
+		 * @param uuid 取得対象のUUID
+		 * @return 対応するハンドル
+		 */
+		UnTypeHandle GetHandle(UUID uuid) const override;
 
-			// タイプが異なる場合nullptrを返す
-			if (slot.type != type) return nullptr;
+		/**
+		 * @brief ハンドルからUUIDを取得する
+		 * @param handle 取得対象のハンドル
+		 * @return 対応するUUID
+		 */
+		UUID GetUUID(const UnTypeHandle& handle) const override;
 
-			// 無効スロットだった場合nullptrを返す
-			if (!slot.isValid) return nullptr;
-
-			// 異なる世代のハンドルだった場合nullptrを返す
-			if (handle.generation != slot.generation) return nullptr;
-
-			// アセットを返す
-			return static_cast<T*>(slot.asset.get());
-		}
-
-		// タイプ識別なしのハンドルからアセットを取得する関数
-		AssetBase* GetFromUnTypeHandle(UnTypeHandle handle) const
-		{
-			// 無効なインデックスを指していた場合nullptrを返す
-			if (handle.index >= m_slots.size()) return nullptr;
-
-			// スロットを取得
-			auto& slot = m_slots[handle.index];
-
-			// 無効スロットだった場合nullptrを返す
-			if (!slot.isValid) return nullptr;
-
-			// 異なる世代のハンドルだった場合nullptrを返す
-			if (handle.generation != slot.generation) return nullptr;
-
-			// アセットを返す
-			return slot.asset.get();
-		}
-
-		// UUIDからUnTypeHandle
-		UnTypeHandle GetHandle(UUID uuid) const override
-		{
-			// UUIDで検索
-			auto it = m_uuidToIndex.find(uuid);
-
-			// 未登録UUIDならエラーハンドル
-			if (it == m_uuidToIndex.end()) return ERROR_UNTYPE_HANDLE;
-
-			// インデックスを取得
-			uint32_t index = it->second;
-
-			// ハンドルを構築して返す
-			return UnTypeHandle{ index, m_slots[index].generation };
-		}
-
-		// UnTypeHandleからUUID
-		UUID GetUUID(const UnTypeHandle& handle) const override
-		{
-			// 範囲外ハンドルならエラーID
-			if (handle.index >= m_slots.size()) return UUID_NONE;
-
-			// スロットを取得
-			const auto& slot = m_slots[handle.index];
-
-			// 無効スロットならエラーID
-			if (!slot.isValid || slot.generation != handle.generation) return 0;
-
-			// UUIDを取得し返す
-			return slot.uuid;
-		}
-
-		// リセット
+		/**
+		 * @brief このクラスをリセットする
+		 */
 		void Reset();
 	};
+
+	template<typename T>
+	inline T* AssetRegistry::Get(Handle<T> handle) const
+	{
+		// タイプ
+		static const std::type_info* type = &typeid(T);
+
+		// 無効なインデックスを指していた場合nullptrを返す
+		if (handle.index >= m_slots.size()) return nullptr;
+
+		// スロットを取得
+		auto& slot = m_slots[handle.index];
+
+		// タイプが異なる場合nullptrを返す
+		if (slot.type != type) return nullptr;
+
+		// 無効スロットだった場合nullptrを返す
+		if (!slot.isValid) return nullptr;
+
+		// 異なる世代のハンドルだった場合nullptrを返す
+		if (handle.generation != slot.generation) return nullptr;
+
+		// アセットを返す
+		return static_cast<T*>(slot.asset.get());
+	}
 }	// namespace RHEngine

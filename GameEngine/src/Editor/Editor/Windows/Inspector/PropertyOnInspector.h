@@ -1,57 +1,55 @@
-﻿//====================================================//
-// ファイル名   : PropertyOnInspector.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/17
-//
-// 概要 : プロパティをインスペクターに表示するクラス
-//
-// 更新履歴 :
-// 2026/07/17 新規作成
-//====================================================//
+﻿/**
+ * @file    PropertyOnInspector.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/17
+ *
+ * @brief   プロパティをインスペクターに表示するクラス
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "Common/Property/PropertyObject.h"
+#include "Common/Property/Property.h"
 
 namespace RHEngine
 {
 	class AssetManager;
 	class Scene;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プロパティをインスペクターウィンドウに表示する
+	 */
 	class PropertyOnInspector
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// アセット管理クラス
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
-		// 編集中クォータニオンのキャッシュ
+		/** @brief 編集中クォータニオンのキャッシュ */
 		DirectX::SimpleMath::Vector3 m_quaternionCache;
-		// 編集中フラグ
+
+		/** @brief クォータニオン編集中フラグ */
 		bool m_quaternionEditing;		
 
-		// シーンポインタ
+		/** @brief シーンポインタ */	
 		Scene* m_pScene;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		PropertyOnInspector(Scene* pScene, AssetManager& am)
-			: m_assetManager{ am }
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pScene 編集対象のシーン
+		 * @param assetManager アセットマネージャー
+		 */
+		PropertyOnInspector(Scene* pScene, AssetManager& assetManager)
+			: m_assetManager{ assetManager }
 			, m_quaternionCache{ DirectX::SimpleMath::Vector3::Zero }
 			, m_quaternionEditing{ false }
 			, m_pScene{ pScene }
@@ -60,42 +58,51 @@ namespace RHEngine
 
 		~PropertyOnInspector() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-		
-		// プロパティオブジェクトを表示する関数
-		bool DrawPropertyObject(PropertyObject* object, bool readOnly = false);
+		/// @}
 
-		// プロパティを一つ表示する関数
-		bool DrawProperty(Property* property);
+		/**
+		 * @brief プロパティオブジェクトをインスペクターウィンドウに表示する
+		 * @param pObject 対象のオブジェクト
+		 * @param readOnly 編集不可かどうか
+		 * @return 変更されたかどうか
+		 */
+		bool DrawPropertyObject(PropertyObject* pObject, bool readOnly = false);
+
+		/**
+		 * @brief プロパティを1つインスペクターウィンドウに表示する
+		 * @param pProperty 対象のプロパティ
+		 * @return 変更されたかどうか
+		 */
+		bool DrawProperty(Property* pProperty);
 
 	private:
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-		
-		// QuaternionのGUI表示を行う関数
+
+		/// @name 各プロパティの表示関数
+		/// @{
+
+		/** @brief QuaternionをGUIに表示する */
 		bool DrawQuaternion(Property* property);
 
-		// PropertyObjectのGUi表示を行う関数
+		/** @brief PropertyObjectをGUIに表示する */
 		bool DrawObject(Property* property);
 		
-		// 列挙型のGUi表示を行う関数
+		/** @brief 列挙型をGUIに表示する */
 		bool DrawEnum(Property* property);
 		
-		// AssetHandleのGUi表示を行う関数
+		/** @brief AssetHandleをGUIに表示する */
 		bool DrawAssetHandle(Property* property);
 
-		// RefのGUI表示を行う関数
+		/** @brief RefをGUIに表示する */
 		bool DrawReference(Property* property);
 
-		// 配列のGUI表示を行う関数
+		/** @brief 配列をGUIに表示する */
 		bool DrawArray(Property* property);
 
-		// 範囲の表示を行う関数
+		/** @brief 範囲をGUIに表示する */
 		bool DrawRange(Property* property);
+
+		/// @}
 	};
-}
+}	// namespace RHEngine
 
 #endif // ENGINE_GUI

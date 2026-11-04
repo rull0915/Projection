@@ -1,7 +1,10 @@
-﻿//
-// pch.h
-// Header for standard system include files.
-//
+﻿/**
+ * @file    pch.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/02/02
+ *
+ * @brief   プリコンパイル済みヘッダ
+ */
 
 #pragma once
 

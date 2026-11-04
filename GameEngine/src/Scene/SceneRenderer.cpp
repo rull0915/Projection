@@ -1,19 +1,15 @@
-﻿//====================================================//
-// ファイル名  : SceneRenderer.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/12
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    SceneRenderer.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/12
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Scene/SceneRenderer.h"
 
 #include "Scene/Scene.h"
 #include "Renderer/Renderer.h"
+#include "Scene/ComponentRegister.h"
 
 #include "System/Render/GraphicsManager.h"
 #include "Debug/DebugManager.h"
@@ -23,13 +19,10 @@
 #include "Renderer/Shadow/ShadowRenderer.h"
 
 #include "Components/World/Renderer/MeshRenderer.h"
+#include "GameObject/GameObject.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	SceneRenderer::SceneRenderer(Scene* pScene)
 		: m_pScene{ pScene }
 	{}
@@ -43,10 +36,10 @@ namespace RHEngine
 		renderer.Begin(ctx.pShadowMap);
 
 		// 描画コマンドの発行
-		for (auto& comp : m_pScene->GetComponentRegister()->GetAllComponents<MeshRenderer>())
+		for (auto& pComponent : m_pScene->GetComponentRegister()->GetAllComponents<MeshRenderer>())
 		{
 			// メッシュレンダラーに変換
-			MeshRenderer* pMesh = static_cast<MeshRenderer*>(comp);
+			MeshRenderer* pMesh = static_cast<MeshRenderer*>(pComponent);
 
 			// 描画条件を満たしていればなら
 			if (pMesh->IsActive() && pMesh->GetOwn()->IsActive())
@@ -65,15 +58,15 @@ namespace RHEngine
 
 	void SceneRenderer::DrawWorldPass(const RenderContext& ctx, Renderer& renderer)
 	{
-		auto* deviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+		auto* pDeviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// 描画開始 未設定の場合直接バックバッファへ描画
 		if (ctx.target)
 		{
-			ctx.target->Begin(deviceContext);
+			ctx.target->Begin(pDeviceContext);
 
 			// クリア
-			if (ctx.clearTarget) ctx.target->Clear(deviceContext, ctx.backColor);
+			if (ctx.clearTarget) ctx.target->Clear(pDeviceContext, ctx.backColor);
 		}
 
 		// カメラデータを設定
@@ -84,38 +77,15 @@ namespace RHEngine
 		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 
 		// Worldの描画
-		if (ctx.flags & DrawFlag::World)
-		{
-			// 描画管理クラスの描画処理
-			m_pScene->GetPipeline()->DrawWorld(renderer);
-		}
+		m_pScene->GetPipeline()->DrawWorld(renderer);
 
-		// ワールドデータのリセット
-		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
-		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
-
-		// Worldのデバッグ描画
-		if (ctx.flags & DrawFlag::WorldDebug && DebugManager::Instance().IsDrawDebugOnWorld())
-		{
-			for (auto& c : m_pScene->GetComponentRegister()->GetDebugRenders())
-			{
-				// キャスト
-				if (auto* com = dynamic_cast<ComponentBase*>(c))
-				{
-					if (!com->IsActive() || !com->GetOwn()->IsActive()) continue;
-
-					c->DebugRender(renderer, DEBUG_COLOR);
-				}
-			}
-		}
-
-		// 描画コマンドの発行
+		// 描画コマンドの実行
 		renderer.ExecuteCommands();
 
 		// 描画終了
 		if (ctx.target)
 		{
-			ctx.target->End(deviceContext);
+			ctx.target->End(pDeviceContext);
 		}
 	}
 
@@ -125,35 +95,78 @@ namespace RHEngine
 		renderer.ChangeCamera(ctx.cameraData);
 
 		// UIの描画
-		if (ctx.flags & DrawFlag::UI)
-		{
-			m_pScene->GetPipeline()->DrawUI(renderer);
-		}
+		m_pScene->GetPipeline()->DrawUI(renderer);
 
-		// RectTransformのデバッグ描画
-		if (ctx.flags & DrawFlag::UIDebug && DebugManager::Instance().IsDrawDebugOnUI())
-		{
-			m_pScene->GetPipeline()->DrawRects(renderer, DEBUG_COLOR);
-		}
-
-		auto* deviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+		auto* pDeviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// 設定されていればターゲットへの描画を開始
 		if (ctx.target)
 		{
-			ctx.target->Begin(deviceContext);
+			ctx.target->Begin(pDeviceContext);
 
 			// 上から描画する想定のため背景は完全透明
-			if (ctx.clearTarget) ctx.target->Clear(deviceContext, ctx.backColor);
+			if (ctx.clearTarget) ctx.target->Clear(pDeviceContext, ctx.backColor);
 		}
 
-		// 描画コマンドの発行
+		// 描画コマンドの実行
 		renderer.ExecuteCommands();
 
 		// 設定されていればターゲットへの描画を終了
 		if (ctx.target)
 		{
-			ctx.target->End(deviceContext);
+			ctx.target->End(pDeviceContext);
+		}
+	}
+
+	void SceneRenderer::DrawDebug(const RenderContext& ctx, GameObject* pObject, Renderer& renderer)
+	{
+		if (!pObject) return;
+
+		auto* pDeviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+
+		// カメラデータを設定
+		renderer.ChangeCamera(ctx.cameraData);
+
+		// ワールドデータのリセット
+		renderer.SetWorld(DirectX::SimpleMath::Matrix::Identity);
+		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
+
+		// デバッグ描画
+		DrawDebugObject(pObject, renderer);
+
+		// 描画開始 未設定の場合直接バックバッファへ描画
+		if (ctx.target)
+		{
+			ctx.target->Begin(pDeviceContext);
+		}
+		
+		// 描画コマンドの実行
+		renderer.ExecuteCommands();
+
+		// 設定されていればターゲットへの描画を終了
+		if (ctx.target)
+		{
+			ctx.target->End(pDeviceContext);
+		}
+	}
+
+	void SceneRenderer::DrawDebugObject(GameObject* pObject, Renderer& renderer)
+	{
+		// 全コンポーネントを調べる
+		for (auto& pComponent : pObject->GetAllComponents())
+		{
+			// デバッグ描画を実装するコンポーネントなら
+			if (auto* pDebugRenderable = dynamic_cast<IDebugRenderable*>(pComponent))
+			{
+				// 描画
+				pDebugRenderable->DebugRender(renderer);
+			}
+		}
+
+		// 子も描画する
+		for (auto& child : pObject->GetChildren())
+		{
+			DrawDebugObject(child, renderer);
 		}
 	}
 }	// namespace RHEngine

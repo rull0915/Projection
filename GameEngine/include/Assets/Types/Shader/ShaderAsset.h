@@ -1,32 +1,31 @@
-﻿//====================================================//
-// ファイル名   : ShaderAsset.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/08/03
-//
-// 概要 : シェーダーを管理するアセット
-//
-// 更新履歴 :
-// 2026/08/03 新規作成
-//====================================================//
+﻿/**
+ * @file    ShaderAsset.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/08/03
+ *
+ * @brief   シェーダーを管理するアセット
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
+#include <string>
 #include <variant>
+#include <cstdint>
 #include <filesystem>
+#include <d3d11.h>
+#include <wrl/client.h>
 
+#include "ShaderLoader.h"
 #include "Assets/Objects/AssetBase.h"
 #include "ShaderParam.h"
-#include "ShaderLoader.h"
 #include "Assets/Managers/AssetLoadResult.h"
 
 namespace RHEngine
 {
-	/// <summary>
-	/// シェーダーのタイプ
-	/// </summary>
+	/**
+	 * @brief シェーダーのステージタイプ
+	 */
 	enum class ShaderType 
 	{
 		Vertex, 
@@ -37,13 +36,21 @@ namespace RHEngine
 		Compute, 
 	};
 
-	/// <summary>
-	/// シェーダーアセット
-	/// </summary>
+	/**
+	 * @brief シェーダーアセット
+	 * @details 1つのステージのシェーダーを管理する
+	 */
 	class ShaderAsset : public AssetBase
 	{
+		/**
+		 * @details 読み込み関数をfriendに指定
+		 */
+		friend LoadResult Loader::ShaderLoader(const std::filesystem::path& path, AssetContext& ctx);
+
 	public:
-		// あらゆるShaderのComPtrを持つことが出来る型
+		/**
+		 * @brief あらゆるステージのシェーダーを保持するためのvariant型
+		 */
 		using ShaderObjectVariant = std::variant<
 			Microsoft::WRL::ComPtr<ID3D11VertexShader>,		// 頂点
 			Microsoft::WRL::ComPtr<ID3D11GeometryShader>,	// ジオメトリ
@@ -52,86 +59,76 @@ namespace RHEngine
 			Microsoft::WRL::ComPtr<ID3D11ComputeShader>,	// コンピュート
 			Microsoft::WRL::ComPtr<ID3D11DomainShader>		// ドメイン
 		>;
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// シェーダータイプ
+		/** @brief 保持するシェーダーのステージ */
 		ShaderType m_type;
 
-		// シェーダー本体
+		/** @brief シェーダー本体 */
 		ShaderObjectVariant m_shader;
 
-		// コンパイルしたシェーダーのバイナリ文字列
+		/** @brief コンパイル済みシェーダーのバイナリ文字列 */
 		Microsoft::WRL::ComPtr<ID3DBlob> m_byteCode;
 
-		// パラメータ一覧
+		/** @brief 自身が持つパラメータの一覧 */
 		std::vector<ShaderParam> m_params;
 
-		// 定数バッファ一覧
+		/** @brief 定数バッファの一覧 */
 		std::vector<ConstantBufferInfo> m_cBuffers;
 
-		// InputLayoutCache識別用ID
+		/** 
+		 * @brief シェーダー識別用ID 
+		 * @details InputLayoutCacheで識別するために使用される
+		 *			読み込み時に自動で割り当てられる
+		 */
 		uint32_t m_shaderID;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @ name ライフサイクル
+		/// @{ 
+		
+		/**
+		 * @param id シェーダー識別ID
+		 */
 		ShaderAsset(uint32_t id);
+
 		~ShaderAsset() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// コンテキストに自信を紐づける関数
-		void Bind(ID3D11DeviceContext* context);
+		/**
+		 * @brief コンテキストに自身をセットする
+		 * @param pContext コンテキストポインタ
+		 */
+		void Bind(ID3D11DeviceContext* pContext);
 
-		// パラメータを名前検索する関数
-		ShaderParam* FindParam(const std::string& name)
-		{
-			// 名前が一致するパラメータを探して取得
-			auto it = std::find_if(m_params.begin(), m_params.end(), 
-				[&](const ShaderParam& param)->bool { return param.name == name; });
+		/**
+		 * @brief パラメータを名前で検索する
+		 * @param name 検索対象の名前
+		 * @return パラメータポインタ
+		 */
+		ShaderParam* FindParam(const std::string& name);
 
-			// あれば返す
-			if (it != m_params.end()) return &(*it);
-			else return nullptr;
-		}
+		/// @name ゲッター
+		/// @{
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
-
-		// タイプ
+		/** @brief タイプ */
 		ShaderType GetType() const { return m_type; }
 
-		// ID
+		/** @brief ID */
 		uint32_t GetShaderID() const { return m_shaderID; }
 
-		// パラメータ一覧
+		/** @brief パラメータ一覧 */
 		const std::vector<ShaderParam>& GetParams() const { return m_params; }
 
-		// 定数バッファ一覧
+		/** @brief 定数バッファ一覧 */
 		const std::vector<ConstantBufferInfo>& GetBuffers() const { return m_cBuffers; };
 
-		// バイナリ
+		/** @brief コンパイル済みバイナリ */
 		ID3DBlob* GetBlob() const { return m_byteCode.Get(); }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
-
-	private:
-
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
-		friend LoadResult Loader::ShaderLoader(const std::filesystem::path& path, AssetContext& ctx);
+		/// @}
 	};
-}
+}	// namespace RHEngine

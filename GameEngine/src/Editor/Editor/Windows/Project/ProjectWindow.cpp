@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : ProjectWindow.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    ProjectWindow.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ */
 
 #include "pch.h"
 
@@ -24,10 +18,6 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	void ProjectWindow::DrawProject()
 	{
 		// 描画開始
@@ -66,13 +56,13 @@ namespace RHEngine
 		// ドラッグの受け取り
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+			if (const ImGuiPayload* pPayload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				// GameObjectに変換
-				auto data = (GameObject*)payload->Data;
+				auto pData = (GameObject*)pPayload->Data;
 
 				// Object名を取得
-				std::string name = data->GetName();
+				std::string name = pData->GetName();
 
 				// ファイル名を生成
 				std::filesystem::path file = std::filesystem::path(path.string() + "\\" + (name.empty() ? "GameObject" : name) + ".gameobject");
@@ -81,7 +71,7 @@ namespace RHEngine
 				ObjectSaver saver(m_assetManager);
 
 				// 保存
-				saver.SaveObjectToFile(file, data);
+				saver.SaveObjectToFile(file, pData);
 
 				// スキャンさせる
 				m_assetManager.GetDataBase().ScanOnceFile(file);

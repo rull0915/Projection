@@ -1,38 +1,26 @@
-﻿//====================================================//
-// ファイル名  : TargetCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/20
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    TargetCamera.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/20
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Camera/Derived/TargetCamera.h"
 
 #include "Components/World/Transform/Transform.h"
-
 #include "System/WindowManager.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	TargetCamera::TargetCamera(IComponentOwner* own)
 		: CameraBase(own)
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
-		, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 		, m_fov{ PI_F / 4 }
-		, m_target{ nullptr }
+		, m_pTarget{ nullptr }
 	{
 		ADD_PROPERTY(TargetCamera, m_nearZ);
 		ADD_PROPERTY(TargetCamera, m_farZ);
-		ADD_PROPERTY(TargetCamera, m_aspect);
 		ADD_PROPERTY(TargetCamera, m_fov);
 
 		UpdateView();
@@ -44,21 +32,21 @@ namespace RHEngine
 	/// </summary>
 	void TargetCamera::UpdateView()
 	{
-		if (!m_target) return;
+		if (!m_pTarget) return;
 
 		// ---- Upベクトルを算出
 		using namespace DirectX;
 
 		// 位置を取得
-		auto trans = GetOwn()->GetComponent<Transform>();
-		trans->UpdateCache();
+		auto pTransform = GetOwn()->GetComponent<Transform>();
+		pTransform->UpdateCache();
 
-		SimpleMath::Vector3 cameraPos = trans->GetWorldPosition();
+		SimpleMath::Vector3 cameraPos = pTransform->GetWorldPosition();
 
-		auto targetTrans = m_target->GetComponent<Transform>();
-		targetTrans->UpdateCache();
+		auto pTargetTransform = m_pTarget->GetComponent<Transform>();
+		pTargetTransform->UpdateCache();
 
-		SimpleMath::Vector3 targetPoint = targetTrans->GetWorldPosition();
+		SimpleMath::Vector3 targetPoint = pTargetTransform->GetWorldPosition();
 
 		// 各方向ベクトル
 		SimpleMath::Vector3 forward = targetPoint - cameraPos;
@@ -85,10 +73,13 @@ namespace RHEngine
 	/// </summary>
 	void TargetCamera::UpdateProj()
 	{
+		// アスペクト比を取得
+		float aspect = WindowManager::Instance().GetAspect();
+
 		// 各設定から射影行列を作成
 		SetProj(DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 			m_fov,
-			m_aspect,
+			aspect,
 			m_nearZ,
 			m_farZ
 		));

@@ -1,22 +1,13 @@
-﻿//====================================================//
-// ファイル名  : LightManager.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/11
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    LightManager.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/11
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "LightManager.h"
 #include "Components/World/Transform/Transform.h"
 #include "Math/Bounding.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -220,4 +211,4 @@ namespace RHEngine
 
 		return lightCameraData;
 	}
-}
+}	// namespace RHEngine

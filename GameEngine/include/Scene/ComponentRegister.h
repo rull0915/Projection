@@ -1,85 +1,78 @@
-﻿//====================================================//
-// ファイル名   : ComponentRegister.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要 : コンポーネントを各マネージャーへ登録するクラス
-//
-// 更新履歴 :
-// 2026/06/26 新規作成
-//====================================================//
+﻿/**
+ * @file    ComponentRegister.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ *
+ * @brief   コンポーネントを各マネージャーへ登録するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
 #include <unordered_map>
-#include "Components/ComponentBase.h"
 
+#include "Common/UUID.h"
+#include "Components/ComponentBase.h"
 #include "Components/Interface/IComponentListener.h"
 #include "Components/Interface/IDebugRenderable.h"
 #include "Components/Interface/IWindowSizeDependent.h"
+#include "Components/ComponentTypeId.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 前方宣言
-	//====================================================//
 	class UpdatePipeline;
 	class ComponentBasel;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief コンポーネントのレジスタ
+	 */
 	class ComponentRegister
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
+		/** @brief 更新順を管理するパイプライン */
 		UpdatePipeline* m_pPipeline;
 
-		// コンポーネントを読み取るリスト
+		/** @brief コンポーネントの追加削除を通知されるコンポーネントのリスト */
 		std::vector<IComponentListener*> m_listeners;
 
-		// デバッグ描画のリスト
+		/** @brief デバッグ描画を行うコンポーネントのリスト */
 		std::vector<IDebugRenderable*> m_debugRenders;
 
-		// スクリーンサイズ依存コンポーネントのリスト
+		/** @brief スクリーンサイズ依存コンポーネントのリスト */
 		std::vector<IWindowSizeDependent*> m_screenSizeDependents;
 
-		// 全コンポーネントのマップ
+		/** @brief 全コンポーネントのタイプをキーとしたマップ */
 		std::unordered_map<Component::TypeId, std::vector<ComponentBase*>> m_componentsMap;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ComponentRegister(UpdatePipeline* pipeline);
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param pipeline パイプライン
+		 */
+		ComponentRegister(UpdatePipeline* pPipeline);
+
 		~ComponentRegister() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 各マネージャーへ登録する関数
-		void RegisterComponent(ComponentBase* component);
+		/** @brief 各マネージャーへ登録する関数 */
+		void RegisterComponent(ComponentBase* pComponent);
 
-		// 各マネージャーから登録解除する関数
-		void UnRegisterComponent(ComponentBase* component);
+		/** @brief 各マネージャーから登録解除する関数 */
+		void UnRegisterComponent(ComponentBase* pComponent);
 
-		//-----------------------------------------------------
-		// コンポーネントの取得関数
-		//-----------------------------------------------------
-
-		// デバッグ描画コンポーネントの全取得
+		/** @brief デバッグ描画コンポーネントの全取得 */
 		const std::vector<IDebugRenderable*>& GetDebugRenders() const { return m_debugRenders; }
 
-		// 全コンポーネントの取得関数
+		/**
+		 * @brief 指定された型のコンポーネントをシーンから全て取得する
+		 * @tparam T 取得する型
+		 * @return 取得したコンポーネントリスト
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
 		std::vector<ComponentBase*>& GetAllComponents()
 		{
@@ -87,7 +80,11 @@ namespace RHEngine
 			return m_componentsMap[T::StaticTypeId()];
 		}
 
-		// 1コンポーネントの取得関数
+		/**
+		 * @brief シーンのコンポーネント全てから指定の型のコンポーネントを1つ取得する
+		 * @tparam T 
+		 * @return 取得したコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
 		ComponentBase* GetComponent()
 		{
@@ -98,7 +95,12 @@ namespace RHEngine
 			return nullptr;
 		}
 
-		// コンポーネントをUUIDで検索する関数
+		/**
+		 * @brief UUIDからコンポーネントを取得する
+		 * @tparam T 取得対象の型
+		 * @param uuid 調べるUUID
+		 * @return 取得したコンポーネント
+		 */
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<ComponentBase, T>>>
 		T* GetComponentFromUUID(UUID uuid)
 		{
@@ -126,7 +128,10 @@ namespace RHEngine
 			return nullptr;
 		}
 
-		// スクリーンサイズ依存のコンポーネントを全て取得する関数
+		/**
+		 * @brief スクリーンサイズ依存のコンポーネントを全て取得する
+		 * @return 
+		 */
 		std::vector<IWindowSizeDependent*>& GetScreenSizeDependents() { return m_screenSizeDependents; }
 	};
 }	// namespace RHEngine

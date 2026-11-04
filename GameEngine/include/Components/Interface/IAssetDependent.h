@@ -1,34 +1,37 @@
-﻿//====================================================//
-// ファイル名   : IAssetDependent.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/26
-//
-// 概要 : Assetに依存することを明示するインターフェース
-//
-// 更新履歴 :
-// 2026/07/26 新規作成
-//====================================================//
+﻿/**
+ * @file    IAssetDependent.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/26
+ *
+ * @brief   Assetに依存することを明示するインターフェース
+ */
 
 #pragma once
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 
 namespace RHEngine
 {
 	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief アセットに依存するコンポーネントのインターフェース
+	 */
 	class IAssetDependent
 	{
 	public:
-		// 仮想デストラクタ
+		/// @name ライフサイクル
+		/// @{
+
+		IAssetDependent() = default;
+
 		virtual ~IAssetDependent() = default;
 
-		// AssetManagerを受け取るクラス
+		/// @}
+
+		/**
+		 * @brief Assetマネージャーを受け取る
+		 * @details AddComponentの際にシーン経由で渡される
+		 * @param assets アセットマネージャー
+		 */
 		virtual void ReceiveAssetManager(AssetManager& assets) = 0;
 	};
 }	// namespace RHEngine

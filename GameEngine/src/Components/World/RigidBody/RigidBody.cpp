@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : RigidBody.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/06
-//
-// 概要        :  RigidBodyコンポーネント
-//====================================================//
+﻿/**
+ * @file    RigidBody.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/06
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/RigidBody/RigidBody.h"
 
@@ -16,12 +11,8 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	RigidBody::RigidBody(IComponentOwner* own)
-		: RigidBodyBase(own)
+	RigidBody::RigidBody(IComponentOwner* pOwner)
+		: RigidBodyBase(pOwner)
 		, m_velocity{ 0.0f }
 		, m_acceleration{ 0.0f }
 		, m_force{ 0.0f }
@@ -67,5 +58,28 @@ namespace RHEngine
 
 		// 貯まった力をリセット
 		m_force = SimpleMath::Vector3::Zero;
+	}
+
+	void RigidBody::AddForce(DirectX::SimpleMath::Vector3 vec, ForceMode mode, bool wakeUp)
+	{
+		switch (mode)
+		{
+		case ForceMode::Force:
+			m_force += vec;
+			break;
+		case ForceMode::Acceleration:
+			m_force += vec * GetMass();
+			break;
+		case ForceMode::Impulse:
+			m_velocity += vec * GetInvMass();
+			break;
+		case ForceMode::VelocityChange:
+			m_velocity += vec;
+			break;
+		default:
+			break;
+		}
+
+		if (wakeUp) WakeUp();
 	}
 }	// namespace RHEngine

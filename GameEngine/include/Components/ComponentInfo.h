@@ -1,31 +1,27 @@
-﻿//====================================================//
-// ファイル名   : ComponentInfo.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/06/26
-//
-// 概要 : コンポーネントのカテゴリを宣言した列挙型
-//
-// 更新履歴 :
-// 2026/06/26 新規作成
-// 2026/06/28 ComponentSpaceの追加
-//====================================================//
+﻿/**
+ * @file    ComponentInfo.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/26
+ *
+ * @brief   コンポーネントの情報をまとめたヘッダ
+ */
 
 #pragma once
 
-//====================================================//
-// 列挙型宣言
-//====================================================//
-
 namespace RHEngine
 {
-	// コンポーネントの所属プロジェクト
+	/**
+	 * @brief コンポーネントの所属プロジェクト
+	 */
 	enum class ComponentProject : unsigned char
 	{
-		Engine,
-		Game,
+		Engine,	///< ゲームエンジンデフォルトのコンポーネント
+		Game,	///< ゲーム独自のコンポーネント
 	};
 
-	// コンポーネントが所属する空間
+	/**
+	 * @brief コンポーネントが所属する空間
+	 */
 	enum class ComponentSpace : unsigned char
 	{
 		None,
@@ -34,7 +30,9 @@ namespace RHEngine
 		Both,
 	};
 
-	// コンポーネントの情報をまとめた構造体
+	/**
+	 * @brief コンポーネントの情報
+	 */
 	struct ComponentInfo
 	{
 		ComponentProject project;

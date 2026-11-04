@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : SceneCamera.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    SceneCamera.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ */
 
 #include "pch.h"
 
@@ -24,16 +18,10 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	// コンストラクタ
 	SceneCamera::SceneCamera()
 		: m_movable{ false }
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
-		, m_aspect{ static_cast<float>(WindowManager::Instance().GetWidth()) / WindowManager::Instance().GetHeight() }
 		, m_fov{ DirectX::XM_PI / 4 }
 		, m_targetPoint{ 0, 0, 0 }
 		, m_rotation{ DirectX::SimpleMath::Quaternion::Identity }
@@ -45,8 +33,7 @@ namespace RHEngine
 		, m_scaleRatio{ 0.01f }
 	{}
 
-	// 最初のUpdate関数の直線に一度呼ばれます
-	void SceneCamera::Start()
+	void SceneCamera::Initialize()
 	{
 		// 行列を更新しておく
 		DirectX::SimpleMath::Vector3 forward = DirectX::SimpleMath::Vector3::Transform(DirectX::SimpleMath::Vector3::Forward, m_rotation);
@@ -58,8 +45,7 @@ namespace RHEngine
 		UpdateProj();
 	}
 
-	// 毎フレームUpdate及び物理挙動の後に呼ばれます
-	void SceneCamera::Update(const GameTimer& gameTimer)
+	void SceneCamera::Update()
 	{
 		// 移動不可なら何もしない
 		if (!m_movable) return;
@@ -116,9 +102,6 @@ namespace RHEngine
 		m_position = m_targetPoint - m_radius * forward;
 	}
 
-	/// <summary>
-	/// ビュー行列更新関数
-	/// </summary>
 	void SceneCamera::UpdateView()
 	{
 		// 位置をそのまま行列に
@@ -128,18 +111,26 @@ namespace RHEngine
 			).Invert();
 	}
 
-	/// <summary>
-	/// 投射行列更新関数
-	/// </summary>
 	void SceneCamera::UpdateProj()
-	{
+	{		
 		// 各設定から射影行列を作成
 		m_proj = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
 			m_fov,
-			m_aspect,
+			WindowManager::Instance().GetAspect(),
 			m_nearZ,
 			m_farZ
 		);
+	}
+
+	const SceneCameraData SceneCamera::GetData() const
+	{
+		SceneCameraData data;
+
+		data.view = m_view;
+		data.proj = m_proj;
+		data.pos = m_position;
+
+		return data;
 	}
 }	// namespace RHEngine
 

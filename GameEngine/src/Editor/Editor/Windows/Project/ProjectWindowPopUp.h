@@ -1,67 +1,60 @@
-﻿//====================================================//
-// ファイル名   : ProjectWindowPopUp.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/08
-//
-// 概要 : プロジェクトウィンドウが扱うポップアップを管理するクラス
-//
-// 更新履歴 :
-// 2026/10/08 新規作成
-//====================================================//
+﻿/**
+ * @file    ProjectWindowPopUp.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/08
+ *
+ * @brief   プロジェクトウィンドウが扱うポップアップを管理するクラス
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <string>
 #include <filesystem>
 
 namespace RHEngine
 {
 	class AssetManager;
 
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プロジェクトウィンドウが扱うポップアップを管理する
+	 */
 	class ProjectWindowPopUp
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
-		// 選択中パス
+		/** @brief 選択中のパス */
 		std::filesystem::path m_selectedPath;
 
-		// 出現フラグ
+		/** @brief 名前変更ポップアップが出現するかどうか */
 		bool m_openRenamePopup;
+
+		/** @brief 新規作成ポップアップが出現するかどうか */
 		bool m_openCreatePopup;
 
-		// ポップアップに使用する文字列
+		/** @brief ポップアップの文字列 */
 		std::string m_popupStr;
 
-		// リネーム対象のパス
+		/** @brief 名前変更対象のパス */
 		std::filesystem::path m_targetPath;
 
-		// 作成対象のディレクトリ
+		/** @brief 新規作成対象のディレクトリ */
 		std::filesystem::path m_createDirectory;
 
-		// 作成するアセットタイプ
+		/** @brief 作成するアセットタイプ名 */
 		std::string m_createType;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ProjectWindowPopUp(AssetManager& am)
-			: m_assetManager{ am }
+		/// @name ライフサイクル
+		/// @{
+
+		ProjectWindowPopUp(AssetManager& assetManager)
+			: m_assetManager{ assetManager }
 			, m_selectedPath{}
 			, m_openRenamePopup{ false }
 			, m_openCreatePopup{ false }
@@ -70,31 +63,40 @@ namespace RHEngine
 			, m_createDirectory{}
 			, m_createType{}
 		{}
+
 		~ProjectWindowPopUp() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		/// <summary>
-		/// ファイル操作ポップアップの表示
-		/// </summary>
-		/// <param name="path">操作するファイルパス</param>
-		/// <param name="isDirectory">ディレクトリかどうか</param>
+		/**
+		 * @brief ファイル操作ポップアップの表示
+		 * @param path 操作するファイルパス
+		 * @param isDirectory ディレクトリかどうか
+		 */
 		void DrawFileOperation(const std::filesystem::path& path, bool isDirectory);
 
-		// 名前変更ポップアップの出現
+		/**
+		 * @brief 名前変更ポップアップを開く
+		 * @param path 変更対象のパス
+		 */
 		void OpenRenamePopUp(const std::filesystem::path& path);
 
-		// 新規作成ポップアップの出現
+		/**
+		 * @brief 新規作成ポップアップを開く
+		 * @param path 作成対象のディレクトリ
+		 */
 		void OpenCreatePopUp(const std::filesystem::path& path);
 
-		// 名前変更ポップアップの描画
+		/**
+		 * @brief 名前変更ポップアップを描画する
+		 */
 		void DrawRenamePopup();
 
-		// 新規作成ポップアップの描画
+		/**
+		 * @brief 新規作成ポップアップを描画する
+		 */
 		void DrawCreatePopup();
 	};
-}
+}	// namespace RHEngine
 
-#endif
+#endif // ENGINE_GUI

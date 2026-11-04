@@ -1,26 +1,19 @@
-﻿//====================================================//
-// ファイル名  : LightComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/11
-//
-// 概要       : LightComponentシーン
-//====================================================//
+﻿/**
+ * @file    LightComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/11
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Light/LightComponent.h"
+#include "Renderer/Renderer.h"
+#include "Components/World/Transform/Transform.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
 	// コンストラクタ
-	LightComponent::LightComponent(IComponentOwner* owner)
-		: WorldComponentBase(owner)
+	LightComponent::LightComponent(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_lightType{ LightType::None }
 		, m_color{ 1, 1, 1, 1 }
 		, m_intensity{ 1.0f }
@@ -43,11 +36,11 @@ namespace RHEngine
 		properties = PropertyObject::GetProperties();
 
 		// 1つのfloat変数を追加するラムダ式
-		auto addOnceFloat = [&properties](const std::string& name, void* value)
+		auto addOnceFloat = [&properties](const std::string& name, void* pValue)
 			{
 				properties.push_back(
 					Property(
-						name, PropertyType::Float, value
+						name, PropertyType::Float, pValue
 					)
 				);
 			};
@@ -108,4 +101,39 @@ namespace RHEngine
 			m_radius = 0.0f;
 		}
 	}
-}
+
+	void LightComponent::DebugRender(Renderer& renderer)
+	{
+		// タイプによって変更
+		switch (m_lightType)
+		{
+		case RHEngine::LightType::Point:
+			DebugDrawPointLight(renderer);
+			break;
+		case RHEngine::LightType::Spot:
+			break;
+		case RHEngine::LightType::Directional:
+			break;
+		default:
+			break;
+		}
+	}
+
+	void LightComponent::DebugDrawPointLight(Renderer& renderer)
+	{
+		// 中心座標を取得
+		Transform* pTransform = GetComponent<Transform>();
+
+		DirectX::SimpleMath::Vector3 center = pTransform->GetWorldPosition();
+
+		renderer.Draw().Primitive().DrawCircle(
+			center, DirectX::SimpleMath::Vector3::Up, m_radius, 16, m_color, false
+		);
+		renderer.Draw().Primitive().DrawCircle(
+			center, DirectX::SimpleMath::Vector3::Right, m_radius, 16, m_color, false
+		);
+		renderer.Draw().Primitive().DrawCircle(
+			center, DirectX::SimpleMath::Vector3::Forward, m_radius, 16, m_color, false
+		);
+	}
+}	// namespace RHEngine

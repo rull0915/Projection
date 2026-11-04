@@ -1,58 +1,64 @@
-﻿//====================================================//
-// ファイル名   : Ray.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/05/30
-//
-// 概要 : レイクラス
-//
-// 更新履歴 :
-// 2026/05/30 新規作成
-//====================================================//
+﻿/**
+ * @file    Ray.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/30
+ *
+ * @brief   レイクラス
+ */
 
 #pragma once
 
+#include <SimpleMath.h>
+
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief Rayクラス
+	 */
 	class Ray
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
+		/** @brief 始点 */
 		DirectX::SimpleMath::Vector3 m_start;
+
+		/** @brief 方向ベクトル */
 		DirectX::SimpleMath::Vector3 m_direction;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param start 始点
+		 * @param direction 方向ベクトル
+		 */
 		Ray(DirectX::SimpleMath::Vector3 start, DirectX::SimpleMath::Vector3 direction)
 			: m_start{ start }
 			, m_direction{ direction }
 		{
 			m_direction.Normalize();
 		}
+
 		~Ray() = default;
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @}
 
-		const DirectX::SimpleMath::Vector3& GetStart() const
-		{
-			return m_start;
-		}
-		const DirectX::SimpleMath::Vector3& GetDirection() const
-		{
-			return m_direction;
-		}
+		/// @name ゲッター
+		/// @{
 
+		/** @brief 始点 */
+		const DirectX::SimpleMath::Vector3& GetStart() const { return m_start; }
+
+		/** @brief 方向ベクトル */
+		const DirectX::SimpleMath::Vector3& GetDirection() const { return m_direction; }
+
+		/**
+		 * @brief 最小座標を取得する
+		 * @param maxDistance Rayの長さ
+		 * @return 最小座標
+		 */
 		const DirectX::SimpleMath::Vector3 GetMin(float maxDistance) const
 		{
 			return DirectX::SimpleMath::Vector3{
@@ -61,6 +67,12 @@ namespace RHEngine
 				m_direction.z > 0 ? m_start.z : m_start.z + m_direction.z * maxDistance
 			};
 		}
+
+		/**
+		 * @brief 最大座標を取得する
+		 * @param maxDistance Rayの長さ
+		 * @return 最大座標
+		 */
 		const DirectX::SimpleMath::Vector3 GetMax(float maxDistance) const
 		{
 			return DirectX::SimpleMath::Vector3{

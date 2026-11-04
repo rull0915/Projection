@@ -1,4 +1,4 @@
-// Automatically generated from rh.png
+﻿// Automatically generated from rh.png
 #pragma once
 
 namespace RHEngine::AssetData {

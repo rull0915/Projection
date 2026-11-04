@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : BoxCollider2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/17
-//
-// 概要        :  2Dボックスのコライダー
-//====================================================//
+﻿/**
+ * @file    BoxCollider2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/17
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Collider/2D/Shapes/BoxCollider2D.h"
 
@@ -19,20 +14,24 @@ using namespace DirectX;
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
+	BoxCollider2D::BoxCollider2D(IComponentOwner* pOwner)
+		: ColliderBase2D(pOwner)
+		, m_localSize{ 1, 1 }
+		, m_cache{}
+	{
+		ADD_PROPERTY(BoxCollider2D, m_localSize);
+	}
 
 	void BoxCollider2D::UpdateCache() const
 	{
-		Transform* pT = GetTransform();
+		Transform* pTransform = GetTransform();
 
 		// ワールドの拡大率を取得
-		SimpleMath::Vector3 worldScale = pT->GetWorldScale();
+		SimpleMath::Vector3 worldScale = pTransform->GetWorldScale();
 
 		// ----- 中心座標の更新 ----- //
 		DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
-		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
+		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pTransform->GetWorldMatrix());
 
 		auto& world2D = WorldSetting2D::Instance();
 
@@ -63,7 +62,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void BoxCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void BoxCollider2D::DebugRender(Renderer& renderer)
 	{
 		using namespace DirectX;
 
@@ -104,7 +103,7 @@ namespace RHEngine
 			renderer.Draw().Primitive().DrawLine(
 				DirectX::SimpleMath::Vector3{ worldPoints[i] },
 				DirectX::SimpleMath::Vector3{ worldPoints[(i + 1) % 4] },
-				color);
+				DEBUG_COLOR);
 		}
 	}
 }	// namespace RHEngine

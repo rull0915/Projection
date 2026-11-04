@@ -1,35 +1,30 @@
-﻿//====================================================//
-// ファイル名   : PropertyTypeIndex.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/09
-//
-// 概要 : プロパティで使用するタイプインデックスを取得するクラス
-//
-// 更新履歴 :
-// 2026/10/09 新規作成
-//====================================================//
+﻿/**
+ * @file    PropertyTypeIndex.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/09
+ *
+ * @brief   プロパティで使用するタイプインデックスを取得するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include <typeindex>
+
 #include "Assets/Objects/Handle.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プロパティに対応するtype_indexを管理する
+	 */
 	class PropertyTypeIndex
 	{
 	public:
-		/// <summary>
-		/// 型ごとに対応するtype_indexを取得する関数
-		/// </summary>
-		/// <typeparam name="T">型</typeparam>
-		/// <returns></returns>
+		/**
+		 * @brief 型に対応するプロパティ用のtype_indexを取得する
+		 * @tparam T 調べる型
+		 * @return 対応するtype_index
+		 */
 		template<typename T>
 		static std::type_index GetTypeIndex()
 		{
@@ -39,6 +34,7 @@ namespace RHEngine
 				// アセットの型を返す
 				return std::type_index(typeid(T::value_type));
 			}
+			// それ以外はそのままのtype_indexを扱う
 			else
 			{
 				return std::type_index(typeid(T));

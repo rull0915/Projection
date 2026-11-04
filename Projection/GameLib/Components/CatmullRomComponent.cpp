@@ -1,24 +1,14 @@
-﻿//====================================================//
-// ファイル名  : CatmullRomComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/10
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    CatmullRomComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/10
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CatmullRomComponent.h"
 
 #include "Renderer/Renderer.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 CatmullRomComponent::CatmullRomComponent(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_isLoop{ false }
@@ -36,7 +26,7 @@ CatmullRomComponent::CatmullRomComponent(RHEngine::IComponentOwner* own)
 	ADD_PROPERTY(CatmullRomComponent, m_p3);
 }
 
-void CatmullRomComponent::DebugRender(RHEngine::Renderer & renderer, const DirectX::SimpleMath::Color & color)
+void CatmullRomComponent::DebugRender(RHEngine::Renderer & renderer)
 {
 	// 描画
 	const size_t count = 100;
@@ -69,7 +59,7 @@ void CatmullRomComponent::DebugRender(RHEngine::Renderer & renderer, const Direc
 			) + m_offset;
 
 			// 描画
-			renderer.Draw().Primitive().DrawLine(prev, now, color);
+			renderer.Draw().Primitive().DrawLine(prev, now, DEFAULT_DEBUG_COLOR);
 		}
 	}
 }
@@ -85,6 +75,7 @@ DirectX::SimpleMath::Vector3 CatmullRomComponent::GetValue(float ratio)
 		// 値を返す
 		return DirectX::SimpleMath::Vector3::CatmullRom(m_p0, m_p1, m_p2, m_p3, newRatio) + m_offset;
 	}
+
 	// ループする場合
 	else
 	{

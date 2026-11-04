@@ -1,79 +1,91 @@
-﻿//====================================================//
-// ファイル名   : CollideManager2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/16
-//
-// 概要 : 衝突を管理するクラスです シングルトンで作成します
-//
-// 更新履歴 :
-// 2026/04/16 新規作成
-//====================================================//
+﻿/**
+ * @file    CollideManager2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/16
+ *
+ * @brief   衝突を管理するクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <vector>
 
 #include "../../ReserveContainer.h"
 #include "Components/World/Collider/2D/ColliderBase2D.h"
 #include "SpaceDivision/TreeManager2D.h"
 #include "Physics/HitContact.h"
+#include "SpaceDivision/ObjectForTree2D.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 2Dの衝突を管理する
+	 */
 	class CollideManager2D : public ReserveContainer<ColliderBase2D>
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// 管理しているコライダー
+		/** @brief 4分木登録用オブジェクトリスト */
 		std::vector<ObjectForTree2D*> m_treeObjects;
 
-		// 衝突リスト保持用配列
+		/** @brief 衝突したコライダーペアの数 */
 		unsigned int m_colCount;
+
+		/** @brief 衝突したコライダーのリスト */
 		std::vector<ColliderBase2D*> m_collideList;
 
-		// 木構造
+		/** @brief 4分木管理クラス */
 		TreeManager2D m_tree;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		CollideManager2D()
 			: m_treeObjects{}
 			, m_collideList{}
 			, m_tree{ { 256, 256 }, 5, {0, 0} }
 			, m_colCount{ 0 }
 		{};
+
 		~CollideManager2D() = default;
 
-		// 全コライダーのキャッシュ更新
+		/// @}
+
+		/**
+		 * @brief 全コライダーのキャッシュを更新する
+		 */
 		void UpdateCaches();
 
-		// 全コライダーの木構造空間での移動
+		/**
+		 * @brief 全コライダーのうち動いたコライダーを4分木に再配置する
+		 */
 		void MoveAllColliderOnTree();
 
-		// 全コライダーの衝突チェック
+		/**
+		 * @brief 全コライダーの衝突チェック
+		 * @param contacts 衝突ペアリスト
+		 */
 		void CheckHitAll(std::vector<HitContact2D>& contacts);
 
-		// コライダーの衝突チェック
+		/**
+		 * @brief ブロードフェーズを通過したコライダーのペアに対してナローフェーズを行う
+		 * @param contact 衝突情報を書き込む変数
+		 * @return 衝突したかどうか
+		 */
 		bool CheckHitPair(ColliderBase2D*, ColliderBase2D*, HitContact2D& contact);
 
 	private:
 
-		// 登録予約済みのコライダーを追加する関数
+		/**
+		 * @brief 追加予約を反映する
+		 */
 		void AddReserved() override;
 
-		// 削除予約済みのコライダーを削除する関数
+		/**
+		 * @brief 削除予約を反映する
+		 */
 		void RemoveReserved() override;
 	};
 }	// namespace RHEngine

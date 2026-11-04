@@ -1,36 +1,24 @@
-﻿//====================================================//
-// ファイル名  : SwingComponent.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/14
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    SwingComponent.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/14
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "SwingComponent.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
-SwingComponent::SwingComponent(RHEngine::IComponentOwner* own)
-	: UIComponentBase(own)
+SwingComponent::SwingComponent(RHEngine::IComponentOwner* pOwner)
+	: UIComponentBase(pOwner)
 	, m_rectTransform{ nullptr }
 {
 }
 
-// 生成直後に一度呼ばれます
 void SwingComponent::Awake()
 {
 	// RectTransformを取得
 	m_rectTransform = GetComponent<RHEngine::RectTransform>();
 }
 
-// 毎フレーム呼ばれます
 void SwingComponent::Update(const RHEngine::GameTimer & gameTimer)
 {
 	static float e = 0;

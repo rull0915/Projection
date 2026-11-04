@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : SelectBlock.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/07/12
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    SelectBlock.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/12
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "SelectBlock.h"
 
@@ -17,11 +12,6 @@
 #include "Scene/Transition/FadeTransition.h"
 #include "Input/InputSystem.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
-// コンストラクタ
 SelectBlock::SelectBlock(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)
 	, m_targetScene{}

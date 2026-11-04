@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CapsuleCollider2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/03
-//
-// 概要        :  カプセルのコライダー
-//====================================================//
+﻿/**
+ * @file    CapsuleCollider2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/03
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Collider/2D/Shapes/CapsuleCollider2D.h"
 
@@ -17,17 +12,25 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
+	CapsuleCollider2D::CapsuleCollider2D(IComponentOwner* pOwner)
+		: ColliderBase2D(pOwner)
+		, m_axisType{ 1 }
+		, m_capsuleHeight{ 1.0f }
+		, m_radius{ 0.5f }
+		, m_cache{}
+	{
+		ADD_PROPERTY(CapsuleCollider2D, m_axisType);
+		ADD_PROPERTY(CapsuleCollider2D, m_capsuleHeight);
+		ADD_PROPERTY(CapsuleCollider2D, m_radius);
+	}
 
 	void CapsuleCollider2D::UpdateCache() const
 	{
-		Transform* pT = GetTransform();
+		Transform* pTransform = GetTransform();
 
 		// ----- 中心座標の更新 ----- //
 		DirectX::SimpleMath::Vector3 localCenter3D = { GetLocalCenterPos().x, GetLocalCenterPos().y, 0 };
-		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pT->GetWorldMatrix());
+		DirectX::SimpleMath::Vector3 center3D = DirectX::SimpleMath::Vector3::Transform(localCenter3D, pTransform->GetWorldMatrix());
 
 		auto& world2D = WorldSetting2D::Instance();
 
@@ -39,7 +42,7 @@ namespace RHEngine
 			DirectX::SimpleMath::Vector2 dir;
 			float zAngle = GetRotation();
 
-			switch (m_lineDir)
+			switch (m_axisType)
 			{
 			case AxisType2D::Horizontal:
 				dir = { cosf(zAngle), sinf(zAngle) };
@@ -89,7 +92,7 @@ namespace RHEngine
 		ApplyVersion();
 	}
 
-	void CapsuleCollider2D::DebugRender(Renderer& renderer, const DirectX::SimpleMath::Color& color)
+	void CapsuleCollider2D::DebugRender(Renderer& renderer)
 	{
 		float rad = GetRadius();
 
@@ -120,11 +123,11 @@ namespace RHEngine
 			p5 = { p2 + nV * rad };
 			p6 = { p2 - nV * rad + v * 0.01f };
 
-			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, color, false);
-			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, color, false);
+			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p1), world2D.Local2DToWorld3D(p3 - p1), world2D.Local2DToWorld3D(p4 - p1), 16, rad, DEBUG_COLOR, false);
+			renderer.Draw().Primitive().DrawArc(world2D.Local2DToWorld3D(p2), world2D.Local2DToWorld3D(p5 - p2), world2D.Local2DToWorld3D(p6 - p2), 16, rad, DEBUG_COLOR, false);
 
-			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), color);
-			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), color);
+			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p3), world2D.Local2DToWorld3D(p5), DEBUG_COLOR);
+			renderer.Draw().Primitive().DrawLine(world2D.Local2DToWorld3D(p4), world2D.Local2DToWorld3D(p6), DEBUG_COLOR);
 		}
 	}
 }	// namespace RHEngine

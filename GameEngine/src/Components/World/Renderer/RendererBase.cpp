@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : RendererBase.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/02
-//
-// 概要       : レンダラーコンポーネントの基底クラス  
-//====================================================//
+﻿/**
+ * @file    RendererBase.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/02
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/World/Renderer/RendererBase.h"
 
@@ -16,12 +11,8 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	RendererBase::RendererBase(IComponentOwner* own)
-		: WorldComponentBase(own)
+	RendererBase::RendererBase(IComponentOwner* pOwner)
+		: WorldComponentBase(pOwner)
 		, m_pTransform{ GetComponent<Transform>() }
 	{
 	};

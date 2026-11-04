@@ -1,14 +1,8 @@
-﻿//====================================================//
-// ファイル名  : ProjectWindowPopUp.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/08
-//
-// 概要       : 
-//====================================================//
-
-//====================================================//
-// インクルードファイル
-//====================================================//
+﻿/**
+ * @file    ProjectWindowPopUp.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/08
+ */
 
 #include "pch.h"
 
@@ -19,10 +13,6 @@
 #include "ThirdParty/imgui/imgui.h"
 #include "ThirdParty/imgui/imgui_stdlib.h"
 #include "Assets/Managers/AssetManager.h"
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 namespace RHEngine
 {
@@ -197,6 +187,6 @@ namespace RHEngine
 			ImGui::EndPopup();
 		}
 	}
-}
+}	// namespace RHEngine
 
-#endif
+#endif	// ENGINE_GUI

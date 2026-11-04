@@ -1,71 +1,77 @@
-﻿//====================================================//
-// ファイル名   : GraphicsManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/18
-//
-// 概要 : 描画を管理するシングルトンクラス
-//
-// 更新履歴 :
-// 2026/07/18 新規作成
-//====================================================//
+﻿/**
+ * @file    GraphicsManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/18
+ *
+ * @brief   描画を管理するシングルトンクラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <memory>
+#include <d3d11.h>
+
 #include "System/DeviceResources.h"
 #include "InputLayoutCache.h"
 #include "SamplerList.h"
+#include "DepthStencilStateList.h"
+#include "BlendStateList.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief 描画関係のリソースを管理する
+	 */
 	class GraphicsManager
 	{
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// デバイスリソース
+		/** @brief デバイスリソース */
 		std::unique_ptr<DX::DeviceResources> m_deviceResources;
 
-		// インプットレイアウトキャッシュ
+		/** @brief インプットレイアウトキャッシュ  */
 		InputLayoutCache m_inputLayoutCache;
 
-		// サンプラーリスト
+		/** @brief サンプラーリスト */
 		SamplerList m_samplerList;
+
+		/** @brief 深度ステンシルステートリスト */
+		DepthStencilStateList m_depthStencilSateList;
+
+		/** @brief ブレンドステートリスト */
+		BlendStateList m_blendStateList;
 
 	private:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
+		/// @name ライフサイクル
+		/// @{
+
 		GraphicsManager()
 			: m_deviceResources{ std::make_unique<DX::DeviceResources>() }
 			, m_inputLayoutCache{}
 			, m_samplerList{}
 		{
 		};
+
 		~GraphicsManager() = default;
 
-	public:
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// インスタンス
+	public:
+
+		/**
+		 * @brief インスタンスを取得する
+		 * @return 静的なインスタンス
+		 */
 		static GraphicsManager& Instance()
 		{
 			static GraphicsManager instance;
 			return instance;
 		}
 
-		// 初期化
+		/**
+		 * @brief 初期化が必要なリソースの初期化を行う
+		 */
 		void Initialize()
 		{
 			// デバイス取得
@@ -73,19 +79,32 @@ namespace RHEngine
 
 			// サンプラーリストの初期化
 			m_samplerList.Initialize(pDevice);
+
+			// 深度ステンシルステートの初期化
+			m_depthStencilSateList.Initialize(pDevice);
+
+			// ブレンドステートの初期化
+			m_blendStateList.Initialize(pDevice);
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
 
-		// デバイスリソース
-		DX::DeviceResources* GetDeviceResources() { return m_deviceResources.get(); }
+		/** @brief デバイスリソース */
+		DX::DeviceResources* GetDeviceResources() const { return m_deviceResources.get(); }
 
-		// インプットレイアウトキャッシュ
+		/** @brief インプットレイアウトキャッシュ */
 		InputLayoutCache& GetInputLayoutCache() { return m_inputLayoutCache; };
 
-		// サンプラーリスト
-		SamplerList& GetSamplerList() { return m_samplerList; };
+		/** @brief サンプラーリスト */
+		const SamplerList& GetSamplerList() const { return m_samplerList; };
+
+		/** @brief 深度ステンシルステートリスト */
+		DepthStencilStateList& GetDepthStencilList() { return m_depthStencilSateList; }
+		
+		/** @brief ブレントステートリスト */
+		BlendStateList& GetBlendList() { return m_blendStateList; }
+
+		/// @}
 	};
-}
+}	// namespace RHEngine

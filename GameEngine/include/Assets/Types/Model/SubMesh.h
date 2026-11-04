@@ -1,41 +1,39 @@
-﻿//====================================================//
-// ファイル名   : SubMesh.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/10/07
-//
-// 概要 : 
-//
-// 更新履歴 :
-// 2026/10/07 新規作成
-//====================================================//
+﻿/**
+ * @file    SubMesh.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/07
+ *
+ * @brief   サブメッシュ
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
-#include "Windows.h"
+#include <string>
+#include <Windows.h>
+
 #include "Math/Bounding.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 構造体宣言
-	//====================================================//
+	/**
+	 * @brief サブメッシュ
+	 */
 	struct SubMesh
 	{
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
+		/** @brief 描画するインデックス数 */
+		UINT indexCount;
 
-		UINT indexCount;	// 描画するインデックスの数
+		/** @brief 何番目のインデックスから描画を始めるか */
+		UINT indexOffset;
 
-		UINT indexOffset;	// 何番目のインデックスから描画を始めるか
+		/** @brief 頂点バッファの頂点を読み取る際に全てのインデックスに対して加算される値 */
+		INT vertexOffset;
 
-		INT vertexOffset;	// 頂点バッファの頂点を読み取る際に、全てのインデックスに対して加算される値
+		/** @brief SubMeshを覆う境界ボックス */
+		/** @TODO ロード時にBoudingBoxを生成して渡すように */
+		BoundingBox boudingBox;
 
-		BoundingBox boudingBox;	// SubMeshを覆う境界ボックス
-
-		std::string materialName;	// マテリアル名
+		/** @brief 対応するマテリアル名 */
+		std::string materialName;
 	};
-}
+}	// namespace RHEngine

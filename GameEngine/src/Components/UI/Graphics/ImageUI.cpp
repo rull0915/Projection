@@ -1,50 +1,38 @@
-﻿//====================================================//
-// ファイル名  : ImageUI.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/05/23
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ImageUI.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/05/23
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "Components/UI/Graphics/ImageUI.h"
 
 #include "Renderer/Renderer.h"
 #include "Assets/Managers/AssetManager.h"
+#include "Components/UI/RectTransform/RectTransform.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	/// <summary>
-	/// 描画関数
-	/// </summary>
-	/// <param name="renderer"></param>
 	void ImageUI::Draw(Renderer& renderer)
 	{
 		// AssetManagerがなければ何もしない
-		if (!m_assetManager) return;
+		if (!m_pAssetManager) return;
 
 		// ハンドルからTextureを取得
-		Texture* texture = m_assetManager->Get<Texture>(m_textureHandle);
+		Texture* texture = m_pAssetManager->Get<Texture>(m_textureHandle);
 
 		// なければ何もしない
 		if (!texture) return;
 
-		RectTransform* transform = GetRectTransform();
+		RectTransform* pRectTransform = GetRectTransform();
 
 		// ピボットのピクセル座標
-		DirectX::SimpleMath::Vector2 pivotPixelPos = transform->GetPivotPixelPos();
+		DirectX::SimpleMath::Vector2 pivotPixelPos = pRectTransform->GetPivotPixelPos();
 
-		DirectX::SimpleMath::Vector2 pivot = transform->GetPivot();
+		DirectX::SimpleMath::Vector2 pivot = pRectTransform->GetPivot();
 		DirectX::SimpleMath::Vector2 disPivot = DirectX::SimpleMath::Vector2{ 1 - pivot.x, 1 - pivot.y };
 
-		DirectX::SimpleMath::Vector2 size = transform->GetSize();
+		DirectX::SimpleMath::Vector2 size = pRectTransform->GetSize();
 
 		// 有効なハンドルならセットする
 		if (m_materialHandle.IsValid())
@@ -56,8 +44,8 @@ namespace RHEngine
 			texture->Get(),
 			pivotPixelPos - size * pivot,
 			pivotPixelPos + size * disPivot,
-			transform->GetWorldScale(), 
-			transform->GetWorldRotation(),
+			pRectTransform->GetWorldScale(), 
+			pRectTransform->GetWorldRotation(),
 			pivot,
 			GetColor() * GetMulColor()
 		);

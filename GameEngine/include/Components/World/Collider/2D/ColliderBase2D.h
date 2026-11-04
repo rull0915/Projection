@@ -1,54 +1,54 @@
-﻿//====================================================//
-// ファイル名   : ColliderBase2D.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/04/16
-//
-// 概要 : 2Dコライダー基底クラス
-//
-// 更新履歴 :
-// 2026/04/16 新規作成
-//====================================================//
+﻿/**
+ * @file    ColliderBase2D.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/16
+ *
+ * @brief   2Dコライダー基底クラス
+ */
 
 #pragma once
 
-//====================================================//
-// インクルードファイル
-//====================================================//
+#include <SimpleMath.h>
+
 #include "../ColliderCommon.h"
 #include "Math/Bounding.h"
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	class IComponentOwner;
+
+	/**
+	 * @brief 2Dコライダーの基底
+	 */
 	class ColliderBase2D : public ColliderCommon
 	{
+	public:
+		DECLARE_COMPONENT_TYPE(ColliderCommon);
+
 	private:
 
-		//-----------------------------------------------------
-		// メンバ変数
-		//-----------------------------------------------------
-
-		// ローカル中心座標
+		/** @brief ローカル中心座標 */
 		DirectX::SimpleMath::Vector2 m_localCenterPos;
 
-		// 回転量
+		/** @brief 回転角度 */
 		float m_rotation;
 
-		// 自身を覆うBoundingBox2D
+		/** @brief 自身を覆うBoundingBox */
 		mutable BoundingBox2D m_boundingBox;
 
-		// ワールド中心座標のキャッシュ
+		/** @brief ワールド中心座標のキャッシュ */
 		mutable DirectX::SimpleMath::Vector2 m_worldCenterPos;
 
 	public:
 
-		//-----------------------------------------------------
-		// 生成 / 破棄
-		//-----------------------------------------------------
-		ColliderBase2D(IComponentOwner* own)
-			: ColliderCommon(own)
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param own 所有者のポインタ
+		 */
+		ColliderBase2D(IComponentOwner* pOwner)
+			: ColliderCommon(pOwner)
 			, m_localCenterPos{ 0, 0 }
 			, m_rotation{ 0.0f }
 			, m_boundingBox{}
@@ -60,50 +60,53 @@ namespace RHEngine
 
 		virtual ~ColliderBase2D() = default;
 
-		//-----------------------------------------------------
-		// Type
-		//-----------------------------------------------------
+		/// @}
 
-		COMPONENT_TYPE(ColliderBase2D, ColliderCommon)
-
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
-
-		// キャッシュの更新をする関数
+		/**
+		 * @brief キャッシュを更新する
+		 */
 		virtual void UpdateCache() const = 0;
 
-		// GUI変更時
+		/**
+		 * @brief GUI上での値変更時にDirtyにする
+		 */
 		void OnValidate() override
 		{
 			SetDirty();
 		}
 
-		//-----------------------------------------------------
-		// ゲッター
-		//-----------------------------------------------------
+		/// @name ゲッター
+		/// @{
+		
+		/** @brief BoundingBox */
+		inline BoundingBox2D& GetBoundingBox() const { return m_boundingBox; }
 
-		inline BoundingBox2D& GetBoundingBox() const { return m_boundingBox; } // 自身を覆うBoundingBoxを取得する関数
-
-		// ワールド座標系での中心座標を返す関数
+		/** @brief ワールド座標系の中心座標 */
 		DirectX::SimpleMath::Vector2 GetWorldCenterPos() const
 		{
 			if (IsDirty()) UpdateCache();
 			return m_worldCenterPos;
 		}
-		// ローカル座標系
+		
+		/** @brief ローカル座標系での中心座標 */
 		DirectX::SimpleMath::Vector2 GetLocalCenterPos() const { return m_localCenterPos; }
 
+		/** @brief 回転角度 (ラジアン) */
 		float GetRotation() const { return m_rotation; }
 
-		//-----------------------------------------------------
-		// セッター
-		//-----------------------------------------------------
+		/// @}
+
+		/// @name セッター
+		/// @{
+
+		/** @brief ローカル中心座標 */
 		void SetLocalPos(DirectX::SimpleMath::Vector2 pos)
 		{
 			m_localCenterPos = pos;
 			SetDirty();
 		}
+
+		/** @brief 回転角度 */
 		void SetRotation(float rot)
 		{
 			m_rotation = rot;
@@ -111,7 +114,16 @@ namespace RHEngine
 		}
 	protected:
 
+		/**
+		 * @brief ワールド座標系中心座標のキャッシュを更新する
+		 * @param pos 計算済みワールド座標系中心座標
+		 */
 		inline void SetWorldPosition(const DirectX::SimpleMath::Vector2& pos) const { m_worldCenterPos = pos; }
+
+		/**
+		 * @brief BoundingBoxを更新する
+		 * @param box 計算済みBoundingBox
+		 */
 		inline void SetBoundingBox(const BoundingBox2D& box) const { m_boundingBox = box; }
 	};
 } // namespace RHEngine

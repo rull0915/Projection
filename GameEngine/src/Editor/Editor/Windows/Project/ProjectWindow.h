@@ -1,19 +1,18 @@
-﻿//====================================================//
-// ファイル名   : ProjectWindow.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/07/06
-//
-// 概要 : プロジェクトウィンドウ
-//
-// 更新履歴 :
-// 2026/07/06 新規作成
-//====================================================//
+﻿/**
+ * @file    ProjectWindow.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/07/06
+ *
+ * @brief   プロジェクトウィンドウ
+ */
 
 #pragma once
 
 #ifdef ENGINE_GUI
 
 #include <filesystem>
+
+#include "Common/UUID.h"
 #include "Assets/Managers/AssetManager.h"
 #include "Editor/Editor/SelectedOnGUI.h"
 #include "ProjectWindowPopUp.h"
@@ -21,61 +20,70 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// クラス宣言
-	//====================================================//
+	/**
+	 * @brief プロジェクトウィンドウ
+	 */
 	class ProjectWindow
 	{
 	private:
 
-		// アセットマネージャー
+		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
-		// 選択中オブジェクト
+		/** @brief 選択中のオブジェクト*/
 		SelectedOnGUI& m_selected;
 
-		// 選択中パス
+		/** @brief 選択中アセットのUUID */
 		UUID m_selectedID;
 
-		// ポップアップ管理クラス
+		/** @brief ポップアップ表示*/
 		ProjectWindowPopUp m_popUp;
 
-		// アセットファイル表示クラス
+		/** @brief アセットファイル表示*/
 		AssetFileDrawer m_assetFileDrawer;
 
 	public:
 
-		//-----------------------------------------------------
-		// コンストラクタ / デストラクタ
-		//-----------------------------------------------------
-		ProjectWindow(AssetManager& am, SelectedOnGUI& selected)
-			: m_assetManager{ am }
+		/// @name ライフサイクル
+		/// @{
+
+		/**
+		 * @param assetManager 
+		 * @param selected 選択オブジェクト
+		 */
+		ProjectWindow(AssetManager& assetManager, SelectedOnGUI& selected)
+			: m_assetManager{ assetManager }
 			, m_selected{ selected }
 			, m_selectedID{}
-			, m_popUp{ am }
-			, m_assetFileDrawer{ am }
+			, m_popUp{ assetManager }
+			, m_assetFileDrawer{ assetManager }
 		{}
+
 		~ProjectWindow() = default;
 
-		//-----------------------------------------------------
-		// 公開関数
-		//-----------------------------------------------------
+		/// @}
 
-		// 描画
+		/**
+		 * @brief プロジェクトウィンドウを表示する
+		 */
 		void DrawProject();
 
 	private:
 
-		//-----------------------------------------------------
-		// 内部実装
-		//-----------------------------------------------------
-
+		/**
+		 * @brief プロジェクトウィンドウへの描画を開始する
+		 */
 		void StartProject();
 
-		// 各リソースの描画
+		/**
+		 * @brief 各リソースを描画する
+		 */
 		void DrawResources();
 
-		// ファイル構造の描画
+		/**
+		 * @brief ファイル構造を再帰的に表示する
+		 * @param path ルートファイルパス
+		 */
 		void DrawFileStructure(const std::filesystem::path& path);
 	};
 }	// namespace RHEngine

@@ -1,15 +1,9 @@
-﻿//====================================================//
-// ファイル名  : ImageWindow.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/10/21
-//
-// 概要       : 
-//====================================================//
+﻿/**
+ * @file    ImageWindow.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/10/21
+ */
 
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 
 #ifdef ENGINE_GUI
@@ -20,41 +14,37 @@
 #include "System/WindowManager.h"
 #include "Input/KeyInput.h"
 
-//====================================================//
-// 関数の実体宣言
-//====================================================//
-
 namespace RHEngine
 {
 	ImageWindow::ImageWindow()
 	{}
 
-	bool ImageWindow::DrawSceneViewWindow(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera, Transform* target)
+	bool ImageWindow::DrawSceneViewWindow(ID3D11ShaderResourceView* pSceneView, SceneCamera* pSceneViewCamera, Transform* pTarget)
 	{
 		StartSceneView();
 
-		bool canSceneCameraMove = DrawSceneView(sceneView, sceneViewCamera, target);
+		bool canSceneCameraMove = DrawSceneView(pSceneView, pSceneViewCamera, pTarget);
 
 		ImGui::End();
 
 		return canSceneCameraMove;
 	}
 
-	bool ImageWindow::DrawGameViewWindow(ID3D11ShaderResourceView* gameView)
+	bool ImageWindow::DrawGameViewWindow(ID3D11ShaderResourceView* pGameView)
 	{
 		StartGameView();
 
 		// ウィンドウがクリックされたかどうか
 		bool clicked = ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left);
 
-		DrawImage(gameView);
+		DrawImage(pGameView);
 
 		ImGui::End();
 
 		return clicked;
 	}
 
-	DirectX::SimpleMath::Vector2 ImageWindow::DrawImage(ID3D11ShaderResourceView* img)
+	DirectX::SimpleMath::Vector2 ImageWindow::DrawImage(ID3D11ShaderResourceView* pImg)
 	{
 		// 有効サイズ
 		ImVec2 avail = ImGui::GetContentRegionAvail();
@@ -75,7 +65,7 @@ namespace RHEngine
 		}
 
 		ImGui::Image(
-			(ImTextureID)img,
+			(ImTextureID)pImg,
 			avail);
 
 		// 描画したサイズを返す
@@ -92,13 +82,13 @@ namespace RHEngine
 		ImGui::Begin("GameView", nullptr);
 	}
 
-	bool ImageWindow::DrawSceneView(ID3D11ShaderResourceView* sceneView, SceneCamera* sceneViewCamera, Transform* target)
+	bool ImageWindow::DrawSceneView(ID3D11ShaderResourceView* pSceneView, SceneCamera* pSceneViewCamera, Transform* pTarget)
 	{
 		// Image の表示位置を取得
 		ImVec2 imagePos = ImGui::GetCursorScreenPos();
 
 		// 描画
-		DirectX::SimpleMath::Vector2 imageSize = DrawImage(sceneView);
+		DirectX::SimpleMath::Vector2 imageSize = DrawImage(pSceneView);
 
 		// SceneViewウィンドウ上にマウスカーソルがあるか
 		bool hovered = ImGui::IsWindowHovered();
@@ -117,13 +107,13 @@ namespace RHEngine
 			if (Input::Key::GetDown(Input::Key::Code::R)) m_guizmoManager.SetDrawFlag(GuizmoManager::DRAW_SCALE);
 		}
 
-		if (target)
+		if (pTarget)
 		{
-			m_guizmoManager.DrawTransformGuizmo(sceneViewCamera, target, { imagePos.x, imagePos.y }, imageSize);
+			m_guizmoManager.DrawTransformGuizmo(pSceneViewCamera, pTarget, { imagePos.x, imagePos.y }, imageSize);
 		}
 
 		return canControlCamera;
 	}
-}
+}	// namespace RHEngine
 
-#endif
+#endif	//ENGINE_GUI

@@ -1,15 +1,9 @@
-﻿//====================================================//
-// 
-// ファイル名  : ConvexPolygonCollider2D.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/06/03
-//
-// 概要       : 2次元凸多角形コライダー
-//====================================================//
+﻿/**
+ * @file    ConvexPolygonCollider2D.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/06/03
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "ConvexPolygonCollider2D.h"
 
@@ -19,10 +13,6 @@
 #include "Renderer/Renderer.h"
 
 using namespace DirectX;
-
-//====================================================//
-// 関数の実体宣言
-//====================================================//
 
 ConvexPolygonCollider2D::ConvexPolygonCollider2D(RHEngine::IComponentOwner* owner)
 	: ColliderBase2D(owner)
@@ -117,7 +107,7 @@ void ConvexPolygonCollider2D::UpdateCache() const
 	ApplyVersion();
 }
 
-void ConvexPolygonCollider2D::DebugRender(RHEngine::Renderer& renderer, const DirectX::SimpleMath::Color& color)
+void ConvexPolygonCollider2D::DebugRender(RHEngine::Renderer& renderer)
 {
 	auto& vertices = GetWorldVertices();
 	auto& vertices3D = GetWorldVertices3D();
@@ -125,7 +115,7 @@ void ConvexPolygonCollider2D::DebugRender(RHEngine::Renderer& renderer, const Di
 	for (int i = 0; i < vertices.size(); ++i)
 	{
 		// 描画
-		renderer.Draw().Primitive().DrawLine(vertices3D[i], vertices3D[(i + 1) % vertices.size()], color);
+		renderer.Draw().Primitive().DrawLine(vertices3D[i], vertices3D[(i + 1) % vertices.size()], DEBUG_COLOR);
 	}
 }
 

@@ -1,14 +1,9 @@
-﻿//====================================================//
-// ファイル名  : CollideEventSystem.cpp
-// 作成者      : Hoshino Ryunosuke
-// 作成日       : 2026/04/26
-//
-// 概要        :  
-//====================================================//
+﻿/**
+ * @file    CollideEventSystem.cpp
+ * @author  Hoshino Ryunosuke
+ * @date    2026/04/26
+ */
 
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "pch.h"
 #include "CollideEventSystem.h"
 
@@ -19,11 +14,7 @@
 
 namespace RHEngine
 {
-	//====================================================//
-	// 関数の実体宣言
-	//====================================================//
-
-	void CollideEventSystem::RemoveCollider(ColliderBase* collider)
+	void CollideEventSystem::RemoveCollider(ColliderBase* pCollider)
 	{
 		std::vector<decltype(m_prevMap.begin())> its;
 
@@ -34,7 +25,7 @@ namespace RHEngine
 			// 配列に含まれているなら削除する
 			auto it = std::find_if(current, m_prevMap.end(), [&](std::pair<ObjectPair, HitContact> contact) -> bool
 				{
-					if (contact.second.otherCol == collider || contact.second.ownCol == collider)
+					if (contact.second.otherCol == pCollider || contact.second.ownCol == pCollider)
 					{
 						return true;
 					}
@@ -63,7 +54,7 @@ namespace RHEngine
 		}
 	}
 
-	void CollideEventSystem::RemoveCollider2D(ColliderBase2D* collider)
+	void CollideEventSystem::RemoveCollider2D(ColliderBase2D* pCollider)
 	{
 		std::vector<decltype(m_prevMap2D.begin())> its;
 
@@ -74,7 +65,7 @@ namespace RHEngine
 			// 配列に含まれているなら削除する
 			auto it = std::find_if(current, m_prevMap2D.end(), [&](std::pair<ObjectPair2D, HitContact2D> contact) -> bool
 				{
-					if (contact.second.otherCol == collider || contact.second.ownCol == collider)
+					if (contact.second.otherCol == pCollider || contact.second.ownCol == pCollider)
 					{
 						return true;
 					}
@@ -151,15 +142,15 @@ namespace RHEngine
 	{
 		if (contact.isTrigger)
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnTriggerEnter(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnTriggerEnter(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnTriggerEnter(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnTriggerEnter(hit);
 		}
 		else
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnCollisionEnter(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnCollisionEnter(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionEnter(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnCollisionEnter(hit);
 		}
 	}
 
@@ -167,15 +158,15 @@ namespace RHEngine
 	{
 		if (contact.isTrigger)
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnTriggerStay(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnTriggerStay(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnTriggerStay(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnTriggerStay(hit);
 		}
 		else
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnCollisionStay(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnCollisionStay(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionStay(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnCollisionStay(hit);
 		}
 	}
 
@@ -183,15 +174,15 @@ namespace RHEngine
 	{
 		if (contact.isTrigger)
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnTriggerExit(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnTriggerExit(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnTriggerExit(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnTriggerExit(hit);
 		}
 		else
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnCollisionExit(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnCollisionExit(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionExit(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnCollisionExit(hit);
 		}
 	}
 
@@ -199,15 +190,15 @@ namespace RHEngine
 	{
 		if (contact.isTrigger)
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnTriggerEnter2D(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnTriggerEnter2D(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnTriggerEnter2D(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnTriggerEnter2D(hit);
 		}
 		else
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnCollisionEnter2D(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnCollisionEnter2D(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionEnter2D(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnCollisionEnter2D(hit);
 		}
 	}
 
@@ -215,15 +206,15 @@ namespace RHEngine
 	{
 		if (contact.isTrigger)
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnTriggerStay2D(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnTriggerStay2D(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnTriggerStay2D(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnTriggerStay2D(hit);
 		}
 		else
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnCollisionStay2D(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnCollisionStay2D(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionStay2D(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnCollisionStay2D(hit);
 		}
 	}
 
@@ -231,15 +222,15 @@ namespace RHEngine
 	{
 		if (contact.isTrigger)
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnTriggerExit2D(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnTriggerExit2D(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnTriggerExit2D(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnTriggerExit2D(hit);
 		}
 		else
 		{
-			if (contact.ownCol) contact.ownCol->GetReceiver()->BaseOnCollisionExit2D(contact);
+			if (contact.ownCol) contact.ownCol->GetReceiver()->OnCollisionExit2D(contact);
 			auto hit = contact.Inverse();
-			if (contact.otherCol) contact.otherCol->GetReceiver()->BaseOnCollisionExit2D(hit);
+			if (contact.otherCol) contact.otherCol->GetReceiver()->OnCollisionExit2D(hit);
 		}
 	}
 }	// namespace RHEngine

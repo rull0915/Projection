@@ -1,37 +1,27 @@
-﻿//====================================================//
-// ファイル名   : TitleManager.h
-// 作成者       : Hoshino Ryunosuke
-// 作成日       : 2026/09/01
-//
-// 概要 : 
-//
-// 更新履歴 :
-// 2026/09/01 新規作成
-//====================================================//
-
+﻿/**
+ * @file    TitleManager.h
+ * @author  Hoshino Ryunosuke
+ * @date    2026/09/01
+ *
+ * @brief   タイトルシーンの管理
+ */
 #pragma once
 
-#define IS_COMPONENT(TitleManager)
-
-//====================================================//
-// インクルードファイル
-//====================================================//
 #include "Components/World/WorldComponentBase.h"
 #include "Components/UI/Behaviour/ButtonUI.h"
 #include "GameObject/GameObject.h"
 #include "GameLib/UI/Dialog.h"
 #include "Components/Both/Sounds/AudioSource.h"
 
-//====================================================//
-// クラス宣言
-//====================================================//
+/**
+ * @brief タイトルシーンを管理する
+ */
 class TitleManager : public RHEngine::WorldComponentBase
 {
-private:
+public:
+	DECLARE_COMPONENT_TYPE(WorldComponentBase);
 
-	//-----------------------------------------------------
-	// メンバ変数
-	//-----------------------------------------------------
+private:
 
 	// 遷移対象のシーン名
 	std::string m_targetScene;
@@ -60,21 +50,8 @@ private:
 
 public:
 
-	//-----------------------------------------------------
-	// コンストラクタ / デストラクタ
-	//-----------------------------------------------------
 	TitleManager(RHEngine::IComponentOwner* own);
 	~TitleManager() = default;
-
-	//-----------------------------------------------------
-	// Type
-	//-----------------------------------------------------
-	
-	COMPONENT_TYPE(TitleManager, RHEngine::WorldComponentBase);
-	
-	//-----------------------------------------------------
-	// 公開関数
-	//-----------------------------------------------------
 
 	void Start() override;
 
