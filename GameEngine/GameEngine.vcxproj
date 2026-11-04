@@ -341,6 +341,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\System\Render\BlendStateList.cpp" />
     <ClCompile Include="src\System\Render\DepthStencilStateList.cpp" />
     <ClCompile Include="src\System\Render\InputLayoutCache.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
@@ -479,6 +480,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\System\Render\BlendStateList.h" />
     <ClInclude Include="include\System\Render\DepthStencilStateList.h">
       <SubType>
       </SubType>

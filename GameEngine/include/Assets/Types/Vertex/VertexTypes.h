@@ -31,7 +31,7 @@ namespace RHEngine
 	 */
 	struct VertexPosition
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -48,8 +48,8 @@ namespace RHEngine
 	 */
 	struct VertexPositionColor
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT4 color;	///< 頂点カラー
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector4 color;	///< 頂点カラー
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -67,8 +67,8 @@ namespace RHEngine
 	 */
 	struct VertexPositionTexture
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT2 texcoord;	///< UV座標
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector2 texcoord;	///< UV座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -86,9 +86,9 @@ namespace RHEngine
 	 */
 	struct VertexPositionDualTexture
 	{
-		DirectX::XMFLOAT3 position;		///< 頂点座標
-		DirectX::XMFLOAT2 texcoord0;	///< UV座標
-		DirectX::XMFLOAT2 texcoord1;	///< UV座標
+		DirectX::SimpleMath::Vector3 position;		///< 頂点座標
+		DirectX::SimpleMath::Vector2 texcoord0;	///< UV座標
+		DirectX::SimpleMath::Vector2 texcoord1;	///< UV座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -107,8 +107,8 @@ namespace RHEngine
 	 */
 	struct VertexPositionNormal
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector3 normal;	///< 法線ベクトル
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -127,9 +127,9 @@ namespace RHEngine
 	 */
 	struct VertexPositionColorTexture
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT4 color;	///< 頂点カラー
-		DirectX::XMFLOAT2 texcoord;	///< UV座標
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector4 color;	///< 頂点カラー
+		DirectX::SimpleMath::Vector2 texcoord;	///< UV座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -149,9 +149,9 @@ namespace RHEngine
 	 */
 	struct VertexPositionNormalTexture
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
-		DirectX::XMFLOAT2 texcoord;	///< UV座標
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector3 normal;	///< 法線ベクトル
+		DirectX::SimpleMath::Vector2 texcoord;	///< UV座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -170,10 +170,10 @@ namespace RHEngine
 	 */
 	struct VertexPositionNormalColorTexture
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
-		DirectX::XMFLOAT4 color;	///< 頂点カラー
-		DirectX::XMFLOAT2 texcoord;	///< UV座標
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector3 normal;	///< 法線ベクトル
+		DirectX::SimpleMath::Vector4 color;	///< 頂点カラー
+		DirectX::SimpleMath::Vector2 texcoord;	///< UV座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{
@@ -194,11 +194,11 @@ namespace RHEngine
 	 */
 	struct VertexPositionNormalTangentColorTexture
 	{
-		DirectX::XMFLOAT3 position;	///< 頂点座標
-		DirectX::XMFLOAT3 normal;	///< 法線ベクトル
-		DirectX::XMFLOAT4 tangent;	///< 接線
+		DirectX::SimpleMath::Vector3 position;	///< 頂点座標
+		DirectX::SimpleMath::Vector3 normal;	///< 法線ベクトル
+		DirectX::SimpleMath::Vector4 tangent;	///< 接線
 		uint32_t color;				///< 頂点カラー (メモリ節約のために32bit)
-		DirectX::XMFLOAT2 texcoord;	///< UV座標
+		DirectX::SimpleMath::Vector2 texcoord;	///< UV座標
 
 		static const std::vector<VertexElementInfo>& GetLayout()
 		{

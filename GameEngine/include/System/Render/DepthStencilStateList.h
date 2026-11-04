@@ -3,7 +3,7 @@
  * @author  Hoshino Ryunosuke
  * @date    2026/11/02
  *
- * @brief   デプスステンシルステートの所有者
+ * @brief   深度ステンシルステートの所有者
  */
 
 #pragma once
@@ -14,15 +14,18 @@
 
 namespace RHEngine
 {
-	enum DepthStencilType
+	enum class DepthStencilType
 	{
 		Default,		///< 深度テストON / 書き込みON / LESS(不透明用)
 		DepthNone,		///< 深度テストOFF / 書き込みOFF(UI・ポストエフェクト用)
 		DepthRead,		///< 深度テストON / 書き込みOFF(半透明用)
+		DepthGreater,	///< 深度テストON / 書き込みOFF / GREATER(デバッグ等)
 		SkyBox,			///< LESS_EQUAL / 書き込みOFF
 		StencilWrite,	///< ステンシルに Ref を書き込む(ALWAYS + REPLACE)
 		StencilEqual,	///< ステンシル == Ref の場所だけ描く
 		StencilNotEqual,///< ステンシル != Ref の場所だけ描く(アウトライン用)
+
+		Custom,
 	};
 
 	/**

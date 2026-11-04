@@ -11,8 +11,10 @@
 #include <vector>
 #include <variant>
 #include <d3d11.h>
+#include <initializer_list>
 
 #include "DrawCommand.h"
+#include "Assets/Types/Vertex/VertexTypes.h"
 
 namespace RHEngine
 {
@@ -89,5 +91,11 @@ namespace RHEngine
 		const std::vector<DrawUICommand>& GetDrawUICommands() const { return m_drawUICommands; }
 
 		/// @}
+
+		/**
+		 * @brief プリミティブコマンドへ頂点を追加する
+		 * @param vertices 追加対象の頂点リスト
+		 */
+		void AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY topology, std::initializer_list<VertexPositionColorTexture> vertices);
 	};
 }	// namespace RHEngine

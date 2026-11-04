@@ -70,10 +70,6 @@ namespace RHEngine
 		{
 			// コマンド実行者の初期化
 			m_drawCommandExecutor.Initialize();
-
-			// 初期PrimitiveCommandを生成しておく
-			auto& cmd = m_drawCommandContainer.AddPrimitive();
-			cmd.world = DirectX::SimpleMath::Matrix::Identity;
 		}
 
 		/**

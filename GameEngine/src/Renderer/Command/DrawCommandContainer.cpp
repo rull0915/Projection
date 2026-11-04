@@ -19,17 +19,17 @@ namespace RHEngine
 
 		// 追加する
 		auto& cmd = m_drawPrimitiveCommands.emplace_back();
-		cmd.vertices.reserve(1024);
+		cmd.vertices.reserve(DrawPrimitiveCommand::MAX_VERTEX_COUNT);
 
 		return cmd;
 	}
 
 	DrawPrimitiveCommand* RHEngine::DrawCommandContainer::GetLatestPrimitiveCommand(D3D11_PRIMITIVE_TOPOLOGY topology)
 	{
-		// なければnullをかえす
-		if (m_drawPrimitiveCommands.empty()) return nullptr;
+		// なければ新しく作る
+		if (m_drawPrimitiveCommands.empty()) return &AddPrimitive();
 
-		// どちらかの配列が最大値を超えるなら
+		// 最新コマンドを取得
 		auto& latest = m_drawPrimitiveCommands.back();
 
 		// トポロジーが変わるなら
@@ -47,5 +47,21 @@ namespace RHEngine
 		}
 
 		return &latest;
+	}
+
+	void DrawCommandContainer::AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY topology, std::initializer_list<VertexPositionColorTexture> vertices)
+	{
+		// 最新コマンドを取得
+		auto latest = GetLatestPrimitiveCommand(topology);
+
+		// もし追加後最大頂点数を超える場合
+		if (latest->vertices.size() + vertices.size() >= DrawPrimitiveCommand::MAX_VERTEX_COUNT)
+		{
+			// 新しいコマンドを作成する
+			latest = &AddPrimitive();
+		}
+
+		// 頂点に追加する
+		latest->vertices.insert(latest->vertices.end(), vertices);
 	}
 }	// namespace RHEngine

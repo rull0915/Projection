@@ -88,6 +88,7 @@ namespace RHEngine
 		m_presets[Type::Default] = GetOrCreate(MakeDepthDesc(TRUE, D3D11_DEPTH_WRITE_MASK_ALL, D3D11_COMPARISON_LESS));
 		m_presets[Type::DepthNone] = GetOrCreate(MakeDepthDesc(FALSE, D3D11_DEPTH_WRITE_MASK_ZERO, D3D11_COMPARISON_ALWAYS));
 		m_presets[Type::DepthRead] = GetOrCreate(MakeDepthDesc(TRUE, D3D11_DEPTH_WRITE_MASK_ZERO, D3D11_COMPARISON_LESS));
+		m_presets[Type::DepthGreater] = GetOrCreate(MakeDepthDesc(TRUE, D3D11_DEPTH_WRITE_MASK_ZERO, D3D11_COMPARISON_GREATER));
 		m_presets[Type::SkyBox] = GetOrCreate(MakeDepthDesc(TRUE, D3D11_DEPTH_WRITE_MASK_ZERO, D3D11_COMPARISON_LESS_EQUAL));
 
 		m_presets[Type::StencilWrite] = GetOrCreate(MakeStencilDesc(D3D11_COMPARISON_ALWAYS, D3D11_STENCIL_OP_REPLACE));
@@ -128,9 +129,7 @@ namespace RHEngine
 		}
 
 		// キャッシュに追加
-		m_cache[desc] = pState;
-
-		return pState;
+		return m_cache.emplace(desc, pState).first->second;
 	}
 
 	D3D11_DEPTH_STENCIL_DESC DepthStencilStateList::MakeDepthDesc(BOOL enable, D3D11_DEPTH_WRITE_MASK write, D3D11_COMPARISON_FUNC func)

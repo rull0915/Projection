@@ -13,14 +13,15 @@
 #include <vector>
 #include <Windows.h>
 #include <d3d11.h>
+#include <d3dcommon.h>
 #include <optional>
 #include <SimpleMath.h>
 #include <SpriteFont.h>
-#include <VertexTypes.h>
 
 #include "../RendererType.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Model/Mesh.h"
+#include "Assets/Types/Vertex/VertexTypes.h"
 
 namespace RHEngine
 {
@@ -142,11 +143,14 @@ namespace RHEngine
 	 */
 	struct DrawPrimitiveCommand : public DrawCommandBase
 	{
+		// 最大頂点数
+		static constexpr size_t MAX_VERTEX_COUNT = 4096;
+
 		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;	///< ワールド行列
 
 		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
-		std::vector<DirectX::VertexPositionColorTexture> vertices;		///< 頂点配列
+		std::vector<VertexPositionColorTexture> vertices;		///< 頂点配列
 
 		D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;	///< トポロジー
 

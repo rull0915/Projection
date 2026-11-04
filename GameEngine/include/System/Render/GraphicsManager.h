@@ -15,6 +15,7 @@
 #include "InputLayoutCache.h"
 #include "SamplerList.h"
 #include "DepthStencilStateList.h"
+#include "BlendStateList.h"
 
 namespace RHEngine
 {
@@ -36,6 +37,9 @@ namespace RHEngine
 
 		/** @brief 深度ステンシルステートリスト */
 		DepthStencilStateList m_depthStencilSateList;
+
+		/** @brief ブレンドステートリスト */
+		BlendStateList m_blendStateList;
 
 	private:
 
@@ -78,6 +82,9 @@ namespace RHEngine
 
 			// 深度ステンシルステートの初期化
 			m_depthStencilSateList.Initialize(pDevice);
+
+			// ブレンドステートの初期化
+			m_blendStateList.Initialize(pDevice);
 		}
 
 		/// @name ゲッター
@@ -94,6 +101,9 @@ namespace RHEngine
 
 		/** @brief 深度ステンシルステートリスト */
 		DepthStencilStateList& GetDepthStencilList() { return m_depthStencilSateList; }
+		
+		/** @brief ブレントステートリスト */
+		BlendStateList& GetBlendList() { return m_blendStateList; }
 
 		/// @}
 	};
