@@ -9,6 +9,13 @@
 
 namespace RHEngine
 {
+	Mesh::Mesh(const Microsoft::WRL::ComPtr<ID3D11Buffer>& vertexBuffer, const Microsoft::WRL::ComPtr<ID3D11Buffer>& indexBuffer, std::vector<SubMesh> subMeshes)
+		: m_vertexBuffer{ vertexBuffer }
+		, m_indexBuffer{ indexBuffer }
+		, m_subMeshes{ subMeshes }
+	{
+	}
+
 	std::vector<Property> RHEngine::Mesh::GetProperties()
 	{
 		std::vector<Property> properties;

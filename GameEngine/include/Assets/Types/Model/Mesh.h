@@ -54,6 +54,17 @@ namespace RHEngine
 		
 		Mesh() = default;
 
+		/**
+		 * @param vertexBuffer 頂点バッファ
+		 * @param indexBuffer インデックスバッファ
+		 * @param subMeshes サブメッシュ
+		 */
+		Mesh(
+			const Microsoft::WRL::ComPtr<ID3D11Buffer>& vertexBuffer,
+			const Microsoft::WRL::ComPtr<ID3D11Buffer>& indexBuffer,
+			std::vector<SubMesh> subMeshes
+		);
+
 		~Mesh() = default;
 
 		/// @}

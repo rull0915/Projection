@@ -81,7 +81,8 @@ namespace RHEngine
 
 						if (!p ||									// 取得できなかった場合	
 							p->slot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
-							p->type == ShaderParamType::Texture2D	// 定数バッファでなかった場合
+							p->type == ShaderParamType::Texture2D ||
+							p->type == ShaderParamType::Sampler			// 定数バッファでなかった場合
 							) continue;	// 何もしない
 
 						// visitでどの型でも処理する
@@ -166,6 +167,8 @@ namespace RHEngine
 		// 参照が設定されていなければ解決不可
 		if (!(m_pAssetManager && m_pSamplerList)) return false;
 
+		bool vsBind = true;
+
 		// 頂点シェーダー
 		if (!BindShader(pContext, ShaderType::Vertex))
 		{
@@ -173,7 +176,7 @@ namespace RHEngine
 			pContext->VSSetShader(nullptr, nullptr, 0);
 
 			// vsがない場合不可
-			return false;
+			vsBind = false;
 		}
 
 		// ピクセルシェーダー
@@ -182,7 +185,7 @@ namespace RHEngine
 			pContext->PSSetShader(nullptr, nullptr, 0);	
 		}
 
-		return true;
+		return vsBind;
 	}
 
 	bool MaterialAsset::BindShader(ID3D11DeviceContext* pContext, ShaderType type)
@@ -307,7 +310,7 @@ namespace RHEngine
 
 	void MaterialAsset::BindTexture(ID3D11DeviceContext* pContext, ShaderAsset* pShader, RHEngine::Texture* pTexture, const std::string& name, ShaderType type)
 	{
-		// テクスチャがなけデフォルトテクスチャを使用
+		// テクスチャがなけ真っ白のデフォルトテクスチャを使用
 		if (!pTexture)
 		{
 			pTexture = m_pAssetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
@@ -315,6 +318,9 @@ namespace RHEngine
 			// デフォルトが取得できなければバインドしない
 			if (!pTexture) return;
 		}
+
+		// ロード未完了ならスキップ
+		if (pTexture->GetStatus() != LoadStatus::Loaded) return;
 
 		// パラメータを取得
 		auto* param = pShader->FindParam(name);

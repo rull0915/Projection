@@ -165,6 +165,7 @@ $(ProjectDir)ThirdParty;
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
     <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>
@@ -260,8 +261,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\ComponentBase.cpp" />
     <ClCompile Include="src\Components\World\Renderer\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp" />
-    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxComponent.cpp" />
-    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxEffect.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\SkyboxComponent.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody2D.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp" />
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
@@ -344,6 +344,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\System\Render\BlendStateList.cpp" />
     <ClCompile Include="src\System\Render\DepthStencilStateList.cpp" />
     <ClCompile Include="src\System\Render\InputLayoutCache.cpp" />
+    <ClCompile Include="src\System\Render\RasterizerStateList.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
     <ClCompile Include="src\System\Render\SamplerList.cpp" />
     <ClCompile Include="src\System\ResourceManager.cpp" />
@@ -417,6 +418,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Assets\Types\Model\DefaultMeshManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Types\Model\Mesh.h" />
     <ClInclude Include="include\Assets\Types\Model\Model.h" />
     <ClInclude Include="include\Assets\Types\Model\SubMesh.h" />
@@ -459,6 +464,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawOtherCommandPublisher.h" />
     <ClInclude Include="include\Renderer\RendererInfo.h">
       <SubType>
       </SubType>
@@ -486,6 +492,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\System\Render\InputLayoutCache.h" />
+    <ClInclude Include="include\System\Render\RasterizerStateList.h" />
     <ClInclude Include="include\System\Render\SamplerList.h" />
     <ClInclude Include="include\WinProc.h">
       <SubType>
@@ -750,9 +757,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
-    <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
-    <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
-    <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />
+    <ClInclude Include="include\Components\World\Renderer\SkyboxComponent.h" />
     <ClInclude Include="include\GameObject\ComponentContainer.h" />
     <ClInclude Include="include\GameObject\GameObject.h" />
     <ClInclude Include="include\GameObject\Interface\IColliderReceiver.h" />
