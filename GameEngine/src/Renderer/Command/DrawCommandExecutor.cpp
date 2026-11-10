@@ -200,8 +200,16 @@ namespace RHEngine
 				// 一度終了
 				m_spriteBatch->End();
 
+				// アセットのPSが使用可能か調べるラムダ
+				auto isPsReady = [this](MaterialAsset* m)
+					{
+						if (!m || !m->IsValid()) return false;	// 無効アセットならfalse
+						auto* ps = m->GetShaderAsset(ShaderType::Pixel);	// PSが取得できなければfalse
+						return ps && ps->GetStatus() == LoadStatus::Loaded;	// PSのロードが未完了ならfalse
+					};
+
 				// 再度Begin
-				if (mat)
+				if (isPsReady(mat))
 				{
 					m_spriteBatch->Begin(
 						DirectX::SpriteSortMode_Deferred,
@@ -211,7 +219,8 @@ namespace RHEngine
 						nullptr,
 						[this, mat]()
 						{
-							mat->BindShader(m_pContext, ShaderType::Pixel);
+							if (!mat->BindShader(m_pContext, ShaderType::Pixel))
+								m_pContext->PSSetShader(nullptr, nullptr, 0);
 						}
 					);
 				}

@@ -26,6 +26,7 @@ namespace RHEngine
 		Color,
 		Float4x4,
 		Texture2D,
+		TextureCube,
 		Sampler,
 	};
 
@@ -51,4 +52,37 @@ namespace RHEngine
 		uint32_t slot;	///< 定数バッファのスロット番号 register(bN)
 		uint32_t size;	///< 定数バッファ全体の合計サイズ
 	};
+
+	/**
+	 * @brief 定数バッファのパラメータタイプか調べる
+	 */
+	inline bool IsCBufferParamType(ShaderParamType type)
+	{
+		return
+			type == ShaderParamType::Float ||
+			type == ShaderParamType::Float2 ||
+			type == ShaderParamType::Float3 ||
+			type == ShaderParamType::Float4 ||
+			type == ShaderParamType::Color ||
+			type == ShaderParamType::Float4x4;
+	}
+
+	/**
+	 * @brief テクスチャのパラメータタイプか調べる
+	 */
+	inline bool IsTextureParamType(ShaderParamType type)
+	{
+		return
+			type == ShaderParamType::Texture2D ||
+			type == ShaderParamType::TextureCube;
+	}
+
+	/**
+	 * @brief サンプラーのパラメータタイプか調べる
+	 */
+	inline bool IsSamplerParamType(ShaderParamType type)
+	{
+		return
+			type == ShaderParamType::Sampler;
+	}
 }	// namespace RHEngine

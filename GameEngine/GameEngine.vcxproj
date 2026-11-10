@@ -166,6 +166,10 @@ $(ProjectDir)ThirdParty;
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
+    <ClCompile Include="src\Assets\Types\Texture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>

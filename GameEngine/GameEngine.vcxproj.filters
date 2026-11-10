@@ -795,6 +795,7 @@
     <ClCompile Include="src\System\Render\BlendStateList.cpp" />
     <ClCompile Include="src\System\Render\RasterizerStateList.cpp" />
     <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
+    <ClCompile Include="src\Assets\Types\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">

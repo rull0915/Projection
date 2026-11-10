@@ -79,11 +79,8 @@ namespace RHEngine
 						// 対応するパラメータをShaderから取得
 						const ShaderParam* p = pAsset->FindParam(name);
 
-						if (!p ||									// 取得できなかった場合	
-							p->slot != cBuffer.slot ||			// 違うスロットのパラメータだった場合	
-							p->type == ShaderParamType::Texture2D ||
-							p->type == ShaderParamType::Sampler			// 定数バッファでなかった場合
-							) continue;	// 何もしない
+						// 対応不可のパラメータの場合
+						if (!p || p->slot != cBuffer.slot || !IsCBufferParamType(p->type)) continue;
 
 						// visitでどの型でも処理する
 						std::visit([&](auto&& v) {
@@ -310,42 +307,51 @@ namespace RHEngine
 
 	void MaterialAsset::BindTexture(ID3D11DeviceContext* pContext, ShaderAsset* pShader, RHEngine::Texture* pTexture, const std::string& name, ShaderType type)
 	{
-		// テクスチャがなけ真っ白のデフォルトテクスチャを使用
-		if (!pTexture)
-		{
-			pTexture = m_pAssetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
-
-			// デフォルトが取得できなければバインドしない
-			if (!pTexture) return;
-		}
-
-		// ロード未完了ならスキップ
-		if (pTexture->GetStatus() != LoadStatus::Loaded) return;
-
 		// パラメータを取得
 		auto* param = pShader->FindParam(name);
 
-		// 対応していなければ何もしない
-		if (!param || param->type != ShaderParamType::Texture2D) return;
+		// テクスチャパラメータではない場合処理しない
+		if (!param || !IsTextureParamType(param->type)) return;
 
-		// 取得できたら対応するステージを調べる
-		switch (type)
+		// 指定スロットへ SRV をセットするラムダ(nullptr ならクリア)
+		auto setSRV = [&](ID3D11ShaderResourceView* const* ppSrv)
+			{
+				switch (type)
+				{
+				case ShaderType::Pixel:  pContext->PSSetShaderResources(param->slot, 1, ppSrv); break;
+				case ShaderType::Vertex: pContext->VSSetShaderResources(param->slot, 1, ppSrv); break;
+				default: break;
+				}
+			};
+
+		// リセット用の静的なnullSRV
+		static ID3D11ShaderResourceView* const s_nullSRV = nullptr;
+
+		// テクスチャがない場合
+		if (!pTexture)
 		{
-			// PS
-		case ShaderType::Pixel:
-		{
-			pContext->PSSetShaderResources(param->slot, 1, pTexture->GetAddressOf());
-			break;
+			// Texture2Dならデフォルトテクスチャを使用
+			if (param->type == ShaderParamType::Texture2D)
+				pTexture = m_pAssetManager->GetAssetFromUUID<Texture>(DefaultAsset::DEFAULT_SPRITE);
+
+			// @TODO TextureCubeの場合のデフォルトテクスチャを用意
 		}
-			// VS
-		case ShaderType::Vertex:
+
+		// テクスチャの次元とパラメータの次元が一致しているか調べる
+		bool isSameDimention =
+			pTexture && (
+			(param->type == ShaderParamType::Texture2D && pTexture->GetDimention() == D3D_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D) ||
+			(param->type == ShaderParamType::TextureCube && pTexture->GetDimention() == D3D_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURECUBE));
+
+		// バインドする条件を満たさない場合リセットし終了
+		if (!pTexture || pTexture->GetStatus() != LoadStatus::Loaded || !isSameDimention)
 		{
-			pContext->VSSetShaderResources(param->slot, 1, pTexture->GetAddressOf());
-			break;
-		} 
-		default:
-			break;
+			setSRV(&s_nullSRV);
+
+			return;
 		}
+
+		setSRV(pTexture->GetAddressOf());
 	}
 
 	void MaterialAsset::BindSampler(ID3D11DeviceContext* pContext, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
@@ -360,7 +366,7 @@ namespace RHEngine
 		auto* param = pShader->FindParam(name);
 
 		// 対応していなければ何もしない
-		if (!param || param->type != ShaderParamType::Sampler) return;
+		if (!param || !IsSamplerParamType(param->type)) return;
 
 		// 取得できたら対応するステージを調べる
 		switch (type)

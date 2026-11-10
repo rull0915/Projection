@@ -75,6 +75,8 @@ namespace RHEngine
 				return DirectX::SimpleMath::Matrix{ json[0], json[1], json[2], json[3],	json[4], json[5], json[6], json[7],	json[8], json[9], json[10], json[11], json[12], json[13], json[14], json[15] };
 				// Handle<Texture>
 			case RHEngine::ShaderParamType::Texture2D:
+				[[fallthrough]];
+			case RHEngine::ShaderParamType::TextureCube:
 				return ctx.LoadFromUUID(json).As<Texture>();
 				// SamplerType
 			case RHEngine::ShaderParamType::Sampler:
@@ -143,6 +145,8 @@ namespace RHEngine
 
 				// Handle<Texture>
 			case RHEngine::ShaderParamType::Texture2D:
+				[[fallthrough]];
+			case RHEngine::ShaderParamType::TextureCube:
 				paramJson = ctx.GetRegistry().GetUUID(std::get_if<Handle<Texture>>(&param.value)->GetUnTypeHandle());
 				break;
 

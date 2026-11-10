@@ -35,5 +35,7 @@ namespace RHEngine
 		renderer.SetMaterial(m_material);
 
 		renderer.Draw().Other().DrawSkybox(m_pMesh);
+
+		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 	}
 }	// namespace RHEngine
