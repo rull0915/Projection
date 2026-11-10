@@ -9,7 +9,6 @@
 #pragma once
 
 #include <vector>
-#include <CommonStates.h>
 #include <wrl/client.h>
 #include <d3d11.h>
 
@@ -49,9 +48,6 @@ namespace RHEngine
 
 		/** @brief デバイスコンテキスト */
 		ID3D11DeviceContext* m_pContext;
-
-		/** @brief コモンステート */
-		DirectX::CommonStates* m_pStates;
 
 		/** @brief 使用中のShadowMap */
 		ShadowMap* m_currentShadowMap;

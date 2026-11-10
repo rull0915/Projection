@@ -104,5 +104,11 @@ namespace RHEngine
 		 * @brief PerObjectバッファをバインドする
 		 */
 		void BindPerObject();
+
+		/** @brief PerCameraのデータを取得する */
+		const PerCamera& GetPerCameraData()
+		{
+			return m_perCamera;
+		}
 	};
 }	// namespace RHEngine

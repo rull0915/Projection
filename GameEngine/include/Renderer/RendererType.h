@@ -21,5 +21,6 @@ namespace RHEngine
 		Sprite,
 		Text,
 		UI,
+		Skybox,
 	};
 }	// namespace RHEngine

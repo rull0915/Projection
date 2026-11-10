@@ -139,7 +139,6 @@ namespace RHEngine
 
 	/**
 	 * @brief プリミティブ描画コマンド
-	 * @TODO トポロジーを持たせ、純粋な頂点配列のみにする
 	 */
 	struct DrawPrimitiveCommand : public DrawCommandBase
 	{
@@ -159,6 +158,22 @@ namespace RHEngine
  
 		DrawPrimitiveCommand()
 			: DrawCommandBase(RendererType::Primitive)
+		{}
+
+		/// @}
+	};
+
+	struct DrawSkyboxCommand : public DrawCommandBase
+	{
+		Mesh* pMesh = nullptr;	///< スカイボックスを張り付けるメッシュ
+
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
+
+		/// @name ライフサイクル
+		/// @{
+ 
+		DrawSkyboxCommand()
+			: DrawCommandBase(RendererType::Skybox)
 		{}
 
 		/// @}
