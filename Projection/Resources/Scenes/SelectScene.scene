@@ -244,11 +244,11 @@
                             },
                             {
                                 "Data": {
+                                    "m_axis": "Y",
                                     "m_capsuleHeight": 2.299999952316284,
                                     "m_isActive": true,
                                     "m_isTrigger": false,
                                     "m_layerNum": 0,
-                                    "m_lineDir": "Y",
                                     "m_localCenterPos": [
                                         0.0,
                                         0.0,
@@ -607,11 +607,11 @@
                     },
                     {
                         "Data": {
+                            "m_axis": "Y",
                             "m_capsuleHeight": 3.5,
                             "m_isActive": true,
                             "m_isTrigger": false,
                             "m_layerNum": 1,
-                            "m_lineDir": "Y",
                             "m_localCenterPos": [
                                 0.0,
                                 0.800000011920929,
@@ -684,7 +684,7 @@
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_textureHandle": 10350532250775094671
+                            "m_material": 9871217458187851018
                         },
                         "Type": "SkyboxComponent",
                         "UUID": 10577251539852097928
@@ -1348,11 +1348,11 @@
                                     },
                                     {
                                         "Data": {
+                                            "m_axis": "Y",
                                             "m_capsuleHeight": 2.299999952316284,
                                             "m_isActive": true,
                                             "m_isTrigger": false,
                                             "m_layerNum": 0,
-                                            "m_lineDir": "Y",
                                             "m_localCenterPos": [
                                                 0.0,
                                                 0.0,
@@ -1649,11 +1649,11 @@
                             },
                             {
                                 "Data": {
+                                    "m_axis": "Y",
                                     "m_capsuleHeight": 2.299999952316284,
                                     "m_isActive": true,
                                     "m_isTrigger": false,
                                     "m_layerNum": 0,
-                                    "m_lineDir": "Y",
                                     "m_localCenterPos": [
                                         0.0,
                                         0.0,

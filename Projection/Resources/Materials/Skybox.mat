@@ -1,0 +1,21 @@
+{
+    "ComputeShader": null,
+    "DomainShader": null,
+    "GeometryShader": null,
+    "HullShader": null,
+    "PSHandle": 4153826599772492305,
+    "PixelShader": [
+        {
+            "Name": "Sampler",
+            "Type": "Sampler",
+            "Value": "LinearWrap"
+        },
+        {
+            "Name": "CubeMap",
+            "Type": "Texture2D",
+            "Value": 10350532250775094671
+        }
+    ],
+    "VSHandle": 17510228617106710457,
+    "VertexShader": null
+}

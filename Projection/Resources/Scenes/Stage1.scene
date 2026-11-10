@@ -57,7 +57,8 @@
                     {
                         "Data": {
                             "m_isActive": true,
-                            "m_textureHandle": 10350532250775094671
+                            "m_material": 9871217458187851018,
+                            "m_meshHandle": 6227687678173691157
                         },
                         "Type": "SkyboxComponent",
                         "UUID": 14669764373506109476
@@ -1140,8 +1141,8 @@
                             ],
                             "m_rotation": 0.0,
                             "m_scale": [
-                                1.0,
-                                1.0
+                                1.5,
+                                1.5
                             ],
                             "m_size": [
                                 1280.0,
