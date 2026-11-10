@@ -167,6 +167,8 @@ namespace RHEngine
 	{
 		Mesh* pMesh = nullptr;	///< スカイボックスを張り付けるメッシュ
 
+		float scale = 1.0f;		///< スカイボックス描画時のスケール (Perspectiveの場合値を変えても見た目に変化はない)
+
 		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
 
 		/// @name ライフサイクル

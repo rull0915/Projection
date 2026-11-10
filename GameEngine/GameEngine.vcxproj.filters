@@ -796,6 +796,7 @@
     <ClCompile Include="src\System\Render\RasterizerStateList.cpp" />
     <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
     <ClCompile Include="src\Assets\Types\Texture.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1493,6 +1494,7 @@
     <ClInclude Include="include\System\Render\RasterizerStateList.h" />
     <ClInclude Include="include\Renderer\Command\Publisher\DrawOtherCommandPublisher.h" />
     <ClInclude Include="include\Assets\Types\Model\DefaultMeshManager.h" />
+    <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">

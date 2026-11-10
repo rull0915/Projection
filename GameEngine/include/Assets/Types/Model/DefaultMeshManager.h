@@ -22,9 +22,11 @@ namespace RHEngine
 {
 	enum class DefaultMeshType : uint32_t
 	{
-		Cube, 
-		SkyboxCube,
-
+		SkyboxCube,     // Position のみ(スカイボックス用)
+		SkyboxSphere,   // Position のみ(スカイボックス用)
+		Cube,           // PositionNormalTexture
+		Quad,           // PositionNormalTexture
+		Sphere,         // PositionNormalTexture
 		Count
 	};
 
@@ -42,7 +44,7 @@ namespace RHEngine
 
 		/// @name ライフサイクル
 		/// @{
-		
+
 		DefaultMeshManager() = default;
 
 		~DefaultMeshManager() = default;
@@ -81,10 +83,11 @@ namespace RHEngine
 
 	private:
 
-		/**
-		 * @brief キューブメッシュの作成
-		 */
-		std::unique_ptr<Mesh> CreateSkyboxCube(ID3D11Device* pDevice);
+		static std::unique_ptr<Mesh> CreateSkyboxCube(ID3D11Device* pDevice);
+		static std::unique_ptr<Mesh> CreateSkyboxSphere(ID3D11Device* pDevice);
+		static std::unique_ptr<Mesh> CreateCube(ID3D11Device* pDevice);
+		static std::unique_ptr<Mesh> CreateQuad(ID3D11Device* pDevice);
+		static std::unique_ptr<Mesh> CreateSphere(ID3D11Device* pDevice);
 
 		/**
 		 * @brief 頂点とインデックスからメッシュを作成する
@@ -95,7 +98,7 @@ namespace RHEngine
 		 * @return メッシュ
 		 */
 		template<VertexType T>
-		std::unique_ptr<Mesh> CreateMesh(ID3D11Device* pDevice, const std::vector<T>& vertices, const std::vector<uint32_t>& indices);
+		static std::unique_ptr<Mesh> CreateMesh(ID3D11Device* pDevice, const std::vector<T>& vertices, const std::vector<uint32_t>& indices);
 	};
 
 	template<VertexType T>

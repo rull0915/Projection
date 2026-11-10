@@ -50,14 +50,16 @@ namespace RHEngine
 		/**
 		 * @brief スカイボックス描画コマンドを発行する
 		 * @param pMesh 描画するメッシュ
+		 * @param scale 描画するスケール
 		 */
-		void DrawSkybox(Mesh* pMesh)
+		void DrawSkybox(Mesh* pMesh, float scale = 1.0f)
 		{
 			// コマンドの生成
 			auto& command = m_commandContainer.AddSkybox();
 
 			command.pMesh = pMesh;
 			command.material = m_graphicSystem.GetMaterial();
+			command.scale = scale;
 		}
 	};
 }	// namespace RHEngine

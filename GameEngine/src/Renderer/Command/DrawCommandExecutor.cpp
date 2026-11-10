@@ -334,11 +334,6 @@ namespace RHEngine
 		// カメラの位置を取得
 		DirectX::SimpleMath::Vector3 cameraPos = m_infoManager.GetPerCameraData().cameraPos;
 
-		// カメラの位置に合うようなW行列を作成
-		DirectX::SimpleMath::Matrix world =
-			DirectX::SimpleMath::Matrix::CreateScale(20.0f) *
-			DirectX::SimpleMath::Matrix::CreateTranslation(cameraPos);
-
 		for (auto& command : commands)
 		{
 			// メッシュが不正の場合
@@ -347,6 +342,11 @@ namespace RHEngine
 			// マテリアルの取得
 			auto* material = m_assetManager.Get(command.material);
 			if (!material || !material->IsValid()) continue;
+			
+			// ワールド行列を作成
+			DirectX::SimpleMath::Matrix world =
+				DirectX::SimpleMath::Matrix::CreateScale(command.scale) *
+				DirectX::SimpleMath::Matrix::CreateTranslation(cameraPos);
 
 			// PerObjectバッファに設定
 			m_infoManager.UpdatePerObject(world);

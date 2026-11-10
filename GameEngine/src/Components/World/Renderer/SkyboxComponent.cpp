@@ -25,7 +25,7 @@ namespace RHEngine
 		auto pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// メッシュを取得
-		m_pMesh = DefaultMeshManager::Instance().GetMesh(DefaultMeshType::SkyboxCube);
+		m_pMesh = DefaultMeshManager::Instance().GetMesh(DefaultMeshType::SkyboxSphere);
 
 		ADD_PROPERTY(SkyboxComponent, m_material);
 	}
@@ -34,7 +34,7 @@ namespace RHEngine
 	{
 		renderer.SetMaterial(m_material);
 
-		renderer.Draw().Other().DrawSkybox(m_pMesh);
+		renderer.Draw().Other().DrawSkybox(m_pMesh, 50.0f);
 
 		renderer.SetMaterial(ERROR_HANDLE<MaterialAsset>);
 	}

@@ -184,6 +184,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
@@ -459,6 +460,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
+    <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
     <ClInclude Include="include\EntryPoint.h">
       <SubType>
       </SubType>
