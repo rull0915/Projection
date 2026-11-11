@@ -20,7 +20,6 @@ namespace RHEngine
 		, m_infoManager{ infoManager }
 		, m_pDevice{ nullptr }
 		, m_pContext{ nullptr }
-		, m_pStates{ nullptr }
 		, m_assetManager{ assetManager }
 		, m_defaultMaterial{}
 	{}
@@ -35,8 +34,6 @@ namespace RHEngine
 		m_pDevice = dr->GetD3DDevice();
 
 		m_pContext = dr->GetD3DDeviceContext();
-
-		m_pStates = dr->GetCommonStates();
 
 		// 動的頂点バッファの初期化
 		m_dynamicVertexBuffer.Initialize(
@@ -54,6 +51,8 @@ namespace RHEngine
 	{
 		// 各コマンドの実行
 		DrawMeshCommandExecute(container.GetDrawMeshCommands());
+		DrawSkyboxCommandExecute(container.GetDrawSkyboxCommands());
+		DrawWorldSpriteCommandExecute(container.GetDrawWorldSpriteCommands());
 		DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
 		DrawSpriteAndFontCommandExecute(container.GetDrawUICommands());
 	}
@@ -67,7 +66,7 @@ namespace RHEngine
 		m_dynamicVertexBuffer.Bind(m_pContext);
 
 		// カリング不使用
-		m_pContext->RSSetState(m_pStates->CullNone());
+		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullNone));
 
 		// コマンドの描画情報をキャッシュする構造体
 		struct DrawBatchInfo
@@ -149,14 +148,11 @@ namespace RHEngine
 		//-------------- 遮蔽部分を半透明描画 --------------//
 		{
 			// GREATERの深度ステンシルステート
-			m_pContext->OMSetDepthStencilState(
-				GraphicsManager::Instance().GetDepthStencilList().GetState(DepthStencilType::DepthGreater).Get(), 0);
+			m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::DepthGreater), 0);
 
 			// 半透明ブレンドを設定
 			float blendFactor[4] = { 0.3f, 0.3f, 0.3f, 0.3f }; // 全体的に薄く乗算
-			m_pContext->OMSetBlendState(
-				GraphicsManager::Instance().GetBlendList().GetState(BlendType::BlendFactorRGB).Get()
-				, blendFactor, 0xFFFFFFFF);
+			m_pContext->OMSetBlendState(GetBlendState(BlendType::BlendFactorRGB), blendFactor, 0xFFFFFFFF);
 
 			for (auto& batch : batchList)
 			{
@@ -167,13 +163,10 @@ namespace RHEngine
 		//-------------- 可視部分を通常描画 --------------//
 		{
 			// デフォルトの深度ステンシルステート
-			m_pContext->OMSetDepthStencilState(
-				GraphicsManager::Instance().GetDepthStencilList().GetState(DepthStencilType::Default).Get(), 0);
+			m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
 
 			// 通常の非透過ブレンド
-			m_pContext->OMSetBlendState(
-				GraphicsManager::Instance().GetBlendList().GetState(BlendType::PremultipliedAlpha).Get(),
-				nullptr, 0xFFFFFFFF);
+			m_pContext->OMSetBlendState(GetBlendState(BlendType::PremultipliedAlpha), nullptr, 0xFFFFFFFF);
 			
 			// 描画
 			for (auto& batch : batchList)
@@ -186,9 +179,7 @@ namespace RHEngine
 	void DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
 	{
 		// スプライトバッチの開始
-		m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, 
-			GraphicsManager::Instance().GetBlendList().GetState(BlendType::AlphaBlend).Get()
-		);
+		m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GetBlendState(BlendType::AlphaBlend));
 
 		// マテリアルハンドル
 		Handle<MaterialAsset> oldHandle = { 0, 0 };
@@ -210,24 +201,33 @@ namespace RHEngine
 				// 一度終了
 				m_spriteBatch->End();
 
+				// アセットのPSが使用可能か調べるラムダ
+				auto isPsReady = [this](MaterialAsset* m)
+					{
+						if (!m || !m->IsValid()) return false;	// 無効アセットならfalse
+						auto* ps = m->GetShaderAsset(ShaderType::Pixel);	// PSが取得できなければfalse
+						return ps && ps->GetStatus() == LoadStatus::Loaded;	// PSのロードが未完了ならfalse
+					};
+
 				// 再度Begin
-				if (mat)
+				if (isPsReady(mat))
 				{
 					m_spriteBatch->Begin(
 						DirectX::SpriteSortMode_Deferred,
-						GraphicsManager::Instance().GetBlendList().GetState(BlendType::AlphaBlend).Get(),
+						GetBlendState(BlendType::AlphaBlend),
 						nullptr,
 						nullptr,
 						nullptr,
 						[this, mat]()
 						{
-							mat->BindShader(m_pContext, ShaderType::Pixel);
+							if (!mat->BindShader(m_pContext, ShaderType::Pixel))
+								m_pContext->PSSetShader(nullptr, nullptr, 0);
 						}
 					);
 				}
 				else
 				{
-					m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GraphicsManager::Instance().GetBlendList().GetState(BlendType::AlphaBlend).Get());
+					m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GetBlendState(BlendType::AlphaBlend));
 				}
 			}
 
@@ -261,11 +261,10 @@ namespace RHEngine
 	void DrawCommandExecutor::DrawMeshCommandExecute(const std::vector<DrawMeshCommand>& commands)
 	{
 		// カリング
-		m_pContext->RSSetState(m_pStates->CullClockwise());
+		m_pContext->RSSetState(GetRasterizerState(RasterizerType::Default));
 
 		// デプスソートを使用
-		m_pContext->OMSetDepthStencilState(
-			GraphicsManager::Instance().GetDepthStencilList().GetState(DepthStencilType::Default).Get(), 0);
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
 
 		// トポロジーの設定 
 		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -316,6 +315,140 @@ namespace RHEngine
 				// 描画命令
 				m_pContext->DrawIndexed(subMesh.indexCount, subMesh.indexOffset, subMesh.vertexOffset);
 			}
+		}
+	}
+	
+	void DrawCommandExecutor::DrawSkyboxCommandExecute(const std::vector<DrawSkyboxCommand>& commands)
+	{
+		// 不透明ブレンド
+		m_pContext->OMSetBlendState(GetBlendState(BlendType::Opaque), nullptr, 0xFFFFFFFF);
+
+		// スカイボックス用の深度ステンシルステート
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::SkyBox), 0);
+
+		// 逆面をカリング
+		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullFront));
+
+		// トポロジーを設定
+		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// カメラの位置を取得
+		DirectX::SimpleMath::Vector3 cameraPos = m_infoManager.GetCurrentCameraData().position;
+
+		for (auto& command : commands)
+		{
+			// メッシュが不正の場合
+			if (!command.pMesh || command.pMesh->GetSubMeshes().empty()) continue;
+
+			// マテリアルの取得
+			auto* material = m_assetManager.Get(command.material);
+			if (!material || !material->IsValid()) continue;
+			
+			// ワールド行列を作成
+			DirectX::SimpleMath::Matrix world =
+				DirectX::SimpleMath::Matrix::CreateScale(command.scale) *
+				DirectX::SimpleMath::Matrix::CreateTranslation(cameraPos);
+
+			// PerObjectバッファに設定
+			m_infoManager.UpdatePerObject(world);
+			m_infoManager.BindPerObject();
+
+			// 定数バッファの更新
+			material->UpdateConstantBuffers(m_pDevice, m_pContext);
+
+			// InputLayoutを取得
+			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPosition).hash_code()),
+				material->GetShaderAsset(ShaderType::Vertex), VertexPosition::GetLayout());
+
+			if (!inputLayout) continue;
+
+			// バインド
+			if (!material->Apply(m_pContext)) continue;
+
+			// 頂点バッファをバインド
+			ID3D11Buffer* vb[] = { command.pMesh->GetVertexBuffer() };
+			UINT stride = sizeof(VertexPosition), offset = 0;
+			m_pContext->IASetVertexBuffers(0, 1, vb, &stride, &offset);
+
+			// インデックスバッファをバインド
+			m_pContext->IASetIndexBuffer(command.pMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+			// インプットレイアウトをバインド
+			m_pContext->IASetInputLayout(inputLayout.Get());
+
+			// 0番のサブメッシュのみを使用し描画
+			auto& sub = command.pMesh->GetSubMeshes()[0];
+			m_pContext->DrawIndexed(sub.indexCount, sub.indexOffset, sub.vertexOffset);
+		}
+	}
+
+	void DrawCommandExecutor::DrawWorldSpriteCommandExecute(const std::vector<DrawWorldSpriteCommand>& commands)
+	{
+		// 半透明ブレンド
+		m_pContext->OMSetBlendState(GetBlendState(BlendType::AlphaBlend), nullptr, 0xFFFFFFFF);
+
+		// 通常の深度ステンシルステート
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
+
+		// 逆面をカリング
+		// @TODO 指定できるように
+		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullNone));
+
+		// トポロジーを設定
+		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		for (auto& command : commands)
+		{
+			// テクスチャがなければ次へ
+			if (!command.pTexture) continue;
+
+			// マテリアルの取得
+			auto* material = m_assetManager.Get(command.material);
+			if (!material || !material->IsValid())
+			{
+				// なければWorldSprite用デフォルトマテリアルを使用する
+				static auto s_defaultHandle = m_assetManager.LoadFromUUID(DefaultAsset::SPRITE_MATERIAL).As<MaterialAsset>();
+				material = m_assetManager.Get<MaterialAsset>(s_defaultHandle);
+
+				if (!material) continue;
+ 
+				// デフォルトマテリアル用の情報をバインドする
+				material->SetParam(ShaderType::Vertex, "uv", command.uv);
+				material->SetParam(ShaderType::Pixel, "color", command.color);
+
+				m_pContext->PSSetShaderResources(11, 1, &command.pTexture);
+				m_pContext->PSSetSamplers(11, 1, GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap).GetAddressOf());
+			}
+
+			material->UpdateConstantBuffers(m_pDevice, m_pContext);
+			if (!material->Apply(m_pContext)) continue;
+
+			// PerObjectバッファに設定
+			m_infoManager.UpdatePerObject(command.world);
+			m_infoManager.BindPerObject();
+
+			// InputLayoutを取得
+			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
+				material->GetShaderAsset(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout());
+
+			if (!inputLayout) continue;
+
+			// 頂点バッファをバインド
+			ID3D11Buffer* vb[] = { command.pMesh->GetVertexBuffer() };
+			UINT stride = sizeof(VertexPositionNormalTexture), offset = 0;
+			m_pContext->IASetVertexBuffers(0, 1, vb, &stride, &offset);
+
+			// インデックスバッファをバインド
+			m_pContext->IASetIndexBuffer(command.pMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+			// インプットレイアウトをバインド
+			m_pContext->IASetInputLayout(inputLayout.Get());
+
+			// 0番のサブメッシュのみを使用し描画
+			auto& sub = command.pMesh->GetSubMeshes()[0];
+			m_pContext->DrawIndexed(sub.indexCount, sub.indexOffset, sub.vertexOffset);
 		}
 	}
 }	// namespace RHEngine

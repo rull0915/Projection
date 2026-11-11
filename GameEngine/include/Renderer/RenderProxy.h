@@ -15,7 +15,8 @@
 #include "Command/Publisher/DrawSpriteCommandPublisher.h"
 #include "Command/Publisher/DrawTextCommandPublisher.h"
 #include "Command/Publisher/DrawUICommandPublisher.h"
-
+#include "Command/Publisher/DrawOtherCommandPublisher.h"
+ 
 namespace RHEngine
 {
 	class DrawCommandContainer;
@@ -42,6 +43,9 @@ namespace RHEngine
 
 		/** @brief UI */
 		std::unique_ptr<DrawUICommandPublisher> m_uiRenderer;
+
+		/** @brief その他 */
+		std::unique_ptr<DrawOtherCommandPublisher> m_otherRenderer;
 
 	public:
 
@@ -78,6 +82,9 @@ namespace RHEngine
 
 		/** @brief UI */
 		DrawUICommandPublisher& UI() { return *m_uiRenderer; }
+
+		/** @brief Other */
+		DrawOtherCommandPublisher& Other() { return *m_otherRenderer; }
 
 		/// @}
 	};

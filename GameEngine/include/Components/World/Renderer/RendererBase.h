@@ -48,7 +48,6 @@ namespace RHEngine
 		 */
 		virtual void Draw(Renderer& renderer) = 0;
 
-	protected:
 		/// @name ゲッター
 		/// @{
 

@@ -21,7 +21,6 @@ namespace RHEngine
 		, m_assetManager{ assetManager }
 		, m_pDevice{ nullptr }
 		, m_pContext{ nullptr }
-		, m_pStates{ nullptr }
 		, m_currentShadowMap{ nullptr }
 		, m_depthStencilState{}
 		, m_infoManager{}
@@ -38,8 +37,6 @@ namespace RHEngine
 		m_pDevice = dr->GetD3DDevice();
 
 		m_pContext = dr->GetD3DDeviceContext();
-
-		m_pStates = dr->GetCommonStates();
 
 		// 情報マネージャーを初期化
 		m_infoManager.Initialize(m_pDevice, m_pContext);
@@ -135,7 +132,9 @@ namespace RHEngine
 		m_infoManager.BindPerCamera();
 
 		// カリング
-		m_pContext->RSSetState(m_pStates->CullClockwise());
+		m_pContext->RSSetState(
+			GraphicsManager::Instance().GetRasterizerList().GetState(RasterizerType::Default).Get()
+		);
 
 		// デプスステンシルステートを設定
 		m_pContext->OMSetDepthStencilState(m_depthStencilState.Get(), 0);

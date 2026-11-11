@@ -17,5 +17,6 @@ namespace RHEngine
 		m_meshRenderer = std::make_unique<DrawMeshCommandPublisher>(container, system);
 		m_textRenderer = std::make_unique<DrawTextCommandPublisher>(container, system);
 		m_uiRenderer = std::make_unique<DrawUICommandPublisher>(container);
+		m_otherRenderer = std::make_unique<DrawOtherCommandPublisher>(container, system);
 	}
 }	// namespace RHEngine

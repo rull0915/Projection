@@ -12,6 +12,7 @@
 
 #include "Renderer/Command/DrawCommandContainer.h"
 #include "Renderer/GraphicsSystem.h"
+#include "Assets/Types/Model/Mesh.h"
 
 namespace RHEngine
 {
@@ -140,6 +141,22 @@ namespace RHEngine
 			DirectX::SimpleMath::Vector2 scale,
 			float angle,
 			DirectX::SimpleMath::Vector2 origin,
+			DirectX::SimpleMath::Color color
+		);
+
+		/**
+		 * @brief ワールド空間にスプライトを描画するコマンド
+		 * @param pTexture テクスチャ
+		 * @param pMesh	スプライトを張り付けるメッシュ
+		 * @param world ワールド行列
+		 * @param uvRect 切り取るRect (xy = min, zw = max)
+		 * @param color 乗算色
+		 */
+		void DrawInWorld(
+			ID3D11ShaderResourceView* pTexture,
+			Mesh* pMesh,
+			DirectX::SimpleMath::Matrix world,
+			DirectX::SimpleMath::Vector4 uvRect,
 			DirectX::SimpleMath::Color color
 		);
 

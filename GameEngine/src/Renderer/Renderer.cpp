@@ -55,9 +55,6 @@ namespace RHEngine
 
 		// バインド
 		m_infoManager.BindPerCamera();
-
-		// 保存
-		m_currentCamera = data;
 	}
 
 	void Renderer::ExecuteCommands()

@@ -22,6 +22,23 @@ namespace RHEngine
 	 */
 	class RenderInfoManager
 	{
+	public:
+
+		/**
+		 * @brief 現在使用中のカメラ情報
+		 */
+		struct CurrentCameraInfo
+		{
+			DirectX::SimpleMath::Vector3 position;
+
+			DirectX::SimpleMath::Vector3 up;
+			DirectX::SimpleMath::Vector3 right;
+			DirectX::SimpleMath::Vector3 forward;
+
+			DirectX::SimpleMath::Matrix view;
+			DirectX::SimpleMath::Matrix proj;
+		};
+
 	private:
 
 		/** @brief デバイスコンテキスト */
@@ -44,6 +61,9 @@ namespace RHEngine
 
 		/** @brief CPU側オブジェクトバッファ */
 		PerObject m_perObject;
+
+		/** @brief 使用中カメラの情報 */
+		CurrentCameraInfo m_currentCameraInfo;
 
 	public:
 
@@ -104,5 +124,11 @@ namespace RHEngine
 		 * @brief PerObjectバッファをバインドする
 		 */
 		void BindPerObject();
+
+		/** @brief PerCameraのデータを取得する */
+		const CurrentCameraInfo& GetCurrentCameraData() const
+		{
+			return m_currentCameraInfo;
+		}
 	};
 }	// namespace RHEngine

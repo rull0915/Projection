@@ -10,7 +10,6 @@
 
 #include <memory>
 #include <SpriteBatch.h>
-#include <CommonStates.h>
 #include <d3d11.h>
 
 #include "DrawCommandContainer.h"
@@ -18,6 +17,10 @@
 #include "Assets/Types/Material/MaterialAsset.h"
 #include "Assets/Objects/Handle.h"
 #include "Assets/Types/Vertex/DynamicVertexBuffer.h"
+#include "System/Render/GraphicsManager.h"
+#include "System/Render/BlendStateList.h"
+#include "System/Render/DepthStencilStateList.h"
+#include "System/Render/RasterizerStateList.h"
 
 namespace RHEngine
 {
@@ -46,9 +49,6 @@ namespace RHEngine
 
 		/** @brief デバイスコンテキスト */
 		ID3D11DeviceContext* m_pContext;
-
-		/** @brief コモンステート */
-		DirectX::CommonStates* m_pStates;
 
 		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
@@ -95,6 +95,35 @@ namespace RHEngine
 
 		/** @brief メッシュ */
 		void DrawMeshCommandExecute(const std::vector<DrawMeshCommand>& commands);
+
+		/** @brief スカイボックス */
+		void DrawSkyboxCommandExecute(const std::vector<DrawSkyboxCommand>& commands);
+
+		/** @brief ワールド空間スプライト */
+		void DrawWorldSpriteCommandExecute(const std::vector<DrawWorldSpriteCommand>& commands);
+
+		/// @}
+
+		/// @name ステート設定
+		/// @{
+		 
+		/** @brief ラスタライザステート */
+		ID3D11RasterizerState* GetRasterizerState(RasterizerType type)
+		{
+			return GraphicsManager::Instance().GetRasterizerList().GetState(type).Get();
+		}
+
+		/** @brief デプスステンシルステート */
+		ID3D11DepthStencilState* GetDepthStencilState(DepthStencilType type)
+		{
+			return GraphicsManager::Instance().GetDepthStencilList().GetState(type).Get();
+		}
+
+		/** @brief ブレンドステート */
+		ID3D11BlendState* GetBlendState(BlendType type)
+		{
+			return GraphicsManager::Instance().GetBlendList().GetState(type).Get();
+		}
 
 		/// @}
 	};

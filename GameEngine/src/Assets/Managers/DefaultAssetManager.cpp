@@ -49,6 +49,10 @@ namespace RHEngine
 			srv.GetAddressOf()	// 受け取る SRV ポインタ
 		);
 
-		return std::make_unique<Texture>(srv);
+		auto tex = std::make_unique<Texture>(srv);
+
+		tex->SetStatus(LoadStatus::Loaded);
+
+		return std::move(tex);
 	}
 }	// namespace RHEngine

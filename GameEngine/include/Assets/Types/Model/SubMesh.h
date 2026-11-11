@@ -21,19 +21,19 @@ namespace RHEngine
 	struct SubMesh
 	{
 		/** @brief 描画するインデックス数 */
-		UINT indexCount;
+		UINT indexCount = 0;
 
 		/** @brief 何番目のインデックスから描画を始めるか */
-		UINT indexOffset;
+		UINT indexOffset = 0;
 
 		/** @brief 頂点バッファの頂点を読み取る際に全てのインデックスに対して加算される値 */
-		INT vertexOffset;
+		INT vertexOffset = 0;
 
 		/** @brief SubMeshを覆う境界ボックス */
 		/** @TODO ロード時にBoudingBoxを生成して渡すように */
-		BoundingBox boudingBox;
+		BoundingBox boudingBox{};
 
 		/** @brief 対応するマテリアル名 */
-		std::string materialName;
+		std::string materialName{};
 	};
 }	// namespace RHEngine

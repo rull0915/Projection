@@ -1,4 +1,4 @@
-#include "SkyboxEffect_Common.hlsli"
+#include "BasicShader.hlsli"
 
 TextureCube<float4> CubeMap : register(t0);
 SamplerState Sampler : register(s0);

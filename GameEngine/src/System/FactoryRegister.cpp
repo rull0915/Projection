@@ -40,6 +40,7 @@ namespace RHEngine
 
 		// Renderer
 		ADD_FACTORY(MeshRenderer);
+		ADD_FACTORY(SpriteRenderer);
 		ADD_FACTORY(SkyboxComponent);
 
 		// Camera

@@ -162,9 +162,13 @@ $(ProjectDir)ThirdParty;
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
-    <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
+    <ClCompile Include="src\Assets\Types\Texture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>
@@ -179,6 +183,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
@@ -260,8 +265,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\Components\ComponentBase.cpp" />
     <ClCompile Include="src\Components\World\Renderer\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp" />
-    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxComponent.cpp" />
-    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxEffect.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\SkyboxComponent.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody2D.cpp" />
     <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp" />
     <ClCompile Include="src\Components\World\Sounds\AudioListener.cpp" />
@@ -344,6 +348,7 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\System\Render\BlendStateList.cpp" />
     <ClCompile Include="src\System\Render\DepthStencilStateList.cpp" />
     <ClCompile Include="src\System\Render\InputLayoutCache.cpp" />
+    <ClCompile Include="src\System\Render\RasterizerStateList.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
     <ClCompile Include="src\System\Render\SamplerList.cpp" />
     <ClCompile Include="src\System\ResourceManager.cpp" />
@@ -417,6 +422,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Assets\Types\Model\DefaultMeshManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="include\Assets\Types\Model\Mesh.h" />
     <ClInclude Include="include\Assets\Types\Model\Model.h" />
     <ClInclude Include="include\Assets\Types\Model\SubMesh.h" />
@@ -450,6 +459,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\World\Mesh\MeshFilter.h" />
+    <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
     <ClInclude Include="include\EntryPoint.h">
       <SubType>
       </SubType>
@@ -459,6 +469,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawOtherCommandPublisher.h" />
     <ClInclude Include="include\Renderer\RendererInfo.h">
       <SubType>
       </SubType>
@@ -486,6 +497,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\System\Render\InputLayoutCache.h" />
+    <ClInclude Include="include\System\Render\RasterizerStateList.h" />
     <ClInclude Include="include\System\Render\SamplerList.h" />
     <ClInclude Include="include\WinProc.h">
       <SubType>
@@ -750,9 +762,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Components\UI\Behaviour\UIBehaviorBase.h" />
-    <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h" />
-    <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h" />
-    <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h" />
+    <ClInclude Include="include\Components\World\Renderer\SkyboxComponent.h" />
     <ClInclude Include="include\GameObject\ComponentContainer.h" />
     <ClInclude Include="include\GameObject\GameObject.h" />
     <ClInclude Include="include\GameObject\Interface\IColliderReceiver.h" />
@@ -841,20 +851,6 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="src\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="src\ThirdParty\nameof\nameof.hpp" />
     <ClInclude Include="src\ThirdParty\nlohmann\json.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\Shaders\SkyboxEffect_PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SkyboxEffect_VS.hlsl">
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

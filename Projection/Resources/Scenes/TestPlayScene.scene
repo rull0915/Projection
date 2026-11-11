@@ -43,6 +43,14 @@
                         },
                         "Type": "StandardCamera",
                         "UUID": 5766962533219240220
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_material": 9871217458187851018
+                        },
+                        "Type": "SkyboxComponent",
+                        "UUID": 15007269213979415514
                     }
                 ],
                 "IsWorld": true,
@@ -1025,6 +1033,27 @@
                         },
                         "Type": "Transform",
                         "UUID": 9085947540664861225
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                -0.05000000074505806,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                20.0,
+                                0.10000000149011612,
+                                20.0
+                            ],
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
+                        },
+                        "Type": "BoxCollider",
+                        "UUID": 16568089818788674462
                     }
                 ],
                 "IsWorld": true,
@@ -1101,6 +1130,99 @@
                 "UUID": 14851800184510239779,
                 "m_isActive": true,
                 "m_name": "PointLight",
+                "m_tag": ""
+            },
+            {
+                "Children": [],
+                "Components": [
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_localPosition": [
+                                0.1156432032585144,
+                                0.4420076012611389,
+                                6.513567924499512
+                            ],
+                            "m_localRotation": [
+                                -0.0,
+                                0.0,
+                                -0.0,
+                                1.0
+                            ],
+                            "m_localScale": [
+                                4.5,
+                                1.1322258710861206,
+                                1.0
+                            ]
+                        },
+                        "Type": "Transform",
+                        "UUID": 15036933167866121793
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isStatic": false,
+                            "m_linearDamping": 0.0,
+                            "m_mass": 1.0,
+                            "m_useGravity": true
+                        },
+                        "Type": "RigidBody",
+                        "UUID": 3008240745760413793
+                    },
+                    {
+                        "Data": {
+                            "m_isActive": true,
+                            "m_isTrigger": false,
+                            "m_layerNum": 0,
+                            "m_localCenterPos": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "m_localSize": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_needInfo": false,
+                            "m_physicsMaterial": 0
+                        },
+                        "Type": "BoxCollider",
+                        "UUID": 12661651322611951844
+                    },
+                    {
+                        "Data": {
+                            "m_color": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "m_fixedAxis": [
+                                0.0,
+                                1.0,
+                                0.0
+                            ],
+                            "m_isActive": true,
+                            "m_maxUvRect": [
+                                0.800000011920929,
+                                0.550000011920929
+                            ],
+                            "m_minUvRect": [
+                                0.18000000715255737,
+                                0.4000000059604645
+                            ],
+                            "m_mode": "World",
+                            "m_texture": 17647856136256602545
+                        },
+                        "Type": "SpriteRenderer",
+                        "UUID": 54895239403188479
+                    }
+                ],
+                "IsWorld": true,
+                "UUID": 6168984526859056379,
+                "m_isActive": true,
+                "m_name": "GameObject",
                 "m_tag": ""
             }
         ]

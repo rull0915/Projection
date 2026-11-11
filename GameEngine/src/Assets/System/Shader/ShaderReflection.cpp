@@ -206,7 +206,20 @@ namespace RHEngine
 					// マテリアル管轄でなければスキップ
 					if (!IsMaterialManagedTSlot(bindDesc.BindPoint)) continue;
 
-					param.type = ShaderParamType::Texture2D;
+					switch (bindDesc.Dimension)
+					{
+					case D3D_SRV_DIMENSION_TEXTURE2D:
+						param.type = ShaderParamType::Texture2D;
+						break;
+					case D3D_SRV_DIMENSION_TEXTURECUBE:
+						param.type = ShaderParamType::TextureCube;
+						break;
+					default:
+						// その他は未対応 
+						// @TODO 対応可能なリソースを増やすこと
+						param.type = ShaderParamType::None;
+						break;
+					}
 
 					// 配列に追加
 					params.push_back(param);

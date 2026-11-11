@@ -22,6 +22,7 @@
 #include "Input/KeyInput.h"
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
+#include "Assets/Types/Model/DefaultMeshManager.h"
 
 namespace RHEngine
 {
@@ -43,7 +44,6 @@ namespace RHEngine
 		// デバイス コンテキストの取得
 		auto* device = deviceResources->GetD3DDevice();
 		auto* context = deviceResources->GetD3DDeviceContext();
-		auto* states = deviceResources->GetCommonStates();
 
 		// シーンマネージャーの初期化
 		SceneManager::Instance().Initialize(m_assetManager);
@@ -72,6 +72,9 @@ namespace RHEngine
 
 		// アセット管理クラスの初期化
 		m_assetManager.Initialize(L"Resources");
+
+		// デフォルトメッシュの作成
+		DefaultMeshManager::Instance().Initialize(device);
 
 		// 描画クラスの初期化
 		m_renderer.Initialize();
@@ -200,6 +203,9 @@ namespace RHEngine
 	{
 		// シーンの終了
 		SceneManager::Instance().Finalize();
+
+		// デフォルトメッシュの破棄
+		DefaultMeshManager::Instance().Shutdown();
 
 #ifdef ENGINE_GUI
 

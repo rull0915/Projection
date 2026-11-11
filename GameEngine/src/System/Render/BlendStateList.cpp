@@ -84,8 +84,7 @@ namespace RHEngine
 
 		for (size_t i = 0; i < rtCount; i++)
 		{
-			if (!Equal(a.RenderTarget[0], b.RenderTarget[0])); 
-			return false;
+			if (!Equal(a.RenderTarget[0], b.RenderTarget[0])) return false;
 		}
 
 		return true;

@@ -102,6 +102,15 @@ namespace RHEngine
 		m_perCamera.vpMat = vp.Transpose();
 		m_perCamera.invVpMat = vp.Invert().Transpose();
 		m_perCamera.cameraPos = data.pos;
+
+		// 情報を保持しておく
+		DirectX::SimpleMath::Matrix cameraWorld = data.view.Invert();
+		m_currentCameraInfo.right = cameraWorld.Right();
+		m_currentCameraInfo.up = cameraWorld.Up();
+		m_currentCameraInfo.forward = cameraWorld.Forward();
+		m_currentCameraInfo.position = data.pos;
+		m_currentCameraInfo.view = data.view;
+		m_currentCameraInfo.proj = data.proj;
 	}
 
 	void RenderInfoManager::UpdatePerObject(const DirectX::SimpleMath::Matrix& world)

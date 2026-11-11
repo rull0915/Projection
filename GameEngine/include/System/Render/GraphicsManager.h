@@ -13,9 +13,11 @@
 
 #include "System/DeviceResources.h"
 #include "InputLayoutCache.h"
+
 #include "SamplerList.h"
 #include "DepthStencilStateList.h"
 #include "BlendStateList.h"
+#include "RasterizerStateList.h"
 
 namespace RHEngine
 {
@@ -40,6 +42,9 @@ namespace RHEngine
 
 		/** @brief ブレンドステートリスト */
 		BlendStateList m_blendStateList;
+
+		/** @brief ラスタライザステートリスト */
+		RasterizerStateList m_rasterizerList;
 
 	private:
 
@@ -85,6 +90,9 @@ namespace RHEngine
 
 			// ブレンドステートの初期化
 			m_blendStateList.Initialize(pDevice);
+
+			// ラスタライザステートの初期化
+			m_rasterizerList.Initialize(pDevice);
 		}
 
 		/// @name ゲッター
@@ -104,6 +112,9 @@ namespace RHEngine
 		
 		/** @brief ブレントステートリスト */
 		BlendStateList& GetBlendList() { return m_blendStateList; }
+
+		/** @brief ラスタライザステートリスト */
+		RasterizerStateList& GetRasterizerList() { return m_rasterizerList; }
 
 		/// @}
 	};

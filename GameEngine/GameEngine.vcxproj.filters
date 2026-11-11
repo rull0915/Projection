@@ -525,10 +525,7 @@
     <ClCompile Include="src\Components\World\Renderer\RendererBase.cpp">
       <Filter>src\Components\World\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxComponent.cpp">
-      <Filter>src\Components\World\Renderer\Skybox</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Components\World\Renderer\Skybox\SkyboxEffect.cpp">
+    <ClCompile Include="src\Components\World\Renderer\SkyboxComponent.cpp">
       <Filter>src\Components\World\Renderer\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\World\RigidBody\RigidBody.cpp">
@@ -796,6 +793,10 @@
     <ClCompile Include="src\Managers\3DManagers\Collider\SpaceDivision\TreeManager.cpp" />
     <ClCompile Include="src\System\Render\DepthStencilStateList.cpp" />
     <ClCompile Include="src\System\Render\BlendStateList.cpp" />
+    <ClCompile Include="src\System\Render\RasterizerStateList.cpp" />
+    <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
+    <ClCompile Include="src\Assets\Types\Texture.cpp" />
+    <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1044,7 +1045,7 @@
     <ClInclude Include="include\Components\World\Renderer\RendererBase.h">
       <Filter>include\Components\World\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\World\Renderer\Skybox\SkyboxComponent.h">
+    <ClInclude Include="include\Components\World\Renderer\SkyboxComponent.h">
       <Filter>include\Components\World\Renderer\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\World\RigidBody\RigidBody.h">
@@ -1332,12 +1333,6 @@
     <ClInclude Include="src\Common\OpenFileDialog.h">
       <Filter>src\Common</Filter>
     </ClInclude>
-    <ClInclude Include="src\Components\World\Renderer\Skybox\ReadData.h">
-      <Filter>src\Components\World\Renderer\Skybox</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components\World\Renderer\Skybox\SkyboxEffect.h">
-      <Filter>src\Components\World\Renderer\Skybox</Filter>
-    </ClInclude>
     <ClInclude Include="src\Editor\Editor\HandlePayload.h">
       <Filter>src\Editor\Editor</Filter>
     </ClInclude>
@@ -1496,20 +1491,13 @@
     <ClInclude Include="include\GameController.h" />
     <ClInclude Include="include\System\Render\DepthStencilStateList.h" />
     <ClInclude Include="include\System\Render\BlendStateList.h" />
+    <ClInclude Include="include\System\Render\RasterizerStateList.h" />
+    <ClInclude Include="include\Renderer\Command\Publisher\DrawOtherCommandPublisher.h" />
+    <ClInclude Include="include\Assets\Types\Model\DefaultMeshManager.h" />
+    <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">
-      <Filter>Resources\Shaders</Filter>
-    </None>
     <None Include="packages.config" />
     <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\Shaders\SkyboxEffect_VS.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SkyboxEffect_PS.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
