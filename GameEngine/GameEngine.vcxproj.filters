@@ -1495,6 +1495,7 @@
     <ClInclude Include="include\Renderer\Command\Publisher\DrawOtherCommandPublisher.h" />
     <ClInclude Include="include\Assets\Types\Model\DefaultMeshManager.h" />
     <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
+    <ClInclude Include="include\Debug\Log\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

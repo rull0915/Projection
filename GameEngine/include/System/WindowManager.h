@@ -176,6 +176,8 @@ namespace RHEngine
 		} 
 
 		/** @brief 背景色 */
-		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
+		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }
+
+		/// @}
 	};
 }	// namespace RHEngine
