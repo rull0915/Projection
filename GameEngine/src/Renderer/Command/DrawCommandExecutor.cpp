@@ -52,6 +52,7 @@ namespace RHEngine
 		// 各コマンドの実行
 		DrawMeshCommandExecute(container.GetDrawMeshCommands());
 		DrawSkyboxCommandExecute(container.GetDrawSkyboxCommands());
+		DrawWorldSpriteCommandExecute(container.GetDrawWorldSpriteCommands());
 		DrawPrimitiveCommandExecute(container.GetDrawPrimitiveCommands());
 		DrawSpriteAndFontCommandExecute(container.GetDrawUICommands());
 	}
@@ -332,7 +333,7 @@ namespace RHEngine
 		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// カメラの位置を取得
-		DirectX::SimpleMath::Vector3 cameraPos = m_infoManager.GetPerCameraData().cameraPos;
+		DirectX::SimpleMath::Vector3 cameraPos = m_infoManager.GetCurrentCameraData().position;
 
 		for (auto& command : commands)
 		{
@@ -368,6 +369,75 @@ namespace RHEngine
 			// 頂点バッファをバインド
 			ID3D11Buffer* vb[] = { command.pMesh->GetVertexBuffer() };
 			UINT stride = sizeof(VertexPosition), offset = 0;
+			m_pContext->IASetVertexBuffers(0, 1, vb, &stride, &offset);
+
+			// インデックスバッファをバインド
+			m_pContext->IASetIndexBuffer(command.pMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+			// インプットレイアウトをバインド
+			m_pContext->IASetInputLayout(inputLayout.Get());
+
+			// 0番のサブメッシュのみを使用し描画
+			auto& sub = command.pMesh->GetSubMeshes()[0];
+			m_pContext->DrawIndexed(sub.indexCount, sub.indexOffset, sub.vertexOffset);
+		}
+	}
+
+	void DrawCommandExecutor::DrawWorldSpriteCommandExecute(const std::vector<DrawWorldSpriteCommand>& commands)
+	{
+		// 半透明ブレンド
+		m_pContext->OMSetBlendState(GetBlendState(BlendType::AlphaBlend), nullptr, 0xFFFFFFFF);
+
+		// 通常の深度ステンシルステート
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
+
+		// 逆面をカリング
+		// @TODO 指定できるように
+		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullNone));
+
+		// トポロジーを設定
+		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		for (auto& command : commands)
+		{
+			// テクスチャがなければ次へ
+			if (!command.pTexture) continue;
+
+			// マテリアルの取得
+			auto* material = m_assetManager.Get(command.material);
+			if (!material || !material->IsValid())
+			{
+				// なければWorldSprite用デフォルトマテリアルを使用する
+				static auto s_defaultHandle = m_assetManager.LoadFromUUID(DefaultAsset::SPRITE_MATERIAL).As<MaterialAsset>();
+				material = m_assetManager.Get<MaterialAsset>(s_defaultHandle);
+
+				if (!material) continue;
+ 
+				// デフォルトマテリアル用の情報をバインドする
+				material->SetParam(ShaderType::Vertex, "uv", command.uv);
+				material->SetParam(ShaderType::Pixel, "color", command.color);
+
+				m_pContext->PSSetShaderResources(11, 1, &command.pTexture);
+				m_pContext->PSSetSamplers(11, 1, GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap).GetAddressOf());
+			}
+
+			material->UpdateConstantBuffers(m_pDevice, m_pContext);
+			if (!material->Apply(m_pContext)) continue;
+
+			// PerObjectバッファに設定
+			m_infoManager.UpdatePerObject(command.world);
+			m_infoManager.BindPerObject();
+
+			// InputLayoutを取得
+			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
+				material->GetShaderAsset(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout());
+
+			if (!inputLayout) continue;
+
+			// 頂点バッファをバインド
+			ID3D11Buffer* vb[] = { command.pMesh->GetVertexBuffer() };
+			UINT stride = sizeof(VertexPositionNormalTexture), offset = 0;
 			m_pContext->IASetVertexBuffers(0, 1, vb, &stride, &offset);
 
 			// インデックスバッファをバインド

@@ -39,6 +39,9 @@ namespace RHEngine
 
 		/** @brief スカイボックス描画コマンドリスト */
 		std::vector<DrawSkyboxCommand> m_drawSkyboxCommands;
+		
+		/** @brief ワールド空間スプライト描画コマンドリスト */
+		std::vector<DrawWorldSpriteCommand> m_drawWorldSpriteCommands;
 
 	public:
 
@@ -60,6 +63,7 @@ namespace RHEngine
 			m_drawMeshCommands.clear();
 			m_drawUICommands.clear();
 			m_drawSkyboxCommands.clear();
+			m_drawWorldSpriteCommands.clear();
 		};
 
 		/// @name コマンドの追加
@@ -79,6 +83,9 @@ namespace RHEngine
 
 		/** @brief スカイボックス描画コマンドの追加 */
 		DrawSkyboxCommand& AddSkybox() { return m_drawSkyboxCommands.emplace_back(); }
+		
+		/** @brief ワールドスプライト描画コマンドの追加 */
+		DrawWorldSpriteCommand& AddWorldSprite() { return m_drawWorldSpriteCommands.emplace_back(); }
 
 		/// @}
 
@@ -99,6 +106,9 @@ namespace RHEngine
 
 		/** @brief  スカイボックス描画コマンドリスト */
 		const std::vector<DrawSkyboxCommand>& GetDrawSkyboxCommands() const { return m_drawSkyboxCommands; }
+
+		/** @brief  ワールドスプライト描画コマンドリスト */
+		const std::vector<DrawWorldSpriteCommand>& GetDrawWorldSpriteCommands() const { return m_drawWorldSpriteCommands; }
 
 		/// @}
 

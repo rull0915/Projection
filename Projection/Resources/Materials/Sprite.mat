@@ -1,0 +1,32 @@
+{
+    "ComputeShader": null,
+    "DomainShader": null,
+    "GeometryShader": null,
+    "HullShader": null,
+    "PSHandle": 7,
+    "PixelShader": [
+        {
+            "Name": "color",
+            "Type": "Color",
+            "Value": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    ],
+    "VSHandle": 8,
+    "VertexShader": [
+        {
+            "Name": "uv",
+            "Type": "Float4",
+            "Value": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ]
+}

@@ -133,6 +133,19 @@ namespace RHEngine
 		command.material = m_graphicSystem.GetMaterial();
 	}
 
+	void DrawSpriteCommandPublisher::DrawInWorld(ID3D11ShaderResourceView* pTexture, Mesh* pMesh, DirectX::SimpleMath::Matrix world, DirectX::SimpleMath::Vector4 uvRect, DirectX::SimpleMath::Color color)
+	{
+		// コマンドの追加
+		auto& command = m_commandContainer.AddWorldSprite();
+
+		command.pTexture = pTexture;
+		command.pMesh = pMesh;
+		command.world = world;
+		command.uv = uvRect;
+		command.color = color;
+		command.material = m_graphicSystem.GetMaterial();
+	}
+
 	// 画像サイズの取得関数
 	DirectX::SimpleMath::Vector2 DrawSpriteCommandPublisher::GetTextureSize(ID3D11ShaderResourceView* srv)
 	{

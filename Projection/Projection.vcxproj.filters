@@ -286,6 +286,8 @@
     <FxCompile Include="Shaders\ShadowMap.vs.hlsl" />
     <FxCompile Include="Shaders\Skybox.vs.hlsl" />
     <FxCompile Include="Shaders\Skybox.ps.hlsl" />
+    <FxCompile Include="Shaders\SpriteRenderer.ps.hlsl" />
+    <FxCompile Include="Shaders\SpriteRenderer.vs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="settings.manifest" />

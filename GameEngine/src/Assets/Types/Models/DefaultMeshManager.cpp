@@ -183,8 +183,8 @@ namespace RHEngine
 
 	std::unique_ptr<Mesh> DefaultMeshManager::CreateQuad(ID3D11Device* pDevice)
 	{
-		// XY平面、-Z方向(カメラ側)を向く 1x1 の板
-		const Vec3 n(0, 0, -1);
+		// XY平面、+Z方向(カメラ側)を向く 1x1 の板
+		const Vec3 n(0, 0, 1);
 
 		std::vector<VertexPositionNormalTexture> vertices = {
 			{ { -0.5f, -0.5f, 0 }, n,{ 0, 1 } },	// 左下

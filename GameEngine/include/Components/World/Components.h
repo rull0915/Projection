@@ -16,6 +16,7 @@
 #include "RigidBody/RigidBody2D.h"
 #include "RigidBody/RigidBody.h"
 #include "Renderer/MeshRenderer.h"
+#include "Renderer/SpriteRenderer.h"
 #include "Renderer/SkyboxComponent.h"
 #include "Sounds/AudioListener.h"
 #include "Mesh/MeshFilter.h"

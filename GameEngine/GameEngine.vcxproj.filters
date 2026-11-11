@@ -1497,18 +1497,7 @@
     <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\SkyboxEffect_Common.hlsli">
-      <Filter>Resources\Shaders</Filter>
-    </None>
     <None Include="packages.config" />
     <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\Shaders\SkyboxEffect_VS.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SkyboxEffect_PS.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

@@ -180,4 +180,28 @@ namespace RHEngine
 
 		/// @}
 	};
+
+	struct DrawWorldSpriteCommand : public DrawCommandBase
+	{
+		ID3D11ShaderResourceView* pTexture = nullptr;	///< テクスチャ
+
+		Mesh* pMesh = nullptr;	///< テクスチャを張り付けるメッシュ
+		
+		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;	///< ワールド行列
+
+		DirectX::SimpleMath::Color color = { 1.0f, 1.0f, 1.0f, 1.0f };	///< 乗算色
+
+		DirectX::SimpleMath::Vector4 uv = { 0.0f, 0.0f, 1.0f, 1.0f };	///< 切り取り矩形
+
+		Handle<MaterialAsset> material = ERROR_HANDLE<MaterialAsset>;	///< マテリアルハンドル
+
+		/// @name ライフサイクル
+		/// @{
+ 
+		DrawWorldSpriteCommand()
+			: DrawCommandBase(RendererType::WorldSprite)
+		{}
+
+		/// @}
+	};
 }	// namespace RHEngine

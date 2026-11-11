@@ -99,6 +99,9 @@ namespace RHEngine
 		/** @brief スカイボックス */
 		void DrawSkyboxCommandExecute(const std::vector<DrawSkyboxCommand>& commands);
 
+		/** @brief ワールド空間スプライト */
+		void DrawWorldSpriteCommandExecute(const std::vector<DrawWorldSpriteCommand>& commands);
+
 		/// @}
 
 		/// @name ステート設定

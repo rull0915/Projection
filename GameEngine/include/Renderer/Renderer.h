@@ -41,9 +41,6 @@ namespace RHEngine
 		/** @brief 初期化フラグ */
 		bool m_isInitialized;
 
-		/** @brief 使用中のカメラデータ */
-		SceneCameraData m_currentCamera;
-
 	public:
 
 		/// @name ライフサイクル
@@ -103,11 +100,13 @@ namespace RHEngine
 		/// @name ゲッター
 		/// @{
 
-		/** @brief ビュー行列 */
-		const DirectX::SimpleMath::Matrix& GetView() const { return m_currentCamera.view; };
-
-		/** @brief 射影行列 */
-		const DirectX::SimpleMath::Matrix& GetProjection() const { return m_currentCamera.proj; };
+		/**
+		 * @brief 現在のカメラ情報を取得する
+		 */
+		const RenderInfoManager::CurrentCameraInfo& GetCurrentCameraInfo() const 
+		{
+			return m_infoManager.GetCurrentCameraData(); 
+		}
 
 		/// @}
 
