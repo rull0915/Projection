@@ -797,6 +797,8 @@
     <ClCompile Include="src\Assets\Types\Models\DefaultMeshManager.cpp" />
     <ClCompile Include="src\Assets\Types\Texture.cpp" />
     <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Common\LogSystem\Logger.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\LogWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1495,7 +1497,11 @@
     <ClInclude Include="include\Renderer\Command\Publisher\DrawOtherCommandPublisher.h" />
     <ClInclude Include="include\Assets\Types\Model\DefaultMeshManager.h" />
     <ClInclude Include="include\Components\World\Renderer\SpriteRenderer.h" />
-    <ClInclude Include="include\Debug\Log\Log.h" />
+    <ClInclude Include="include\Common\LogSystem\Log.h" />
+    <ClInclude Include="include\Common\LogSystem\Logger.h" />
+    <ClInclude Include="include\Common\LogSystem\Logs.h" />
+    <ClInclude Include="include\Common\LogSystem\ImGuiLogSink.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\LogWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
