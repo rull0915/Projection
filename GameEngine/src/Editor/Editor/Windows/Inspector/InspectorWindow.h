@@ -91,9 +91,8 @@ namespace RHEngine
 		/**
 		 * @brief コンポーネントをリストに表示する
 		 * @param pObject 所有者
-		 * @param info 表示するコンポーネントの情報
 		 */
-		void DrawComponentList(GameObject* pObject, ComponentInfo info);
+		void DrawComponentList(GameObject* pObject);
 
 		/**
 		 * @brief Assetをインスペクターウィンドウに表示する

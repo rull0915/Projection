@@ -138,63 +138,47 @@ namespace RHEngine
 			ImGui::OpenPopup("AddComponent");
 		}
 
-		// プロジェクトタイプの一覧
-		constexpr std::pair<const char*, ComponentProject> projects[] =
-		{
-			{ "Standard", ComponentProject::Engine },
-			{ "Original", ComponentProject::Game },
-		};
-
-		// コンポーネント所属空間の一覧
-		constexpr std::pair<const char*, ComponentSpace> spaces[] =
-		{
-			{ "Both",  ComponentSpace::Both  },
-			{ "World", ComponentSpace::World },
-			{ "UI",    ComponentSpace::UI    },
-		};
+		// ポップアップのサイズ制約
+		ImGui::SetNextWindowSizeConstraints(
+			ImVec2(0.0f, 0.0f),       // 最小サイズ
+			ImVec2(FLT_MAX, 400.0f)   // 最大サイズ
+		);
 
 		// AddCompnentが開かれていたら
 		if (ImGui::BeginPopup("AddComponent"))
 		{
-			// プロジェクトをループ
-			for (auto& [pStr, project] : projects)
-			{
-				// 開かれていれば
-				if (ImGui::BeginMenu(pStr))
-				{
-					// 所属空間をループ
-					for (auto& [sStr, space] : spaces)
-					{
-						// 開かれていれば
-						if (ImGui::BeginMenu(sStr))
-						{
-							// コンポーネントリストを表示
-							DrawComponentList(pObject, { project, space });
+			// コンポーネントリストを表示
+			DrawComponentList(pObject);
 
-							ImGui::EndMenu();
-						}
-					}
-					ImGui::EndMenu();
-				}
-			}
 			ImGui::EndPopup();
 		}
 	}
 
-	void InspectorWindow::DrawComponentList(GameObject* pObject, ComponentInfo info)
+	void InspectorWindow::DrawComponentList(GameObject* pObject)
 	{
+		// フィルターを保持（毎フレーム生成しない）
+		static ImGuiTextFilter filter;
+
+		// 検索欄を表示
+		filter.Draw("Search");
+
 		// ファクトリから候補を取得
 		for (auto& factory : ComponentFactory::m_creatorMap)
 		{
-			// 一致したら
-			if (factory.second.first.project == info.project && factory.second.first.space == info.space)
+			if (ImGui::BeginChild("ComponentList", ImVec2(0, 300)))
 			{
-				// 表示
-				if (ImGui::Selectable(factory.first.c_str()))
+				// フィルターに通るか判定
+				if (filter.PassFilter(factory.first.c_str()))
 				{
-					// 押されたら追加
-					factory.second.second(pObject);
+					// 表示
+					if (ImGui::Selectable(factory.first.c_str()))
+					{
+						// 押されたら追加
+						factory.second.second(pObject);
+					}
 				}
+
+				ImGui::EndChild();
 			}
 		}
 	}
