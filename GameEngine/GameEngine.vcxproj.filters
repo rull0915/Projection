@@ -800,6 +800,7 @@
     <ClCompile Include="src\Common\LogSystem\Logger.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\LogWindow.cpp" />
     <ClCompile Include="src\Common\LogSystem\LogFatal.cpp" />
+    <ClCompile Include="src\Common\LogSystem\FileLogSink.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1504,6 +1505,8 @@
     <ClInclude Include="include\Common\LogSystem\ImGuiLogSink.h" />
     <ClInclude Include="src\Editor\Editor\Windows\LogWindow.h" />
     <ClInclude Include="include\Common\LogSystem\LogFatal.h" />
+    <ClInclude Include="include\Common\LogSystem\DebugLogSink.h" />
+    <ClInclude Include="include\Common\LogSystem\FileLogSink.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
