@@ -23,6 +23,7 @@
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
 #include "Assets/Types/Model/DefaultMeshManager.h"
+#include "Common/LogSystem/Logger.h"
 
 namespace RHEngine
 {
@@ -97,6 +98,9 @@ namespace RHEngine
 
 	void GameEngine::BeginFrame()
 	{
+		// ロガーにフレームの更新を通知
+		Logger::Instance().NextFrame();
+
 #ifdef ENGINE_GUI
 
 		if (m_modeChange)
@@ -206,6 +210,9 @@ namespace RHEngine
 
 		// デフォルトメッシュの破棄
 		DefaultMeshManager::Instance().Shutdown();
+
+		// ログのFlush
+		Logger::Instance().Flush();
 
 #ifdef ENGINE_GUI
 

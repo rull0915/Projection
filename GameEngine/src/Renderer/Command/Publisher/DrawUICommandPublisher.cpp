@@ -18,9 +18,9 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawTriangle(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v3({ m_windowManager.NDCToPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCTo3DPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCTo3DPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v3({ m_windowManager.NDCTo3DPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 頂点を追加
 		if (fillFlag)
@@ -35,10 +35,10 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawRect(DirectX::SimpleMath::Vector2 p1, DirectX::SimpleMath::Vector2 p2, DirectX::SimpleMath::Vector2 p3, DirectX::SimpleMath::Vector2 p4, DirectX::SimpleMath::Color color, bool fillFlag)
 	{
-		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v3({ m_windowManager.NDCToPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v4({ m_windowManager.NDCToPixel(p4) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCTo3DPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCTo3DPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v3({ m_windowManager.NDCTo3DPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v4({ m_windowManager.NDCTo3DPixel(p4) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 頂点を追加
 		if (fillFlag)
@@ -53,8 +53,8 @@ namespace RHEngine
 
 	void DrawUICommandPublisher::DrawLine(DirectX::SimpleMath::Vector2 start, DirectX::SimpleMath::Vector2 end, DirectX::SimpleMath::Color color)
 	{
-		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(start) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(end) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCTo3DPixel(start) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCTo3DPixel(end) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, { v1, v2 });
 	}
@@ -67,10 +67,10 @@ namespace RHEngine
 		float step = 2.0f * PI_F / static_cast<float>(division);
 
 		// 中心点
-		VertexPositionColorTexture c({ m_windowManager.NDCToPixel(centerPos) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture c({ m_windowManager.NDCTo3DPixel(centerPos) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 最初の点
-		VertexPositionColorTexture prev({ m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture prev({ m_windowManager.NDCTo3DPixel(DirectX::SimpleMath::Vector2{ centerPos.x + radius, centerPos.y }) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 分割数分ループ
 		for (int i = 0; i < division; ++i)
@@ -78,7 +78,7 @@ namespace RHEngine
 			float theta = step * i;
 
 			// 頂点情報を計算
-			VertexPositionColorTexture v({ m_windowManager.NDCToPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }) }, color, DirectX::SimpleMath::Vector2::Zero);
+			VertexPositionColorTexture v({ m_windowManager.NDCTo3DPixel(DirectX::SimpleMath::Vector2{ centerPos.x + cosf(theta) * radius, centerPos.y + sinf(theta) * radius }) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 			// 追加
 			if (fillFlag) m_commandContainer.AddPrimitiveVertices(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, { c, prev, v });
@@ -97,10 +97,10 @@ namespace RHEngine
 		DirectX::SimpleMath::Vector2 p3{ max.x, max.y };
 		DirectX::SimpleMath::Vector2 p4{ max.x, min.y };
 
-		VertexPositionColorTexture v1({ m_windowManager.NDCToPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v2({ m_windowManager.NDCToPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v3({ m_windowManager.NDCToPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
-		VertexPositionColorTexture v4({ m_windowManager.NDCToPixel(p4) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v1({ m_windowManager.NDCTo3DPixel(p1) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v2({ m_windowManager.NDCTo3DPixel(p2) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v3({ m_windowManager.NDCTo3DPixel(p3) }, color, DirectX::SimpleMath::Vector2::Zero);
+		VertexPositionColorTexture v4({ m_windowManager.NDCTo3DPixel(p4) }, color, DirectX::SimpleMath::Vector2::Zero);
 
 		// 頂点を追加
 		if (fillFlag)

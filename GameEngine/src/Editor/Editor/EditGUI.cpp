@@ -16,6 +16,7 @@
 #include "Windows/ToolBarWindow.h"
 #include "Windows/ImageWindow.h"
 #include "Windows/PerformanceWindow.h"
+#include "Windows/LogWindow.h"
 
 namespace RHEngine
 {
@@ -28,6 +29,7 @@ namespace RHEngine
 		, m_toolbar{ std::make_unique<ToolBarWindow>(pScene, assetManager, playFunc, stopFunc) }
 		, m_images{ std::make_unique<ImageWindow>() }
 		, m_performance{ std::make_unique<PerformanceWindow>() }
+		, m_logWindow{ std::make_unique<LogWindow>() }
 		, m_selected{ m_assetmanager }
 	{}
 
@@ -50,6 +52,9 @@ namespace RHEngine
 
 		// Inspectorの描画
 		m_inspector->DrawInspector();
+
+		// Logの描画
+		m_logWindow->Draw();
 	}
 
 	bool EditGUI::DrawSceneView(ID3D11ShaderResourceView* pSceneView, SceneCamera* pSceneViewCamera)

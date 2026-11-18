@@ -120,6 +120,19 @@ namespace RHEngine
 			return { xRatio * 2 - 1, -(yRatio * 2 - 1) };
 		}
 
+		/**
+		 * @brief NDC座標系からピクセル座標に変換する (Vec3)
+		 * @param pos NDC座標
+		 * @return ピクセル座標
+		 */
+		DirectX::SimpleMath::Vector3 NDCTo3DPixel(DirectX::SimpleMath::Vector2 pos)
+		{
+			float xRatio = pos.x / m_width;
+			float yRatio = pos.y / m_height;
+
+			return { xRatio * 2 - 1, -(yRatio * 2 - 1), 0 };
+		}
+
 		/// @name ゲッター
 		/// @{
 
@@ -163,6 +176,8 @@ namespace RHEngine
 		} 
 
 		/** @brief 背景色 */
-		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }	// 色
+		void SetBackGroundColor(DirectX::SimpleMath::Color color) { m_backGroundColor = color; }
+
+		/// @}
 	};
 }	// namespace RHEngine

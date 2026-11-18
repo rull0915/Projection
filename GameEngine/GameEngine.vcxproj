@@ -122,8 +122,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir);
 $(ProjectDir)ThirdParty;
 %(AdditionalIncludeDirectories)$(ProjectDir)src;$(ProjectDir)include;</AdditionalIncludeDirectories>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -169,6 +169,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Common\LogSystem\Logger.cpp" />
     <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
       <SubType>
@@ -185,6 +186,7 @@ $(ProjectDir)ThirdParty;
     </ClCompile>
     <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ImageWindow.cpp" />
+    <ClCompile Include="src\Editor\Editor\Windows\LogWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\PerformanceWindow.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\ToolBarWindow.cpp" />
     <ClCompile Include="src\Managers\2DManagers\Collider\SpaceDivision\TreeManager2D.cpp" />
@@ -445,6 +447,10 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\Common\LogSystem\ImGuiLogSink.h" />
+    <ClInclude Include="include\Common\LogSystem\Log.h" />
+    <ClInclude Include="include\Common\LogSystem\Logger.h" />
+    <ClInclude Include="include\Common\LogSystem\Logs.h" />
     <ClInclude Include="include\Common\Property\PropertyTypeIndex.h">
       <SubType>
       </SubType>
@@ -655,6 +661,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Scene\ObjectFactory.h" />
     <ClInclude Include="src\Editor\Editor\Windows\ImageWindow.h" />
+    <ClInclude Include="src\Editor\Editor\Windows\LogWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\PerformanceWindow.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\AssetFileDrawer.h" />
     <ClInclude Include="src\Editor\Editor\Windows\Project\ProjectWindowPopUp.h" />

@@ -29,6 +29,7 @@ namespace RHEngine
 	class ToolBarWindow;
 	class ImageWindow;
 	class PerformanceWindow;
+	class LogWindow;
 
 	/**
 	 * @brief GUIのウィンドウを管理する
@@ -50,6 +51,7 @@ namespace RHEngine
 		std::unique_ptr<ProjectWindow> m_project;			///< プロジェクトウィンドウ
 		std::unique_ptr<ImageWindow> m_images;				///< 画像用ウィンドウ
 		std::unique_ptr<PerformanceWindow> m_performance;	///< パフォーマンスウィンドウ
+		std::unique_ptr<LogWindow> m_logWindow;				///< ログウィンドウ
 
 		/// @}
 
