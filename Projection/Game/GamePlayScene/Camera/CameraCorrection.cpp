@@ -10,6 +10,7 @@
 #include "Scene/Scene.h"
 #include "Physics/Ray.h"
 #include "Physics/RaycastHit.h"
+#include "Common/LogSystem/Logs.h"
 
 CameraCorrection::CameraCorrection(RHEngine::IComponentOwner* own)
 	: WorldComponentBase(own)

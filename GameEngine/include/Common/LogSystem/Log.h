@@ -24,7 +24,9 @@ namespace RHEngine
 		Info,
 		Warning,
 		Error,
-		Fatal
+		Fatal,
+
+		Count
 	};
 
 	/**
@@ -43,7 +45,6 @@ namespace RHEngine
 	struct LogEntry
 	{
 		LogLevel    level;		///< ログレベル
-		std::string category;	///< カテゴリ名
 		std::string message;	///< 本文
 		std::string file;       ///< ファイル名のみ
 		uint32_t    line;		///< 行数

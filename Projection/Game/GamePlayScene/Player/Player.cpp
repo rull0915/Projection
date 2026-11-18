@@ -19,6 +19,7 @@
 #include "Physics/HitContact.h"
 
 #include "Settings/WorldSetting2D.h"
+#include "Common/LogSystem/Logs.h"
 
 using namespace RHEngine;
 

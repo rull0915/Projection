@@ -103,18 +103,17 @@ namespace RHEngine
 		 * @brief ログを1つ生成する
 		 * @tparam ...Args 
 		 * @param lv ログレベル
-		 * @param category カテゴリ名
 		 * @param loc 呼び出し場所の情報
 		 * @param fmt 
 		 * @param ...args 
 		 */
 		template<class... Args>
-		static void Log(LogLevel lv, const char* category, std::source_location loc,
+		void Log(LogLevel lv, std::source_location loc,
 			std::format_string<Args...> fmt, Args&&... args)
 		{
 			if (lv < m_minLevel) return;
 
-			Dispatch(lv, category, loc, std::format(fmt, std::forward<Args>(args)...));
+			Dispatch(lv, loc, std::format(fmt, std::forward<Args>(args)...));
 		}
 
 	private:
@@ -126,7 +125,7 @@ namespace RHEngine
 		 * @param loc ログを発行した場所の情報
 		 * @param msg ログメッセージ本文
 		 */
-		void Dispatch(LogLevel lv, const char* category, std::source_location loc, std::string msg);
+		void Dispatch(LogLevel lv, std::source_location loc, std::string msg);
 	};
 
 	template<class T, class ...Args>

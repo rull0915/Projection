@@ -14,24 +14,24 @@
 
 #include "Logger.h"
 
-#define RH_LOG(lv, cat, ...)													\
+#define RH_LOG(lv, ...)													\
 	do{																			\
 		auto& logger = RHEngine::Logger::Instance();							\
 		if (lv >= logger.GetMinLevel())											\
 		{																		\
-			logger.Log(lv, #cat, std::source_location::current(), __VA_ARGS__);	\
+			logger.Log(lv, std::source_location::current(), __VA_ARGS__);	\
 		}																		\
 	} while(0)
 
 #ifdef NDEBUG
-  #define LOG_TRACE(cat, ...) ((void)0)
-  #define LOG_DEBUG(cat, ...) ((void)0)
+  #define LOG_TRACE(...) ((void)0)
+  #define LOG_DEBUG(...) ((void)0)
 #else
-  #define LOG_TRACE(cat, ...) RH_LOG(RHEngine::LogLevel::Trace, cat, __VA_ARGS__)
-  #define LOG_DEBUG(cat, ...) RH_LOG(RHEngine::LogLevel::Debug, cat, __VA_ARGS__)
+  #define LOG_TRACE(...) RH_LOG(RHEngine::LogLevel::Trace, __VA_ARGS__)
+  #define LOG_DEBUG(...) RH_LOG(RHEngine::LogLevel::Debug, __VA_ARGS__)
 #endif
-#define LOG_INFO(cat, ...)  RH_LOG(RHEngine::LogLevel::Info,    cat, __VA_ARGS__)
-#define LOG_WARN(cat, ...)  RH_LOG(RHEngine::LogLevel::Warning, cat, __VA_ARGS__)
-#define LOG_ERROR(cat, ...) RH_LOG(RHEngine::LogLevel::Error,   cat, __VA_ARGS__)
-#define LOG_FATAL(cat, ...) do { RH_LOG(RHEngine::LogLevel::Fatal, cat, __VA_ARGS__); \
-                                 RHEngine::Logger::Flush(); __debugbreak(); } while(0)
+#define LOG_INFO(...)  RH_LOG(RHEngine::LogLevel::Info,    __VA_ARGS__)
+#define LOG_WARN(...)  RH_LOG(RHEngine::LogLevel::Warning, __VA_ARGS__)
+#define LOG_ERROR(...) RH_LOG(RHEngine::LogLevel::Error,   __VA_ARGS__)
+#define LOG_FATAL(...) do { RH_LOG(RHEngine::LogLevel::Fatal, __VA_ARGS__); \
+								 RHEngine::Logger::Flush(); __debugbreak(); } while(0)

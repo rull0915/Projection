@@ -28,12 +28,11 @@ namespace RHEngine
 		}
 	}
 
-	void Logger::Dispatch(LogLevel lv, const char* category, std::source_location loc, std::string msg)
+	void Logger::Dispatch(LogLevel lv, std::source_location loc, std::string msg)
 	{
 		// エントリを作成
 		LogEntry e{};
 		e.level = lv;
-		e.category = category;
 		e.message = std::move(msg);
 		e.line = loc.line();
 
