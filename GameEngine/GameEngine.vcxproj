@@ -161,6 +161,7 @@ $(ProjectDir)ThirdParty;
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ErrorHandlingAudit.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Common\LogSystem\LogFatal.cpp" />
     <ClCompile Include="src\Common\LogSystem\Logger.cpp" />
     <ClCompile Include="src\Components\UI\Canvas\CanvasScaler.cpp" />
     <ClCompile Include="src\Assets\Managers\AssetRegistry.cpp">
@@ -449,6 +451,7 @@ $(ProjectDir)ThirdParty;
     </ClInclude>
     <ClInclude Include="include\Common\LogSystem\ImGuiLogSink.h" />
     <ClInclude Include="include\Common\LogSystem\Log.h" />
+    <ClInclude Include="include\Common\LogSystem\LogFatal.h" />
     <ClInclude Include="include\Common\LogSystem\Logger.h" />
     <ClInclude Include="include\Common\LogSystem\Logs.h" />
     <ClInclude Include="include\Common\Property\PropertyTypeIndex.h">

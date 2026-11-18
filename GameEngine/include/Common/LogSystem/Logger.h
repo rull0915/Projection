@@ -53,7 +53,7 @@ namespace RHEngine
 		/// @name ライフサイクル
 		/// @{
 
-		Logger() = default;
+		Logger();
 
 		/// @}
 

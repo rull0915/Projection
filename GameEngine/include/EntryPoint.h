@@ -23,6 +23,7 @@
 // RHEngine
 #include "Application.h"
 #include "WinProc.h"
+#include "Common/LogSystem/Logs.h"
 
 // 外部で定義されたCreateApplicationを呼び出す
 extern RHEngine::Application* RHEngine::CreateApplication();
@@ -37,14 +38,24 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	if (!DirectX::XMVerifyCPUSupport()) return 1;
-	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
-
-	if (FAILED(hr)) return 1;
-
 	// アプリケーションインスタンスを生成
 	g_app.reset(RHEngine::CreateApplication());
+	if (!g_app)
+	{
+		LOG_FATAL("Failed to create the application instance.");
+	}
 	const auto& props = g_app->GetProps();
+
+	if (!DirectX::XMVerifyCPUSupport())
+	{
+		LOG_FATAL("DirectXMath is not supported on this CPU.");
+	}
+
+	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	if (FAILED(hr))
+	{
+		LOG_FATAL("Failed to initialize COM.HRESULT: 0x{:08X}", static_cast<uint32_t>(hr));
+	}
 
 	// キーボードの作成
 	std::unique_ptr<DirectX::Keyboard> keyboard = std::make_unique<DirectX::Keyboard>();
@@ -65,7 +76,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		wcex.hInstance = hInstance;
 		wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
 		wcex.lpszClassName = L"RHEngine_Window";
-		if (!RegisterClassExW(&wcex)) return 1;
+		if (!RegisterClassExW(&wcex))
+		{
+			LOG_FATAL("Failed to register the window class. GetLastError: {}", GetLastError());
+		}
 
 		// ウィンドウサイズの指定
 		RECT rc = { 0, 0, static_cast<LONG>(props.width), static_cast<LONG>(props.height) };
@@ -79,7 +93,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 		// 作成失敗したら終了
 		if (!hwnd)
-			return 1;
+			LOG_FATAL("Failed to create the application window. GetLastError: {}", GetLastError());
 
 		ShowWindow(hwnd, nCmdShow);
 

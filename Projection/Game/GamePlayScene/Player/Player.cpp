@@ -133,6 +133,8 @@ void Player::Update3D(const GameTimer& timer)
 		if (auto* rb = GetComponent<RigidBody>())
 		{
 			rb->AddForce(DirectX::SimpleMath::Vector3::Up * JUMP_POWER, ForceMode::Impulse);
+
+			LOG_DEBUG("プレイヤーのジャンプ");
 		}
 	}
 }
