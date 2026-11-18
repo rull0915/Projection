@@ -10,8 +10,6 @@
 
 #ifdef ENGINE_GUI
 
-#include <map>
-#include <string>
 #include <vector>
 #include <SimpleMath.h>
 

@@ -64,7 +64,7 @@ namespace RHEngine
 		if (division < 3) return;
 
 		// 角度の間隔を算出
-		float step = 2.0f * PI_F / static_cast<float>(division);
+		float step = 2.0f * DirectX::XM_PI / static_cast<float>(division);
 
 		// 中心点
 		VertexPositionColorTexture c({ m_windowManager.NDCTo3DPixel(centerPos) }, color, DirectX::SimpleMath::Vector2::Zero);

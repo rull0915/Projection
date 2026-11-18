@@ -53,6 +53,7 @@
 #include <stdexcept>
 #include <system_error>
 #include <tuple>
+#include <string>
 
 #ifdef _DEBUG
 #include <dxgidebug.h>
@@ -92,9 +93,6 @@ namespace DX
 #include <DirectXHelpers.h>
 #include <SimpleMath.h>
 
-#include <string>
-
 #include "Timer/GameTimer.h"
 
-// 静的変数の定義
-constexpr auto PI_F = 3.14159265f;
+#include "Common/LogSystem/Logs.h"
