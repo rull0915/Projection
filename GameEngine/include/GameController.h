@@ -17,7 +17,7 @@ namespace RHEngine
 	class GameController
 	{
 	private:
-
+		
 		/// @name ライフサイクル
 		/// @{
 

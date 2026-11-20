@@ -46,7 +46,7 @@ namespace RHEngine
 		/** @brief ラスタライザステートリスト */
 		RasterizerStateList m_rasterizerList;
 
-	private:
+	public:
 
 		/// @name ライフサイクル
 		/// @{
@@ -61,18 +61,6 @@ namespace RHEngine
 		~GraphicsManager() = default;
 
 		/// @}
-
-	public:
-
-		/**
-		 * @brief インスタンスを取得する
-		 * @return 静的なインスタンス
-		 */
-		static GraphicsManager& Instance()
-		{
-			static GraphicsManager instance;
-			return instance;
-		}
 
 		/**
 		 * @brief 初期化が必要なリソースの初期化を行う

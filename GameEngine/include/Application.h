@@ -15,6 +15,7 @@
 
 #include "System/DeviceResources.h"
 #include "Timer/StepTimer.h"
+#include "System/Render/GraphicsManager.h"
 
 namespace RHEngine
 {
@@ -44,7 +45,7 @@ namespace RHEngine
 		std::unique_ptr<GameEngine> m_gameEngine;
 
 		/** @brief デバイスリソース */
-		DX::DeviceResources* m_deviceResources = nullptr;
+		std::unique_ptr<DX::DeviceResources> m_deviceResources;
 
 		/** @brief タイマー */
 		DX::StepTimer m_timer;

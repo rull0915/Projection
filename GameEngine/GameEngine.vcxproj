@@ -342,7 +342,6 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="src\Debug\DebugManager.cpp" />
     <ClCompile Include="src\Scene\UpdatePipeline.cpp" />
     <ClCompile Include="src\System\DeviceResources.cpp" />
     <ClCompile Include="src\System\EngineInitializer.cpp" />
@@ -356,7 +355,6 @@ $(ProjectDir)ThirdParty;
     <ClCompile Include="src\System\Render\RasterizerStateList.cpp" />
     <ClCompile Include="src\System\Render\RenderTarget.cpp" />
     <ClCompile Include="src\System\Render\SamplerList.cpp" />
-    <ClCompile Include="src\System\ResourceManager.cpp" />
     <ClCompile Include="src\System\WindowManager.cpp" />
     <ClCompile Include="src\Timer\GameTimer.cpp" />
     <ClCompile Include="src\Managers\UI\UIManager.cpp" />
@@ -830,10 +828,8 @@ $(ProjectDir)ThirdParty;
     <ClInclude Include="include\Settings\PhysicsSettings.h" />
     <ClInclude Include="include\Settings\TimeSettings.h" />
     <ClInclude Include="include\Settings\WorldSetting2D.h" />
-    <ClInclude Include="include\Debug\DebugManager.h" />
     <ClInclude Include="include\System\DeviceResources.h" />
     <ClInclude Include="include\System\EngineInitializer.h" />
-    <ClInclude Include="include\System\ResourceManager.h" />
     <ClInclude Include="include\System\WindowManager.h" />
     <ClInclude Include="include\Timer\GameTimer.h" />
     <ClInclude Include="include\Timer\StepTimer.h" />

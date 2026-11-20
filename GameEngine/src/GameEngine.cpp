@@ -16,9 +16,6 @@
 #include "System/EngineInitializer.h"
 #include "Assets/System/AssetInitializer.h"
 #include "System/WindowManager.h"
-#include "System/ResourceManager.h"
-#include "System/Render/GraphicsManager.h"
-#include "Debug/DebugManager.h"
 #include "Input/KeyInput.h"
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
@@ -49,9 +46,6 @@ namespace RHEngine
 		// シーンマネージャーの初期化
 		SceneManager::Instance().Initialize(m_assetManager);
 
-		// グラフィックマネージャーの初期化
-		GraphicsManager::Instance().Initialize();
-
 		// ゲームエンジンの初期化
 		EngineInitializer::EngineInitialize();
 
@@ -64,9 +58,6 @@ namespace RHEngine
 		ImguiManager::Initialize(window, device, context);
 
 #endif // ENGINE_GUI
-
-		// リソースマネージャの初期化
-		ResourceManager::Instance().Initialize();
 
 		// アセットの初期化
 		AssetInitializer::AssetInitialize(m_assetManager);
@@ -113,10 +104,6 @@ namespace RHEngine
 			m_modeChange = !m_modeChange;
 		}
 
-#endif // ENGINE_GUI
-
-#ifdef ENGINE_GUI
-
 		if (m_sceneEdit)
 		{
 			// ImGuiの更新
@@ -136,21 +123,11 @@ namespace RHEngine
 		// アセットマネージャーの更新
 		m_assetManager.Update();
 
-		// デバッグマネージャーの更新
-		DebugManager::Instance().Update(elapsedTime);
-
-		// リソースマネージャーの更新
-		ResourceManager::Instance().Update();
-
 		// タイマーの更新
 		m_gameTimer->Update(elapsedTime);
 
 		// 各シーンの更新
-		if (
-			!DebugManager::Instance().IsGameStop() ||     // ゲーム停止中ではない 
-			DebugManager::Instance().IsStepUpdate()      // ステップ実行フレーム
-			)
-			SceneManager::Instance().Update(*m_gameTimer);
+		SceneManager::Instance().Update(*m_gameTimer);
 
 #ifdef ENGINE_GUI
 
