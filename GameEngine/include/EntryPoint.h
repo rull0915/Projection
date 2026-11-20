@@ -24,6 +24,8 @@
 #include "Application.h"
 #include "WinProc.h"
 #include "Common/LogSystem/Logs.h"
+#include "Common/LogSystem/DebugLogSink.h"
+#include "Common/LogSystem/FileLogSink.h"
 
 // 外部で定義されたCreateApplicationを呼び出す
 extern RHEngine::Application* RHEngine::CreateApplication();
@@ -37,6 +39,12 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	// 使用しないパラメータ
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
+
+	// ログ出力先を追加
+	RHEngine::Logger::Instance().AddSink<RHEngine::FileLogSink>("RHEngineLog.log");		
+#ifdef DEBUG
+	RHEngine::Logger::Instance().AddSink<RHEngine::DebugLogSink>();
+#endif // DEBUG
 
 	// アプリケーションインスタンスを生成
 	g_app.reset(RHEngine::CreateApplication());

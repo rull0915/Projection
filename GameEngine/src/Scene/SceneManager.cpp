@@ -126,6 +126,9 @@ namespace RHEngine
 
 			// リクエスト要求のシーンへ移行
 			loader.LoadSceneFromFile(it->second, m_currentScene.get());
+
+			// ログ出力
+			LOG_INFO("Scene Change : {}", m_pRequestedScene);
 		}
 
 		// シーンの初期化処理
