@@ -41,6 +41,7 @@ namespace RHEngine
 	class GameObject;
 
 	class AssetManager;
+	class GraphicsManager;
 	class GameTimer;
 
 	/**
@@ -74,6 +75,9 @@ namespace RHEngine
 		/** @brief アセットマネージャー */
 		AssetManager& m_assetManager;
 
+		/** @brief グラフィックマネージャー */
+		GraphicsManager& m_graphicsManager;
+
 		/** @brief 参照解決待ちリスト */
 		std::vector<RefBase*> m_waitingRefBases;
 
@@ -103,7 +107,7 @@ namespace RHEngine
 		/**
 		 * @param assetManager アセットマネージャー
 		 */
-		Scene(AssetManager& assetManager);
+		Scene(AssetManager& assetManager, GraphicsManager& graphicsManager);
 
 		virtual ~Scene();
 

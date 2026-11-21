@@ -24,12 +24,13 @@
 
 namespace RHEngine
 {
-	GameEngine::GameEngine()
+	GameEngine::GameEngine(GraphicsManager& graphicsManager)
 		: m_modeChange{ false }
 		, m_gameTimer{ std::make_unique<GameTimer>() }
 		, m_assetManager{}
-		, m_renderer{ m_assetManager }
-		, m_shadowRenderer{ m_assetManager }
+		, m_graphicManager{ graphicsManager }
+		, m_renderer{ m_assetManager, graphicsManager }
+		, m_shadowRenderer{ m_assetManager, graphicsManager }
 #ifdef ENGINE_GUI
 		, m_editor{}
 		, m_sceneEdit{}
@@ -37,14 +38,14 @@ namespace RHEngine
 	{
 	}
 
-	void GameEngine::Initialize(DX::DeviceResources* deviceResources, HWND window, bool edit)
+	void GameEngine::Initialize(HWND window, bool edit)
 	{
 		// デバイス コンテキストの取得
-		auto* device = deviceResources->GetD3DDevice();
-		auto* context = deviceResources->GetD3DDeviceContext();
+		auto* device = m_graphicManager.GetDeviceResources()->GetD3DDevice();
+		auto* context = m_graphicManager.GetDeviceResources()->GetD3DDeviceContext();
 
 		// シーンマネージャーの初期化
-		SceneManager::Instance().Initialize(m_assetManager);
+		SceneManager::Instance().Initialize(m_assetManager, m_graphicManager);
 
 		// ゲームエンジンの初期化
 		EngineInitializer::EngineInitialize();
@@ -63,7 +64,7 @@ namespace RHEngine
 		AssetInitializer::AssetInitialize(m_assetManager);
 
 		// アセット管理クラスの初期化
-		m_assetManager.Initialize(L"Resources");
+		m_assetManager.Initialize(device, L"Resources");
 
 		// デフォルトメッシュの作成
 		DefaultMeshManager::Instance().Initialize(device);
@@ -75,7 +76,7 @@ namespace RHEngine
 #ifdef ENGINE_GUI
 
 		// エディターの生成
-		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), m_assetManager);
+		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), m_assetManager, m_graphicManager.GetDeviceResources()->GetD3DDevice());
 
 		m_sceneEdit = edit;
 

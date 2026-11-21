@@ -21,6 +21,7 @@
 namespace RHEngine
 {
 	class AssetManager;
+	class GraphicsManager;
 
 	/**
 	 * @brief 描画を統括する
@@ -28,6 +29,9 @@ namespace RHEngine
 	class Renderer
 	{
 	private:
+
+		/** @brief 描画管理クラス */
+		GraphicsManager& m_graphicManager;
 
 		/** @brief 描画仲介クラス */
 		RenderProxy m_renderProxy;
@@ -48,8 +52,9 @@ namespace RHEngine
 
 		/**
 		 * @param assetManager アセットマネージャー
+		 * @param graphicsManager グラフィックマネージャー
 		 */
-		Renderer(AssetManager& assetManager);
+		Renderer(AssetManager& assetManager, GraphicsManager& graphicsManager);
 
 		~Renderer() = default;
 

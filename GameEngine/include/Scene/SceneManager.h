@@ -19,6 +19,7 @@ namespace RHEngine
 {
 	class Scene;
 	class AssetManager;
+	class GraphicsManager;
 	
 	class Renderer;
 	class ShadowRenderer;
@@ -83,8 +84,9 @@ namespace RHEngine
 		/**
 		 * @brief 初期化関数 シーンの生成を行う
 		 * @param assetManager アセットマネージャー
+		 * @param graphicsManager グラフィックマネージャー
 		 */
-		void Initialize(AssetManager& assetManager);
+		void Initialize(AssetManager& assetManager, GraphicsManager& graphicsManager);
 
 		/**
 		 * @brief シーン及び遷移の更新を行う

@@ -25,6 +25,7 @@
 namespace RHEngine
 {
 	class AssetManager;
+	class GraphicsManager;
 	class SamplerList;
 
 	/**
@@ -43,6 +44,9 @@ namespace RHEngine
 
 		/** @brief  描画情報マネージャー */
 		RenderInfoManager& m_infoManager;
+
+		/** @brief グラフィックマネージャー */
+		GraphicsManager& m_graphicsManager;
 
 		/** @brief デバイス */
 		ID3D11Device* m_pDevice;
@@ -65,7 +69,7 @@ namespace RHEngine
 		 * @param assetManager アセットマネージャー
 		 * @param infoManager 描画情報マネージャー
 		 */
-		DrawCommandExecutor(AssetManager& assetManager, RenderInfoManager& infoManager);
+		DrawCommandExecutor(AssetManager& assetManager, GraphicsManager& graphicsManager, RenderInfoManager& infoManager);
 
 		~DrawCommandExecutor();
 
@@ -101,29 +105,6 @@ namespace RHEngine
 
 		/** @brief ワールド空間スプライト */
 		void DrawWorldSpriteCommandExecute(const std::vector<DrawWorldSpriteCommand>& commands);
-
-		/// @}
-
-		/// @name ステート設定
-		/// @{
-		 
-		/** @brief ラスタライザステート */
-		ID3D11RasterizerState* GetRasterizerState(RasterizerType type)
-		{
-			return GraphicsManager::Instance().GetRasterizerList().GetState(type).Get();
-		}
-
-		/** @brief デプスステンシルステート */
-		ID3D11DepthStencilState* GetDepthStencilState(DepthStencilType type)
-		{
-			return GraphicsManager::Instance().GetDepthStencilList().GetState(type).Get();
-		}
-
-		/** @brief ブレンドステート */
-		ID3D11BlendState* GetBlendState(BlendType type)
-		{
-			return GraphicsManager::Instance().GetBlendList().GetState(type).Get();
-		}
 
 		/// @}
 	};

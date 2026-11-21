@@ -14,11 +14,12 @@
 
 namespace RHEngine
 {
-	ShadowRenderer::ShadowRenderer(AssetManager& assetManager)
+	ShadowRenderer::ShadowRenderer(AssetManager& assetManager, GraphicsManager& graphicsManager)
 		: m_usable{ false }
 		, m_drawMeshCommands{}
 		, m_vsShaderHandle{}
 		, m_assetManager{ assetManager }
+		, m_graphicsManager{ graphicsManager }
 		, m_pDevice{ nullptr }
 		, m_pContext{ nullptr }
 		, m_currentShadowMap{ nullptr }
@@ -32,7 +33,7 @@ namespace RHEngine
 		m_vsShaderHandle = m_assetManager.LoadFromUUID(DefaultAsset::SHADOW_PASS_VS).As<ShaderAsset>();
 
 		// デバイスリソースの取得
-		DX::DeviceResources* dr = GraphicsManager::Instance().GetDeviceResources();
+		DX::DeviceResources* dr = m_graphicsManager.GetDeviceResources();
 
 		m_pDevice = dr->GetD3DDevice();
 
@@ -110,7 +111,7 @@ namespace RHEngine
 		}
 
 		// InputLayoutを取得
-		auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+		auto inputLayout = m_graphicsManager.GetInputLayoutCache().GetOrCreate(
 			m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
 			pVs, VertexPositionNormalTexture::GetLayout()
 		);
@@ -133,7 +134,7 @@ namespace RHEngine
 
 		// カリング
 		m_pContext->RSSetState(
-			GraphicsManager::Instance().GetRasterizerList().GetState(RasterizerType::Default).Get()
+			m_graphicsManager.GetRasterizerList().GetState(RasterizerType::Default).Get()
 		);
 
 		// デプスステンシルステートを設定

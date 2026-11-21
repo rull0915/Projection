@@ -50,6 +50,9 @@ namespace RHEngine
 		/** @brief タイマー */
 		DX::StepTimer m_timer;
 
+		/** @brief グラフィックマネージャー */
+		GraphicsManager m_graphicManager;
+
 	public:
 
 		/// @name ライフサイクル

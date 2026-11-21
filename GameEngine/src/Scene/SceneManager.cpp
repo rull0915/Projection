@@ -34,13 +34,13 @@ namespace RHEngine
 		m_sceneMap.insert({ sceneName, sceneFile });
 	}
 
-	void SceneManager::Initialize(AssetManager& assetManager)
+	void SceneManager::Initialize(AssetManager& assetManager, GraphicsManager& graphicsManager)
 	{
 		// アセットマネージャーを渡す
 		m_pAssetManager = &assetManager;
 
 		// シーンの生成
-		m_currentScene = std::make_unique<Scene>(assetManager);
+		m_currentScene = std::make_unique<Scene>(assetManager, graphicsManager);
 	}
 
 	void SceneManager::Update(const GameTimer& gameTimer)

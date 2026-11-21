@@ -19,12 +19,11 @@ namespace RHEngine
 {
 	Application::Application(const ApplicationProps& props)
 		: m_props{ props }
-		, m_gameEngine{ std::make_unique<GameEngine>() }
-		, m_deviceResources{ nullptr }
+		, m_gameEngine{ std::make_unique<GameEngine>(m_graphicManager) }
+		, m_deviceResources{ std::make_unique<DX::DeviceResources>() }
 		, m_timer{}
+		, m_graphicManager{ m_deviceResources.get() }
 	{
-
-
 		m_deviceResources->RegisterDeviceNotify(this);
 	}
 
@@ -45,8 +44,10 @@ namespace RHEngine
 		WindowManager::Instance().SetSize(width, height);
 		WindowManager::Instance().SetDefaultWindowSize(width, height);
 
+		m_graphicManager.Initialize();
+
 		// ゲームエンジンの初期化
-		m_gameEngine->Initialize(m_deviceResources.get(), hwnd, false);
+		m_gameEngine->Initialize(hwnd, false);
 
 		// アプリ側の初期化
 		OnInitialize();

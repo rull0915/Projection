@@ -23,6 +23,7 @@
 namespace RHEngine
 {
 	class AssetManager;
+	class GraphicsManager;
 
 	/**
 	 * @brief シャドウマップへ深度の書き込みを行う
@@ -42,6 +43,9 @@ namespace RHEngine
 
 		/** @brief アセット解決クラス */
 		AssetManager& m_assetManager;
+
+		/** @brief グラフィックマネージャー */
+		GraphicsManager& m_graphicsManager;
 
 		/** @brief デバイス */
 		ID3D11Device* m_pDevice;
@@ -66,7 +70,7 @@ namespace RHEngine
 		/**
 		 * @param assetManager アセットマネージャー
 		 */
-		ShadowRenderer(AssetManager& assetManager);
+		ShadowRenderer(AssetManager& assetManager, GraphicsManager& graphicsManager);
 
 		~ShadowRenderer() = default;
 

@@ -16,14 +16,13 @@
 #include "Assets/Types/AudioClip.h"
 
 #include "System/Render/GraphicsManager.h"
-#include "System/ResourceManager.h"
 
 namespace RHEngine
 {
 	LoadResult RHEngine::Loader::TextureLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
 		// デバイスを取得
-		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+		auto device = ctx.GetDevice();
 
 		// テクスチャを用意
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture;
@@ -77,7 +76,7 @@ namespace RHEngine
 	LoadResult Loader::FontLoader(const std::filesystem::path& path, AssetContext& ctx)
 	{
 		// デバイスを取得
-		auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+		auto device = ctx.GetDevice();
 
 		// 生成
 		std::unique_ptr<DirectX::SpriteFont> font = std::make_unique<DirectX::SpriteFont>(device, path.c_str());
@@ -116,13 +115,13 @@ namespace RHEngine
 	{
 		LoadResult result{};
 
-		// AudioEngineを取得
-		auto ae = ResourceManager::Instance().GetAudioEngine();
+		//// AudioEngineを取得
+		//auto ae = ResourceManager::Instance().GetAudioEngine();
 
-		// 生成
-		auto sound = std::make_unique<DirectX::SoundEffect>(ae, path.c_str());
+		//// 生成
+		//auto sound = std::make_unique<DirectX::SoundEffect>(ae, path.c_str());
 
-		result.asset = std::make_unique<AudioClip>(std::move(sound));
+		//result.asset = std::make_unique<AudioClip>(std::move(sound));
 
 		result.success = true;
 

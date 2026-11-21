@@ -12,12 +12,35 @@
 #include "Assets/Managers/AssetManager.h"
 #include "Assets/Types/Vertex/VertexTypes.h"
 #include "Assets/EngineDefaultAssets.h"
+#include "System/Render/GraphicsManager.h"
 
 namespace RHEngine
 {
-	DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, RenderInfoManager& infoManager)
+	namespace
+	{
+		/** @brief ラスタライザステート */
+		ID3D11RasterizerState* GetRasterizerState(GraphicsManager& gm, RasterizerType type)
+		{
+			return gm.GetRasterizerList().GetState(type).Get();
+		}
+
+		/** @brief デプスステンシルステート */
+		ID3D11DepthStencilState* GetDepthStencilState(GraphicsManager& gm, DepthStencilType type)
+		{
+			return gm.GetDepthStencilList().GetState(type).Get();
+		}
+
+		/** @brief ブレンドステート */
+		ID3D11BlendState* GetBlendState(GraphicsManager& gm, BlendType type)
+		{
+			return gm.GetBlendList().GetState(type).Get();
+		}
+	}
+
+	DrawCommandExecutor::DrawCommandExecutor(AssetManager& assetManager, GraphicsManager& graphicsManager, RenderInfoManager& infoManager)
 		: m_spriteBatch{}
 		, m_infoManager{ infoManager }
+		, m_graphicsManager{ graphicsManager }
 		, m_pDevice{ nullptr }
 		, m_pContext{ nullptr }
 		, m_assetManager{ assetManager }
@@ -29,7 +52,7 @@ namespace RHEngine
 	void DrawCommandExecutor::Initialize()
 	{
 		// デバイスリソースの取得
-		DX::DeviceResources* dr = GraphicsManager::Instance().GetDeviceResources();
+		DX::DeviceResources* dr = m_graphicsManager.GetDeviceResources();
 
 		m_pDevice = dr->GetD3DDevice();
 
@@ -66,7 +89,7 @@ namespace RHEngine
 		m_dynamicVertexBuffer.Bind(m_pContext);
 
 		// カリング不使用
-		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullNone));
+		m_pContext->RSSetState(GetRasterizerState(m_graphicsManager, RasterizerType::CullNone));
 
 		// コマンドの描画情報をキャッシュする構造体
 		struct DrawBatchInfo
@@ -123,10 +146,10 @@ namespace RHEngine
 				if (batch.material && batch.material->IsValid())
 				{
 					// 適用できなければ終了
-					if (!batch.material->Apply(m_pContext)) return;
+					if (!batch.material->Apply(m_pContext, m_graphicsManager.GetSamplerList())) return;
 
 					// InputLayoutを取得
-					auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+					auto inputLayout = m_graphicsManager.GetInputLayoutCache().GetOrCreate(
 						m_pDevice, static_cast<uint32_t>(typeid(VertexPositionColorTexture).hash_code()),
 						batch.material->GetShaderAsset(ShaderType::Vertex), VertexPositionColorTexture::GetLayout()
 					);
@@ -148,11 +171,11 @@ namespace RHEngine
 		//-------------- 遮蔽部分を半透明描画 --------------//
 		{
 			// GREATERの深度ステンシルステート
-			m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::DepthGreater), 0);
+			m_pContext->OMSetDepthStencilState(GetDepthStencilState(m_graphicsManager, DepthStencilType::DepthGreater), 0);
 
 			// 半透明ブレンドを設定
 			float blendFactor[4] = { 0.3f, 0.3f, 0.3f, 0.3f }; // 全体的に薄く乗算
-			m_pContext->OMSetBlendState(GetBlendState(BlendType::BlendFactorRGB), blendFactor, 0xFFFFFFFF);
+			m_pContext->OMSetBlendState(GetBlendState(m_graphicsManager, BlendType::BlendFactorRGB), blendFactor, 0xFFFFFFFF);
 
 			for (auto& batch : batchList)
 			{
@@ -163,10 +186,10 @@ namespace RHEngine
 		//-------------- 可視部分を通常描画 --------------//
 		{
 			// デフォルトの深度ステンシルステート
-			m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
+			m_pContext->OMSetDepthStencilState(GetDepthStencilState(m_graphicsManager, DepthStencilType::Default), 0);
 
 			// 通常の非透過ブレンド
-			m_pContext->OMSetBlendState(GetBlendState(BlendType::PremultipliedAlpha), nullptr, 0xFFFFFFFF);
+			m_pContext->OMSetBlendState(GetBlendState(m_graphicsManager, BlendType::PremultipliedAlpha), nullptr, 0xFFFFFFFF);
 			
 			// 描画
 			for (auto& batch : batchList)
@@ -179,7 +202,7 @@ namespace RHEngine
 	void DrawCommandExecutor::DrawSpriteAndFontCommandExecute(const std::vector<DrawCommandContainer::DrawUICommand>& commands)
 	{
 		// スプライトバッチの開始
-		m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GetBlendState(BlendType::AlphaBlend));
+		m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GetBlendState(m_graphicsManager, BlendType::AlphaBlend));
 
 		// マテリアルハンドル
 		Handle<MaterialAsset> oldHandle = { 0, 0 };
@@ -214,20 +237,20 @@ namespace RHEngine
 				{
 					m_spriteBatch->Begin(
 						DirectX::SpriteSortMode_Deferred,
-						GetBlendState(BlendType::AlphaBlend),
+						GetBlendState(m_graphicsManager, BlendType::AlphaBlend),
 						nullptr,
 						nullptr,
 						nullptr,
 						[this, mat]()
 						{
-							if (!mat->BindShader(m_pContext, ShaderType::Pixel))
+							if (!mat->BindShader(m_pContext, m_graphicsManager.GetSamplerList(), ShaderType::Pixel))
 								m_pContext->PSSetShader(nullptr, nullptr, 0);
 						}
 					);
 				}
 				else
 				{
-					m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GetBlendState(BlendType::AlphaBlend));
+					m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GetBlendState(m_graphicsManager, BlendType::AlphaBlend));
 				}
 			}
 
@@ -261,10 +284,10 @@ namespace RHEngine
 	void DrawCommandExecutor::DrawMeshCommandExecute(const std::vector<DrawMeshCommand>& commands)
 	{
 		// カリング
-		m_pContext->RSSetState(GetRasterizerState(RasterizerType::Default));
+		m_pContext->RSSetState(GetRasterizerState(m_graphicsManager, RasterizerType::Default));
 
 		// デプスソートを使用
-		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(m_graphicsManager, DepthStencilType::Default), 0);
 
 		// トポロジーの設定 
 		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -286,7 +309,7 @@ namespace RHEngine
 				material->UpdateConstantBuffers(m_pDevice, m_pContext);
 
 				// InputLayoutを取得
-				auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+				auto inputLayout = m_graphicsManager.GetInputLayoutCache().GetOrCreate(
 					m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
 					material->GetShaderAsset(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout()
 				);
@@ -295,7 +318,7 @@ namespace RHEngine
 				if (!inputLayout) continue;
 
 				// マテリアルの設定を適用
-				if (!material->Apply(m_pContext)) continue;
+				if (!material->Apply(m_pContext, m_graphicsManager.GetSamplerList())) continue;
 
 				// 頂点バッファの設定
 				ID3D11Buffer* vsBuffers[] = { c.pMesh->GetVertexBuffer() };
@@ -321,13 +344,13 @@ namespace RHEngine
 	void DrawCommandExecutor::DrawSkyboxCommandExecute(const std::vector<DrawSkyboxCommand>& commands)
 	{
 		// 不透明ブレンド
-		m_pContext->OMSetBlendState(GetBlendState(BlendType::Opaque), nullptr, 0xFFFFFFFF);
+		m_pContext->OMSetBlendState(GetBlendState(m_graphicsManager, BlendType::Opaque), nullptr, 0xFFFFFFFF);
 
 		// スカイボックス用の深度ステンシルステート
-		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::SkyBox), 0);
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(m_graphicsManager, DepthStencilType::SkyBox), 0);
 
 		// 逆面をカリング
-		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullFront));
+		m_pContext->RSSetState(GetRasterizerState(m_graphicsManager, RasterizerType::CullFront));
 
 		// トポロジーを設定
 		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -357,14 +380,14 @@ namespace RHEngine
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
 
 			// InputLayoutを取得
-			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+			auto inputLayout = m_graphicsManager.GetInputLayoutCache().GetOrCreate(
 				m_pDevice, static_cast<uint32_t>(typeid(VertexPosition).hash_code()),
 				material->GetShaderAsset(ShaderType::Vertex), VertexPosition::GetLayout());
 
 			if (!inputLayout) continue;
 
 			// バインド
-			if (!material->Apply(m_pContext)) continue;
+			if (!material->Apply(m_pContext, m_graphicsManager.GetSamplerList())) continue;
 
 			// 頂点バッファをバインド
 			ID3D11Buffer* vb[] = { command.pMesh->GetVertexBuffer() };
@@ -386,14 +409,14 @@ namespace RHEngine
 	void DrawCommandExecutor::DrawWorldSpriteCommandExecute(const std::vector<DrawWorldSpriteCommand>& commands)
 	{
 		// 半透明ブレンド
-		m_pContext->OMSetBlendState(GetBlendState(BlendType::AlphaBlend), nullptr, 0xFFFFFFFF);
+		m_pContext->OMSetBlendState(GetBlendState(m_graphicsManager, BlendType::AlphaBlend), nullptr, 0xFFFFFFFF);
 
 		// 通常の深度ステンシルステート
-		m_pContext->OMSetDepthStencilState(GetDepthStencilState(DepthStencilType::Default), 0);
+		m_pContext->OMSetDepthStencilState(GetDepthStencilState(m_graphicsManager, DepthStencilType::Default), 0);
 
 		// 逆面をカリング
 		// @TODO 指定できるように
-		m_pContext->RSSetState(GetRasterizerState(RasterizerType::CullNone));
+		m_pContext->RSSetState(GetRasterizerState(m_graphicsManager, RasterizerType::CullNone));
 
 		// トポロジーを設定
 		m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -418,18 +441,18 @@ namespace RHEngine
 				material->SetParam(ShaderType::Pixel, "color", command.color);
 
 				m_pContext->PSSetShaderResources(11, 1, &command.pTexture);
-				m_pContext->PSSetSamplers(11, 1, GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap).GetAddressOf());
+				m_pContext->PSSetSamplers(11, 1, m_graphicsManager.GetSamplerList().GetSampler(SamplerType::LinearWrap).GetAddressOf());
 			}
 
 			material->UpdateConstantBuffers(m_pDevice, m_pContext);
-			if (!material->Apply(m_pContext)) continue;
+			if (!material->Apply(m_pContext, m_graphicsManager.GetSamplerList())) continue;
 
 			// PerObjectバッファに設定
 			m_infoManager.UpdatePerObject(command.world);
 			m_infoManager.BindPerObject();
 
 			// InputLayoutを取得
-			auto inputLayout = GraphicsManager::Instance().GetInputLayoutCache().GetOrCreate(
+			auto inputLayout = m_graphicsManager.GetInputLayoutCache().GetOrCreate(
 				m_pDevice, static_cast<uint32_t>(typeid(VertexPositionNormalTexture).hash_code()),
 				material->GetShaderAsset(ShaderType::Vertex), VertexPositionNormalTexture::GetLayout());
 

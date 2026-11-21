@@ -25,7 +25,7 @@
 namespace RHEngine
 {
 	// コンストラクタ
-	SceneEditor::SceneEditor(Scene* pScene, AssetManager& assetManager)
+	SceneEditor::SceneEditor(Scene* pScene, AssetManager& assetManager, ID3D11Device* pDevice)
 		: m_pScene{ pScene }
 		, m_isActive{ false }
 		, m_isPlaying{ false }
@@ -35,10 +35,9 @@ namespace RHEngine
 		, m_assetManager{ assetManager }
 		, m_oldMouseMode{}
 	{
-		// ゲームビューの作成
+		// シーンビューの作成
 		m_sceneView->Create(
-			GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice(),
-			WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight()
+			pDevice, WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight()
 		);
 
 		// 専用シーンを登録

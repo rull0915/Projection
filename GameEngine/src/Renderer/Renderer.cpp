@@ -11,9 +11,10 @@
 
 namespace RHEngine
 {
-	Renderer::Renderer(AssetManager& am)
-		: m_renderProxy{}
-		, m_graphicSystem{ am, m_infoManager }
+	Renderer::Renderer(AssetManager& am, GraphicsManager& graphicsManager)
+		: m_graphicManager{ graphicsManager }
+		, m_renderProxy{}
+		, m_graphicSystem{ am, graphicsManager, m_infoManager }
 		, m_isInitialized{ false }
 	{
 	}
@@ -24,7 +25,7 @@ namespace RHEngine
 		if (m_isInitialized) return;
 
 		// デバイスリソースの取得
-		auto* dr = GraphicsManager::Instance().GetDeviceResources();
+		auto* dr = m_graphicManager.GetDeviceResources();
 
 		// 仲介クラスの初期化
 		m_renderProxy.Initialize(m_graphicSystem, m_graphicSystem.GetCommandContainer());
