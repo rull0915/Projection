@@ -128,7 +128,7 @@ namespace RHEngine
 					Mesh mesh{};
 
 					// デバイスを取得
-					auto device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+					auto device = ctx.GetDevice();
 
 					// 作成された頂点リストからバッファを作成
 					D3D11_BUFFER_DESC desc = {};

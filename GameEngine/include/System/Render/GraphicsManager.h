@@ -29,7 +29,7 @@ namespace RHEngine
 	private:
 
 		/** @brief デバイスリソース */
-		std::unique_ptr<DX::DeviceResources> m_deviceResources;
+		DX::DeviceResources* m_pDeviceResources;
 
 		/** @brief インプットレイアウトキャッシュ  */
 		InputLayoutCache m_inputLayoutCache;
@@ -46,13 +46,13 @@ namespace RHEngine
 		/** @brief ラスタライザステートリスト */
 		RasterizerStateList m_rasterizerList;
 
-	private:
+	public:
 
 		/// @name ライフサイクル
 		/// @{
 
-		GraphicsManager()
-			: m_deviceResources{ std::make_unique<DX::DeviceResources>() }
+		GraphicsManager(DX::DeviceResources* pDeviceResources)
+			: m_pDeviceResources{ pDeviceResources }
 			, m_inputLayoutCache{}
 			, m_samplerList{}
 		{
@@ -62,25 +62,13 @@ namespace RHEngine
 
 		/// @}
 
-	public:
-
-		/**
-		 * @brief インスタンスを取得する
-		 * @return 静的なインスタンス
-		 */
-		static GraphicsManager& Instance()
-		{
-			static GraphicsManager instance;
-			return instance;
-		}
-
 		/**
 		 * @brief 初期化が必要なリソースの初期化を行う
 		 */
 		void Initialize()
 		{
 			// デバイス取得
-			ID3D11Device* pDevice = m_deviceResources->GetD3DDevice();
+			ID3D11Device* pDevice = m_pDeviceResources->GetD3DDevice();
 
 			// サンプラーリストの初期化
 			m_samplerList.Initialize(pDevice);
@@ -99,7 +87,7 @@ namespace RHEngine
 		/// @{
 
 		/** @brief デバイスリソース */
-		DX::DeviceResources* GetDeviceResources() const { return m_deviceResources.get(); }
+		DX::DeviceResources* GetDeviceResources() const { return m_pDeviceResources; }
 
 		/** @brief インプットレイアウトキャッシュ */
 		InputLayoutCache& GetInputLayoutCache() { return m_inputLayoutCache; };

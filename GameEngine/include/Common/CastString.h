@@ -21,7 +21,7 @@ namespace RHEngine
 		 * @param codePage 文字コード
 		 * @return 変換後のワイド文字列
 		 */
-		std::wstring Utf8ToWide(const std::string& str, UINT codePage = CP_UTF8)
+		inline std::wstring Utf8ToWide(const std::string& str, UINT codePage = CP_UTF8)
 		{
 			// 空文字列なら空文字列を返す
 			if (str.empty()) return {};
@@ -45,7 +45,7 @@ namespace RHEngine
 		 * @param codePage 文字コード
 		 * @return 変換後のutf8文字列
 		 */
-		std::string WideToUtf8(const std::wstring& str, UINT codePage = CP_UTF8)
+		inline std::string WideToUtf8(const std::wstring& str, UINT codePage = CP_UTF8)
 		{
 			// 空文字列なら空文字列を返す
 			if (str.empty()) return {};

@@ -16,7 +16,7 @@ namespace RHEngine
 		: CameraBase(own)
 		, m_nearZ{ 0.1f }
 		, m_farZ{ 1000.0f }
-		, m_fov{ PI_F / 4 }
+		, m_fov{ DirectX::XM_PI / 4 }
 		, m_pTarget{ nullptr }
 	{
 		ADD_PROPERTY(TargetCamera, m_nearZ);

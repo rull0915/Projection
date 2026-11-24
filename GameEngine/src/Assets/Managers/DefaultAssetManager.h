@@ -9,6 +9,7 @@
 #pragma once
 
 #include <memory>
+#include <d3d11.h>
 
 #include "Assets/Managers/AssetContext.h"
 #include "Assets/Types/Texture.h"
@@ -46,7 +47,7 @@ namespace RHEngine
 		/**
 		 * @brief デフォルトアセットを作成し登録する
 		 */
-		void CreateAndRegister();
+		void CreateAndRegister(ID3D11Device* pDevice);
 
 	private:
 
@@ -56,6 +57,6 @@ namespace RHEngine
 		 * @param size テクスチャデータのサイズ
 		 * @return 作成したテクスチャアセット
 		 */
-		std::unique_ptr<Texture> CreateTextureAsset(const unsigned char* data, const unsigned int size);
+		std::unique_ptr<Texture> CreateTextureAsset(ID3D11Device* pDevice, const unsigned char* data, const unsigned int size);
 	};
 }	// namespace RHEngine

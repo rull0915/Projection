@@ -7,7 +7,6 @@
 #include "pch.h"
 #include "Components/World/Renderer/SkyboxComponent.h"
 
-#include "System/Render/GraphicsManager.h"
 #include "Renderer/Renderer.h"
 #include "Assets/Types/Model/DefaultMeshManager.h"
 
@@ -18,12 +17,6 @@ namespace RHEngine
 		, m_pMesh{ nullptr }
 		, m_material{}
 	{
-		// デバイスを取得
-		auto* pDevice = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
-
-		// コンテキストを取得
-		auto pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
-
 		// メッシュを取得
 		m_pMesh = DefaultMeshManager::Instance().GetMesh(DefaultMeshType::SkyboxSphere);
 

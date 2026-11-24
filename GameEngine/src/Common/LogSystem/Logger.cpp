@@ -11,6 +11,13 @@
 
 namespace RHEngine
 {
+	Logger::Logger()
+		: m_sinks{}
+		, m_mutex{}
+		, m_frameCount{ 0 }
+		, m_minLevel{ LogLevel::Trace }
+	{}
+
 	void Logger::ClearSinks()
 	{
 		std::lock_guard lk(m_mutex);

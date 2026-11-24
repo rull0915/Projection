@@ -29,7 +29,7 @@
 
 namespace RHEngine
 {
-	Scene::Scene(AssetManager& assetManager)
+	Scene::Scene(AssetManager& assetManager, GraphicsManager& graphicsManager)
 		: m_updatePipeline{ std::make_unique<UpdatePipeline>(this) }
 		, m_componentRegister{ std::make_unique<ComponentRegister>(m_updatePipeline.get()) }
 		, m_objectFinder{ std::make_unique<ObjectFinder>(this) }
@@ -38,11 +38,12 @@ namespace RHEngine
 		, m_referenceRegistry{ std::make_unique<ReferenceRegistry>() }
 		, m_updateMode{ UpdateMode::Play }
 		, m_assetManager{ assetManager }
+		, m_graphicsManager{ graphicsManager }
 		, m_sceneData{}
 		, m_gameView{}
 	{
 		// デバイスの取得
-		ID3D11Device* device = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+		ID3D11Device* device = m_graphicsManager.GetDeviceResources()->GetD3DDevice();
 
 		// ゲームビューの作成
 		m_mainWorld.Create(device, WindowManager::Instance().GetWidth(), WindowManager::Instance().GetHeight());
@@ -150,7 +151,7 @@ namespace RHEngine
 
 	void Scene::Render(Renderer& renderer, ShadowRenderer& shadowRenderer)
 	{
-		ID3D11DeviceContext* pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+		ID3D11DeviceContext* pContext = m_graphicsManager.GetDeviceResources()->GetD3DDeviceContext();
 
 		// シャドウパスの描画
 		{
@@ -160,14 +161,14 @@ namespace RHEngine
 			shadowCtx.pShadowMap = &m_shadowMap;
 
 			// シャドウパスの描画
-			m_sceneRenderer->DrawShadowPass(shadowCtx, shadowRenderer);
+			m_sceneRenderer->DrawShadowPass(pContext, shadowCtx, shadowRenderer);
 		}
 
 		// Test: シャドウマップ用スロットにバインド
 		auto shadowMapSRV = m_shadowMap.GetSRV();
 		pContext->PSSetShaderResources(10, 1, &shadowMapSRV);
 
-		auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::PointWrap);
+		auto& sampler = m_graphicsManager.GetSamplerList().GetSampler(SamplerType::PointWrap);
 		pContext->PSSetSamplers(10, 1, sampler.GetAddressOf());
 
 		// 描画の開始
@@ -176,7 +177,7 @@ namespace RHEngine
 		// ワールドパスの描画
 		for (auto& ctx : m_renderContexts)
 		{
-			m_sceneRenderer->DrawWorldPass(ctx, renderer);
+			m_sceneRenderer->DrawWorldPass(pContext, ctx, renderer);
 		}
 
 		// Test: シャドウマップ用スロットをアンバインド
@@ -194,12 +195,12 @@ namespace RHEngine
 		ctx.clearTarget = true;
 		ctx.cameraData = {};
 
-		m_sceneRenderer->DrawUIPass(ctx, renderer);
+		m_sceneRenderer->DrawUIPass(pContext, ctx, renderer);
 	}
 
 	void Scene::DrawOnceCamera(const RenderContext& data, Renderer& renderer, bool useShadow, GameObject* pSelected)
 	{
-		ID3D11DeviceContext* pContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
+		ID3D11DeviceContext* pContext = m_graphicsManager.GetDeviceResources()->GetD3DDeviceContext();
 
 		if (useShadow)
 		{
@@ -207,15 +208,15 @@ namespace RHEngine
 			auto shadowMapSRV = m_shadowMap.GetSRV();
 			pContext->PSSetShaderResources(10, 1, &shadowMapSRV);
 
-			auto& sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::PointWrap);
+			auto& sampler = m_graphicsManager.GetSamplerList().GetSampler(SamplerType::PointWrap);
 			pContext->PSSetSamplers(10, 1, sampler.GetAddressOf());
 		}
 
 		// WorldPassの描画
-		m_sceneRenderer->DrawWorldPass(data, renderer);
+		m_sceneRenderer->DrawWorldPass(pContext, data, renderer);
 
 		// 選択中のオブジェクトをデバッグ描画
-		m_sceneRenderer->DrawDebug(data, pSelected, renderer);
+		m_sceneRenderer->DrawDebug(pContext, data, pSelected, renderer);
 
 		if (useShadow)
 		{

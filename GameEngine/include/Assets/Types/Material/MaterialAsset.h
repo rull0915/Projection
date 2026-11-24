@@ -87,9 +87,6 @@ namespace RHEngine
 		/** @brief アセットマネージャー */
 		const AssetManager* m_pAssetManager;
 
-		/** @brief サンプラーリスト */
-		const SamplerList* m_pSamplerList;
-
 	public:
 
 		/// @name ライフサイクル
@@ -108,15 +105,6 @@ namespace RHEngine
 		void ReceiveAssetManager(AssetManager* pAssetManager) override
 		{
 			m_pAssetManager = pAssetManager;
-		}
-
-		/**
-		 * @brief サンプラーリストをセットする
-		 * @param samplerList サンプラーリストポインタ
-		 */
-		void SetSamplerList(const SamplerList* pSamplerList)
-		{
-			m_pSamplerList = pSamplerList;
 		}
 
 		/**
@@ -187,19 +175,21 @@ namespace RHEngine
 		/**
 		 * @brief コンテキストに自身を割り当てる
 		 * @param context コンテキストポインタ
+		 * @param pSamplerList サンプラーリスト
 		 * @return 
 		 */
-		bool Apply(ID3D11DeviceContext* pContext);
+		bool Apply(ID3D11DeviceContext* pContext, const SamplerList& samplerList);
 
 		/**
 		 * @brief 1つのシェーダをバインドする
 		 * @details シェーダー本体のバインド
 		 *			定数バッファ、テクスチャ、サンプラーのバインドを行う
 		 * @param context コンテキストポインタ
+		 * @param pSamplerList サンプラーリスト
 		 * @param type バインドするシェーダーステージ
 		 * @return 成功したかどうか
 		 */
-		bool BindShader(ID3D11DeviceContext* pContext, ShaderType type);
+		bool BindShader(ID3D11DeviceContext* pContext, const SamplerList& samplerList, ShaderType type);
 
 		/**
 		 * @brief シェーダーを変更する
@@ -241,12 +231,13 @@ namespace RHEngine
 		/**
 		 * @brief サンプラーをバインドする
 		 * @param pContext コンテキストポインタ
+		 * @param pSamplerList サンプラーリスト
 		 * @param pShader シェーダー本体
 		 * @param sampler バインドするサンプラー
 		 * @param name サンプラーパラメータ名
 		 * @param type バインドするシェーダーステージ
 		 */
-		void BindSampler(ID3D11DeviceContext* pContext, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
+		void BindSampler(ID3D11DeviceContext* pContext, const SamplerList& samplerList, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type);
 
 		/**
 		 * @brief シェーダーのパラメータから自身のパラメータを再構築する

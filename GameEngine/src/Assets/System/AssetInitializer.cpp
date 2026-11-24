@@ -30,9 +30,6 @@ namespace RHEngine
 {
 	void RHEngine::AssetInitializer::AssetInitialize(AssetManager& assetManager)
 	{
-		// デバイスを取得
-		auto pDevice = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
-
 		// Textureの登録
 		assetManager.Registry<Texture>(
 			"Texture",

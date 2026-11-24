@@ -11,6 +11,7 @@
 #ifdef ENGINE_GUI
 
 #include <memory>
+#include <d3d11.h>
 
 #include "Scene/Scene.h"
 #include "Editor/Editor/EditGUI.h"
@@ -68,7 +69,7 @@ namespace RHEngine
 		 * @param pScene 編集対象のシーン
 		 * @param assetManager アセットマネージャー
 		 */
-		SceneEditor(Scene* pScene, AssetManager& assetManager);
+		SceneEditor(Scene* pScene, AssetManager& assetManager, ID3D11Device* pDevice);
 
 		~SceneEditor();
 

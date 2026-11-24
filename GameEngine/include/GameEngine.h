@@ -14,7 +14,6 @@
 
 #include "Renderer/Renderer.h"
 #include "Timer/GameTimer.h"
-#include "System/DeviceResources.h"
 
 #include "Assets/Managers/AssetManager.h"
 #include "Renderer/Shadow/ShadowRenderer.h"
@@ -26,7 +25,9 @@
 #endif // ENGINE_GUI
 
 namespace RHEngine
-{
+{		
+	class GraphicsManager;
+
 	/**
 	 * @brief RHEngineを統括する
 	 */
@@ -42,6 +43,9 @@ namespace RHEngine
 
 		/** @brief アセット管理者 */
 		AssetManager m_assetManager;
+
+		/** @brief グラフィックマネージャー */
+		GraphicsManager& m_graphicManager;
 
 		/** @brief 描画担当*/
 		Renderer m_renderer;
@@ -64,7 +68,7 @@ namespace RHEngine
 		/// @namespace RHEngine
 		/// @{
 
-		GameEngine();
+		GameEngine(GraphicsManager& graphicsManager);
 
 		~GameEngine() = default;
 
@@ -72,11 +76,10 @@ namespace RHEngine
 
 		/**
 		 * @brief エンジン全体の初期化を行う
-		 * @param deviceResources デバイスリソース
 		 * @param window ウィンドウハンドル
 		 * @param edit 開始時にシーンエディタを起動するかどうか
 		 */
-		void Initialize(DX::DeviceResources* deviceResources, HWND window, bool edit);
+		void Initialize(HWND window, bool edit);
 
 		/**
 		 * @brief フレーム開始時の処理

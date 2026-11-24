@@ -8,6 +8,7 @@
 #pragma once
 
 #include <CommonStates.h>
+#include <d3d11sdklayers.h>
 
 namespace DX
 {
@@ -125,5 +126,7 @@ namespace DX
 
 		// The IDeviceNotify can be held directly as it owns the DeviceResources.
 		IDeviceNotify*                                  m_deviceNotify;
+
+		Microsoft::WRL::ComPtr<ID3D11InfoQueue> m_d3dInfoQueue;
 	};
 }	// namespace DX

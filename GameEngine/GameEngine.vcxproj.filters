@@ -738,9 +738,6 @@
     <ClCompile Include="src\System\Render\SamplerList.cpp">
       <Filter>src\System\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\ResourceManager.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
     <ClCompile Include="src\System\WindowManager.cpp">
       <Filter>src\System</Filter>
     </ClCompile>
@@ -774,9 +771,6 @@
     <ClCompile Include="src\Timer\GameTimer.cpp">
       <Filter>src\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Debug\DebugManager.cpp">
-      <Filter>src\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="src\WinProc.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -799,6 +793,9 @@
     <ClCompile Include="src\Components\World\Renderer\SpriteRenderer.cpp" />
     <ClCompile Include="src\Common\LogSystem\Logger.cpp" />
     <ClCompile Include="src\Editor\Editor\Windows\LogWindow.cpp" />
+    <ClCompile Include="src\Common\LogSystem\LogFatal.cpp" />
+    <ClCompile Include="src\Common\LogSystem\FileLogSink.cpp" />
+    <ClCompile Include="src\Common\LogSystem\DxLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1272,9 +1269,6 @@
     <ClInclude Include="include\System\Render\SamplerList.h">
       <Filter>include\System\Render</Filter>
     </ClInclude>
-    <ClInclude Include="include\System\ResourceManager.h">
-      <Filter>include\System</Filter>
-    </ClInclude>
     <ClInclude Include="include\System\UUIDRegistry.h">
       <Filter>include\System</Filter>
     </ClInclude>
@@ -1476,9 +1470,6 @@
     <ClInclude Include="src\ThirdParty\nlohmann\json.hpp">
       <Filter>src\ThirdParty\nlohmann</Filter>
     </ClInclude>
-    <ClInclude Include="include\Debug\DebugManager.h">
-      <Filter>include\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="include\WinProc.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -1502,9 +1493,14 @@
     <ClInclude Include="include\Common\LogSystem\Logs.h" />
     <ClInclude Include="include\Common\LogSystem\ImGuiLogSink.h" />
     <ClInclude Include="src\Editor\Editor\Windows\LogWindow.h" />
+    <ClInclude Include="include\Common\LogSystem\LogFatal.h" />
+    <ClInclude Include="include\Common\LogSystem\DebugLogSink.h" />
+    <ClInclude Include="include\Common\LogSystem\FileLogSink.h" />
+    <ClInclude Include="include\Common\LogSystem\DxLog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="ClassDiagram.cd" />
+    <None Include="ErrorHandlingAudit.md" />
   </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@
 #include "pch.h"
 #include "Input/MouseInput.h"
 
-#include "System/Render/GraphicsManager.h"
+#include "System/WindowManager.h"
 
 namespace RHEngine
 {
@@ -109,7 +109,7 @@ namespace RHEngine
 		void Mouse::SetMousePoint(int x, int y)
 		{
 			POINT pt = { x, y };
-			HWND hwnd = GraphicsManager::Instance().GetDeviceResources()->GetWindow();
+			HWND hwnd = WindowManager::Instance().GetWindow();
 
 			ClientToScreen(hwnd, &pt);
 			SetCursorPos(pt.x, pt.y);

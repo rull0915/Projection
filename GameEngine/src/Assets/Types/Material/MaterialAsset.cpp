@@ -21,13 +21,9 @@ namespace RHEngine
 		, m_constantBuffers{}
 		, m_isDirty{ true }
 		, m_pAssetManager{ nullptr }
-		, m_pSamplerList{ nullptr }
 	{
 		ADD_PROPERTY(MaterialAsset, m_vertexShader);
 		ADD_PROPERTY(MaterialAsset, m_pixelShader);
-
-		// サンプラーリストの取得
-		m_pSamplerList = &GraphicsManager::Instance().GetSamplerList();
 	}
 
 	// 定数バッファを更新する関数
@@ -159,15 +155,15 @@ namespace RHEngine
 		return s_error;
 	}
 
-	bool MaterialAsset::Apply(ID3D11DeviceContext* pContext)
+	bool MaterialAsset::Apply(ID3D11DeviceContext* pContext, const SamplerList& samplerList)
 	{
-		// 参照が設定されていなければ解決不可
-		if (!(m_pAssetManager && m_pSamplerList)) return false;
+		// アセットマネージャがなければ解決不可
+		if (!m_pAssetManager) return false;
 
 		bool vsBind = true;
 
 		// 頂点シェーダー
-		if (!BindShader(pContext, ShaderType::Vertex))
+		if (!BindShader(pContext, samplerList, ShaderType::Vertex))
 		{
 			// 失敗した場合リセット
 			pContext->VSSetShader(nullptr, nullptr, 0);
@@ -177,7 +173,7 @@ namespace RHEngine
 		}
 
 		// ピクセルシェーダー
-		if (!BindShader(pContext, ShaderType::Pixel))
+		if (!BindShader(pContext, samplerList, ShaderType::Pixel))
 		{
 			pContext->PSSetShader(nullptr, nullptr, 0);	
 		}
@@ -185,7 +181,7 @@ namespace RHEngine
 		return vsBind;
 	}
 
-	bool MaterialAsset::BindShader(ID3D11DeviceContext* pContext, ShaderType type)
+	bool MaterialAsset::BindShader(ID3D11DeviceContext* pContext, const SamplerList& samplerList, ShaderType type)
 	{
 		// シェーダーを取得
 		auto* pShader = GetShaderAsset(type);
@@ -236,10 +232,10 @@ namespace RHEngine
 			else if (auto* pSampler = std::get_if<SamplerType>(&value.value))
 			{
 				// サンプラーを取得
-				auto& sampler = m_pSamplerList->GetSampler(*pSampler);
+				auto& sampler = samplerList.GetSampler(*pSampler);
 
 				// バインド
-				BindSampler(pContext, pShader, sampler, name, type);
+				BindSampler(pContext, samplerList, pShader, sampler, name, type);
 			}
 		}
 
@@ -354,12 +350,12 @@ namespace RHEngine
 		setSRV(pTexture->GetAddressOf());
 	}
 
-	void MaterialAsset::BindSampler(ID3D11DeviceContext* pContext, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
+	void MaterialAsset::BindSampler(ID3D11DeviceContext* pContext, const SamplerList& samplerList, ShaderAsset* pShader, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, const std::string& name, ShaderType type)
 	{
 		// サンプラーがなければリニアラップを使用
 		if (!sampler)
 		{
-			sampler = GraphicsManager::Instance().GetSamplerList().GetSampler(SamplerType::LinearWrap).Get();
+			sampler = samplerList.GetSampler(SamplerType::LinearWrap).Get();
 		}
 
 		// パラメータを取得

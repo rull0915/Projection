@@ -11,9 +11,6 @@
 #include "Renderer/Renderer.h"
 #include "Scene/ComponentRegister.h"
 
-#include "System/Render/GraphicsManager.h"
-#include "Debug/DebugManager.h"
-
 #include "Components/ComponentBase.h"
 #include "Scene/UpdatePipeline.h"
 #include "Renderer/Shadow/ShadowRenderer.h"
@@ -27,7 +24,7 @@ namespace RHEngine
 		: m_pScene{ pScene }
 	{}
 
-	void SceneRenderer::DrawShadowPass(const ShadowRenderContext& ctx, ShadowRenderer& renderer)
+	void SceneRenderer::DrawShadowPass(ID3D11DeviceContext* pContext, const ShadowRenderContext& ctx, ShadowRenderer& renderer)
 	{
 		// シャドウマップが未設定なら描画しない
 		if (!ctx.pShadowMap) return;
@@ -56,17 +53,15 @@ namespace RHEngine
 		renderer.End();
 	}
 
-	void SceneRenderer::DrawWorldPass(const RenderContext& ctx, Renderer& renderer)
+	void SceneRenderer::DrawWorldPass(ID3D11DeviceContext* pContext, const RenderContext& ctx, Renderer& renderer)
 	{
-		auto* pDeviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
-
 		// 描画開始 未設定の場合直接バックバッファへ描画
 		if (ctx.target)
 		{
-			ctx.target->Begin(pDeviceContext);
+			ctx.target->Begin(pContext);
 
 			// クリア
-			if (ctx.clearTarget) ctx.target->Clear(pDeviceContext, ctx.backColor);
+			if (ctx.clearTarget) ctx.target->Clear(pContext, ctx.backColor);
 		}
 
 		// カメラデータを設定
@@ -85,11 +80,11 @@ namespace RHEngine
 		// 描画終了
 		if (ctx.target)
 		{
-			ctx.target->End(pDeviceContext);
+			ctx.target->End(pContext);
 		}
 	}
 
-	void SceneRenderer::DrawUIPass(const RenderContext& ctx, Renderer& renderer)
+	void SceneRenderer::DrawUIPass(ID3D11DeviceContext* pContext, const RenderContext& ctx, Renderer& renderer)
 	{
 		// カメラデータを設定
 		renderer.ChangeCamera(ctx.cameraData);
@@ -97,15 +92,13 @@ namespace RHEngine
 		// UIの描画
 		m_pScene->GetPipeline()->DrawUI(renderer);
 
-		auto* pDeviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
-
 		// 設定されていればターゲットへの描画を開始
 		if (ctx.target)
 		{
-			ctx.target->Begin(pDeviceContext);
+			ctx.target->Begin(pContext);
 
 			// 上から描画する想定のため背景は完全透明
-			if (ctx.clearTarget) ctx.target->Clear(pDeviceContext, ctx.backColor);
+			if (ctx.clearTarget) ctx.target->Clear(pContext, ctx.backColor);
 		}
 
 		// 描画コマンドの実行
@@ -114,15 +107,13 @@ namespace RHEngine
 		// 設定されていればターゲットへの描画を終了
 		if (ctx.target)
 		{
-			ctx.target->End(pDeviceContext);
+			ctx.target->End(pContext);
 		}
 	}
 
-	void SceneRenderer::DrawDebug(const RenderContext& ctx, GameObject* pObject, Renderer& renderer)
+	void SceneRenderer::DrawDebug(ID3D11DeviceContext* pContext, const RenderContext& ctx, GameObject* pObject, Renderer& renderer)
 	{
 		if (!pObject) return;
-
-		auto* pDeviceContext = GraphicsManager::Instance().GetDeviceResources()->GetD3DDeviceContext();
 
 		// カメラデータを設定
 		renderer.ChangeCamera(ctx.cameraData);
@@ -137,7 +128,7 @@ namespace RHEngine
 		// 描画開始 未設定の場合直接バックバッファへ描画
 		if (ctx.target)
 		{
-			ctx.target->Begin(pDeviceContext);
+			ctx.target->Begin(pContext);
 		}
 		
 		// 描画コマンドの実行
@@ -146,7 +137,7 @@ namespace RHEngine
 		// 設定されていればターゲットへの描画を終了
 		if (ctx.target)
 		{
-			ctx.target->End(pDeviceContext);
+			ctx.target->End(pContext);
 		}
 	}
 

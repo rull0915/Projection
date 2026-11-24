@@ -13,6 +13,7 @@
 #include <fstream>
 #include <memory>
 #include <typeindex>
+#include <d3d11.h>
 
 #include "Assets/Objects/AssetBase.h"
 #include "Assets/Objects/Handle.h"
@@ -92,7 +93,7 @@ namespace RHEngine
 		 * @details フォルダのスキャン・デフォルトアセットの登録を行う
 		 * @param root スキャンしてUUIDの登録を行うルートフォルダ
 		 */
-		void Initialize(const std::filesystem::path& root);
+		void Initialize(ID3D11Device* pDevice, const std::filesystem::path& root);
 
 		/**
 		 * @brief 更新関数

@@ -57,7 +57,7 @@ namespace RHEngine
 			}
 
 			// デバイスを取得
-			ID3D11Device* pDevice = GraphicsManager::Instance().GetDeviceResources()->GetD3DDevice();
+			ID3D11Device* pDevice = ctx.GetDevice();
 
 			// 拡張子によって処理を変更
 			if (ext == ".vs")	// 頂点シェーダの場合

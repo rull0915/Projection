@@ -122,7 +122,7 @@ namespace RHEngine
 
 		/**
 		 * @brief NDC座標系からピクセル座標に変換する (Vec3)
-		 * @param pos NDC座標
+		 * @param pos NDC座標 
 		 * @return ピクセル座標
 		 */
 		DirectX::SimpleMath::Vector3 NDCTo3DPixel(DirectX::SimpleMath::Vector2 pos)
@@ -156,6 +156,9 @@ namespace RHEngine
 
 		/** @brief 背景色 */
 		DirectX::SimpleMath::Color GetBackGroundColor() const { return m_backGroundColor; }
+
+		/** @brief ウィンドウハンドル */
+		HWND GetWindow() const { return m_window; }
 
 		/// @}
 

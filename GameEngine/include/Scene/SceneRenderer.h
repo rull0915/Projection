@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <SimpleMath.h>
+#include <d3d11.h>
 
 #include "System/Render/RenderContext.h"
 
@@ -44,13 +44,13 @@ namespace RHEngine
 		/// @}
 
 		/** @brief ShadowPass描画 */
-		void DrawShadowPass(const ShadowRenderContext& ctx, ShadowRenderer& renderer);
+		void DrawShadowPass(ID3D11DeviceContext* pContext, const ShadowRenderContext& ctx, ShadowRenderer& renderer);
 
 		/** @brief WorldPass描画 */
-		void DrawWorldPass(const RenderContext& ctx, Renderer& renderer);
+		void DrawWorldPass(ID3D11DeviceContext* pContext, const RenderContext& ctx, Renderer& renderer);
 
 		/** @brief UIPass描画 */
-		void DrawUIPass(const RenderContext& ctx, Renderer& renderer);
+		void DrawUIPass(ID3D11DeviceContext* pContext, const RenderContext& ctx, Renderer& renderer);
 
 		/**
 		 * @brief 1オブジェクトのデバッグ描画をする
@@ -58,7 +58,7 @@ namespace RHEngine
 		 * @param pObject 対象のオブジェクト
 		 * @param renderer 描画担当
 		 */
-		void DrawDebug(const RenderContext& ctx, GameObject* pObject, Renderer& renderer);
+		void DrawDebug(ID3D11DeviceContext* pContext, const RenderContext& ctx, GameObject* pObject, Renderer& renderer);
 
 	private:
 

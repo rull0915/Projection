@@ -19,6 +19,7 @@
 namespace RHEngine
 {
 	class AssetManager;
+	class GraphicsManager;
 	class RenderInfoManager;
 
 	/**
@@ -52,11 +53,11 @@ namespace RHEngine
 		 * @param assetManager アセットマネージャー
 		 * @param infoManager 
 		 */
-		GraphicsSystem(AssetManager& assetManager, RenderInfoManager& infoManager)
+		GraphicsSystem(AssetManager& assetManager, GraphicsManager& graphicsManager, RenderInfoManager& infoManager)
 			: m_world		{ DirectX::SimpleMath::Matrix::Identity }
 			, m_material	{ ERROR_HANDLE<MaterialAsset> }
 			, m_drawCommandContainer{}
-			, m_drawCommandExecutor{ assetManager, infoManager }
+			, m_drawCommandExecutor{ assetManager, graphicsManager, infoManager }
 		{
 		};
 		~GraphicsSystem() = default;

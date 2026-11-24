@@ -9,6 +9,7 @@
 #pragma once
 
 #include <functional>
+#include <d3d11.h>
 
 #include "AssetDataBase.h"
 #include "AssetRegistry.h"
@@ -21,6 +22,9 @@ namespace RHEngine
 	class AssetContext
 	{
 	private:
+
+		/** @brief デバイスポインタ */
+		ID3D11Device* m_pDevice;
 
 		/** @brief データベース */
 		AssetDataBase& m_dataBase;
@@ -42,7 +46,8 @@ namespace RHEngine
 		 * @param func UUIDからアセットを読み込む関数オブジェクト
 		 */
 		AssetContext(AssetDataBase& db, AssetRegistry& r, std::function<UnTypeHandle(UUID)> func)
-			: m_dataBase{ db }
+			: m_pDevice{ nullptr }
+			, m_dataBase{ db }
 			, m_registry{ r }
 			, m_loadFromUUID{ func }
 		{
@@ -59,8 +64,17 @@ namespace RHEngine
 		 */
 		UnTypeHandle LoadFromUUID(UUID uuid) const { return m_loadFromUUID(uuid); }
 
+		/**
+		 * @brief デバイスポインタを設定する
+		 * @param pDevice 設定するデバイスポインタ
+		 */
+		void SetDevice(ID3D11Device* pDevice) { m_pDevice = pDevice; }
+
 		/// @name ゲッター
 		/// @{
+		 
+		/** @brief デバイスポインタ */
+		ID3D11Device* GetDevice() const { return m_pDevice; }
 
 		/** @brief データベースの取得 */
 		AssetDataBase& GetDataBase() const { return m_dataBase; }

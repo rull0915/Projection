@@ -30,15 +30,17 @@ namespace RHEngine
 		m_registry.Reset();
 	}
 
-	void AssetManager::Initialize(const std::filesystem::path& root)
+	void AssetManager::Initialize(ID3D11Device* pDevice, const std::filesystem::path& root)
 	{
+		m_assetContext.SetDevice(pDevice);
+
 		// スキャン
 		m_dataBase.ScanFile(root);
 
 		// デフォルトアセットの登録
 		DefaultAssetManager defaultAssetManager{ m_assetContext };
 
-		defaultAssetManager.CreateAndRegister();
+		defaultAssetManager.CreateAndRegister(m_assetContext.GetDevice());
 	}
 
 	void AssetManager::Update()
