@@ -15,7 +15,6 @@
 
 #include "System/EngineInitializer.h"
 #include "Assets/System/AssetInitializer.h"
-#include "System/WindowManager.h"
 #include "Input/KeyInput.h"
 #include "Input/MouseInput.h"
 #include "Input/PadInput.h"
@@ -40,9 +39,26 @@ namespace RHEngine
 
 	void GameEngine::Initialize(HWND window, bool edit)
 	{
+		// デバイスリソースの取得
+		auto* pDeviceResources = m_graphicManager.GetDeviceResources();
+
+		if (!pDeviceResources)
+		{
+			LOG_FATAL("DeviceResources is null");
+			return;
+		}
+
 		// デバイス コンテキストの取得
-		auto* device = m_graphicManager.GetDeviceResources()->GetD3DDevice();
-		auto* context = m_graphicManager.GetDeviceResources()->GetD3DDeviceContext();
+		auto* pDevice = pDeviceResources->GetD3DDevice();
+		auto* pContext = pDeviceResources->GetD3DDeviceContext();
+
+		// 取得できなかった場合致命的なエラーとして終了
+		if (!pDevice) {
+			LOG_FATAL("Direct3D device is null");
+		}
+		if (!pContext) {
+			LOG_FATAL("Direct3D device context is null");
+		}
 
 		// シーンマネージャーの初期化
 		SceneManager::Instance().Initialize(m_assetManager, m_graphicManager);
@@ -50,30 +66,23 @@ namespace RHEngine
 		// ゲームエンジンの初期化
 		EngineInitializer::EngineInitialize();
 
-		// 背景色の設定
-		WindowManager::Instance().SetBackGroundColor({ 0.3f, 0.6f, 0.8f, 1.0f });
-
-#ifdef ENGINE_GUI
-
-		// imguiの初期化
-		ImguiManager::Initialize(window, device, context);
-
-#endif // ENGINE_GUI
-
 		// アセットの初期化
 		AssetInitializer::AssetInitialize(m_assetManager);
 
 		// アセット管理クラスの初期化
-		m_assetManager.Initialize(device, L"Resources");
+		m_assetManager.Initialize(pDevice, L"Resources");
 
 		// デフォルトメッシュの作成
-		DefaultMeshManager::Instance().Initialize(device);
+		DefaultMeshManager::Instance().Initialize(pDevice);
 
 		// 描画クラスの初期化
 		m_renderer.Initialize();
 		m_shadowRenderer.Initialize();
 
 #ifdef ENGINE_GUI
+
+		// imguiの初期化
+		ImguiManager::Initialize(window, pDevice, pContext);
 
 		// エディターの生成
 		m_editor = std::make_unique<SceneEditor>(SceneManager::Instance().GetCurrentScene(), m_assetManager, m_graphicManager.GetDeviceResources()->GetD3DDevice());
@@ -189,9 +198,6 @@ namespace RHEngine
 		// デフォルトメッシュの破棄
 		DefaultMeshManager::Instance().Shutdown();
 
-		// ログのFlush
-		Logger::Instance().Flush();
-
 #ifdef ENGINE_GUI
 
 		// Imguiの終了
@@ -204,6 +210,12 @@ namespace RHEngine
 
 	void GameEngine::StartEditor()
 	{
+		if (!m_editor)
+		{
+			LOG_ERROR("Cannot start editor: SceneEditor is not initialized");
+			return;
+		}
+
 		m_sceneEdit = true;
 
 		// 初期化
@@ -212,6 +224,8 @@ namespace RHEngine
 
 	void GameEngine::EndEditor(std::string initSceneName)
 	{
+		if (!m_editor) return;
+
 		m_sceneEdit = false;
 
 		m_editor->Finalize();

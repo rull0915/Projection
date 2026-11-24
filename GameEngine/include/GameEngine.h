@@ -14,7 +14,6 @@
 
 #include "Renderer/Renderer.h"
 #include "Timer/GameTimer.h"
-#include "System/DeviceResources.h"
 
 #include "Assets/Managers/AssetManager.h"
 #include "Renderer/Shadow/ShadowRenderer.h"

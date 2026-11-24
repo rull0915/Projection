@@ -43,10 +43,13 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// ログ出力先を追加
-	RHEngine::Logger::Instance().AddSink<RHEngine::FileLogSink>("RHEngineLog.log");		
+	RHEngine::Logger::Instance().AddSink<RHEngine::FileLogSink>();		
 #ifdef _DEBUG
 	RHEngine::Logger::Instance().AddSink<RHEngine::DebugLogSink>();
 #endif // _DEBUG
+
+	// プロジェクトの開始をログに出力
+	LOG_INFO("Starting RHEngine project");
 
 	// アプリケーションインスタンスを生成
 	g_app.reset(RHEngine::CreateApplication());
@@ -103,7 +106,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 		// 作成失敗したら終了
 		if (!hwnd)
+		{
 			LOG_FATAL("Failed to create the application window. GetLastError: {}", GetLastError());
+		}
 
 		ShowWindow(hwnd, nCmdShow);
 
@@ -136,6 +141,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	// アプリケーションのリセット
 	g_app.reset();
+
+	// プロジェクトの正常終了をログに出力
+	LOG_INFO("Exiting RHEngine project");
+
+	// ログのFlush
+	RHEngine::Logger::Instance().Flush();
+
+	RHEngine::Logger::Instance().ClearSinks();
 
 	return static_cast<int>(msg.wParam);
 }

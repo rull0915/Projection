@@ -27,7 +27,7 @@ namespace RHEngine
 		/// @name ライフサイクル
 		/// @{
 		
-		explicit FileLogSink(const std::filesystem::path& path);
+		explicit FileLogSink();
 
 		~FileLogSink();
 
