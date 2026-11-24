@@ -13,6 +13,7 @@
 #include <Windows.h>
 
 #include "Log.h"
+#include "Common/CastString.h"
 
 namespace RHEngine
 {
@@ -47,7 +48,8 @@ namespace RHEngine
 				);
 
 			// デバッグウィンドウへ出力
-			OutputDebugStringA(result.c_str());
+			std::wstring wResult = CastString::Utf8ToWide(result);
+			OutputDebugStringW(wResult.c_str());
 		}
 	};
 }

@@ -170,6 +170,7 @@ $(ProjectDir)ThirdParty;
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Common\LogSystem\DxLog.cpp" />
     <ClCompile Include="src\Common\LogSystem\FileLogSink.cpp" />
     <ClCompile Include="src\Common\LogSystem\LogFatal.cpp" />
     <ClCompile Include="src\Common\LogSystem\Logger.cpp" />
@@ -449,6 +450,7 @@ $(ProjectDir)ThirdParty;
       </SubType>
     </ClInclude>
     <ClInclude Include="include\Common\LogSystem\DebugLogSink.h" />
+    <ClInclude Include="include\Common\LogSystem\DxLog.h" />
     <ClInclude Include="include\Common\LogSystem\FileLogSink.h" />
     <ClInclude Include="include\Common\LogSystem\ImGuiLogSink.h" />
     <ClInclude Include="include\Common\LogSystem\Log.h" />

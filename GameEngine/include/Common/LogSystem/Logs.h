@@ -17,7 +17,7 @@
 #define RH_LOG(lv, ...)														\
 	do{																		\
 		auto& logger = RHEngine::Logger::Instance();						\
-		if (lv >= logger.GetMinLevel())										\
+		if ((lv) >= logger.GetMinLevel())										\
 		{																	\
 			logger.Log(lv, std::source_location::current(), __VA_ARGS__);	\
 		}																	\
@@ -37,5 +37,5 @@
 #define LOG_FATAL(...)	\
 	do {				\
 		RH_LOG(RHEngine::LogLevel::Fatal, __VA_ARGS__); \
-		RHEngine::FatalExit("A fatal error occurred. See the log for details.");							\
+		RHEngine::FatalExit("A fatal error occurred. See the log for details."); \
 	} while(0)

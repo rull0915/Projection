@@ -795,6 +795,7 @@
     <ClCompile Include="src\Editor\Editor\Windows\LogWindow.cpp" />
     <ClCompile Include="src\Common\LogSystem\LogFatal.cpp" />
     <ClCompile Include="src\Common\LogSystem\FileLogSink.cpp" />
+    <ClCompile Include="src\Common\LogSystem\DxLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -1495,6 +1496,7 @@
     <ClInclude Include="include\Common\LogSystem\LogFatal.h" />
     <ClInclude Include="include\Common\LogSystem\DebugLogSink.h" />
     <ClInclude Include="include\Common\LogSystem\FileLogSink.h" />
+    <ClInclude Include="include\Common\LogSystem\DxLog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -14,6 +14,7 @@
 
 // 標準ライブラリ
 #include <memory>
+#include <cstdint>
 
 // DirectXTK Input
 #include <KeyBoard.h>
@@ -24,6 +25,7 @@
 #include "Application.h"
 #include "WinProc.h"
 #include "Common/LogSystem/Logs.h"
+#include "Common/LogSystem/Logger.h"
 #include "Common/LogSystem/DebugLogSink.h"
 #include "Common/LogSystem/FileLogSink.h"
 
@@ -42,9 +44,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	// ログ出力先を追加
 	RHEngine::Logger::Instance().AddSink<RHEngine::FileLogSink>("RHEngineLog.log");		
-#ifdef DEBUG
+#ifdef _DEBUG
 	RHEngine::Logger::Instance().AddSink<RHEngine::DebugLogSink>();
-#endif // DEBUG
+#endif // _DEBUG
 
 	// アプリケーションインスタンスを生成
 	g_app.reset(RHEngine::CreateApplication());
